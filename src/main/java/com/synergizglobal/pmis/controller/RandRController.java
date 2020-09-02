@@ -1,0 +1,204 @@
+package com.synergizglobal.pmis.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.RandR;
+import com.synergizglobal.pmis.service.RandRService;
+
+@Controller
+public class RandRController {
+	Logger logger = Logger.getLogger(RandRController.class);
+	@Autowired
+	RandRService service;
+	
+	@Value("${common.error.message}")
+	public String commonError;
+	
+	@Value("${input.sheet.task.update}")
+	public String taskUpdate;
+	
+	@Value("${input.sheet.task.complete}")
+	public String taskComplete;
+	
+	@Value("${template.upload.common.error}")
+	public String uploadCommonError;
+	
+	@Value("${template.upload.formatError}")
+	public String uploadformatError;
+	
+	
+	/**
+	 * This method rAndR() will execute when user request the for R & R module.
+	 * 
+	 * @param session it will check the session of the user.
+	 * @return of this method is model.
+	 * @throws IOException will raise an exception when abnormal termination occur.
+	 */
+	
+	@RequestMapping(value="/r-and-r",method=RequestMethod.GET)
+	public ModelAndView rAndR(HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.RandR);
+		try {
+			List<RandR> randRList = service.getRandRList();
+			model.addObject("randRList", randRList);
+			
+			List<RandR> statusList = service.getRandRSatausList();
+			model.addObject("statusList", statusList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("rAndR : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	/**
+	 * This method get-r-and-r() will execute when user click on the update button.
+	 * 
+	 * @param randRId it takes the work id as input parameter.
+	 * @param session it will check the session of the user.
+	 * @return of this method is model.
+	 * @throws IOException will raise an exception when abnormal termination occur.
+	 */
+	@RequestMapping(value="/get-r-and-r",method=RequestMethod.POST)
+	public ModelAndView getRandR(@RequestParam String randRId, HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.updateRandR);
+		try {
+			model.addObject("homeHeader", "yes");
+			List<RandR> statusList = service.getRandRSatausList();
+			model.addObject("statusList", statusList);
+			
+			RandR obj = service.getRandR(randRId);
+			model.addObject("obj", obj);
+		} catch (Exception e) {
+			logger.info("getRandR : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	/**
+	 * This method getRandR() call the ajax request.
+	 * 
+	 * @param randRId it takes the work id as input parameter. 
+	 * @return type of this method is obj.
+	 */
+	@RequestMapping(value = "/ajax/getRandR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public RandR getRandR(@RequestParam String randRId){
+		RandR obj = null;
+		try{
+			obj = service.getRandR(randRId);			
+		}catch(Exception e){
+			logger.error("getRandR() : "+e.getMessage());
+		}
+		return obj;
+	}	
+	
+	/**
+	 *This method updateRandR() will execute when user update R & R form and it will display the success and error message.
+	 * 
+	 * @param obj is object for the model class RandR. 
+	 * @param session it will check the session of the user.
+	 * @param attributes will show the flash message on the current request.
+	 * @return of this method is model.
+	 * @throws IOException will raise an exception when abnormal termination occur.
+	 */
+	@RequestMapping(value="/update-r-and-r",method=RequestMethod.POST)
+	public ModelAndView updateRandR(@ModelAttribute RandR obj, HttpSession session,RedirectAttributes attributes) throws IOException {
+		ModelAndView model = new ModelAndView("redirect:/r-and-r");
+		try {
+			boolean flag = service.updateRandR(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "R & R updated successfully.");
+			}else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
+			logger.info("updateRandR : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	/**
+	 * This method updateRandRStatus() will update the status of the R&R 
+	 * 
+	 * @param obj is object for the model class RandR. 
+	 * @param session it will check the session of the user.
+	 * @param attributes will show the flash message on the current request.
+	 * @return of this method is model.
+	 * @throws IOException will raise an exception when abnormal termination occur.
+	 */
+	@RequestMapping(value="/update-randr-status",method=RequestMethod.POST)
+	public ModelAndView updateRandRStatus(@ModelAttribute RandR obj, HttpSession session,RedirectAttributes attributes) throws IOException {
+		ModelAndView model = new ModelAndView("redirect:/r-and-r");
+		try {
+			boolean flag = service.updateRandRStatus(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", obj.getActiveStatus() + " Stage completed successfully.");
+			}else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
+			logger.info("updateRandRStatus : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	/**************************************************************************************************************/
+
+	/**
+	 * 
+	 * @param session it will check the session of the user.
+	 * @return of this method is model.
+	 * @throws IOException will raise an exception when abnormal termination occur.
+	 */
+	@RequestMapping(value="/r-and-r-add-form",method=RequestMethod.GET)
+	public ModelAndView rAndRAddForm(HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.addEditRandR);
+		try {
+			
+		} catch (Exception e) {
+			logger.info("rAndRAddForm : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	/**
+	 * 
+	 * @param session it will check the session of the user.
+	 * @return of this method is model.
+	 * @throws IOException will raise an exception when abnormal termination occur.
+	 */
+	
+	@RequestMapping(value="/r-and-r-edit-form",method=RequestMethod.POST)
+	public ModelAndView rAndREditForm(HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.addEditRandR);
+		try {
+			
+		} catch (Exception e) {
+			logger.info("rAndREditForm : " + e.getMessage());
+		}
+		return model;
+	}
+}

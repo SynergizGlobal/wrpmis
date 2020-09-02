@@ -1,0 +1,241 @@
+package com.synergizglobal.pmis.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.service.LoginService;
+@Controller
+public class LoginController {
+	Logger logger = Logger.getLogger(LoginController.class);
+	
+	@Autowired
+	LoginService loginService;
+	
+	
+	
+	@Value("${Login.Form.Invalid}")
+	public String invalidUserName;
+	
+	@Value("${Login.Form.Key}")
+	public String keyNotFound;
+	
+	@Value("${Logout.Message}")
+	private String logOutMessage;
+	
+	@Value("${common.error.message}")
+	public String commonError;
+	
+	@Value("${message.password.expired}")
+	public String passwordExpired;
+	
+	@Value("${message.password.reset.fail}")
+	public String passwordResetFail;
+	
+	@Value("${message.password.reset.success}")
+	public String passwordResetSuccess;
+	
+	@Value("${message.wrong.password.entered}")
+	public String wrongPasswordEntered;
+	
+	
+	/**
+	 * This login() method is used for user login validation. 
+	 * @param user is the User class type variable that will get and set the value in User model
+	 * @param session will create session for the user.
+	 * @param attributes will show the flash message on the current request.
+	 * @param request it receives the request from the server with header information.
+	 * @return type of this method is model.
+	 */
+	@RequestMapping(value = "/login", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView login(@ModelAttribute User user, HttpSession session,RedirectAttributes attributes,HttpServletRequest request){
+		User userDetails = null;
+		ModelAndView model = new ModelAndView();
+		try{
+			
+			
+			if(!StringUtils.isEmpty(user.getUserId()) && !StringUtils.isEmpty(user.getPassword())){
+				userDetails = loginService.validateUser(user);
+				if(!StringUtils.isEmpty(userDetails)) {
+					 if(!StringUtils.isEmpty(userDetails.getPmisKey())) {
+					
+						 /*TableauDashboard dashBoard = service.getTableauDashBoard();
+							String url = "/InfoViz";
+							
+							if (!StringUtils.isEmpty(dashBoard)) {						
+								String dashboardName = dashBoard.getTableauDashboardName();
+								if(!StringUtils.isEmpty(dashboardName)){
+									dashboardName = dashboardName.toLowerCase().replaceAll(" - ", "_");
+									dashboardName = dashboardName.toLowerCase().replaceAll(" ", "-");
+								}
+								
+								if(!StringUtils.isEmpty(dashboardName)){
+									url = url+"/"+dashboardName;
+								}
+							}
+							
+							model.setViewName("redirect:"+url);*/
+							
+							model.setViewName("redirect:/home");
+							session.setAttribute("user", userDetails);
+							session.setAttribute("USER_ID", userDetails.getUserId());
+							session.setAttribute("USER_NAME", userDetails.getUserName());
+							if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
+								model.setViewName("redirect:/reset-password");
+								attributes.addFlashAttribute("message", passwordExpired);
+							}
+							
+							if(!StringUtils.isEmpty(user.getTaskId()) && !StringUtils.isEmpty(user.getWorkId())) {
+								String baseUrl = CommonConstants.NOTIFICATIONS_URL+"?taskId="+user.getTaskId()+"&workId="+user.getWorkId()+"&workName="+user.getWorkName()+"&notificationId="+user.getNotificationId();
+								model.setViewName("redirect:"+baseUrl);
+							}
+						 
+					 }else {
+						 	model.addObject("pmis_key",keyNotFound);
+							model.setViewName(PageConstants.login);
+							
+							model.addObject("taskId", user.getTaskId());
+							model.addObject("workId", user.getWorkId());
+							model.addObject("workName", user.getWorkName());
+							model.addObject("notificationId", user.getNotificationId());
+					 }
+					
+					
+				}else{
+					model.addObject("message", invalidUserName);
+					model.setViewName(PageConstants.login);
+					
+					model.addObject("taskId", user.getTaskId());
+					model.addObject("workId", user.getWorkId());
+					model.addObject("workName", user.getWorkName());
+					model.addObject("notificationId", user.getNotificationId());
+				}
+			}else{
+				model.setViewName(PageConstants.login);
+				model.addObject("taskId", user.getTaskId());
+				model.addObject("workId", user.getWorkId());
+				model.addObject("workName", user.getWorkName());
+				model.addObject("notificationId", user.getNotificationId());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("login : " + e.getMessage());
+			model.addObject("message", invalidUserName);
+			model.setViewName(PageConstants.login);
+		}
+		return model;
+	}
+	
+	/**
+	 * When user click on reset password then this method is executed and view page is shown to the user.
+	 * This resetPassword() method is ModelAndView type it is not taking any parameter.
+	 * @return type of this method is model.
+	 */
+	@RequestMapping(value = "/reset-password", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView resetPassword(){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.passwordReset);
+			model.addObject("tabActive", "profile");
+		}catch(Exception e){
+			logger.error("resetPassword : " + e.getMessage());
+			model.setViewName(PageConstants.passwordReset);
+			model.addObject("message", commonError);
+		}
+		return model;
+	}
+	
+	/**
+	 * This method changePassowrd() is used for changing the login password, this method have three parameter.
+	 * @param user is the User class type variable that will get and set the value in User model.
+	 * @param session it will create/destroy the session for the user.
+	 * @param attributes will show the flash message on the current request. 
+	 * @return type of this method is model.
+	 */
+	@RequestMapping(value = "/change-password", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView changePassword(@ModelAttribute User user, HttpSession session,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			String userId = (String) session.getAttribute("USER_ID");
+			user.setUserId(userId);
+			String temp = loginService.changePassword(user);
+			if(temp.equals("true")) {
+				session.invalidate();
+				model.setViewName("redirect:/");
+				attributes.addFlashAttribute("success", passwordResetSuccess);
+			}else if(temp.equals("false")) {
+				model.addObject("tabActive", "profile");
+				model.setViewName(PageConstants.passwordReset);
+				model.addObject("message", wrongPasswordEntered);
+			}else{
+				model.addObject("tabActive", "profile");
+				model.setViewName(PageConstants.passwordReset);
+				model.addObject("message", passwordResetFail);
+			}
+			
+			
+		}catch(Exception e){
+			logger.error("resetPassword : " + e.getMessage());
+			model.addObject("tabActive", "profile");
+			model.setViewName(PageConstants.passwordReset);
+			model.addObject("error", commonError);
+		}
+		return model;
+	}
+	
+	/**
+	 * This method logout() is used for logout the user and destroy the session
+	 * @param session it will create/destroy the session for the user. 
+	 * @return type of this method is view
+	 */
+	@RequestMapping(value = "/logout", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView logout(HttpSession session){
+		ModelAndView view = new ModelAndView();
+		view.setViewName(PageConstants.login);
+		session.invalidate();
+		view.addObject("success",logOutMessage);
+		return view;
+	}
+	
+	/**
+	 * This method changeLoginBackground() is used for changing the background image of login panel.
+	 * @param obj is object for the model class User.
+	 * @return type of this method is view.
+	 */
+	@RequestMapping(value = "/changeLoginBackground", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView changeLoginBackground(@ModelAttribute User obj){
+		ModelAndView view = new ModelAndView(PageConstants.login);
+		try{
+			view.setViewName("redirect:/login");	 
+			MultipartFile uploadFile = obj.getFileName();
+			if (null != uploadFile && !uploadFile.isEmpty()){
+				String saveDirectory = CommonConstants.LOGIN_BACKGROUND_IMAGE;
+                String fileName = uploadFile.getOriginalFilename();
+                if (!StringUtils.isEmpty(fileName)) {
+                	fileName = "login-background.jpg";
+                	FileUploads.singleFileSaving(uploadFile,saveDirectory,fileName);
+	                //AmazonS3Storage.saveLoginBackgroundImageInS3Bucket(saveDirectory,uploadFile);
+                }      
+	        }
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("changeLoginBackground() : "+e.getMessage());
+		}
+		return view;
+	}
+}

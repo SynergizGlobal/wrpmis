@@ -9,23 +9,25 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.model.User;
 
 
 @Repository
 public class LoginDaoImpl implements LoginDao{
 	
-	Logger logger = Logger.getLogger(LoginDao.class);
-	
 	@Autowired
 	DataSource dataSource;
+	
+	@Value("${no.pmis.form.Key}")
+	public String noKeyAssigned;
 
 	/**
 	 * This method validate the user.
@@ -61,10 +63,12 @@ public class LoginDaoImpl implements LoginDao{
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
 					userDetails.setPmis_key_fk(rs.getString("pmis_key_fk"));
 					addUserLogin(userDetails.getUser_id());
+				}else {
+					throw new NoKeyException(noKeyAssigned);
 				}
 			}
 		}catch(Exception e){ 
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
@@ -120,8 +124,7 @@ public class LoginDaoImpl implements LoginDao{
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
@@ -187,7 +190,7 @@ public class LoginDaoImpl implements LoginDao{
 				temp = "false";
 			}
 		}catch(Exception e){ 
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);

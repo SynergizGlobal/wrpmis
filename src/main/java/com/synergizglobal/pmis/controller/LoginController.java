@@ -32,8 +32,8 @@ public class LoginController {
 	@Value("${Login.Form.Invalid}")
 	public String invalidUserName;
 	
-	@Value("${Login.Form.Key}")
-	public String keyNotFound;
+	@Value("${no.pmis.form.Key}")
+	public String noKeyAssigned;
 	
 	@Value("${Logout.Message}")
 	private String logOutMessage;
@@ -72,20 +72,14 @@ public class LoginController {
 			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getPassword())){
 				userDetails = loginService.validateUser(user);
 				if(!StringUtils.isEmpty(userDetails)) {
-					 if(!StringUtils.isEmpty(userDetails.getPmis_key_fk())) {
-							model.setViewName("redirect:/home");
-							session.setAttribute("user", userDetails);
-							session.setAttribute("USER_ID", userDetails.getUser_id());
-							session.setAttribute("USER_NAME", userDetails.getUser_name());
-							if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
-								model.setViewName("redirect:/reset-password");
-								attributes.addFlashAttribute("message", passwordExpired);
-							}
-						 
-					 }else {
-						 	model.addObject("pmis_key",keyNotFound);
-							model.setViewName(PageConstants.login);
-					 }
+					model.setViewName("redirect:/home");
+					session.setAttribute("user", userDetails);
+					session.setAttribute("USER_ID", userDetails.getUser_id());
+					session.setAttribute("USER_NAME", userDetails.getUser_name());
+					if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
+						model.setViewName("redirect:/reset-password");
+						attributes.addFlashAttribute("message", passwordExpired);
+					}
 				}else{
 					model.addObject("message", invalidUserName);
 					model.setViewName(PageConstants.login);
@@ -94,9 +88,8 @@ public class LoginController {
 				model.setViewName(PageConstants.login);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			logger.error("login : " + e.getMessage());
-			model.addObject("message", invalidUserName);
+			model.addObject("message", e.getMessage());
 			model.setViewName(PageConstants.login);
 		}
 		return model;
@@ -190,7 +183,6 @@ public class LoginController {
                 if (!StringUtils.isEmpty(fileName)) {
                 	fileName = "login-background.jpg";
                 	FileUploads.singleFileSaving(uploadFile,saveDirectory,fileName);
-	                //AmazonS3Storage.saveLoginBackgroundImageInS3Bucket(saveDirectory,uploadFile);
                 }      
 	        }
 		}catch(Exception e){

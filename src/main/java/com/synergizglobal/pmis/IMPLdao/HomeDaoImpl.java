@@ -64,8 +64,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 			
 		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -104,7 +103,7 @@ public class HomeDaoImpl implements HomeDao {
 				dashboardsList.add(tableauDashboard);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
@@ -158,7 +157,7 @@ public class HomeDaoImpl implements HomeDao {
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -209,7 +208,7 @@ public class HomeDaoImpl implements HomeDao {
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);

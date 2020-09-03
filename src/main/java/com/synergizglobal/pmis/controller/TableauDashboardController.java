@@ -29,17 +29,6 @@ public class TableauDashboardController {
 	@Value("${common.error.message}")
 	public String commonError;
 	
-	@Value("${input.sheet.task.update}")
-	public String taskUpdate;
-	
-	@Value("${input.sheet.task.complete}")
-	public String taskComplete;
-	
-	@Value("${template.upload.common.error}")
-	public String uploadCommonError;
-	
-	@Value("${template.upload.formatError}")
-	public String uploadformatError;
 	
 	/**
 	 * This method tableauView() is used for tableau dashboard view. 

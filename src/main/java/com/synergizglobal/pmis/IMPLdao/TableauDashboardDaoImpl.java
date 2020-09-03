@@ -45,7 +45,7 @@ public class TableauDashboardDaoImpl implements TableauDashboardDao {
 				tableauUrl.setTableauUrl(resultSet.getString("dashboard_url"));
 			}
 		}catch(Exception e){ 
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -78,8 +78,7 @@ public class TableauDashboardDaoImpl implements TableauDashboardDao {
 				dashboard.setTableauDashboardName(resultSet.getString("dashboard_name"));
 			}				
 		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
@@ -110,7 +109,7 @@ public class TableauDashboardDaoImpl implements TableauDashboardDao {
 				obj.setTableauUrl(resultSet.getString("dashboard_url"));
 			}
 		}catch(Exception e){ 
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);

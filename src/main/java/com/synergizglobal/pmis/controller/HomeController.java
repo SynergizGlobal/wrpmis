@@ -72,7 +72,6 @@ public class HomeController {
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName(PageConstants.home);
 		}catch(Exception e){
-			e.printStackTrace();
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
 		}
 		return model;

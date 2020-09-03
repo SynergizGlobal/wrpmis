@@ -1,4 +1,4 @@
-package com.synergizglobal.pmis.dao;
+package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,23 +10,25 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.synergizglobal.pmis.Idao.TableauDashboardDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.TableauDashboard;
 
 @Repository
-public class TableauDashboardDao {
+public class TableauDashboardDaoImpl implements TableauDashboardDao {
 	Logger logger = Logger.getLogger(TableauDashboardDao.class);
 	@Autowired
 	DataSource dataSource;
 	
 	/**
 	 * This method get the TableauUrl
-	 * @param activityWork is string type variable that holds the activityWork
+	 * @param dashboardName is string type variable that holds the dashboardName
 	 * @return type of this method is tableauUrl
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
-	public TableauDashboard getTableauUrl(String activityWork) throws Exception {
+	@Override
+	public TableauDashboard getTableauUrl(String dashboardName) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -36,7 +38,7 @@ public class TableauDashboardDao {
 			connection = dataSource.getConnection();
 			String qry = "SELECT tum.dashboard_url FROM dashboard tum WHERE LOWER(tum.dashboard_name) = ?";
 			statement = connection.prepareStatement(qry); 
-			statement.setString(1, activityWork);
+			statement.setString(1, dashboardName);
 			resultSet = statement.executeQuery();  
 			if(resultSet.next()) {
 				tableauUrl = new TableauDashboard();
@@ -56,6 +58,7 @@ public class TableauDashboardDao {
 	 * @return type of this method is dashboard
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
+	@Override
 	public TableauDashboard getTableauDashBoard() throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -90,6 +93,7 @@ public class TableauDashboardDao {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public TableauDashboard getTableauUrlForMobile(String infovizId) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;

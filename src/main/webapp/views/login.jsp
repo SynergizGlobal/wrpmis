@@ -9,12 +9,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynTrack - PMIS Login</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/mrvc/resources/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-    <link rel="stylesheet" href="/mrvc/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/mrvc/resources/css/style.css">  
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/style.css">  
     
     <style type="text/css">
 		/* Change the white to any color ;) */
@@ -30,21 +30,14 @@
 <body style="background: black url(<%=CommonConstants.LOGIN_BACKGROUND_IMAGE_URL%>) no-repeat center center;background-size: cover;">
  	       <!-- header starts -->
  	  	  <nav>
-        <div class="nav-wrapper bg">
-          <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3>  
-        </div>
-      </nav>
+	        <div class="nav-wrapper bg">
+	          <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3>  
+	        </div>
+	      </nav>
       <!-- header ends -->
       <!-- side navigation starts here -->
 	      <ul id="slide-out" class="sidenav">
-		    <li><!-- div class="user-view">
-		      <div class="background">
-		        <img src="images/office.jpg">
-		      </div>
-		      <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
-		      <a href="#name"><span class="white-text name">John Doe</span></a>
-		      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-		    </div--></li>
+		    <li></li>
 		    <li><span>Login card Position</span></li>
 		    <li>
 				    <p>
@@ -103,29 +96,22 @@
      			<div id="support" class="col"></div>
 		        <form class="col s12 m3 " action="<%=request.getContextPath()%>/login" id="loginForm" name="loginForm" method="post" >
 		        	<div class="row homepage">
-			            <img src="/mrvc/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
+			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
 			            <h4 class="tite">Sign In</h4>
 			            <div class="msg">
 			             	<p id="message" class="error">${message}</p>
-			             	<p id="keyMessage" class="error">${pmis_key}</p>
 			               	<c:if test="${not empty success}">
 			                   	<p id="logoutMsg" class="success">${success}</p>
 			               	</c:if>
 			            </div>
 			            <div class="input-field col offset-s1 s10">
-			              <input type="text" name="userId" id="userId" class="validate form-control" autocomplete="off">
-			              <label for="userId">User Name</label>
+			              <input type="text" name="user_id" id="user_id" class="validate form-control" autocomplete="off">
+			              <label for="user_id">User Name</label>
 			            </div>
 			            <div class="input-field col offset-s1 s10">
 			              <input type="password" name="password" id="password" class="validate" autocomplete="off">
 			              <label for="password">Password</label>
 			            </div>
-			            
-			             <input type="hidden" name="taskId" id="taskId" value="${taskId }" />
-			             <input type="hidden" name="workId" id="workId" value="${workId }"/>
-			             <input type="hidden" name="workName" id="workName" value="${workName }"/> 
-			             <input type="hidden" name="notificationId" id="notificationId" value="${notificationId }"/> 
-			              
 			            <div class="input-field col offset-s1 s10 text-center">
 			            	<button type="submit" class="btn bgb" style="width:100%">Submit</button>
 			               <!--  <input type="submit" class="btn-outline waves-effect waves-light" value="Go">
@@ -141,17 +127,17 @@
       <footer class="page-footer">
         <div class="container">
             <p class="footer-text">Copyright <span id="year"></span> @ mrvc.indianrailways.gov.in | Designed & Developed by
-                <img src="/mrvc/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"></p>
+                <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"></p>
         </div>
     </footer>
           <!-- footer ends here -->
 <script src="https://code.jquery.com/jquery-3.5.0.min.js" ></script>
-<script src="/mrvc/resources/js/jquery-validation-1.19.1.min.js" ></script>  
-<script src="/mrvc/resources/js/materialize-v.1.0.min.js" ></script>
+<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
+<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
 <script type="text/javascript">
 			$(document).ready(function() {	
 		    	 if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0) {
-			       $('#userId').on('change focus active click', function (e) {
+			       $('#user_id').on('change focus active click', function (e) {
 			            setTimeout(function () {
 			                $.each(
 			                    document.querySelectorAll('*:-webkit-autofill'),
@@ -171,21 +157,21 @@
 				 $("#year").html(new Date().getFullYear());
 				 $('#loginForm').validate({
 				    rules: {
-				     		"userId":{
+				     		"user_id":{
 				     			required:true
 		                	},"password":{
 		                		required:true
 		                	}
 				     	},
 				    messages: {
-				   			  "userId":{
+				   			  "user_id":{
 				   			  	required:'Please Provide Login Id & Password'
 				   			  },"password":{
 		                		required:'Please Provide Login Id & Password'
 			                  }
 				   	},errorPlacement:function(error, element){
 				   		   $("#logoutMsg").html("");
-					       if(element.attr("id") == "userId" ){
+					       if(element.attr("id") == "user_id" ){
 							 document.getElementById("message").innerHTML="";
 							 error.appendTo('#message');
 					        }else if (element.attr("id") == "password" ){
@@ -196,7 +182,7 @@
 				    },submitHandler:function(form){
 				    	 
 				    	//const public_key="ssdkF$HUy2A#D%kd";
-				    	//$('#userId').val(CryptoJS.AES.encrypt($('#userId').val(),public_key)); 
+				    	//$('#user_id').val(CryptoJS.AES.encrypt($('#user_id').val(),public_key)); 
 				    	//$('#password').val(CryptoJS.AES.encrypt($('#password').val(),public_key));
 				    	 
 				    	//another method

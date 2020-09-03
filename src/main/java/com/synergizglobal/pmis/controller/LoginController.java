@@ -15,11 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.service.LoginService;
 @Controller
 public class LoginController {
 	Logger logger = Logger.getLogger(LoginController.class);
@@ -69,68 +69,29 @@ public class LoginController {
 		try{
 			
 			
-			if(!StringUtils.isEmpty(user.getUserId()) && !StringUtils.isEmpty(user.getPassword())){
+			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getPassword())){
 				userDetails = loginService.validateUser(user);
 				if(!StringUtils.isEmpty(userDetails)) {
-					 if(!StringUtils.isEmpty(userDetails.getPmisKey())) {
-					
-						 /*TableauDashboard dashBoard = service.getTableauDashBoard();
-							String url = "/InfoViz";
-							
-							if (!StringUtils.isEmpty(dashBoard)) {						
-								String dashboardName = dashBoard.getTableauDashboardName();
-								if(!StringUtils.isEmpty(dashboardName)){
-									dashboardName = dashboardName.toLowerCase().replaceAll(" - ", "_");
-									dashboardName = dashboardName.toLowerCase().replaceAll(" ", "-");
-								}
-								
-								if(!StringUtils.isEmpty(dashboardName)){
-									url = url+"/"+dashboardName;
-								}
-							}
-							
-							model.setViewName("redirect:"+url);*/
-							
+					 if(!StringUtils.isEmpty(userDetails.getPmis_key_fk())) {
 							model.setViewName("redirect:/home");
 							session.setAttribute("user", userDetails);
-							session.setAttribute("USER_ID", userDetails.getUserId());
-							session.setAttribute("USER_NAME", userDetails.getUserName());
+							session.setAttribute("USER_ID", userDetails.getUser_id());
+							session.setAttribute("USER_NAME", userDetails.getUser_name());
 							if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
 								model.setViewName("redirect:/reset-password");
 								attributes.addFlashAttribute("message", passwordExpired);
-							}
-							
-							if(!StringUtils.isEmpty(user.getTaskId()) && !StringUtils.isEmpty(user.getWorkId())) {
-								String baseUrl = CommonConstants.NOTIFICATIONS_URL+"?taskId="+user.getTaskId()+"&workId="+user.getWorkId()+"&workName="+user.getWorkName()+"&notificationId="+user.getNotificationId();
-								model.setViewName("redirect:"+baseUrl);
 							}
 						 
 					 }else {
 						 	model.addObject("pmis_key",keyNotFound);
 							model.setViewName(PageConstants.login);
-							
-							model.addObject("taskId", user.getTaskId());
-							model.addObject("workId", user.getWorkId());
-							model.addObject("workName", user.getWorkName());
-							model.addObject("notificationId", user.getNotificationId());
 					 }
-					
-					
 				}else{
 					model.addObject("message", invalidUserName);
 					model.setViewName(PageConstants.login);
-					
-					model.addObject("taskId", user.getTaskId());
-					model.addObject("workId", user.getWorkId());
-					model.addObject("workName", user.getWorkName());
-					model.addObject("notificationId", user.getNotificationId());
 				}
 			}else{
 				model.setViewName(PageConstants.login);
-				model.addObject("taskId", user.getTaskId());
-				model.addObject("workId", user.getWorkId());
-				model.addObject("workName", user.getWorkName());
-				model.addObject("notificationId", user.getNotificationId());
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -172,7 +133,7 @@ public class LoginController {
 		ModelAndView model = new ModelAndView();
 		try{
 			String userId = (String) session.getAttribute("USER_ID");
-			user.setUserId(userId);
+			user.setUser_id(userId);
 			String temp = loginService.changePassword(user);
 			if(temp.equals("true")) {
 				session.invalidate();

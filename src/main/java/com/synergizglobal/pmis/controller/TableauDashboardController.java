@@ -1,7 +1,5 @@
 package com.synergizglobal.pmis.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,23 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.synergizglobal.pmis.Iservice.TableauDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.service.ActivityService;
-import com.synergizglobal.pmis.service.TableauDashboardService;
 
 @Controller
 public class TableauDashboardController {
 	Logger logger = Logger.getLogger(TableauDashboardController.class);
 	@Autowired
 	TableauDashboardService service;
-	
-	@Autowired
-	ActivityService aservice;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -127,10 +120,6 @@ public class TableauDashboardController {
 				vo.setTableauUrl(tableauUrl);
 			}
 			view.addObject("url", vo);
-			
-			Activity activity = new Activity();
-			List<Activity> works = aservice.getWorksList(activity);
-			view.addObject("works", works);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("tableauView() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

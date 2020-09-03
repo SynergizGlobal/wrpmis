@@ -6,9 +6,9 @@
 <html>
 <head>   
 
-   <link rel="stylesheet" href="/mrvc/resources/css/font-awesome-v.4.7.css">
+   <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-   <link rel="stylesheet" href="/mrvc/resources/css/header-footer.css">
+   <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
    
    <style type="text/css">
    		.noti:after {
@@ -32,7 +32,7 @@
   <nav>
     <div class="nav-wrapper blue darken-3">
       <div class="">
-        <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/mrvc/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
+        <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
         <a href="<%=request.getContextPath() %>/home" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
         <ul class="right hide-on-med-and-down top-level-menu">
           <c:if test="${homeHeader ne 'yes' }">
@@ -48,10 +48,10 @@
           </li>
           </c:if>
           <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
-          <!-- img src="/mrvc/resources/images/dashboard-white.png"--> 
+          <!-- img src="/pmis/resources/images/dashboard-white.png"--> 
           <span class="material-icons-outlined">dashboard</span> Dashboard</a>
           	  <ul class="second-level-menu">
-                  <c:forEach var="category" items="${menuList }" varStatus="index">
+                  <c:forEach var="category" items="${dashboardsList }" varStatus="index">
            			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
 	              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
 	              	<c:if test="${empty category.tableauSubList}">
@@ -182,7 +182,7 @@
                     
                     
           <li class="blueblue lighten-1 dropdown"><a href="#" class='head-img'>
-          <!--img src="/mrvc/resources/images/user-white.png"--> 
+          <!--img src="/pmis/resources/images/user-white.png"--> 
           <span class="material-icons">person</span> MRVC</a>
               <ul class="second-level-menu rs">
                   <li><a href="<%=request.getContextPath()%>/reset-password">Reset password</a></li>
@@ -208,7 +208,7 @@
     </li>
     <li><a href="#" class='head-img'><span class="material-icons-outlined">dashboard</span> Dashboard</a>
 		<ul class="dropdown-data">
-              <c:forEach var="category" items="${menuList }" varStatus="index">
+              <c:forEach var="category" items="${dashboardsList }" varStatus="index">
            			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
 	              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
 	              	<li>
@@ -244,8 +244,8 @@
   </form>
   
   <!-- <script src="https://code.jquery.com/jquery-3.5.0.min.js" ></script> -->
-  <script src="/mrvc/resources/js/jQuery-v.3.5.min.js" ></script>
-  <script src="/mrvc/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
   <script>
 	$(document).ready(function(){
 		

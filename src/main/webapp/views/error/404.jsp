@@ -11,9 +11,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error page</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/mrvc/resources/images/favicon.png">
-    <link rel="stylesheet" href="/mrvc/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/mrvc/resources/css/header-footer.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <style>
         body {
             background-color: antiquewhite;
@@ -68,7 +68,7 @@
     <nav>
         <div class="nav-wrapper blue darken-3">
             <div class="">
-                <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/mrvc/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
+                <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
 
             </div>
@@ -99,7 +99,7 @@
         <div class="footer-copyright blue lighten-5 bottom">
             <div class="container">
                 <span>Copyright 2020 @ mrvc.indianrailways.gov.in | Designed & Developed by</span> <img
-                    src="/mrvc/resources/images/synergiz.png" class="footer-img" alt="footer image">
+                    src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image">
             </div>
         </div>
     </div>

@@ -8,12 +8,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tableau infoviz</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/mrvc/resources/images/favicon.png">
-  <link rel="stylesheet" href="/mrvc/resources/css/materialize-v.1.0.min.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/material-design-lite-v.1.0.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/activity.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+  <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+  <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+  <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+  <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+  <link rel="stylesheet" href="/pmis/resources/css/activity.css">
+  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
   <style type="text/css">
   	.error{color:red;}
   	.timeline_body {
@@ -97,10 +97,10 @@
   <!-- footer  -->
   <jsp:include page="./layout/newFooter.jsp"></jsp:include>
   
-  <script src="/mrvc/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-  <script src="/mrvc/resources/js/dataTables.material.min.js"></script>
-  <script src="/mrvc/resources/js/select2.min.js"></script>
-  <script src="/mrvc/resources/js/jquery-validation-1.19.1.min.js"></script>
+  <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+  <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+  <script src="/pmis/resources/js/select2.min.js"></script>
+  <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script type="text/javascript" src="https://infoviz.syntrackpro.com/javascripts/api/tableau-2.min.js"></script>
   
   <script type="text/javascript">
@@ -182,65 +182,6 @@
 	        	  }
 	          }
           }
-          
-          /* if($.trim(work) == ''){
-        	  viz.revertAllAsync();
-          }else{
-	          var worksheet;	
-	          viz.getWorkbook().activateSheetAsync("Sheet 13 (2)").then(function (sheet) {
-	            //worksheet = sheet;
-	        	  worksheet = viz.getWorkbook().getActiveSheet().getWorksheets().get("Sheet 13 (2)"); 
-	          })
-	          // Single value
-	          .then(function () {
-	            return worksheet.applyFilterAsync("Work ID", work,
-	              tableauSoftware.FilterUpdateType.REPLACE);
-	          })
-	          .otherwise(function (err) {
-	        	  alert(err);
-	            console.log(err);
-	          });
-          } */
-          
-          
-       /*  sheet = viz.getWorkbook().getActiveSheet();
-          switch (sheet.getSheetType()) {
-	          case 'worksheet':
-	          		break;
-	          case 'dashboard':
-	         		  worksheets = sheet.getWorksheets();
-			          for(i=0;i<worksheets.length;i++){
-		          			//alert(worksheets[i].getName()); 
-			           	switch(worksheets[i].getName()){
-			          		case 'Sheet 13 (2)':
-			          			  //FilterValues(worksheets[i].getName());
-						          worksheets[i].getFiltersAsync().then (
-						          function (f){ 
-						        	  // Use the filter objects to do things 
-						        	  //alert("hi");
-						        	  
-						        	// 0 represents the position of the filter on the worksheet. The filter is the first one, hence number 0
-									  
-									  //This loop goes through every value of the filter and populates them into the box variable
-									  
-									  for(k=0; k < f.length; k++){
-										  AccessControlFilter = f[k].getAppliedValues();
-									  for(j=0; j < AccessControlFilter.length; j++){
-										  //var opt2 = document.createElement('option');
-										  //opt2.innerHTML = AccessControlFilter[j].formattedValue;
-										  //opt2.value = AccessControlFilter[j].value;
-										  //box.appendChild(opt2);										  
-										  alert(AccessControlFilter[j].value);
-									  };
-						          }
-									  
-						          });
-						          break;
-	          			}
-	          		  }
-	          break;
-          } */
-          
       } 
 	  
  </script>

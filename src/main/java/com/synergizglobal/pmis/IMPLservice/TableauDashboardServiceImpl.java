@@ -1,15 +1,16 @@
-package com.synergizglobal.pmis.service;
+package com.synergizglobal.pmis.IMPLservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.dao.TableauDashboardDao;
+import com.synergizglobal.pmis.IMPLdao.TableauDashboardDaoImpl;
+import com.synergizglobal.pmis.Iservice.TableauDashboardService;
 import com.synergizglobal.pmis.model.TableauDashboard;
 
 @Service
-public class TableauDashboardService {
+public class TableauDashboardServiceImpl implements TableauDashboardService {
 	@Autowired
-	TableauDashboardDao dao;
+	TableauDashboardDaoImpl dao;
 	
 	/**
 	 * This method get the TableauUrl
@@ -17,6 +18,7 @@ public class TableauDashboardService {
 	 * @return type of this method is tableauUrl
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
+	@Override
 	public TableauDashboard getTableauUrl(String activityWork) throws Exception {
 		return dao.getTableauUrl(activityWork);
 	}
@@ -26,6 +28,7 @@ public class TableauDashboardService {
 	 * @return type of this method is dashboard
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
+	@Override
 	public TableauDashboard getTableauDashBoard() throws Exception {
 		return dao.getTableauDashBoard();
 	}
@@ -36,6 +39,7 @@ public class TableauDashboardService {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public TableauDashboard getTableauUrlForMobile(String infovizId) throws Exception {
 		return dao.getTableauUrlForMobile(infovizId);
 	}

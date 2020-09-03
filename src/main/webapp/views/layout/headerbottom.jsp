@@ -6,7 +6,7 @@
 	    <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
 	      
 	    </li>
-	    <li class="hi-logo"> <a href="<%=request.getContextPath()%>/"><img src="/mrvc/resources/img/logo.png" ></a> </li>
+	    <li class="hi-logo"> <a href="<%=request.getContextPath()%>/"><img src="/pmis/resources/img/logo.png" ></a> </li>
 	    <%-- <a href="<%=request.getContextPath()%>"><span class="tagline">SynTrack</span></a>
 	      <div class="tagline">Driving Infrastructure Forward</div> --%>  
 	 
@@ -58,9 +58,9 @@
         
         	<ul class="dropdown-menu top-dropdown">
 									
-				<c:set var="menuTotalCount" value="${fn:length(menuList) }"></c:set>
+				<c:set var="menuTotalCount" value="${fn:length(dashboardsList) }"></c:set>
 				
-				<c:forEach var="category" items="${menuList }" varStatus="index">
+				<c:forEach var="category" items="${dashboardsList }" varStatus="index">
            			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
 	              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
               			
@@ -140,7 +140,7 @@
            				 			</a>
            				 			
            				 			<ul class="dropdown-menu other-submenu">
-							           <c:forEach var="category" items="${menuList }" varStatus="index2">
+							           <c:forEach var="category" items="${dashboardsList }" varStatus="index2">
 							           		<c:if test="${index2.count gt 9 }">
 							           			<c:set var="tempsubActivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
             									<c:set var="subActivity" value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}"></c:set>
@@ -190,9 +190,9 @@
     </div>
 </nav>
 
-<script src="/mrvc/resources/vendors/bower_components/jquery/dist/jquery.min.js"></script>
-<script src='/mrvc/resources/js/holder.min.js'></script>
-<!-- <script src="/mrvc/resources/js/script.js"></script> -->
+<script src="/pmis/resources/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+<script src='/pmis/resources/js/holder.min.js'></script>
+<!-- <script src="/pmis/resources/js/script.js"></script> -->
 
 <script>
 	/* if('${tabActive}' == '' || '${tabActive}' == null){

@@ -2,7 +2,6 @@ package com.synergizglobal.pmis.login.filter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -12,14 +11,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.synergizglobal.pmis.service.ActivityService;
+import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Forms;
-import com.synergizglobal.pmis.model.Notification;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.service.HomeService;
-import com.synergizglobal.pmis.service.LoginService;
 
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	Logger logger = Logger.getLogger(AuthenticationInterceptor.class);
@@ -34,26 +31,10 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			if( !request.getRequestURI().equals("/pmis/") && !request.getRequestURI().equals("/pmis/login") && !request.getRequestURI().equals("/") && !request.getRequestURI().equals("/login")){
 			    User userData = (User) request.getSession().getAttribute("user");
 			    if(userData == null){
-			    	String taskId = request.getParameter("taskId");
-			    	String workId = request.getParameter("workId");
-			    	String workName = request.getParameter("workName");
-			    	String notificationId = request.getParameter("notificationId");
-			    	//request.setAttribute("taskId", taskId);
-			    	//request.setAttribute("workId", workId);
-			    	
-			    	String params = "?taskId="+taskId+"&workId="+workId+"&workName="+workName+"&notificationId="+notificationId;
 			    	String URL = "/pmis/login";
-			    	if(!StringUtils.isEmpty(taskId) && !StringUtils.isEmpty(workId)) {
-			    		URL = URL+params;
-			    	}
-			    	
 			    	if(request.getRequestURI().contains("/pmis/")){
-			    		//RequestDispatcher dispatcher = request.getRequestDispatcher("/pmis/login");
-			    		//dispatcher.forward(request, response);
 			    		response.sendRedirect(URL);
 			    	}else{
-			    		//RequestDispatcher dispatcher = request.getRequestDispatcher("/pmis/login");
-			    		//dispatcher.forward(request, response);
 			    		response.sendRedirect("/login");
 			    	}
 				    return false;
@@ -72,9 +53,6 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	@Autowired
 	HomeService service;
 	
-	@Autowired
-	ActivityService aService;
-	
 	@Override
     public void postHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler,
@@ -85,24 +63,19 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 			User userDetails = (User)request.getSession().getAttribute("user");
 			
 			if(!StringUtils.isEmpty(userDetails)) {
-				userId = userDetails.getUserId();
-				userName = userDetails.getUserName();
+				userId = userDetails.getUser_id();
+				userName = userDetails.getUser_name();
 				if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
 					model.setViewName(PageConstants.passwordReset);
 					model.addObject("message", passwordExpired);
 				}
 				
-				List<TableauDashboard> menuList = service.getMenuList();
-				model.addObject("menuList", menuList);
+				List<TableauDashboard> dashboardsList = service.getDashboardsList();
+				model.addObject("dashboardsList", dashboardsList);
 				
 				String base = "web";
 				List<Forms> forms = service.getFormsList(base);
 				model.addObject("forms", forms);
-				
-				String workId = (String)request.getSession().getAttribute("globalWorkId");	
-				
-				List<Notification> dueActivities = aService.getDueActivities(workId);
-				model.addObject("dueActivities", dueActivities);
 			}
 			
 			

@@ -8,12 +8,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Update Activity</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/mrvc/resources/images/favicon.png">
-  <link rel="stylesheet" href="/mrvc/resources/css/materialize-v.1.0.min.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/material-design-lite-v.1.0.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/activity.css">
-  <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+  <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+  <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+  <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+  <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+  <link rel="stylesheet" href="/pmis/resources/css/activity.css">
+  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
   <style type="text/css">
   	.error{color:red;}
   </style>
@@ -105,10 +105,10 @@
   <!-- footer includes -->
   <jsp:include page="./layout/newFooter.jsp"></jsp:include>
   
-  <script src="/mrvc/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-  <script src="/mrvc/resources/js/dataTables.material.min.js"></script>
-  <script src="/mrvc/resources/js/select2.min.js"></script>
-  <script src="/mrvc/resources/js/jquery-validation-1.19.1.min.js"></script>
+  <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+  <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+  <script src="/pmis/resources/js/select2.min.js"></script>
+  <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   
   <script type="text/javascript">
 		   //form validations

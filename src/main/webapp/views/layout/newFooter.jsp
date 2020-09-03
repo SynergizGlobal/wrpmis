@@ -8,10 +8,10 @@
 <!-- footer goes here -->
   <div class="footer-copyright blue lighten-5 bottom">
     <div class="container">
-      <span>Copyright 2020 @ mrvc.indianrailways.gov.in | Designed & Developed by</span> <img src="/mrvc/resources/images/synergiz.png"
+      <span>Copyright 2020 @ mrvc.indianrailways.gov.in | Designed & Developed by</span> <img src="/pmis/resources/images/synergiz.png"
         class="footer-img" alt="footer image">
     </div>
   </div>
-     <!-- <script src="/mrvc/resources/js/theme.js"></script> -->
+     <!-- <script src="/pmis/resources/js/theme.js"></script> -->
 </body>
 </html>

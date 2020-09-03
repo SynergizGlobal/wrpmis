@@ -194,13 +194,13 @@
   </dependencies>
 
   <build>
-    <finalName>mrvc</finalName>
+    <finalName>pmis</finalName>
      <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
-            	<warName>mrvc</warName>
+            	<warName>pmis</warName>
                 <!-- <outputDirectory>D:\jboss-as-7.1.1.Final\standalone\deployments</outputDirectory> -->
                 <outputDirectory>E:\apache-tomcat-7.0.73\webapps</outputDirectory>
             </configuration>

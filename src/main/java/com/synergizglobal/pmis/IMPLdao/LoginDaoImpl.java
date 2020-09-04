@@ -93,7 +93,7 @@ public class LoginDaoImpl implements LoginDao{
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = new Date();
 			String current = formatter.format(date);
-			
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			if(rs.next()) {				
 				String updateQry = "UPDATE user_login set last_login = ?,number_of_logins = ? WHERE user_id_fk = ?";
 				stmt = con.prepareStatement(updateQry);

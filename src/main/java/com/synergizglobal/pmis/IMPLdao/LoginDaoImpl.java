@@ -59,10 +59,22 @@ public class LoginDaoImpl implements LoginDao{
 				
 				userDetails.setUser_id(rs.getString("user_id"));
 				userDetails.setUser_name(rs.getString("user_name"));
-				userDetails.setPassword(rs.getString("password"));
+				userDetails.setEmail_id(rs.getString("email_id"));
+				userDetails.setSecondary_email_id(rs.getString("secondary_email_id"));
+				userDetails.setEmployee_type_fk(rs.getString("employee_type_fk"));
+				userDetails.setDepartment_fk(rs.getString("department_fk"));
+				userDetails.setDesignation(rs.getString("designation"));
+				userDetails.setReporting_to_id_srfk(rs.getString("reporting_to_id_srfk"));
+				userDetails.setUser_role_name_fk(rs.getString("user_role_name_fk"));
+				userDetails.setMobile_number(rs.getString("mobile_number"));
+				userDetails.setAlternate_mobile_number(rs.getString("alternate_mobile_number"));
+				userDetails.setLandline(rs.getString("landline"));
+				userDetails.setExtension(rs.getString("extension"));
+				userDetails.setPmis_key_fk(rs.getString("pmis_key_fk"));
+				userDetails.setRemarks(rs.getString("remarks"));
+				
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
-					userDetails.setPmis_key_fk(rs.getString("pmis_key_fk"));
-					addUserLogin(userDetails.getUser_id());
+					saveUserLoginDetails(userDetails.getUser_id(),con);
 				}else {
 					throw new NoKeyException(noKeyAssigned);
 				}
@@ -76,58 +88,42 @@ public class LoginDaoImpl implements LoginDao{
 		return userDetails;
 	}
 	
-	@Override
-	public boolean addUserLogin(String user_id) throws Exception {
-		Connection con = null;
+	
+	public boolean saveUserLoginDetails(String user_id, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		boolean flag = false;
-		try {
-			con = dataSource.getConnection();
+		try {			
+			String updateQry = "UPDATE user_login set last_login = CURRENT_TIMESTAMP,number_of_logins = number_of_logins + 1 WHERE user_id_fk = ?";
+			stmt = con.prepareStatement(updateQry);	
+			stmt.setString(1,user_id );
 			
-			String qry = "select number_of_logins from user_login where user_id_fk = ?";
-			stmt = con.prepareStatement(qry); 
-			stmt.setString(1, user_id);
-			rs = stmt.executeQuery();
+			int c = stmt.executeUpdate();
+			if (c > 0) {
+				flag = true;					
+			}	
 			
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = new Date();
-			String current = formatter.format(date);
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-			if(rs.next()) {				
-				String updateQry = "UPDATE user_login set last_login = ?,number_of_logins = ? WHERE user_id_fk = ?";
-				stmt = con.prepareStatement(updateQry);
-				int count = rs.getInt("number_of_logins");
-				
-				stmt.setString(1,current );
-				stmt.setInt(2, ++count);
-				stmt.setString(3,user_id );
-				
-				int c = stmt.executeUpdate();
-				if (c > 0) {
-					flag = true;					
-				}				
-			} else {
+			
+			if(!flag) {
 				String insertQry = "INSERT INTO user_login (user_id_fk,last_login,last_login_application_fk,number_of_logins)"  
-						+ " VALUES (?,?,?,?)";
+						+ " VALUES (?,?,CURRENT_TIMESTAMP,?)";
 				stmt = con.prepareStatement(insertQry);
 				
-				stmt.setString(1,user_id);
-				stmt.setString(2,current);
-				stmt.setString(3,null);
-				stmt.setInt(4,1);
-				int c = stmt.executeUpdate();
+				int s = 1;
+				stmt.setString(s++,user_id);
+				stmt.setString(s++,null);
+				stmt.setInt(s++,1);
+				c = stmt.executeUpdate();
 				if (c > 0) {
-					flag = true;
-					
-				}					
+					flag = true;				
+				}
 			}
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
 		return flag;
 	}

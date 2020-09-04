@@ -4,10 +4,13 @@ public class PageConstants {
 	public static final String login = "login";
 	public static final String passwordReset = "passwordReset";	
 	public static final String home = "home";	
-	public static final String tableauDashboard = "tableauDashboard";	
+	public static final String tableauDashboard = "tableauDashboard";
+	public static final String profile = "profile";	
 	
 	public static final String activity = "forms/activity";
 	public static final String primaveraData = "forms/primaveraData";
+	
+	public static final String stripChart="/forms/stripChart";
 	
 	public static final String landAcquisition = "forms/landAcquisition";
 	public static final String addEditLandAcquisition = "forms/addEditLandAcquisition";

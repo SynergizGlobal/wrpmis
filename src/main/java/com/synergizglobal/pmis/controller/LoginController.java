@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.LoginService;
+import com.synergizglobal.pmis.Iservice.ProfileService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -26,6 +29,9 @@ public class LoginController {
 	
 	@Autowired
 	LoginService loginService;
+	
+	@Autowired
+	ProfileService  profileService;
 	
 	
 	
@@ -113,6 +119,28 @@ public class LoginController {
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/profile", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView profile(HttpSession session){
+		ModelAndView model = new ModelAndView();
+		
+		try{
+			String userId = (String) session.getAttribute("USER_ID");
+			model.setViewName(PageConstants.profile);
+			
+			List<User> userDetails = profileService.getUserProfile(userId);
+			
+			model.addObject("userDetails", userDetails);	
+			
+		}catch(Exception e){
+			logger.error("profile : " + e.getMessage());
+			model.setViewName(PageConstants.profile);
+			model.addObject("message", commonError);
+		}
+		return model;
+	}
+	
 	
 	/**
 	 * This method changePassowrd() is used for changing the login password, this method have three parameter.

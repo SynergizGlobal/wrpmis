@@ -98,12 +98,6 @@
 		        	<div class="row homepage">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
 			            <h4 class="tite">Sign In</h4>
-			            <div class="msg">
-			             	<p id="message" class="error">${message}</p>
-			               	<c:if test="${not empty success}">
-			                   	<p id="logoutMsg" class="success">${success}</p>
-			               	</c:if>
-			            </div>
 			            <div class="input-field col offset-s1 s10">
 			              <input type="text" name="user_id" id="user_id" class="validate form-control" autocomplete="off">
 			              <label for="user_id">User Name</label>
@@ -111,6 +105,12 @@
 			            <div class="input-field col offset-s1 s10">
 			              <input type="password" name="password" id="password" class="validate" autocomplete="off">
 			              <label for="password">Password</label>
+			            </div>
+			            <div class="msg">
+			             	<p id="message" class="error">${message}</p>
+			               	<c:if test="${not empty success}">
+			                   	<p id="logoutMsg" class="success">${success}</p>
+			               	</c:if>
 			            </div>
 			            <div class="input-field col offset-s1 s10 text-center">
 			            	<button type="submit" class="btn bgb" style="width:100%">Submit</button>

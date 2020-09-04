@@ -221,5 +221,19 @@ public class User  {
 	public void setFileName(MultipartFile fileName) {
 		this.fileName = fileName;
 	}
+
+
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", user_name=" + user_name + ", password=" + password + ", email_id="
+				+ email_id + ", employee_type_fk=" + employee_type_fk + ", department_fk=" + department_fk
+				+ ", designation=" + designation + ", reporting_to_id_srfk=" + reporting_to_id_srfk
+				+ ", user_role_name_fk=" + user_role_name_fk + ", secondary_email_id=" + secondary_email_id
+				+ ", mobile_number=" + mobile_number + ", alternate_mobile_number=" + alternate_mobile_number
+				+ ", landline=" + landline + ", extension=" + extension + ", pmis_key_fk=" + pmis_key_fk + ", remarks="
+				+ remarks + ", oldPassword=" + oldPassword + ", newPassword=" + newPassword + ", confirmPassword="
+				+ confirmPassword + ", passwordExpiredTime=" + passwordExpiredTime + ", fileName=" + fileName + "]";
+	}
+	
 	
 }

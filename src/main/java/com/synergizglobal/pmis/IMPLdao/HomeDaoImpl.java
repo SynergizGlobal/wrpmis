@@ -42,7 +42,7 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path "
 					+ "FROM dashboard tum "
-					+ "WHERE parent_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_id_fk = ? order by priority";
+					+ "WHERE parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? order by priority";
 			
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
@@ -86,9 +86,9 @@ public class HomeDaoImpl implements HomeDao {
 		TableauDashboard tableauDashboard = null;
 		
 		try {
-			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path "
+			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path  "
 					+ "FROM dashboard tum "
-					+ "WHERE parent_id_sr_fk <> tum.dashboard_id and parent_id_sr_fk = ? and tum.soft_delete_status_id_fk = ? order by priority";
+					+ "WHERE parent_dashboard_id_sr_fk <> tum.dashboard_id and parent_dashboard_id_sr_fk = ? and tum.soft_delete_status_fk = ? order by priority";
 			
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, parentId);
@@ -128,9 +128,9 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT id,form_name,parent_id,web_form_url,mobile_form_url,priority,status_id "
-					+ "FROM forms f "
-					+ "WHERE parent_id = f.id and f.status_id = ? ";
+			String qry = "SELECT form_id,module_name_fk,pmis_access_id_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,formcol,priority,soft_delete_status_fk "
+					+ "FROM form f "
+					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
 			
 			/*if(!StringUtils.isEmpty(base) && base.equals("web")) {
@@ -144,13 +144,13 @@ public class HomeDaoImpl implements HomeDao {
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new Forms();
-				obj.setFormId(resultSet.getString("status_id"));
+				obj.setFormId(resultSet.getString("soft_delete_status_fk"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
 				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
-				obj.setStatusId(resultSet.getString("status_id"));
-				String parentId = resultSet.getString("parent_id");
+				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				String parentId = resultSet.getString("parent_form_id_sr_fk");
 				
 				obj.setFormsSubMenu(getFormsSubList(base,parentId, connection));
 				
@@ -179,9 +179,9 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT id,form_name,parent_id,web_form_url,mobile_form_url,priority,status_id "
-					+ "FROM forms f "
-					+ "WHERE parent_id <> f.id and parent_id = ? and f.status_id = ? ";
+			String qry = "SELECT form_id,module_name_fk,pmis_access_id_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,formcol,priority,soft_delete_status_fk "
+					+ "FROM form f "
+					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
 			
 			if(!StringUtils.isEmpty(base) && base.equals("web")) {
@@ -199,12 +199,12 @@ public class HomeDaoImpl implements HomeDao {
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new Forms();
-				obj.setFormId(resultSet.getString("status_id"));
+				obj.setFormId(resultSet.getString("soft_delete_status_fk"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
 				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
-				obj.setStatusId(resultSet.getString("status_id"));
+				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				objsList.add(obj);
 			}
 		}catch(Exception e){ 

@@ -58,7 +58,7 @@
         <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
         <a href="<%=request.getContextPath() %>/home" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
         <ul class="right hide-on-med-and-down top-level-menu">
-          <c:if test="${homeHeader ne 'yes' }">
+          <c:if test="${homeHeader ne 'yes'}">
           <li class="searchproject">
             <select id="searchProjectId" name="searchProjectId" onchange="getWorksListForSearch(this.value);" class="customDropdown">
               <option>Select Project</option>
@@ -220,9 +220,10 @@
                     
           <li class="blueblue lighten-1 dropdown"><a href="#" class='head-img'>
           <!--img src="/pmis/resources/images/user-white.png"--> 
-          <span class="material-icons">person</span> MRVC</a>
+          <span class="material-icons">person</span>${USER_NAME }</a>
           <!-- change password and logout here -->
               <ul class="second-level-menu rs">
+              	  <li><a href="<%=request.getContextPath()%>/profile">Profile</a></li>	
                   <li><a href="<%=request.getContextPath()%>/reset-password">Reset password</a></li>
                   <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
               </ul>
@@ -253,7 +254,7 @@
       <select id="mobileSearchWorkId" name="searchWorkId">
         <option>Select Work</option>
       </select>
-    </li>
+    </li>				
     <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Dashboard</a>
 <!-- Mobile dropdown stars here -->
           <ul class="dropdown-data collapsible collapsible-body second-lvl">         

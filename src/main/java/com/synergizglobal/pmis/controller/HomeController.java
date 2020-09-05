@@ -93,7 +93,7 @@ public class HomeController {
 	public List<Project> getProjectsListForSearch(){
 		List<Project> projects = null;
 		try{
-			projects = homeService.getProjectsListForSearch();			
+			projects = homeService.getProjectsList();			
 		}catch(Exception e){
 			logger.error("getProjectsListForSearch() : "+e.getMessage());
 		}
@@ -110,7 +110,7 @@ public class HomeController {
 	public List<Work> getWorksListForSearch(@ModelAttribute Work obj){
 		List<Work> works = null;
 		try{
-			works = homeService.getWorksListForSearch(obj);			
+			works = homeService.getWorksList(obj);			
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getWorksListForSearch() : "+e.getMessage());

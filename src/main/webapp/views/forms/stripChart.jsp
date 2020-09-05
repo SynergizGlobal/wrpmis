@@ -186,20 +186,17 @@
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
                                             <p>Project</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select class="searchable" id="project_id" name="project_id" onchange="getWorksList(this.value);">
+                                                <option value="" selected>Select</option>
+                                                <c:forEach var="obj" items="${projectsList }">
+                                                <option value="${obj.project_id }">${obj.project_name }</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col m8 s12 input-field">
                                             <p>Work</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select class="searchable" id="work_id" name="work_id">
+                                                <option value="" selected>Select</option>
                                             </select>
                                         </div>
                                         <div class="col m12 s12 input-field">
@@ -394,20 +391,20 @@
 		
 	 //geting works list from database    
     function getWorksList(projectId){
-		$("#workId option:not(:first)").remove();
+		$("#work_id option:not(:first)").remove();
 		
 		if($.trim(projectId) != ""){
-			var myParams = {projectId : projectId}; 
+			var myParams = {project_id_fk : projectId}; 
 			$.ajax({
 				url:"<%=request.getContextPath()%>/ajax/getWorksList",
 				data:myParams,cache: false,
 				success:function(data){
 					if(data.length > 0){
 						 $.each(data, function(i,val) {
-				            $("#workId").append('<option value="'+val.workId+'">'+val.workName+'</option>');
+				            $("#work_id").append('<option value="'+val.work_id+'">'+val.work_name+'</option>');
 				         });		
 		 			}
-					$('select').formSelect();
+					$('.searchable').select2();
 				}	 
 			});
 		}

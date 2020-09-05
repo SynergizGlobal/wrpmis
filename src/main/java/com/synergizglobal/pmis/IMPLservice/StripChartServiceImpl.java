@@ -15,19 +15,5 @@ public class StripChartServiceImpl implements StripChartService{
 	@Autowired
 	StripChartDao stripChartDao;
 	
-	@Override
-	public List<StripChart> getProjectsList() throws Exception {
-		return stripChartDao.getProjectsList();
-	}
-	
-	
-	public List<StripChart> getWorksList(StripChart obj) throws Exception {
-		return stripChartDao.getWorksList(obj);
-	}
-	
-	
-	
-	
-	
 	
 }

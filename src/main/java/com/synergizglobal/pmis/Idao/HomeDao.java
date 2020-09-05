@@ -11,6 +11,6 @@ import com.synergizglobal.pmis.model.Work;
 public interface HomeDao {	
 	public List<TableauDashboard> getDashboardsList() throws Exception;
 	public List<Forms> getFormsList(String base) throws Exception;
-	public List<Project> getProjectsListForSearch() throws Exception;
-	public List<Work> getWorksListForSearch(Work obj) throws Exception;
+	public List<Project> getProjectsList() throws Exception;
+	public List<Work> getWorksList(Work obj) throws Exception;
 }

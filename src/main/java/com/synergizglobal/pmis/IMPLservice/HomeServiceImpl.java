@@ -38,12 +38,12 @@ public class HomeServiceImpl implements HomeService {
 	}
 	
 	@Override
-	public List<Project> getProjectsListForSearch() throws Exception {
-		return dao.getProjectsListForSearch();
+	public List<Project> getProjectsList() throws Exception {
+		return dao.getProjectsList();
 	}
 	
 	@Override
-	public List<Work> getWorksListForSearch(Work obj) throws Exception {
-		return dao.getWorksListForSearch(obj);
+	public List<Work> getWorksList(Work obj) throws Exception {
+		return dao.getWorksList(obj);
 	}
 }

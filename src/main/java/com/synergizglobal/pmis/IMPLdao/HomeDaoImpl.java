@@ -224,7 +224,7 @@ public class HomeDaoImpl implements HomeDao {
 	}
 
 	@Override
-	public List<Project> getProjectsListForSearch() throws Exception {
+	public List<Project> getProjectsList() throws Exception {
 		List<Project> objsList = null;
 		try {
 			String qry = "select project_id,project_name,plan_head_number,pink_book_item_number,project_description,remarks from `project`";
@@ -239,17 +239,28 @@ public class HomeDaoImpl implements HomeDao {
 	}
 
 	@Override
-	public List<Work> getWorksListForSearch(Work obj) throws Exception {
+	public List<Work> getWorksList(Work obj) throws Exception {
 		List<Work> objsList = new ArrayList<Work>();
 		try {
 			String qry = "select work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost,completeion_period_months,"
 					+ "sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,weight,w.remarks,project_name "
 					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
-					+ "where project_id_fk = ?";
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id ";
+					
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " where project_id_fk = ?";
+			}
 			
 			//objsList = jdbcTemplate.query( qry, new Object[] { obj.getProject_id_fk() }, BeanPropertyRowMapper.newInstance(Work.class));
-			objsList = jdbcTemplate.query( qry, new Object[] { obj.getProject_id_fk() }, new BeanPropertyRowMapper<Work>(Work.class));
+			//OR
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				objsList = jdbcTemplate.query( qry, new Object[] { obj.getProject_id_fk() }, new BeanPropertyRowMapper<Work>(Work.class));
+			}else {
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
+			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

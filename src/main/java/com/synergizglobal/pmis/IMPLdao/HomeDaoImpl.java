@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -17,13 +19,18 @@ import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Forms;
+import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
+import com.synergizglobal.pmis.model.Work;
 
 @Repository
 public class HomeDaoImpl implements HomeDao {
 	Logger logger = Logger.getLogger(HomeDao.class);
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate ;
 	
 	/**
 	 * This method get the Menu list
@@ -212,6 +219,39 @@ public class HomeDaoImpl implements HomeDao {
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Project> getProjectsListForSearch() throws Exception {
+		List<Project> objsList = null;
+		try {
+			String qry = "select project_id,project_name,plan_head_number,pink_book_item_number,project_description,remarks from `project`";
+			//objsList = jdbcTemplate.query( qry, BeanPropertyRowMapper.newInstance(Project.class));
+			//OR
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Work> getWorksListForSearch(Work obj) throws Exception {
+		List<Work> objsList = new ArrayList<Work>();
+		try {
+			String qry = "select work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost,completeion_period_months,"
+					+ "sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,weight,w.remarks,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where project_id_fk = ?";
+			
+			//objsList = jdbcTemplate.query( qry, new Object[] { obj.getProject_id_fk() }, BeanPropertyRowMapper.newInstance(Work.class));
+			objsList = jdbcTemplate.query( qry, new Object[] { obj.getProject_id_fk() }, new BeanPropertyRowMapper<Work>(Work.class));
+		}catch(Exception e){ 
+			throw new Exception(e);
 		}
 		return objsList;
 	}

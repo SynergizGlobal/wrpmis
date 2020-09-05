@@ -57,4 +57,8 @@
 	    	<property name="jndiName" value="java:comp/env/jdbc/PMIS_DB"/>
 	 </bean>
 	 
+	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>  
+	 
 </beans>

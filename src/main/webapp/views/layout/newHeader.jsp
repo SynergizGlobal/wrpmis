@@ -456,14 +456,14 @@
 				if(data.length > 0){
 					 $.each(data, function(i,val) {
 						 projectName = '';
-						if($.trim(val.projectName) != ''){projectName = ' - '+ val.projectName}
+						if($.trim(val.project_name) != ''){projectName = ' - '+ val.project_name}
 						var globalProjectId = "${sessionScope.globalProjectId}";
-						if($.trim(globalProjectId) != '' && val.projectId == $.trim(globalProjectId)){
-							$("#searchProjectId").append('<option value="'+val.projectId+'" selected>'+val.projectId + projectName+'</option>');
-				            $("#mobileSearchProjectId").append('<option value="'+val.projectId+'" selected>'+val.projectId + projectName+'</option>');
+						if($.trim(globalProjectId) != '' && val.project_id == $.trim(globalProjectId)){
+							$("#searchProjectId").append('<option value="'+val.project_id+'" selected>'+val.project_id + projectName+'</option>');
+				            $("#mobileSearchProjectId").append('<option value="'+val.project_id+'" selected>'+val.project_id + projectName+'</option>');
 						}else{
-				            $("#searchProjectId").append('<option value="'+val.projectId+'">'+val.projectId + projectName+'</option>');
-				            $("#mobileSearchProjectId").append('<option value="'+val.projectId+'">'+val.projectId + projectName+'</option>');
+				            $("#searchProjectId").append('<option value="'+val.project_id+'">'+val.project_id + projectName+'</option>');
+				            $("#mobileSearchProjectId").append('<option value="'+val.project_id+'">'+val.project_id + projectName+'</option>');
 						}
 			         });		
 	 			}	
@@ -477,7 +477,7 @@
 		$("#searchWorkId option:not(:first)").remove();
 		$("#mobileSearchWorkId option:not(:first)").remove();
 		if($.trim(projectId) != ""){
-			var myParams = {projectId : projectId}; 
+			var myParams = {project_id_fk : projectId}; 
 			$.ajax({
 				url:"<%=request.getContextPath()%>/ajax/getWorksListForSearch",
 				data:myParams,cache: false,
@@ -485,12 +485,12 @@
 					if(data.length > 0){
 						 $.each(data, function(i,val) {
 							var globalWorkId = "${sessionScope.globalWorkId}";
-							if($.trim(globalWorkId) != '' && val.workId == $.trim(globalWorkId)){
-								$("#searchWorkId").append('<option value="'+val.workId+'" selected>'+val.workId+' - '+val.workName+'</option>');
-					            $("#mobileSearchWorkId").append('<option value="'+val.workId+'" selected>'+val.workId+' - '+val.workName+'</option>');
+							if($.trim(globalWorkId) != '' && val.work_id == $.trim(globalWorkId)){
+								$("#searchWorkId").append('<option value="'+val.work_id+'" selected>'+val.work_id+' - '+val.work_name+'</option>');
+					            $("#mobileSearchWorkId").append('<option value="'+val.work_id+'" selected>'+val.work_id+' - '+val.work_name+'</option>');
 							}else{
-								$("#searchWorkId").append('<option value="'+val.workId+'">'+val.workId+' - '+val.workName+'</option>');
-					            $("#mobileSearchWorkId").append('<option value="'+val.workId+'">'+val.workId+' - '+val.workName+'</option>');
+								$("#searchWorkId").append('<option value="'+val.work_id+'">'+val.work_id+' - '+val.work_name+'</option>');
+					            $("#mobileSearchWorkId").append('<option value="'+val.work_id+'">'+val.work_id+' - '+val.work_name+'</option>');
 							}
 				            
 				         });		

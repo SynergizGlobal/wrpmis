@@ -3,7 +3,7 @@ package com.synergizglobal.pmis.IMPLservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.IMPLdao.LoginDaoImpl;
+import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.model.User;
 
@@ -12,7 +12,7 @@ import com.synergizglobal.pmis.model.User;
 public class LoginServiceImpl implements LoginService {
 	
 	@Autowired
-	LoginDaoImpl loginDao;
+	LoginDao loginDao;
 	
 	/**
 	 * This method validate the user

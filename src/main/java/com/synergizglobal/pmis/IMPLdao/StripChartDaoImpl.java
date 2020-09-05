@@ -22,7 +22,7 @@ public class StripChartDaoImpl implements StripChartDao {
 	DataSource dataSource;
 	
 	@Override
-		public List<StripChart> getProjectsList() throws Exception {
+	public List<StripChart> getProjectsList() throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -47,7 +47,7 @@ public class StripChartDaoImpl implements StripChartDao {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
 		return objsList;
-		}
+	}
 
 	@Override
 	public List<StripChart> getWorksList(StripChart stripObj) throws Exception {

@@ -3,14 +3,14 @@ package com.synergizglobal.pmis.IMPLservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.IMPLdao.TableauDashboardDaoImpl;
+import com.synergizglobal.pmis.Idao.TableauDashboardDao;
 import com.synergizglobal.pmis.Iservice.TableauDashboardService;
 import com.synergizglobal.pmis.model.TableauDashboard;
 
 @Service
 public class TableauDashboardServiceImpl implements TableauDashboardService {
 	@Autowired
-	TableauDashboardDaoImpl dao;
+	TableauDashboardDao dao;
 	
 	/**
 	 * This method get the TableauUrl

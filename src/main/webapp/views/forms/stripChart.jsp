@@ -189,7 +189,7 @@
                                             <select class="searchable" id="project_id" name="project_id" onchange="getWorksList(this.value);">
                                                 <option value="" selected>Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                <option value="${obj.project_id }">${obj.project_name }</option>
+                                                	<option value="${obj.project_id }" <c:if test="${obj.project_id eq sessionScope.globalProjectId}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -386,32 +386,7 @@
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	
-	<script>
-		
-	 //geting works list from database    
-    function getWorksList(projectId){
-		$("#work_id option:not(:first)").remove();
-		
-		if($.trim(projectId) != ""){
-			var myParams = {project_id_fk : projectId}; 
-			$.ajax({
-				url:"<%=request.getContextPath()%>/ajax/getWorksList",
-				data:myParams,cache: false,
-				success:function(data){
-					if(data.length > 0){
-						 $.each(data, function(i,val) {
-				            $("#work_id").append('<option value="'+val.work_id+'">'+val.work_name+'</option>');
-				         });		
-		 			}
-					$('.searchable').select2();
-				}	 
-			});
-		}
-	}
-	
-	</script>
-	   <script>
+  <script>
         // code is not required, but to add many buttons I added this 
         var dotgroup = document.getElementById('dotgroup');
 
@@ -423,9 +398,9 @@
             ele.appendChild(it);
             dotgroup.appendChild(ele);
         }
-    </script>
+  </script>
 
-    <script>
+  <script>
         $(document).ready(function () {
             // $('select').formSelect();
             $('.searchable').select2();
@@ -455,7 +430,41 @@
             $('#textarea1').characterCounter();
             $('#textarea2').characterCounter();
             $('#textarea3').characterCounter();
+            
+            var globalProjectId = "${sessionScope.globalProjectId}";
+    		if($.trim(globalProjectId) != ''){
+    			getWorksList(globalProjectId);
+    		}
         });
+        
+        
+      //geting works list from database    
+      function getWorksList(projectId){
+    		$("#work_id option:not(:first)").remove();
+    		
+    		if($.trim(projectId) != ""){
+    			var myParams = {project_id_fk : projectId}; 
+    			$.ajax({
+    				url:"<%=request.getContextPath()%>/ajax/getWorksList",
+    				data:myParams,cache: false,
+    				success:function(data){
+    					if(data.length > 0){
+    						 $.each(data, function(i,val) {
+    							var workName = '';
+    							if($.trim(val.work_name) != ''){workName = ' - ' + $.trim(val.work_name)}
+    				            var globalWorkId = "${sessionScope.globalWorkId}";
+    							if($.trim(globalWorkId) != '' && val.work_id == $.trim(globalWorkId)){
+    								$("#work_id").append('<option value="'+val.work_id+'" selected>'+$.trim(val.work_id) + $.trim(workName)+'</option>');
+    					        }else{
+    					        	$("#work_id").append('<option value="'+val.work_id+'">'+$.trim(val.work_id) + $.trim(workName)+'</option>');
+    					        }
+    				         });		
+    		 			}
+    					$('.searchable').select2();
+    				}	 
+    			});
+    		}
+    	 }
     </script>
 </body>
 

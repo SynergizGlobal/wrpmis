@@ -161,19 +161,14 @@ public class LoginController {
 				model.setViewName("redirect:/");
 				attributes.addFlashAttribute("success", passwordResetSuccess);
 			}else if(temp.equals("false")) {
-				model.addObject("tabActive", "profile");
 				model.setViewName(PageConstants.passwordReset);
-				model.addObject("message", wrongPasswordEntered);
+				model.addObject("error", wrongPasswordEntered);
 			}else{
-				model.addObject("tabActive", "profile");
 				model.setViewName(PageConstants.passwordReset);
-				model.addObject("message", passwordResetFail);
+				model.addObject("error", passwordResetFail);
 			}
-			
-			
 		}catch(Exception e){
 			logger.error("resetPassword : " + e.getMessage());
-			model.addObject("tabActive", "profile");
 			model.setViewName(PageConstants.passwordReset);
 			model.addObject("error", commonError);
 		}

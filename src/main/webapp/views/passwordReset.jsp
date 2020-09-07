@@ -40,8 +40,8 @@
 							   ${success}
 							</div>
 						</c:if>
-						<c:if test="${not empty message }">
-							<div class="center-align m-1 close-message">
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message error">
 							   ${error}
 							</div>
 						</c:if>
@@ -78,18 +78,18 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col m4 hide-on-small-only"></div>
+                                <div class="col s12 m2">
                                     <div class="center-align m-1">
                                         <button type="submit" class="btn waves-effect waves-light bg-m" style="width: 100%;">Change Password</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m2">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/reset-password" class="btn waves-effect waves-light bg-s" style="width: 100%;">Cancel</a>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m4 hide-on-small-only"></div>
                             </div>
                         </form>
                     </div>

@@ -455,15 +455,15 @@
 			success:function(data){
 				if(data.length > 0){
 					 $.each(data, function(i,val) {
-						 projectName = '';
-						if($.trim(val.project_name) != ''){projectName = ' - '+ val.project_name}
+						var projectName = '';
+						if($.trim(val.project_name) != ''){projectName = ' - ' + $.trim(val.project_name)}
 						var globalProjectId = "${sessionScope.globalProjectId}";
 						if($.trim(globalProjectId) != '' && val.project_id == $.trim(globalProjectId)){
-							$("#searchProjectId").append('<option value="'+val.project_id+'" selected>'+val.project_id + projectName+'</option>');
-				            $("#mobileSearchProjectId").append('<option value="'+val.project_id+'" selected>'+val.project_id + projectName+'</option>');
+							$("#searchProjectId").append('<option value="'+val.project_id+'" selected>'+$.trim(val.project_id) + $.trim(projectName)+'</option>');
+				            $("#mobileSearchProjectId").append('<option value="'+val.project_id+'" selected>'+$.trim(val.project_id) + $.trim(projectName)+'</option>');
 						}else{
-				            $("#searchProjectId").append('<option value="'+val.project_id+'">'+val.project_id + projectName+'</option>');
-				            $("#mobileSearchProjectId").append('<option value="'+val.project_id+'">'+val.project_id + projectName+'</option>');
+				            $("#searchProjectId").append('<option value="'+val.project_id+'">'+$.trim(val.project_id) + $.trim(projectName)+'</option>');
+				            $("#mobileSearchProjectId").append('<option value="'+val.project_id+'">'+$.trim(val.project_id) + $.trim(projectName)+'</option>');
 						}
 			         });		
 	 			}	
@@ -484,13 +484,15 @@
 				success:function(data){
 					if(data.length > 0){
 						 $.each(data, function(i,val) {
+							var workName = '';
+							if($.trim(val.work_name) != ''){workName = ' - ' + $.trim(val.work_name)}
 							var globalWorkId = "${sessionScope.globalWorkId}";
 							if($.trim(globalWorkId) != '' && val.work_id == $.trim(globalWorkId)){
-								$("#searchWorkId").append('<option value="'+val.work_id+'" selected>'+val.work_id+' - '+val.work_name+'</option>');
-					            $("#mobileSearchWorkId").append('<option value="'+val.work_id+'" selected>'+val.work_id+' - '+val.work_name+'</option>');
+								$("#searchWorkId").append('<option value="'+val.work_id+'" selected>'+$.trim(val.work_id) + $.trim(workName)+'</option>');
+					            $("#mobileSearchWorkId").append('<option value="'+val.work_id+'" selected>'+$.trim(val.work_id) + $.trim(workName)+'</option>');
 							}else{
-								$("#searchWorkId").append('<option value="'+val.work_id+'">'+val.work_id+' - '+val.work_name+'</option>');
-					            $("#mobileSearchWorkId").append('<option value="'+val.work_id+'">'+val.work_id+' - '+val.work_name+'</option>');
+								$("#searchWorkId").append('<option value="'+val.work_id+'">'+$.trim(val.work_id) + $.trim(workName)+'</option>');
+					            $("#mobileSearchWorkId").append('<option value="'+val.work_id+'">'+$.trim(val.work_id) + $.trim(workName)+'</option>');
 							}
 				            
 				         });		

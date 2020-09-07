@@ -141,43 +141,24 @@ public class LoginDaoImpl implements LoginDao{
 		ResultSet rs = null;
 		String temp = null;
 		boolean flag = false;
-		String currentExpiryDays = null;
 		try{  
 			con = dataSource.getConnection();
-			String qry = "SELECT user_id,password,password_expiry_days FROM user WHERE user_id = ? and password = ?";
+			String qry = "SELECT user_id,password FROM user WHERE user_id = ? and password = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1,user.getUser_id());
 			stmt.setString(2,user.getOldPassword());
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
-				currentExpiryDays = rs.getString("password_expiry_days");
 				flag = true;
 			}
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			
-			int expiryDays = 0;
-			if(!StringUtils.isEmpty(currentExpiryDays)){
-				expiryDays = Integer.parseInt(currentExpiryDays);
-			}
-			
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = new Date();
-			String current = formatter.format(date);
-			   
-			SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );   
-			Calendar cal = Calendar.getInstance();    
-			cal.setTime( dateFormat.parse(current));    
-			cal.add( Calendar.DATE, expiryDays );    
-			String convertedDate=dateFormat.format(cal.getTime());
-			
 			if(flag){
-				String qry2 = "UPDATE user set password_update_date = ?,password = ? WHERE user_id = ?";
+				String qry2 = "UPDATE user set password = ? WHERE user_id = ?";
 				stmt = con.prepareStatement(qry2);
-				stmt.setString(1, convertedDate);
-				stmt.setString(2, user.getNewPassword());
-				stmt.setString(3, user.getUser_id());
+				stmt.setString(1, user.getNewPassword());
+				stmt.setString(1, user.getUser_id());
 				int c = stmt.executeUpdate();  
 				if(c > 0) {
 					temp = "true";

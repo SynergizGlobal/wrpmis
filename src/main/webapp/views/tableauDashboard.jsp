@@ -33,7 +33,7 @@
 
 <body>
   <!-- header  -->
-  <jsp:include page="./layout/newHeader.jsp"></jsp:include>
+  <jsp:include page="./layout/header.jsp"></jsp:include>
 
   <div class="row">
         <div class="col s12 m12">
@@ -95,7 +95,7 @@
 
 
   <!-- footer  -->
-  <jsp:include page="./layout/newFooter.jsp"></jsp:include>
+  <jsp:include page="./layout/footer.jsp"></jsp:include>
   
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>

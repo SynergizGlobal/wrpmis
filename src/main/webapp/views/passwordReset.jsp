@@ -165,9 +165,22 @@
 				jQuery.validator.addMethod("mypassword", function(value, element) {
 					  // allow any non-whitespace characters as the host part
 					  return this.optional( element ) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/.test( value );
-					}, 'Password should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character');
-						
-			 });
+				}, 'Password should contain minimum 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character');
+				
+			});
+		   
+		    $('select').change(function(){
+	    	    if ($(this).val() != ""){
+	    	        $(this).valid();
+	    	    }
+	    	});
+	        
+	        $('input').change(function(){
+	    	    if ($(this).val() != ""){
+	    	        $(this).valid();
+	    	    }
+	    	});
+					
 		    
 		</script>
 </body>

@@ -196,7 +196,13 @@
 				    	
 			             form.submit();
 				    }
-				});  			  	
+				});
+			        
+		        $('input').change(function(){
+		    	    if ($(this).val() != ""){
+		    	        $(this).valid();
+		    	    }
+		    	});
 						
 			 });
 		    //material components initialization

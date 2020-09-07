@@ -158,7 +158,7 @@ public class LoginDaoImpl implements LoginDao{
 				String qry2 = "UPDATE user set password = ? WHERE user_id = ?";
 				stmt = con.prepareStatement(qry2);
 				stmt.setString(1, user.getNewPassword());
-				stmt.setString(1, user.getUser_id());
+				stmt.setString(2, user.getUser_id());
 				int c = stmt.executeUpdate();  
 				if(c > 0) {
 					temp = "true";

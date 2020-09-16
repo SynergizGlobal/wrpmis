@@ -63,9 +63,9 @@
 		    padding: 5px 24px;
 		    border-radius: 0 0 2px 2px;
 		}
-.no-mar{
-	margin-bottom:0;
-}
+		.no-mar{
+			margin-bottom:0;
+		}
     
         .hiddendiv.common {
             width: 99vw !important;
@@ -180,14 +180,14 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <div class="row">
-                            <form action="#">
+                            <form action="<%=request.getContextPath()%>/update-stripchart" id="stripChartForm" name="stripChartForm" enctype="multipart/form-data">
                                 <div class="col m1 hide-on-small-only"></div>
                                 <div class="col m10 s12">
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
                                             <p>Project</p>
                                             <select class="searchable" id="project_id" name="project_id" onchange="getWorksList(this.value);">
-                                                <option value="" selected>Select</option>
+                                                <option value="">Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
                                                 	<option value="${obj.project_id }" <c:if test="${obj.project_id eq sessionScope.globalProjectId}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name }</option>
                                                 </c:forEach>
@@ -195,49 +195,48 @@
                                         </div>
                                         <div class="col m8 s12 input-field">
                                             <p>Work</p>
-                                            <select class="searchable" id="work_id" name="work_id">
+                                            <select class="searchable" id="work_id_fk" name="work_id_fk" onchange="getContractsList(this.value);">
                                                 <option value="" selected>Select</option>
                                             </select>
                                         </div>
                                         <div class="col m12 s12 input-field">
                                             <p>Contract</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getComponentIdsList(this.value);">
+                                                <option value="">Select</option>
+                                                <%-- <c:forEach var="obj" items="${contractsList }">
+                                                	<option value="${obj.contract_id }" <c:if test="${obj.contract_id eq ''}">selected</c:if>>${obj.contract_name}</option>
+                                                </c:forEach> --%>
                                             </select>
-                                            <span class="arr"><i class="fa fa-plus-circle" style="margin-top: 15px"
-                                                    id="hide-btn"></i></span>
+                                            <span class="arr"><i class="fa fa-plus-circle" style="margin-top: 15px" id="hide-btn"></i></span>
                                         </div>
                                     </div>
                                     <div class="row" id="toggle-selects">
                                         <!-- row 1  -->
                                         <div class="col m4 s12 input-field">
                                             <p>Structure</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" class="searchable">
+                                                <option value="">Select</option>
+                                                <c:forEach var="obj" items="${structuresList }">
+                                                	<option value="${obj.strip_chart_structure }" <c:if test="${obj.strip_chart_structure eq ''}">selected</c:if>>${obj.strip_chart_structure}</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Line</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk" class="searchable">
+                                                <option value="">Select</option>
+                                                <c:forEach var="obj" items="${linesList }">
+                                                	<option value="${obj.strip_chart_line }" <c:if test="${obj.strip_chart_line eq ''}">selected</c:if>>${obj.strip_chart_line}</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Section</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select id="strip_chart_section_id_fk" name="strip_chart_section_id_fk" class="searchable">
+                                                <option value="">Select</option>
+                                                <c:forEach var="obj" items="${sectionsList }">
+                                                	<option value="${obj.strip_chart_section_id }" <c:if test="${obj.strip_chart_section_id eq ''}">selected</c:if>>${obj.strip_chart_section_name}</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                     </div>
@@ -246,59 +245,44 @@
                                             <p>Project Id</p>
                                             <div class="dotgroup-scroll">
                                                 <div id="dotgroup">
-                                                    <a href="#" class="dot"><span class="project"
-                                                            data-project="P2"></span></a>
-                                                    <a href="#" class="dot in-progress"><span class="project"
-                                                            data-project="A2"></span></a>
-                                                    <a href="#" class="dot completed no-focus"><span class="project"
-                                                            data-project="P1"></span></a>
-                                                    <a href="#" class="dot delayed"><span class="project"
-                                                            data-project="P2"></span></a>
-                                                    <a href="#" class="dot not-started"><span class="project"
-                                                            data-project="P3"></span></a>
-                                                    <a href="#" class="dot"><span class="project"
-                                                            data-project="P2"></span></a>
-                                                    <a href="#" class="dot in-progress"><span class="project"
-                                                            data-project="A2"></span></a>
-                                                    <a href="#" class="dot completed"><span class="project"
-                                                            data-project="P1"></span></a>
-                                                    <a href="#" class="dot delayed"><span class="project"
-                                                            data-project="P2"></span></a>
-                                                    <a href="#" class="dot not-started"><span class="project"
-                                                            data-project="P3"></span></a>
+                                                    <a href="javascript:void(0);" class="dot"><span class="project" data-project="P2"></span></a>
+                                                    <a href="#" class="dot in-progress"><span class="project" data-project="A2"></span></a>
+                                                    <a href="#" class="dot completed no-focus"><span class="project" data-project="P1"></span></a>
+                                                    <a href="#" class="dot delayed"><span class="project" data-project="P2"></span></a>
+                                                    <a href="#" class="dot not-started"><span class="project" data-project="P3"></span></a>
+                                                    <a href="#" class="dot"><span class="project" data-project="P2"></span></a>
+                                                    <a href="#" class="dot in-progress"><span class="project" data-project="A2"></span></a>
+                                                    <a href="#" class="dot completed"><span class="project" data-project="P1"></span></a>
+                                                    <a href="#" class="dot delayed"><span class="project" data-project="P2"></span></a>
+                                                    <a href="#" class="dot not-started"><span class="project" data-project="P3"></span></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row">                                       
                                         <div class="col m6 s12 input-field">
-                                            <p>Component</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
-                                            </select>
+                                            <input type="text" class="" id="strip_chart_component_fk" name="strip_chart_component_fk">
+                                            <label for="planned_start">Component</label>
                                         </div>
                                         <div class="col m6 s12 input-field">
                                             <p>Activity</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select id="strip_chart_activity_id_fk" name="strip_chart_activity_id_fk" class="searchable" onchange="getStripChartDetails(this.value);">
+                                                <option value="">Select</option>
+                                                <%-- <c:forEach var="obj" items="${activitiesList }">
+                                                	<option value="${obj.strip_chart_activity_id }" <c:if test="${obj.strip_chart_activity_id eq ''}">selected</c:if>>${obj.strip_chart_activity_name}</option>
+                                                </c:forEach> --%>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col m6 s12 input-field">
-                                            <input type="text" class="datepicker" id="planned_start">
+                                            <input type="text" class="datepicker" id="planned_start" name="planned_start">
                                             <label for="planned_start">Planned Start</label>
                                             <button type="button" id="planned_start_icon"><i
                                                     class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col m6 s12 input-field">
-                                            <input type="text" class="datepicker" id="planned_finish">
+                                            <input type="text" class="datepicker" id="planned_finish" name="planned_finish">
                                             <label for="planned_finish">Planned Finish</label>
                                             <button type="button" id="planned_finish_icon"><i
                                                     class="fa fa-calendar"></i></button>
@@ -306,34 +290,33 @@
                                     </div>
                                     <div class="row">
                                         <div class="col m6 s12 input-field">
-                                            <input id="scope" type="text" class="validate">
+                                            <input type="text" class="validate" id="scope" name="scope">
                                             <label for="scope">Scope</label>
-                                            <span class="units">units</span>
+                                            <span class="units unit_fk"></span>
                                         </div>
                                         <div class="col m6 s12 input-field">
-                                            <input id="completed_scope" type="text" class="validate">
+                                            <input type="text" class="validate" id="completed" name="completed">
                                             <label for="completed_scope">Completed</label>
-                                            <span class="units">units</span>
+                                            <span class="units unit_fk"></span>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col m6 s12 input-field">
-                                            <input id="progress_date" type="text" class="validate datepicker">
+                                            <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
                                             <label for="progress_date">Progress Date</label>
                                             <button type="button" id="progress_date_icon"><i
                                                     class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col m6 s12 input-field">
-                                            <input id="progress" type="text" class="validate">
+                                            <input id="progress" name="progress" type="text" class="validate">
                                             <label for="progress">Progress</label>
-                                            <span class="units">units</span>
+                                            <span class="units unit_fk"></span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col m12 s12 input-field">
-                                            <textarea id="remarks" name="remarks" class="materialize-textarea"
-                                                data-length="500"></textarea>
+                                            <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="500"></textarea>
                                             <label for="remarks" class="">Remarks</label>
                                         </div>
                                     </div>
@@ -342,7 +325,7 @@
                                             <div class="file-field input-field">
                                                 <div class="btn bg-m">
                                                     <span>Attachment</span>
-                                                    <input type="file">
+                                                    <input type="file" id="stripChartFile" name="stripChartFile">
                                                 </div>
                                                 <div class="file-path-wrapper">
                                                     <input class="file-path validate" type="text">
@@ -353,14 +336,12 @@
                                     <div class="row">
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button class="btn waves-effect waves-light bg-m"
-                                                    style="width: 100%;">Update</button>
+                                                <button type="submit" class="btn waves-effect waves-light bg-m" style="width: 100%;">Update</button>
                                             </div>
                                         </div>
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;">Reset</button>
+                                                <button type="reset" class="btn waves-effect waves-light bg-s" style="width: 100%;">Reset</button>
                                             </div>
                                         </div>
                                     </div>
@@ -440,7 +421,7 @@
         
       //geting works list from database    
       function getWorksList(projectId){
-    		$("#work_id option:not(:first)").remove();
+    		$("#work_id_fk option:not(:first)").remove();
     		
     		if($.trim(projectId) != ""){
     			var myParams = {project_id_fk : projectId}; 
@@ -454,9 +435,9 @@
     							if($.trim(val.work_name) != ''){workName = ' - ' + $.trim(val.work_name)}
     				            var globalWorkId = "${sessionScope.globalWorkId}";
     							if($.trim(globalWorkId) != '' && val.work_id == $.trim(globalWorkId)){
-    								$("#work_id").append('<option value="'+val.work_id+'" selected>'+$.trim(val.work_id) + $.trim(workName)+'</option>');
+    								$("#work_id_fk").append('<option value="'+val.work_id+'" selected>'+$.trim(val.work_id) + $.trim(workName)+'</option>');
     					        }else{
-    					        	$("#work_id").append('<option value="'+val.work_id+'">'+$.trim(val.work_id) + $.trim(workName)+'</option>');
+    					        	$("#work_id_fk").append('<option value="'+val.work_id+'">'+$.trim(val.work_id) + $.trim(workName)+'</option>');
     					        }
     				         });		
     		 			}
@@ -464,7 +445,88 @@
     				}	 
     			});
     		}
-    	 }
+      }
+      
+      //geting contracts list    
+      function getContractsList(workId){
+    		$("#contract_id_fk option:not(:first)").remove();    		
+    		if($.trim(workId) != ""){
+    			var myParams = {work_id_fk : workId}; 
+    			$.ajax({
+    				url:"<%=request.getContextPath()%>/ajax/getContractsList",
+    				data:myParams,cache: false,
+    				success:function(data){
+    					if(data.length > 0){
+    						 $.each(data, function(i,val) {
+    							$("#contract_id_fk").append('<option value="'+val.contract_id+'">'+$.trim(val.contract_name)+'</option>');
+    					     });		
+    		 			}
+    					$('.searchable').select2();
+    				}	 
+    			});
+    		}
+      }
+      
+      //geting contracts list    
+      function getComponentIdsList(contractId){
+    		var html = "";
+    		if($.trim(contractId) != ""){
+    			var myParams = {contract_id_fk : contractId}; 
+    			$.ajax({
+    				url:"<%=request.getContextPath()%>/ajax/getComponentIdsList",
+    				data:myParams,cache: false,
+    				success:function(data){    					
+    					if(data.length > 0){
+    						 $.each(data, function(i,val) {
+    							 var componentId = "'"+val.strip_chart_component_id+"'";
+    							 var componentName = "'"+val.strip_chart_component_name+"'";
+    							 html = html + '<a href="javascript:void(0);" class="dot" onclick="getStripChartActivitiesList('+componentId+'","'+componentName+');"><span class="project" data-project="'+val.strip_chart_component_name+'"></span></a>';
+    					     });		
+    		 			}
+    					$("#dotgroup").html(html);
+    				}	 
+    			});
+    		}
+      }
+      
+      function getStripChartActivitiesList(componentId,componentName){    	  
+    	    $("#strip_chart_component_fk").val(componentName);
+    	  	$("#strip_chart_activity_id_fk option:not(:first)").remove();    		
+	  		if($.trim(componentId) != ""){
+	  			var myParams = {strip_chart_component_id : componentId,}; 
+	  			$.ajax({
+	  				url:"<%=request.getContextPath()%>/ajax/getStripChartActivitiesList",
+	  				data:myParams,cache: false,
+	  				success:function(data){
+	  					if(data.length > 0){
+	  						 $.each(data, function(i,val) {
+	  							$("#strip_chart_activity_id_fk").append('<option value="'+val.strip_chart_activity_id+'">'+$.trim(val.strip_chart_activity_name)+'</option>');
+	  					     });		
+	  		 			}
+	  					$('.searchable').select2();
+	  				}	 
+	  			});
+	  		}
+      }
+      
+      function getStripChartDetails(activitiId){
+    	  var componentId = $("#strip_chart_component_id_fk").val();
+    	  if($.trim(strip_chart_activity_id_fk) != ""){
+	  		 var myParams = {strip_chart_component_id_fk : componentId,strip_chart_activity_id_fk : activitiId}; 
+	  		 $.ajax({
+	  			url:"<%=request.getContextPath()%>/ajax/getStripChartDetails",
+	  			data:myParams,cache: false,
+	  			success:function(data){
+	  					
+	  			}	 
+	  		 });
+	  	  }
+      }
+      
+      $('form').on('reset', function() {
+    	  $(".searchable").trigger("change");
+   	  });
+      
     </script>
 </body>
 

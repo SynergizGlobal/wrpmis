@@ -247,21 +247,38 @@ public class HomeDaoImpl implements HomeDao {
 					+ "from `work` w "
 					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id ";
 					
-			
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " where project_id_fk = ?";
+				arrSize++;
 			}
 			
-			//objsList = jdbcTemplate.query( qry, new Object[] { obj.getProject_id_fk() }, BeanPropertyRowMapper.newInstance(Work.class));
-			//OR
+			String[] placeholders = new String[arrSize];
 			
+			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				objsList = jdbcTemplate.query( qry, new Object[] { obj.getProject_id_fk() }, new BeanPropertyRowMapper<Work>(Work.class));
-			}else {
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));
+				placeholders[i++] = obj.getProject_id_fk();
+			}		
+			
+			Object[] pValues = new Object[]{};
+			
+			if(placeholders.length > 0) {
+				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
 			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Work>(Work.class));
+			
+			/*if(placeholders.length > 0) {
+				objsList = jdbcTemplate.query( qry, new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)}, new BeanPropertyRowMapper<Work>(Work.class));
+			}else {
+				objsList = jdbcTemplate.query( qry, new Object[] {}, new BeanPropertyRowMapper<Work>(Work.class));
+			}*/
+			
+			//OR
+			//objsList = jdbcTemplate.query( qry, new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)}, BeanPropertyRowMapper.newInstance(Work.class));
 			
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return objsList;

@@ -53,6 +53,7 @@ public class CommonConstants {
 	public final static String RISKS_BULK_UPLOAD_TEMPLATE = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"RISKS_BULK_UPLOAD_TEMPLATE"+File.separator;
 	public final static String RISKS_BULK_UPLOAD_FILES_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"RISKS_BULK_UPLOAD_FILES"+File.separator;
 	
+	public final static String STRIPCHART_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"STRIPCHART_FILES"+File.separator;
 	/*********** QA ****************************************************/
 	
 	/*public final static String ACTIVITY_IMAGES = "D:"+File.separator+"TestingServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"activity_images"+File.separator;

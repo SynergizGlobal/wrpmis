@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.StripChartDao;
 import com.synergizglobal.pmis.Iservice.StripChartService;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Service
@@ -14,6 +15,61 @@ public class StripChartServiceImpl implements StripChartService{
 	
 	@Autowired
 	StripChartDao stripChartDao;
+
+	@Override
+	public List<StripChart> getStripChartActivities(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartActivities(obj);
+	}
+
+	@Override
+	public List<StripChart> getStripChartComponents(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartComponents(obj);
+	}
+
+	@Override
+	public List<StripChart> getStripChartComponentIds(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartComponentIds(obj);
+	}
+
+	@Override
+	public List<StripChart> getStripChartLines() throws Exception {
+		return stripChartDao.getStripChartLines();
+	}
+
+	@Override
+	public List<StripChart> getStripChartSections() throws Exception {
+		return stripChartDao.getStripChartSections();
+	}
+
+	@Override
+	public List<StripChart> getStripChartStructures() throws Exception {
+		return stripChartDao.getStripChartStructures();
+	}
+
+	@Override
+	public List<StripChart> getStripChartTypes() throws Exception {
+		return stripChartDao.getStripChartTypes();
+	}
+
+	@Override
+	public List<StripChart> getStripChartStructureTypes() throws Exception {
+		return stripChartDao.getStripChartStructureTypes();
+	}
+
+	@Override
+	public List<Contract> getContractsList(StripChart obj) throws Exception {
+		return stripChartDao.getContractsList(obj);
+	}
+
+	@Override
+	public StripChart getStripChartDetails(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartDetails(obj);
+	}
+
+	@Override
+	public boolean updateStripChart(StripChart obj) throws Exception {
+		return stripChartDao.updateStripChart(obj);
+	}
 	
 	
 }

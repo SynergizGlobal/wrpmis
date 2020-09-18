@@ -18,59 +18,18 @@
    
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    
-   
+    <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
    
     <style>
-        .input-field .select2-container--default {
-            width: 100% !important;
-        }
-
-        /* searchable dropdown styling */
-        .select2-container--default .select2-selection--single {
-            background-color: lightgrey;
-            border: 1px solid #aaa;
-            height: 32px;
-            /* border-radius: 2px; */
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        /* datatable styling starts here*/
-        .dataTables_filter label::after {
-            position: relative;
-            content: '\f002';
-            color: #6C587B;
-            right: 15px;
-            font: normal normal normal 14px/1 FontAwesome;
-        }
-
-        .dataTables_filter label {
-            color: #fff;
-        }
-
-        /* datatable stylings ends here*/
-        
-        
-          h4 {
-		    font-size: 2.28rem;
-		    line-height: 110%;
-		    margin: 0 0 .912rem 0;
-		}
-		
-		.card .card-content {
-		    padding: 5px 24px;
-		    border-radius: 0 0 2px 2px;
-		}
-		.no-mar{
-			margin-bottom:0;
-		}
-    
         .hiddendiv.common {
             width: 99vw !important;
         }
 
+        #hide-btn {
+            font-size: 18px;
+        }
+
+        /* dots related styling  */
         .dot {
             height: 20px;
             width: 20px;
@@ -101,6 +60,7 @@
             right: -6px;
         }
 
+        /* color based on project status  */
         .dot.not-started {
             background-color: #fff;
         }
@@ -129,6 +89,7 @@
             color: inherit
         }
 
+        /* horizontal scroll  */
         .dotgroup-scroll {
             width: 100%;
             max-width: 100%;
@@ -142,21 +103,13 @@
             height: 6px;
             position: relative;
         }
-        
-         /* selects toggle class */
-        .arr {
-            position: absolute;
-            right: -1%;
-            top: 20%;
-            cursor: pointer;
-        }
 
-        #toggle-selects {
-            display: none;
-        }
+        /* selects toggle class */
 
-        #toggle-selects.open {
-            display: block;
+        .radiogroup {
+            box-shadow: 1px 1px 3px 0px #ccc;
+            padding: 5px;
+            text-align: center;
         }
     </style>
 </head>
@@ -206,8 +159,7 @@
                                                 <%-- <c:forEach var="obj" items="${contractsList }">
                                                 	<option value="${obj.contract_id }" <c:if test="${obj.contract_id eq ''}">selected</c:if>>${obj.contract_name}</option>
                                                 </c:forEach> --%>
-                                            </select>
-                                            <span class="arr"><i class="fa fa-plus-circle" style="margin-top: 15px" id="hide-btn"></i></span>
+                                            </select>                                            
                                         </div>
                                     </div>
                                     <div class="row" id="toggle-selects">

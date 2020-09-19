@@ -37,17 +37,11 @@ public class StripChartDaoImpl implements StripChartDao {
 				arrSize++;
 			}
 			
-			String[] placeholders = new String[arrSize];
+			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				placeholders[i++] = obj.getStrip_chart_component_id();
-			}		
-			
-			Object[] pValues = new Object[]{};
-			
-			if(placeholders.length > 0) {
-				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
+				pValues[i++] = obj.getStrip_chart_component_id();
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
@@ -68,17 +62,11 @@ public class StripChartDaoImpl implements StripChartDao {
 				arrSize++;
 			}
 			
-			String[] placeholders = new String[arrSize];
+			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				placeholders[i++] = obj.getStrip_chart_component_id();
-			}		
-			
-			Object[] pValues = new Object[]{};
-			
-			if(placeholders.length > 0) {
-				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
+				pValues[i++] = obj.getStrip_chart_component_id();
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));		
@@ -92,8 +80,8 @@ public class StripChartDaoImpl implements StripChartDao {
 	public List<StripChart> getStripChartComponentIds(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select strip_chart_component_id,contract_id_fk,strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,"
-					+ "strip_chart_component_name,order,latitude,longtitude,ci.weight,strip_chart_component,strip_chart_structure "
+			String qry = "select strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,"
+					+ "strip_chart_component_name,ci.order,latitude,longtitude,ci.weight,strip_chart_component,strip_chart_structure "
 					+ "from strip_chart_component_id ci "
 					+ "LEFT OUTER JOIN strip_chart_component c ON strip_chart_component_fk = strip_chart_component "
 					+ "where strip_chart_component_id is not null ";
@@ -111,33 +99,26 @@ public class StripChartDaoImpl implements StripChartDao {
 				qry = qry + " and strip_chart_section_id_fk = ?";
 				arrSize++;
 			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 				qry = qry + " and c.strip_chart_structure = ?";
 				arrSize++;
 			}
 			
-			String[] placeholders = new String[arrSize];
+			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				placeholders[i++] = obj.getContract_id_fk();
+				pValues[i++] = obj.getContract_id_fk();
 			}				
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
-				placeholders[i++] = obj.getStrip_chart_line_id_fk();
+				pValues[i++] = obj.getStrip_chart_line_id_fk();
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_id_fk())) {
-				placeholders[i++] = obj.getStrip_chart_section_id_fk();
+				pValues[i++] = obj.getStrip_chart_section_id_fk();
 			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure())) {
-				placeholders[i++] = obj.getStrip_chart_structure();
-			}
-			
-			Object[] pValues = new Object[]{};
-			
-			if(placeholders.length > 0) {
-				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
-			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			}			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -219,17 +200,11 @@ public class StripChartDaoImpl implements StripChartDao {
 				arrSize++;
 			}
 			
-			String[] placeholders = new String[arrSize];
+			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				placeholders[i++] = obj.getWork_id_fk();
-			}		
-			
-			Object[] pValues = new Object[]{};
-			
-			if(placeholders.length > 0) {
-				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
@@ -261,21 +236,15 @@ public class StripChartDaoImpl implements StripChartDao {
 				arrSize++;
 			}
 			
-			String[] placeholders = new String[arrSize];
+			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				placeholders[i++] = obj.getStrip_chart_component_id();
+				pValues[i++] = obj.getStrip_chart_component_id();
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
-				placeholders[i++] = obj.getStrip_chart_activity_id();
+				pValues[i++] = obj.getStrip_chart_activity_id();
 			}	
-			
-			Object[] pValues = new Object[]{};
-			
-			if(placeholders.length > 0) {
-				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
-			}
 			
 			sObj = (StripChart) jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
@@ -304,20 +273,14 @@ public class StripChartDaoImpl implements StripChartDao {
 				arrSize++;
 			}
 			
-			String[] placeholders = new String[arrSize];
+			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				placeholders[i++] = obj.getStrip_chart_component_id();
+				pValues[i++] = obj.getStrip_chart_component_id();
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
-				placeholders[i++] = obj.getStrip_chart_activity_id();
-			}	
-			
-			Object[] pValues = new Object[]{};
-			
-			if(placeholders.length > 0) {
-				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
+				pValues[i++] = obj.getStrip_chart_activity_id();
 			}
 			
 			int count = jdbcTemplate.update( qry, pValues);			

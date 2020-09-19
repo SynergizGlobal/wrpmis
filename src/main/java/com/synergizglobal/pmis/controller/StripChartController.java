@@ -102,6 +102,7 @@ public class StripChartController {
 		try{
 			componentIds = stripChartService.getStripChartComponentIds(obj);			
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error("getStripChartComponentIds() : "+e.getMessage());
 		}
 		return componentIds;

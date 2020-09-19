@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class StripChart {
 	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
-	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,contract_id_fk,
+	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
 	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longtitude,
 	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,progress,progress_date;
 	
@@ -288,6 +288,14 @@ public class StripChart {
 
 	public void setStripChartFile(MultipartFile stripChartFile) {
 		this.stripChartFile = stripChartFile;
+	}
+
+	public String getStrip_chart_component_id_name() {
+		return strip_chart_component_id_name;
+	}
+
+	public void setStrip_chart_component_id_name(String strip_chart_component_id_name) {
+		this.strip_chart_component_id_name = strip_chart_component_id_name;
 	}
 	
 }

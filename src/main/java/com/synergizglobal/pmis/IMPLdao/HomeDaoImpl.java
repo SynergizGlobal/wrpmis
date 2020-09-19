@@ -253,18 +253,12 @@ public class HomeDaoImpl implements HomeDao {
 				arrSize++;
 			}
 			
-			String[] placeholders = new String[arrSize];
+			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				placeholders[i++] = obj.getProject_id_fk();
-			}		
-			
-			Object[] pValues = new Object[]{};
-			
-			if(placeholders.length > 0) {
-				pValues = new Object[] {StringUtils.arrayToCommaDelimitedString(placeholders)};
-			}
+				pValues[i++] = obj.getProject_id_fk();
+			}	
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Work>(Work.class));
 			

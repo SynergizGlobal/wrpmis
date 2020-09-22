@@ -183,11 +183,7 @@
                                                 onchange="getWorksList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                    <option value="${obj.project_id }" <c:if
-                                                        test="${obj.project_id eq sessionScope.globalProjectId}">
-                                                        selected</c:if>>${obj.project_id}<c:if
-                                                            test="${not empty obj.project_name}"> - </c:if>
-                                                        ${obj.project_name }</option>
+                                                    <option value="${obj.project_id }" >${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -249,7 +245,7 @@
                                     <div class="row" style="margin-bottom: 20px;">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
-                                                <div id="dotgroup1_test">
+                                                <div id="dotgroup1_test" style="padding: 10px;">
                                                     <!-- <div class="horizontal-line"> </div> -->
                                                     <div class="dot-container">
                                                         <a href="javascript:void(0);" class="dot"
@@ -576,7 +572,7 @@
                 }
             });
             // horizontal line width set dynammically
-            $('#dotgroup1_test >.horizontal-line').offsetwidth = $('#dotgroup1_test').scrollWidth + 'px';
+            //$('#dotgroup1_test >.horizontal-line').offsetwidth = $('#dotgroup1_test').scrollWidth + 'px';
 
         });
     </script>
@@ -699,13 +695,23 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var componentId = "'" + val.strip_chart_component_id + "'";
+                            	var componentId = "'" + val.strip_chart_component_id + "'";
                                 var componentName = "'" + val.strip_chart_component_name + "'";
-                                alert(componentId);
-                                html = html + '<a href="javascript:void(0);" class="dot" onclick="getStripChartActivitiesList(' + componentId + componentName + ');"><span class="project" data-project="' + val.strip_chart_component_id_name + '"></span></a>';
+                                var className = "odd";
+                                if(i%2 == 0){
+                                	className = "even";
+                                }
+                                html = html + '<div class="dot-container">'
+                                + '<a href="javascript:void(0);" class="dot" style="margin-left: 0;">'
+                                + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>'
+                                if(i != 0){
+                                	html = html + '<span class="dot-line"></span>'
+                                }
+                                html = html + '</div>'
+                                
                             });
                         }
-                        $("#dotgroup").html(html);
+                        $("#dotgroup1_test").html(html);
                     }
                 });
             }

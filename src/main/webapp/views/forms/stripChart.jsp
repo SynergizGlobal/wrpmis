@@ -160,6 +160,8 @@
 		    z-index: 1000;
 		}
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		
+		.error-msg label{color:red!important;}
     </style>
 
 </head>
@@ -183,37 +185,49 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <div class="row">
-                            <form action="<%=request.getContextPath()%>/update-stripchart" id="stripChartForm"
-                                name="stripChartForm" enctype="multipart/form-data">
+                        	<c:if test="${not empty success}">
+						        <div class="center-align m-1 close-message">	
+								   ${success}
+								</div>
+								</c:if>
+							<c:if test="${not empty error }">
+								<div class="center-align m-1 close-message">
+								   ${error}
+								</div>
+							</c:if>
+                            <form id="stripChartForm" name="stripChartForm" method="post" enctype="multipart/form-data">
                                 <div class="col m1 hide-on-small-only"></div>
                                 <div class="col m10 s12">
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
                                             <p>Project</p>
-                                            <select class="searchable" id="project_id" name="project_id"
+                                            <select class="searchable validate-dropdown" id="project_id" name="project_id"
                                                 onchange="getWorksList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
                                                     <option value="${obj.project_id }" >${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
+                                            <span id="project_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m8 s12 input-field">
                                             <p>Work</p>
-                                            <select class="searchable" id="work_id_fk" name="work_id_fk"
+                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                                 onchange="getContractsList(this.value);">
                                                 <option value="" selected>Select</option>
                                             </select>
+                                            <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m12 s12 input-field">
                                             <p>Contract</p>
-                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable"
+                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
                                                 onchange="getComponentIdsList('1');getStripChartStructures(); getStripChartLines(); getStripChartSections();">
                                                 <option value="">Select</option>
                                                 <%-- <c:forEach var="obj" items="${contractsList }">
                                                 	<option value="${obj.contract_id }" <c:if test="${obj.contract_id eq ''}">selected</c:if>>${obj.contract_name}</option>
                                                 </c:forEach> --%>
                                             </select>
+                                            <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
                                     </div>
                                     <div class="row" id="toggle-selects">
@@ -221,21 +235,21 @@
                                         <div class="col m4 s12 input-field">
                                             <p>Structure</p>
                                             <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
-                                                class="searchable" onchange="getComponentIdsList('2');">
+                                                class="searchable validate-dropdown" onchange="getComponentIdsList('2');">
                                                 <option value="">Select</option>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Line</p>
                                             <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk"
-                                                class="searchable" onchange="getComponentIdsList('3');">
+                                                class="searchable validate-dropdown" onchange="getComponentIdsList('3');">
                                                 <option value="">Select</option>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Section</p>
                                             <select id="strip_chart_section_id_fk" name="strip_chart_section_id_fk"
-                                                class="searchable" onchange="getComponentIdsList('4');">
+                                                class="searchable validate-dropdown" onchange="getComponentIdsList('4');">
                                                 <option value="">Select</option>
                                             </select>
                                         </div>
@@ -341,25 +355,25 @@
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
                                             <p>Component</p>
-                                            <select class="searchable" id="strip_chart_component" name="strip_chart_component">
+                                            <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
                                                 <option value="">Select</option>
                                             </select>
+                                            <span id="strip_chart_componentError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Component ID</p>
-                                            <select class="searchable" id="strip_chart_component_id" name="strip_chart_component_id">
+                                            <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id">
                                                 <option value="">Select</option>
                                             </select>
+                                            <span id="strip_chart_component_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Activity</p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
-                                                class="searchable" onchange="getStripChartDetails(this.value);">
+                                                class="searchable validate-dropdown" onchange="getStripChartDetails(this.value);">
                                                 <option value="">Select</option>
-                                                <%-- <c:forEach var="obj" items="${activitiesList }">
-                                                	<option value="${obj.strip_chart_activity_id }" <c:if test="${obj.strip_chart_activity_id eq ''}">selected</c:if>>${obj.strip_chart_activity_name}</option>
-                                                </c:forEach> --%>
                                             </select>
+                                            <span id="strip_chart_activity_idError" class="error-msg" ></span>
                                         </div>
                                     </div>
 
@@ -400,15 +414,17 @@
 
                                     <div class="row">
                                         <div class="col m6 s12 input-field">
-                                            <input id="progress_date" type="text" class="validate datepicker">
+                                            <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
                                             <label for="progress_date">Progress Date</label>
                                             <button type="button" id="progress_date_icon"><i
                                                     class="fa fa-calendar"></i></button>
+                                            <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m6 s12 input-field">
-                                            <input id="progress" type="text" class="validate">
+                                            <input id="progress" name="progress" type="text" class="validate">
                                             <label for="progress">Progress for the Day</label>
                                             <span class="units unit_fk"></span>
+                                            <span id="progressError" class="error-msg" ></span>
                                         </div>
                                     </div>
 
@@ -417,7 +433,7 @@
                                             <div class="file-field input-field">
                                                 <div class="btn bg-m">
                                                     <span>Attachment</span>
-                                                    <input type="file">
+                                                    <input type="file" id="stripChartFile" name="stripChartFile">
                                                 </div>
                                                 <div class="file-path-wrapper">
                                                     <input class="file-path validate" type="text">
@@ -435,12 +451,12 @@
                                                     <p class="radiogroup"
                                                         style="padding-bottom: 10px;padding-top: 10px;">
                                                         <label>
-                                                            <input class="with-gap" name="issue" type="radio"
+                                                            <input class="with-gap" name="is_there_issue" type="radio"
                                                                 value="yes" />
                                                             <span>Yes</span>
                                                         </label>
                                                         <label>
-                                                            <input class="with-gap" name="issue" type="radio"
+                                                            <input class="with-gap" name="is_there_issue" type="radio"
                                                                 value="no" />
                                                             <span>No</span>
                                                         </label>
@@ -455,44 +471,44 @@
                                             <h6 class="center-align" style="color:#2E58AD;font-weight:600">Issue Details
                                             </h6>
                                             <div class="col s12 m6 input-field" style="margin-top: 40px;">
-                                                <select class="select">
-                                                    <option value="0" selected>Select</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
+                                                <select class="select" id="issue_category_id" name="issue_category_id">
+                                                    <option value="" selected>Select</option>
                                                 </select>
                                                 <label>Issue Category</label>
+                                                <span id="issue_category_idError" class="error-msg" ></span>
                                             </div>
                                             <div class="col s12 m6 input-field" style="padding-top: 14px;">
 
                                                 <p class="prio">Priority</p>
                                                 <p class="radiogroup">
                                                     <label>
-                                                        <input class="with-gap" name="priority" type="radio"
-                                                            value="low" />
+                                                        <input class="with-gap" name="issue_priority_id" type="radio"
+                                                            value="3" />
                                                         <span>Low</span>
                                                     </label>
                                                     &nbsp;
                                                     <label>
-                                                        <input class="with-gap" name="priority" type="radio"
-                                                            value="medium" />
+                                                        <input class="with-gap" name="issue_priority_id" type="radio"
+                                                            value="2" />
                                                         <span>Medium</span>
                                                     </label>
                                                     &nbsp;
                                                     <label>
-                                                        <input class="with-gap" name="priority" type="radio"
-                                                            value="high" />
+                                                        <input class="with-gap" name="issue_priority_id" type="radio"
+                                                            value="1" />
                                                         <span>High</span>
                                                     </label>
                                                 </p>
+                                                <span id="issue_priority_idError" class="error-msg" ></span>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col s12 m12 input-field">
-                                                <textarea id="issueDesc" class="materialize-textarea"
+                                                <textarea id="issue_description" name="issue_description" class="materialize-textarea"
                                                     data-length="500"></textarea>
-                                                <label for="issueDesc">Issue Description</label>
+                                                <label for="issue_description">Issue Description</label>
+                                                <span id="issue_descriptionError" class="error-msg" ></span>
                                             </div>
                                         </div>
                                     </div>
@@ -503,12 +519,12 @@
                                             <label for="remarks" class="">Remarks</label>
                                         </div>
                                     </div>
-                                    
+                                    <input type="hidden" id="strip_chart_id" name="strip_chart_id" />
                                     <div class="row">
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="submit" class="btn waves-effect waves-light bg-m"
-                                                    style="width: 100%;">Update</button>
+                                                <button type="button" class="btn waves-effect waves-light bg-m"
+                                                    style="width: 100%;"  onclick="saveProgress();">Update</button>
                                             </div>
                                         </div>
                                         <div class="col s12 m6">
@@ -550,62 +566,16 @@
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.select').formSelect();
-            $('.searchable').select2();
-            $("#planned_finish,#planned_start,#progress_date").datepicker();
-            $('#planned_finish_icon').click(function () {
-                event.stopPropagation();
-                $('#planned_finish').click();
-            });
-            $('#planned_start_icon').click(function () {
-                event.stopPropagation();
-                $('#planned_start').click();
-            });
-            $('#progress_date_icon').click(function () {
-                event.stopPropagation();
-                $('#progress_date').click();
-            });
-            $('#remarks').characterCounter();
-            $('.sidenav').sidenav();
-            $('#textarea1').characterCounter();
-            $('#textarea2').characterCounter();
-            $('#textarea3').characterCounter();
-            $('input[name=issue]').change(function () {
-                var radioval = $('input[name=issue]:checked').val();
-                if (radioval == 'yes') {
-                    $('#issue_yes').css("display", "block");
-                }
-                else if (radioval == 'no') {
-                    $('#issue_yes').css("display", "none");
-                }
-            });
-
-        });
-    </script>
-
-    <!-- <script>
-        // code is not required, but to add many buttons I added this 
-        var dotgroup = document.getElementById('dotgroup');
-
-        for (let i = 0; i <= 27; i++) {
-            let ele = document.createElement('a');
-            ele.classList.add('dot');
-            let it = document.createElement('span');
-            it.classList.add('project');
-            ele.appendChild(it);
-            dotgroup.appendChild(ele);
-        }
-  </script> -->
+    
 
     <script>
         $(document).ready(function () {
-            // $('select').formSelect();
+            $('#issue_category_id').formSelect();
             $('.searchable').select2();
             // hide or display selects by clicking 
             $(".arr").click(function () {
@@ -614,25 +584,33 @@
                 $('#hide-btn').toggleClass("fa-minus-circle");
 
             });
-            // $(".datepicker").datepicker();
-            $("#planned_finish,#planned_start,#progress_date").datepicker();
-            $('#planned_finish_icon').click(function () {
-                event.stopPropagation();
-                $('#planned_finish').click();
-            });
-            $('#planned_start_icon').click(function () {
-                event.stopPropagation();
-                $('#planned_start').click();
-            });
+            
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();
                 $('#progress_date').click();
             });
-            $('#remarks').characterCounter();
-            $('.sidenav').sidenav();
-            $('#textarea1').characterCounter();
-            $('#textarea2').characterCounter();
-            $('#textarea3').characterCounter();
+            
+            $('#progress_date').datepicker({                   
+  	    	  maxDate: new Date(),
+  	    	  format:'dd-mm-yyyy',
+  	    	  //perform click event on done button
+  	    	  onSelect: function () {
+  	    	     $('.confirmation-btns .datepicker-done').click();
+  	    	  }
+  	        });
+            
+            $('#issue_description').characterCounter();
+  	      	$('#remarks').characterCounter();
+  	     
+	  	    $('input[name=is_there_issue]').change(function () {
+	              var radioval = $('input[name=is_there_issue]:checked').val();
+	              if (radioval == 'yes') {
+	                  $('#issue_yes').css("display", "block");
+	              } else if (radioval == 'no') {
+	                  $('#issue_yes').css("display", "none");
+	              }
+	        });
+  	      
 
             var globalProjectId = "${sessionScope.globalProjectId}";
             if ($.trim(globalProjectId) != '') {
@@ -670,11 +648,11 @@
         }
 
         //geting contracts list    
-        function getContractsList(workId) {
+        function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
-            if ($.trim(workId) != "") {
-                var myParams = { work_id_fk: workId };
+            if ($.trim(work_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsList",
                     data: myParams, cache: false,
@@ -696,10 +674,10 @@
         }
         
         function getStripChartStructures() {
-        	var contractId = $("#contract_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
             $("#strip_chart_structure_id_fk option:not(:first)").remove();
-            if ($.trim(contractId) != "") {
-            	var myParams = { contract_id_fk: contractId };
+            if ($.trim(contract_id_fk) != "") {
+            	var myParams = { contract_id_fk: contract_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStripChartStructures",
                     data: myParams, cache: false,
@@ -716,10 +694,10 @@
         }
         
         function getStripChartLines() {
-        	var contractId = $("#contract_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
             $("#strip_chart_line_id_fk option:not(:first)").remove();
-            if ($.trim(contractId) != "") {
-            	var myParams = { contract_id_fk: contractId};
+            if ($.trim(contract_id_fk) != "") {
+            	var myParams = { contract_id_fk: contract_id_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStripChartLines",
                     data: myParams, cache: false,
@@ -736,10 +714,10 @@
         }
         
         function getStripChartSections() {
-        	var contractId = $("#contract_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
             $("#strip_chart_section_id_fk option:not(:first)").remove();
-            if ($.trim(contractId) != "") {
-            	var myParams = { contract_id_fk: contractId};
+            if ($.trim(contract_id_fk) != "") {
+            	var myParams = { contract_id_fk: contract_id_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStripChartSections",
                     data: myParams, cache: false,
@@ -764,13 +742,13 @@
         	$("#strip_chart_activity_id option:not(:first)").remove();
         	
             var html = "";
-            var contractId = $("#contract_id_fk").val();
-            var myParams = {contract_id_fk: contractId};
+            var contract_id_fk = $("#contract_id_fk").val();
+            var myParams = {contract_id_fk: contract_id_fk};
             if($.trim(filterNo) != '1' ){
 	            var structureId = $("#strip_chart_structure_id_fk").val();
 	            var laneId = $("#strip_chart_line_id_fk").val();
 	            var sectionId = $("#strip_chart_section_id_fk").val();
-	            myParams = { contract_id_fk: contractId, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_id_fk: sectionId };
+	            myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_id_fk: sectionId };
             }else{
             	$("#strip_chart_structure_id_fk").val("");
             	$("#strip_chart_line_id_fk").val("");
@@ -779,7 +757,7 @@
             	$('.searchable').select2();
             }
 
-            if ($.trim(contractId) != "") {                
+            if ($.trim(contract_id_fk) != "") {                
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getComponentIdsList",
                     data: myParams, cache: false,
@@ -825,6 +803,7 @@
         	$("#completed").val(completed);
         	$("#remaining").val(remaining);
         	$(".unit_fk").html("");
+        	$("#strip_chart_id").val("");
         }
 
         function getStripChartActivitiesList(componentId,componentName) {
@@ -867,6 +846,7 @@
         	$("#completed").val(completed);
         	$("#remaining").val(remaining);
         	$(".unit_fk").html("");
+        	$("#strip_chart_id").val("");
         }
 
         function getStripChartDetails(activitiId) {
@@ -895,6 +875,8 @@
                     	
                     	$(".unit_fk").html(data.unit_fk);
                     	
+                    	$("#strip_chart_id").val(data.strip_chart_id);
+                    	
                     	$(".page-loader").hide();
                     }
                 });
@@ -907,38 +889,11 @@
             $(".searchable").trigger("change");
         });
         
-        function completeProgress(){
+        function saveProgress(){
     		if(validator.form()){ // validation perform
     			 $(".page-loader").show();
-    			//var percentageWorkDone = $("#percentageWorkDone").val();
-    			//var percentageComplete = $("#percentageComplete").val();
-    			//var percentageRemaining = $("#percentageRemaining").val();
-    			
-    			var boqCompletedOnThisDate = $("#boqCompletedOnThisDate").val();
-    			var boqCompleted = $("#boqCompleted").val();
-    			var boqRemaining = $("#boqRemaining").val();
-    			
-    			var reportingDate = $("#reportingDate").val();
-    			if(Number(boqCompletedOnThisDate) == Number(boqRemaining)){
-    				$("#markAsComplete").val("true");
-    			}else{
-    				$("#markAsComplete").val("false");
-    			}
-    			if(Number(boqCompleted) == 0 && Number(boqCompletedOnThisDate) == Number(boqRemaining)){
-    				$("#actualStart").val(reportingDate);
-    				$("#actualFinish").val(reportingDate);
-    			}else if(Number(boqCompleted) == 0 && Number(boqCompletedOnThisDate) <= Number(boqRemaining)){
-    				$("#actualStart").val(reportingDate);
-    				$("#actualFinish").val("");
-    			}else if(Number(boqCompletedOnThisDate) == Number(boqRemaining)){
-    				$("#actualStart").val("");
-    				$("#actualFinish").val(reportingDate);
-    			}else{
-    				$("#actualStart").val("");
-    				$("#actualFinish").val("");
-    			}
-    			document.getElementById("progressForm").action = "<%=request.getContextPath() %>/update-activity-progress";
-    			document.getElementById("progressForm").submit();			
+    			document.getElementById("stripChartForm").action = "<%=request.getContextPath() %>/update-stripchart";
+    			document.getElementById("stripChartForm").submit();			
     	 	}
     	}
     	
@@ -947,111 +902,107 @@
     	
     	// to validate apartment form inputs thruogh jquery.
     	   
-    	    var validator = $('#progressForm').validate({
+    	    var validator = $('#stripChartForm').validate({
     	    	ignore: ":hidden:not(.validate-dropdown)",
     			   rules: {
-    				   	  "workId": {
+	    				  "project_id": {
+	   				 		required: true
+	   				 	  },"work_id_fk": {
     				 		required: true
-    				 	  },"contractId": {
-    				 		required: false
-    				 	  },"activityId": {
-    				 		required: false
-    				 	  },"locationId": {
-    				 		required: false
-    				 	  },"activityTypeId": {
-    				 		required: false
-    				 	  },"taskId": {
+    				 	  },"contract_id_fk": {
     				 		required: true
-    				 	  },"boqRemaining":{
-    				 		 required: false
-    				 	  },"boqCompletedOnThisDate": {
+    				 	  },"strip_chart_component": {
+    				 		required: true
+    				 	  },"strip_chart_component_id": {
+    				 		required: true
+    				 	  },"strip_chart_activity_id": {
+    				 		required: true
+    				 	  },"progress_date": {
+    				 		required: true
+    				 	  },"remaining":{
+    				 		 required: true
+    				 	  },"progress": {
     			 		    required: true,
     			 		    number:true,
-    			 		    boqLessThanEquals:"#boqRemaining"
-    			 	   	  },"reportingDate": {
-    				 		required: true,
-    				 		dateFormat:true
-    				 	  },"issueCategoryId": {
+    			 		    progressLessThanEquals:"#remaining"
+    			 	   	  },"issue_category_id": {
     				 		required: true
-    				 	  },"issuePriorityId": {
+    				 	  },"issue_priority_id": {
     			 		    required: true
-    			 	   	  },"issueDesc": {
+    			 	   	  },"issue_description": {
     				 		required: true
-    				 	  },"boqTotal":{
+    				 	  },"remarks":{
     				 		 required: false
-    					  },"boqCompleted":{
-    				 		 required: true,
-    				 		 boqLessThanEquals:"#boqTotal"
     				 	  }
     				 				
     			 	},
     			   messages: {
-    				   	"workId": {
+	    				 "project_id": {
+	   			 			required: 'Select work'
+	   			 	  	 },"work_id_fk": {
     			 			required: 'Select work'
-    			 	  	 },"contractId": {
+    			 	  	 },"contract_id_fk": {
     			 			required: 'Select contract'
-    			 	  	 },"activityId": {
+    			 	  	 },"strip_chart_component": {
+    			 			required: 'Select component'
+    			 	  	 },"strip_chart_component_id": {
+    			 			required: 'Select component id'
+    			 	  	 },"strip_chart_activity_id": {
     			 			required: 'Select Activity'
-    			 	  	 },"locationId": {
-    			 			required: 'Select Location'
-    			 	  	 },"activityTypeId": {
-    			 			required: 'Select Activity Type'
-    			 	  	 },"taskId": {
-    			 			required: 'Select task'
-    			 	  	 },"boqCompletedOnThisDate": {
-    			 			required: 'Enter BOQ completed on this date',
-    			 			number:'Enter numbers only'
-    			 	  	 },"reportingDate": {
+    			 	  	 },"progress_date": {
     			 			required: 'Select date'
-    			 	  	 },"issueCategoryId": {
+    			 	  	 },"progress": {
+    			 			required: 'Enter Progress completed on this date',
+    			 			number:'Enter numbers only'
+    			 	  	 },"issue_category_id": {
     			 			required: 'Select category'
-    			 	  	 },"issuePriorityId": {
+    			 	  	 },"issue_priority_id": {
     			 			required: 'Select priority'
-    			 	  	 },"issueDesc": {
+    			 	  	 },"issue_description": {
     			 			required: 'Enter description'
-    			 	  	 },"boqCompleted":{
+    			 	  	 },"remarks":{
     			 	  		required: 'Enter BOQ completed'
     				 	  }
     			 				      
     		    },
     			  errorPlacement:
     			 	function(error, element){
-    				  if (element.attr("id") == "workId" ){
-    			 		     document.getElementById("workIdError").innerHTML="";
-    			 			 error.appendTo('#workIdError');
-    			 	    }else if (element.attr("id") == "contractId" ){
-    			 	    	 document.getElementById("contractIdError").innerHTML="";
-    			 			 error.appendTo('#contractIdError');
-    			 	    }else if (element.attr("id") == "activityId" ){
-    			 		     document.getElementById("activityIdError").innerHTML="";
-    			 			 error.appendTo('#activityIdError');
-    			 	    }else if (element.attr("id") == "locationId" ){
-    			 		     document.getElementById("locationIdError").innerHTML="";
-    			 			 error.appendTo('#locationIdError');
-    			 	    }else if (element.attr("id") == "activityTypeId" ){
-    			 		     document.getElementById("activityTypeIdError").innerHTML="";
-    			 			 error.appendTo('#activityTypeIdError');
-    			 	    }else if (element.attr("id") == "taskId" ){
-    			 		     document.getElementById("taskIdError").innerHTML="";
-    			 			 error.appendTo('#taskIdError');
-    			 	    }else if (element.attr("id") == "boqCompletedOnThisDate" ){
-    			 		     document.getElementById("boqCompletedOnThisDateError").innerHTML="";
-    			 			 error.appendTo('#boqCompletedOnThisDateError');
-    			 	    }else if (element.attr("id") == "reportingDate" ){
-    			 		     document.getElementById("reportingDateError").innerHTML="";
-    			 			 error.appendTo('#reportingDateError');
-    			 	    }else if (element.attr("id") == "issueCategoryId" ){
-    			 		     document.getElementById("issueCategoryIdError").innerHTML="";
-    			 			 error.appendTo('#issueCategoryIdError');
-    			 	    }else if (element.attr("name") == "issuePriorityId" ){
-    			 		     document.getElementById("issuePriorityIdError").innerHTML="";
-    			 			 error.appendTo('#issuePriorityIdError');
-    			 	    }else if (element.attr("id") == "issueDesc" ){
-    			 		     document.getElementById("issueDescError").innerHTML="";
-    			 			 error.appendTo('#issueDescError');
-    			 	    }else if (element.attr("id") == "boqCompleted" ){
-    			 		     document.getElementById("boqCompletedError").innerHTML="";
-    			 			 error.appendTo('#boqCompletedError');
+	    				if (element.attr("id") == "project_id" ){
+	 			 		     document.getElementById("project_idError").innerHTML="";
+	 			 			 error.appendTo('#project_idError');
+	 			 	    }else if (element.attr("id") == "work_id_fk" ){
+    			 		     document.getElementById("work_id_fkError").innerHTML="";
+    			 			 error.appendTo('#work_id_fkError');
+    			 	    }else if (element.attr("id") == "contract_id_fk" ){
+    			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
+    			 			 error.appendTo('#contract_id_fkError');
+    			 	    }else if (element.attr("id") == "strip_chart_component" ){
+    			 		     document.getElementById("strip_chart_componentError").innerHTML="";
+    			 			 error.appendTo('#strip_chart_componentError');
+    			 	    }else if (element.attr("id") == "strip_chart_component_id" ){
+    			 		     document.getElementById("strip_chart_component_idError").innerHTML="";
+    			 			 error.appendTo('#strip_chart_component_idError');
+    			 	    }else if (element.attr("id") == "strip_chart_activity_id" ){
+    			 		     document.getElementById("strip_chart_activity_idError").innerHTML="";
+    			 			 error.appendTo('#strip_chart_activity_idError');
+    			 	    }else if (element.attr("id") == "progress_date" ){
+    			 		     document.getElementById("progress_dateError").innerHTML="";
+    			 			 error.appendTo('#progress_dateError');
+    			 	    }else if (element.attr("id") == "progress" ){
+    			 		     document.getElementById("progressError").innerHTML="";
+    			 			 error.appendTo('#progressError');
+    			 	    }else if (element.attr("id") == "issue_category_id" ){
+    			 		     document.getElementById("issue_category_idError").innerHTML="";
+    			 			 error.appendTo('#issue_category_idError');
+    			 	    }else if (element.attr("name") == "issue_priority_id" ){
+    			 		     document.getElementById("issue_priority_idError").innerHTML="";
+    			 			 error.appendTo('#issue_priority_idError');
+    			 	    }else if (element.attr("id") == "issue_description" ){
+    			 		     document.getElementById("issue_descriptionError").innerHTML="";
+    			 			 error.appendTo('#issue_descriptionError');
+    			 	    }else if (element.attr("id") == "remarks" ){
+    			 		     document.getElementById("remarksError").innerHTML="";
+    			 			 error.appendTo('#remarksError');
     			 	    }
     			 },submitHandler: function(form) {
     			    // do other things for a valid form
@@ -1061,19 +1012,12 @@
     	});
     	
     	
-    	    $.validator.addMethod('lessThanEquals', function(value, element, param) {
+    	    $.validator.addMethod('progressLessThanEquals', function(value, element, param) {
     	        if (this.optional(element)) return true;
     	        var i = parseFloat(value);
     	        var j = parseFloat($(param).val());
     	        return i <= j;
-    	    }, "% Work Done should be less than or equal to % Remaining");
-    	    
-    	    $.validator.addMethod('boqLessThanEquals', function(value, element, param) {
-    	        if (this.optional(element)) return true;
-    	        var i = parseFloat(value);
-    	        var j = parseFloat($(param).val());
-    	        return i <= j;
-    	    }, "BOQ completed on this date should be less than or equal to BOQ remaining");
+    	    }, "Progress completed on this date should be less than or equal to Progress remaining");
     	    
 
     	    $.validator.addMethod("dateFormat",
@@ -1085,25 +1029,6 @@
         	    //"Date format (Aug 02,2020)"
         	    "Date format (DD-MM-YYYY)"
         	);
-    	    
-    	    
-    	    $("#issueDesc").keyup(function(){
-    	        el = $(this);
-    	        if(el.val().length > 500){
-    	            el.val( el.val().substr(0, 500) );
-    	        } else {
-    	            $("#issueDescCharCount").text(el.val().length + "/" + 500);
-    	        }
-    	    });
-    	    
-    	    $("#remarks").keyup(function(){
-    	        el = $(this);
-    	        if(el.val().length > 500){
-    	            el.val( el.val().substr(0, 500) );
-    	        } else {
-    	            $("#remarksCharCount").text(el.val().length + "/" + 500);
-    	        }
-    	    });
             
             
             $('select').change(function(){

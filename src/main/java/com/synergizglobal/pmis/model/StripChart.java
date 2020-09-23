@@ -6,9 +6,42 @@ public class StripChart {
 	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
 	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
 	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longtitude,
-	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,progress,progress_date,component_id_color;
+	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,
+	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk;
 	
 	private MultipartFile stripChartFile;
+
+	public String getIssue_description() {
+		return issue_description;
+	}
+
+	public void setIssue_description(String issue_description) {
+		this.issue_description = issue_description;
+	}
+
+	public String getIssue_priority_id() {
+		return issue_priority_id;
+	}
+
+	public void setIssue_priority_id(String issue_priority_id) {
+		this.issue_priority_id = issue_priority_id;
+	}
+
+	public String getIssue_category_id() {
+		return issue_category_id;
+	}
+
+	public void setIssue_category_id(String issue_category_id) {
+		this.issue_category_id = issue_category_id;
+	}
+
+	public String getIs_there_issue() {
+		return is_there_issue;
+	}
+
+	public void setIs_there_issue(String is_there_issue) {
+		this.is_there_issue = is_there_issue;
+	}
 
 	public String getProgress() {
 		return progress;
@@ -312,6 +345,30 @@ public class StripChart {
 
 	public void setComponent_id_color(String component_id_color) {
 		this.component_id_color = component_id_color;
+	}
+
+	public String getRemaining() {
+		return remaining;
+	}
+
+	public void setRemaining(String remaining) {
+		this.remaining = remaining;
+	}
+
+	public String getAttachment_url() {
+		return attachment_url;
+	}
+
+	public void setAttachment_url(String attachment_url) {
+		this.attachment_url = attachment_url;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
 	}
 	
 }

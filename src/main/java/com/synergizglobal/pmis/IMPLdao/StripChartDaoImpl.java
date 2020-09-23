@@ -354,7 +354,7 @@ public class StripChartDaoImpl implements StripChartDao {
 	public StripChart getStripChartDetails(StripChart obj) throws Exception {
 		StripChart sObj = null;
 		try {
-			String qry = "select Actual_Finish_Date as actual_finish,Actual_Start_Date as actual_start,Planned_Start_Date as planned_start,"
+			String qry = "select strip_chart_strip_chart_id as strip_chart_id,Actual_Finish_Date as actual_finish,Actual_Start_Date as actual_start,Planned_Start_Date as planned_start,"
 					+ "Planned_Finish_Date as planned_finish,strip_chart_component_id_strip_chart_component_id as strip_chart_component_id,"
 					+ "Component_id as strip_chart_component_id_name,Completed as completed,Total_Scope as scope,unit_unit as unit_fk "
 					+ "from strip_chart_view "
@@ -391,34 +391,43 @@ public class StripChartDaoImpl implements StripChartDao {
 	public boolean updateStripChart(StripChart obj) throws Exception {
 		boolean flag = false;
 		try {
-			String qry = "select strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_finish,actual_start,actual_finish,unit_fk,"
-					+ "scope,completed,weight,component_details,remarks,strip_chart_activity_id,strip_chart_activity_name "
-					+ "from strip_chart "
-					+ "LEFT OUTER JOIN strip_chart_activity a ON strip_chart_activity_id_fk = strip_chart_activity_id "
-					+ "where strip_chart_id is not null ";
+			String qry = "INSERT INTO scope_progress"
+					+ "(progress_date,strip_chart_id_fk,completed_scope,attachment_url,remarks,created_by_user_id_fk) "
+					+ "VALUES (?,?,?,?,?,?)";
 			
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + " and strip_chart_component_id_fk = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
-				qry = qry + " and strip_chart_activity_id_fk = ?";
-				arrSize++;
-			}
+			int arrSize = 6;
 			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
-				pValues[i++] = obj.getStrip_chart_activity_id();
-			}
-			
+			if(!StringUtils.isEmpty(obj)) {				
+				pValues[i++] = obj.getProgress_date();			
+				pValues[i++] = obj.getStrip_chart_id();
+				pValues[i++] = obj.getCompleted();
+				pValues[i++] = obj.getAttachment_url();
+				pValues[i++] = obj.getRemarks();
+				pValues[i++] = obj.getCreated_by_user_id_fk();
+			}			
 			int count = jdbcTemplate.update( qry, pValues);			
 			if(count > 0) {
+				flag = true;
+			}
+			
+			String updateQry = "UPDATE strip_chart SET  completed = ? + ? WHERE strip_chart_id = ?";				
+			
+			int arrSize2 = 3;
+			
+			Object[] pValues2 = new Object[arrSize2];
+			
+			int j = 0;
+			if(!StringUtils.isEmpty(obj)) {				
+				pValues2[j++] = obj.getCompleted();			
+				pValues2[j++] = obj.getProgress();
+				pValues2[j++] = obj.getStrip_chart_id();
+			}
+			
+			int count2 = jdbcTemplate.update( updateQry, pValues2);			
+			if(count2 > 0) {
 				flag = true;
 			}
 		}catch(Exception e){ 

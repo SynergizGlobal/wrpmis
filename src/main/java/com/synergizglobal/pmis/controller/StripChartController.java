@@ -2,6 +2,8 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -154,14 +157,30 @@ public class StripChartController {
 	
 	@RequestMapping(value="/update-stripchart",method=RequestMethod.POST)
 	public ModelAndView updateStripChart(@ModelAttribute StripChart obj, HttpSession session,RedirectAttributes attributes) throws IOException {
-		ModelAndView model = new ModelAndView("redirect:/risk");
+		ModelAndView model = new ModelAndView("redirect:/strip-chart");
+		String user_Id = null;String userName = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try {			
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			
+			if(!StringUtils.isEmpty(obj.getProgress_date())){
+				Date convertedDate = sdf.parse(obj.getProgress_date());
+				String currentDate = sqlDate.format(convertedDate);
+				obj.setProgress_date(currentDate);
+			}
+			
 			MultipartFile file = obj.getStripChartFile();
 			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.STRIPCHART_FILE_SAVING_PATH + File.separator ;
+				String saveDirectory = CommonConstants.STRIPCHART_FILE_SAVING_PATH ;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				saveDirectory = saveDirectory + fileName;
+				obj.setAttachment_url(saveDirectory);
 			}
+			
+			obj.setCreated_by_user_id_fk(user_Id);
 			
 			boolean flag = stripChartService.updateStripChart(obj);
 			if(flag) {

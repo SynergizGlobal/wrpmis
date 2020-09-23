@@ -1,7 +1,7 @@
 package com.synergizglobal.pmis.model;
 
 public class Contract {
-	private String contract_id,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,hod_user_id_fk,dy_hod_user_id_fk,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,actual_completion_date,completed_cost,contract_closure_date,weight,remarks;
+	private String contract_id,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,hod_user_id_fk,dy_hod_user_id_fk,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,actual_completion_date,completed_cost,contract_closure_date,weight,remarks;
 
 	public String getContract_id() {
 		return contract_id;
@@ -193,6 +193,14 @@ public class Contract {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getContract_ID() {
+		return Contract_ID;
+	}
+
+	public void setContract_ID(String contract_ID) {
+		Contract_ID = contract_ID;
 	}
 	
 }

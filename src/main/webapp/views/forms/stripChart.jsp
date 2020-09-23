@@ -106,13 +106,13 @@
             border: 1px solid #bbb;
             display: inline-block;
             position: relative;
-            margin: 0 12px;
-            box-shadow: 0px 0px 10px 0.5px #f18905;
+            margin: 0 12px;           
         }
-
-        .dot.no-focus {
-            opacity: 0.85;
-        }
+		.dot.active{
+		 box-shadow: 0px 0px 14px 6px #444,0px 0px 25px 1px #777;
+		     border: 1px solid black !important;
+		 
+		 }
 
         #dotgroup1 .project::before {
             content: none;
@@ -137,7 +137,7 @@
         }
 
         #dotgroup1 .dot.in-progress {
-            background-color: #f60;
+            background-color: #FD7E29;
         }
 
 
@@ -149,6 +149,17 @@
         #dotgroup1 .dot.delayed {
             background-color: #f00;
         }
+        
+        .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 
 </head>
@@ -197,7 +208,7 @@
                                         <div class="col m12 s12 input-field">
                                             <p>Contract</p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable"
-                                                onchange="getComponentIdsList();">
+                                                onchange="getComponentIdsList('1');getStripChartStructures(); getStripChartLines(); getStripChartSections();">
                                                 <option value="">Select</option>
                                                 <%-- <c:forEach var="obj" items="${contractsList }">
                                                 	<option value="${obj.contract_id }" <c:if test="${obj.contract_id eq ''}">selected</c:if>>${obj.contract_name}</option>
@@ -210,44 +221,32 @@
                                         <div class="col m4 s12 input-field">
                                             <p>Structure</p>
                                             <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
-                                                class="searchable" onchange="getComponentIdsList();">
+                                                class="searchable" onchange="getComponentIdsList('2');">
                                                 <option value="">Select</option>
-                                                <c:forEach var="obj" items="${structuresList }">
-                                                    <option value="${obj.strip_chart_structure }">
-                                                        ${obj.strip_chart_structure}</option>
-                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Line</p>
                                             <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk"
-                                                class="searchable" onchange="getComponentIdsList();">
+                                                class="searchable" onchange="getComponentIdsList('3');">
                                                 <option value="">Select</option>
-                                                <c:forEach var="obj" items="${linesList }">
-                                                    <option value="${obj.strip_chart_line }">${obj.strip_chart_line}
-                                                    </option>
-                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Section</p>
                                             <select id="strip_chart_section_id_fk" name="strip_chart_section_id_fk"
-                                                class="searchable" onchange="getComponentIdsList();">
+                                                class="searchable" onchange="getComponentIdsList('4');">
                                                 <option value="">Select</option>
-                                                <c:forEach var="obj" items="${sectionsList }">
-                                                    <option value="${obj.strip_chart_section_id }">
-                                                        ${obj.strip_chart_section_name}</option>
-                                                </c:forEach>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="row" style="margin-bottom: 20px;">
+                                    <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
-                                                <div id="dotgroup1_test" style="padding: 10px;">
+                                                <div id="component_circles" style="padding: 10px;">
                                                     <!-- <div class="horizontal-line"> </div> -->
-                                                    <div class="dot-container">
+                                                    <!-- <div class="dot-container">
                                                         <a href="javascript:void(0);" class="dot"
                                                             style="margin-left: 0;">
                                                             <span class="project odd">P2P4P2P4</span></a>
@@ -258,7 +257,7 @@
                                                         <span class="dot-line"></span>
                                                     </div>
                                                     <div class="dot-container">
-                                                        <a href="#" class="dot completed no-focus"><span
+                                                        <a href="#" class="dot completed"><span
                                                                 class="project odd">P1P4P1P4</span></a>
                                                         <span class="dot-line"></span>
                                                     </div>
@@ -278,7 +277,7 @@
                                                         <span class="dot-line"></span>
                                                     </div>
                                                     <div class="dot-container">
-                                                        <a href="#" class="dot completed no-focus"><span
+                                                        <a href="#" class="dot completed"><span
                                                                 class="project odd">P1P4P1P4</span></a>
                                                         <span class="dot-line"></span>
                                                     </div>
@@ -298,7 +297,7 @@
                                                         <span class="dot-line"></span>
                                                     </div>
                                                     <div class="dot-container">
-                                                        <a href="#" class="dot completed no-focus"><span
+                                                        <a href="#" class="dot completed"><span
                                                                 class="project odd">P1P4P1P4</span></a>
                                                         <span class="dot-line"></span>
                                                     </div>
@@ -318,7 +317,7 @@
                                                         <span class="dot-line"></span>
                                                     </div>
                                                     <div class="dot-container">
-                                                        <a href="#" class="dot completed no-focus"><span
+                                                        <a href="#" class="dot completed"><span
                                                                 class="project odd">P1P4P1P4</span></a>
                                                         <span class="dot-line"></span>
                                                     </div>
@@ -331,7 +330,7 @@
                                                         <a href="#" class="dot not-started"><span
                                                                 class="project odd">P3A4P3A4</span></a>
                                                         <span class="dot-line"></span>
-                                                    </div>
+                                                    </div> -->
 
                                                 </div>
                                             </div>
@@ -342,24 +341,19 @@
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
                                             <p>Component</p>
-                                            <select class="searchable" id="strip_chart_component_fk"
-                                                name="strip_chart_component_fk">
-                                                <option value="1">Option 1</option>
+                                            <select class="searchable" id="strip_chart_component" name="strip_chart_component">
+                                                <option value="">Select</option>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Component ID</p>
-                                            <select class="searchable" id="strip_chart_component_id_fk"
-                                                name="strip_chart_component_id_fk">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select class="searchable" id="strip_chart_component_id" name="strip_chart_component_id">
+                                                <option value="">Select</option>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Activity</p>
-                                            <select id="strip_chart_activity_id_fk" name="strip_chart_activity_id_fk"
+                                            <select id="strip_chart_activity_id" name="strip_chart_activity_id"
                                                 class="searchable" onchange="getStripChartDetails(this.value);">
                                                 <option value="">Select</option>
                                                 <%-- <c:forEach var="obj" items="${activitiesList }">
@@ -374,13 +368,13 @@
                                             <div class="primary-text">Planned Start <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m3 s6">
-                                            <div>18/09/2020 </div>
+                                            <div id="plannedStart"> </div>
                                         </div>
                                         <div class="col m3 s6 ">
                                             <div class="primary-text">Planned Finish <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m3 s6 ">
-                                            <div>18/09/2021 </div>
+                                            <div id="plannedFinish"></div>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-bottom:30px">
@@ -388,13 +382,19 @@
                                             <div class="primary-text">Scope <span class="right">:</span></div>
                                         </div>
                                         <div class="col m3 s6 ">
-                                            <div> scope</div>
+                                            <div style="opacity: 0.8;"><input type="text" id="totalScope" name="scope" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"/><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                         <div class="col m3 s6 ">
                                             <div class="primary-text">Completed <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m3 s6 ">
-                                            <div>19/09/2020</div>
+                                            <div style="opacity: 0.8;"><input type="text" id="completed" name="completed" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
+                                        </div>
+                                        <div class="col m3 s6 ">
+                                            <div class="primary-text">Remaining <span class="right">:</span> </div>
+                                        </div>
+                                        <div class="col m3 s6 ">
+                                            <div style="opacity: 0.8;"><input type="text" id="remaining" name="remaining" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                     </div>
 
@@ -408,7 +408,7 @@
                                         <div class="col m6 s12 input-field">
                                             <input id="progress" type="text" class="validate">
                                             <label for="progress">Progress for the Day</label>
-                                            <span class="units">units</span>
+                                            <span class="units unit_fk"></span>
                                         </div>
                                     </div>
 
@@ -503,7 +503,7 @@
                                             <label for="remarks" class="">Remarks</label>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="row">
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
@@ -530,7 +530,21 @@
         </div>
     </div>
 
-
+	<!-- Page Loader starts-->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+<!-- Page Loader ends-->
 
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -571,8 +585,6 @@
                     $('#issue_yes').css("display", "none");
                 }
             });
-            // horizontal line width set dynammically
-            //$('#dotgroup1_test >.horizontal-line').offsetwidth = $('#dotgroup1_test').scrollWidth + 'px';
 
         });
     </script>
@@ -659,6 +671,7 @@
 
         //geting contracts list    
         function getContractsList(workId) {
+        	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
             if ($.trim(workId) != "") {
                 var myParams = { work_id_fk: workId };
@@ -674,62 +687,66 @@
                             });
                         }
                         $('.searchable').select2();
+                        $(".page-loader").hide();
                     }
                 });
+            }else{
+            	$(".page-loader").hide();
             }
         }
-
-        //geting contracts list    
-        function getComponentIdsList() {
-            var html = "";
-            var contractId = $("#contract_id_fk").val();
-            var structureId = $("#strip_chart_structure_id_fk").val();
-            var laneId = $("#strip_chart_line_id_fk").val();
-            var sectionId = $("#strip_chart_section_id_fk").val();
-
+        
+        function getStripChartStructures() {
+        	var contractId = $("#contract_id_fk").val();
+            $("#strip_chart_structure_id_fk option:not(:first)").remove();
             if ($.trim(contractId) != "") {
-                var myParams = { contract_id_fk: contractId, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_id_fk: sectionId };
+            	var myParams = { contract_id_fk: contractId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getComponentIdsList",
+                    url: "<%=request.getContextPath()%>/ajax/getStripChartStructures",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	var componentId = "'" + val.strip_chart_component_id + "'";
-                                var componentName = "'" + val.strip_chart_component_name + "'";
-                                var className = "odd";
-                                if(i%2 == 0){
-                                	className = "even";
-                                }
-                                html = html + '<div class="dot-container">'
-                                + '<a href="javascript:void(0);" class="dot" style="margin-left: 0;">'
-                                + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>'
-                                if(i != 0){
-                                	html = html + '<span class="dot-line"></span>'
-                                }
-                                html = html + '</div>'
-                                
+                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
                             });
                         }
-                        $("#dotgroup1_test").html(html);
+                        $('.searchable').select2();
                     }
                 });
             }
         }
-
-        function getStripChartActivitiesList(componentId, componentName) {
-            alert(componentId + " , " + componentName)
-            $("#strip_chart_component_fk").val(componentName);
-            $("#strip_chart_activity_id_fk option:not(:first)").remove();
-            if ($.trim(componentId) != "") {
-                var myParams = { strip_chart_component_id: componentId, };
+        
+        function getStripChartLines() {
+        	var contractId = $("#contract_id_fk").val();
+            $("#strip_chart_line_id_fk option:not(:first)").remove();
+            if ($.trim(contractId) != "") {
+            	var myParams = { contract_id_fk: contractId};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartActivitiesList",
+                    url: "<%=request.getContextPath()%>/ajax/getStripChartLines",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                $("#strip_chart_activity_id_fk").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
+                                $("#strip_chart_line_id_fk").append('<option value="' + val.strip_chart_line_id_fk + '">' + $.trim(val.strip_chart_line_id_fk) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                    }
+                });
+            }
+        }
+        
+        function getStripChartSections() {
+        	var contractId = $("#contract_id_fk").val();
+            $("#strip_chart_section_id_fk option:not(:first)").remove();
+            if ($.trim(contractId) != "") {
+            	var myParams = { contract_id_fk: contractId};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStripChartSections",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                $("#strip_chart_section_id_fk").append('<option value="' + val.strip_chart_section_id_fk + '">' + $.trim(val.strip_chart_section_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -738,23 +755,368 @@
             }
         }
 
+        //geting contracts list    
+        function getComponentIdsList(filterNo) {   
+        	$(".page-loader").show();
+        	
+        	$("#strip_chart_component option:not(:first)").remove();
+        	$("#strip_chart_component_id option:not(:first)").remove();
+        	$("#strip_chart_activity_id option:not(:first)").remove();
+        	
+            var html = "";
+            var contractId = $("#contract_id_fk").val();
+            var myParams = {contract_id_fk: contractId};
+            if($.trim(filterNo) != '1' ){
+	            var structureId = $("#strip_chart_structure_id_fk").val();
+	            var laneId = $("#strip_chart_line_id_fk").val();
+	            var sectionId = $("#strip_chart_section_id_fk").val();
+	            myParams = { contract_id_fk: contractId, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_id_fk: sectionId };
+            }else{
+            	$("#strip_chart_structure_id_fk").val("");
+            	$("#strip_chart_line_id_fk").val("");
+            	$("#strip_chart_section_id_fk").val("");
+            	$("#strip_chart_activity_id").val("");
+            	$('.searchable').select2();
+            }
+
+            if ($.trim(contractId) != "") {                
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getComponentIdsList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var componentIdAndName = "'" + val.strip_chart_component_id + "','" +val.strip_chart_component+ "'";
+                                var className = "odd";
+                                if(i%2 == 0){
+                                	className = "even";
+                                }
+                                html = html + '<div class="dot-container">'
+                                + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>'
+                                if(i != 0){
+                                	html = html + '<span class="dot-line"></span>'
+                                }
+                                html = html + '</div>';
+                                
+                                $("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                                
+                            });
+                            
+                            $('.searchable').select2();
+                        }
+                        $("#component_circles").html(html);
+                        $("#component_circles_row").show();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            	$("#component_circles").html(html);
+                $("#component_circles_row").hide();
+            }
+            
+            $("#plannedStart").html("");
+        	$("#plannedFinish").html("");
+        	var scope = "";
+        	var completed = "";
+        	var remaining = "";
+        	$("#totalScope").val(scope);
+        	$("#completed").val(completed);
+        	$("#remaining").val(remaining);
+        	$(".unit_fk").html("");
+        }
+
+        function getStripChartActivitiesList(componentId,componentName) {
+        	
+        	$( ".dot" ).removeClass( "active" );
+        	$( "#"+componentId ).addClass( "active" );
+        	
+        	$("#strip_chart_component option:not(:first)").remove();
+        	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
+        	$('.searchable').select2();
+        	
+        	$("#strip_chart_component_id").val(componentId);
+        	$(".page-loader").show();
+            $("#strip_chart_activity_id option:not(:first)").remove();
+            if ($.trim(componentId) != "") {
+                var myParams = { strip_chart_component_id: componentId, };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStripChartActivitiesList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+            
+            $("#plannedStart").html("");
+        	$("#plannedFinish").html("");
+        	var scope = "";
+        	var completed = "";
+        	var remaining = "";
+        	$("#totalScope").val(scope);
+        	$("#completed").val(completed);
+        	$("#remaining").val(remaining);
+        	$(".unit_fk").html("");
+        }
+
         function getStripChartDetails(activitiId) {
-            var componentId = $("#strip_chart_component_id_fk").val();
-            if ($.trim(strip_chart_activity_id_fk) != "") {
-                var myParams = { strip_chart_component_id_fk: componentId, strip_chart_activity_id_fk: activitiId };
+        	$(".page-loader").show();
+            var componentId = $("#strip_chart_component_id").val();
+            if ($.trim(strip_chart_activity_id) != "") {
+                var myParams = { strip_chart_component_id: componentId, strip_chart_activity_id: activitiId };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStripChartDetails",
                     data: myParams, cache: false,
                     success: function (data) {
-
+                    	$("#plannedStart").html(data.planned_start);
+                    	$("#plannedFinish").html(data.planned_finish);
+                    	var scope = 0;
+                    	if($.trim(data.scope)){
+                    		scope = $.trim(data.scope);
+                    	}
+                    	var completed = 0;
+                    	if($.trim(data.completed)){
+                    		completed = $.trim(data.completed);
+                    	}
+                    	var remaining = scope - completed;
+                    	$("#totalScope").val(scope);
+                    	$("#completed").val(completed);
+                    	$("#remaining").val(remaining);
+                    	
+                    	$(".unit_fk").html(data.unit_fk);
+                    	
+                    	$(".page-loader").hide();
                     }
                 });
+            }else{
+            	$(".page-loader").hide();
             }
         }
 
         $('form').on('reset', function () {
             $(".searchable").trigger("change");
         });
+        
+        function completeProgress(){
+    		if(validator.form()){ // validation perform
+    			 $(".page-loader").show();
+    			//var percentageWorkDone = $("#percentageWorkDone").val();
+    			//var percentageComplete = $("#percentageComplete").val();
+    			//var percentageRemaining = $("#percentageRemaining").val();
+    			
+    			var boqCompletedOnThisDate = $("#boqCompletedOnThisDate").val();
+    			var boqCompleted = $("#boqCompleted").val();
+    			var boqRemaining = $("#boqRemaining").val();
+    			
+    			var reportingDate = $("#reportingDate").val();
+    			if(Number(boqCompletedOnThisDate) == Number(boqRemaining)){
+    				$("#markAsComplete").val("true");
+    			}else{
+    				$("#markAsComplete").val("false");
+    			}
+    			if(Number(boqCompleted) == 0 && Number(boqCompletedOnThisDate) == Number(boqRemaining)){
+    				$("#actualStart").val(reportingDate);
+    				$("#actualFinish").val(reportingDate);
+    			}else if(Number(boqCompleted) == 0 && Number(boqCompletedOnThisDate) <= Number(boqRemaining)){
+    				$("#actualStart").val(reportingDate);
+    				$("#actualFinish").val("");
+    			}else if(Number(boqCompletedOnThisDate) == Number(boqRemaining)){
+    				$("#actualStart").val("");
+    				$("#actualFinish").val(reportingDate);
+    			}else{
+    				$("#actualStart").val("");
+    				$("#actualFinish").val("");
+    			}
+    			document.getElementById("progressForm").action = "<%=request.getContextPath() %>/update-activity-progress";
+    			document.getElementById("progressForm").submit();			
+    	 	}
+    	}
+    	
+    	
+    	//Wait for the DOM to be ready
+    	
+    	// to validate apartment form inputs thruogh jquery.
+    	   
+    	    var validator = $('#progressForm').validate({
+    	    	ignore: ":hidden:not(.validate-dropdown)",
+    			   rules: {
+    				   	  "workId": {
+    				 		required: true
+    				 	  },"contractId": {
+    				 		required: false
+    				 	  },"activityId": {
+    				 		required: false
+    				 	  },"locationId": {
+    				 		required: false
+    				 	  },"activityTypeId": {
+    				 		required: false
+    				 	  },"taskId": {
+    				 		required: true
+    				 	  },"boqRemaining":{
+    				 		 required: false
+    				 	  },"boqCompletedOnThisDate": {
+    			 		    required: true,
+    			 		    number:true,
+    			 		    boqLessThanEquals:"#boqRemaining"
+    			 	   	  },"reportingDate": {
+    				 		required: true,
+    				 		dateFormat:true
+    				 	  },"issueCategoryId": {
+    				 		required: true
+    				 	  },"issuePriorityId": {
+    			 		    required: true
+    			 	   	  },"issueDesc": {
+    				 		required: true
+    				 	  },"boqTotal":{
+    				 		 required: false
+    					  },"boqCompleted":{
+    				 		 required: true,
+    				 		 boqLessThanEquals:"#boqTotal"
+    				 	  }
+    				 				
+    			 	},
+    			   messages: {
+    				   	"workId": {
+    			 			required: 'Select work'
+    			 	  	 },"contractId": {
+    			 			required: 'Select contract'
+    			 	  	 },"activityId": {
+    			 			required: 'Select Activity'
+    			 	  	 },"locationId": {
+    			 			required: 'Select Location'
+    			 	  	 },"activityTypeId": {
+    			 			required: 'Select Activity Type'
+    			 	  	 },"taskId": {
+    			 			required: 'Select task'
+    			 	  	 },"boqCompletedOnThisDate": {
+    			 			required: 'Enter BOQ completed on this date',
+    			 			number:'Enter numbers only'
+    			 	  	 },"reportingDate": {
+    			 			required: 'Select date'
+    			 	  	 },"issueCategoryId": {
+    			 			required: 'Select category'
+    			 	  	 },"issuePriorityId": {
+    			 			required: 'Select priority'
+    			 	  	 },"issueDesc": {
+    			 			required: 'Enter description'
+    			 	  	 },"boqCompleted":{
+    			 	  		required: 'Enter BOQ completed'
+    				 	  }
+    			 				      
+    		    },
+    			  errorPlacement:
+    			 	function(error, element){
+    				  if (element.attr("id") == "workId" ){
+    			 		     document.getElementById("workIdError").innerHTML="";
+    			 			 error.appendTo('#workIdError');
+    			 	    }else if (element.attr("id") == "contractId" ){
+    			 	    	 document.getElementById("contractIdError").innerHTML="";
+    			 			 error.appendTo('#contractIdError');
+    			 	    }else if (element.attr("id") == "activityId" ){
+    			 		     document.getElementById("activityIdError").innerHTML="";
+    			 			 error.appendTo('#activityIdError');
+    			 	    }else if (element.attr("id") == "locationId" ){
+    			 		     document.getElementById("locationIdError").innerHTML="";
+    			 			 error.appendTo('#locationIdError');
+    			 	    }else if (element.attr("id") == "activityTypeId" ){
+    			 		     document.getElementById("activityTypeIdError").innerHTML="";
+    			 			 error.appendTo('#activityTypeIdError');
+    			 	    }else if (element.attr("id") == "taskId" ){
+    			 		     document.getElementById("taskIdError").innerHTML="";
+    			 			 error.appendTo('#taskIdError');
+    			 	    }else if (element.attr("id") == "boqCompletedOnThisDate" ){
+    			 		     document.getElementById("boqCompletedOnThisDateError").innerHTML="";
+    			 			 error.appendTo('#boqCompletedOnThisDateError');
+    			 	    }else if (element.attr("id") == "reportingDate" ){
+    			 		     document.getElementById("reportingDateError").innerHTML="";
+    			 			 error.appendTo('#reportingDateError');
+    			 	    }else if (element.attr("id") == "issueCategoryId" ){
+    			 		     document.getElementById("issueCategoryIdError").innerHTML="";
+    			 			 error.appendTo('#issueCategoryIdError');
+    			 	    }else if (element.attr("name") == "issuePriorityId" ){
+    			 		     document.getElementById("issuePriorityIdError").innerHTML="";
+    			 			 error.appendTo('#issuePriorityIdError');
+    			 	    }else if (element.attr("id") == "issueDesc" ){
+    			 		     document.getElementById("issueDescError").innerHTML="";
+    			 			 error.appendTo('#issueDescError');
+    			 	    }else if (element.attr("id") == "boqCompleted" ){
+    			 		     document.getElementById("boqCompletedError").innerHTML="";
+    			 			 error.appendTo('#boqCompletedError');
+    			 	    }
+    			 },submitHandler: function(form) {
+    			    // do other things for a valid form
+    			    //form.submit();
+    			    //return true;
+    			  }
+    	});
+    	
+    	
+    	    $.validator.addMethod('lessThanEquals', function(value, element, param) {
+    	        if (this.optional(element)) return true;
+    	        var i = parseFloat(value);
+    	        var j = parseFloat($(param).val());
+    	        return i <= j;
+    	    }, "% Work Done should be less than or equal to % Remaining");
+    	    
+    	    $.validator.addMethod('boqLessThanEquals', function(value, element, param) {
+    	        if (this.optional(element)) return true;
+    	        var i = parseFloat(value);
+    	        var j = parseFloat($(param).val());
+    	        return i <= j;
+    	    }, "BOQ completed on this date should be less than or equal to BOQ remaining");
+    	    
+
+    	    $.validator.addMethod("dateFormat",
+        	    function(value, element) {
+        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+        	    	//return dtRegex.test(value);
+        	    },
+        	    //"Date format (Aug 02,2020)"
+        	    "Date format (DD-MM-YYYY)"
+        	);
+    	    
+    	    
+    	    $("#issueDesc").keyup(function(){
+    	        el = $(this);
+    	        if(el.val().length > 500){
+    	            el.val( el.val().substr(0, 500) );
+    	        } else {
+    	            $("#issueDescCharCount").text(el.val().length + "/" + 500);
+    	        }
+    	    });
+    	    
+    	    $("#remarks").keyup(function(){
+    	        el = $(this);
+    	        if(el.val().length > 500){
+    	            el.val( el.val().substr(0, 500) );
+    	        } else {
+    	            $("#remarksCharCount").text(el.val().length + "/" + 500);
+    	        }
+    	    });
+            
+            
+            $('select').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            $('input').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
 
     </script>
 </body>

@@ -32,18 +32,18 @@ public class StripChartServiceImpl implements StripChartService{
 	}
 
 	@Override
-	public List<StripChart> getStripChartLines() throws Exception {
-		return stripChartDao.getStripChartLines();
+	public List<StripChart> getStripChartLines(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartLines(obj);
 	}
 
 	@Override
-	public List<StripChart> getStripChartSections() throws Exception {
-		return stripChartDao.getStripChartSections();
+	public List<StripChart> getStripChartSections(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartSections(obj);
 	}
 
 	@Override
-	public List<StripChart> getStripChartStructures() throws Exception {
-		return stripChartDao.getStripChartStructures();
+	public List<StripChart> getStripChartStructures(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartStructures(obj);
 	}
 
 	@Override

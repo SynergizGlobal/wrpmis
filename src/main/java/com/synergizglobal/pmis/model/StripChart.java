@@ -3,10 +3,10 @@ package com.synergizglobal.pmis.model;
 import org.springframework.web.multipart.MultipartFile;
 
 public class StripChart {
-	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
+	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
 	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
 	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longtitude,
-	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,progress,progress_date;
+	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,progress,progress_date,component_id_color;
 	
 	private MultipartFile stripChartFile;
 
@@ -296,6 +296,22 @@ public class StripChart {
 
 	public void setStrip_chart_component_id_name(String strip_chart_component_id_name) {
 		this.strip_chart_component_id_name = strip_chart_component_id_name;
+	}
+
+	public String getPlanned_start() {
+		return planned_start;
+	}
+
+	public void setPlanned_start(String planned_start) {
+		this.planned_start = planned_start;
+	}
+
+	public String getComponent_id_color() {
+		return component_id_color;
+	}
+
+	public void setComponent_id_color(String component_id_color) {
+		this.component_id_color = component_id_color;
 	}
 	
 }

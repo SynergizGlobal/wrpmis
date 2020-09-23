@@ -44,27 +44,10 @@ public class StripChartController {
 		ModelAndView model = new ModelAndView(PageConstants.stripChart);
 		try {
 			List<Project> projectsList = homeService.getProjectsList();
-			model.addObject("projectsList", projectsList);	
-			
-			/*List<Contract> contractsList = stripChartService.getContractsList(null);
-			model.addObject("contractsList", contractsList);*/
-			
-			List<StripChart> structuresList = stripChartService.getStripChartStructures();
-			model.addObject("structuresList", structuresList);
-			
-			List<StripChart> linesList = stripChartService.getStripChartLines();
-			model.addObject("linesList", linesList);
-			
-			List<StripChart> sectionsList = stripChartService.getStripChartSections();
-			model.addObject("sectionsList", sectionsList);	
-			
-			/*List<StripChart> componentsList = stripChartService.getStripChartComponents(null);
-			model.addObject("componentsList", componentsList);
-			
-			List<StripChart> activitiesList = stripChartService.getStripChartActivities(null);
-			model.addObject("activitiesList", activitiesList);*/
+			model.addObject("projectsList", projectsList);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.info("StripChart : " + e.getMessage());
 		}
 		return model;
@@ -93,6 +76,42 @@ public class StripChartController {
 			logger.error("getContractsList() : "+e.getMessage());
 		}
 		return contracts;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartStructures(@ModelAttribute StripChart obj){
+		List<StripChart> structures = null;
+		try{
+			structures = stripChartService.getStripChartStructures(obj);			
+		}catch(Exception e){
+			logger.error("getStripChartStructures() : "+e.getMessage());
+		}
+		return structures;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartLines", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartLines(@ModelAttribute StripChart obj){
+		List<StripChart> structures = null;
+		try{
+			structures = stripChartService.getStripChartLines(obj);			
+		}catch(Exception e){
+			logger.error("getStripChartLines() : "+e.getMessage());
+		}
+		return structures;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartSections", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartSections(@ModelAttribute StripChart obj){
+		List<StripChart> structures = null;
+		try{
+			structures = stripChartService.getStripChartSections(obj);			
+		}catch(Exception e){
+			logger.error("getStripChartSections() : "+e.getMessage());
+		}
+		return structures;
 	}
 	
 	@RequestMapping(value = "/ajax/getComponentIdsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
@@ -127,6 +146,7 @@ public class StripChartController {
 		try{
 			data = stripChartService.getStripChartDetails(obj);	
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error("getStripChartDetails() : "+e.getMessage());
 		}
 		return data;

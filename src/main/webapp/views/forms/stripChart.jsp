@@ -110,8 +110,10 @@
         }
 		.dot.active{
 		 box-shadow: 0px 0px 14px 6px #444,0px 0px 25px 1px #777;
-		     border: 1px solid black !important;
-		 
+		     border: 1px solid black !important;		 
+		 }
+		 .dot.active .project{
+		 font-weight:bold;
 		 }
 
         #dotgroup1 .project::before {
@@ -255,12 +257,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
+                                    <div class="row" style="margin-bottom: 20px;display:block;" id="component_circles_row">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
                                                 <div id="component_circles" style="padding: 10px;">
                                                     <!-- <div class="horizontal-line"> </div> -->
-                                                    <!-- <div class="dot-container">
+                                                    <div class="dot-container">
                                                         <a href="javascript:void(0);" class="dot"
                                                             style="margin-left: 0;">
                                                             <span class="project odd">P2P4P2P4</span></a>
@@ -344,7 +346,7 @@
                                                         <a href="#" class="dot not-started"><span
                                                                 class="project odd">P3A4P3A4</span></a>
                                                         <span class="dot-line"></span>
-                                                    </div> -->
+                                                    </div> 
 
                                                 </div>
                                             </div>
@@ -382,33 +384,33 @@
                                             <div class="primary-text">Planned Start <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m3 s6">
-                                            <div id="plannedStart"> </div>
+                                            <div id="plannedStart"> 18/09/2020</div>
                                         </div>
                                         <div class="col m3 s6 ">
                                             <div class="primary-text">Planned Finish <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m3 s6 ">
-                                            <div id="plannedFinish"></div>
+                                            <div id="plannedFinish"> 18/11/2020</div>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-bottom:30px">
-                                        <div class="col m3 s6 ">
+                                        <div class="col m2 s6 ">
                                             <div class="primary-text">Scope <span class="right">:</span></div>
                                         </div>
-                                        <div class="col m3 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="totalScope" name="scope" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"/><span style="width:40%;" class="unit_fk"></span></div>
+                                        <div class="col m2 s6 ">
+                                            <div style="opacity: 0.8;"><input type="text" id="totalScope" name="scope" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"/><span style="width:40%;" class="unit_fk">scope</span></div>
                                         </div>
-                                        <div class="col m3 s6 ">
+                                        <div class="col m2 s6 ">
                                             <div class="primary-text">Completed <span class="right">:</span> </div>
                                         </div>
-                                        <div class="col m3 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="completed" name="completed" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
+                                        <div class="col m2 s6 ">
+                                            <div style="opacity: 0.8;"><input type="text" id="completed" name="completed" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk">0.5 units</span></div>
                                         </div>
-                                        <div class="col m3 s6 ">
+                                        <div class="col m2 s6 ">
                                             <div class="primary-text">Remaining <span class="right">:</span> </div>
                                         </div>
-                                        <div class="col m3 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="remaining" name="remaining" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
+                                        <div class="col m2 s6 ">
+                                            <div style="opacity: 0.8;"><input type="text" id="remaining" name="remaining" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk">5 units</span></div>
                                         </div>
                                     </div>
 

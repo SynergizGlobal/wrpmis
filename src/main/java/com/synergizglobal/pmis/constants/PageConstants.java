@@ -41,4 +41,7 @@ public class PageConstants {
 	public static final String updateLandAcquisition2 = "forms/updateLandAcquisition2";
 	public static final String updateLandAcquisition3 = "forms/updateLandAcquisition3";
 	public static final String updateLandAcquisition4 = "forms/updateLandAcquisition4";
+	
+	public static final String work = "forms/work";
+	public static final String addEditWork = "forms/addUpdateWork";
 }

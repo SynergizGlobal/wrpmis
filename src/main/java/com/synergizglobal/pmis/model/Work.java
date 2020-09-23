@@ -2,7 +2,32 @@ package com.synergizglobal.pmis.model;
 
 public class Work {
 	private String work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost,completeion_period_months,
-	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,weight,remarks,project_name;
+	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,weight,remarks,project_name,railway_name,
+	railway_id_fk,executed_by_id_fk;
+
+	public String getRailway_name() {
+		return railway_name;
+	}
+
+	public String getExecuted_by_id_fk() {
+		return executed_by_id_fk;
+	}
+
+	public void setExecuted_by_id_fk(String executed_by_id_fk) {
+		this.executed_by_id_fk = executed_by_id_fk;
+	}
+
+	public void setRailway_name(String railway_name) {
+		this.railway_name = railway_name;
+	}
+
+	public String getRailway_id_fk() {
+		return railway_id_fk;
+	}
+
+	public void setRailway_id_fk(String railway_id_fk) {
+		this.railway_id_fk = railway_id_fk;
+	}
 
 	public String getWork_id() {
 		return work_id;

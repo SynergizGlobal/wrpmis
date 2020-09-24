@@ -399,17 +399,19 @@ public class StripChartDaoImpl implements StripChartDao {
 			
 			String issueId = null;
 			if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-				String issuesQry = "INSERT INTO issue(contract_id_fk,description,reported_by,priority_fk,category_fk,date)VALUES(?,?,?,?,?,CURDATE())";				
+				String issuesQry = "INSERT INTO issue(contract_id_fk,activity_id_fk,description,reported_by,priority_fk,category_fk,date)VALUES(?,?,?,?,?,CURDATE())";				
 				KeyHolder holder = new GeneratedKeyHolder();
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 						PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
-						ps.setString(1, obj.getContract_id_fk());
-						ps.setString(2, obj.getIssue_description());
-						ps.setString(3, obj.getCreated_by_user_id_fk());
-						ps.setString(4, obj.getIssue_priority_id());
-						ps.setString(5, obj.getIssue_category_id());
+						int i = 1;
+						ps.setString(i++, obj.getContract_id_fk());
+						ps.setString(i++, obj.getStrip_chart_activity_id());
+						ps.setString(i++, obj.getIssue_description());
+						ps.setString(i++, obj.getCreated_by_user_id_fk());
+						ps.setString(i++, obj.getIssue_priority_id());
+						ps.setString(i++, obj.getIssue_category_id());
 						return ps;
 					}
 				}, holder);

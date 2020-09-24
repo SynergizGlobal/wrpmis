@@ -384,13 +384,13 @@
                                             <div class="primary-text">Planned Start <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m3 s6">
-                                            <div id="plannedStart"> 18/09/2020</div>
+                                            <div id="plannedStart"> </div>
                                         </div>
                                         <div class="col m3 s6 ">
                                             <div class="primary-text">Planned Finish <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m3 s6 ">
-                                            <div id="plannedFinish"> 18/11/2020</div>
+                                            <div id="plannedFinish"> </div>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-bottom:30px">
@@ -398,19 +398,19 @@
                                             <div class="primary-text">Scope <span class="right">:</span></div>
                                         </div>
                                         <div class="col m2 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="totalScope" name="scope" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"/><span style="width:40%;" class="unit_fk">scope</span></div>
+                                            <div style="opacity: 0.8;"><input type="text" id="totalScope" name="scope" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"/><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                         <div class="col m2 s6 ">
                                             <div class="primary-text">Completed <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m2 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="completed" name="completed" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk">0.5 units</span></div>
+                                            <div style="opacity: 0.8;"><input type="text" id="completed" name="completed" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                         <div class="col m2 s6 ">
                                             <div class="primary-text">Remaining <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m2 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="remaining" name="remaining" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk">5 units</span></div>
+                                            <div style="opacity: 0.8;"><input type="text" id="remaining" name="remaining" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                     </div>
 
@@ -474,7 +474,7 @@
                                             </h6>
                                             <div class="col s12 m6 input-field" style="margin-top: 40px;">
                                                 <select class="select" id="issue_category_id" name="issue_category_id">
-                                                    <option value="" selected>Select</option>
+                                                    <option value="">Select</option>
                                                 </select>
                                                 <label>Issue Category</label>
                                                 <span id="issue_category_idError" class="error-msg" ></span>
@@ -485,19 +485,19 @@
                                                 <p class="radiogroup">
                                                     <label>
                                                         <input class="with-gap" name="issue_priority_id" type="radio"
-                                                            value="3" />
+                                                            value="Low" />
                                                         <span>Low</span>
                                                     </label>
                                                     &nbsp;
                                                     <label>
                                                         <input class="with-gap" name="issue_priority_id" type="radio"
-                                                            value="2" />
+                                                            value="Medium" />
                                                         <span>Medium</span>
                                                     </label>
                                                     &nbsp;
                                                     <label>
                                                         <input class="with-gap" name="issue_priority_id" type="radio"
-                                                            value="1" />
+                                                            value="High" />
                                                         <span>High</span>
                                                     </label>
                                                 </p>
@@ -608,8 +608,11 @@
 	              var radioval = $('input[name=is_there_issue]:checked').val();
 	              if (radioval == 'yes') {
 	                  $('#issue_yes').css("display", "block");
+	                  getIssuesCategoryList();
 	              } else if (radioval == 'no') {
 	                  $('#issue_yes').css("display", "none");
+	                  $("#issue_category_id option:not(:first)").remove();
+	                  $('#issue_category_id').formSelect();
 	              }
 	        });
   	      
@@ -902,6 +905,23 @@
         	$("#remaining").val(remaining);
         	$(".unit_fk").html("");
         	$("#strip_chart_id").val("");
+        }
+        
+        
+        function getIssuesCategoryList() {
+        	$("#issue_category_id option:not(:first)").remove();
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getIssuesCategoryList",
+                cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            $("#issue_category_id").append('<option value="' + val.category + '">' + $.trim(val.category) + '</option>');
+                        });
+                    }
+                    $('#issue_category_id').formSelect();
+                }
+            });
         }
 
         function getStripChartDetails(activitiId) {

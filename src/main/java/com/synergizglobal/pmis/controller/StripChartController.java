@@ -1,6 +1,5 @@
 package com.synergizglobal.pmis.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,11 +21,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.Work;
@@ -40,6 +41,9 @@ public class StripChartController {
 	
 	@Autowired
 	HomeService homeService;
+	
+	@Autowired
+	IssueService issueService;
 	
 	
 	@RequestMapping(value="/strip-chart",method=RequestMethod.GET)
@@ -153,6 +157,42 @@ public class StripChartController {
 			logger.error("getStripChartDetails() : "+e.getMessage());
 		}
 		return data;
+	}
+	
+	@RequestMapping(value = "/ajax/getIssuesCategoryList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssuesCategoryList(){
+		List<Issue> issueCategoryList = null;
+		try{
+			issueCategoryList = issueService.getIssuesCategoryList();	
+		}catch(Exception e){
+			logger.error("getIssuesCategoryList() : "+e.getMessage());
+		}
+		return issueCategoryList;
+	}
+	
+	@RequestMapping(value = "/ajax/getIssuesPriorityList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssuesPriorityList(){
+		List<Issue> issuePriorityList = null;
+		try{
+			issuePriorityList = issueService.getIssuesPriorityList();	
+		}catch(Exception e){
+			logger.error("getIssuesPriorityList() : "+e.getMessage());
+		}
+		return issuePriorityList;
+	}
+	
+	@RequestMapping(value = "/ajax/getIssuesStatusList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssuesStatusList(){
+		List<Issue> issueStatusList = null;
+		try{
+			issueStatusList = issueService.getIssuesStatusList();	
+		}catch(Exception e){
+			logger.error("getIssuesStatusList() : "+e.getMessage());
+		}
+		return issueStatusList;
 	}
 	
 	@RequestMapping(value="/update-stripchart",method=RequestMethod.POST)

@@ -3,6 +3,8 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,9 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -391,11 +396,34 @@ public class StripChartDaoImpl implements StripChartDao {
 	public boolean updateStripChart(StripChart obj) throws Exception {
 		boolean flag = false;
 		try {
-			String qry = "INSERT INTO scope_progress"
-					+ "(progress_date,strip_chart_id_fk,completed_scope,attachment_url,remarks,created_by_user_id_fk) "
-					+ "VALUES (?,?,?,?,?,?)";
 			
-			int arrSize = 6;
+			String issueId = null;
+			if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
+				String issuesQry = "INSERT INTO issue(contract_id_fk,description,reported_by,priority_fk,category_fk,date)VALUES(?,?,?,?,?,CURDATE())";				
+				KeyHolder holder = new GeneratedKeyHolder();
+				jdbcTemplate.update(new PreparedStatementCreator() {
+					@Override
+					public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+						PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
+						ps.setString(1, obj.getContract_id_fk());
+						ps.setString(2, obj.getIssue_description());
+						ps.setString(3, obj.getCreated_by_user_id_fk());
+						ps.setString(4, obj.getIssue_priority_id());
+						ps.setString(5, obj.getIssue_category_id());
+						return ps;
+					}
+				}, holder);
+
+				issueId = String.valueOf(holder.getKey().longValue());				
+			}else{
+				issueId = null;
+			}
+			
+			String qry = "INSERT INTO scope_progress"
+					+ "(progress_date,strip_chart_id_fk,completed_scope,attachment_url,remarks,issue_id_fk,created_by_user_id_fk) "
+					+ "VALUES (?,?,?,?,?,?,?)";
+			
+			int arrSize = 7;
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -406,6 +434,7 @@ public class StripChartDaoImpl implements StripChartDao {
 				pValues[i++] = obj.getCompleted();
 				pValues[i++] = obj.getAttachment_url();
 				pValues[i++] = obj.getRemarks();
+				pValues[i++] = issueId;
 				pValues[i++] = obj.getCreated_by_user_id_fk();
 			}			
 			int count = jdbcTemplate.update( qry, pValues);			
@@ -413,9 +442,29 @@ public class StripChartDaoImpl implements StripChartDao {
 				flag = true;
 			}
 			
-			String updateQry = "UPDATE strip_chart SET  completed = ? + ? WHERE strip_chart_id = ?";				
+			String updateQry = "UPDATE strip_chart SET  completed = ? + ?";				
 			
 			int arrSize2 = 3;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCompleted())) {
+				float completed = Float.parseFloat(obj.getCompleted());
+				if(completed == 0) {
+					updateQry = updateQry + ", actual_start = ?";
+					arrSize2++;
+				}
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getScope()) && !StringUtils.isEmpty(obj.getCompleted()) && !StringUtils.isEmpty(obj.getRemaining())) {
+				float scope = Float.parseFloat(obj.getScope());
+				float completed = Float.parseFloat(obj.getCompleted());
+				float progress = Float.parseFloat(obj.getProgress());
+				if(scope == (completed+progress)) {
+					updateQry = updateQry + ", planned_finish = ?";
+					arrSize2++;
+				}
+			}
+			
+			updateQry = updateQry + " WHERE strip_chart_id = ?";
 			
 			Object[] pValues2 = new Object[arrSize2];
 			
@@ -423,6 +472,20 @@ public class StripChartDaoImpl implements StripChartDao {
 			if(!StringUtils.isEmpty(obj)) {				
 				pValues2[j++] = obj.getCompleted();			
 				pValues2[j++] = obj.getProgress();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCompleted())) {
+					float completed = Float.parseFloat(obj.getCompleted());
+					if(completed == 0) {
+						pValues2[j++] = obj.getProgress_date();
+					}
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getScope()) && !StringUtils.isEmpty(obj.getCompleted()) && !StringUtils.isEmpty(obj.getRemaining())) {
+					float scope = Float.parseFloat(obj.getScope());
+					float completed = Float.parseFloat(obj.getCompleted());
+					float progress = Float.parseFloat(obj.getProgress());
+					if(scope == (completed+progress)) {
+						pValues2[j++] = obj.getProgress_date();
+					}
+				}
 				pValues2[j++] = obj.getStrip_chart_id();
 			}
 			

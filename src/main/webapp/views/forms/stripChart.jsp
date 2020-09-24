@@ -257,12 +257,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" style="margin-bottom: 20px;display:block;" id="component_circles_row">
+                                    <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
                                                 <div id="component_circles" style="padding: 10px;">
                                                     <!-- <div class="horizontal-line"> </div> -->
-                                                    <div class="dot-container">
+                                                    <!-- <div class="dot-container">
                                                         <a href="javascript:void(0);" class="dot"
                                                             style="margin-left: 0;">
                                                             <span class="project odd">P2P4P2P4</span></a>
@@ -346,7 +346,7 @@
                                                         <a href="#" class="dot not-started"><span
                                                                 class="project odd">P3A4P3A4</span></a>
                                                         <span class="dot-line"></span>
-                                                    </div> 
+                                                    </div>  -->
 
                                                 </div>
                                             </div>
@@ -364,7 +364,7 @@
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p>Component ID</p>
-                                            <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id">
+                                            <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
                                                 <option value="">Select</option>
                                             </select>
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
@@ -771,15 +771,21 @@
                                 if(i%2 == 0){
                                 	className = "even";
                                 }
-                                html = html + '<div class="dot-container">'
-                                + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
-                                + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>'
+                                
+                                var pointerEvent = "";
+                                if(val.component_id_color == "completed"){
+                                	pointerEvent = "pointer-events: none;";
+                                }
+                                
+                                html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
+                                + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
                                 if(i != 0){
-                                	html = html + '<span class="dot-line"></span>'
+                                	html = html + '<span class="dot-line"></span>';
                                 }
                                 html = html + '</div>';
                                 
-                                $("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                                $("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
                                 
                             });
                             
@@ -818,6 +824,53 @@
         	$('.searchable').select2();
         	
         	$("#strip_chart_component_id").val(componentId);
+        	$(".page-loader").show();
+            $("#strip_chart_activity_id option:not(:first)").remove();
+            if ($.trim(componentId) != "") {
+                var myParams = { strip_chart_component_id: componentId, };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStripChartActivitiesList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+            
+            $("#plannedStart").html("");
+        	$("#plannedFinish").html("");
+        	var scope = "";
+        	var completed = "";
+        	var remaining = "";
+        	$("#totalScope").val(scope);
+        	$("#completed").val(completed);
+        	$("#remaining").val(remaining);
+        	$(".unit_fk").html("");
+        	$("#strip_chart_id").val("");
+        }
+        
+        function getComponentAndActivitiesList(componentId){
+        	$( ".dot" ).removeClass( "active" );
+        	$( "#"+componentId ).addClass( "active" );
+        	
+        	var $scroller = $('.dotgroup-scroll');
+            var scrollTo = $('#dd'+componentId).position().left;                   
+            $scroller.animate({'scrollLeft': scrollTo}, 1000);   
+        	
+        	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");
+        	
+        	$("#strip_chart_component option:not(:first)").remove();
+        	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
+        	$('.searchable').select2();
+        	
         	$(".page-loader").show();
             $("#strip_chart_activity_id option:not(:first)").remove();
             if ($.trim(componentId) != "") {

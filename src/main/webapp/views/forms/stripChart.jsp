@@ -621,6 +621,24 @@
             if ($.trim(globalProjectId) != '') {
                 getWorksList(globalProjectId);
             }
+            
+            //container selection 
+            let container = $('.dotgroup-scroll');
+            //event on change of component id 
+            $('#strip_chart_component_id').change(function () {
+                let val = $('#strip_chart_component_id').val();
+                // selecting target element 
+                let target = $('#' + val);
+                // remove active class to all elements
+                $('#component_circles .dot').removeClass('active');
+                // adding active class to target element 
+                target.addClass('active');
+                // getting left of the target element 
+                let leftOffset = target.position().left / 2;
+                // setting target element position in container 
+                container.scrollLeft(leftOffset);
+            });
+            
         });
 
 

@@ -621,7 +621,7 @@
             if ($.trim(globalProjectId) != '') {
                 getWorksList(globalProjectId);
             }
-            
+           /* 
             //container selection 
             let container = $('.dotgroup-scroll');
             //event on change of component id 
@@ -634,11 +634,11 @@
                 // adding active class to target element 
                 target.addClass('active');
                 // getting left of the target element 
-                let leftOffset = target.position().left / 2;
+                let leftOffset = target.position().left / 4;
                 // setting target element position in container 
                 container.scrollLeft(leftOffset);
             });
-            
+            */
         });
 
 
@@ -883,9 +883,14 @@
         	$( "#"+componentId ).addClass( "active" );
         	
         	var $scroller = $('.dotgroup-scroll');
-            var scrollTo = $('#dd'+componentId).position().left;                   
-            $scroller.animate({'scrollLeft': scrollTo}, 1000);   
-        	
+            //var scrollTo = $('#dd'+componentId).position().left;   
+            var scrollTo=Math.round((componentId*($scroller[0].scrollWidth/$scroller.children().children().length))-$scroller.children().children().length);
+            /*console.log('width='+$scroller[0].scrollWidth);
+            console.log('childs='+$scroller.children().children().length);
+            console.log('id='+componentId);
+            console.log('each_length='+scrollTo);*/
+            $scroller.animate({'scrollLeft': scrollTo}, 1000);  
+                        
         	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");
         	
         	$("#strip_chart_component option:not(:first)").remove();

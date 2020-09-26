@@ -68,7 +68,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="safety_new.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath()%>/add-safety-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Safety</strong></a>
                                 </div>
                             </div>

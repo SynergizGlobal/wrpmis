@@ -54,4 +54,14 @@ public class IssueServiceImpl implements IssueService {
 		return issueDao.deleteIssue(obj);
 	}
 
+	@Override
+	public List<Issue> getActivityList() throws Exception {
+		return issueDao.getActivityList();
+	}
+
+	@Override
+	public List<Issue> getDepartmentList() throws Exception {
+		return issueDao.getDepartmentList();
+	}
+
 }

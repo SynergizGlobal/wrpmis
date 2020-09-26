@@ -58,5 +58,10 @@ public class SafetyServiceImpl implements SafetyService {
 	public boolean deleteSafety(Safety obj) throws Exception {
 		return safetyDao.deleteSafety(obj);
 	}
+
+	@Override
+	public List<Safety> getDepartmentList() throws Exception {
+		return safetyDao.getDepartmentList();
+	}
 	
 }

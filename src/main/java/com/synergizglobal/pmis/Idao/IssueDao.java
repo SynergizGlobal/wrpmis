@@ -22,4 +22,8 @@ public interface IssueDao {
 
 	boolean deleteIssue(Issue obj) throws Exception;
 
+	List<Issue> getActivityList() throws Exception;
+
+	List<Issue> getDepartmentList() throws Exception;
+
 }

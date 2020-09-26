@@ -28,8 +28,8 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
@@ -138,8 +138,8 @@ public class IssueDaoImpl implements IssueDao {
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iobj = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
@@ -211,6 +211,30 @@ public class IssueDaoImpl implements IssueDao {
 	public boolean deleteIssue(Issue obj) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Issue> getActivityList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select strip_chart_activity_id as activity_id_fk,strip_chart_activity_name as activity_name,strip_chart_component_fk from strip_chart_activity";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getDepartmentList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select department as department_fk from department";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

@@ -22,4 +22,6 @@ public interface SafetyDao {
 	boolean updateSafety(Safety obj) throws Exception;
 
 	boolean deleteSafety(Safety obj) throws Exception;
+
+	List<Safety> getDepartmentList() throws Exception;
 }

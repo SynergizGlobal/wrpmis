@@ -1,8 +1,21 @@
 package com.synergizglobal.pmis.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Issue {
 	private String issue_id,contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
-	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_name,work_id_fk,work_name,project_id_fk,project_name;
+	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_name,work_id_fk,work_name,
+	project_id_fk,project_name,activity_name,strip_chart_component_fk,zonal_rly;
+
+	private MultipartFile issueFile;
+	
+	public MultipartFile getIssueFile() {
+		return issueFile;
+	}
+
+	public void setIssueFile(MultipartFile issueFile) {
+		this.issueFile = issueFile;
+	}
 
 	
 
@@ -220,6 +233,30 @@ public class Issue {
 
 	public void setActivity_id_fk(String activity_id_fk) {
 		this.activity_id_fk = activity_id_fk;
+	}
+
+	public String getStrip_chart_component_fk() {
+		return strip_chart_component_fk;
+	}
+
+	public void setStrip_chart_component_fk(String strip_chart_component_fk) {
+		this.strip_chart_component_fk = strip_chart_component_fk;
+	}
+
+	public String getActivity_name() {
+		return activity_name;
+	}
+
+	public void setActivity_name(String activity_name) {
+		this.activity_name = activity_name;
+	}
+
+	public String getZonal_rly() {
+		return zonal_rly;
+	}
+
+	public void setZonal_rly(String zonal_rly) {
+		this.zonal_rly = zonal_rly;
 	}
 	
 }

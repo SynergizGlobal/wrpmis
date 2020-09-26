@@ -883,12 +883,9 @@
         	$( "#"+componentId ).addClass( "active" );
         	
         	var $scroller = $('.dotgroup-scroll');
-            //var scrollTo = $('#dd'+componentId).position().left;   
-            var scrollTo=Math.round((componentId*($scroller[0].scrollWidth/$scroller.children().children().length))-$scroller.children().children().length);
-            /*console.log('width='+$scroller[0].scrollWidth);
-            console.log('childs='+$scroller.children().children().length);
-            console.log('id='+componentId);
-            console.log('each_length='+scrollTo);*/
+            var childs=$scroller.children().children().length;
+            var indexing=$(".dot-container").index($("#dd"+componentId));
+           	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
             $scroller.animate({'scrollLeft': scrollTo}, 1000);  
                         
         	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");

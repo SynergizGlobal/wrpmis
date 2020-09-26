@@ -9,6 +9,7 @@ import com.synergizglobal.pmis.Idao.WorkDao;
 import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
+import com.synergizglobal.pmis.model.Year;
 
 @Service
 public class WorkServiceImpl implements WorkService {
@@ -38,6 +39,20 @@ public class WorkServiceImpl implements WorkService {
 	@Override
 	public List<Railway> getRailwayList()throws Exception{
 		return workDao.getRailwayList();
+	}
+	@Override
+	public List<Railway> getExcecuteList()throws Exception{
+		return workDao.getExcecuteList();
+	}
+	@Override
+	public boolean deleteRow(String workId,Work work)throws Exception{
+		return workDao.deleteRow(workId, work);
+	}
+	
+	@Override
+	public List<Year> getYearList()throws Exception{
+		return workDao.getYearList();
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.WorkService;
@@ -17,10 +20,10 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
+import com.synergizglobal.pmis.model.Year;
 
 @Controller
 public class WorkController {
-	
 	Logger logger = Logger.getLogger(WorkController.class);
 	
 	@Autowired
@@ -28,8 +31,6 @@ public class WorkController {
 	
 	@Autowired
 	HomeService homeService;
-	
-	
 	
 	@RequestMapping(value="/work",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView Work(HttpSession session){
@@ -39,7 +40,6 @@ public class WorkController {
 			model.addObject("workList", workList);	
 		}catch (Exception e) {
 			e.printStackTrace();
-			
 			logger.info("Work : " + e.getMessage());
 		}
 		return model;
@@ -47,7 +47,7 @@ public class WorkController {
 	
 	
 	@RequestMapping(value = "/edit-work", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getUser(@ModelAttribute Work work,Railway rail){
+	public ModelAndView getWorkDetails(@ModelAttribute Work work,Railway rail){
 		ModelAndView model = new ModelAndView();
 		String workId = null;
 		String railId = null;
@@ -59,23 +59,24 @@ public class WorkController {
 			model.addObject("projectsList", projectsList);	
 			List<Railway> railwaysList = workService.getRailwayList();
 			model.addObject("railwaysList", railwaysList);
-
+			List<Railway> excecuteList = workService.getExcecuteList();
+			model.addObject("excecuteList", excecuteList);
+			List<Year> yearList = workService.getYearList();
+			model.addObject("yearList", yearList);
 			workId= work.getWork_id();
 			exId = work.getExecuted_by_id_fk();
 			railId = work.getRailway_id_fk();
-		Work workDeatils = workService.editWork(workId, work);
+			Work workDeatils = workService.editWork(workId, work);
 			model.addObject("workDeatils", workDeatils);
-			
 		}catch (Exception e) {
 			logger.info("Work : " + e.getMessage());
 		}
 		return model;
-
 	}
 	
 	
-	@RequestMapping(value = "/add-work", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addWork(){
+	@RequestMapping(value = "/addWork-form", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addWorkForm(){
 		ModelAndView model = new ModelAndView();
 		
 		try{
@@ -85,6 +86,11 @@ public class WorkController {
 			model.addObject("projectsList", projectsList);	
 			List<Railway> railwaysList = workService.getRailwayList();
 			model.addObject("railwaysList", railwaysList);
+			List<Railway> excecuteList = workService.getExcecuteList();
+			model.addObject("excecuteList", excecuteList);
+			List<Year> yearList = workService.getYearList();
+			model.addObject("yearList", yearList);
+
 		}catch (Exception e) {
 				logger.info("Work : " + e.getMessage());
 			}
@@ -94,7 +100,8 @@ public class WorkController {
 	
 	
 	@RequestMapping(value = "/updateWork-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView workAdded(@ModelAttribute Work work){
+	public ModelAndView updateWork(@ModelAttribute Work work){
+		
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
@@ -105,7 +112,6 @@ public class WorkController {
 			else {
 				System.out.println("failed");
 			}
-		
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.info("Work : " + e.getMessage());
@@ -114,8 +120,9 @@ public class WorkController {
 	}
 	
 	
-	@RequestMapping(value = "/addWork-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addWorkForm(@ModelAttribute Work work){
+	@RequestMapping(value = "/addWork", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView addWork(@ModelAttribute Work work){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
@@ -130,10 +137,28 @@ public class WorkController {
 			logger.info("Work : " + e.getMessage());
 		}
 		return model;
-	
 	}
 	
+	@RequestMapping(value = "/deleteRow", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView deleteRow(@ModelAttribute Work work){
+		ModelAndView model = new ModelAndView();
+		String workId = null;
+		try{
+			model.setViewName("redirect:/work");
+			workId = work.getWork_id();
+			boolean flag =  workService.deleteRow(workId,work);
+			if(flag == true) {
+				System.out.println("Delete success");
+			}
+			else {
+				System.out.println("Delete failed");
+			}
+		}catch (Exception e) {
+			logger.info("Work : " + e.getMessage());
+		}
+		return model;
 	
+	}
 	
 	
 }

@@ -3,7 +3,118 @@ package com.synergizglobal.pmis.model;
 public class Work {
 	private String work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,weight,remarks,project_name,railway_name,
-	railway_id_fk,executed_by_id_fk;
+	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,pink_book_item_number,latest_revised_cost,
+	year_of_revision,revision_number,wys_renarks;
+
+	
+	
+	public String getWys_renarks() {
+		return wys_renarks;
+	}
+
+	public void setWys_renarks(String wys_renarks) {
+		this.wys_renarks = wys_renarks;
+	}
+
+	private String[] financial_years,pink_book_item_numbers,latest_revised_costs,
+	year_of_revisions,revision_numbers,remarkss;
+
+
+	public String[] getFinancial_years() {
+		return financial_years;
+	}
+
+	public void setFinancial_years(String[] financial_years) {
+		this.financial_years = financial_years;
+	}
+
+	public String[] getPink_book_item_numbers() {
+		return pink_book_item_numbers;
+	}
+
+	public void setPink_book_item_numbers(String[] pink_book_item_numbers) {
+		this.pink_book_item_numbers = pink_book_item_numbers;
+	}
+
+	public String[] getLatest_revised_costs() {
+		return latest_revised_costs;
+	}
+
+	public void setLatest_revised_costs(String[] latest_revised_costs) {
+		this.latest_revised_costs = latest_revised_costs;
+	}
+
+	public String[] getYear_of_revisions() {
+		return year_of_revisions;
+	}
+
+	public void setYear_of_revisions(String[] year_of_revisions) {
+		this.year_of_revisions = year_of_revisions;
+	}
+
+	public String[] getRevision_numbers() {
+		return revision_numbers;
+	}
+
+	public void setRevision_numbers(String[] revision_numbers) {
+		this.revision_numbers = revision_numbers;
+	}
+
+	public String[] getRemarkss() {
+		return remarkss;
+	}
+
+	public void setRemarkss(String[] remarkss) {
+		this.remarkss = remarkss;
+	}
+
+	public String getPink_book_item_number() {
+		return pink_book_item_number;
+	}
+
+	public void setPink_book_item_number(String pink_book_item_number) {
+		this.pink_book_item_number = pink_book_item_number;
+	}
+
+	public String getYear_of_revision() {
+		return year_of_revision;
+	}
+
+	public void setYear_of_revision(String year_of_revision) {
+		this.year_of_revision = year_of_revision;
+	}
+
+	public String getLatest_revised_cost() {
+		return latest_revised_cost;
+	}
+
+	public void setLatest_revised_cost(String latest_revised_cost) {
+		this.latest_revised_cost = latest_revised_cost;
+	}
+
+	public String getRevision_number() {
+		return revision_number;
+	}
+
+	public void setRevision_number(String revision_number) {
+		this.revision_number = revision_number;
+	}
+
+	public String getFinancial_year_id() {
+		return financial_year_id;
+	}
+
+	public void setFinancial_year_id(String financial_year_id) {
+		this.financial_year_id = financial_year_id;
+	}
+
+	public String getFinancial_year() {
+		return financial_year;
+	}
+
+	public void setFinancial_year(String financial_year) {
+		this.financial_year = financial_year;
+	}
 
 	public String getRailway_name() {
 		return railway_name;

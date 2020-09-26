@@ -28,11 +28,14 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "safety_id,contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,"
+			String qry = "SELECT safety_id,contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,s.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,"
-					+ "investigation_completed,corrective_measure_short_term,corrective_measure_long_term,status_remark_fk,compensation,payment_date,remarks "
-					+ "from issue "
-					+ "where issue_id is not null " ;
+					+ "investigation_completed,corrective_measure_short_term,corrective_measure_long_term,status_remark_fk,compensation,payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+					+ "from safety s "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "where safety_id is not null " ;
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -136,7 +139,7 @@ public class SafetyDaoImpl implements SafetyDao {
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "INSERT INTO issue"
+			String qry = "INSERT INTO safety"
 					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,category_fk,impact_fk,root_cause_fk,status_fk,"
 					+ "closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,investigation_completed,corrective_measure_short_term,"
 					+ "corrective_measure_long_term,status_remark_fk,compensation,payment_date,remarks) "
@@ -159,11 +162,14 @@ public class SafetyDaoImpl implements SafetyDao {
 	public Safety getSafety(Safety obj) throws Exception {
 		Safety sobj = null;
 		try {
-			String qry = "safety_id,contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,"
+			String qry = "SELECT safety_id,contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,s.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,"
-					+ "investigation_completed,corrective_measure_short_term,corrective_measure_long_term,status_remark_fk,compensation,payment_date,remarks "
-					+ "from issue "
-					+ "where issue_id = ? " ;
+					+ "investigation_completed,corrective_measure_short_term,corrective_measure_long_term,status_remark_fk,compensation,payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+					+ "from safety s "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "where safety_id = ? " ;
 			
 			int arrSize = 1;
 			

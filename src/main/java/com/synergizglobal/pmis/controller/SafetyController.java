@@ -1,6 +1,5 @@
 package com.synergizglobal.pmis.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,15 +7,19 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.SafetyService;
+import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Safety;
 
 @Controller
@@ -26,24 +29,44 @@ public class SafetyController {
 	@Autowired
 	SafetyService safetyService;
 	
+	@Autowired
+	StripChartService stripChartService;
+	
 	@Value("${common.error.message}")
 	public String commonError;
 	
 	@RequestMapping(value="/safety",method=RequestMethod.GET)
-	public ModelAndView safety(@ModelAttribute Safety obj,HttpSession session) throws IOException {
+	public ModelAndView safety(@ModelAttribute Safety obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.safetyGrid);
-			List<Safety> safety = safetyService.getSafetyList(obj);
-			model.addObject("safety", safety);
+			/*List<Safety> safety = safetyService.getSafetyList(obj);
+			model.addObject("safety", safety);*/
+			List<Contract> contracts = stripChartService.getContractsList(null);
+			model.addObject("contracts", contracts);
+			
 		} catch (Exception e) {
 			logger.info("safety : " + e.getMessage());
 		}
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getSafetyList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getSafetyList(@ModelAttribute Safety obj) {
+		List<Safety> safetyList = null;
+		try {
+			safetyList = safetyService.getSafetyList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("getSafetyList : " + e.getMessage());
+		}
+		return safetyList;
+	}
+	
+	
 	@RequestMapping(value="/add-safety-form",method=RequestMethod.GET)
-	public ModelAndView addSafetyForm(HttpSession session) throws IOException {
+	public ModelAndView addSafetyForm(HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.addSafetyForm);
@@ -67,7 +90,7 @@ public class SafetyController {
 	}
 	
 	@RequestMapping(value="/add-safety",method=RequestMethod.GET)
-	public ModelAndView addSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView addSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName("redirect:/safety");
@@ -85,7 +108,7 @@ public class SafetyController {
 	}
 	
 	@RequestMapping(value="/get-safety",method=RequestMethod.GET)
-	public ModelAndView getSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView getSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.addSafetyForm);
@@ -99,7 +122,7 @@ public class SafetyController {
 	}
 	
 	@RequestMapping(value="/update-safety",method=RequestMethod.GET)
-	public ModelAndView updateSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView updateSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName("redirect:/safety");
@@ -117,7 +140,7 @@ public class SafetyController {
 	}
 	
 	@RequestMapping(value="/delete-safety",method=RequestMethod.GET)
-	public ModelAndView deleteSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView deleteSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName("redirect:/safety");

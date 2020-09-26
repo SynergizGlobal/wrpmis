@@ -28,9 +28,12 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks "
-					+ "from issue "
+			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
+					+ "priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "where issue_id is not null " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -135,9 +138,12 @@ public class IssueDaoImpl implements IssueDao {
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iobj = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks "
-					+ "from issue "
+			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
+					+ "priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "where issue_id = ? " ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

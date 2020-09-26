@@ -1,6 +1,5 @@
 package com.synergizglobal.pmis.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,15 +7,19 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.IssueService;
+import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Issue;
 
 @Controller
@@ -26,24 +29,42 @@ public class IssueController {
 	@Autowired
 	IssueService issueService;
 	
+	@Autowired
+	StripChartService stripChartService;
+	
 	@Value("${common.error.message}")
 	public String commonError;
 	
 	@RequestMapping(value="/issues",method=RequestMethod.GET)
-	public ModelAndView issues(@ModelAttribute Issue obj,HttpSession session) throws IOException {
+	public ModelAndView issues(@ModelAttribute Issue obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.issuesGrid);
-			List<Issue> issues = issueService.getIssuesList(obj);
-			model.addObject("issues", issues);
+			/*List<Issue> issues = issueService.getIssuesList(obj);
+			model.addObject("issues", issues);*/
+			List<Contract> contracts = stripChartService.getContractsList(null);
+			model.addObject("contracts", contracts);
 		} catch (Exception e) {
 			logger.info("issues : " + e.getMessage());
 		}
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getIssuesList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssuesList(@ModelAttribute Issue obj) {
+		List<Issue> issues = null;
+		try {
+			issues = issueService.getIssuesList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("getIssuesList : " + e.getMessage());
+		}
+		return issues;
+	}
+	
 	@RequestMapping(value="/add-issue-form",method=RequestMethod.GET)
-	public ModelAndView addIssueForm(HttpSession session) throws IOException {
+	public ModelAndView addIssueForm(HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.addIssueForm);
@@ -64,7 +85,7 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value="/add-issue",method=RequestMethod.GET)
-	public ModelAndView addIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView addIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName("redirect:/issues");
@@ -82,7 +103,7 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value="/get-issue",method=RequestMethod.GET)
-	public ModelAndView getIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView getIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.addIssueForm);
@@ -96,7 +117,7 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value="/update-issue",method=RequestMethod.GET)
-	public ModelAndView updateIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView updateIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName("redirect:/issues");
@@ -114,7 +135,7 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value="/delete-issue",method=RequestMethod.GET)
-	public ModelAndView deleteIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) throws IOException {
+	public ModelAndView deleteIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName("redirect:/issues");

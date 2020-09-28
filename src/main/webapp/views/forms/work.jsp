@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -20,19 +20,44 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    
     <style>
         p a {
             color: blue;
         }
+		#msg{
+		    position: relative;
+		    color: #4F8A10;
+   		    background-color: #DFF2BF;
+		    width: 300px;
+  			bottom: 14spx;
+    		font-size: 15px;
+    		text-align: center;
+			left: 505px;
+
+		}
+		#Emsg{
+		    position: relative;
+		    color: #D8000C;
+  		    background-color: #FFD2D2;
+		    width: 300px;
+  			bottom: 14spx;
+    		font-size: 15px;
+    		text-align: center;
+			left: 505px;
+		}
     </style>
+    <script type="text/javascript">
+   		 var fade_out = function() {
+    	 	 $("#msg,#Emsg").fadeOut().empty();
+    		}
+    		setTimeout(fade_out, 5000);
+    </script>
 </head>
-
 <body>
-
     <!-- header  starts-->
  <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
-
 
     <div class="row">
         <div class="col s12 m12">
@@ -43,6 +68,22 @@
                             <h6> Work</h6>
                         </div>
                     </span>
+                    
+			<div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               		  <c:if test="${not empty success }"> 
+						<div class="isa_success" role="alert" id="pop">
+							<p  id="msg">${success } <i class="fa fa-check"></i></p>
+						</div>
+					 </c:if> 
+					 <c:if test="${not empty error }"> 
+						<div class="alert alert-danger alert-dismissible" role="alert" id="pop">
+						<p  id="Emsg">	${error }<i class="fa fa-times-circle"></i></p>	
+						</div>
+					</c:if>
+			</div>
+			</div>
+                    
                     <div class="">
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
@@ -62,7 +103,7 @@
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="javascript:void(0);" onclick="exportWork();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
@@ -126,16 +167,21 @@
     <script src="/pmis/resources/js/materialize.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-<form name="getForm" id="getForm" method="post">
+    
+	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="work_id" id="work_id" />
     </form>
+    
+	<form action="<%=request.getContextPath() %>/export-work" name="exportWorkForm" id="exportWorkForm" target="_blank" method="post">	
+        <input type="hidden" name="work_id" id="exportWork_id" />
+	</form>
     <script>
         $(document).ready(function () {
             $('.sidenav').sidenav();
             $('select').formSelect();
-            // $('.modal').modal();
-            // $('.tooltipped').tooltip();
-            // $(".datepicker").datepicker();
+             $('.modal').modal();
+             $('.tooltipped').tooltip();
+             $(".datepicker").datepicker();
             // $('#textarea1').characterCounter();
             $('.notification.dropdown-trigger').dropdown({
                 coverTrigger: false,
@@ -199,6 +245,13 @@
 	            }
 	        });
 	    }
+        
+        function exportWork(){
+         	 var work_id = $("#work_id").val();
+         	 
+         	 $("#exportWork_id").val(work_id);
+         	 $("#exportWorkForm").submit();
+      	}
     </script>
 
 </body>

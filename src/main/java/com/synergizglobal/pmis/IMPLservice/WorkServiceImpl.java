@@ -54,5 +54,10 @@ public class WorkServiceImpl implements WorkService {
 		return workDao.getYearList();
 
 	}
+	@Override
+	public List<Work> getSafetyList(Work work)throws Exception{
+		return workDao.getSafetyList(work);
+
+	}
 
 }

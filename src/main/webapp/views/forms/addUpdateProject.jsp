@@ -44,10 +44,31 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Project</h6>
+                                <c:if test="${action eq 'add'}">	
+                               			 <h6>Add Project</h6>
+                               	 </c:if>
+                               	 <c:if test="${action eq 'edit'}">	
+                               			 <h6>Edit Project</h6>
+                               	 </c:if>
                             </div>
                         </span>
                     </div>
+             <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                	<c:if test="${not empty success }">
+						<div class="alert alert-success alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							${success }
+						</div>
+					</c:if>
+					<c:if test="${not empty error }">
+						<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							${error }
+						</div>
+					</c:if>
+				</div>
+			</div>
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <c:if test="${action eq 'edit'}">				                
@@ -63,12 +84,10 @@
                                 <div class="col s12 m4 input-field">
                                  
                                 <c:if test="${action eq 'edit'}">				                
-                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDeatils.project_id }" readonly >   </c:if>
-                                     
-                                    
-                               
-                                    <label>Project ID :</label>
-                                    <span  id="project_idError"> </span>
+                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDeatils.project_id }" readonly >   
+                               		 <label>Project ID :</label>
+                                </c:if>
+                                   
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
@@ -181,13 +200,13 @@
 		  		 	},
 		  		    messages: {
 		  		 		 "project_name": {
-		  				 	required: 'Project name required',
+		  				 	required: 'This field is required',
 		  			 	  },"plan_head_number": {
-		  			 		required: ' required'
+		  			 		required: ' This field is required'
 		  			 	  },"pink_book_item_number": {
-		  		 			required: ' required'
+		  		 			required: ' This field is required'
 		  		 	  	 },"remarks": {
-		  		 			required: ' Required'
+		  		 			required: ' This field is required'
 		  		 	  	 }
 			   		},
 			   		errorPlacement:function(error, element){

@@ -1,16 +1,13 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add / Edit Work</title>
-        <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -27,32 +24,28 @@
             /* Edge */
             color: #777;
         }
-
         .fixed-width {
             width: 100%;
         }
-
         .fixed-width .table-inside {
             width: 100%;
             overflow: auto;
         }
-    
         .my-error-class {
-    color:red;
-	}
-	.my-valid-class {
-    color:green;
-	}
-	#newButton{
-	position: relative;
-	float: right;
-	right: 24px;
-	}
+   			 color:red;
+		}
+		.my-valid-class {
+   			 color:green;
+		}
+		#newButton{
+			position: relative;
+			float: right;
+			right: 24px;
+			top: 5px;
+		}
     </style>
 </head>
-
 <body>
-
     <!-- header  starts-->
      <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
@@ -62,7 +55,7 @@
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
-                    <div class="center-align">
+                <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
                             	 <c:if test="${action eq 'add'}">	
@@ -74,42 +67,53 @@
                             </div>
                         </span>
                     </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                	<c:if test="${not empty success }">
+						<div class="alert alert-success alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							${success }
+						</div>
+					</c:if>
+					<c:if test="${not empty error }">
+						<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							${error }
+						</div>
+					</c:if>
+				</div>
+			</div>
                     <!-- form start-->
                     <div class="container container-no-margin">
                     	 <c:if test="${action eq 'edit'}">				                
 			                	<form action="updateWork-form" id="workForm" name="workForm" method="post" class="form-horizontal" role="form">
-                                      </c:if>
-			              
-			                <c:if test="${action eq 'add'}">				                
+                         </c:if>
+			              <c:if test="${action eq 'add'}">				                
 			                	<form action="addWork" id="workForm" name="workForm" method="post" class="form-horizontal" role="form">
-							</c:if>
+						  </c:if>
                       
                             <div class="row">
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
-                                   			 <c:if test="${action eq 'add'}">	
-                                          		 <option value="${workDeatils.project_id_fk}" selected hidden>select</option>
-                                          	 </c:if>
-                                           
+                                   		 <c:if test="${action eq 'add'}">	
+                                          	 <option value="${workDeatils.project_id_fk}" selected hidden>select</option>
+                                          </c:if>
                                           <c:forEach var="obj" items="${projectsList}">
-                         <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id}</option>
-                                                </c:forEach>
+                       						  <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id}</option>
+                                            </c:forEach>
                                     </select>
                                     <label>Project ID</label>
                                       <span id="project_id_fkError"></span>
                                 </div>
                                 
                                 <div class="col s12 m4 input-field">
-                               
-                                <c:if test="${action eq 'edit'}">				                
-                                     <input id="work_id" type="text" class="form-control" name="work_id" value="${workDeatils.work_id }" readonly >  
-                                      <label>Work ID :</label>
-                                 </c:if>
-                                     </div>
-                                    
-                              
+                               		 <c:if test="${action eq 'edit'}">				                
+                                   		  <input id="work_id" type="text" class="form-control" name="work_id" value="${workDeatils.work_id }" readonly >  
+                                     	  <label>Work ID :</label>
+                                	 </c:if>
+                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
@@ -121,13 +125,10 @@
                                     <label for="work_name">Work Name</label>
                                      <span id="work_nameError"></span>
                                 </div>
-
-
-                                <div class="col m2 hide-on-small-only"></div>
+								 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                         <div class="row">
-                               
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
                                     <div class="row"> 
@@ -150,7 +151,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
@@ -188,9 +188,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                   <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" size='1' >
-                                   			 <c:if test="${action eq 'add'}">	
-                                          			 <option value="" selected>select</option>
-                                          	 </c:if>
+                                  		 <option value="" >select</option>
                                                 <c:forEach var="obj" items="${railwaysList}">
   													 <option value="${obj.railway_id }" <c:if test="${workDeatils.railway_id_fk eq obj.railway_id}">selected</c:if>>${obj.railway_name}</option>
                                                 </c:forEach>
@@ -198,12 +196,9 @@
                                     <label>Railway Agency</label>
                                       <span id="railway_id_fkError"></span>
                                 </div>
-                                
                                 <div class="col s12 m4 input-field">
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk"  size='1'>
-                                   			 <c:if test="${action eq 'add'}">	
-                                          		 <option value="" selected hidden>select</option>
-                                            </c:if>
+                                   <option value="" >select</option>
                                             <c:forEach var="obj" items="${excecuteList}">
                     					  			 <option value="${obj.executed_by_id_fk }"<c:if test="${workDeatils.executed_by_id_fk eq obj.executed_by_id_fk}">selected</c:if>> ${obj.executed_by_id_fk}</option>
                                             </c:forEach>
@@ -228,16 +223,13 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead> 
-                                        
                                         <tbody id="revisionsTableBody">
-                                            <tr id="revisionRow0">                                            	
+                                           <tr id="revisionRow0">                                            	
                                                 <td> 
-                              					  <select  id="financial_years0" name="financial_years"  size='1'>
-                              					   <c:if test="${action eq 'add'}">
-                                   					 <option value="" selected >select</option>
-                                   					</c:if>
+                              					 <select  name="financial_years"  id="financial_years0"  class="selectDropdown">
+                                   					 <option value="" >select</option>
                                          			  <c:forEach var="obj" items="${yearList}">
-                    					  				 <option value="${obj.financial_year }"<c:if test="${workDeatils.financial_year eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+                    					  				 <option value="${obj.financial_year }"<c:if test="${workDeatils.financial_year eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
                                           			  </c:forEach>
                                					  </select>
                                                 </td>
@@ -250,12 +242,10 @@
                                                         placeholder="Latest Revised Cost">
                                                 </td>
                                                 <td>
-                                                    <select id="year_of_revisions0" name ="year_of_revisions" >
-                                                        <c:if test="${action eq 'add'}">
+                                                   <select id="year_of_revisions0" name ="year_of_revisions" >
                                                            <option value="" selected>select</option>
-                                                        </c:if>
                                                         <c:forEach var="obj" items="${yearList}">
-                    					  				  <option value="${obj.financial_year }"<c:if test="${workDeatils.year_of_revision eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+                    					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.year_of_revision eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
                                           			    </c:forEach>
                                                     </select>
                                                 </td>
@@ -264,19 +254,17 @@
                                                         placeholder="Revision Number">
                                                 </td>
                                                 <td>
-                                                    <input id="remarkss0" name="remarkss" type="text" class="validate" value="${workDeatils.remark }"
+                                                    <input id="remarkss0" name="remarkss" type="text" class="validate" value="${workDeatils.wys_renarks }"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
-                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
+                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
-                                                 
                                             </tr>
                                         </tbody>
-                                       
                                     </table>
-  									 <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addRevisionRow()"> <i
+  									 <a type="button" id="newButton"class="btn waves-effect waves-light bg-s t-c "  onclick="addRevisionRow()"> <i
                                                             class="fa fa-plus"></i></a>
                                     <input type="hidden" id="rowNo"  name="rowNo" value="0" />
                                 </div>
@@ -288,7 +276,7 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
-                                            <input type="file">
+                                            <input type="file" id="workFile" name="workFile">
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
@@ -306,7 +294,6 @@
                                     <span id="remarksError"></span>
                                 </div>
                             </div>
-
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -343,11 +330,13 @@
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
 
+
     <script src="/pmis/resources/js/jQuery.min.js"></script>
     <script src="/pmis/resources/js/materialize.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script> 
+
 
     <script>
         $(document).ready(function () {
@@ -362,7 +351,7 @@
      	    	     $('.confirmation-btns .datepicker-done').click();
      	    	  }
             });
-            $("#financial_year").datepicker({
+           /*  $("#financial_year").datepicker({
                 format: 'yyyy',
                 selectYears: true,
                 onSelect: function () {
@@ -375,7 +364,7 @@
                 onSelect: function () {
      	    	     $('.confirmation-btns .datepicker-done').click();
      	    	  }
-            });
+            }); */
             $('#sanctioned_year').datepicker({
                 format: 'yyyy',
                 selectYears: true,
@@ -387,7 +376,6 @@
                     var year = (selectedMonth >= 4) ? selectedYear + '-' + (selectedYear + 1) : (selectedYear - 1) + '-' + selectedYear;
                     console.log('sanctioned_year : ' + year);
                     $('.confirmation-btns .datepicker-done').click();
-
                 }
             });
             $('#sanctioned_year_icon').click(function () {
@@ -398,14 +386,14 @@
                 event.stopPropagation();
                 $('#year_completed').click();
             });
-            $('#financial_year_icon').click(function () {
+          /*   $('#financial_year_icon').click(function () {
                 event.stopPropagation();
                 $('#financial_year').click();
             });
             $('#year_revision_icon').click(function () {
                 event.stopPropagation();
                 $('#year_revision').click();
-            });
+            }); */
             /* $('#revisionsTable').DataTable({
                 columnDefs: [
                     {
@@ -422,13 +410,14 @@
             }); */
         });
         
+  //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      
+        
         function addWork(){
     		if(validator.form()){ // validation perform
     			document.getElementById("workForm").submit();			
     	 	}
     	}
         
-       
         var validator = $('#workForm').validate({
 				
 		        	 errorClass: "my-error-class",
@@ -439,14 +428,12 @@
 		  		 			required: true
 		  			 	  },"work_name": {
 		  			 		required: true
-		  			 		
 		  			 	  },"sanctioned_estimated_cost": {
 		  			 		required: true
 		  			 	  },"completeion_period_months": {
 		  		 		    required: true
 		  		 	   	  },"sanctioned_year": {
 		  			 		required: true
-		  			 		
 		  			 	  },"sanctioned_completion_cost": {
 		  			 		required: true
 		  			 	  }	,"anticipated_cost": {
@@ -461,8 +448,6 @@
 		  			 		required: true
 		  			 	  }	,"remarks": {
 		  			 		required: true
-		  		 		    
-
 		  			 	  }		
 		  		 	},
 		  		    messages: {
@@ -537,36 +522,71 @@
 				    	form.submit();
 				    }
 				}); 
-        //***********************************************************************************************************
+        //**********************ADD NEW ROW TO REVISION TABLE *************************************************************************************
+       	 
   	  function addRevisionRow(){
+  		
         var rowNo = $("#rowNo").val();
         var rNo = Number(rowNo)+1;
+        var total = 0;
+       /*   $('select[name="financial_years"]').each(function(){
+        	if($(this).val() != ''){
+                $('.selectDropdown').not(this).find('option[value="'+$(this).val()+'"]').remove();
+        	} 
+        });
+         */
+        var className = '.selectDropdown';
+       
   		var html = '<tr id="revisionRow'+rNo+'"><td> <div>'
-   			+'<select class="test" id="financial_years'+rNo+'" name="financial_years">'	   			
-   			+'<option value=" " selected>select</option>'
-   			<c:forEach var="obj" items="${yearList}">
-				 +'<option value="${obj.financial_year }"> ${obj.financial_year}</option>'
+   			+'<select  name="financial_years" id="financial_years'+rNo+'"  class="selectDropdown" >'	   			
+   			html = html	+'<option value=" " >select</option>'
+   		
+   			$('.selectDropdown').each(function(){
+   				<c:forEach var="obj" items="${yearList}">
+   					if($(this).val()== "${obj.financial_year }"){
+	                     $('.selectDropdown').$(this).find('option[value="'+$(this).val()+'"]').remove();
+   					}else {
+   	   					html = html	 +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
+   					}
 			    </c:forEach>
-   			+'</select></div></td>'
+   			});
+   		html = html		+'</select></div></td>'
 		   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 		   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost"></td>'
 		   +'<td> <div>'
 		   +'<select class="test" id="year_of_revisions'+rNo+'" name="year_of_revisions" >'
 		   +'<option value=" " selected>select</option>'
 		   <c:forEach var="obj" items="${yearList}">
-			 +'<option value="${obj.financial_year }"> ${obj.financial_year}</option>'
+			 +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 		    </c:forEach>
 				+'</select></div></td>'
 		   +'<td><input  type="text" class="validate" id="revision_numbers'+rNo+'" name="revision_numbers" placeholder="Revision Number"></td>'
 		   +'<td><input  type="text" class="validate" id="remarkss'+rNo+'" name="remarkss" placeholder="Remarks"></td>'
 	   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	   	  
+	 
 		 $('#revisionsTableBody').append(html);
 		 $("#rowNo").val(rNo);
 		 $('select').formSelect();
-      }
-	   
-   	
+		 
+		 //******************* Revision table Validation***************************************
+
+		/* var className = '.selectDropdown';
+		  $(className).focus(function () {
+		                  oldValue = this.value;
+		                  oldText = $(this).find('option:selected').text();
+		              })
+		                $(className).change(function () {
+		                  var newSelectedValue = $(this).val();
+		                  if (newSelectedValue != "") {
+		                      $('.selectDropdown').not(this).find('option[value="'+newSelectedValue+'"]').remove();
+		                  }
+		                  if ($(className).not(this).find('option[value="'+this.value+'"]').length == 0) { // NOT EXIST
+		                      $(className).not(this).append('<option value='+this.value+'>' + $(this).find('option:selected').text() + '</option>');
+		                  }
+		                  $(this).blur();
+		              }); */
+     }
+  	
    	/*  $('#newButton').on('click', function () {
          $('tbody').append(html);
          $('select').formSelect();
@@ -580,7 +600,9 @@
     function removeRevision(rowNo){
     	$("#revisionRow"+rowNo).remove();
     }
+  
    
+     
     </script>
 </body>
 

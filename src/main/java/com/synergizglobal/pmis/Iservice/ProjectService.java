@@ -17,5 +17,7 @@ public interface ProjectService {
 
 	public boolean deleteProjectRow(String projectId, Project project)throws Exception;
 
+	public List<Project> getSafetyList(Project project)throws Exception;
+
 
 }

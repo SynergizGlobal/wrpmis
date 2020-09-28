@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.WorkDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Railway;
+import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.Year;
 
@@ -109,7 +110,7 @@ public class WorkDaoImpl implements WorkDao {
 		
 		Connection con = null;
 		PreparedStatement stmt = null;
-		int count = 0;
+		int count = 1;
 		int[] c = {};
 		boolean flag = false;
 		try{
@@ -164,7 +165,7 @@ public class WorkDaoImpl implements WorkDao {
 			}
 			c = stmt.executeBatch();
 
-			if(c.length > 0 ){
+			if(c.length > 0 || count > 0 ){
 				flag = true;
 			}
 		}catch(Exception e){ 
@@ -237,7 +238,7 @@ public class WorkDaoImpl implements WorkDao {
 				}
 			}
 			c = stmt.executeBatch();
-			if(c.length > 0 ){
+			if(c.length > 0 || count > 0){
 				flag = true; 
 			}
 		}catch(Exception e){ 
@@ -355,5 +356,36 @@ public class WorkDaoImpl implements WorkDao {
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<Work> getSafetyList(Work work)throws Exception{
+		List<Work> objsList = null;
+		
+      try {
+		   String qry = "SELECT DISTINCT work_id,work_name,project_id_fk,wr.executed_by_id_fk,railway_id_fk,r.railway_name,p.project_name,YEAR(sanctioned_year) as sanctioned_year,sanctioned_estimated_cost," + 
+					    "completeion_period_months,sanctioned_completion_cost,anticipated_cost,YEAR(year_of_completion) as year_of_completion,completion_cost" + 
+						",weight,w.remarks FROM work w " + 
+						"LEFT JOIN project p ON w.project_id_fk = p.project_id " + 
+						"LEFT JOIN work_railway wr ON w.work_id COLLATE utf8mb4_unicode_ci  = wr.work_id_fk " + 
+						"LEFT JOIN railway r ON wr.railway_id_fk = r.railway_id ";
 
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
+		
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		
+		return objsList;
+	
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -23,5 +23,8 @@ public interface WorkDao {
 	public boolean deleteRow(String workId, Work work)throws Exception;
 
 	public List<Year> getYearList()throws Exception;
+	
+	public List<Work> getSafetyList(Work work)throws Exception;
+
 
 }

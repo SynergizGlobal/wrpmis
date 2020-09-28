@@ -472,11 +472,13 @@
                                         <div class="row">
                                             <h6 class="center-align" style="color:#2E58AD;font-weight:600">Issue Details
                                             </h6>
-                                            <div class="col s12 m6 input-field" style="margin-top: 40px;">
-                                                <select class="select" id="issue_category_id" name="issue_category_id">
-                                                    <option value="">Select</option>
+                                            <!-- <div class="col s12 m6 input-field" style="margin-top: 40px;"> -->
+                                            <div class="col s12 m6 input-field" style="margin-top: 23px;">
+                                            	<p>Issue Category</p>
+                                                <select class="browser-default" id="issue_category_id" name="issue_category_id">
+                                                    <option value="" selected>Select</option>
                                                 </select>
-                                                <label>Issue Category</label>
+                                                <!-- <label>Issue Category</label> -->
                                                 <span id="issue_category_idError" class="error-msg" ></span>
                                             </div>
                                             <div class="col s12 m6 input-field" style="padding-top: 14px;">

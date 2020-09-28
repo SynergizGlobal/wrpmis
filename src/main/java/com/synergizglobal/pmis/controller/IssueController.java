@@ -1,12 +1,21 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -46,6 +55,18 @@ public class IssueController {
 	
 	@Value("${common.error.message}")
 	public String commonError;
+	
+	@Value("${record.dataexport.success}")
+	public String dataExportSucess;
+	
+	@Value("${record.dataexport.invalid.directory}")
+	public String dataExportInvalid;
+	
+	@Value("${record.dataexport.error}")
+	public String dataExportError;
+	
+	@Value("${record.dataexport.nodata}")
+	public String dataExportNoData;
 	
 	@RequestMapping(value="/issues",method=RequestMethod.GET)
 	public ModelAndView issues(@ModelAttribute Issue obj,HttpSession session) {
@@ -240,6 +261,101 @@ public class IssueController {
 			logger.info("deleteIssue : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/export-issues", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportIssues(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Issue issue,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants.issuesGrid);
+		List<Issue> dataList = new ArrayList<Issue>();
+		String userId = null;String userName = null;
+		try {
+			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			view.setViewName("redirect:/issues");
+			dataList = issueService.getIssuesList(issue);  
+			if(dataList != null && dataList.size() > 0){
+			            XSSFWorkbook  workBook = new XSSFWorkbook ();
+			            XSSFSheet sheet = workBook.createSheet();
+			            XSSFRow headingRow = sheet.createRow(0);
+			            headingRow.createCell((short)0).setCellValue("Issue ID");
+			            headingRow.createCell((short)1).setCellValue("Project ID");
+			            headingRow.createCell((short)2).setCellValue("Work ID");
+			            headingRow.createCell((short)3).setCellValue("Contract ID");
+			            headingRow.createCell((short)4).setCellValue("Activity ID");
+			            headingRow.createCell((short)5).setCellValue("Title");
+			            headingRow.createCell((short)6).setCellValue("Date");
+			            headingRow.createCell((short)7).setCellValue("Location");
+			            headingRow.createCell((short)8).setCellValue("Reported By");
+			            headingRow.createCell((short)9).setCellValue("Responsible Person");
+			            headingRow.createCell((short)10).setCellValue("Department");
+			            headingRow.createCell((short)11).setCellValue("Issue Category");
+			            headingRow.createCell((short)12).setCellValue("Issue Status");
+			            short rowNo = 1;
+			            for (Issue obj : dataList) {
+			                XSSFRow row = sheet.createRow(rowNo);
+			                row.createCell((short)0).setCellValue(obj.getIssue_id());
+			                row.createCell((short)1).setCellValue(obj.getProject_id_fk());
+			                row.createCell((short)2).setCellValue(obj.getWork_id_fk());
+			                row.createCell((short)3).setCellValue(obj.getContract_id_fk());
+			                row.createCell((short)4).setCellValue(obj.getActivity_id_fk());
+			                row.createCell((short)5).setCellValue(obj.getTitle());
+			                row.createCell((short)6).setCellValue(obj.getDate());
+			                row.createCell((short)7).setCellValue(obj.getLocation());
+			                row.createCell((short)8).setCellValue(obj.getReported_by());
+			                row.createCell((short)9).setCellValue(obj.getResponsible_person());
+			                row.createCell((short)10).setCellValue(obj.getDepartment_fk());
+			                row.createCell((short)11).setCellValue(obj.getCategory_fk());
+			                row.createCell((short)12).setCellValue(obj.getStatus_fk());
+			                
+			                rowNo++;
+			            }
+		                
+		                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+		                Date date = new Date();
+		                String fileName = "Issues_"+dateFormat.format(date);
+		                
+			            try{
+			                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+			                workBook.write(fos);
+			                fos.flush();*/
+			            	
+			               response.setContentType("application/.csv");
+			 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			 			   response.setContentType("application/vnd.ms-excel");
+			 			   // add response header
+			 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+			 			   
+			 			    //copies all bytes from a file to an output stream
+			 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+				           workBook.close();
+			 			    //flushes output stream
+			 			    response.getOutputStream().flush();
+			            	
+			                
+			                attributes.addFlashAttribute("success",dataExportSucess);
+			            	//response.setContentType("application/vnd.ms-excel");
+			            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+			            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+			            	// ...
+			            	// Now populate workbook the usual way.
+			            	// ...
+			            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+			            	//workbook.close();
+			            }catch(FileNotFoundException e){
+			                //e.printStackTrace();
+			                attributes.addFlashAttribute("error",dataExportInvalid);
+			            }catch(IOException e){
+			                //e.printStackTrace();
+			                attributes.addFlashAttribute("error",dataExportError);
+			            }
+	         }else{
+	        	 attributes.addFlashAttribute("error",dataExportNoData);
+	         }
+		}catch(Exception e){	
+			e.printStackTrace();
+			logger.error("exportIssues : : User Id - "+userId+" - User Name - "+userName+" - "+e.getMessage());
+			attributes.addFlashAttribute("error", commonError);			
+		}
+		//return view;
 	}
 	
 }

@@ -81,7 +81,6 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-
                                 <table id="example" class="mdl-data-table">
                                     <thead>
                                         <tr>
@@ -94,8 +93,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                        <tr>
+                                        <!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>                                         
@@ -107,13 +105,9 @@
                                                 <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
-
-                                        </tr>
-
+                                        </tr> -->
                                     </tbody>
-
                                 </table>
-
                             </div>
                         </div>
                     </div>

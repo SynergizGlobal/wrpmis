@@ -8,6 +8,10 @@ public class FOB {
 
 	private List<FOB> fobDetails;
 	
+	private String[] fob_detail_names,fob_detail_values;
+	
+	
+	
 	public String getWork_id_fk() {
 		return work_id_fk;
 	}
@@ -198,6 +202,22 @@ public class FOB {
 
 	public void setFobDetails(List<FOB> fobDetails) {
 		this.fobDetails = fobDetails;
+	}
+
+	public String[] getFob_detail_names() {
+		return fob_detail_names;
+	}
+
+	public void setFob_detail_names(String[] fob_detail_names) {
+		this.fob_detail_names = fob_detail_names;
+	}
+
+	public String[] getFob_detail_values() {
+		return fob_detail_values;
+	}
+
+	public void setFob_detail_values(String[] fob_detail_values) {
+		this.fob_detail_values = fob_detail_values;
 	}
 	
 }

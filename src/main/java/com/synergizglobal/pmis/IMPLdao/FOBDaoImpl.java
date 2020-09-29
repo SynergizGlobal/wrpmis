@@ -1,16 +1,16 @@
 package com.synergizglobal.pmis.IMPLdao;
 
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -72,33 +72,40 @@ public class FOBDaoImpl implements FOBDao {
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO fob"
-					+ "(contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
-					+"priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks) "
+					+ "(fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
+					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,weight,remark) "
 					+ "VALUES "
-					+ "(:contract_id_fk,:activity_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
-					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks)";		 
+					+ "(:fob_id,fob_name,:contract_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
+					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:weight,:remark)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
 			}
 			
-			if(flag && !StringUtils.isEmpty(obj.getFobDetails()) && obj.getFobDetails().size() > 0) {
+			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
 				
-				List<FOB> fobDetails = obj.getFobDetails();
+				String[] fobDetailNames = obj.getFob_detail_names();
+				String[] fobDetailValues = obj.getFob_detail_values();
 				
-				String qryFOBDetail = "INSERT INTO fob_deatil fob_id_fk,detail_name,value) VALUES  (:fob_id_fk,:detail_name,:title,:value)";		
+				String qryFOBDetail = "INSERT INTO fob_deatil (fob_id_fk,detail_name,value) VALUES  (:fob_id_fk,:detail_name,:title,:value)";		
 				
-				List<Map<String, Object>> batchValues = new ArrayList<>(fobDetails.size());
-				for (FOB fob : fobDetails) {
-				    batchValues.add(
-				            new MapSqlParameterSource("fob_id_fk", fob.getFob_id())
-				                    .addValue("detail_name", fob.getFob_detail_name())
-				                    .addValue("value", fob.getFob_detail_value())
-				                    .getValues());
-				}
-
-				int[] updateCounts = namedParamJdbcTemplate.batchUpdate(qryFOBDetail, batchValues.toArray(new Map[fobDetails.size()]));
+				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail,
+			            new BatchPreparedStatementSetter() {
+			                 
+			                @Override
+			                public void setValues(PreparedStatement ps, int i) throws SQLException {
+			                    ps.setString(1, obj.getFob_id());
+			                    ps.setString(2, fobDetailNames[i]);
+			                    ps.setString(3, fobDetailValues[i]);
+			                    
+			                }
+			                @Override  
+			                public int getBatchSize() {
+			                    return obj.getFob_detail_names().length;
+			                }
+			            });
+				
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -165,8 +172,50 @@ public class FOBDaoImpl implements FOBDao {
 
 	@Override
 	public boolean updateFOB(FOB obj) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
+			String qry = "UPDATE fob set "
+					+ "fob_name = :fob_name,contract_id_fk = :contract_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
+					+"estimated_cost = :estimated_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,weight = :weight,remark = :remark "
+					+ "where fob_id = :fob_id";		 
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(qry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+			
+			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+				
+				String deleteQry = "DELETE from fob_deatil where fob_id_fk = :fob_id";		 
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+				
+				
+				String[] fobDetailNames = obj.getFob_detail_names();
+				String[] fobDetailValues = obj.getFob_detail_values();
+				
+				String qryFOBDetail = "INSERT INTO fob_deatil (fob_id_fk,detail_name,value) VALUES  (:fob_id_fk,:detail_name,:title,:value)";		
+				
+				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail, new BatchPreparedStatementSetter() { 
+					                @Override
+					                public void setValues(PreparedStatement ps, int i) throws SQLException {
+					                    ps.setString(1, obj.getFob_id());
+					                    ps.setString(2, fobDetailNames[i]);
+					                    ps.setString(3, fobDetailValues[i]);
+					                    
+					                }
+					                @Override  
+					                public int getBatchSize() {
+					                    return obj.getFob_detail_names().length;
+					                }
+					           });
+				
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
 	}
 
 	@Override

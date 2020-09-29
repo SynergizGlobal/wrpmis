@@ -106,10 +106,10 @@
                                     <thead>
                                         <tr>
                                             <th>Issue ID</th>
-                                            <th>Project ID</th>
-                                            <th>Work ID</th>
-                                            <th>Contract ID </th>
-                                            <th>Activity ID</th>
+                                            <!-- <th>Project ID</th> -->
+                                            <th>Work</th>
+                                            <th>Contract</th>
+                                           <!--  <th>Activity ID</th> -->
                                             <th>Title </th>
                                             <th>Date </th>
                                             <th>Location</th>
@@ -274,12 +274,18 @@
     	         		$.each(data,function(key,val){
     	         			var issue_id = "'"+val.issue_id+"'";
     	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit">Edit</a>';    	                   	
-    	                   	var rowArray = [];    	                   	
+    	                   	var rowArray = [];    	                  
+    	                   	
+    	                   	var workName = '';
+                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                            var contract_name = '';
+                            if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+    	                   	
     	                   	rowArray.push($.trim(val.issue_id));
-    	                   	rowArray.push($.trim(val.project_id_fk));
-    	                   	rowArray.push($.trim(val.work_id_fk));
-    	                   	rowArray.push($.trim(val.contract_id_fk));
-    	                   	rowArray.push($.trim(val.activity_id_fk));
+    	                   	/* rowArray.push($.trim(val.project_id_fk)); */
+    	                   	rowArray.push($.trim(val.work_id_fk) + workName);
+    	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
+    	                   	/* rowArray.push($.trim(val.activity_id_fk)); */
     	                   	rowArray.push($.trim(val.title));
     	                   	rowArray.push($.trim(val.date));
     	                   	rowArray.push($.trim(val.location));

@@ -42,7 +42,7 @@
                             </div>
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="fob.jsp" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-fob-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add FOB</strong></a>
                                 </div>
                             </div>

@@ -1,13 +1,27 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class Work {
 	private String work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,weight,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,pink_book_item_number,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks;
 
+	private List<Work> workRevisions;
+	private MultipartFile workFile;
+
 	
-	
+	public MultipartFile getWorkFile() {
+		return workFile;
+	}
+
+	public void setWorkFile(MultipartFile workFile) {
+		this.workFile = workFile;
+	}
+
 	public String getWys_renarks() {
 		return wys_renarks;
 	}
@@ -242,6 +256,14 @@ public class Work {
 
 	public void setProject_name(String project_name) {
 		this.project_name = project_name;
+	}
+
+	public List<Work> getWorkRevisions() {
+		return workRevisions;
+	}
+
+	public void setWorkRevisions(List<Work> workRevisions) {
+		this.workRevisions = workRevisions;
 	}
 	
 }

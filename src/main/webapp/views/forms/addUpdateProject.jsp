@@ -26,6 +26,17 @@
 	.my-valid-class {
     color:green;
 }
+ .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+			
     </style>
 </head>
 
@@ -56,15 +67,13 @@
              <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 	<c:if test="${not empty success }">
-						<div class="alert alert-success alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							${success }
+				        <div class="center-align m-1 close-message">	
+						   ${success}
 						</div>
 					</c:if>
 					<c:if test="${not empty error }">
-						<div class="alert alert-danger alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							${error }
+						<div class="center-align m-1 close-message">
+						   ${error}
 						</div>
 					</c:if>
 				</div>
@@ -72,11 +81,11 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <c:if test="${action eq 'edit'}">				                
-			                	<form action="updateProject" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form">
+			                	<form action="update-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form">
                                       </c:if>
 			              
 			                <c:if test="${action eq 'add'}">				                
-			                	<form action="addProject" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form">
+			                	<form action="add-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form">
 							</c:if> 
 							
                             <div class="row">
@@ -139,17 +148,17 @@
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
                                      <c:if test="${action eq 'edit'}">
- 											<button style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>    
+ 											<button style="width: 100%;" onclick="updateProject();" class="btn waves-effect waves-light bg-m">Update</button>    
  									 </c:if>
                                          <c:if test="${action eq 'add'}">
- 											<button style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>    
+ 											<button style="width: 100%;" onclick="addProject();" class="btn waves-effect waves-light bg-m">Add</button>    
  									 </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                        <a href="<%=request.getContextPath()%>/project" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -167,7 +176,19 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-
+<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
 
     <script src="/pmis/resources/js/jQuery.min.js"></script>
@@ -182,8 +203,21 @@
             $('#textarea1,#p_desc').characterCounter();
         });
         
-        $(document).ready(function() {
-			 $('#projectForm').validate({
+        function addProject(){
+	  		if(validator.form()){ // validation perform
+	  			$(".page-loader").show();	    		
+    			document.getElementById("projectForm").submit();			
+    	 	}
+    	}
+  
+        function updateProject(){
+	  		if(validator.form()){ // validation perform
+	  			$(".page-loader").show();	    		
+    			document.getElementById("projectForm").submit();			
+    	 	}
+    	}
+   
+        var validator =	$('#projectForm').validate({
 				 errorClass: "my-error-class",
 				   validClass: "my-valid-class",
 				 ignore: ":hidden:not(.chosen-select)",
@@ -211,29 +245,28 @@
 			   		},
 			   		errorPlacement:function(error, element){
 			   		 	if (element.attr("id") == "project_name" ){
-							  document.getElementById("project_nameError").innerHTML="";
-					 			 error.appendTo('#project_nameError');
+							 document.getElementById("project_nameError").innerHTML="";
+					 		 error.appendTo('#project_nameError');
 							 }
-			   		 	else if (element.attr("id") == "plan_head_number" ){
-								  document.getElementById("plan_head_numberError").innerHTML="";
-						 			 error.appendTo('#plan_head_numberError');
+			   		 	else if(element.attr("id") == "plan_head_number" ){
+							   document.getElementById("plan_head_numberError").innerHTML="";
+						 	   error.appendTo('#plan_head_numberError');
 								 }
-			   		 	else if (element.attr("id") == "pink_book_item_number" ){
-									  document.getElementById("pink_book_item_numberError").innerHTML="";
-							 			 error.appendTo('#pink_book_item_numberError');
+			   		 	else if(element.attr("id") == "pink_book_item_number" ){
+								document.getElementById("pink_book_item_numberError").innerHTML="";
+							 	error.appendTo('#pink_book_item_numberError');
 									 }
-						 else if (element.attr("id") == "remarks" ){
-						  document.getElementById("remarksError").innerHTML="";
-				 			 error.appendTo('#remarksError');
+						 else if(element.attr("id") == "remarks" ){
+						 		 document.getElementById("remarksError").innerHTML="";
+				 				 error.appendTo('#remarksError');
 						 }else{
-			 			error.insertAfter(element);
+			 					error.insertAfter(element);
 					       } 
-			
 			   		},submitHandler:function(form){
 				    	form.submit();
 				    }
 				});   
-       });
+       
         
         
     </script>

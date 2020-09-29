@@ -72,7 +72,7 @@ Logger logger = Logger.getLogger(ProjectController.class);
 		return model;
 	}
 	
-	@RequestMapping(value = "/edit-project", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/get-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getProjectDetails(@ModelAttribute Project project){
 		ModelAndView model = new ModelAndView();
 		String projectId = null;
@@ -90,32 +90,30 @@ Logger logger = Logger.getLogger(ProjectController.class);
 
 	}
 	
-	@RequestMapping(value = "/updateProject", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/update-Project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateProject(@ModelAttribute Project project,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/project");
 			boolean flag =  projectService.updateProject(project);
 			if(flag == true) {
-				System.out.println("success");
-				attributes.addFlashAttribute("success", "Record Updated Succesfully.");
+				attributes.addFlashAttribute("success", "Project Updated Succesfully.");
 
 			}
 			else {
-				System.out.println("failed");
-				attributes.addFlashAttribute("error"," Something went Wrong.");
+				attributes.addFlashAttribute("error","Updating Project is failed. Try again.");
 
 			}
 		
 		}catch (Exception e) {
 			e.printStackTrace();
-			attributes.addFlashAttribute("error"," Something went Wrong.");
+			attributes.addFlashAttribute("error","Updating Project is failed. Try again.");
 			logger.info("Project : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/addProject-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-Project-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addProjectForm(){
 		ModelAndView model = new ModelAndView();
 		
@@ -128,30 +126,28 @@ Logger logger = Logger.getLogger(ProjectController.class);
 			return model;
 	 }
 	
-	@RequestMapping(value = "/addProject", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-Project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addProject(@ModelAttribute  Project project,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/project");
 			boolean flag =  projectService.addProject(project);
 			if(flag == true) {
-				System.out.println("success");
-				attributes.addFlashAttribute("success", "Record Created Succesfully.");
+				attributes.addFlashAttribute("success", "Project Added Succesfully.");
 			}
 			else {
-				System.out.println("failed");
-				attributes.addFlashAttribute("error"," Something went Wrong.");
+				attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
 
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error"," Something went Wrong.");
+			attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
 			logger.info("Project : " + e.getMessage());
 		}
 		return model;
 	
 	}
 	
-	@RequestMapping(value = "/deleteProjectRow", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/delete-Project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView deleteProjectRow(@ModelAttribute Project project){
 		ModelAndView model = new ModelAndView();
 		String projectId = null;
@@ -159,12 +155,6 @@ Logger logger = Logger.getLogger(ProjectController.class);
 			model.setViewName("redirect:/project");
 			projectId= project.getProject_id();
 			boolean flag =  projectService.deleteProjectRow(projectId,project);
-			if(flag == true) {
-				System.out.println("Delete success");
-			}
-			else {
-				System.out.println("Delete failed");
-			}
 		}catch (Exception e) {
 			logger.info("Work : " + e.getMessage());
 		}

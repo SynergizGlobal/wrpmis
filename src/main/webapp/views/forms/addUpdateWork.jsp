@@ -43,6 +43,16 @@
 			right: 24px;
 			top: 5px;
 		}
+		 .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 <body>
@@ -70,15 +80,13 @@
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 	<c:if test="${not empty success }">
-						<div class="alert alert-success alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							${success }
+				        <div class="center-align m-1 close-message">	
+						   ${success}
 						</div>
 					</c:if>
 					<c:if test="${not empty error }">
-						<div class="alert alert-danger alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							${error }
+						<div class="center-align m-1 close-message">
+						   ${error}
 						</div>
 					</c:if>
 				</div>
@@ -86,10 +94,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                     	 <c:if test="${action eq 'edit'}">				                
-			                	<form action="updateWork-form" id="workForm" name="workForm" method="post" class="form-horizontal" role="form">
+			                	<form action="<%=request.getContextPath() %>/update-Work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                          </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="addWork" id="workForm" name="workForm" method="post" class="form-horizontal" role="form">
+			                	<form action="<%=request.getContextPath() %>/add-Work" id="workForm" name="workForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                       
                             <div class="row">
@@ -224,44 +232,46 @@
                                             </tr>
                                         </thead> 
                                         <tbody id="revisionsTableBody">
-                                           <tr id="revisionRow0">                                            	
-                                                <td> 
-                              					 <select  name="financial_years"  id="financial_years0"  class="selectDropdown">
-                                   					 <option value="" >select</option>
-                                         			  <c:forEach var="obj" items="${yearList}">
-                    					  				 <option value="${obj.financial_year }"<c:if test="${workDeatils.financial_year eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
-                                          			  </c:forEach>
-                               					  </select>
-                                                </td>
-                                                <td>
-                                                    <input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate" value="${workDeatils.pink_book_item_number }" 
-                                                        placeholder="PB Item Number">
-                                                </td>
-                                                <td>
-                                                    <input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" value="${workDeatils.latest_revised_cost }"
-                                                        placeholder="Latest Revised Cost">
-                                                </td>
-                                                <td>
-                                                   <select id="year_of_revisions0" name ="year_of_revisions" >
-                                                           <option value="" selected>select</option>
-                                                        <c:forEach var="obj" items="${yearList}">
-                    					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.year_of_revision eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
-                                          			    </c:forEach>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" value="${workDeatils.revision_number }"
-                                                        placeholder="Revision Number">
-                                                </td>
-                                                <td>
-                                                    <input id="remarkss0" name="remarkss" type="text" class="validate" value="${workDeatils.wys_renarks }"
-                                                        placeholder="Remarks">
-                                                </td>
-                                                <td>
-                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
+                                        	<c:forEach var="revObj" items="${workDeatils.workRevisions }" varStatus="index">                                        	
+	                                           <tr id="revisionRow${index.count }">                                            	
+	                                                <td> 
+	                              					 <select  name="financial_years"  id="financial_years${index.count }"  class="selectDropdown">
+	                                   					 <option value="" >select</option>
+	                                         			  <c:forEach var="obj" items="${yearList}">
+	                    					  				 <option value="${obj.financial_year }"<c:if test="${revObj.financial_year eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
+	                                          			  </c:forEach>
+	                               					  </select>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="text" class="validate" value="${revObj.pink_book_item_number }" 
+	                                                        placeholder="PB Item Number">
+	                                                </td>
+	                                                <td>
+	                                                    <input id="latest_revised_costs${index.count }" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
+	                                                        placeholder="Latest Revised Cost">
+	                                                </td>
+	                                                <td>
+	                                                   <select id="year_of_revisions${index.count }" name ="year_of_revisions" >
+	                                                           <option value="" selected>select</option>
+	                                                        <c:forEach var="obj" items="${yearList}">
+	                    					  				  <option  value="${obj.financial_year }"<c:if test="${revObj.year_of_revision eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+	                                          			    </c:forEach>
+	                                                    </select>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
+	                                                        placeholder="Revision Number">
+	                                                </td>
+	                                                <td>
+	                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate" value="${revObj.remarks }"
+	                                                        placeholder="Remarks">
+	                                                </td>
+	                                                <td>
+	                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>
+	                                            </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
   									 <a type="button" id="newButton"class="btn waves-effect waves-light bg-s t-c "  onclick="addRevisionRow()"> <i
@@ -300,7 +310,7 @@
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
                                       <c:if test="${action eq 'edit'}">
-                                       <button type="button" onclick="addWork();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+                                       <button type="button" onclick="updateWork();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
                                       </c:if>
                                     <c:if test="${action eq 'add'}">
                                         <button type="button" onclick="addWork();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
@@ -309,8 +319,8 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                        <a  href="<%=request.getContextPath()%>/work"  class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -324,10 +334,22 @@
         </div>
     </div>
 
-
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
     <!-- footer  -->
- <jsp:include page="../layout/footer.jsp"></jsp:include>
+   <jsp:include page="../layout/footer.jsp"></jsp:include>
  
 
 
@@ -335,13 +357,12 @@
     <script src="/pmis/resources/js/materialize.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script> 
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script> 
 
 
     <script>
         $(document).ready(function () {
             $('select').formSelect();
-            $('.modal').modal();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();
             $("#year_of_completion").datepicker({
@@ -413,14 +434,21 @@
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      
         
         function addWork(){
-    		if(validator.form()){ // validation perform
+	  		if(validator.form()){ // validation perform
+	  			$(".page-loader").show();	    		
+    			document.getElementById("workForm").submit();			
+    	 	}
+    	}
+  
+        function updateWork(){
+	  		if(validator.form()){ // validation perform
+	  			$(".page-loader").show();	    		
     			document.getElementById("workForm").submit();			
     	 	}
     	}
         
         var validator = $('#workForm').validate({
-				
-		        	 errorClass: "my-error-class",
+		           errorClass: "my-error-class",
 				   validClass: "my-valid-class",
 				   ignore: ":hidden:not(.validate-dropdown)",
 		  		    rules: {
@@ -455,9 +483,9 @@
 		  		 			required: 'This Field Required'
 		  		 	  	 },"work_name": {
 		  				 	required: 'This Field Required',
-		  			 	  },"sanctioned_estimated_cost": {
+		  			 	 },"sanctioned_estimated_cost": {
 		  			 		required: ' This Field Required'
-		  			 	  },"completeion_period_months": {
+		  			 	 },"completeion_period_months": {
 		  		 			required: ' This Field Required'
 		  		 	  	 },"sanctioned_year": {
 		  		 			required: ' This Field Required'
@@ -473,7 +501,7 @@
 		  		 			required: ' This Field Required'
 		  		 	  	 },"executed_by_id_fk": {
 		  		 			required: 'This Field Required'
-		  		 		},"remarks": {
+		  		 		 },"remarks": {
 		  		 			required: 'This Field Required'
 		  		 	  	 }
 			   		},
@@ -482,48 +510,50 @@
 		  		 		     document.getElementById("work_nameError").innerHTML="";
 		  		 		  error.appendTo('#work_nameError');
 			   			 }else if (element.attr("id") == "sanctioned_estimated_cost" ){
-		  		 		     document.getElementById("sanctioned_estimated_costError").innerHTML="";
-		  		 			 error.appendTo('#sanctioned_estimated_costError');
-		  		 	   		 }else if (element.attr("id") == "project_id_fk" ){
-		  						document.getElementById("project_id_fkError").innerHTML="";
-				  		 		 error.appendTo('#project_id_fkError');
-				  		 	   	 }else if (element.attr("id") == "completeion_period_months" ){
-					  		 		 document.getElementById("completeion_period_monthsError").innerHTML="";
-					  		 		 error.appendTo('#completeion_period_monthsError');
-					  		 	     }else if (element.attr("id") == "sanctioned_year" ){
-							  		 	 document.getElementById("sanctioned_yearError").innerHTML="";
-							  		 	 error.appendTo('#sanctioned_yearError');
-							  		     }else if (element.attr("id") == "sanctioned_completion_cost" ){
-									  		  document.getElementById("sanctioned_completion_costError").innerHTML="";
-									  		  error.appendTo('#sanctioned_completion_costError');
-									  		 }else if (element.attr("id") == "anticipated_cost" ){
-											  	  document.getElementById("anticipated_costError").innerHTML="";
-											  	  error.appendTo('#anticipated_costError');
-											  	 }else if (element.attr("id") == "year_of_completion" ){
-													  document.getElementById("year_of_completionError").innerHTML="";
-													  error.appendTo('#year_of_completionError');
-													 }else if (element.attr("id") == "completion_cost" ){
-														  document.getElementById("completion_costError").innerHTML="";
-														  error.appendTo('#completion_costError');
-														 }else if (element.attr("id") == "railway_id_fk" ){
-															  document.getElementById("railway_id_fkError").innerHTML="";
-															  error.appendTo('#railway_id_fkError');
-															 }else if (element.attr("id") == "executed_by_id_fk" ){
-																  document.getElementById("executed_by_id_fkError").innerHTML="";
-																  error.appendTo('#executed_by_id_fkError');
-																 }else if (element.attr("id") == "remarks" ){
-																	  document.getElementById("remarksError").innerHTML="";
-																	  error.appendTo('#remarksError');
-																	 }else{
-															            	error.insertAfter(element);
-															            } 
+		  		 		      document.getElementById("sanctioned_estimated_costError").innerHTML="";
+		  		 			  error.appendTo('#sanctioned_estimated_costError');
+	  		 	   		 }else if (element.attr("id") == "project_id_fk" ){
+	  						  document.getElementById("project_id_fkError").innerHTML="";
+			  		 		  error.appendTo('#project_id_fkError');
+		  		 	   	 }else if (element.attr("id") == "completeion_period_months" ){
+			  		 		  document.getElementById("completeion_period_monthsError").innerHTML="";
+			  		 		  error.appendTo('#completeion_period_monthsError');
+		  		 	     }else if (element.attr("id") == "sanctioned_year" ){
+				  		 	  document.getElementById("sanctioned_yearError").innerHTML="";
+				  		 	  error.appendTo('#sanctioned_yearError');
+			  		     }else if (element.attr("id") == "sanctioned_completion_cost" ){
+					  		  document.getElementById("sanctioned_completion_costError").innerHTML="";
+					  		  error.appendTo('#sanctioned_completion_costError');
+				  		 }else if (element.attr("id") == "anticipated_cost" ){
+						  	  document.getElementById("anticipated_costError").innerHTML="";
+						  	  error.appendTo('#anticipated_costError');
+					  	 }else if (element.attr("id") == "year_of_completion" ){
+							  document.getElementById("year_of_completionError").innerHTML="";
+							  error.appendTo('#year_of_completionError');
+						 }else if (element.attr("id") == "completion_cost" ){
+							  document.getElementById("completion_costError").innerHTML="";
+							  error.appendTo('#completion_costError');
+						 }else if (element.attr("id") == "railway_id_fk" ){
+							  document.getElementById("railway_id_fkError").innerHTML="";
+							  error.appendTo('#railway_id_fkError');
+						 }else if (element.attr("id") == "executed_by_id_fk" ){
+							  document.getElementById("executed_by_id_fkError").innerHTML="";
+							  error.appendTo('#executed_by_id_fkError');
+						 }else if (element.attr("id") == "remarks" ){
+							  document.getElementById("remarksError").innerHTML="";
+							  error.appendTo('#remarksError');
+						 }else{
+				            	error.insertAfter(element);
+				            } 
 			   		 	
 			   		},submitHandler:function(form){
 				    	form.submit();
 				    }
 				}); 
         //**********************ADD NEW ROW TO REVISION TABLE *************************************************************************************
-       	 
+       
+
+
   	  function addRevisionRow(){
   		
         var rowNo = $("#rowNo").val();
@@ -535,42 +565,50 @@
         	} 
         });
          */
-        var className = '.selectDropdown';
-       
-  		var html = '<tr id="revisionRow'+rNo+'"><td> <div>'
-   			+'<select  name="financial_years" id="financial_years'+rNo+'"  class="selectDropdown" >'	   			
-   			html = html	+'<option value=" " >select</option>'
-   		
-   			$('.selectDropdown').each(function(){
-   				<c:forEach var="obj" items="${yearList}">
-   					if($(this).val()== "${obj.financial_year }"){
-	                     $('.selectDropdown').$(this).find('option[value="'+$(this).val()+'"]').remove();
-   					}else {
-   	   					html = html	 +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
-   					}
-			    </c:forEach>
-   			});
-   		html = html		+'</select></div></td>'
-		   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
-		   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost"></td>'
-		   +'<td> <div>'
-		   +'<select class="test" id="year_of_revisions'+rNo+'" name="year_of_revisions" >'
-		   +'<option value=" " selected>select</option>'
-		   <c:forEach var="obj" items="${yearList}">
-			 +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
-		    </c:forEach>
-				+'</select></div></td>'
-		   +'<td><input  type="text" class="validate" id="revision_numbers'+rNo+'" name="revision_numbers" placeholder="Revision Number"></td>'
-		   +'<td><input  type="text" class="validate" id="remarkss'+rNo+'" name="remarkss" placeholder="Remarks"></td>'
-	   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	 
-		 $('#revisionsTableBody').append(html);
-		 $("#rowNo").val(rNo);
-		 $('select').formSelect();
-		 
+     	/*  $(".selectDropdown").change(function() {
+             // Get the selected value
+             var selected = $("option:selected", $(this)).val();
+             // Get the ID of this element
+             var thisID = $(this).attr("id");
+             // Reset so all values are showing:
+             $(".selectDropdown option").each(function() {
+                 $(this).show();
+             });
+             $(".selectDropdown").each(function() {
+                 if ($(this).attr("id") != thisID) {
+                     $("option[value='" + selected + "']", $(this)).attr("disabled", true);
+                 }
+             });
+
+         }); */
+         
+         var html = '<tr id="revisionRow'+rNo+'"><td> <div>'
+		   		   +'<select  name="financial_years" id="financial_years'+rNo+'"  class="selectDropdown" >'	   			
+		   		   +'<option value=" " >select</option>'
+				     <c:forEach var="obj" items="${yearList}">
+		     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
+				     </c:forEach>
+		   		   +'</select></div></td>'
+				   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
+				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost"></td>'
+				   +'<td> <div>'
+				   +'<select class="test" id="year_of_revisions'+rNo+'" name="year_of_revisions" >'
+				   +'<option value=" " selected>select</option>'
+				     <c:forEach var="obj" items="${yearList}">
+					   +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
+				     </c:forEach>
+				   +'</select></div></td>'
+				   +'<td><input  type="text" class="validate" id="revision_numbers'+rNo+'" name="revision_numbers" placeholder="Revision Number"></td>'
+				   +'<td><input  type="text" class="validate" id="remarkss'+rNo+'" name="remarkss" placeholder="Remarks"></td>'
+			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+			 
+				 $('#revisionsTableBody').append(html);
+				 $("#rowNo").val(rNo);
+				 $('select').formSelect();
 		 //******************* Revision table Validation***************************************
 
-		/* var className = '.selectDropdown';
+		
+		/*  var className = '.selectDropdown';
 		  $(className).focus(function () {
 		                  oldValue = this.value;
 		                  oldText = $(this).find('option:selected').text();
@@ -585,8 +623,10 @@
 		                  }
 		                  $(this).blur();
 		              }); */
-     }
-  	
+     } 
+        
+ 
+ 
    	/*  $('#newButton').on('click', function () {
          $('tbody').append(html);
          $('select').formSelect();
@@ -598,6 +638,7 @@
     }); */
     
     function removeRevision(rowNo){
+    	//alert("#revisionRow"+rowNo);
     	$("#revisionRow"+rowNo).remove();
     }
   

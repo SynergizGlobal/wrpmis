@@ -23,17 +23,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Railway;
-import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.Year;
 
@@ -77,7 +78,7 @@ public class WorkController {
 	}
 	
 	
-	@RequestMapping(value = "/edit-work", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/get-work", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getWorkDetails(@ModelAttribute Work work,Railway rail){
 		ModelAndView model = new ModelAndView();
 		String workId = null;
@@ -106,7 +107,7 @@ public class WorkController {
 	}
 	
 	
-	@RequestMapping(value = "/addWork-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-Work-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addWorkForm(){
 		ModelAndView model = new ModelAndView();
 		
@@ -129,7 +130,7 @@ public class WorkController {
 	 }
 	
 	
-	@RequestMapping(value = "/updateWork-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/update-Work", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateWork(@ModelAttribute Work work,RedirectAttributes attributes){
 		
 		ModelAndView model = new ModelAndView();
@@ -137,23 +138,27 @@ public class WorkController {
 			model.setViewName("redirect:/work");
 			boolean flag =  workService.updateWork(work);
 			if(flag == true) {
-				System.out.println("success");
-				attributes.addFlashAttribute("success", "Record Updated Succesfully.");
+				MultipartFile file = work.getWorkFile();
+				if (null != file && !file.isEmpty()){
+					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				}				
+				attributes.addFlashAttribute("success", "Work Updated Succesfully.");
 			}
 			else {
-				System.out.println("failed");
-				attributes.addFlashAttribute("error"," Something went Wrong.");
+				attributes.addFlashAttribute("error","Updating Work is failed. Try again.");
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
-			attributes.addFlashAttribute("error"," Something went Wrong.");
+			attributes.addFlashAttribute("error","Updating Work is failed. Try again.");
 			logger.info("Work : " + e.getMessage());
 		}
 		return model;
 	}
 	
 	
-	@RequestMapping(value = "/addWork", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-Work", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView addWork(@ModelAttribute Work work,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
@@ -161,16 +166,19 @@ public class WorkController {
 			model.setViewName("redirect:/work");
 			boolean flag =  workService.addWork(work);
 			if(flag == true) {
-				System.out.println("success");
-				attributes.addFlashAttribute("success", "Record Created Succesfully.");
-				//model.addObject("success", " Record Created Succesfully.");
+				MultipartFile file = work.getWorkFile();
+				if (null != file && !file.isEmpty()){
+					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				}
+				attributes.addFlashAttribute("success", "Work Added Succesfully.");
 			}
 			else {
-				System.out.println("failed");
-				attributes.addFlashAttribute("error"," Something went Wrong.");
+				attributes.addFlashAttribute("error","Adding Work is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error"," Something went Wrong.");
+			attributes.addFlashAttribute("error","Adding Work is failed. Try again.");
 			logger.info("Work : " + e.getMessage());
 		}
 		return model;
@@ -184,12 +192,6 @@ public class WorkController {
 			model.setViewName("redirect:/work");
 			workId = work.getWork_id();
 			boolean flag =  workService.deleteRow(workId,work);
-			if(flag == true) {
-				System.out.println("Delete success");
-			}
-			else {
-				System.out.println("Delete failed");
-			}
 		}catch (Exception e) {
 			logger.info("Work : " + e.getMessage());
 		}

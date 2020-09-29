@@ -69,14 +69,14 @@
                     </span>
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-               		  <c:if test="${not empty success }"> 
-						<div class="isa_success" role="alert" id="pop">
-							<p  id="msg">${success } <i class="fa fa-check"></i></p>
+               		  <c:if test="${not empty success }">
+				        <div class="center-align m-1 close-message">	
+						   ${success}
 						</div>
-					 </c:if> 
-					 <c:if test="${not empty error }"> 
-						<div class="alert alert-danger alert-dismissible" role="alert" id="pop">
-						<p  id="Emsg">	${error }<i class="fa fa-times-circle"></i></p>	
+					</c:if>
+					<c:if test="${not empty error }">
+						<div class="center-align m-1 close-message">
+						   ${error}
 						</div>
 					</c:if>
 				</div>
@@ -94,7 +94,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="addProject-form" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="add-Project-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Project</strong></a>
                                 </div>
                             </div>
@@ -130,10 +130,10 @@
                                             <td>&nbsp;${ obj.pink_book_item_number }</td>
                                             <td>&nbsp;${ obj.remarks }</td>
                                             <td class="last-column"> <a href="javascript:void(0);"
-                                            onclick="getId('${ obj.project_id }')"
+                                            onclick="getProject('${ obj.project_id }')"
                                                     class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-pencil"></i> </a>
-                                                <a onclick="setProjectId('${ obj.project_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+                                                <a onclick="deleteProject('${ obj.project_id }');" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -196,25 +196,19 @@
                 }
             });
         });
-        function getId(project_id){
+        function getProject(project_id){
 	    	$("#project_id").val(project_id);
-	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/edit-project');
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-project');
 	    	$('#getForm').submit();
 	    }
- function setProjectId(project_id){
-        	
+ 		function deleteProject(project_id){
         	$("#project_id").val(project_id);
         	showCancelMessage();
 	    }
-        function deleteUser(){
         	
-        	$('#getForm').attr('action', '<%=request.getContextPath()%>/deleteProjectRow');
-	    	$('#getForm').submit();
-        }
+        
         function showCancelMessage() {
-        	
         	swal({
-	        	
 	            title: "Are you sure?",
 	            text: "You will be able to change the status of record!",
 	            type: "warning",
@@ -226,9 +220,10 @@
 	            closeOnCancel: false
 	        }, function (isConfirm) {
 	            if (isConfirm) {
-	                swal("Deleted!", "Record has been deleted", "success");
-	                deleteUser();
-	            } else {
+	               // swal("Deleted!", "Record has been deleted", "success");
+	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-Project');
+	    	    	$('#getForm').submit();
+	           }else {
 	                swal("Cancelled", "Record is safe :)", "error");
 	            }
 	        });

@@ -25,34 +25,8 @@
         p a {
             color: blue;
         }
-		#msg{
-		    position: relative;
-		    color: #4F8A10;
-   		    background-color: #DFF2BF;
-		    width: 300px;
-  			bottom: 14spx;
-    		font-size: 15px;
-    		text-align: center;
-			left: 505px;
-
-		}
-		#Emsg{
-		    position: relative;
-		    color: #D8000C;
-  		    background-color: #FFD2D2;
-		    width: 300px;
-  			bottom: 14spx;
-    		font-size: 15px;
-    		text-align: center;
-			left: 505px;
-		}
+		
     </style>
-    <script type="text/javascript">
-   		 var fade_out = function() {
-    	 	 $("#msg,#Emsg").fadeOut().empty();
-    		}
-    		setTimeout(fade_out, 5000);
-    </script>
 </head>
 <body>
     <!-- header  starts-->
@@ -71,14 +45,14 @@
                     
 			<div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-               		  <c:if test="${not empty success }"> 
-						<div class="isa_success" role="alert" id="pop">
-							<p  id="msg">${success } <i class="fa fa-check"></i></p>
+               		<c:if test="${not empty success }">
+				        <div class="center-align m-1 close-message">	
+						   ${success}
 						</div>
-					 </c:if> 
-					 <c:if test="${not empty error }"> 
-						<div class="alert alert-danger alert-dismissible" role="alert" id="pop">
-						<p  id="Emsg">	${error }<i class="fa fa-times-circle"></i></p>	
+					</c:if>
+					<c:if test="${not empty error }">
+						<div class="center-align m-1 close-message">
+						   ${error}
 						</div>
 					</c:if>
 			</div>
@@ -96,7 +70,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="addWork-form" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="add-Work-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Work</strong></a>
                                 </div>
                             </div>
@@ -111,7 +85,7 @@
                         <div class="row">
                             <div class="col m12 s12">
 
-                                <table id="example" class="mdl-data-table">
+                                <table id="datatable-works" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Project Name </th>
@@ -136,10 +110,10 @@
                                             <td>${ obj.executed_by_id_fk }</td>
                                             <td>&nbsp;${ obj.remarks }</td>
                                             <td class="last-column"> <a href="javascript:void(0);" 
-                                            				onclick="getId('${ obj.work_id }');"
+                                            				onclick="getWork('${ obj.work_id }');"
                                                     class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-pencil"></i> </a>
-                                            <%--  <a  onclick="setWorkId('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+                                            <%--  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a> --%>
                                             </td>
                                              
@@ -187,7 +161,7 @@
                 coverTrigger: false,
                 closeOnClick: false,
             });
-            $('#example').DataTable({
+            $('#datatable-works').DataTable({
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
@@ -203,25 +177,18 @@
                 }
             });
         });
-        function getId(work_id){
+        function getWork(work_id){
 	    	$("#work_id").val(work_id);
-	    //	$("#executed_by_id_fk").val(executed_by_id_fk);
-//
+	    	//$("#executed_by_id_fk").val(executed_by_id_fk);
+
 	    	//$("#railway_id_fk").val(railway_id_fk);
 	    	
-	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/edit-work');
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-work');
 	    	$('#getForm').submit();
 	    }
-        function setWorkId(work_id){
-        	
+        function deleteWork(work_id){       
         	$("#work_id").val(work_id);
-        	showCancelMessage();
-        	
-	    }
-        function deleteUser(){
-        	
-        	$('#getForm').attr('action', '<%=request.getContextPath()%>/deleteRow');
-	    	$('#getForm').submit();
+        	showCancelMessage();        	
         }
         function showCancelMessage() {
         	
@@ -238,8 +205,9 @@
 	            closeOnCancel: false
 	        }, function (isConfirm) {
 	            if (isConfirm) {
-	                swal("Deleted!", "Record has been deleted", "success");
-	                deleteUser();
+	                //swal("Deleted!", "Record has been deleted", "success");
+	                $('#getForm').attr('action', '<%=request.getContextPath()%>/deleteRow');
+	    	    	$('#getForm').submit();
 	            } else {
 	                swal("Cancelled", "Record is safe :)", "error");
 	            }

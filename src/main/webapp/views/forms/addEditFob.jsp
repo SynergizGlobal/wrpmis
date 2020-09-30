@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -109,6 +108,7 @@
                                     <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                	<i class="material-icons prefix center-align">₹</i>   
                                     <input id="estimated_cost" type="text" class="validate">
                                     <label for="estimated_cost">Estimated Cost </label>
                                 </div>
@@ -139,6 +139,7 @@
                                     <button type="button" id="ac_date_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                	<i class="material-icons prefix center-align">₹</i>   
                                     <input id="completion_cost" type="text" class="validate">
                                     <label for="completion_cost">Completion Cost </label>
                                 </div>

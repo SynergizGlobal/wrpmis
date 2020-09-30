@@ -3,9 +3,6 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -44,7 +41,7 @@ public class LoginDaoImpl implements LoginDao{
 		try{  
 			con = dataSource.getConnection();
 			
-			String qry = "select user_id,user_name,password,email_id,employee_type_fk,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,secondary_email_id,mobile_number,alternate_mobile_number,landline,extension,pmis_key_fk,remarks "
+			String qry = "select user_id,user_name,password,designation,email_id,mobile_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks "
 					+ "from user "
 					+ "where password = BINARY ? and user_id = BINARY ?";
 			
@@ -59,18 +56,16 @@ public class LoginDaoImpl implements LoginDao{
 				
 				userDetails.setUser_id(rs.getString("user_id"));
 				userDetails.setUser_name(rs.getString("user_name"));
-				userDetails.setEmail_id(rs.getString("email_id"));
-				userDetails.setSecondary_email_id(rs.getString("secondary_email_id"));
-				userDetails.setEmployee_type_fk(rs.getString("employee_type_fk"));
-				userDetails.setDepartment_fk(rs.getString("department_fk"));
+				userDetails.setPassword(rs.getString("password"));
 				userDetails.setDesignation(rs.getString("designation"));
-				userDetails.setReporting_to_id_srfk(rs.getString("reporting_to_id_srfk"));
-				userDetails.setUser_role_name_fk(rs.getString("user_role_name_fk"));
+				userDetails.setEmail_id(rs.getString("email_id"));
 				userDetails.setMobile_number(rs.getString("mobile_number"));
-				userDetails.setAlternate_mobile_number(rs.getString("alternate_mobile_number"));
 				userDetails.setLandline(rs.getString("landline"));
 				userDetails.setExtension(rs.getString("extension"));
+				userDetails.setDepartment_fk(rs.getString("department_fk"));
+				userDetails.setReporting_to_id_srfk(rs.getString("reporting_to_id_srfk"));
 				userDetails.setPmis_key_fk(rs.getString("pmis_key_fk"));
+				userDetails.setUser_role_name_fk(rs.getString("user_role_name_fk"));
 				userDetails.setRemarks(rs.getString("remarks"));
 				
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
@@ -106,13 +101,12 @@ public class LoginDaoImpl implements LoginDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
 			if(!flag) {
-				String insertQry = "INSERT INTO user_login (user_id_fk,last_login,last_login_application_fk,number_of_logins)"  
-						+ " VALUES (?,?,CURRENT_TIMESTAMP,?)";
+				String insertQry = "INSERT INTO user_login (user_id_fk,last_login,number_of_logins)"  
+						+ " VALUES (?,CURRENT_TIMESTAMP,?)";
 				stmt = con.prepareStatement(insertQry);
 				
 				int s = 1;
 				stmt.setString(s++,user_id);
-				stmt.setString(s++,null);
 				stmt.setInt(s++,1);
 				c = stmt.executeUpdate();
 				if (c > 0) {

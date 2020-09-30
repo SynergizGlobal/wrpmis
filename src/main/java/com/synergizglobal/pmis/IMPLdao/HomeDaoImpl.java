@@ -135,7 +135,7 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT form_id,module_name_fk,pmis_access_id_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,formcol,priority,soft_delete_status_fk "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
 			
@@ -186,7 +186,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,pmis_access_id_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,formcol,priority,soft_delete_status_fk "
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			

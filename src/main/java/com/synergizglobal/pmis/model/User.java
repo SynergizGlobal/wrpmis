@@ -3,7 +3,7 @@ package com.synergizglobal.pmis.model;
 import org.springframework.web.multipart.MultipartFile;
 
 public class User  {
-	private String user_id,user_name,password,email_id,employee_type_fk,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,secondary_email_id,mobile_number,alternate_mobile_number,landline,extension,pmis_key_fk,remarks;
+	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,mobile_number,landline,extension,pmis_key_fk,remarks;
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
@@ -52,17 +52,6 @@ public class User  {
 		this.email_id = email_id;
 	}
 
-
-	public String getEmployee_type_fk() {
-		return employee_type_fk;
-	}
-
-
-	public void setEmployee_type_fk(String employee_type_fk) {
-		this.employee_type_fk = employee_type_fk;
-	}
-
-
 	public String getDepartment_fk() {
 		return department_fk;
 	}
@@ -103,16 +92,6 @@ public class User  {
 	}
 
 
-	public String getSecondary_email_id() {
-		return secondary_email_id;
-	}
-
-
-	public void setSecondary_email_id(String secondary_email_id) {
-		this.secondary_email_id = secondary_email_id;
-	}
-
-
 	public String getMobile_number() {
 		return mobile_number;
 	}
@@ -120,16 +99,6 @@ public class User  {
 
 	public void setMobile_number(String mobile_number) {
 		this.mobile_number = mobile_number;
-	}
-
-
-	public String getAlternate_mobile_number() {
-		return alternate_mobile_number;
-	}
-
-
-	public void setAlternate_mobile_number(String alternate_mobile_number) {
-		this.alternate_mobile_number = alternate_mobile_number;
 	}
 
 
@@ -226,10 +195,10 @@ public class User  {
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", user_name=" + user_name + ", password=" + password + ", email_id="
-				+ email_id + ", employee_type_fk=" + employee_type_fk + ", department_fk=" + department_fk
+				+ email_id +", department_fk=" + department_fk
 				+ ", designation=" + designation + ", reporting_to_id_srfk=" + reporting_to_id_srfk
-				+ ", user_role_name_fk=" + user_role_name_fk + ", secondary_email_id=" + secondary_email_id
-				+ ", mobile_number=" + mobile_number + ", alternate_mobile_number=" + alternate_mobile_number
+				+ ", user_role_name_fk=" + user_role_name_fk 
+				+ ", mobile_number=" + mobile_number 
 				+ ", landline=" + landline + ", extension=" + extension + ", pmis_key_fk=" + pmis_key_fk + ", remarks="
 				+ remarks + ", oldPassword=" + oldPassword + ", newPassword=" + newPassword + ", confirmPassword="
 				+ confirmPassword + ", passwordExpiredTime=" + passwordExpiredTime + ", fileName=" + fileName + "]";

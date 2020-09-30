@@ -10,8 +10,8 @@ public class CommonConstants {
 	public final static int  RANDOM_NUMERIC_NUMBER_LENGTH = 5;
 	
 	public final static String  ADMIN_ROLE_NAME = "Admin";
-	public final static String  ACTIVE = "1";
-	public final static String  INACTIVE = "2";
+	public final static String  ACTIVE = "Active";
+	public final static String  INACTIVE = "Inactive";
 	
 	/*********** LOCAL ****************************************************/
 	

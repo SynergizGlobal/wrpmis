@@ -88,7 +88,7 @@ public class FOBDaoImpl implements FOBDao {
 				String[] fobDetailNames = obj.getFob_detail_names();
 				String[] fobDetailValues = obj.getFob_detail_values();
 				
-				String qryFOBDetail = "INSERT INTO fob_deatil (fob_id_fk,detail_name,value) VALUES  (:fob_id_fk,:detail_name,:title,:value)";		
+				String qryFOBDetail = "INSERT INTO fob_deatil (fob_id_fk,detail_name,value) VALUES  (?,?,?)";		
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail,
 			            new BatchPreparedStatementSetter() {

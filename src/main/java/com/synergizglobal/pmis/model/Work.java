@@ -8,7 +8,7 @@ public class Work {
 	private String work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,weight,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,pink_book_item_number,latest_revised_cost,
-	year_of_revision,revision_number,wys_renarks;
+	year_of_revision,revision_number,wys_renarks,attachment;
 
 	private List<Work> workRevisions;
 	private MultipartFile workFile;
@@ -264,6 +264,14 @@ public class Work {
 
 	public void setWorkRevisions(List<Work> workRevisions) {
 		this.workRevisions = workRevisions;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
 	}
 	
 }

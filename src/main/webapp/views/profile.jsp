@@ -149,12 +149,6 @@
                                     <div class="col m6 s6"> email: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.email_id } </div>
 
-                                    <div class="col m6 s6"> secondary email: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.secondary_email_id } </div>
-
-                                    <div class="col m6 s6"> employee type: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.employee_type_fk } </div>
-
                                     <div class="col m6 s6"> department: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.department_fk } </div>
 
@@ -169,9 +163,6 @@
 
                                     <div class="col m6 s6"> mobile no: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.mobile_number } </div>
-
-                                    <div class="col m6 s6"> alternate mobile no: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.alternate_mobile_number } </div>
 
                                     <div class="col m6 s6"> landline: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.landline } </div>

@@ -289,6 +289,7 @@ public class WorkDaoImpl implements WorkDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String workId = null;;
+		String WID = null;
 		try{
 			String maxIdQry = "SELECT CONCAT(SUBSTRING(work_id, 1, LENGTH(work_id)-2),LPAD(MAX(SUBSTRING(work_id, 5, LENGTH(work_id)))+1,2,'0') ) AS maxId FROM work";
 			stmt = con.prepareStatement(maxIdQry);
@@ -299,9 +300,9 @@ public class WorkDaoImpl implements WorkDao {
 					workId = "W01";
 				}
 				if(workId.length()>3) {
-					workId=	workId.substring(3, 6);
-				}else {
-					System.out.println("done");
+					  String[] arrOfStr = workId.split("W"); 
+				        for (String a : arrOfStr) 
+				        WID = "W"+arrOfStr[1];
 				}
 			}
 		}catch(Exception e){ 		
@@ -311,7 +312,7 @@ public class WorkDaoImpl implements WorkDao {
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
-		return workId;
+		return WID;
 	}
 
 	@Override

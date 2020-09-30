@@ -1,10 +1,44 @@
 package com.synergizglobal.pmis.model;
 
 public class Contract {
-	private String contract_id,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,hod_user_id_fk,dy_hod_user_id_fk,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,actual_completion_date,completed_cost,contract_closure_date,weight,remarks;
+	private String contract_id,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,
+	hod_user_id_fk,dy_hod_user_id_fk,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,
+	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk;
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
+
+	public String getContractor_name() {
+		return contractor_name;
+	}
+
+	public void setContractor_name(String contractor_name) {
+		this.contractor_name = contractor_name;
+	}
+
+	public String getInsurance_type() {
+		return insurance_type;
+	}
+
+	public void setInsurance_type(String insurance_type) {
+		this.insurance_type = insurance_type;
+	}
 
 	public String getContract_id() {
 		return contract_id;
+	}
+
+	public String getWork_name() {
+		return work_name;
+	}
+
+	public void setWork_name(String work_name) {
+		this.work_name = work_name;
 	}
 
 	public void setContract_id(String contract_id) {

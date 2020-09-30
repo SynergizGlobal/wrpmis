@@ -82,8 +82,6 @@ public class WorkController {
 	public ModelAndView getWorkDetails(@ModelAttribute Work work,Railway rail){
 		ModelAndView model = new ModelAndView();
 		String workId = null;
-		String railId = null;
-		String exId = null;
 		try{
 			model.setViewName(PageConstants.addEditWork);
 			model.addObject("action", "edit");
@@ -96,8 +94,6 @@ public class WorkController {
 			List<Year> yearList = workService.getYearList();
 			model.addObject("yearList", yearList);
 			workId= work.getWork_id();
-			exId = work.getExecuted_by_id_fk();
-			railId = work.getRailway_id_fk();
 			Work workDeatils = workService.editWork(workId, work);
 			model.addObject("workDeatils", workDeatils);
 		}catch (Exception e) {
@@ -110,7 +106,6 @@ public class WorkController {
 	@RequestMapping(value = "/add-Work-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addWorkForm(){
 		ModelAndView model = new ModelAndView();
-		
 		try{
 			model.setViewName(PageConstants.addEditWork);
 			model.addObject("action", "add");
@@ -132,7 +127,6 @@ public class WorkController {
 	
 	@RequestMapping(value = "/update-Work", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateWork(@ModelAttribute Work work,RedirectAttributes attributes){
-		
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");

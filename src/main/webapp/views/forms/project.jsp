@@ -24,26 +24,7 @@
         p a {
             color: blue;
         }
-        
-        #msg{
-		    position: relative;
-		    background-color: #C5E3B8;
-		    width: 300px;
-  			bottom: 14spx;
-    		font-size: 15px;
-    		text-align: center;
-			left: 505px;
-		}
-		#Emsg{
-		    position: relative;
-		    color: #D8000C;
-  		    background-color: #FFD2D2;
-		    width: 300px;
-  			bottom: 14spx;
-    		font-size: 15px;
-    		text-align: center;
-			left: 505px;
-		}
+       
     </style>
     <script type="text/javascript">
    		 var fade_out = function() {

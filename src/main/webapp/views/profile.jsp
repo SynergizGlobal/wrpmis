@@ -92,7 +92,7 @@
 
         #example1_wrapper {
             min-height: 465px;
-            min-height: 265px;
+            min-height: 216px;
         }
     </style>
     </style>
@@ -143,37 +143,41 @@
                                 </div>
                                 <div class="row profile-summery">
                                 <c:forEach var="obj" items="${userDetails }">
-                                     <div class="col m6 s6"> name: </div>
+                                
+                                	<div class="col m6 s6"> User ID: </div>
+                                    <div class="col m6 s6">&nbsp;${ obj.user_id }  </div>
+                                    
+                                     <div class="col m6 s6"> Name: </div>
                                     <div class="col m6 s6">&nbsp;${ obj.user_name }  </div>
 
-                                    <div class="col m6 s6"> email: </div>
+                                    <div class="col m6 s6"> Email: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.email_id } </div>
 
-                                    <div class="col m6 s6"> department: </div>
+                                    <div class="col m6 s6"> Department: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.department_fk } </div>
 
-                                    <div class="col m6 s6"> designation: </div>
+                                    <div class="col m6 s6"> Designation: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.designation } </div>
 
-                                    <div class="col m6 s6"> reporting to: </div>
+                                    <div class="col m6 s6"> Reporting To: </div>
                                     <div class="col m6 s6">&nbsp; ${ obj.reporting_to_id_srfk }</div>
 
-                                    <div class="col m6 s6"> user role name: </div>
+                                    <div class="col m6 s6"> User Role: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.user_role_name_fk } </div>
 
-                                    <div class="col m6 s6"> mobile no: </div>
+                                    <div class="col m6 s6"> Mobile No: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.mobile_number } </div>
 
-                                    <div class="col m6 s6"> landline: </div>
+                                    <div class="col m6 s6"> Landline: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.landline } </div>
 
-                                    <div class="col m6 s6"> extension: </div>
+                                    <div class="col m6 s6"> Extension: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.extension } </div>
 
-                                    <div class="col m6 s6"> pmis key: </div>
+                                    <div class="col m6 s6"> PMIS Key: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.pmis_key_fk } </div>
 
-                                    <div class="col m6 s6"> remarks: </div>
+                                    <div class="col m6 s6"> Remarks: </div>
                                     <div class="col m6 s6"> &nbsp;${ obj.remarks } </div>
                                    </c:forEach> 
                                 </div>
@@ -186,7 +190,7 @@
                                 </div>
                                 <div class="profile-summery">
                                     <!-- this can be delete if data entered in table  -->
-                                    <div style="padding-top:100px"></div>
+                                    <div style="padding-top:90px"></div>
                                     <table id="example1" class="mdl-data-table">
                                         <thead>
                                             <tr>
@@ -205,7 +209,7 @@
                                         </tbody>
                                     </table>
                                     <!-- this can be delete if data entered in table  -->
-                                    <div style="padding-bottom:100px"></div>
+                                    <div style="padding-bottom:90px"></div>
                                 </div>
                             </div>
                         </div>

@@ -233,6 +233,7 @@ public class IssueController {
 				attributes.addFlashAttribute("error", "Updating issue is failed. Try again.");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
 			logger.info("updateIssue : " + e.getMessage());
 		}

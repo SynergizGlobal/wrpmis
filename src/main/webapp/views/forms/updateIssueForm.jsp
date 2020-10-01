@@ -51,8 +51,7 @@
                     <!-- form start-->
                     <div class="container no-mar">
                         <form action="<%=request.getContextPath() %>/update-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
-                        	<input id="issue_id" name="issue_id" type="hidden" value="${issue.issue_id }">
-                            <div class="row">
+                        	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"

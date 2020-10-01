@@ -68,7 +68,7 @@
                             </div>
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="javascript:void(0);" onclick="exportFOB();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
     </form>
   
   
-	<form action="<%=request.getContextPath() %>/export-fob" name="exportFOBForm" id="exportFOBForm" target="_blank" method="post">	
+	<form action="<%=request.getContextPath() %>/export-fobs" name="exportFOBForm" id="exportFOBForm" target="_blank" method="post">	
         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
         <input type="hidden" name="work_status_fk" id="exportWork_status_fk" />
 	</form>

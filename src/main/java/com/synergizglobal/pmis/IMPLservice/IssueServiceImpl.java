@@ -55,11 +55,6 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public List<Issue> getActivityList() throws Exception {
-		return issueDao.getActivityList();
-	}
-
-	@Override
 	public List<Issue> getDepartmentList() throws Exception {
 		return issueDao.getDepartmentList();
 	}

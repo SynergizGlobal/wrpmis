@@ -28,7 +28,7 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
+			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
@@ -118,10 +118,10 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
-					+ "(contract_id_fk,activity_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
+					+ "(contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
 					+"priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks) "
 					+ "VALUES "
-					+ "(:contract_id_fk,:activity_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
+					+ "(:contract_id_fk,:activity,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
 					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
@@ -138,7 +138,7 @@ public class IssueDaoImpl implements IssueDao {
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iobj = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity_id_fk,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
+			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,latitude,longitude,reported_by,responsible_person,i.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
@@ -193,7 +193,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE issue SET "
-					+ "contract_id_fk=:contract_id_fk,activity_id_fk=:activity_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,"  
+					+ "contract_id_fk=:contract_id_fk,activity=:activity,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,"  
 					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,remarks=:remarks "
 					+ "where issue_id = :issue_id" ;		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -211,18 +211,6 @@ public class IssueDaoImpl implements IssueDao {
 	public boolean deleteIssue(Issue obj) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public List<Issue> getActivityList() throws Exception {
-		List<Issue> objsList = null;
-		try {
-			String qry = "select strip_chart_activity_id as activity_id_fk,strip_chart_activity_name as activity_name,strip_chart_component_fk from strip_chart_activity";			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
 	}
 
 	@Override

@@ -114,9 +114,6 @@ public class IssueController {
 			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
 			model.addObject("issuesCategoryList", issuesCategoryList);
 			
-			List<Issue> activityList = issueService.getActivityList();
-			model.addObject("activityList", activityList);
-			
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
@@ -186,9 +183,6 @@ public class IssueController {
 			
 			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
 			model.addObject("issuesCategoryList", issuesCategoryList);
-			
-			List<Issue> activityList = issueService.getActivityList();
-			model.addObject("activityList", activityList);
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -280,7 +274,7 @@ public class IssueController {
 			            headingRow.createCell((short)1).setCellValue("Project ID");
 			            headingRow.createCell((short)2).setCellValue("Work ID");
 			            headingRow.createCell((short)3).setCellValue("Contract ID");
-			            headingRow.createCell((short)4).setCellValue("Activity ID");
+			            headingRow.createCell((short)4).setCellValue("Activity");
 			            headingRow.createCell((short)5).setCellValue("Title");
 			            headingRow.createCell((short)6).setCellValue("Date");
 			            headingRow.createCell((short)7).setCellValue("Location");
@@ -296,7 +290,7 @@ public class IssueController {
 			                row.createCell((short)1).setCellValue(obj.getProject_id_fk());
 			                row.createCell((short)2).setCellValue(obj.getWork_id_fk());
 			                row.createCell((short)3).setCellValue(obj.getContract_id_fk());
-			                row.createCell((short)4).setCellValue(obj.getActivity_id_fk());
+			                row.createCell((short)4).setCellValue(obj.getActivity());
 			                row.createCell((short)5).setCellValue(obj.getTitle());
 			                row.createCell((short)6).setCellValue(obj.getDate());
 			                row.createCell((short)7).setCellValue(obj.getLocation());

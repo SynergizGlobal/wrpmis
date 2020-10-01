@@ -109,7 +109,7 @@
                                             <!-- <th>Project ID</th> -->
                                             <th>Work</th>
                                             <th>Contract</th>
-                                           <!--  <th>Activity ID</th> -->
+                                           <!--  <th>Activity</th> -->
                                             <th>Title </th>
                                             <th>Date </th>
                                             <th>Location</th>
@@ -285,7 +285,7 @@
     	                   	/* rowArray.push($.trim(val.project_id_fk)); */
     	                   	rowArray.push($.trim(val.work_id_fk) + workName);
     	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
-    	                   	/* rowArray.push($.trim(val.activity_id_fk)); */
+    	                   	/* rowArray.push($.trim(val.activity)); */
     	                   	rowArray.push($.trim(val.title));
     	                   	rowArray.push($.trim(val.date));
     	                   	rowArray.push($.trim(val.location));

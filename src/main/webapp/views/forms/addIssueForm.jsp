@@ -85,14 +85,9 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select class="searchable validate-dropdown" id="activity_id_fk" name="activity_id_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${activityList }">
-                                            <option value="${obj.activity_id_fk }" >${obj.activity_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <label> Activity ID </label>
-                                    <span id="activity_id_fkError" class="error-msg" ></span>
+                                    <input id="activity" name="activity" type="text" class="validate">
+                                    <label> Activity </label>
+                                    <span id="activityError" class="error-msg" ></span>
                                 </div>
                             </div>
 
@@ -441,7 +436,7 @@
     				 		required: true
     				 	  },"contract_id_fk": {
     				 		required: true
-    				 	  },"activity_id_fk": {
+    				 	  },"activity": {
     				 		required: true
     				 	  },"department_fk": {
     				 		required: true
@@ -487,7 +482,7 @@
     			 			required: 'Required'
     			 	  	 },"contract_id_fk": {
     			 			required: 'Required'
-    			 	  	 },"activity_id_fk": {
+    			 	  	 },"activity": {
     			 			required: 'Required'
     			 	  	 },"department_fk": {
     			 			required: 'Required'
@@ -537,9 +532,9 @@
     			 	    }else if (element.attr("id") == "contract_id_fk" ){
     			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#contract_id_fkError');
-    			 	    }else if (element.attr("id") == "activity_id_fk" ){
-    			 		     document.getElementById("activity_id_fkError").innerHTML="";
-    			 			 error.appendTo('#activity_id_fkError');
+    			 	    }else if (element.attr("id") == "activity" ){
+    			 		     document.getElementById("activityError").innerHTML="";
+    			 			 error.appendTo('#activityError');
     			 	    }else if (element.attr("id") == "department_fk" ){
     			 		     document.getElementById("department_fkError").innerHTML="";
     			 			 error.appendTo('#department_fkError');

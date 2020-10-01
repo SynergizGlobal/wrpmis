@@ -94,7 +94,7 @@ public class WorkController {
 			List<Year> yearList = workService.getYearList();
 			model.addObject("yearList", yearList);
 			workId= work.getWork_id();
-			Work workDeatils = workService.editWork(workId, work);
+			Work workDeatils = workService.getWork(workId, work);
 			model.addObject("workDeatils", workDeatils);
 		}catch (Exception e) {
 			logger.info("Work : " + e.getMessage());
@@ -200,7 +200,7 @@ public class WorkController {
 		List<Work> dataList = new ArrayList<Work>();
 		try {
 			view.setViewName("redirect:/work");
-			dataList = workService.getSafetyList(work); 
+			dataList = workService.getWorkList(work); 
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet sheet = workBook.createSheet();

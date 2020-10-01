@@ -36,7 +36,7 @@ public class WorkDaoImpl implements WorkDao {
 		try {
 			String qry ="SELECT DISTINCT work_id,work_name,project_id_fk,wr.executed_by_id_fk,railway_id_fk,r.railway_name,p.project_name,YEAR(sanctioned_year) as sanctioned_year,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,YEAR(year_of_completion) as year_of_completion,completion_cost" + 
-						",weight,w.remarks FROM work w " + 
+						",w.remarks FROM work w " + 
 						"LEFT JOIN project p ON w.project_id_fk = p.project_id " + 
 						"LEFT JOIN work_railway wr ON w.work_id COLLATE utf8mb4_unicode_ci  = wr.work_id_fk " + 
 						"LEFT JOIN railway r ON wr.railway_id_fk = r.railway_id ";
@@ -52,7 +52,7 @@ public class WorkDaoImpl implements WorkDao {
 
 	
 	@Override
-	public Work editWork(String workId,Work works)throws Exception{
+	public Work getWork(String workId,Work works)throws Exception{
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
@@ -61,7 +61,7 @@ public class WorkDaoImpl implements WorkDao {
 			connection = dataSource.getConnection();
 			String qry ="SELECT DISTINCT work_id,work_name,project_id_fk,wr.executed_by_id_fk,railway_id_fk,r.railway_name,p.project_name,YEAR(sanctioned_year) as sanctioned_year,sanctioned_estimated_cost," + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,YEAR(year_of_completion) as year_of_completion,completion_cost" + 
-					",weight,w.remarks FROM work w " + 
+					",w.remarks FROM work w " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id " + 
 					"LEFT JOIN work_railway wr ON w.work_id COLLATE utf8mb4_unicode_ci  = wr.work_id_fk " + 
 					"LEFT JOIN railway r ON wr.railway_id_fk = r.railway_id "
@@ -82,7 +82,6 @@ public class WorkDaoImpl implements WorkDao {
 				work.setAnticipated_cost(resultSet.getString("anticipated_cost"));
 				work.setYear_of_completion(resultSet.getString("year_of_completion"));
 				work.setCompletion_cost(resultSet.getString("completion_cost"));
-				work.setWeight(resultSet.getString("weight"));
 				work.setRemarks(resultSet.getString("remarks"));
 				work.setRailway_id_fk(resultSet.getString("railway_id_fk"));
 				work.setExecuted_by_id_fk(resultSet.getString("executed_by_id_fk"));
@@ -105,7 +104,7 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> workRevisions = new ArrayList<Work>();
 		Work obj = null;
 		try {
-			String qry ="SELECT YEAR(financial_year) as financial_year,pink_book_item_number,latest_revised_cost, YEAR(year_of_revision) as year_of_revision,revision_number"
+			String qry ="SELECT financial_year,pink_book_item_number,latest_revised_cost, YEAR(year_of_revision) as year_of_revision,revision_number"
 					+ ",remarks from work_yearly_sanction where work_id_fk = ?";
 		
 			stmt = connection.prepareStatement(qry);
@@ -391,13 +390,13 @@ public class WorkDaoImpl implements WorkDao {
 	}
 	
 	@Override
-	public List<Work> getSafetyList(Work work)throws Exception{
+	public List<Work> getWorkList(Work work)throws Exception{
 		List<Work> objsList = null;
 		
       try {
 		   String qry = "SELECT DISTINCT work_id,work_name,project_id_fk,wr.executed_by_id_fk,railway_id_fk,r.railway_name,p.project_name,YEAR(sanctioned_year) as sanctioned_year,sanctioned_estimated_cost," + 
 					    "completeion_period_months,sanctioned_completion_cost,anticipated_cost,YEAR(year_of_completion) as year_of_completion,completion_cost" + 
-						",weight,w.remarks FROM work w " + 
+						",w.remarks FROM work w " + 
 						"LEFT JOIN project p ON w.project_id_fk = p.project_id " + 
 						"LEFT JOIN work_railway wr ON w.work_id COLLATE utf8mb4_unicode_ci  = wr.work_id_fk " + 
 						"LEFT JOIN railway r ON wr.railway_id_fk = r.railway_id ";

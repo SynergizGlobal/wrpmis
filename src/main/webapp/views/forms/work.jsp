@@ -102,10 +102,10 @@
  									 <c:forEach var="obj" items="${workList }">
                                         <tr>
                                        
-                                            <td>&nbsp;${ obj.project_name } </td>
-                                            <td>&nbsp;${ obj.work_id }</td>
-                                            <td>&nbsp;${ obj.work_name }</td>
-                                            <td>&nbsp;${ obj.sanctioned_year }</td>
+                                            <td>${ obj.project_name } </td>
+                                            <td>${ obj.work_id }</td>
+                                            <td>${ obj.work_name }</td>
+                                            <td>${ obj.sanctioned_year }</td>
                                             <td>${ obj.railway_name }</td>
                                             <td>${ obj.executed_by_id_fk }</td>
                                             <td>&nbsp;${ obj.remarks }</td>
@@ -137,9 +137,9 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery.min.js"></script>
-    <script src="/pmis/resources/js/materialize.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables.min.js"></script>
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     
 	<form name="getForm" id="getForm" method="post">

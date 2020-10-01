@@ -211,8 +211,8 @@
                                 <div class="col s12 m4 input-field">
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk"  size='1'>
                                    <option value="" >select</option>
-                                            <c:forEach var="obj" items="${excecuteList}">
-                    					  			 <option value="${obj.executed_by_id_fk }"<c:if test="${workDeatils.executed_by_id_fk eq obj.executed_by_id_fk}">selected</c:if>> ${obj.executed_by_id_fk}</option>
+                                            <c:forEach var="obj" items="${railwaysList}">
+                    					  			 <option value="${obj.railway_id }"<c:if test="${workDeatils.executed_by_id_fk eq obj.railway_id}">selected</c:if>> ${obj.railway_name}</option>
                                             </c:forEach>
                                   </select>
                                     <label>Executed By </label>
@@ -433,6 +433,9 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             }); */
+            for (var i = 0; i < 1; i++) {
+            	addRevisionRow();
+            }
         });
         
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      

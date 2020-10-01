@@ -276,7 +276,7 @@
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <form action="add-Contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form">
+                        <form action="add-Contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 
                             <div class="row">
 
@@ -390,8 +390,8 @@
                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk">
                                                 <option value="0" selected>Select</option>
                                                 <c:forEach var="obj" items="${hodList }">
-		                                    	<option value="${obj.user_id }" >${obj.user_id }</option>
-		                                      </c:forEach>
+		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option>
+		                                     	 </c:forEach>
                                             </select>
                                             <label>Dy HOD</label>
                                         </div>
@@ -404,8 +404,9 @@
                                 <!-- //row 7 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input name="estimated_cost" id="estimated_cost" type="text" class="validate">
+                                    <input name="doc" id="doc" type="text" class="validate datepicker">
                                     <label for="doc">Planned DOC</label>
+                                     <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="awarded_cost" name="awarded_cost" type="text" class="validate">
@@ -452,7 +453,7 @@
                                 </div>
                                 <!-- </div>
                                 </div> -->
-                            </div>
+                            </div> 
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -493,41 +494,41 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <!-- <td> <select>
-                                                        <option value="0" selected>Select
+                                                <td> <select id="bg_type_fks" name="bg_type_fks">
+                                                        <option value="" selected>Select
                                                         </option>
-                                                        <option value="1">Agency 1</option>
-                                                        <option value="2">Agency 2</option>
-                                                        <option value="3">Agency 3</option>
+                                                         <c:forEach var="obj" items="${bankGuaranteeTYpe }">
+		                                    			   <option value="${obj.bg_type_fk }" >${obj.bg_type_fk }</option>
+		                                     			  </c:forEach>
                                                     </select>
-                                                </td> -->
-                                                <td> <input id="bg_type" type="text" class="validate"
+                                                </td> 
+                                                <!-- <td> <input id="bg_type" type="text" class="validate"
                                                         placeholder="BG Type">
-                                                </td>
+                                                </td> -->
                                                 <td>
-                                                    <input id="issuing_bank" type="text" class="validate"
+                                                    <input id="issuing_banks" name="issuing_banks"  type="text" class="validate"
                                                         placeholder="Issuing Bank">
                                                 </td>
                                                 <td>
-                                                    <input id="bank_address" type="text" class="validate"
+                                                    <input id="bank_addresss" name ="bank_addresss" type="text" class="validate"
                                                         placeholder="Bank Address">
                                                 </td>
                                                 <td>
-                                                    <input id="bg_no" type="text" class="validate"
+                                                    <input id="bg_numbers" name="bg_numbers" type="text" class="validate"
                                                         placeholder="BG Number">
                                                 </td>
                                                 <td>
-                                                    <input id="bg_val" type="text" class="validate"
+                                                    <input id="bg_values" name="bg_values" type="text" class="validate"
                                                         placeholder="BG Value">
                                                 </td>
                                                 <td>
-                                                    <input id="bg_upto_valid" type="text" class="validate datepicker"
+                                                    <input id="bg_valid_uptos" name="bg_valid_uptos" type="text" class="validate datepicker"
                                                         placeholder="Valid Upto">
                                                     <button type="button" id="bg_upto_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="remarks_bg" type="text" class="validate"
+                                                    <input id="remarkss" name ="remarkss" type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
@@ -604,7 +605,7 @@
                                                     </select>
                                                 </td> -->
                                                 <td>
-                                                    <select>
+                                                    <select id="insurance_type_fks" name="insurance_type_fks">
                                                         <option value="0" selected>Select</option>
                                                          <c:forEach var="obj" items="${insurance_type }">
                                       					   <option value= "${ obj.insurance_type}" >${ obj.insurance_type}</option>
@@ -612,30 +613,30 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input id="issuing_agency" type="text" class="validate"
+                                                    <input id="issuing_agencys" name="issuing_agencys" type="text" class="validate"
                                                         placeholder="Issuing Agency">
                                                 </td>
                                                 <td>
-                                                    <input id="agency_address" type="text" class="validate"
+                                                    <input id="agency_addresss" name="agency_addresss" type="text" class="validate"
                                                         placeholder="Agency Address                                                        ">
                                                 </td>
 
                                                 <td>
-                                                    <input id="insurance_no" type="text" class="validate"
+                                                    <input id="insurance_numbers" name="insurance_numbers" type="text" class="validate"
                                                         placeholder="Insurance Number">
                                                 </td>
                                                 <td>
-                                                    <input id="insurance_val" type="text" class="validate"
+                                                    <input id="insurance_values" name="insurance_values" type="text" class="validate"
                                                         placeholder="Insurance Value">
                                                 </td>
                                                 <td>
-                                                    <input id="insurance_upto_valid" type="text"
+                                                    <input id="insurence_valid_uptos" name="insurence_valid_uptos" type="text"
                                                         class="validate datepicker" placeholder="Valid Upto">
                                                     <button type="button" id="insurance_upto_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="remarks_insurance" type="text" class="validate"
+                                                    <input id="insurence_remarks" name="insurence_remarks"  type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
@@ -689,27 +690,27 @@
                                                     </select>
                                                 </td> -->
                                                 <td>
-                                                    <input id="milestone_name" type="text" class="validate"
+                                                    <input id="milestone_names" name="milestone_names" type="text" class="validate"
                                                         placeholder="Milestone Name ">
                                                 </td>
                                                 <td>
-                                                    <input id="milestone_date" type="text" class="validate datepicker"
+                                                    <input id="milestone_dates" name="milestone_dates" type="text" class="validate datepicker"
                                                         placeholder="Milestone Date">
                                                     <button type="button" id="milestone_date_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="actual_date" type="text" class="validate datepicker"
+                                                    <input id="actual_dates" name="actual_dates" type="text" class="validate datepicker"
                                                         placeholder="Actual Date">
                                                     <button type="button" id="actual_date_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="revision" type="text" class="validate"
+                                                    <input id="revisions" name="revisions" type="text" class="validate"
                                                         placeholder="Revision">
                                                 </td>
                                                 <td>
-                                                    <input id="completed_cost" type="text" class="validate"
+                                                    <input id="mile_remarks" name="mile_remarks" type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
@@ -750,21 +751,21 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td> <input id="revision_no" type="text" class="validate"
+                                                <td> <input id="revision_numbers" name="revision_numbers" type="text" class="validate"
                                                         placeholder="Revision Number">
                                                 </td>
                                                 <td>
-                                                    <input id="revised_amount" type="text" class="validate"
+                                                    <input id="revised_amounts" name="revised_amounts" type="text" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
                                                 <td>
-                                                    <input id="revised_doc" type="text" class="validate datepicker"
+                                                    <input id="revised_docs" name="revised_docs" type="text" class="validate datepicker"
                                                         placeholder="Revised DOC">
                                                     <button type="button" id="revised_doc_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="completed_cost" type="text" class="validate"
+                                                    <input id="revision_remarks" name="revision_remarks" type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
@@ -859,10 +860,12 @@
 	</div> 
  
 
-    <script src="/pmis/resources/js/jQuery.min.js"></script>
-    <script src="/pmis/resources/js/materialize.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables.min.js"></script>
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -871,24 +874,30 @@
             $('.modal').modal();
             $('#textarea1,#textarea2,#textarea3').characterCounter();
             // $(".datepicker").datepicker();
-            $("#loa_date").datepicker();
-            $("#ca_date,#co_date").datepicker();
-            $("#bg_upto_valid,#insurance_upto_valid").datepicker();
-            $("#milestone_date,#actual_date,#revised_doc").datepicker();
-
-            $('#sactioned_year').datepicker({
-                format: 'yyyy',
-                selectYears: true,
-                selectMonths: true,
-                selectDays: false,
-                onSelect: function (arg) {
-                    var selectedYear = parseInt(arg.getFullYear());
-                    var selectedMonth = parseInt(arg.getMonth() + 1);
-                    var year = (selectedMonth >= 4) ? selectedYear + '-' + (selectedYear + 1) : (selectedYear - 1) + '-' + selectedYear;
-                    console.log('sactioned_year : ' + year);
-
-                }
+            $("#loa_date,#doc").datepicker({
+            	format: 'yyyy-mm-dd',
+                onSelect: function () {
+   	    	     $('.confirmation-btns .datepicker-done').click();
+   	    	  } });
+            $("#ca_date,#co_date,#actual_completion_date").datepicker({
+            	format: 'yyyy-mm-dd',
+                onSelect: function () {
+    	    	     $('.confirmation-btns .datepicker-done').click();
+    	    	  }
+           });
+            $("#bg_valid_uptos,#insurence_valid_uptos").datepicker({
+            	format: 'yyyy-mm-dd',
+                onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  }
             });
+            $("#milestone_dates,#actual_dates,#revised_docs").datepicker({
+            	format: 'yyyy-mm-dd',
+                onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  }
+            });
+           
             $('#loa_date_icon').click(function () {
                 event.stopPropagation();
                 $('#loa_date').click();

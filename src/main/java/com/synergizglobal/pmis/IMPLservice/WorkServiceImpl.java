@@ -23,8 +23,8 @@ public class WorkServiceImpl implements WorkService {
 	}
 	
 	@Override
-	public Work editWork(String workId,Work work)throws Exception{
-		return workDao.editWork(workId, work);
+	public Work getWork(String workId,Work work)throws Exception{
+		return workDao.getWork(workId, work);
 	}
 	
 	@Override
@@ -55,8 +55,8 @@ public class WorkServiceImpl implements WorkService {
 
 	}
 	@Override
-	public List<Work> getSafetyList(Work work)throws Exception{
-		return workDao.getSafetyList(work);
+	public List<Work> getWorkList(Work work)throws Exception{
+		return workDao.getWorkList(work);
 
 	}
 

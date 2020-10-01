@@ -12,7 +12,7 @@ public interface WorkService {
 
 	public List<Work> getworkList()throws Exception;
 
-	public Work editWork(String workId,Work work)throws Exception;
+	public Work getWork(String workId,Work work)throws Exception;
 
 	public boolean updateWork(Work work)throws Exception;
 
@@ -26,5 +26,5 @@ public interface WorkService {
 
 	public List<Year> getYearList()throws Exception;
 
-	public List<Work> getSafetyList(Work work)throws Exception;
+	public List<Work> getWorkList(Work work)throws Exception;
 }

@@ -136,9 +136,9 @@
  <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 
-    <script src="/pmis/resources/js/jQuery.min.js"></script>
-    <script src="/pmis/resources/js/materialize.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables.min.js"></script>
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="project_id" id="project_id" />

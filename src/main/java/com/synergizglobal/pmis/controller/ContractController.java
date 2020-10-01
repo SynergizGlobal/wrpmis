@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,11 +33,14 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
@@ -79,7 +83,6 @@ public class ContractController {
 	public ModelAndView Work(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractGrid);
 		try {
-		
 			List<Work> workList = workService.getworkList();
 			model.addObject("workList", workList);
 			List<Safety> departmentList = safetyService.getDepartmentList();
@@ -98,13 +101,12 @@ public class ContractController {
 		List<Contract> contractList = null;
 		try {
 		 contractList = contractservice.contractList(obj);
-		} catch (Exception e) {
+		}catch (Exception e) {
 			e.printStackTrace();
 			logger.info("getSafetyList : " + e.getMessage());
 		}
 		return contractList;
 	}
-	
 	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContractForm(@ModelAttribute Contract obj){
@@ -119,8 +121,10 @@ public class ContractController {
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contracts = stripChartService.getContractsList(null);
-			model.addObject("contracts", contracts);
+			/*
+			 * List<Contract> contracts = stripChartService.getContractsList(null);
+			 * model.addObject("contracts", contracts);
+			 */
 			List<Contract> contractor = contractservice.getContractorList();
 			model.addObject("contractor", contractor);
 			List<Contract> contract_type = contractservice.getContractTypeList();
@@ -133,8 +137,6 @@ public class ContractController {
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
 			List<Insurence> InsurenceType = contractservice.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
-			
-			
 		}catch (Exception e) {
 			logger.info("Contract : " + e.getMessage());
 		}
@@ -147,19 +149,67 @@ public class ContractController {
 		try{
 			model.setViewName("redirect:/contract");
 			boolean flag =  contractservice.addContract(contract);
-			/*
-			 * if(flag == true) { attributes.addFlashAttribute("success",
-			 * "Project Added Succesfully."); } else {
-			 * attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
-			 * 
-			 * }
-			 */
-		}catch (Exception e) {
+			
+			  if(flag == true) {
+				  MultipartFile file = contract.getContractFile();
+					if (null != file && !file.isEmpty()){
+						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+						String fileName = file.getOriginalFilename();
+						FileUploads.singleFileSaving(file, saveDirectory, fileName);}
+					
+				  attributes.addFlashAttribute("success", "Project Added Succesfully."); 
+			  } else {
+			  attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
+			  }
+		 }catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
 			logger.info("Project : " + e.getMessage());
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/get-contract", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getcontract(@ModelAttribute Contract obj){
+		ModelAndView model = new ModelAndView();
+		String contractId = null;
+		try{
+			model.setViewName(PageConstants.updateContractForm);
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<Work> workList = workService.getworkList();
+			model.addObject("workList", workList);
+			List<Safety> departmentList = safetyService.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			List<User> hodList = contractservice.setHodList();
+			model.addObject("hodList", hodList);
+			/*
+			 * List<Contract> contracts = stripChartService.getContractsList(null);
+			 * model.addObject("contracts", contracts);
+			 */
+			List<Contract> contractor = contractservice.getContractorList();
+			model.addObject("contractor", contractor);
+			List<Contract> contract_type = contractservice.getContractTypeList();
+			model.addObject("contract_type", contract_type);
+			List<Contract> insurance_type = contractservice.getInsurenceTypeList();
+			model.addObject("insurance_type", insurance_type);
+			List<Contract> contractList = contractservice.contractList(obj);
+			model.addObject("contractList", contractList);
+			List<BankGuarantee> bankGuaranteeTYpe = contractservice.bankGuarantee();
+			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
+			List<Insurence> InsurenceType = contractservice.insurenceType();
+			model.addObject("InsurenceType", InsurenceType);
+			contractId = obj.getContract_id();
+			Contract contractDeatils = contractservice.getcontract(contractId, obj);
+			model.addObject("contractDeatils", contractDeatils);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("Contract : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/export-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){

@@ -43,11 +43,7 @@
                 width: 100%;
             }
         }
-       td {
-			overflow: hidden;
-			max-width: 200px;
-			word-wrap: break-word;
-			}
+      
     </style>
 </head>
 
@@ -189,7 +185,7 @@
 
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
-	<form action="<%=request.getContextPath()%>/get-safety" id="getForm" name="getForm" method="post">
+	<form action="<%=request.getContextPath()%>/get-contract" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="contract_id" id="contract_id"/>
     </form>
     <form action="<%=request.getContextPath() %>/export-contract" name="exportContractForm" id="exportContractForm" target="_blank" method="post">	

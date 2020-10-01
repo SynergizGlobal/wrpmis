@@ -25,5 +25,7 @@ public interface ContractService {
 
 	public List<Insurence> insurenceType()throws Exception;
 
+	public Contract getcontract(String contractId, Contract obj)throws Exception;
+
 
 }

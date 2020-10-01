@@ -42,7 +42,7 @@ public class FOBDaoImpl implements FOBDao {
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and f.contract_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())) {

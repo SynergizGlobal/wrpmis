@@ -79,7 +79,7 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col m2 hide-on-small-only"></div>                                   
                                     <div class="col s12 m4 input-field">
-                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getWorkStatusList();">
+                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();">
                                             <option value="" >Select Contract ID</option>
                                             <c:forEach var="obj" items="${contracts }">
 		                                    	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
@@ -88,7 +88,10 @@
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();">
-                                            <option value="" >Select Work Status</option>                                           
+                                            <option value="" >Select Work Status</option>     
+                                            <c:forEach var="obj" items="${generalStatusList }">
+	                                            <option value="${obj }" <c:if test="${obj eq fob.work_status_fk}">selected</c:if> >${obj}</option>
+	                                        </c:forEach>                                      
                                         </select>
                                     </div>
                                 </div>

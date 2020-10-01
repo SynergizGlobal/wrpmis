@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.FOBService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
@@ -49,6 +50,9 @@ public class FOBController {
 	@Autowired
 	HomeService homeService;
 	
+	@Autowired
+	ContractService contractService;
+	
 	@Value("${common.error.message}")
 	public String commonError;
 	
@@ -69,8 +73,12 @@ public class FOBController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.fobGrid);
-			List<Contract> contracts = stripChartService.getContractsList(null);
+			List<Contract> contracts = contractService.contractList(null);
 			model.addObject("contracts", contracts);
+			
+			List<String> generalStatusList = homeService.getGeneralStatusList();
+			model.addObject("generalStatusList", generalStatusList);
+			
 		} catch (Exception e) {
 			logger.info("fob : " + e.getMessage());
 		}

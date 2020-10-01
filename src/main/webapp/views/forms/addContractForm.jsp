@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
-    <!-- <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"> -->
     <style>
         /* #bank_guarantee_div,
         #insurance_div {
@@ -83,7 +82,11 @@
 		    z-index: 1000;
 		}	
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
-			
+	    @media only screen and (max-width: 600px) {
+          .no-float-small {
+              float: none !important;
+          }
+     	 }
     </style>
 </head>
 
@@ -91,177 +94,6 @@
 
     <!-- header  starts-->
              <jsp:include page="../layout/header.jsp"></jsp:include>
-    <!-- <nav>
-        <div class="nav-wrapper blue darken-3">
-            <div class="">
-                <a href="#!" class="brand-logo fs"><img src="images/Mrvc.png" alt="Logo"> MRVC PMIS</a>
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
-                <ul class="right hide-on-med-and-down top-level-menu">
-                    <li class="searchproject">
-                        <select class="select" id="searchProjectId">
-                            <option>Select Project</option>
-                            <option>Project 1</option>
-                            <option>Project 2</option>
-                            <option>Project 3</option>
-                        </select>
-                    </li>
-                    <li class="searchwork">
-                        <select class="select" id="searchWorkId">
-                            <option>Select Work</option>
-                            <option>Work 1</option>
-                            <option>Work 2</option>
-                            <option>this is the sample work that I can show in this stage and how about that </option>
-                        </select>
-                    </li>
-                    <li class="blue darken-2"><a>
-                           // <img src="images/dashboard-white.png">
-                            <span class="material-icons-outlined">dashboard</span> Dashboard</a>
-                        <ul class='second-level-menu'>
-                            <li><a href="#!">one</a></li>
-                            <li><a href="#!"><i class="fa fa-cogs"></i> two</a></li>
-                            <li><a href="#!">seven</a></li>
-                            <li><a href="#!">eight eight not only 2 times its 3 times</a></li>
-                            <li><a href="#!">nine</a></li>
-                            <li><a href="#!">ten</a></li>
-                            <li class="sub-menu">
-                                <a href="#!">three </a>
-                                <ul class="third-level-menu">
-                                    <li><a href="#!">text</a></li>
-                                    <li><a href="#!">text abba just checking only</a></li>
-                                    <li class="sub-menu"><a href="#!">text </a>
-                                        <ul class="fourth-level-menu lf">
-                                            <li><a href="">menu-item</a></li>
-                                            <li><a href="">menu-item</a></li>
-                                            <li><a href="">menu-item asa dosa appadam vada</a></li>
-                                            <li><a href="">menu-item</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#!">text</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#!">four</a></li>
-                        </ul>
-
-                    </li>
-                    <li class="blue darken-1"><a href="#">
-                           // <img src="images/clipboard-white.png">
-                            <span class="material-icons-outlined">post_add</span> Input Forms</a>
-                       // Dropdown Structure
-                        <ul class='second-level-menu'>
-                            <li><a href="#!">one</a></li>
-                            <li><a href="#!"><i class="fa fa-cogs"></i> two</a></li>
-                            <li><a href="#!">seven</a></li>
-                            <li><a href="#!">eight</a></li>
-                            <li><a href="#!">nine</a></li>
-                            <li><a href="#!">ten</a></li>
-                            <li class="sub-menu">
-                                <a href="#!">three </a>
-                                <ul class="third-level-menu">
-                                    <li><a href="#!">text</a></li>
-                                    <li><a href="#!">text</a></li>
-                                    <li class="sub-menu"><a href="#!">text </a>
-                                        <ul class="fourth-level-menu">
-                                            <li><a href="">menu-item</a></li>
-                                            <li><a href="">menu-item</a></li>
-                                            <li><a href="">menu-item</a></li>
-                                            <li><a href="">menu-item</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#!">text</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#!">four</a></li>
-                        </ul>
-                    </li>
-                    <li class="blue">
-                        <a>
-                            <span class="material-icons-outlined">assignment</span>
-                            Reports</a>
-
-                    </li>
-                    <li class="blue lighten-1 ">
-                        <a class='notification dropdown-trigger' data-target='dropdown1'>
-                            <span class="material-icons-outlined">notifications</span>
-                           // <span class="notification_number">1</span>
-                            <span class="badge red">99+</span>
-                        </a>
-                        <div class="notification_body dropdown-content" id='dropdown1'>
-                            <div>
-                                <input type="text" class="browser-default searching empty"
-                                    placeholder="&#xF002; Search Notifications...">
-
-                            </div>
-                            <ul class="notifications_group" style="margin-top: 5px;">
-                                <li class="head-item">3-CYR-N</li>
-                                <li class="item">
-                                    <a href="#">
-                                        <span><i class="fa fa-edit"></i> 5 new work IDs added in LA</span>
-                                        <div><i class="fa fa-clock-o"></i> <span class="time">9h Ago</span></div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <span><i class="fa fa-clipboard"></i> Work ID 12 valuation
-                                            status changed</span>
-                                        <div><i class="fa fa-clock-o"></i> <span class="time">9h Ago</span></div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <span><i class="fa fa-edit"></i> 2 work IDs updated in R & R</span>
-                                        <div><i class="fa fa-clock-o"></i> <span class="time">9h Ago</span></div>
-                                    </a>
-                                </li>
-                                <li class="head-item">47-ADH-M</li>
-                                <li class="item">
-
-                                    <a href="#">
-                                        <span><i class="fa fa-edit"></i> 5 new work IDs added in LA</span>
-                                        <div><i class="fa fa-clock-o"></i> <span class="time">7h Ago</span></div>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                        //</a>
-                    </li>
-                    <li><a href="#" class='head-img'>
-                            <span class="material-icons-outlined">account_box</span> MRVC</a>
-                        <ul class="second-level-menu rs">
-                            <li><a href="#">Reset Password</a> </li>
-                            <li><a href="#">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> -->
-    <!-- side nav  -->
-    <!-- <ul class="sidenav" id="mobile-demo">
-        <li>
-            <select class="select">
-                <option>Select Project</option>
-                <option>Project 1</option>
-                <option>Project 2</option>
-                <option>Project 3</option>
-            </select>
-        </li>
-        <li>
-
-            <select class="select">
-                <option>Select Work</option>
-                <option>Work 1</option>
-                <option>Work 2</option>
-                <option>Work 3</option>
-            </select>
-        </li>
-        <li><a href="#" class='head-img'><img src="images/dashboard-black.png"> Dashboard</a></li>
-        <li><a href="#" class='head-img'><img src="images/clipboard-black.png"> &nbsp; Input Forms</a></li>
-        <li><a href="#" class='head-img'><img src="images/reports-black.png"> Reports</a></li>
-        <li><a href="#" class='head-img'><img src="images/user-black.png"> MRVC</a></li>
-    </ul> -->
-    <!-- header ends  -->
-
     <!-- card  -->
     <div class="row">
         <div class="col s12 m12">
@@ -317,7 +149,7 @@
                                     <label>Department</label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <label>Contract ID :</label>
+                                    <label class="primary-text-bold">Contract ID :</label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -353,12 +185,7 @@
 		                                    </c:forEach>
                                     </select>
                                     <label>Contractor ID</label>
-                                </div>
-                                <!-- <div class="col s12 m4 input-field">
-                                            <input id="completion_period" type="text" class="validate">
-                                            <label for="completion_period">Completion Period </label>
-                                        </div> -->
-
+                                </div>                             
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
@@ -409,8 +236,23 @@
                                      <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                	<i class="material-icons prefix center-align">₹</i>
                                     <input id="awarded_cost" name="awarded_cost" type="text" class="validate">
                                     <label for="awarded_cost">Awarded cost</label>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                                <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="start_date" type="text" class="validate datepicker">
+                                    <label for="start_date">Date of Start</label>
+                                    <button type="button" id="start_date_icon"><i class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <i class="material-icons prefix center-align">₹</i>
+                                    <input id="estimated_cost" type="text" class="validate">
+                                    <label for="estimated_cost">estimated cost</label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -440,24 +282,88 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <!-- <div class="col s12 m8">
-                                    <div class="row">                                        -->
                                 <div class="col s12 m4 input-field">
                                     <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker">
                                     <label for="actual_completion_date">Actual Completed Date</label>
                                     <button type="button" id="co_date_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                	<i class="material-icons prefix center-align">₹</i>
                                     <input id="completed_cost" name="completed_cost" type="text" class="validate">
                                     <label for="completed_cost">Completed Cost</label>
-                                </div>
-                                <!-- </div>
-                                </div> -->
+                                </div>                              
                             </div> 
+      						<div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="contract_closure_date" type="text" class="validate datepicker">
+                                    <label for="contract_closure_date">Contract Closure</label>
+                                    <button type="button" id="contract_closure_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="completion_certificate_date" type="text" class="validate datepicker">
+                                    <label for="completion_certificate_date">Release of Completion Certificate</label>
+                                    <button type="button" id="completion_certificate_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 input-field center-align">
+                                <div class="col s12 m4 input-field">
+                                    <input id="final_takeover_client" type="text" class="validate datepicker">
+                                    <label for="final_takeover_client">Final Taking over by Client</label>
+                                    <button type="button" id="final_takeover_client_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="final_bill_release" type="text" class="validate">
+                                    <label for="final_bill_release">Release of Final bill</label>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="defect_liability_period" type="text" class="validate">
+                                    <label for="defect_liability_period">Defect Liability Period</label>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="final_retention_release" type="text" class="validate">
+                                    <label for="final_retention_release"> Release of Final Retention amount/BG</label>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="release_of_pbg" type="text" class="validate">
+                                    <label for="release_of_pbg">Release of PBG</label>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="contract_closure" type="text" class="validate">
+                                    <label for="contract_closure"> Contract Closure</label>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <select>
+                                        <option value="0" selected>Select</option>
+                                        <option value="1">Agency 1</option>
+                                        <option value="2">Agency 2</option>
+                                        <option value="3">Agency 3</option>
+                                    </select>
+                                    <label>Status of Contract</label>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 input-field center-align no-float-small">
                                     <p>Bank Guarantee Required</p>
                                     <p>
                                         <label>
@@ -537,7 +443,6 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <!-- <td></td> -->
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -559,7 +464,7 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 input-field center-align">
+                                <div class="col m8 input-field center-align no-float-small">
                                     <p>Insurance Required</p>
                                     <p>
                                         <label>
@@ -582,13 +487,11 @@
                                     <table id="example6" class="mdl-data-table">
                                         <thead>
                                             <tr>
-                                                <!-- <th>Contract ID </th> -->
                                                 <th>Insurance Type </th>
                                                 <th>Issuing Agency </th>
                                                 <th>Agency Address </th>
                                                 <th>Insurance Number </th>
                                                 <th>Insurance Value </th>
-                                                <!-- <th>BG Value </th> -->
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
                                                 <th>Action</th>
@@ -596,14 +499,6 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <!-- <td> <select>
-                                                        <option value="0" selected>Select
-                                                        </option>
-                                                        <option value="1">Agency 1</option>
-                                                        <option value="2">Agency 2</option>
-                                                        <option value="3">Agency 3</option>
-                                                    </select>
-                                                </td> -->
                                                 <td>
                                                     <select id="insurance_type_fks" name="insurance_type_fks">
                                                         <option value="0" selected>Select</option>
@@ -645,7 +540,6 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <!-- <td></td> -->
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -671,7 +565,6 @@
                                     <table id="example4" class="mdl-data-table">
                                         <thead>
                                             <tr>
-                                                <!-- <th>Contract ID </th> -->
                                                 <th>Milestone Name </th>
                                                 <th>Milestone Date </th>
                                                 <th>Actual Date </th>
@@ -681,14 +574,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <!-- <td> <select>
-                                                        <option value="0" selected>Select</option>
-                                                        <option value="1">Agency 1</option>
-                                                        <option value="2">Agency 2</option>
-                                                        <option value="3">Agency 3</option>
-                                                    </select>
-                                                </td> -->
+                                            <tr>                                    
                                                 <td>
                                                     <input id="milestone_names" name="milestone_names" type="text" class="validate"
                                                         placeholder="Milestone Name ">
@@ -940,20 +826,24 @@
                 $('#insurance_upto').click();
             });
 
-            $('#example,#example1').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    }
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                "sScrollY": 400,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
+            $('#contract_closure_date,#completion_certificate_date,#final_takeover_client,#start_date').datepicker();
+            $('#start_date_icon').click(function () {
+                event.stopPropagation();
+                $('#start_date').click();
             });
+            $('#contract_closure_date_icon').click(function () {
+                event.stopPropagation();
+                $('#contract_closure_date').click();
+            });
+            $('#completion_certificate_date_icon').click(function () {
+                event.stopPropagation();
+                $('#completion_certificate_date').click();
+            });
+            $('#final_takeover_client_icon').click(function () {
+                event.stopPropagation();
+                $('#final_takeover_client').click();
+            });
+            
             // show or hide based on bg 
             $('input[name="bank_guarantee"]').change(function () {
                 var radioval = $('input[name="bank_guarantee"]:checked').val();

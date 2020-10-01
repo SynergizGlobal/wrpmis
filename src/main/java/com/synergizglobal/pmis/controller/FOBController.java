@@ -96,8 +96,13 @@ public class FOBController {
 		try {
 			model.setViewName(PageConstants2.addEditFob);
 			
+			model.addObject("action", "add");
+			
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
+			
+			List<String> generalStatusList = homeService.getGeneralStatusList();
+			model.addObject("generalStatusList", generalStatusList);
 			
 		} catch (Exception e) {
 			logger.info("addFOBForm : " + e.getMessage());
@@ -159,12 +164,18 @@ public class FOBController {
 		try {
 			model.setViewName(PageConstants2.addEditFob);
 			
+			model.addObject("action", "edit");
+			
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
+			
+			List<String> generalStatusList = homeService.getGeneralStatusList();
+			model.addObject("generalStatusList", generalStatusList);
 			
 			FOB fob = fobService.getFOB(obj);
 			model.addObject("fob", fob);
 		} catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
 			logger.info("getFOB : " + e.getMessage());
 		}
@@ -213,6 +224,7 @@ public class FOBController {
 				attributes.addFlashAttribute("error", "Updating fob is failed. Try again.");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
 			logger.info("updateFOB : " + e.getMessage());
 		}

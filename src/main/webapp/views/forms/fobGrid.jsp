@@ -20,7 +20,17 @@
 	 <style>
        p a {
             color: blue;
-        }
+       }
+       .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 <body>
@@ -37,6 +47,16 @@
                         </div>
                     </span>
                     <div class="">
+                    	<c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">                               
                             </div>
@@ -59,19 +79,16 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col m2 hide-on-small-only"></div>                                   
                                     <div class="col s12 m4 input-field">
-                                        <select>
-                                            <option value="" disabled selected>Select Contract </option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getWorkStatusList();">
+                                            <option value="" >Select Contract ID</option>
+                                            <c:forEach var="obj" items="${contracts }">
+		                                    	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
+		                                    </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <select>
-                                            <option value="" disabled selected>Select Work Status</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                        <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();">
+                                            <option value="" >Select Work Status</option>                                           
                                         </select>
                                     </div>
                                 </div>
@@ -81,11 +98,11 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="example" class="mdl-data-table">
+                                <table id="datatable-fob" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Work ID </th>
-                                            <th>Contract ID </th>
+                                            <th>Work </th>
+                                            <th>Contract </th>
                                             <th>FOB ID </th>
                                             <th>FOB Name </th>                                          
                                             <th>Work Status </th>                                           
@@ -116,32 +133,184 @@
         </div>
     </div>
 
+	 <!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+	
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
+
+	<form action="<%=request.getContextPath()%>/get-fob" id="getForm" name="getForm" method="post">
+  		<input type="hidden" name="fob_id" id="fob_id"/>
+    </form>
+  
+  
+	<form action="<%=request.getContextPath() %>/export-fob" name="exportFOBForm" id="exportFOBForm" target="_blank" method="post">	
+        <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
+        <input type="hidden" name="work_status_fk" id="exportWork_status_fk" />
+	</form>
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	   <script>
+	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script> 
+	<script src=" //cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script> 
+	<script>
         $(document).ready(function () {
-            $('select').formSelect();     
-            $('#example').DataTable({
+        	$('select').formSelect();
+           	var table = $('#datatable-fob').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
+                        className: 'mdl-data-table__cell--non-numeric'
                     },
-                    { "width": "10px", "targets": [5] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "scrollCollapse": true,
                 "sScrollY": 400,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+        	table.state.clear(); 
+    		
+        	
+        	$('.close-message').delay(3000).fadeOut('slow');
+        	
+        	getFOBList();
         });
+        
+        function getFOBList(){
+        	$(".page-loader").show();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var work_status_fk = $("#work_status_fk").val();
+         	
+         	table = $('#datatable-fob').DataTable();
+    		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#datatable-fob').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "scrollCollapse": true,
+                "sScrollY": 400,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		
+    		table.state.clear();		
+    	 
+    	 	var myParams = {contract_id_fk : contract_id_fk, work_status_fk : work_status_fk};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFOBList",type:"POST",data:myParams,success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+    	         		$.each(data,function(key,val){
+    	         			var fob_id = "'"+val.fob_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit">Edit</a>';    	                   	
+    	                   	var rowArray = [];    	                  
+    	                   	
+    	                   	var workName = '';
+                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                            var contract_name = '';
+                            if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+    	                   	
+    	                   	
+    	                   	rowArray.push($.trim(val.work_id_fk) + workName);
+    	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
+    	                   	rowArray.push($.trim(val.fob_id));
+    	                   	rowArray.push($.trim(val.fob_name));
+    	                   	rowArray.push($.trim(val.work_status_fk));
+    	                   	
+    	                   	rowArray.push($.trim(actions));   	                   	
+    	                   	
+    	                    table.row.add(rowArray).draw( true );
+    	                    		                       
+    					});
+    	         		
+    	         		$(".page-loader").hide();
+    				}else{
+    					$(".page-loader").hide();
+    				}
+    				
+    			},error: function (jqXHR, exception) {
+    				$(".page-loader").hide();
+    	         	getErrorMessage(jqXHR, exception);
+    	     }});
+        }
+        
+      	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        
+        function getFOB(fob_id) {
+    		$("#fob_id").val(fob_id);
+    		$("#getForm").submit();
+    	}
+        
+        function exportFOB(){
+          	 var contract_id_fk = $("#contract_id_fk").val();
+          	 var work_status_fk = $("#work_status_fk").val();
+          	 
+          	 $("#exportContract_id_fk").val(contract_id_fk);
+          	 $("#exportWork_status_fk").val(work_status_fk);
+          	 $("#exportFOBForm").submit();
+       	}
 
 
     </script>

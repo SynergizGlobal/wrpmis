@@ -30,14 +30,15 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getFOBList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "select fob_id,fob_name,contract_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
-					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,weight,f.remark,"
-					+ "contract_name,work_id_fk,work_name,module_name_fk,month,status_as_on_month "
+			String qry = "select fob_id,fob_name,f.contract_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
+					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,f.estimated_cost,f.completion_cost,work_status_fk,latitude,longitude,f.remarks,"
+					+ "contract_name,c.work_id_fk,work_name,module_name_fk,month,status_as_on_month,w.project_id_fk,p.project_name "
 					+ "from fob f "
-					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk COLLATE utf8mb4_unicode_ci = ws.work_status_id "
-					+ "LEFT OUTER JOIN work w ON ws.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "					
+					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk = ws.work_status_id "
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -73,10 +74,10 @@ public class FOBDaoImpl implements FOBDao {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO fob"
 					+ "(fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
-					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,weight,remark) "
+					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks) "
 					+ "VALUES "
 					+ "(:fob_id,fob_name,:contract_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
-					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:weight,:remark)";		 
+					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:remarks)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
@@ -88,7 +89,7 @@ public class FOBDaoImpl implements FOBDao {
 				String[] fobDetailNames = obj.getFob_detail_names();
 				String[] fobDetailValues = obj.getFob_detail_values();
 				
-				String qryFOBDetail = "INSERT INTO fob_deatil (fob_id_fk,detail_name,value) VALUES  (?,?,?)";		
+				String qryFOBDetail = "INSERT INTO fob_detail (fob_id_fk,detail_name,value) VALUES  (?,?,?)";		
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail,
 			            new BatchPreparedStatementSetter() {
@@ -117,14 +118,15 @@ public class FOBDaoImpl implements FOBDao {
 	public FOB getFOB(FOB obj) throws Exception {
 		FOB fobj = null;
 		try {
-			String qry = "select fob_id,fob_name,contract_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
-					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,weight,f.remark,"
-					+ "contract_name,work_id_fk,work_name,module_name_fk,month,status_as_on_month "
+			String qry = "select fob_id,fob_name,f.contract_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
+					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
+					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,f.estimated_cost,f.completion_cost,work_status_fk,latitude,longitude,f.remarks,"
+					+ "contract_name,c.work_id_fk,work_name,module_name_fk,month,status_as_on_month,w.project_id_fk,p.project_name "
 					+ "from fob f "
-					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk COLLATE utf8mb4_unicode_ci = ws.work_status_id "
-					+ "LEFT OUTER JOIN work w ON ws.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "					
+					+ "LEFT OUTER JOIN work_status ws ON f.work_status_fk = ws.work_status_id "
 					+ "where fob_id is not null " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
@@ -143,23 +145,9 @@ public class FOBDaoImpl implements FOBDao {
 			
 			if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
 				List<FOB> objsList = null;
-				String qryFOBDetail = "select detail_name as fob_detail_name,value as fob_detail_value "
-						+ "from fob_detail f "
-						+ "where fob_id_fk is not null " ;
-				arrSize = 0;
-				if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
-					qry = qry + " and fob_id_fk = ?";
-					arrSize++;
-				}	
+				String qryFOBDetail = "select detail_name,value from fob_detail f where fob_id_fk = ? " ;
 				
-				pValues = new Object[arrSize];
-				
-				i = 0;
-				if(!StringUtils.isEmpty(fobj) && !StringUtils.isEmpty(fobj.getFob_id())) {
-					pValues[i++] = fobj.getFob_id();
-				}
-				
-				objsList = jdbcTemplate.query(qryFOBDetail, pValues, new BeanPropertyRowMapper<FOB>(FOB.class));	
+				objsList = jdbcTemplate.query(qryFOBDetail, new Object[] {fobj.getFob_id()}, new BeanPropertyRowMapper<FOB>(FOB.class));	
 				
 				fobj.setFobDetails(objsList);
 			}
@@ -177,7 +165,7 @@ public class FOBDaoImpl implements FOBDao {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE fob set "
 					+ "fob_name = :fob_name,contract_id_fk = :contract_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
-					+"estimated_cost = :estimated_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,weight = :weight,remark = :remark "
+					+"estimated_cost = :estimated_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,remarks = :remarks "
 					+ "where fob_id = :fob_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -187,15 +175,14 @@ public class FOBDaoImpl implements FOBDao {
 			
 			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
 				
-				String deleteQry = "DELETE from fob_deatil where fob_id_fk = :fob_id";		 
+				String deleteQry = "DELETE from fob_detail where fob_id_fk = :fob_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
-				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
-				
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);				
 				
 				String[] fobDetailNames = obj.getFob_detail_names();
 				String[] fobDetailValues = obj.getFob_detail_values();
 				
-				String qryFOBDetail = "INSERT INTO fob_deatil (fob_id_fk,detail_name,value) VALUES  (:fob_id_fk,:detail_name,:title,:value)";		
+				String qryFOBDetail = "INSERT INTO fob_detail (fob_id_fk,detail_name,value) VALUES  (?,?,?)";		
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail, new BatchPreparedStatementSetter() { 
 					                @Override

@@ -277,5 +277,29 @@ public class HomeDaoImpl implements HomeDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<String> getGeneralStatusList() throws Exception {
+		List<String> objsList = new ArrayList<String>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			connection = dataSource.getConnection();
+			
+			String qry = "select general_status from general_status";
+			statement = connection.prepareStatement(qry);
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				objsList.add(resultSet.getString("general_status"));
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return objsList;
+	}
 	
 }

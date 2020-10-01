@@ -46,4 +46,9 @@ public class HomeServiceImpl implements HomeService {
 	public List<Work> getWorksList(Work obj) throws Exception {
 		return dao.getWorksList(obj);
 	}
+	
+	@Override
+	public List<String> getGeneralStatusList() throws Exception {
+		return dao.getGeneralStatusList();
+	}
 }

@@ -16,5 +16,7 @@ public interface HomeService {
 	public List<Project> getProjectsList() throws Exception;
 
 	public List<Work> getWorksList(Work obj) throws Exception;
+
+	public List<String> getGeneralStatusList() throws Exception;
 	
 }

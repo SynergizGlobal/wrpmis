@@ -3,8 +3,9 @@ package com.synergizglobal.pmis.model;
 import java.util.List;
 
 public class FOB {
-	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,estimated_cost,
-	completion_cost,work_status_fk,latitude,longitude,weight,remark,contract_name,work_id_fk,work_name,module_name_fk,month,status_as_on_month,fob_detail_name,fob_detail_value;
+	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
+	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
+	detail_name,value,work_id_fk,project_id_fk,project_name;
 
 	private List<FOB> fobDetails;
 	
@@ -12,36 +13,60 @@ public class FOB {
 	
 	
 	
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	public String getFob_detail_id() {
+		return fob_detail_id;
+	}
+
+	public void setFob_detail_id(String fob_detail_id) {
+		this.fob_detail_id = fob_detail_id;
+	}
+
+	public String getFob_id_fk() {
+		return fob_id_fk;
+	}
+
+	public void setFob_id_fk(String fob_id_fk) {
+		this.fob_id_fk = fob_id_fk;
+	}
+
+	public String getDetail_name() {
+		return detail_name;
+	}
+
+	public void setDetail_name(String detail_name) {
+		this.detail_name = detail_name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	public String getWork_id_fk() {
 		return work_id_fk;
 	}
 
 	public void setWork_id_fk(String work_id_fk) {
 		this.work_id_fk = work_id_fk;
-	}
-
-	public String getModule_name_fk() {
-		return module_name_fk;
-	}
-
-	public void setModule_name_fk(String module_name_fk) {
-		this.module_name_fk = module_name_fk;
-	}
-
-	public String getMonth() {
-		return month;
-	}
-
-	public void setMonth(String month) {
-		this.month = month;
-	}
-
-	public String getStatus_as_on_month() {
-		return status_as_on_month;
-	}
-
-	public void setStatus_as_on_month(String status_as_on_month) {
-		this.status_as_on_month = status_as_on_month;
 	}
 
 	public String getFob_id() {
@@ -146,55 +171,7 @@ public class FOB {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
-	}
-
-	public String getWeight() {
-		return weight;
-	}
-
-	public void setWeight(String weight) {
-		this.weight = weight;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getContract_name() {
-		return contract_name;
-	}
-
-	public void setContract_name(String contract_name) {
-		this.contract_name = contract_name;
-	}
-
-	public String getWork_name() {
-		return work_name;
-	}
-
-	public void setWork_name(String work_name) {
-		this.work_name = work_name;
-	}
-
-	public String getFob_detail_name() {
-		return fob_detail_name;
-	}
-
-	public void setFob_detail_name(String fob_detail_name) {
-		this.fob_detail_name = fob_detail_name;
-	}
-
-	public String getFob_detail_value() {
-		return fob_detail_value;
-	}
-
-	public void setFob_detail_value(String fob_detail_value) {
-		this.fob_detail_value = fob_detail_value;
-	}
+	}	
 
 	public List<FOB> getFobDetails() {
 		return fobDetails;
@@ -218,6 +195,22 @@ public class FOB {
 
 	public void setFob_detail_values(String[] fob_detail_values) {
 		this.fob_detail_values = fob_detail_values;
+	}
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
+
+	public String getProject_name() {
+		return project_name;
+	}
+
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
 	}
 	
 }

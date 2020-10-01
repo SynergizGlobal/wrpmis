@@ -73,14 +73,15 @@ public class StripChartController {
 		return works;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getStripChartContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getContractsList(@ModelAttribute StripChart obj){
+	public List<Contract> getStripChartContractsList(@ModelAttribute StripChart obj){
 		List<Contract> contracts = null;
 		try{
 			contracts = stripChartService.getContractsList(obj);			
 		}catch(Exception e){
-			logger.error("getContractsList() : "+e.getMessage());
+			e.printStackTrace();
+			logger.error("getStripChartContractsList() : "+e.getMessage());
 		}
 		return contracts;
 	}

@@ -328,8 +328,7 @@
                 $('#date').click();
             });
             
-            $('#date').datepicker({                   
-	   	    	maxDate: new Date(),
+            $('#date').datepicker({  
 	   	    	format:'dd-mm-yyyy',
 	   	    	//perform click event on done button
 	   	    	onSelect: function () {
@@ -342,8 +341,7 @@
                 $('#resolved_date').click();
             });
             
-            $('#resolved_date').datepicker({                   
-  	    	    maxDate: new Date(),
+            $('#resolved_date').datepicker({ 
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {

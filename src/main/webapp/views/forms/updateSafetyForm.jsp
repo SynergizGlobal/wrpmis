@@ -376,65 +376,69 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+	$(document).on('focus', '.datepicker',function(){
+        $(this).datepicker({
+        	format:'dd-mm-yyyy',
+   	    	onSelect: function () {
+   	    	   $('.confirmation-btns .datepicker-done').click();
+   	    	}
+        })
+    });
         $(document).ready(function () {
             $('select').formSelect();
             $('#remarks').characterCounter();
             
-            $('#date_icon').click(function () {
+            $('#date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#date').click();
             });
             
-            $('#date').datepicker({                   
-	   	    	maxDate: new Date(),
+            /* $('#date').datepicker({ 
 	   	    	format:'dd-mm-yyyy',
 	   	    	//perform click event on done button
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
    	        });
-            
-            $('#closure_date_icon').click(function () {
+            */
+            $('#closure_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#closure_date').click();
             });
             
-            $('#closure_date').datepicker({                   
-  	    	    maxDate: new Date(),
+           /* $('#closure_date').datepicker({  
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        });*/
             
-            $('#investigation_completed_icon').click(function () {
+            $('#investigation_completed_icon').click(function (event) {
                 event.stopPropagation();
                 $('#investigation_completed').click();
             });
             
-            $('#investigation_completed').datepicker({                   
-  	    	    maxDate: new Date(),
+  	      /* $('#investigation_completed').datepicker({
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        });*/
             
-            $('#payment_date_icon').click(function () {
+            $('#payment_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#payment_date').click();
             });
             
-            $('#payment_date').datepicker({                   
-  	    	    maxDate: new Date(),
+  	      /* $('#payment_date').datepicker({    
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        }); */
             
             var project_id_fk = "${safety.project_id_fk}";
             if ($.trim(project_id_fk) != '') {

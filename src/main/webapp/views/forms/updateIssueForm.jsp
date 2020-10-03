@@ -323,38 +323,53 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+	
+		$(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
+	
         $(document).ready(function () {
             $('select').formSelect();
             $('#corrective_measure').characterCounter();
             $('#remarks').characterCounter();
             
-            $('#date_icon').click(function () {
+           
+            
+            $('#date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#date').click();
             });
             
-            $('#date').datepicker({                   
-	   	    	maxDate: new Date(),
+            /*$('#date').datepicker({ 
 	   	    	format:'dd-mm-yyyy',
-	   	    	//perform click event on done button
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
    	        });
+            */
             
-            $('#resolved_date_icon').click(function () {
+            $('#resolved_date_icon').click(function (event) {
                 event.stopPropagation();
                 $('#resolved_date').click();
             });
             
-            $('#resolved_date').datepicker({                   
-  	    	    maxDate: new Date(),
+           /* $('#resolved_date').datepicker({   
   	    	    format:'dd-mm-yyyy',
-  	    	    //perform click event on done button
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
   	        });
+            
+            
+            $("#resolved_date").datepicker("setDate","${issue.resolved_date }");
+            $("#date").datepicker("setDate","${issue.date }");
+             */
+            
             
             var project_id_fk = "${issue.project_id_fk}";
             if ($.trim(project_id_fk) != '') {
@@ -619,17 +634,17 @@
         	);
             
             
-            $('select').change(function(){
+            /* $('select').change(function(){
         	    if ($(this).val() != ""){
         	        $(this).valid();
         	    }
-        	});
+        	}); */
             
-            $('input').change(function(){
+           /*  $('input').change(function(){
         	    if ($(this).val() != ""){
         	        $(this).valid();
         	    }
-        	});
+        	}); */
             
     </script>
 </body>

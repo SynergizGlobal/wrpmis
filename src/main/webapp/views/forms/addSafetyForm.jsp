@@ -382,7 +382,7 @@
             });
             
             $('#date').datepicker({                   
-	   	    	maxDate: new Date(),
+	   	    	
 	   	    	format:'dd-mm-yyyy',
 	   	    	//perform click event on done button
 	   	    	onSelect: function () {
@@ -396,7 +396,7 @@
             });
             
             $('#closure_date').datepicker({                   
-  	    	    maxDate: new Date(),
+  	    	    
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
@@ -410,7 +410,7 @@
             });
             
             $('#investigation_completed').datepicker({                   
-  	    	    maxDate: new Date(),
+  	    	    
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
@@ -424,7 +424,7 @@
             });
             
             $('#payment_date').datepicker({                   
-  	    	    maxDate: new Date(),
+  	    	    
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {

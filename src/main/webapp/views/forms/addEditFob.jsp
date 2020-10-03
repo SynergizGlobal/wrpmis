@@ -316,6 +316,14 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+	$(document).on('focus', '.datepicker',function(){
+        $(this).datepicker({
+        	format:'dd-mm-yyyy',
+   	    	onSelect: function () {
+   	    	   $('.confirmation-btns .datepicker-done').click();
+   	    	}
+        })
+    });
 	$(document).ready(function () {
         $('select').formSelect();
         $('#remarks').characterCounter();
@@ -325,42 +333,39 @@
             $('#date_of_approval').click();
         });
         
-        $('#date_of_approval').datepicker({                   
-   	    	maxDate: new Date(),
+        /* $('#date_of_approval').datepicker({ 
    	    	format:'dd-mm-yyyy',
    	    	//perform click event on done button
    	    	onSelect: function () {
    	    	   $('.confirmation-btns .datepicker-done').click();
    	    	}
-	    });
+	    }); */
         
         $('#construction_start_date_icon').click(function () {
             event.stopPropagation();
             $('#construction_start_date').click();
         });
         
-        $('#construction_start_date').datepicker({                   
-	    	    maxDate: new Date(),
+        /* $('#construction_start_date').datepicker({  
 	    	    format:'dd-mm-yyyy',
 	    	    //perform click event on done button
 	    	    onSelect: function () {
 	    	       $('.confirmation-btns .datepicker-done').click();
 	    	    }
-	    });
+	    }); */
         
         $('#actual_completion_date_icon').click(function () {
             event.stopPropagation();
             $('#actual_completion_date').click();
         });
         
-        $('#actual_completion_date').datepicker({                   
-	    	    maxDate: new Date(),
+        /* $('#actual_completion_date').datepicker({     
 	    	    format:'dd-mm-yyyy',
 	    	    //perform click event on done button
 	    	    onSelect: function () {
 	    	       $('.confirmation-btns .datepicker-done').click();
 	    	    }
-	    });
+	    }); */
         
         
         $('#commissioning_date_icon').click(function () {
@@ -368,28 +373,26 @@
             $('#commissioning_date').click();
         });
         
-        $('#commissioning_date').datepicker({                   
-	    	    maxDate: new Date(),
+        /* $('#commissioning_date').datepicker({  
 	    	    format:'dd-mm-yyyy',
 	    	    //perform click event on done button
 	    	    onSelect: function () {
 	    	       $('.confirmation-btns .datepicker-done').click();
 	    	    }
-	    });
+	    }); */
         
         $('#target_date_icon').click(function () {
             event.stopPropagation();
             $('#target_date').click();
         });
         
-        $('#target_date').datepicker({                   
-	    	    maxDate: new Date(),
+        /*$('#target_date').datepicker({   
 	    	    format:'dd-mm-yyyy',
 	    	    //perform click event on done button
 	    	    onSelect: function () {
 	    	       $('.confirmation-btns .datepicker-done').click();
 	    	    }
-	    });
+	    });*/
         
         var project_id_fk = "${fob.project_id_fk}";
         if ($.trim(project_id_fk) != '') {

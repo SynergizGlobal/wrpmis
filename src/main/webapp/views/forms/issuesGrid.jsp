@@ -21,6 +21,15 @@
         p a {
             color: blue;
         }
+         td{
+	        word-break: break-word;
+	    	word-wrap: break-word;
+	   		white-space: initial;
+     	}
+     	td:last-child,td:last-of-type{
+     		white-space:inherit;
+     	}
+        
         .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -81,44 +90,72 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12 center-align">
-                                <div class="row" style="margin-bottom: 0;">
-                                    <div class="col m4 hide-on-small-only"></div>
-                                    <div class="col s12 m4 input-field">
-                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getIssues();">
+                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col s12 m2 input-field">
+                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getIssues();">
                                             <option value="" >Select Contract ID</option>
                                             <c:forEach var="obj" items="${contracts }">
 		                                    	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
 		                                    </c:forEach>
                                         </select>
-                                    </div>                                   
-                                </div>
+                                <label>Select Contract</label>
                             </div>
-                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col s12 m2 input-field">
+                                <select>
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                                <label>Select Department</label>
+                            </div>
+                            <div class="col s12 m2 input-field">
+                                <select>
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                                <label>Select Category</label>
+                            </div>
+                            <div class="col s12 m2 input-field">
+                                <select>
+                                    <option value="" disabled selected>Select Status</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                                <label>Select Status</label>
+                            </div>
+                            <div class="col s12 m2">
+                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                    style="margin-top: 20px;width: 100%;">Clear Filters</button>
+                            </div>
+                            <div class="col m1 hide-on-small-only"></div>
                         </div>
+                        
                         <div class="row">
                             <div class="col m12 s12">
 
                                 <table id="datatable-issues" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Issue ID</th>
-                                            <!-- <th>Project ID</th> -->
-                                            <th>Work</th>
+                                            <th>ID</th>
                                             <th>Contract</th>
-                                           <!--  <th>Activity</th> -->
                                             <th>Title </th>
-                                            <th>Date </th>
                                             <th>Location</th>
-                                            <th>Reported By </th>
                                             <th>Responsible <br> Person </th>
                                             <th>Department</th>
-                                            <th>Issue <br>Category </th>
                                             <th>Issue Status </th>                                           
                                             <th class="no-sort">Action</th>
+                                            <!-- <th>Project ID</th> -->
+<!--                                             <th>Work</th> -->
+                                           <!--  <th>Activity</th> -->
+<!--                                             <th>Date </th> -->
+<!--                                             <th>Reported By </th> -->
+<!--                                             <th>Issue <br>Category </th> -->
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -29,6 +29,9 @@
     		 word-wrap: break-word;
    			 white-space: initial;
     	 }
+    	 td:last-child,td:last-of-type{
+     		white-space:inherit;
+     	}
     </style>
    
 </head>

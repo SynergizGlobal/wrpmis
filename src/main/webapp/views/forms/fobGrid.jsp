@@ -21,6 +21,14 @@
        p a {
             color: blue;
        }
+       td{
+	        word-break: break-word;
+	    	word-wrap: break-word;
+	   		white-space: initial;
+     	}
+     	td:last-child,td:last-of-type{
+     		white-space:inherit;
+     	}
        .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -72,33 +80,37 @@
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
+                        </div>                   
+						<div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m3 hide-on-small-only"></div>
                             <div class="col m6 s12 center-align">
                                 <div class="row" style="margin-bottom: 0;">
-                                    <div class="col m2 hide-on-small-only"></div>                                   
                                     <div class="col s12 m4 input-field">
-                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();">
+                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();">
                                             <option value="" >Select Contract ID</option>
                                             <c:forEach var="obj" items="${contracts }">
 		                                    	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
 		                                    </c:forEach>
                                         </select>
+                                        <label>Select Contract</label>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();">
+                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();">
                                             <option value="" >Select Work Status</option>     
                                             <c:forEach var="obj" items="${generalStatusList }">
 	                                            <option value="${obj }" <c:if test="${obj eq fob.work_status_fk}">selected</c:if> >${obj}</option>
 	                                        </c:forEach>                                      
                                         </select>
+                                        <label>Select Work Status</label>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                            style="margin-top: 8px;width: 100%;">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col m3 hide-on-small-only"></div>
                         </div>
-
                         <div class="row">
                             <div class="col m12 s12">
                                 <table id="datatable-fob" class="mdl-data-table">

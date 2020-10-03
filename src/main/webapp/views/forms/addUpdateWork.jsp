@@ -335,7 +335,15 @@
 			                                    </tr>
                                         </tbody>
                                     </table>
-                                    <input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                   
+                                    <c:choose>
+                                        <c:when test="${not empty workDeatils.workRevisions && fn:length(workDeatils.workRevisions) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(workDeatils.workRevisions) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>  
                                 </div>
                             </div>
                             <div class="row">
@@ -420,17 +428,26 @@
 
 
     <script>
+    $(document).on('focus', '.datepicker',function(){
+        $(this).datepicker({
+        	 format: 'yyyy',
+             selectYears: true,
+   	    	onSelect: function () {
+   	    	   $('.confirmation-btns .datepicker-done').click();
+   	    	}
+        })
+    });
         $(document).ready(function () {
             $('select').formSelect();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();
-            $("#year_of_completion").datepicker({
+          /*   $("#year_of_completion").datepicker({
                 format: 'yyyy',
                 selectYears: true,
                 onSelect: function () {
      	    	     $('.confirmation-btns .datepicker-done').click();
      	    	  }
-            });
+            }); */
            /*  $("#financial_year").datepicker({
                 format: 'yyyy',
                 selectYears: true,
@@ -445,7 +462,7 @@
      	    	     $('.confirmation-btns .datepicker-done').click();
      	    	  }
             }); */
-            $('#sanctioned_year').datepicker({
+           /*  $('#sanctioned_year').datepicker({
                 format: 'yyyy',
                 selectYears: true,
                 selectMonths: true,
@@ -457,7 +474,7 @@
                     console.log('sanctioned_year : ' + year);
                     $('.confirmation-btns .datepicker-done').click();
                 }
-            });
+            }); */
             $('#sanctioned_year_icon').click(function () {
                 event.stopPropagation();
                 $('#sanctioned_year').click();

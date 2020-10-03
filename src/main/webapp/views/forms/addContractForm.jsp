@@ -24,10 +24,10 @@
             display: none;
         } */
 
-        #example3 .datepicker~button,
-        #example6 .datepicker~button,
-        #example5 .datepicker~button,
-        #example4 .datepicker~button {
+        #ravTable .datepicker~button,
+        #insurenceTable .datepicker~button,
+        #bankTable .datepicker~button,
+        #mileTable .datepicker~button {
             top: 26px;
         }
 
@@ -385,7 +385,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="contract_closure" name="contract_closure" type="text" class="validate">
-                                    <label for="contract_closure"> Contract Closure</label>
+                                    <label for="contract_closure"> Contract Closure Comment</label>
                                     <span id="ontract_closureError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -427,7 +427,7 @@
                             <div class="row fixed-width" id="bank_guarantee_div">
                                 <h5 class="center-align">Bank Guarantee Details</h5>
                                 <div class="table-inside">
-                                    <table id="example5" class="mdl-data-table">
+                                    <table id="bankTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <!-- <th>Contract ID </th> -->
@@ -519,7 +519,7 @@
                             <div class="row fixed-width" id="insurance_div">
                                 <h5 class="center-align">Insurance Details</h5>
                                 <div class="table-inside">
-                                    <table id="example6" class="mdl-data-table">
+                                    <table id="insurenceTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Insurance Type </th>
@@ -578,7 +578,7 @@
                                            
                                         </tbody>
                                     </table>
-                                     <table id="example6" class="mdl-data-table">
+                                     <table  class="mdl-data-table">
                                         <tbody id="insurenceTableBody">                                          
                                             <tr>
                                    <td colspan="8" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addInsurenceRow()"> <i class="fa fa-plus"></i></a></td>
@@ -593,7 +593,7 @@
                             <div class="row fixed-width">
                                 <h5 class="center-align">Milestone Details</h5>
                                 <div class="table-inside">
-                                    <table id="example4" class="mdl-data-table">
+                                    <table id="mileTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Milestone Name </th>
@@ -652,7 +652,7 @@
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
 
-                                    <table id="example3" class="mdl-data-table">
+                                    <table id="ravTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Revision Number </th>
@@ -724,7 +724,6 @@
                                 </div>
                             </div>
 
-
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
@@ -783,29 +782,59 @@
             $('.modal').modal();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();
-            $("#loa_date,#doc").datepicker({
-            	format: 'yyyy-mm-dd',
+            $("#loa_date").datepicker({
+            	 format:'dd-mm-yyyy',
                 onSelect: function () {
    	    	     $('.confirmation-btns .datepicker-done').click();
    	    	  } });
-            $("#ca_date,#co_date,#actual_completion_date").datepicker({
-            	format: 'yyyy-mm-dd',
+            $("#doc").datepicker({
+           	 format:'dd-mm-yyyy',
+               onSelect: function () {
+  	    	     $('.confirmation-btns .datepicker-done').click();
+  	    	  } });
+            
+            $("#actual_completion_date").datepicker({
+           	 format:'dd-mm-yyyy',
+               onSelect: function () {
+   	    	     $('.confirmation-btns .datepicker-done').click();
+   	    	  }
+          });
+            $("#ca_date").datepicker({
+           	 format:'dd-mm-yyyy',
+               onSelect: function () {
+   	    	     $('.confirmation-btns .datepicker-done').click();
+   	    	  }
+          });
+            $("#insurence_valid_uptos").datepicker({
+            	 format:'dd-mm-yyyy',
                 onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  }
+            });
+            $("#bg_valid_uptos").datepicker({
+           	 format:'dd-mm-yyyy',
+               onSelect: function () {
     	    	     $('.confirmation-btns .datepicker-done').click();
     	    	  }
            });
-            $("#bg_valid_uptos,#insurence_valid_uptos").datepicker({
-            	format: 'yyyy-mm-dd',
+            $("#milestone_dates").datepicker({
+            	 format:'dd-mm-yyyy',
                 onSelect: function () {
      	    	     $('.confirmation-btns .datepicker-done').click();
      	    	  }
             });
-            $("#milestone_dates,#actual_dates,#revised_docs").datepicker({
-            	format: 'yyyy-mm-dd',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            });
+            $("#actual_dates").datepicker({
+           	 format:'dd-mm-yyyy',
+               onSelect: function () {
+    	    	     $('.confirmation-btns .datepicker-done').click();
+    	    	  }
+           });
+            $("#revised_docs").datepicker({
+           	 format:'dd-mm-yyyy',
+               onSelect: function () {
+    	    	     $('.confirmation-btns .datepicker-done').click();
+    	    	  }
+           });
            
             $('#loa_date_icon').click(function () {
                 event.stopPropagation();
@@ -850,7 +879,7 @@
             });
 
             $('#contract_closure_date,#completion_certificate_date,#final_takeover_client,#start_date').datepicker({
-            	format: 'yyyy-mm-dd',
+            	 format:'dd-mm-yyyy',
                 onSelect: function () {
     	    	     $('.confirmation-btns .datepicker-done').click();
     	    	  }
@@ -1160,7 +1189,15 @@
    	    //return true;
    	  }
    });
-
+        $.validator.addMethod("dateFormat",
+        	    function(value, element) {
+        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+        	    	//return dtRegex.test(value);
+        	    },
+        	    //"Date format (Aug 02,2020)"
+        	    "Date format (DD-MM-YYYY)"
+        	);
    $('select').change(function(){
        if ($(this).val() != ""){
            $(this).valid();
@@ -1197,7 +1234,7 @@
 		 $('select').formSelect();
 		 
 		 $("#bg_valid_uptos"+rNo).datepicker({
-      	format: 'yyyy-mm-dd',
+      	 format:'dd-mm-yyyy',
           onSelect: function () {
 	    	     $('.confirmation-btns .datepicker-done').click();
 	    	  }
@@ -1234,7 +1271,7 @@ function addInsurenceRow(){
 	 $("#insurenceRowNo").val(rNo);
 	 $('select').formSelect();
 	 $("#insurence_valid_uptos"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }
@@ -1264,13 +1301,13 @@ function addMilestoneRow(){
 	 $("#mileRowNo").val(rNo);
 	 $('select').formSelect();
 	 $("#milestone_dates"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }
 	      });
 	 $("#actual_dates"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }
@@ -1299,7 +1336,7 @@ function addRevRow(){
 	 $("#revRowNo").val(rNo);
 	 $('select').formSelect();
 	 $("#revised_docs"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,6 +90,8 @@ public class ContractController {
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
+			List<Contract> contractor = contractservice.getContractorList();
+			model.addObject("contractor", contractor);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.info("Work : " + e.getMessage());
@@ -148,8 +151,53 @@ public class ContractController {
 	@RequestMapping(value = "/add-Contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContract(@ModelAttribute  Contract contract,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			model.setViewName("redirect:/contract");
+			
+			if(!StringUtils.isEmpty(contract.getDoc())){
+				Date convertedDate = sdf.parse(contract.getDoc());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setDoc(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getCa_date())){
+				Date convertedDate = sdf.parse(contract.getCa_date());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setCa_date(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getDate_of_start())){
+				Date convertedDate = sdf.parse(contract.getDate_of_start());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setDate_of_start(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getLoa_date())){
+				Date convertedDate = sdf.parse(contract.getLoa_date());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setLoa_date(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getActual_completion_date())){
+				Date convertedDate = sdf.parse(contract.getActual_completion_date());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setActual_completion_date(currentDate);
+			}
+		
+		if(!StringUtils.isEmpty(contract.getContract_closure_date())){
+			Date convertedDate = sdf.parse(contract.getContract_closure_date());
+			String currentDate = sqlDate.format(convertedDate);
+			contract.setContract_closure_date(currentDate);
+		}
+		if(!StringUtils.isEmpty(contract.getCompletion_certificate_release())){
+			Date convertedDate = sdf.parse(contract.getCompletion_certificate_release());
+			String currentDate = sqlDate.format(convertedDate);
+			contract.setCompletion_certificate_release(currentDate);
+		}
+		if(!StringUtils.isEmpty(contract.getFinal_takeover())){
+			Date convertedDate = sdf.parse(contract.getFinal_takeover());
+			String currentDate = sqlDate.format(convertedDate);
+			contract.setFinal_takeover(currentDate);
+		}
+		
 			boolean flag =  contractservice.addContract(contract);
 			
 			  if(flag == true) {
@@ -215,8 +263,53 @@ public class ContractController {
 	@RequestMapping(value = "/update-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateWork(@ModelAttribute Contract contract,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			model.setViewName("redirect:/contract");
+
+			if(!StringUtils.isEmpty(contract.getDoc())){
+				Date convertedDate = sdf.parse(contract.getDoc());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setDoc(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getCa_date())){
+				Date convertedDate = sdf.parse(contract.getCa_date());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setCa_date(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getDate_of_start())){
+				Date convertedDate = sdf.parse(contract.getDate_of_start());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setDate_of_start(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getLoa_date())){
+				Date convertedDate = sdf.parse(contract.getLoa_date());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setLoa_date(currentDate);
+			}
+			if(!StringUtils.isEmpty(contract.getActual_completion_date())){
+				Date convertedDate = sdf.parse(contract.getActual_completion_date());
+				String currentDate = sqlDate.format(convertedDate);
+				contract.setActual_completion_date(currentDate);
+			}
+		
+		if(!StringUtils.isEmpty(contract.getContract_closure_date())){
+			Date convertedDate = sdf.parse(contract.getContract_closure_date());
+			String currentDate = sqlDate.format(convertedDate);
+			contract.setContract_closure_date(currentDate);
+		}
+		if(!StringUtils.isEmpty(contract.getCompletion_certificate_release())){
+			Date convertedDate = sdf.parse(contract.getCompletion_certificate_release());
+			String currentDate = sqlDate.format(convertedDate);
+			contract.setCompletion_certificate_release(currentDate);
+		}
+		if(!StringUtils.isEmpty(contract.getFinal_takeover())){
+			Date convertedDate = sdf.parse(contract.getFinal_takeover());
+			String currentDate = sqlDate.format(convertedDate);
+			contract.setFinal_takeover(currentDate);
+		}
+		
 			boolean flag =  contractservice.updateContract(contract);
 			if(flag == true) {
 				MultipartFile file = contract.getContractFile();

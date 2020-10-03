@@ -29,24 +29,13 @@
             color: blue;
         }
 
-        /* on mobile view l-align , r-align & its btns styling  */
-        @media only screen and (max-width: 768px) {
-
-            .l-align,
-            .r-align {
-                text-align: center;
-            }
-
-            .l-align .btn,
-            .r-align .btn,
-            .c-align .btn {
-                width: 100%;
-            }
-        }
          td{
        		 word-break: break-word;
     		 word-wrap: break-word;
    			 white-space: initial;
+    	 }
+    	 td:last-child{
+    	 	word-break:inherit;
     	 }
        .page-loader {
 		    background: #332e2ec2!important;
@@ -114,38 +103,45 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12 center-align">
+                           <div class="row no-mar" style="margin-bottom: 0;">
+                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m8 s12 center-align">
                                 <div class="row" style="margin-bottom: 0;">
-                                    <!-- <div class="col m4 hide-on-small-only"></div> -->
-                                    <div class="col s12 m4 input-field">
+                                    <div class="col s12 m3 input-field">
                                         <select id="work_id_fk" name="work_id_fk" onchange="getContractList();">
                                             <option value="" disabled selected>Select Work Name</option>
 	                                            <c:forEach var="obj" items="${workList}">
 	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id eq obj.work_id }">selected</c:if>>${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
 	                                             </c:forEach>
                                         </select>
+                                        <label>Select Work Name</label>
                                     </div>
-                                    <div class="col s12 m4 input-field">
+                                    <div class="col s12 m3 input-field">
                                         <select id="department_fk" name="department_fk" onchange="getContractList();">
                                             <option value="" disabled selected>Select Department</option>
 	                                             <c:forEach var="obj" items="${departmentList}">
 	                       						  <option value="${obj.department_fk }" <c:if test="${param.department_fk eq obj.department_fk }">selected</c:if>>${obj.department_fk}</option>
 	                                             </c:forEach>
                                         </select>
+                                        <label>Select Department</label>
                                     </div>
-                                    <div class="col s12 m4 input-field">
-                                        <select id="hod_user_id_fk" name="hod_user_id_fk" onchange="getContractList();">
-                                            <option value="" disabled selected>Select HOD</option>
-		                                          <c:forEach var="obj" items="${hodList}">
-		                       						 <option value="${obj.user_id }" <c:if test="${param.hod_user_id_fk eq obj.user_id }">selected</c:if>>${obj.user_id }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option>
+                                    <div class="col s12 m3 input-field">
+                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getContractList();">
+                                            <option value="" disabled selected>Select Contractor</option>
+		                                          <c:forEach var="obj" items="${contractor}">
+		                       						 <option value="${obj.contractor_id_fk }" <c:if test="${param.contractor_id_fk eq obj.contractor_id_fk }">selected</c:if>>${obj.contractor_id_fk }<c:if test="${not empty obj.contractor_name}"> - </c:if>${obj.contractor_name}</option>
 		                                           </c:forEach>
                                         </select>
+                                        <label>Select Contractor</label>                                        
+                                    </div>
+                                    
+                                    <div class="col s12 m3">
+                                        <button class="btn bg-m waves-effect waves-light t-c"
+                                            style="margin-top: 20px;">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col m2 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">
@@ -218,7 +214,7 @@
   		<input type="hidden" name="contract_id" id="contract_id"/>
     </form>
     <form action="<%=request.getContextPath() %>/export-contract" name="exportContractForm" id="exportContractForm" target="_blank" method="post">	
-        <input type="hidden" name="hod_user_id_fk" id="exportHod_user_id_fk" />
+        <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
 	</form>
@@ -266,7 +262,7 @@
     
     
     function clearFilter(){
-    	$("#hod_user_id_fk").val("");
+    	$("#contractor_id_fk").val("");
     	$("#department_fk").val("");
     	$("#work_id_fk").val("");
 
@@ -274,7 +270,7 @@
     }
     function getContractList(){
     	$(".page-loader").show();
-    	var hod_user_id_fk = $("#hod_user_id_fk").val();
+    	var contractor_id_fk = $("#contractor_id_fk").val();
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
 
@@ -312,7 +308,7 @@
 		
 		table.state.clear();		
 	 
-	 	var myParams = {hod_user_id_fk : hod_user_id_fk, department_fk : department_fk, work_id_fk : work_id_fk};
+	 	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContract",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
@@ -374,11 +370,11 @@
 	}
     
     function exportContract(){
-     	 var hod_user_id_fk = $("#hod_user_id_fk").val();
+     	 var contractor_id_fk = $("#contractor_id_fk").val();
      	 var department_fk = $("#department_fk").val();
      	 var work_id_fk = $("#work_id_fk").val();
      	 
-     	 $("#exportHod_user_id_fk").val(hod_user_id_fk);
+     	 $("#exportContractor_id_fk").val(contractor_id_fk);
      	 $("#exportDepartment_fk").val(department_fk);
      	 $("#exportWork_id_fk").val(work_id_fk);
      	 $("#exportContractForm").submit();

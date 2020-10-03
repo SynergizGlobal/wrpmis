@@ -3,7 +3,9 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -34,13 +36,13 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 			List<Contract> objsList = null;
 			try {
-				String qry ="select w.work_name,c.work_id_fk,c.contract_id,c.contract_name,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk " + 
+				String qry ="select w.work_name,c.work_id_fk,c.contract_id,c.contract_name,cr.contractor_id,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk " + 
 							"from contract c left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 							"left join contractor cr on c.contractor_id_fk = cr.contractor_id where contract_id is not null ";
 				
 				int arrSize = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-					qry = qry + " and hod_user_id_fk = ?";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					qry = qry + " and contractor_id = ?";
 					arrSize++;
 				}	
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -53,8 +55,8 @@ public class ContractDaoImpl implements ContractDao {
 				}
 				Object[] pValues = new Object[arrSize];
 				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-					pValues[i++] = obj.getHod_user_id_fk();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					pValues[i++] = obj.getContractor_id_fk();
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 					pValues[i++] = obj.getDepartment_fk();
@@ -166,6 +168,8 @@ public class ContractDaoImpl implements ContractDao {
 		int count = 0;
 		boolean flag = false;
 		int[] c = {};
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat  sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			con = dataSource.getConnection();
 			String contract_id = getContract_id(contract.getDepartment_fk(),con);
@@ -219,13 +223,15 @@ public class ContractDaoImpl implements ContractDao {
 			stmt = con.prepareStatement(BankG_qry); 
 		    if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
 		    	for (int i = 0; i < contract.getBg_numbers().length; i++) {
+		    		Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[i]);
+		    		String currentDate = sqlDate.format(convertedDate);
 					if(!StringUtils.isEmpty(contract.getBg_numbers()[i])){
 						stmt.setString(1,contract.getBg_type_fks()[i]);
 						stmt.setString(2,contract.getIssuing_banks()[i]);
 						stmt.setString(3,contract.getBank_addresss()[i]);
 						stmt.setString(4,contract.getBg_numbers()[i]);
 						stmt.setString(5,contract.getBg_values()[i]);
-						stmt.setString(6,contract.getBg_valid_uptos()[i]);
+						stmt.setString(6,currentDate);
 						stmt.setString(7,contract.getRemarkss()[i]);
 						stmt.setString(8,ContarctID);
 						stmt.addBatch();
@@ -241,13 +247,15 @@ public class ContractDaoImpl implements ContractDao {
 				stmt = con.prepareStatement(Insurence_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
 					for (int i = 0; i < contract.getInsurance_type_fks().length; i++) {
+						Date insureceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[i]);
+						String insurenceCurrentDate = sqlDate.format(insureceConvertedDate);
 						if(!StringUtils.isEmpty(contract.getInsurance_type_fks()[i])){
 							stmt.setString(1,contract.getInsurance_type_fks()[i]);
 							stmt.setString(2,contract.getIssuing_agencys()[i]);
 							stmt.setString(3,contract.getAgency_addresss()[i]);
 							stmt.setString(4,contract.getInsurance_numbers()[i]);
 							stmt.setString(5,contract.getInsurance_values()[i]);
-							stmt.setString(6,contract.getInsurence_valid_uptos()[i]);
+							stmt.setString(6,insurenceCurrentDate);
 							stmt.setString(7,contract.getInsurence_remarks()[i]);
 							stmt.setString(8,ContarctID);
 							stmt.addBatch();
@@ -262,10 +270,14 @@ public class ContractDaoImpl implements ContractDao {
 			stmt = con.prepareStatement(Milestone_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
 					for (int i = 0; i < contract.getMilestone_names().length; i++) {
+						Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
+						String mileCurrentDate = sqlDate.format(mileConvertedDate);
+						Date actualConvertedDate = sdf.parse(contract.getActual_dates()[i]);
+						String actualCurrentDate = sqlDate.format(actualConvertedDate);
 						if(!StringUtils.isEmpty(contract.getMilestone_names()[i])){
 							stmt.setString(1,contract.getMilestone_names()[i]);
-							stmt.setString(2,contract.getMilestone_dates()[i]);
-							stmt.setString(3,contract.getActual_dates()[i]);
+							stmt.setString(2,mileCurrentDate);
+							stmt.setString(3,actualCurrentDate);
 							stmt.setString(4,contract.getRevisions()[i]);
 							stmt.setString(5,contract.getMile_remarks()[i]);
 							stmt.setString(6,ContarctID);
@@ -281,10 +293,12 @@ public class ContractDaoImpl implements ContractDao {
 			stmt = con.prepareStatement(Revision_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 					for (int i = 0; i < contract.getRevision_numbers().length; i++) {
+						Date revConvertedDate = sdf.parse(contract.getRevised_docs()[i]);
+						String revCurrentDate = sqlDate.format(revConvertedDate);
 						if(!StringUtils.isEmpty(contract.getRevision_numbers()[i])){
 							stmt.setString(1,contract.getRevision_numbers()[i]);
 							stmt.setString(2,contract.getRevised_amounts()[i]);
-							stmt.setString(3,contract.getRevised_docs()[i]);
+							stmt.setString(3,revCurrentDate);
 							stmt.setString(4,contract.getRevision_remarks()[i]);
 							stmt.setString(5,ContarctID);
 							stmt.addBatch();
@@ -364,13 +378,13 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,w.project_id_fk,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
-									",scope_of_contract,estimated_cost,date_of_start,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,c.remarks,"
-									+"contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,completed_cost,"
+									",scope_of_contract,estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,final_bill_release,defect_liability_period,completed_cost,"
 									+"retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required, " + 
-									"bg.bg_type_fk,bg.bg_number,bg.bg_value,bg.bank_address,bg.valid_upto,bg.issuing_bank,bg.remarks, " + 
-									"i.insurance_type_fk,i.insurance_number,i.insurance_value,i.issuing_agency,i.valid_upto,i.remarks, " + 
-									"cm.milestone_name,cm.milestone_date,cm.actual_date,cm.revision,cm.remarks, " + 
-									"crn.revision_number,crn.revised_doc,crn.revised_amount,crn.remarks " + 
+									"bg.bg_type_fk,bg.bg_number,bg.bg_value,bg.bank_address,DATE_FORMAT(bg.valid_upto,'%d-%m-%Y') AS valid_upto,bg.issuing_bank,bg.remarks, " + 
+									"i.insurance_type_fk,i.insurance_number,i.insurance_value,i.issuing_agency,DATE_FORMAT(i.valid_upto,'%d-%m-%Y') AS valid_upto,i.remarks, " + 
+									"cm.milestone_name,DATE_FORMAT(cm.milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(cm.actual_date,'%d-%m-%Y') AS actual_date,cm.revision,cm.remarks, " + 
+									"crn.revision_number,DATE_FORMAT( crn.revised_doc,'%d-%m-%Y') AS revised_doc,crn.revised_amount,crn.remarks " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -563,6 +577,8 @@ public class ContractDaoImpl implements ContractDao {
 		int count = 1;
 		int[] c = {};
 		boolean flag = false;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat  sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			con = dataSource.getConnection();
 			String contractUpdate_Qry = "UPDATE  contract SET work_id_fk = ?,department_fk = ?,contract_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
@@ -603,42 +619,44 @@ public class ContractDaoImpl implements ContractDao {
 						stmt.setString(29,contract.getInsurance_required()); 
 						stmt.setString(30,contract.getRemarks()); 
 						stmt.setString(31,contract.getContract_id()); 
-
 						count = stmt.executeUpdate();
 						if(stmt != null){stmt.close();}
-
+			if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 				String qryDelete = "delete from bank_guarantee where contract_id_fk = ?";
 				stmt = con.prepareStatement(qryDelete); 
 				stmt.setString(1,contract.getContract_id());
-				count = stmt.executeUpdate();
+				count = stmt.executeUpdate();}
 				if(stmt != null){stmt.close();}
-
 				String BankG_qry = "INSERT into  bank_guarantee (bg_type_fk,issuing_bank,bank_address,"
 									+"bg_number,bg_value,valid_upto,remarks,contract_id_fk) "
 									+"VALUES (?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(BankG_qry); 
 				    if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
 				    	for (int i = 0; i < contract.getBg_type_fks().length; i++) {
+				    		Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[i]);
+							String currentDate = sqlDate.format(convertedDate);
+							 
 							if(!StringUtils.isEmpty(contract.getBg_type_fks()[i])){
 								stmt.setString(1,contract.getBg_type_fks()[i]);
 								stmt.setString(2,contract.getIssuing_banks()[i]);
 								stmt.setString(3,contract.getBank_addresss()[i]);
 								stmt.setString(4,contract.getBg_numbers()[i]);
 								stmt.setString(5,contract.getBg_values()[i]);
-								stmt.setString(6,contract.getBg_valid_uptos()[i]);
+								stmt.setString(6,currentDate);
 								stmt.setString(7,contract.getRemarkss()[i]);
 								stmt.setString(8,contract.getContract_id());
 								stmt.addBatch();
 							}
+							
 					}
 				}
 				c = stmt.executeBatch();
 				
-	
+				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 					String qryInsurenceDelete = "delete from insurance where contract_id_fk = ?";
 					stmt = con.prepareStatement(qryInsurenceDelete); 
 					stmt.setString(1,contract.getContract_id());
-					count = stmt.executeUpdate();
+					count = stmt.executeUpdate();}
 					if(stmt != null){stmt.close();}
 				
 				
@@ -648,13 +666,16 @@ public class ContractDaoImpl implements ContractDao {
 					stmt = con.prepareStatement(Insurence_qry); 
 					if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
 						for (int i = 0; i < contract.getInsurance_type_fks().length; i++) {
+							Date insurenceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[i]);
+							String insurenceCurrentDate = sqlDate.format(insurenceConvertedDate);
+							
 							if(!StringUtils.isEmpty(contract.getInsurance_type_fks()[i])){
 								stmt.setString(1,contract.getInsurance_type_fks()[i]);
 								stmt.setString(2,contract.getIssuing_agencys()[i]);
 								stmt.setString(3,contract.getAgency_addresss()[i]);
 								stmt.setString(4,contract.getInsurance_numbers()[i]);
 								stmt.setString(5,contract.getInsurance_values()[i]);
-								stmt.setString(6,contract.getInsurence_valid_uptos()[i]);
+								stmt.setString(6,insurenceCurrentDate);
 								stmt.setString(7,contract.getInsurence_remarks()[i]);
 								stmt.setString(8,contract.getContract_id());
 								stmt.addBatch();
@@ -663,11 +684,11 @@ public class ContractDaoImpl implements ContractDao {
 				}
 				c = stmt.executeBatch();
 				
-
+				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 				String qryMilestoneDelete = "delete from contract_milestones where contract_id_fk = ?";
 				stmt = con.prepareStatement(qryMilestoneDelete); 
 				stmt.setString(1,contract.getContract_id());
-				count = stmt.executeUpdate();
+				count = stmt.executeUpdate();}
 				if(stmt != null){stmt.close();}
 			
 				String Milestone_qry = "INSERT into  contract_milestones (milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk) "
@@ -675,10 +696,17 @@ public class ContractDaoImpl implements ContractDao {
 				stmt = con.prepareStatement(Milestone_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
 					for (int i = 0; i < contract.getMilestone_names().length; i++) {
+						
+						Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
+						String mileCurrentDate1 = sqlDate.format(mileConvertedDate);
+						
+						Date actualConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
+						String mileCurrentDate2 = sqlDate.format(actualConvertedDate);
+						
 						if(!StringUtils.isEmpty(contract.getMilestone_names()[i])){
 							stmt.setString(1,contract.getMilestone_names()[i]);
-							stmt.setString(2,contract.getMilestone_dates()[i]);
-							stmt.setString(3,contract.getActual_dates()[i]);
+							stmt.setString(2,mileCurrentDate1);
+							stmt.setString(3,mileCurrentDate2);
 							stmt.setString(4,contract.getRevisions()[i]);
 							stmt.setString(5,contract.getMile_remarks()[i]);
 							stmt.setString(6,contract.getContract_id());
@@ -688,11 +716,12 @@ public class ContractDaoImpl implements ContractDao {
 				}
 				c = stmt.executeBatch();
 				
-				
+				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
+
 				String qryRevisionDelete = "delete from contract_revision where contract_id_fk = ?";
 				stmt = con.prepareStatement(qryRevisionDelete); 
 				stmt.setString(1,contract.getContract_id());
-				count = stmt.executeUpdate();
+				count = stmt.executeUpdate();}
 				if(stmt != null){stmt.close();}
 				
 				String Revision_qry = "INSERT into  contract_revision (revision_number,revised_amount,revised_doc,remarks,contract_id_fk) "
@@ -700,10 +729,12 @@ public class ContractDaoImpl implements ContractDao {
 					stmt = con.prepareStatement(Revision_qry); 
 						if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 							for (int i = 0; i < contract.getRevision_numbers().length; i++) {
+								Date revConvertedDate = sdf.parse(contract.getRevised_docs()[i]);
+								String revCurrentDate1 = sqlDate.format(revConvertedDate);
 								if(!StringUtils.isEmpty(contract.getRevision_numbers()[i])){
 									stmt.setString(1,contract.getRevision_numbers()[i]);
 									stmt.setString(2,contract.getRevised_amounts()[i]);
-									stmt.setString(3,contract.getRevised_docs()[i]);
+									stmt.setString(3,revCurrentDate1);
 									stmt.setString(4,contract.getRevision_remarks()[i]);
 									stmt.setString(5,contract.getContract_id());
 									stmt.addBatch();

@@ -23,10 +23,10 @@
             display: none;
         } */
 
-        #example3 .datepicker~button,
-        #example6 .datepicker~button,
-        #example5 .datepicker~button,
-        #example4 .datepicker~button {
+        #ravTable .datepicker~button,
+        #insurenceTable .datepicker~button,
+        #bankTable .datepicker~button,
+        #mileTable .datepicker~button {
             top: 26px;
         }
 
@@ -392,7 +392,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="contract_closure" name="contract_closure" type="text" class="validate" value="${contractDeatils.contract_closure }">
-                                    <label for="contract_closure"> Contract Closure</label>
+                                    <label for="contract_closure"> Contract Closure Comment</label>
                                      <span id="contract_closureError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -436,7 +436,7 @@
                             <div class="row fixed-width" id="bank_guarantee_div">
                                 <h5 class="center-align">Bank Guarantee Details</h5>
                                 <div class="table-inside">
-                                    <table id="example5" class="mdl-data-table">
+                                    <table id="bankTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <!-- <th>Contract ID </th> -->
@@ -500,12 +500,13 @@
                                                
                                             </tr>
                                              <script type="text/javascript">
-	                                                $("#bg_valid_uptos${index.count }").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                               /*  $("#bg_valid_uptos${index.count }").datepicker({
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 });
+	                                                 }); */
                                                 </script>
                                           </c:forEach>
                                            </c:when>
@@ -556,7 +557,8 @@
                                             </tr>
                                             	<script type="text/javascript">
 	                                                $("#bg_valid_uptos0").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
@@ -574,7 +576,14 @@
                                          </tr>
                                         </tbody>
                                     </table>
-                                    <input type="hidden" id="bankRowNo"  name="bankRowNo" value="0" />
+                                    <c:choose>
+                                        <c:when test="${not empty contractDeatils.bankGauranree && fn:length(contractDeatils.bankGauranree) gt 0 }">
+                                    		<input type="hidden" id="bankRowNo"  name="bankRowNo" value="${fn:length(contractDeatils.bankGauranree) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="bankRowNo"  name="bankRowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>   
                                 </div>
                             </div>
 
@@ -602,7 +611,7 @@
                             <div class="row fixed-width" id="insurance_div">
                                 <h5 class="center-align">Insurance Details</h5>
                                 <div class="table-inside">
-                                    <table id="example6" class="mdl-data-table">
+                                    <table id="insurenceTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Insurance Type </th>
@@ -648,7 +657,7 @@
                                                 <td>
                                                     <input id="insurence_valid_uptos${index.count }" name="insurence_valid_uptos" type="text" value="${insurenceObj.insurence_valid_upto }"
                                                         class="validate datepicker" placeholder="Valid Upto">
-                                                    <button type="button" id="insurance_upto_icon"><i
+                                                    <button type="button" id="insurance_upto_icon${index.count }"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
@@ -661,12 +670,13 @@
                                                 </td>
                                             </tr>
                                              <script type="text/javascript">
-	                                                $("#insurence_valid_uptos${index.count }").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                               /*  $("#insurence_valid_uptos${index.count }").datepicker({
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 });
+	                                                 }); */
                                                 </script>
                                              </c:forEach>
                                              </c:when>
@@ -715,7 +725,8 @@
                                             </tr>
                                             <script type="text/javascript">
 	                                                $("#insurence_valid_uptos0").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
@@ -726,22 +737,28 @@
                                             </c:choose>  
                                         </tbody>
                                     </table>
-                                     <table id="example6" class="mdl-data-table">
+                                     <table  class="mdl-data-table">
                                         <tbody id="insurenceTableBody">                                          
                                             <tr>
                                    <td colspan="8" style="text-align: right;" ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addInsurenceRow()"> <i class="fa fa-plus"></i></a></td>
                                              </tr>
                                         </tbody>
                                     </table>
-                                    <input type="hidden" id="insurenceRowNo"  name="insurenceRowNo" value="0" />
-
+									<c:choose>
+                                        <c:when test="${not empty contractDeatils.insurence && fn:length(contractDeatils.insurence) gt 0 }">
+                                    		<input type="hidden" id="insurenceRowNo"  name="insurenceRowNo" value="${fn:length(contractDeatils.insurence) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="insurenceRowNo"  name="insurenceRowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>  
                                 </div>
                             </div>
 
                             <div class="row fixed-width">
                                 <h5 class="center-align">Milestone Details</h5>
                                 <div class="table-inside">
-                                    <table id="example4" class="mdl-data-table">
+                                    <table id="mileTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Milestone Name </th>
@@ -772,7 +789,7 @@
                                                 <td>
                                                     <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker" value="${milestonesObj.actual_date }"
                                                         placeholder="Actual Date">
-                                                    <button type="button" id="actual_date_icon"><i
+                                                    <button type="button" id="actual_date_icon${index.count }"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
@@ -788,12 +805,13 @@
                                                 </td>
                                             </tr>
                                               <script type="text/javascript">
-	                                                $("#milestone_dates${index.count },#actual_dates${index.count }").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                               /*  $("#milestone_dates${index.count },#actual_dates${index.count }").datepicker({
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 });
+	                                                 }); */
                                                 </script>
                                              </c:forEach>
                                               </c:when>
@@ -806,17 +824,17 @@
                                                 <td>
                                                     <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
                                                         placeholder="Milestone Date">
-                                                    <button type="button" id="milestone_date_icon"><i
+                                                    <button type="button" id="milestone_date_icon${index.count }"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
                                                     <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
                                                         placeholder="Actual Date">
-                                                    <button type="button" id="actual_date_icon"><i
+                                                    <button type="button" id="actual_date_icon${index.count }"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="revisions0" name="revisions" type="text" class="validate" 
+                                                    <input id="revisions0" name="revisions" type="text" class="validate " 
                                                         placeholder="Revision">
                                                 </td>
                                                 <td>
@@ -829,7 +847,8 @@
                                             </tr>
                                               <script type="text/javascript">
 	                                                $("#milestone_dates0,#actual_dates0").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
@@ -847,14 +866,22 @@
                                              </tr>
                                         </tbody>
                                     </table>
-                                    <input type="hidden" id="mileRowNo"  name="mileRowNo" value="0" />
+                                    
+                                      <c:choose>
+                                        <c:when test="${not empty contractDeatils.milestones && fn:length(contractDeatils.milestones) gt 0 }">
+                                    		<input type="hidden" id="mileRowNo"  name="mileRowNo" value="${fn:length(contractDeatils.milestones) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="mileRowNo"  name="mileRowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>  
                                 </div>
                             </div>
                             <div class="row fixed-width">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
 
-                                    <table id="example3" class="mdl-data-table">
+                                    <table id="ravTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Revision Number </th>
@@ -866,7 +893,7 @@
                                         </thead>
                                         <tbody  id="revTableBody" >
                                         <c:choose>
-                                        <c:when test="${not empty contractDeatils.milestones  && fn:length(contractDeatils.milestones ) gt 0 }">
+                                        <c:when test="${not empty contractDeatils.contract_revision  && fn:length(contractDeatils.contract_revision ) gt 0 }">
                                           
                                          <c:forEach var="revObj" items="${contractDeatils.contract_revision }" varStatus="index">  
                                             <tr id="revRow${index.count }">
@@ -880,7 +907,7 @@
                                                 <td>
                                                     <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" value="${revObj.revised_doc }"
                                                         placeholder="Revised DOC">
-                                                    <button type="button" id="revised_doc_icon"><i
+                                                    <button type="button" id="revised_doc_icon${index.count }"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td> 
@@ -892,12 +919,13 @@
                                                 </td>
                                             </tr>
                                              <script type="text/javascript">
-	                                                $("#revised_docs${index.count }").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                               /*  $("#revised_docs${index.count }").datepicker({
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
-	                                                 });
+	                                                 }); */
                                                 </script>
                                           </c:forEach>
                                            </c:when>
@@ -926,7 +954,8 @@
                                             </tr>
                                              <script type="text/javascript">
 	                                                $("#revised_docs0").datepicker({
-	                                                 	format: 'yyyy-mm-dd',
+	                                                	
+	                                                 	 format:'dd-mm-yyyy',
 	                                                     onSelect: function () {
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
@@ -944,7 +973,14 @@
                                               </tr>
                                         </tbody>
                                     </table>
-                                   	 <input type="hidden" id="revRowNo"  name="revRowNo" value="0" />
+                                   	 <c:choose>
+                                        <c:when test="${not empty contractDeatils.contract_revision && fn:length(contractDeatils.contract_revision) gt 0 }">
+                                    		<input type="hidden" id="revRowNo"  name="revRowNo" value="${fn:length(contractDeatils.contract_revision) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="revRowNo"  name="revRowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>  
                                 </div>
                             </div>
                             <div class="row">
@@ -1027,99 +1063,166 @@
 
 
     <script>
+    $(document).on('focus', '.datepicker',function(){
+        $(this).datepicker({
+        	format:'dd-mm-yyyy',
+   	    	onSelect: function () {
+   	    	   $('.confirmation-btns .datepicker-done').click();
+   	    	}
+        })
+    });
+    
         $(document).ready(function () {
             $('select').formSelect();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();
-            $("#loa_date,#doc").datepicker({
-            	format: 'yyyy-mm-dd',
+           /*  $("#loa_date").datepicker({
+            	
+            	 format:'dd-mm-yyyy',
                 onSelect: function () {
    	    	     $('.confirmation-btns .datepicker-done').click();
-   	    	  } });
-            $("#ca_date,#co_date,#actual_completion_date").datepicker({
-            	format: 'yyyy-mm-dd',
-                onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           });
-            $("#bg_valid_uptos,#insurence_valid_uptos").datepicker({
-            	format: 'yyyy-mm-dd',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            });
-            $("#milestone_dates,#actual_dates,#revised_docs").datepicker({
-            	format: 'yyyy-mm-dd',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            });
-           
+   	    	  } }); */
             $('#loa_date_icon').click(function () {
                 event.stopPropagation();
                 $('#loa_date').click();
             });
-
+           /*  $("#doc").datepicker({
+            	
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+   	    	     $('.confirmation-btns .datepicker-done').click();
+   	    	  } }); */
             $('#doc_icon').click(function () {
                 event.stopPropagation();
                 $('#doc').click();
             });
+           /*  $("#ca_date").datepicker({
+            	
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+    	    	     $('.confirmation-btns .datepicker-done').click();
+    	    	  }
+           }); */
             $('#ca_date_icon').click(function () {
                 event.stopPropagation();
                 $('#ca_date').click();
             });
-            $('#co_date_icon').click(function () {
-                event.stopPropagation();
-                $('#co_date').click();
-            });
+          
+           /*  $("#actual_completion_date").datepicker({
+            	 maxDate: new Date(),
+	           	 format:'dd-mm-yyyy',
+	             onSelect: function () {
+		    	     $('.confirmation-btns .datepicker-done').click();
+		    	  } }); */
+     /* 
+            $("#bg_valid_uptos").datepicker({
+            	
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  } }); */
+            
             $('#bg_upto_valid_icon').click(function () {
                 event.stopPropagation();
                 $('#bg_upto_valid').click();
             });
+          /*  
+            $("#insurence_valid_uptos").datepicker({
+            	
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  }
+            }); */
             $('#insurance_upto_valid_icon').click(function () {
                 event.stopPropagation();
                 $('#insurance_upto_valid').click();
             });
+           /*  $("#milestone_dates").datepicker({
+            	
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  }
+            }); */
+
             $('#milestone_date_icon').click(function () {
                 event.stopPropagation();
                 $('#milestone_date').click();
             });
+           /*  $("#actual_dates").datepicker({
+            	
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  }
+            }); */
             $('#actual_date_icon').click(function () {
                 event.stopPropagation();
                 $('#actual_date').click();
             });
+           /*  $("#revised_docs").datepicker({
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+     	    	     $('.confirmation-btns .datepicker-done').click();
+     	    	  }
+            }); */
             $('#revised_doc_icon').click(function () {
                 event.stopPropagation();
                 $('#revised_doc').click();
             });
-            $('#bg_upto_icon').click(function () {
-                event.stopPropagation();
-                $('#bg_upto').click();
-            });
+          
+
+           
+           
+          
+           
+          
+         
 
             $('#insurance_upto_icon').click(function () {
                 event.stopPropagation();
                 $('#insurance_upto').click();
             });
 
-            $('#contract_closure_date,#completion_certificate_date,#final_takeover_client,#start_date').datepicker({
-            	format: 'yyyy-mm-dd',
+          /*   $('#contract_closure_date').datepicker({
+            	 format:'dd-mm-yyyy',
                 onSelect: function () {
     	    	     $('.confirmation-btns .datepicker-done').click();
     	    	  }
-           });
-            $('#start_date_icon').click(function () {
-                event.stopPropagation();
-                $('#start_date').click();
-            });
+           }); */
             $('#contract_closure_date_icon').click(function () {
                 event.stopPropagation();
                 $('#contract_closure_date').click();
             });
+
+           /*  $('#completion_certificate_date').datepicker({
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+    	    	     $('.confirmation-btns .datepicker-done').click();
+    	    	  }
+           }); */
             $('#completion_certificate_date_icon').click(function () {
                 event.stopPropagation();
                 $('#completion_certificate_date').click();
             });
+          /*   $('#start_date').datepicker({
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+    	    	     $('.confirmation-btns .datepicker-done').click();
+    	    	  }
+           }); */
+            $('#start_date_icon').click(function () {
+                event.stopPropagation();
+                $('#start_date').click();
+            });
+           
+          /*   $('#final_takeover_client').datepicker({
+            	 format:'dd-mm-yyyy',
+                onSelect: function () {
+    	    	     $('.confirmation-btns .datepicker-done').click();
+    	    	  }
+           }); */
             $('#final_takeover_client_icon').click(function () {
                 event.stopPropagation();
                 $('#final_takeover_client').click();
@@ -1447,7 +1550,7 @@
 		   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
 		   +'<td><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
-		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button" id="bg_upto_icon"><i class="fa fa-calendar"></i></button></td>'
+		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate"  placeholder="Valid Upto"><button type="button" id="bg_upto_icon"><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 	   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 	 
@@ -1456,7 +1559,7 @@
 		 $('select').formSelect();
 		 
 		 $("#bg_valid_uptos"+rNo).datepicker({
-         	format: 'yyyy-mm-dd',
+         	 format:'dd-mm-yyyy',
              onSelect: function () {
   	    	     $('.confirmation-btns .datepicker-done').click();
   	    	  }
@@ -1488,7 +1591,7 @@ function addInsurenceRow(){
 	   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 	   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
 	   +'<td><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
-	   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurance_upto_icon"><i class="fa fa-calendar"></i></button></td>'
+	   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate" placeholder="Valid Upto"> <button type="button" id="insurance_upto_icon"><i class="fa fa-calendar"></i></button></td>'
 	   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
  	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
  		  
@@ -1496,7 +1599,7 @@ function addInsurenceRow(){
 	 $("#insurenceRowNo").val(rNo);
 	 $('select').formSelect();
 	 $("#insurence_valid_uptos"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }
@@ -1517,8 +1620,8 @@ function addMilestoneRow(){
     var total = 0;
     var html = '<tr id="mileRow'+rNo+'">'
 	   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-	   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_date_icon"><i class="fa fa-calendar"></i></button></td>'
-	   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_date_icon"><i  class="fa fa-calendar"></i></button></td>'
+	   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate"  placeholder="Milestone Date"><button type="button" id="milestone_date_icon"><i class="fa fa-calendar"></i></button></td>'
+	   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate"   placeholder="Actual Date">  <button type="button" id="actual_date_icon"><i  class="fa fa-calendar"></i></button></td>'
 	   +'<td><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 	   +'<td>  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
  	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -1529,13 +1632,13 @@ function addMilestoneRow(){
 	 $('select').formSelect();
 	 
 	 $("#milestone_dates"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }
 	      });
 	 $("#actual_dates"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }
@@ -1555,7 +1658,7 @@ function addRevRow(){
     var html = '<tr id="revRow'+rNo+'">'
 	   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 	   +'<td><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
-	   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
+	   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate"  placeholder="Revised DOC">'
 	   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
 	   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
  	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -1566,7 +1669,7 @@ function addRevRow(){
 	 $('select').formSelect();
 	 
 	 $("#revised_docs"+rNo).datepicker({
-	      	format: 'yyyy-mm-dd',
+	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
 		    	     $('.confirmation-btns .datepicker-done').click();
 		    	  }

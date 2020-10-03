@@ -11,14 +11,11 @@
     <title>Strip Chart</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
 
-
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
 
     <style>
@@ -261,7 +258,6 @@
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
                                                 <div id="component_circles" style="padding: 10px;">
-                                                    <!-- <div class="horizontal-line"> </div> -->
                                                     <!-- <div class="dot-container">
                                                         <a href="javascript:void(0);" class="dot"
                                                             style="margin-left: 0;">
@@ -623,24 +619,7 @@
             if ($.trim(globalProjectId) != '') {
                 getWorksList(globalProjectId);
             }
-           /* 
-            //container selection 
-            let container = $('.dotgroup-scroll');
-            //event on change of component id 
-            $('#strip_chart_component_id').change(function () {
-                let val = $('#strip_chart_component_id').val();
-                // selecting target element 
-                let target = $('#' + val);
-                // remove active class to all elements
-                $('#component_circles .dot').removeClass('active');
-                // adding active class to target element 
-                target.addClass('active');
-                // getting left of the target element 
-                let leftOffset = target.position().left / 4;
-                // setting target element position in container 
-                container.scrollLeft(leftOffset);
-            });
-            */
+           
         });
 
 
@@ -993,8 +972,7 @@
     			document.getElementById("stripChartForm").submit();			
     	 	}
     	}
-    	
-    	
+    	    	
     	//Wait for the DOM to be ready
     	
     	// to validate apartment form inputs thruogh jquery.

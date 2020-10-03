@@ -21,6 +21,11 @@
         p a {
             color: blue;
         }
+           td{
+        word-break: break-word;
+    	word-wrap: break-word;
+   	white-space: initial;
+     }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;

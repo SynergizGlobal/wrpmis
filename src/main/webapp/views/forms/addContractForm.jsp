@@ -227,23 +227,25 @@
                                     <div class="row">
 
                                         <div class="col s12 m6 input-field">
-                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown">
-                                      		  <option value="" selected>Select</option>
-                                                <c:forEach var="obj" items="${hodList }">
-		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option>
-		                                        </c:forEach>
-                                            </select>
-                                            <label>HOD</label>
+<!--                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown"> -->
+<!--                                       		  <option value="" selected>Select</option> -->
+<%--                                                 <c:forEach var="obj" items="${hodList }"> --%>
+<%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
+<%-- 		                                        </c:forEach> --%>
+<!--                                             </select> -->
+<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+                                    <label for="hod_user_id_fk">HOD</label>
                                             <span id="hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m6 input-field">
-                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown">
-                                                <option value="" selected>Select</option>
-                                                <c:forEach var="obj" items="${hodList }">
-		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option>
-		                                     	 </c:forEach>
-                                            </select>
-                                            <label>Dy HOD</label>
+<!--                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown"> -->
+<!--                                                 <option value="" selected>Select</option> -->
+<%--                                                 <c:forEach var="obj" items="${hodList }"> --%>
+<%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
+<%-- 		                                     	 </c:forEach> --%>
+<!--                                             </select> -->
+<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate">
+                                    <label for="dy_hod_user_id_fk">Dy HOD</label>
                                             <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                     </div>

@@ -59,4 +59,24 @@ public class IssueServiceImpl implements IssueService {
 		return issueDao.getDepartmentList();
 	}
 
+	@Override
+	public List<Issue> getContractsListFromIssue() throws Exception {
+		return issueDao.getContractsListFromIssue();
+	}
+
+	@Override
+	public List<Issue> getDepartmentsListFromIssue() throws Exception {
+		return issueDao.getDepartmentsListFromIssue();
+	}
+
+	@Override
+	public List<Issue> getCategoryListFromIssue() throws Exception {
+		return issueDao.getCategoryListFromIssue();
+	}
+
+	@Override
+	public List<Issue> getStatusListFromIssue() throws Exception {
+		return issueDao.getStatusListFromIssue();
+	}
+	
 }

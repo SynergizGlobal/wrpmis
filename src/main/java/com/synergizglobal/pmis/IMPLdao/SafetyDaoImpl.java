@@ -55,6 +55,11 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and s.department_fk = ?";
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRoot_cause_fk())) {
 				qry = qry + " and root_cause_fk = ?";
 				arrSize++;
@@ -75,6 +80,9 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRoot_cause_fk())) {
 				pValues[i++] = obj.getRoot_cause_fk();
@@ -253,6 +261,58 @@ public class SafetyDaoImpl implements SafetyDao {
 		try {
 			String qry = "select department as department_fk from department";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Safety> getContractsListFromSafety() throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT contract_id_fk,c.contract_id,contract_name from safety s "
+					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "GROUP BY contract_id_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Safety> getDepartmentsListFromSafety() throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT department_fk,department,department_name from safety s "
+					+ "LEFT OUTER JOIN department d ON s.department_fk COLLATE utf8mb4_unicode_ci = d.department "
+					+ "GROUP BY department_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Safety> getCategoryListFromSafety() throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT category_fk from safety GROUP BY category_fk ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Safety> getStatusListFromSafety() throws Exception {
+		List<Safety> objsList = null;
+		try {
+			String qry = "SELECT status_fk from safety GROUP BY status_fk ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

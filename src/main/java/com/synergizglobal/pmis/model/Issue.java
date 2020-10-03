@@ -4,11 +4,35 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Issue {
 	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
-	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_name,work_id_fk,work_name,
-	project_id_fk,project_name,activity_name,strip_chart_component_fk,zonal_rly;
+	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,
+	project_id_fk,project_name,activity_name,strip_chart_component_fk,zonal_rly,department,department_name;
 
 	private MultipartFile issueFile;
 	
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
+	}
+
 	public MultipartFile getIssueFile() {
 		return issueFile;
 	}

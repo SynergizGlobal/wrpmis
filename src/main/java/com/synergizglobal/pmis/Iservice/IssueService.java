@@ -24,4 +24,12 @@ public interface IssueService {
 
 	List<Issue> getDepartmentList() throws Exception;
 
+	List<Issue> getContractsListFromIssue() throws Exception;
+
+	List<Issue> getDepartmentsListFromIssue() throws Exception;
+
+	List<Issue> getCategoryListFromIssue() throws Exception;
+
+	List<Issue> getStatusListFromIssue() throws Exception;
+	
 }

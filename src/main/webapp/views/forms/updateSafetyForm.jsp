@@ -162,8 +162,8 @@
                                 <div class="col s12 m4 input-field">
                                     <select id="committee_formed_fk" name="committee_formed_fk">
                                         <option value="">Select</option>
-                                        <option value="YES" <c:if test="${safety.committee_formed_fk eq 'YES'}">selected</c:if>>Yes</option>
-                                        <option value="NO" <c:if test="${safety.committee_formed_fk eq 'NO'}">selected</c:if>>No</option>
+                                        <option value="Yes" <c:if test="${safety.committee_formed_fk eq 'Yes'}">selected</c:if>>Yes</option>
+                                        <option value="No" <c:if test="${safety.committee_formed_fk eq 'No'}">selected</c:if>>No</option>
                                     </select>
                                     <label>Committee formed </label>
                                     <span id="committee_formed_fkError" class="error-msg" ></span>

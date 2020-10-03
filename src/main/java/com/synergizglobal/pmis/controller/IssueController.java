@@ -36,7 +36,6 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Project;
 
@@ -75,9 +74,20 @@ public class IssueController {
 			model.setViewName(PageConstants.issuesGrid);
 			/*List<Issue> issues = issueService.getIssuesList(obj);
 			model.addObject("issues", issues);*/
-			List<Contract> contracts = stripChartService.getContractsList(null);
+			List<Issue> contracts = issueService.getContractsListFromIssue();
 			model.addObject("contracts", contracts);
+			
+			List<Issue> departments = issueService.getDepartmentsListFromIssue();
+			model.addObject("departments", departments);
+			
+			List<Issue> categorys = issueService.getCategoryListFromIssue();
+			model.addObject("categorys", categorys);
+			
+			List<Issue> statuses = issueService.getStatusListFromIssue();
+			model.addObject("statuses", statuses);
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.info("issues : " + e.getMessage());
 		}
 		return model;

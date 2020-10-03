@@ -52,6 +52,10 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and i.department_fk = ?";
+				arrSize++;
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -67,6 +71,9 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
@@ -219,6 +226,58 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			String qry = "select department as department_fk from department";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Issue> getContractsListFromIssue() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT contract_id_fk,c.contract_id,contract_name from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "GROUP BY contract_id_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getDepartmentsListFromIssue() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT department_fk,department,department_name from issue i "
+					+ "LEFT OUTER JOIN department d ON i.department_fk COLLATE utf8mb4_unicode_ci = d.department "
+					+ "GROUP BY department_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getCategoryListFromIssue() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT category_fk from issue GROUP BY category_fk ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getStatusListFromIssue() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT status_fk from issue GROUP BY status_fk ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

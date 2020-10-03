@@ -63,5 +63,25 @@ public class SafetyServiceImpl implements SafetyService {
 	public List<Safety> getDepartmentList() throws Exception {
 		return safetyDao.getDepartmentList();
 	}
+
+	@Override
+	public List<Safety> getContractsListFromSafety() throws Exception {
+		return safetyDao.getContractsListFromSafety();
+	}
+
+	@Override
+	public List<Safety> getDepartmentsListFromSafety() throws Exception {
+		return safetyDao.getDepartmentsListFromSafety();
+	}
+
+	@Override
+	public List<Safety> getCategoryListFromSafety() throws Exception {
+		return safetyDao.getCategoryListFromSafety();
+	}
+
+	@Override
+	public List<Safety> getStatusListFromSafety() throws Exception {
+		return safetyDao.getStatusListFromSafety();
+	}
 	
 }

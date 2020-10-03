@@ -158,8 +158,8 @@
                                 <div class="col s12 m4 input-field">
                                     <select id="committee_formed_fk" name="committee_formed_fk">
                                         <option value="" selected>Select</option>
-                                        <option value="YES">Yes</option>
-                                        <option value="NO">No</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
                                     </select>
                                     <label>Committee formed </label>
                                     <span id="committee_formed_fkError" class="error-msg" ></span>

@@ -136,8 +136,6 @@ public class WorkDaoImpl implements WorkDao {
 		
 		Connection con = null;
 		PreparedStatement stmt = null;
-		int count = 1;
-		int[] c = {};
 		boolean flag = false;
 		try{
 			con = dataSource.getConnection();
@@ -157,9 +155,9 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(9,work.getCompletion_cost());
 			stmt.setString(10,work.getRemarks());
 			stmt.setString(11,work.getWork_id());
-			count = stmt.executeUpdate();
+			int count = stmt.executeUpdate();
 			
-		if(stmt != null){stmt.close();}
+			if(stmt != null){stmt.close();}
 		
 			String qry3 = "update work_railway set railway_id_fk =?,executed_by_id_fk = ?,remarks =? where work_id_fk = ?";
 			stmt = con.prepareStatement(qry3); 
@@ -196,7 +194,7 @@ public class WorkDaoImpl implements WorkDao {
 					}
 				}
 			}
-			c = stmt.executeBatch();
+			int[] c = stmt.executeBatch();
 			if(c.length > 0 || count > 0){
 				flag = true; 
 			}

@@ -31,12 +31,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
-import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Safety;
 
@@ -46,9 +44,6 @@ public class SafetyController {
 	
 	@Autowired
 	SafetyService safetyService;
-	
-	@Autowired
-	StripChartService stripChartService;
 	
 	@Autowired
 	HomeService homeService;
@@ -75,10 +70,20 @@ public class SafetyController {
 			model.setViewName(PageConstants.safetyGrid);
 			/*List<Safety> safety = safetyService.getSafetyList(obj);
 			model.addObject("safety", safety);*/
-			List<Contract> contracts = stripChartService.getContractsList(null);
+			List<Safety> contracts = safetyService.getContractsListFromSafety();
 			model.addObject("contracts", contracts);
 			
+			List<Safety> departments = safetyService.getDepartmentsListFromSafety();
+			model.addObject("departments", departments);
+			
+			List<Safety> categorys = safetyService.getCategoryListFromSafety();
+			model.addObject("categorys", categorys);
+			
+			List<Safety> statuses = safetyService.getStatusListFromSafety();
+			model.addObject("statuses", statuses);
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.info("safety : " + e.getMessage());
 		}
 		return model;

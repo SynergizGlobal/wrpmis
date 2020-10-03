@@ -250,7 +250,14 @@
 											</tr>
                                         </tbody>
                                     </table>
-                                    <input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                    <c:choose>
+                                        <c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">
+                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(fob.fobDetails)}" />
+                                        </c:when>
+                                        <c:otherwise>
+                                        	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                        </c:otherwise>
+                                    </c:choose>  
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
 

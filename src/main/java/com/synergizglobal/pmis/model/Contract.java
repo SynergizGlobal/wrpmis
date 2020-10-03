@@ -1,14 +1,145 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Contract {
-	private String contract_id,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,
-	hod_user_id_fk,dy_hod_user_id_fk,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,
+	private String contract_id,contract_id_fk,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,department_name,
+	hod_user_id_fk,dy_hod_user_id_fk,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,completion_certificate_release,
+	final_takeover,final_bill_release,defect_liability_period,retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,
 	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk,
-	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value
-	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,
-	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc;
+	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
+	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,
+	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark;
+
+	public String getRevision_remark() {
+		return revision_remark;
+	}
+
+	public void setRevision_remark(String revision_remark) {
+		this.revision_remark = revision_remark;
+	}
+
+	public String getInsurence_remark() {
+		return insurence_remark;
+	}
+
+	public void setInsurence_remark(String insurence_remark) {
+		this.insurence_remark = insurence_remark;
+	}
+
+	public String getInsurence_valid_upto() {
+		return insurence_valid_upto;
+	}
+
+	public void setInsurence_valid_upto(String insurence_valid_upto) {
+		this.insurence_valid_upto = insurence_valid_upto;
+	}
+
+	public String getMile_remark() {
+		return mile_remark;
+	}
+
+	public void setMile_remark(String mile_remark) {
+		this.mile_remark = mile_remark;
+	}
+
+	public String getContract_id_fk() {
+		return contract_id_fk;
+	}
+
+	public void setContract_id_fk(String contract_id_fk) {
+		this.contract_id_fk = contract_id_fk;
+	}
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
+	}
+
+	public String getContract_status_fk() {
+		return contract_status_fk;
+	}
+
+	public void setContract_status_fk(String contract_status_fk) {
+		this.contract_status_fk = contract_status_fk;
+	}
+
+	public String getBg_required() {
+		return bg_required;
+	}
+
+	public void setBg_required(String bg_required) {
+		this.bg_required = bg_required;
+	}
+
+	public String getInsurance_required() {
+		return insurance_required;
+	}
+
+	public void setInsurance_required(String insurance_required) {
+		this.insurance_required = insurance_required;
+	}
+
+	public String getContract_closure() {
+		return contract_closure;
+	}
+
+	public void setContract_closure(String contract_closure) {
+		this.contract_closure = contract_closure;
+	}
+
+	public String getPbg_release() {
+		return pbg_release;
+	}
+
+	public void setPbg_release(String pbg_release) {
+		this.pbg_release = pbg_release;
+	}
+
+	public String getRetention_money_release() {
+		return retention_money_release;
+	}
+
+	public void setRetention_money_release(String retention_money_release) {
+		this.retention_money_release = retention_money_release;
+	}
+
+	public String getDefect_liability_period() {
+		return defect_liability_period;
+	}
+
+	public void setDefect_liability_period(String defect_liability_period) {
+		this.defect_liability_period = defect_liability_period;
+	}
+
+	public String getFinal_takeover() {
+		return final_takeover;
+	}
+
+	public String getFinal_bill_release() {
+		return final_bill_release;
+	}
+
+	public void setFinal_bill_release(String final_bill_release) {
+		this.final_bill_release = final_bill_release;
+	}
+
+	public void setFinal_takeover(String final_takeover) {
+		this.final_takeover = final_takeover;
+	}
+
+	public String getCompletion_certificate_release() {
+		return completion_certificate_release;
+	}
+
+	public void setCompletion_certificate_release(String completion_certificate_release) {
+		this.completion_certificate_release = completion_certificate_release;
+	}
 
 	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,
@@ -16,6 +147,42 @@ public class Contract {
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
 	
 	private MultipartFile contractFile;
+	
+	private List<Contract> bankGauranree;
+	private List<Contract> insurence;
+	private List<Contract> milestones;
+	private List<Contract> contract_revision;
+	public List<Contract> getContract_revision() {
+		return contract_revision;
+	}
+
+	public void setContract_revision(List<Contract> contract_revision) {
+		this.contract_revision = contract_revision;
+	}
+
+	public List<Contract> getMilestones() {
+		return milestones;
+	}
+
+	public void setMilestones(List<Contract> milestones) {
+		this.milestones = milestones;
+	}
+
+	public List<Contract> getInsurence() {
+		return insurence;
+	}
+
+	public void setInsurence(List<Contract> insurence) {
+		this.insurence = insurence;
+	}
+
+	public List<Contract> getBankGauranree() {
+		return bankGauranree;
+	}
+
+	public void setBankGauranree(List<Contract> bankGauranree) {
+		this.bankGauranree = bankGauranree;
+	}
 
 	public MultipartFile getContractFile() {
 		return contractFile;
@@ -353,12 +520,13 @@ public class Contract {
 		this.bg_value = bg_value;
 	}
 
-	public String getValid_upto() {
-		return valid_upto;
+
+	public String getBg_valid_upto() {
+		return bg_valid_upto;
 	}
 
-	public void setValid_upto(String valid_upto) {
-		this.valid_upto = valid_upto;
+	public void setBg_valid_upto(String bg_valid_upto) {
+		this.bg_valid_upto = bg_valid_upto;
 	}
 
 	public String[] getBg_type_fks() {

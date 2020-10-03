@@ -43,7 +43,21 @@
                 width: 100%;
             }
         }
-      
+         td{
+       		 word-break: break-word;
+    		 word-wrap: break-word;
+   			 white-space: initial;
+    	 }
+       .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -60,6 +74,21 @@
                             <h6> Contract</h6>
                         </div>
                     </span>
+                             
+			<div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               		<c:if test="${not empty success }">
+				        <div class="center-align m-1 close-message">	
+						   ${success}
+						</div>
+					</c:if>
+					<c:if test="${not empty error }">
+						<div class="center-align m-1 close-message">
+						   ${error}
+						</div>
+					</c:if>
+			</div>
+			</div>
                     <div class="">
 
                         <div class="row plr-1 center-align">
@@ -110,7 +139,7 @@
                                         <select id="hod_user_id_fk" name="hod_user_id_fk" onchange="getContractList();">
                                             <option value="" disabled selected>Select HOD</option>
 		                                          <c:forEach var="obj" items="${hodList}">
-		                       						 <option value="${obj.user_id }" <c:if test="${param.hod_user_id_fk eq obj.user_id }">selected</c:if>>${obj.user_name}</option>
+		                       						 <option value="${obj.user_id }" <c:if test="${param.hod_user_id_fk eq obj.user_id }">selected</c:if>>${obj.user_id }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option>
 		                                           </c:forEach>
                                         </select>
                                     </div>

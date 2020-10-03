@@ -27,5 +27,9 @@ public interface ContractService {
 
 	public Contract getcontract(String contractId, Contract obj)throws Exception;
 
+	public List<Contract> getContractStatusType()throws Exception;
+
+	public boolean updateContract(Contract contract)throws Exception;
+
 
 }

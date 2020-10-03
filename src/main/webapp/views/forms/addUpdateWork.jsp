@@ -1,12 +1,15 @@
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add / Edit Work</title>
+    <title>
+   		 <c:if test="${action eq 'edit'}">Update WORK</c:if>
+		 <c:if test="${action eq 'add'}"> Add WORK</c:if>
+    </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -236,7 +239,10 @@
                                             </tr>
                                         </thead> 
                                         <tbody id="revisionsTableBody">
-                                        	<c:forEach var="revObj" items="${workDeatils.workRevisions }" varStatus="index">                                        	
+											<c:choose>
+                                      		  <c:when test="${not empty workDeatils.workRevisions && fn:length(workDeatils.workRevisions) gt 0 }">
+                                        			
+                                        		<c:forEach var="revObj" items="${workDeatils.workRevisions }" varStatus="index">                                        	
 	                                           <tr id="revisionRow${index.count }">                                            	
 	                                                <td> 
 	                              					 <select  name="financial_years"  id="financial_years${index.count }"  class="selectDropdown">
@@ -255,8 +261,8 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                </td>
 	                                                <td>
-	                                                   <select id="year_of_revisions${index.count }" name ="year_of_revisions" >
-	                                                           <option value="" selected>select</option>
+	                                                   <select id="year_of_revisions${index.count }"  name="year_of_revisions" >
+	                                                           <option value="" >select</option>
 	                                                        <c:forEach var="obj" items="${yearList}">
 	                    					  				  <option  value="${obj.financial_year }"<c:if test="${revObj.year_of_revision eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
 	                                          			    </c:forEach>
@@ -276,10 +282,59 @@
 	                                                </td>
 	                                            </tr>
                                             </c:forEach>
+                                            </c:when>
+                                        		<c:otherwise>
+                                        		<tr id="revisionRow0">                                            	
+	                                                <td> 
+	                              					 <select  name="financial_years"  id="financial_years0"  class="selectDropdown">
+	                                   					 <option value="" >select</option>
+	                                         			  <c:forEach var="obj" items="${yearList}">
+	                    					  				 <option value="${obj.financial_year }">${obj.financial_year}</option>
+	                                          			  </c:forEach>
+	                               					  </select>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate" 
+	                                                        placeholder="PB Item Number">
+	                                                </td>
+	                                                <td>
+	                                                    <input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" 
+	                                                        placeholder="Latest Revised Cost">
+	                                                </td>
+	                                                <td>
+	                                                   <select id="year_of_revisions0" name ="year_of_revisions" >
+	                                                           <option value="" selected>select</option>
+	                                                        <c:forEach var="obj" items="${yearList}">
+	                    					  				  <option  value="${obj.financial_year }"> ${obj.financial_year}</option>
+	                                          			    </c:forEach>
+	                                                    </select>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
+	                                                        placeholder="Revision Number">
+	                                                </td>
+	                                                <td>
+	                                                    <input id="remarkss0" name="remarkss" type="text" class="validate" 
+	                                                        placeholder="Remarks">
+	                                                </td>
+	                                                <td>
+	                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>
+	                                            </tr>
+                                        		
+                                        		</c:otherwise>
+                                        	</c:choose>
                                         </tbody>
                                     </table>
-  									 <a type="button" id="newButton"class="btn waves-effect waves-light bg-s t-c "  onclick="addRevisionRow()"> <i
-                                                            class="fa fa-plus"></i></a>
+                                     <table class="mdl-data-table">
+                                        <tbody id="insurenceTableBody">                                          
+			                                    <tr>
+			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addRevisionRow()"> <i
+			                                                            class="fa fa-plus"></i></a>
+			                                    </tr>
+                                        </tbody>
+                                    </table>
                                     <input type="hidden" id="rowNo"  name="rowNo" value="0" />
                                 </div>
                             </div>
@@ -433,9 +488,7 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             }); */
-            for (var i = 0; i < 1; i++) {
-            	addRevisionRow();
-            }
+          
         });
         
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      
@@ -639,7 +692,7 @@
     }); */
     
     function removeRevision(rowNo){
-    	alert("#revisionRow"+rowNo);
+    	//alert("#revisionRow"+rowNo);
     	$("#revisionRow"+rowNo).remove();
     }
   

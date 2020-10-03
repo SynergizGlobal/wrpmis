@@ -55,5 +55,14 @@ public class ContractServiceImpl implements ContractService{
 	public Contract getcontract(String contractId, Contract obj)throws Exception{
 		return contractDao.getcontract(contractId,obj);
 	}
+	@Override
+	public List<Contract> getContractStatusType()throws Exception{
+		return contractDao.getContractStatusType();
+	}
+	@Override
+	public boolean updateContract(Contract contract)throws Exception{
+		return contractDao.updateContract(contract);
+
+	}
 
 }

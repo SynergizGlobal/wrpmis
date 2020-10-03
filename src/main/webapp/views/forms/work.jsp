@@ -25,7 +25,11 @@
         p a {
             color: blue;
         }
-		
+		td{
+       		 word-break: break-word;
+    		 word-wrap: break-word;
+   			 white-space: initial;
+    	 }
     </style>
 </head>
 <body>

@@ -8,7 +8,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add / Edit Project</title>
+    <title>
+   		 <c:if test="${action eq 'edit'}">Update Project</c:if>
+		 <c:if test="${action eq 'add'}"> Add Project</c:if>
+    
+    </title>
          <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">

@@ -104,7 +104,7 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> workRevisions = new ArrayList<Work>();
 		Work obj = null;
 		try {
-			String qry ="SELECT financial_year,pink_book_item_number,latest_revised_cost, YEAR(year_of_revision) as year_of_revision,revision_number"
+			String qry ="SELECT financial_year,pink_book_item_number,latest_revised_cost, year_of_revision,revision_number"
 					+ ",remarks from work_yearly_sanction where work_id_fk = ?";
 		
 			stmt = connection.prepareStatement(qry);
@@ -168,14 +168,15 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(3,work.getRemarks());
 			stmt.setString(4,work.getWork_id());
 			count = stmt.executeUpdate();
-			
+			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
+
 			String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
 			stmt = con.prepareStatement(qryDelete); 
-			
-			stmt.setString(1,work.getWork_id());
+		
+			stmt.setString(1,work.getWork_id());}
 			count = stmt.executeUpdate();
 			
-			if(stmt != null){stmt.close();}
+			if(stmt != null){stmt.close();}	
 			String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
 					 +"year_of_revision,revision_number,remarks,work_id_fk) "
 					 +"VALUES (?,?,?,?,?,?,?)";
@@ -183,10 +184,10 @@ public class WorkDaoImpl implements WorkDao {
 			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
 				for (int i = 0; i < work.getFinancial_years().length; i++) {
 					if(!StringUtils.isEmpty(work.getFinancial_years()[i])){
-						stmt.setString(1,work.getFinancial_years()[i]+"-00-00");
+						stmt.setString(1,work.getFinancial_years()[i]);
 						stmt.setString(2,work.getPink_book_item_numbers()[i]);
 						stmt.setString(3,work.getLatest_revised_costs()[i]);
-						stmt.setString(4,work.getYear_of_revisions()[i]+"-00-00");
+						stmt.setString(4,work.getYear_of_revisions()[i]);
 						stmt.setString(5,work.getRevision_numbers()[i]);
 						stmt.setString(6,work.getRemarkss()[i]);
 						stmt.setString(7,work.getWork_id());
@@ -380,7 +381,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Year> getYearList()throws Exception{
 		List<Year> objsList = null;
 		try {
-			String qry = "SELECT financial_year FROM year";
+			String qry = "SELECT financial_year FROM financial_year";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Year>(Year.class));
 			
 		}catch(Exception e){ 

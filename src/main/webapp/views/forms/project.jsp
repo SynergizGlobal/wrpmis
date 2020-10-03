@@ -24,14 +24,13 @@
         p a {
             color: blue;
         }
-       
+       td{
+       		 word-break: break-word;
+    		 word-wrap: break-word;
+   			 white-space: initial;
+    	 }
     </style>
-    <script type="text/javascript">
-   		 var fade_out = function() {
-    	 	 $("#msg,#Emsg").fadeOut().empty();
-    		}
-    		setTimeout(fade_out, 5000);
-    </script>
+   
 </head>
 <body>
 

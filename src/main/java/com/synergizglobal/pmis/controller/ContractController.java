@@ -137,6 +137,8 @@ public class ContractController {
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
 			List<Insurence> InsurenceType = contractservice.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
+			List<Contract> contract_Statustype = contractservice.getContractStatusType();
+			model.addObject("contract_Statustype", contract_Statustype);
 		}catch (Exception e) {
 			logger.info("Contract : " + e.getMessage());
 		}
@@ -157,12 +159,12 @@ public class ContractController {
 						String fileName = file.getOriginalFilename();
 						FileUploads.singleFileSaving(file, saveDirectory, fileName);}
 					
-				  attributes.addFlashAttribute("success", "Project Added Succesfully."); 
+				  attributes.addFlashAttribute("success", "Contract Added Succesfully."); 
 			  } else {
-			  attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
+			  attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
 			  }
 		 }catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
+			attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
 			logger.info("Project : " + e.getMessage());
 		}
 		return model;
@@ -198,6 +200,8 @@ public class ContractController {
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
 			List<Insurence> InsurenceType = contractservice.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
+			List<Contract> contract_Statustype = contractservice.getContractStatusType();
+			model.addObject("contract_Statustype", contract_Statustype);
 			contractId = obj.getContract_id();
 			Contract contractDeatils = contractservice.getcontract(contractId, obj);
 			model.addObject("contractDeatils", contractDeatils);
@@ -208,7 +212,31 @@ public class ContractController {
 		return model;
 	}
 	
-	
+	@RequestMapping(value = "/update-contract", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView updateWork(@ModelAttribute Contract contract,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/contract");
+			boolean flag =  contractservice.updateContract(contract);
+			if(flag == true) {
+				MultipartFile file = contract.getContractFile();
+				if (null != file && !file.isEmpty()){
+					String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				}				
+				attributes.addFlashAttribute("success", "Contract Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Contract is failed. Try again.");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error","Updating Contract is failed. Try again.");
+			logger.info("Contract : " + e.getMessage());
+		}
+		return model;
+	}
 	
 	
 	@RequestMapping(value = "/export-contract", method = {RequestMethod.GET,RequestMethod.POST})

@@ -81,7 +81,7 @@ public class ContractController {
 	public String dataExportNoData;
 
 	@RequestMapping(value="/contract",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView Work(HttpSession session){
+	public ModelAndView Contract(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractGrid);
 		try {
 			List<Work> workList = workService.getworkList();
@@ -94,7 +94,7 @@ public class ContractController {
 			model.addObject("contractor", contractor);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Work : " + e.getMessage());
+			logger.info("Contract : " + e.getMessage());
 		}
 		return model;
 	}
@@ -106,7 +106,7 @@ public class ContractController {
 		 contractList = contractservice.contractList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getSafetyList : " + e.getMessage());
+			logger.info("contractList : " + e.getMessage());
 		}
 		return contractList;
 	}
@@ -334,7 +334,7 @@ public class ContractController {
 	
 	@RequestMapping(value = "/export-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){
-		ModelAndView view = new ModelAndView(PageConstants.safetyGrid);
+		ModelAndView view = new ModelAndView(PageConstants.contractGrid);
 		List<Contract> dataList = new ArrayList<Contract>();
 		String userId = null;String userName = null;
 		try {
@@ -408,7 +408,7 @@ public class ContractController {
 	         }
 		}catch(Exception e){	
 			e.printStackTrace();
-			logger.error("exportSafety : : User Id - "+userId+" - User Name - "+userName+" - "+e.getMessage());
+			logger.error("exportContract : : User Id - "+userId+" - User Name - "+userName+" - "+e.getMessage());
 			attributes.addFlashAttribute("error", commonError);			
 		}
 		//return view;

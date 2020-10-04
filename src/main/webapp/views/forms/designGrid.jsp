@@ -1,11 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design & Drawing</title>
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -17,6 +20,24 @@
         p a {
             color: blue;
         }
+         td{
+       		 word-break: break-word;
+    		 word-wrap: break-word;
+   			 white-space: initial;
+    	 }
+    	 td:last-child{
+    	 	word-break:inherit;
+    	 }
+         .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 <body>
@@ -53,7 +74,7 @@
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="javascript:void(0);" onclick="exportDesign();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
@@ -63,47 +84,47 @@
                             <div class="col s12 m12">
                                 <div class="row">
                                     <div class="col s12 m2 input-field">
-                                        <select>
+                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getDesignList();">
                                             <option value="" disabled selected>Select Contract</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            <c:forEach var="obj" items="${contractList}">
+	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
+	                                        </c:forEach>
                                         </select>
                                         <label>Select Contract </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select>
+                                        <select id="department_id_fk" name="department_id_fk" onchange="getDesignList();">
                                             <option value="" disabled selected>Select Department</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                           		 <c:forEach var="obj" items="${departmentList}">
+	                       						   <option value="${obj.department_id_fk }" <c:if test="${param.department_id_fk eq obj.department_id_fk }">selected</c:if>>${obj.department_id_fk}<c:if test="${not empty obj.department_name}"> - </c:if>${obj.department_name}</option></option>
+	                                             </c:forEach>
                                         </select>
                                         <label>Select Department </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select>
+                                        <select id="hod" name="hod" onchange="getDesignList();">
                                             <option value="" disabled selected>Select HOD</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                           		<c:forEach var="obj" items="${hodList}">
+	                       						  <option value="${obj.designation }" <c:if test="${param.hod eq obj.designation }">selected</c:if>>${obj.designation}</option>
+	                                            </c:forEach>
                                         </select>
                                         <label>Select HOD </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select>
+                                        <select id="structure_type_fk" name="structure_type_fk" onchange="getDesignList();">
                                             <option value="" disabled selected>Select Structure</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                           		 <c:forEach var="obj" items="${structureTypeList}">
+	                       						   <option value="${obj.structure_type_fk }" <c:if test="${param.structure_type_fk eq obj.structure_type_fk }">selected</c:if>>${obj.structure_type_fk}</option>
+	                                             </c:forEach>
                                         </select>
                                         <label>Select Structure </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select>
+                                        <select id="drawing_type_fk" name="drawing_type_fk" onchange="getDesignList();">
                                             <option value="" disabled selected>Select Drawing Type</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                           		  <c:forEach var="obj" items="${drawingTypeList}">
+	                       						    <option value="${obj.drawing_type_fk }" <c:if test="${param.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
+	                                              </c:forEach>
                                         </select>
                                         <label>Select Drawing Type </label>
                                     </div>
@@ -117,7 +138,7 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="example" class="mdl-data-table">
+                                <table id="datatable-design" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Contract </th>
@@ -132,7 +153,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                       <!--  <tr>
                                            
                                             <td></td>
                                             <td></td>
@@ -148,7 +169,7 @@
                                                 <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
 
@@ -162,7 +183,9 @@
          
          
          
-         <div class="page-loader" style="display: none;">
+  
+
+<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">
@@ -176,40 +199,172 @@
 	  </div>
 	</div> 
 
-
-
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
+  <form action="<%=request.getContextPath() %>/export-design" name="exportDesignForm" id="exportDesignForm" target="_blank" method="post">	
+        <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
+        <input type="hidden" name="department_id_fk" id="exportDepartment_id_fk" />
+        <input type="hidden" name="hod" id="exportHod" />
+        <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
+        <input type="hidden" name="drawing_type_fk" id="exportDrawing_type_fk" />
+	</form>
+	
      <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script> 
+	<script src=" //cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script> 
 	<script>
-        $(document).ready(function () {
-            $('select').formSelect();
-            $('.notification.dropdown-trigger').dropdown({
-                coverTrigger: false,
-                closeOnClick: false,
-            });
-            $('#example').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    // { "width": "20px", "targets": [7] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                "sScrollY": 400,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-        });
+	 $(document).ready(function () {
+	    	$('select').formSelect();
+	       	var table = $('#datatable-design').DataTable({
+	    		"bStateSave": true,
+	    		fixedHeader: true,
+	            "fnStateSave": function (oSettings, oData) {
+	                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	            },
+	            "fnStateLoad": function (oSettings) {
+	                return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	            },
+	            columnDefs: [
+	                {
+	                    targets: [0, 1, 2],
+	                    className: 'mdl-data-table__cell--non-numeric'
+	                },
+	                { orderable: false, 'aTargets': ['nosort'] }
+	            ],
+	            // "ScrollX": true,
+	            "scrollCollapse": true,
+	            "sScrollY": 400,
+	            initComplete: function () {
+	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	            }
+	        });
+	    	table.state.clear(); 
+			
+	    	
+	    	$('.close-message').delay(3000).fadeOut('slow');
+	    	
+	    	getDesignList();
+	    });
+
+	 function getDesignList(){
+	    	$(".page-loader").show();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
 
 
+	     	
+	     	table = $('#datatable-design').DataTable();
+			 
+			table.destroy();
+			
+			$.fn.dataTable.moment('DD-MMM-YYYY');
+			table = $('#datatable-design').DataTable({
+	    		"bStateSave": true,
+	    		fixedHeader: true,
+	            "fnStateSave": function (oSettings, oData) {
+	                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	            },
+	            "fnStateLoad": function (oSettings) {
+	                return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	            },
+	            columnDefs: [
+	                {
+	                    targets: [0, 1, 2],
+	                    className: 'mdl-data-table__cell--non-numeric'
+	                },
+	                { orderable: false, 'aTargets': ['nosort'] }
+	            ],
+	            // "ScrollX": true,
+	            "scrollCollapse": true,
+	            "sScrollY": 400,
+	            initComplete: function () {
+	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	            }
+	        }).rows().remove().draw();
+			
+			
+			table.state.clear();		
+		 
+		 	var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+			$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesign",type:"POST",data:myParams,success : function(data){    				
+					if(data != null && data != '' && data.length > 0){    					
+		         		$.each(data,function(key,val){
+		         			var design_id = "'"+val.design_id+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';    	                   	
+		                   	var rowArray = [];    	                 
+		                   	
+		                	/* var workName = '';
+	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) } */
+	                        
+		                   	rowArray.push($.trim(val.contract_id_fk));
+		                   	rowArray.push($.trim(val.drawing_title));
+		                   	rowArray.push($.trim(val.structure_type_fk));
+		                   	rowArray.push($.trim(val.drawing_type_fk));
+		                   	rowArray.push($.trim(val.contractor_drawing_no));
+		                   	rowArray.push($.trim(val.mrvc_drawing_no));
+		                   	rowArray.push($.trim(val.division_drawing_no));
+		                	rowArray.push($.trim(val.hq_drawing_no));
+		                   	rowArray.push($.trim(actions));   	                   	
+		                   	
+		                    table.row.add(rowArray).draw( true );
+		                    		                       
+						});
+		         		
+		         		$(".page-loader").hide();
+					}else{
+						$(".page-loader").hide();
+					}
+					
+				},error: function (jqXHR, exception) {
+					$(".page-loader").hide();
+		         	getErrorMessage(jqXHR, exception);
+		     }});
+	    }
+
+	  	//This function is used to get error message for all ajax calls
+	    function getErrorMessage(jqXHR, exception) {
+	    	    var msg = '';
+	    	    if (jqXHR.status === 0) {
+	    	        msg = 'Not connect.\n Verify Network.';
+	    	    } else if (jqXHR.status == 404) {
+	    	        msg = 'Requested page not found. [404]';
+	    	    } else if (jqXHR.status == 500) {
+	    	        msg = 'Internal Server Error [500].';
+	    	    } else if (exception === 'parsererror') {
+	    	        msg = 'Requested JSON parse failed.';
+	    	    } else if (exception === 'timeout') {
+	    	        msg = 'Time out error.';
+	    	    } else if (exception === 'abort') {
+	    	        msg = 'Ajax request aborted.';
+	    	    } else {
+	    	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+	    	    }
+	    	    console.log(msg);
+	     }
+
+	
+	     function exportDesign(){
+     	 var contract_id_fk  = $("#contract_id_fk ").val();
+     	 var department_id_fk  = $("#department_id_fk ").val();
+     	 var hod  = $("#hod ").val();
+     	 var structure_type_fk  = $("#structure_type_fk ").val();
+     	 var drawing_type_fk  = $("#drawing_type_fk ").val();
+     	 
+     	 $("#exportContract_id_fk").val(contract_id_fk);
+     	 $("#exportDepartment_id_fk").val(department_id_fk);
+     	 $("#exportHod").val(hod);
+     	 $("#exportStructure_type_fk").val(structure_type_fk);
+     	 $("#exportDrawing_type_fk").val(drawing_type_fk);
+     	 $("#exportDesignForm ").submit();
+  	}
+    
     </script>
 </body>
 </html>

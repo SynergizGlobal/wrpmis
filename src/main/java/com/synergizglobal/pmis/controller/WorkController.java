@@ -196,7 +196,7 @@ public class WorkController {
 	
 	@RequestMapping(value = "/export-work", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportWork(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Work work,RedirectAttributes attributes){
-		ModelAndView view = new ModelAndView(PageConstants.safetyGrid);
+		ModelAndView view = new ModelAndView(PageConstants.work);
 		List<Work> dataList = new ArrayList<Work>();
 		try {
 			view.setViewName("redirect:/work");

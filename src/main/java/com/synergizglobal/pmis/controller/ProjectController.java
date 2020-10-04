@@ -163,7 +163,7 @@ Logger logger = Logger.getLogger(ProjectController.class);
 	}
 	@RequestMapping(value = "/export-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportWork(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Project project,RedirectAttributes attributes){
-		ModelAndView view = new ModelAndView(PageConstants.safetyGrid);
+		ModelAndView view = new ModelAndView(PageConstants.project);
 		List<Project> dataList = new ArrayList<Project>();
 		try {
 			view.setViewName("redirect:/project");

@@ -13,6 +13,7 @@
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">	
+	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	
@@ -48,7 +49,7 @@
             <div class="card ">
                 <div class="card-content">
                     <div class="center-align">
-                        <span class="card-commissioning_date headbg">
+                        <span class="card-commissioning_date headbg card-title">
                             <div class="center-align p-2 bg-m">
                                 <h6>
                                 	<c:if test="${action eq 'edit'}">Update FOB</c:if>
@@ -68,22 +69,22 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                <p> <label> Project ID </label></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
                                             <option value="${obj.project_id }" <c:if test="${obj.project_id eq fob.project_id_fk}">selected</c:if> >${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
-                                    </select>
-                                    <label> Project ID </label>
+                                    </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                <p> <label> Work ID </label></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
                                     </select>
-                                    <label> Work ID </label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -92,10 +93,10 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                <p> <label> Contract ID </label></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
-                                    <label>Contract ID</label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <c:if test="${not empty fob.fob_id }">
@@ -109,18 +110,18 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="fob_name" name="fob_name" type="text" class="validate" value="${fob.fob_name }">
+                                    <input id="fob_name" name="fob_name" type="text" class="validate" value="${fob.fob_name }" style="margin-top: 5px;">
                                     <label for="fob_name">FOB Name</label>
                                     <span id="fob_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                   <p> <label for="work_status_fk">Work Status</label></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${generalStatusList }">
                                             <option value="${obj }" <c:if test="${obj eq fob.work_status_fk}">selected</c:if> >${obj}</option>
                                         </c:forEach>
                                     </select>
-                                    <label for="work_status_fk">Work Status</label>
                                     <span id="work_status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -260,9 +261,22 @@
                                     </c:choose>  
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-
                             </div>
-
+ 							<div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
+                                    <div class="file-field input-field">
+                                        <div class="btn bg-m">
+                                            <span>Attach Image</span>
+                                            <input type="file" accept="image/x-png,image/jpeg">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -321,6 +335,7 @@
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
 	$(document).on('focus', '.datepicker',function(){
@@ -332,7 +347,8 @@
         })
     });
 	$(document).ready(function () {
-        $('select').formSelect();
+		$('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
         $('#remarks').characterCounter();
         
         $('#date_of_approval_icon').click(function () {

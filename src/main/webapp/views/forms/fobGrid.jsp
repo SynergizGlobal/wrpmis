@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/material-design-lite-v.1.0.css">
-	
+	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
@@ -83,29 +83,29 @@
                         </div>                   
 						<div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12 center-align">
+                            <div class="col m6 s12 ">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m4 input-field">
-                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();">
+                                    <p><label>Select Contract</label></p>
+                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();" class="searchable">
                                             <option value="" >Select Contract ID</option>
                                             <c:forEach var="obj" items="${contracts }">
 		                                    	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
 		                                    </c:forEach>
-                                        </select>
-                                        <label>Select Contract</label>
+                                        </select>                                        
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();">
+                                    <p><label>Select Work Status</label></p>
+                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();" class="searchable">
                                             <option value="" >Select Work Status</option>     
                                             <c:forEach var="obj" items="${generalStatusList }">
 	                                            <option value="${obj }" <c:if test="${obj eq fob.work_status_fk}">selected</c:if> >${obj}</option>
 	                                        </c:forEach>                                      
                                         </select>
-                                        <label>Select Work Status</label>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 8px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+                                            style="margin-top: 18px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -180,12 +180,13 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	
+	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script> 
 	<script src=" //cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script> 
 	<script>
         $(document).ready(function () {
-        	$('select').formSelect();
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
            	var table = $('#datatable-fob').DataTable({
         		"bStateSave": true,
         		fixedHeader: true,

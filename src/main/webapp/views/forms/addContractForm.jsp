@@ -17,12 +17,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
+     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>
-        /* #bank_guarantee_div,
-        #insurance_div {
-            display: none;
-        } */
 
         #ravTable .datepicker~button,
         #insurenceTable .datepicker~button,
@@ -105,6 +102,13 @@
 			right: -34px;
 			top: 5px;
 		}
+		
+		#insurenceTableBody .select2-container{
+			max-width:134px
+		}
+		#bankTableBody .select2-container{
+			max-width:100px
+		}
     </style>
 </head>
 
@@ -131,21 +135,21 @@
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Project ID</label></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${ obj.project_id}" >${ obj.project_id}</option>
                                          </c:forEach>
-                                    </select>
-                                    <label>Project ID</label>
+                                    </select>                                    
                                      <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Work Name</label></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
                                         <option value="" selected>Select</option>
                                     </select>
-                                    <label>Work Name</label>
                                      <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -154,17 +158,17 @@
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select name="department_fk" id="department_fk" class="validate-dropdown">
+                                <p><label>Department</label></p>
+                                    <select name="department_fk" id="department_fk" class="validate-dropdown searchable">
                                         <option value="">Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
                                       	    <option value= "${ obj.department_fk}" >${ obj.department_fk}</option>
                                           </c:forEach>
                                     </select>
-                                    <label>Department</label>
                                       <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <label class="primary-text-bold">Contract ID :</label>
+                                    <label class="primary-text-bold" style="margin-top:10px">Contract ID :</label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -185,37 +189,35 @@
                                 <div class="col m2 hide-on-small-only"></div>
 
                                 <div class="col s12 m4 input-field">
-                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown">
+                                 <p><label>Contract Type</label></p>
+                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
                                         <option value="" selected>Select</option>
                                        	   <c:forEach var="obj" items="${contract_type }">
 		                                     <option value="${obj.contract_type_fk }" >${obj.contract_type_fk }</option>
 		                                   </c:forEach>
-                                    </select>
-                                    <label>Contract Type</label>
+                                    </select>                                   
                                      <span id="contract_type_fkError" class="error-msg" ></span>
                                     
                                 </div>
                                 
                                 <div class="col s12 m4 input-field">
-                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown">
+                                 <p><label>Contractor ID</label></p>
+                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
                                         <option value="" selected>Select</option>
                                        	    <c:forEach var="obj" items="${contractor }">
 		                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_id_fk }</option>
 		                                    </c:forEach>
                                     </select>
-                                    <label>Contractor ID</label>
                                     <span id="contractor_id_fkError" class="error-msg" ></span>
                                 </div>                             
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-
                                 <div class="col s12 m8 input-field">
                                     <input id="scope_of_contract" name="scope_of_contract" type="text" class="validate">
                                     <label for="scope_of_contract">Scope of Contract</label>
-                                 <span id="scope_of_contractError" class="error-msg" ></span>
-                                    
+                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
 
@@ -395,13 +397,13 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select class="validate-dropdown" id="contract_status_fk" name="contract_status_fk">
+                                 <p>   <label>Status of Contract</label></p>
+                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
                                         <option value="" selected>Select</option>
                                        		 <c:forEach var="obj" items="${contract_Statustype }">
 		                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
 		                                      </c:forEach>
                                     </select>
-                                    <label>Status of Contract</label>
                                     <span id="contract_status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -445,7 +447,7 @@
                                         </thead>
                                         <tbody id="bankTableBody">
                                             <tr id="bankRow${index.count }">
-                                                <td> <select id="bg_type_fks${index.count }" name="bg_type_fks" >
+                                                <td> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		                                    			   <option value="${obj.bg_type_fk }" >${obj.bg_type_fk }</option>
@@ -538,7 +540,7 @@
                                         
                                             <tr id="insurenceRow${index.count }">
                                                 <td>
-                                                    <select id="insurance_type_fks${index.count }" name="insurance_type_fks">
+                                                    <select id="insurance_type_fks${index.count }" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
                                                           <c:forEach var="obj" items="${insurance_type }">
                                       					   <option value= "${ obj.insurance_type}" >${ obj.insurance_type}</option>
@@ -774,14 +776,14 @@
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
 
     <script>
         $(document).ready(function () {
-            $('select').formSelect();
-            $('.sidenav').sidenav();
-            $('.modal').modal();
+        	 $('select:not(.searchable)').formSelect();
+             $('.searchable').select2();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();
             $("#loa_date").datepicker({
@@ -1217,7 +1219,7 @@
        var rNo = Number(rowNo)+1;
        var total = 0;
        var html = '<tr id="bankRow'+rNo+'"><td> <div>'
-		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'"  >'	   			
+		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'"  class="searchable">'	   			
 		   +'<option value="" >select</option>'
 		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
@@ -1233,7 +1235,7 @@
 	 
 		 $('#bankTableBody').append(html);
 		 $("#bankRowNo").val(rNo);
-		 $('select').formSelect();
+		 $('.searchable').select2();
 		 
 		 $("#bg_valid_uptos"+rNo).datepicker({
       	 format:'dd-mm-yyyy',
@@ -1255,7 +1257,7 @@ function addInsurenceRow(){
  var rNo = Number(rowNo)+1;
  var total = 0;
  var html = '<tr id="insurenceRow'+rNo+'"><td> <div>'
-	   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'" >'	   			
+	   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'" class="searchable" >'	   			
 	   +'<option value="" >select</option>'
 	   <c:forEach var="obj" items="${insurance_type }">
 		  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
@@ -1271,7 +1273,7 @@ function addInsurenceRow(){
 
 	 $('#insurenceTableBody').append(html);
 	 $("#insurenceRowNo").val(rNo);
-	 $('select').formSelect();
+	 $('.searchable').select2();
 	 $("#insurence_valid_uptos"+rNo).datepicker({
 	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
@@ -1301,7 +1303,7 @@ function addMilestoneRow(){
 
 	 $('#milestoneTableBody').append(html);
 	 $("#mileRowNo").val(rNo);
-	 $('select').formSelect();
+	 $('.searchable').select2();
 	 $("#milestone_dates"+rNo).datepicker({
 	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
@@ -1336,7 +1338,7 @@ function addRevRow(){
 
 	 $('#revTableBody').append(html);
 	 $("#revRowNo").val(rNo);
-	 $('select').formSelect();
+	 $('.searchable').select2();
 	 $("#revised_docs"+rNo).datepicker({
 	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {

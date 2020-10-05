@@ -30,12 +30,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.DesignService;
+import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
+import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.Project;
 
 @Controller
 public class DesignController {
@@ -47,6 +51,10 @@ public class DesignController {
 	SafetyService safetyService;
 	@Autowired
 	DesignService designService;
+	@Autowired
+	HomeService homeService;
+	@Autowired
+	WorkService workService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -97,6 +105,46 @@ public class DesignController {
 		}
 		return design;
 	}
+	
+	@RequestMapping(value = "/get-design", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getDesign(@ModelAttribute Design obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditDesign);
+			model.addObject("action", "edit");
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<Work> workList = workService.getworkList();
+			model.addObject("workList", workList);
+			List<Safety> departmentList = safetyService.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			Design designDetails = designService.getDesignDetails(obj);
+			model.addObject("designDetails", designDetails);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("Design : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/add-design-form", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addContractForm(@ModelAttribute Contract obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditDesign);	
+			model.addObject("action", "add");
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<Work> workList = workService.getworkList();
+			model.addObject("workList", workList);
+			List<Safety> departmentList = safetyService.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+		}catch (Exception e) {
+			logger.info("Design : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	@RequestMapping(value = "/export-design", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Design design,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.designGrid);

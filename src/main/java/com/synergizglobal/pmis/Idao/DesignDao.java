@@ -15,5 +15,7 @@ public interface DesignDao {
 
 	public List<Design> getDepartmentList()throws Exception;
 
+	public Design getDesignDetails(Design obj)throws Exception;
+
 
 }

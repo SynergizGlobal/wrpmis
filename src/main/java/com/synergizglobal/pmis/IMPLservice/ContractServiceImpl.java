@@ -64,5 +64,10 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.updateContract(contract);
 
 	}
+	@Override
+	public List<Contract> getDepartmentList()throws Exception{
+		return contractDao.getDepartmentList();
+
+	}
 
 }

@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.Safety;
 
 public interface DesignService {
 
@@ -14,6 +13,8 @@ public interface DesignService {
 	public List<Design> drawingTypeList()throws Exception;
 
 	public List<Design> getDepartmentList()throws Exception;
+
+	public Design getDesignDetails(Design obj)throws Exception;
 
 	
 	

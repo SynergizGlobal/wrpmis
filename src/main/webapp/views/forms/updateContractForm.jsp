@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -163,7 +164,7 @@
                                     <select name="department_fk" id="department_fk">
                                         <option value="" selected>Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
-                                      	    <option value= "${ obj.department_fk}" <c:if test="${contractDeatils.department_fk eq obj.department_fk}">selected</c:if>>${ obj.department_fk}</option>
+                                      	    <option value= "${ obj.department_fk}" <c:if test="${contractDeatils.department_fk eq obj.department_fk}">selected</c:if>>${ obj.department_name}</option>
                                           </c:forEach>
                                     </select>
                                     <label>Department</label>
@@ -206,9 +207,10 @@
                                     <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown">
                                         <option value="" selected>Select</option>
                                        	    <c:forEach var="obj" items="${contractor }">
-		                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_id_fk }</option>
+		                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
 		                                    </c:forEach>
                                     </select>
+                                    <label>Contractor Name</label>
                             		<span id="contractor_id_fkError" class="error-msg" ></span>
                                     
                                 </div>                             
@@ -232,23 +234,18 @@
                                     <div class="row">
 
                                         <div class="col s12 m6 input-field">
-                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown">
-                                      		  <option value="" selected>Select</option>
-                                                <c:forEach var="obj" items="${hodList }">
-		                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.hod_user_id_fk eq obj.user_id}">selected</c:if>>${obj.user_id }</option>
-		                                        </c:forEach>
-                                            </select>
+                                             <select name="designation" id="designation" class="validate-dropdown"> 
+                                     		  <option value="" selected>Select</option> 
+                                                 <c:forEach var="obj" items="${hodList }"> 
+		                                    	  <option value="${obj.designation }" <c:if test="${contractDeatils.designation eq obj.designation}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+		                                        </c:forEach> 
+                                            </select> 
                                             <label>HOD</label>
                                             <span id="hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m6 input-field">
-                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown">
-                                                <option value="" selected>Select</option>
-                                                <c:forEach var="obj" items="${hodList }">
-		                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.user_id}">selected</c:if>>${obj.user_id }</option>
-		                                     	 </c:forEach>
-                                            </select>
-                                            <label>Dy HOD</label>
+                                           <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" value="${contractDeatils.dy_hod_user_id_fk }">
+                                    		<label for="dy_hod_user_id_fk">Dy HOD</label>
                                             <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                     </div>
@@ -267,7 +264,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>
-                                    <input id="awarded_cost" name="awarded_cost" type="text" class="validate" value="${contractDeatils.awarded_cost }">
+                                    <input id="awarded_cost" name="awarded_cost" type="text" class="validate" value="${contractDeatils.awarded_cost }" />
                                     <label for="awarded_cost">Awarded cost</label>
                                     <span id="awarded_costError" class="error-msg" ></span>
                                 </div>
@@ -900,7 +897,7 @@
                                                 <td> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td>
+                                                <td><i class="material-icons prefix center-align">₹</i>
                                                     <input id="revised_amounts${index.count }" name="revised_amounts" type="text" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
                                                 </td>
@@ -1657,7 +1654,7 @@ function addRevRow(){
     var total = 0;
     var html = '<tr id="revRow'+rNo+'">'
 	   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-	   +'<td><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
+	   +'<td><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
 	   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate"  placeholder="Revised DOC">'
 	   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
 	   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'

@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.User;
 
@@ -115,6 +116,35 @@ public class DesignDaoImpl implements DesignDao{
 		throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+	@Override
+	public Design getDesignDetails(Design obj)throws Exception{
+		Design dObj = null;
+		try {
+			String qry ="select c.work_id_fk,w.project_id_fk,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
+					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
+					",d.hq_drawing_no,d.drawing_title,d.planned_start,d.planned_finish,d.revision,d.consultant_submission,d.mrvc_reviewed,d.divisional_approval," + 
+					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks from design d " + 
+					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " + 
+					"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
+					+ "where design_id is not null" ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesign_id())) {
+				qry = qry + " and design_id = ?";
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesign_id())) {
+				pValues[i++] = obj.getDesign_id();
+			}
+			dObj = (Design)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Design>(Design.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return dObj;
 	}
 
 }

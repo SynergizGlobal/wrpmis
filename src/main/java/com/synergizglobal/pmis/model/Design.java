@@ -3,9 +3,107 @@ package com.synergizglobal.pmis.model;
 public class Design {
 	
 	private String design_id, contract_id_fk, department_id_fk,department_name, hod, dy_hod,designation, prepared_by_id_fk, consultant_contract_id_fk,
-	proof_consultant_contract_id_fk, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,
-	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission, 
-	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks;
+	proof_consultant_contract_id_fk, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
+	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk, 
+	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,
+	 revision_status_fk, revision_remarks;
+
+	
+	
+	
+	public String getRevision_status_fk() {
+		return revision_status_fk;
+	}
+
+	public void setRevision_status_fk(String revision_status_fk) {
+		this.revision_status_fk = revision_status_fk;
+	}
+
+	public String getRevision_remarks() {
+		return revision_remarks;
+	}
+
+	public void setRevision_remarks(String revision_remarks) {
+		this.revision_remarks = revision_remarks;
+	}
+
+	public String[] getRevisions() {
+		return revisions;
+	}
+
+	public void setRevisions(String[] revisions) {
+		this.revisions = revisions;
+	}
+
+	public String[] getConsultant_submissions() {
+		return consultant_submissions;
+	}
+
+	public void setConsultant_submissions(String[] consultant_submissions) {
+		this.consultant_submissions = consultant_submissions;
+	}
+
+	public String[] getMrvc_revieweds() {
+		return mrvc_revieweds;
+	}
+
+	public void setMrvc_revieweds(String[] mrvc_revieweds) {
+		this.mrvc_revieweds = mrvc_revieweds;
+	}
+
+	public String[] getDivisional_approvals() {
+		return divisional_approvals;
+	}
+
+	public void setDivisional_approvals(String[] divisional_approvals) {
+		this.divisional_approvals = divisional_approvals;
+	}
+
+	public String[] getHq_approvals() {
+		return hq_approvals;
+	}
+
+	public void setHq_approvals(String[] hq_approvals) {
+		this.hq_approvals = hq_approvals;
+	}
+
+	public String[] getRevision_status_fks() {
+		return revision_status_fks;
+	}
+
+	public void setRevision_status_fks(String[] revision_status_fks) {
+		this.revision_status_fks = revision_status_fks;
+	}
+
+	public String[] getRemarkss() {
+		return remarkss;
+	}
+
+	public void setRemarkss(String[] remarkss) {
+		this.remarkss = remarkss;
+	}
+
+	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
+	
+	
+	
+	
+	
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
 
 	public String getDesignation() {
 		return designation;

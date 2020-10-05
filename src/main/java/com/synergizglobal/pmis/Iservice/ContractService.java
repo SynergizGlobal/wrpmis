@@ -31,5 +31,7 @@ public interface ContractService {
 
 	public boolean updateContract(Contract contract)throws Exception;
 
+	public List<Contract> getDepartmentList()throws Exception;
+
 
 }

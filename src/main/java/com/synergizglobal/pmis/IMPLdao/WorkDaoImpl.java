@@ -182,13 +182,42 @@ public class WorkDaoImpl implements WorkDao {
 			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
 				for (int i = 0; i < work.getFinancial_years().length; i++) {
 					if(!StringUtils.isEmpty(work.getFinancial_years()[i])){
-						stmt.setString(1,work.getFinancial_years()[i]);
-						stmt.setString(2,work.getPink_book_item_numbers()[i]);
-						stmt.setString(3,work.getLatest_revised_costs()[i]);
-						stmt.setString(4,work.getYear_of_revisions()[i]);
-						stmt.setString(5,work.getRevision_numbers()[i]);
-						stmt.setString(6,work.getRemarkss()[i]);
-						stmt.setString(7,work.getWork_id());
+						int p = 1;
+						stmt.setString(p++,work.getFinancial_years()[i]);
+						if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
+							stmt.setString(p++,work.getPink_book_item_numbers()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}	
+						
+						if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
+							stmt.setString(p++,work.getLatest_revised_costs()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}	
+						if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
+							stmt.setString(p++,work.getYear_of_revisions()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}	
+						
+						if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
+							stmt.setString(p++,work.getRevision_numbers()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}
+						
+						if(!StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
+							stmt.setString(p++,work.getRemarkss()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}
+						if(!StringUtils.isEmpty(work.getWork_id()) ) {
+							stmt.setString(p++,work.getWork_id());
+						} else {
+							stmt.setString(p++,null);
+						}
+						
 	
 						stmt.addBatch();
 					}

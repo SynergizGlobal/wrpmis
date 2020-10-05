@@ -120,16 +120,12 @@ public class ContractController {
 			model.addObject("projectsList", projectsList);
 			List<Work> workList = workService.getworkList();
 			model.addObject("workList", workList);
-			List<Safety> departmentList = safetyService.getDepartmentList();
+			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
-			/*
-			 * List<Contract> contracts = stripChartService.getContractsList(null);
-			 * model.addObject("contracts", contracts);
-			 */
-			List<Contract> contractor = contractservice.getContractorList();
-			model.addObject("contractor", contractor);
+			List<Contract> contractors = contractservice.getContractorList();
+			model.addObject("contractors", contractors);
 			List<Contract> contract_type = contractservice.getContractTypeList();
 			model.addObject("contract_type", contract_type);
 			List<Contract> insurance_type = contractservice.getInsurenceTypeList();
@@ -227,7 +223,7 @@ public class ContractController {
 			model.addObject("projectsList", projectsList);
 			List<Work> workList = workService.getworkList();
 			model.addObject("workList", workList);
-			List<Safety> departmentList = safetyService.getDepartmentList();
+			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
@@ -261,7 +257,7 @@ public class ContractController {
 			model.addObject("projectsList", projectsList);
 			List<Work> workList = workService.getworkList();
 			model.addObject("workList", workList);
-			List<Safety> departmentList = safetyService.getDepartmentList();
+			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);

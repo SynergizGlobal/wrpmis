@@ -28,4 +28,7 @@ public class PageConstants {
 	public static final String updateContractForm = "forms/updateContractForm";
 	
 	public static final String designGrid = "forms/designGrid";
+	public static final String addEditDesign = "forms/addEditDesign";
+
+	
 }

@@ -5,13 +5,37 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Contract {
-	private String contract_id,contract_id_fk,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,department_name,
-	hod_user_id_fk,dy_hod_user_id_fk,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,completion_certificate_release,
+	private String contract_id,contract_id_fk,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,department_name,contract_id_code,
+	hod_user_id_fk,dy_hod_user_id_fk,designation,user_name,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,completion_certificate_release,
 	final_takeover,final_bill_release,defect_liability_period,retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,
 	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk,
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark;
+
+	public String getContract_id_code() {
+		return contract_id_code;
+	}
+
+	public void setContract_id_code(String contract_id_code) {
+		this.contract_id_code = contract_id_code;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public String getRevision_remark() {
 		return revision_remark;

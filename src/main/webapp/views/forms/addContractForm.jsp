@@ -161,8 +161,8 @@
                                 <p><label>Department</label></p>
                                     <select name="department_fk" id="department_fk" class="validate-dropdown searchable">
                                         <option value="">Select</option>
-                                          <c:forEach var="obj" items="${departmentList }">
-                                      	    <option value= "${ obj.department_fk}" >${ obj.department_fk}</option>
+                                           <c:forEach var="obj" items="${departmentList }">
+                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
                                           </c:forEach>
                                     </select>
                                       <span id="department_fkError" class="error-msg" ></span>
@@ -204,8 +204,8 @@
                                  <p><label>Contractor ID</label></p>
                                     <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
                                         <option value="" selected>Select</option>
-                                       	    <c:forEach var="obj" items="${contractor }">
-		                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_id_fk }</option>
+                                       	    <c:forEach var="obj" items="${contractors }">
+		                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_name }</option>
 		                                    </c:forEach>
                                     </select>
                                     <span id="contractor_id_fkError" class="error-msg" ></span>
@@ -227,16 +227,15 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 ">
                                     <div class="row">
-
-                                        <div class="col s12 m6 input-field">
-<!--                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown"> -->
-<!--                                       		  <option value="" selected>Select</option> -->
-<%--                                                 <c:forEach var="obj" items="${hodList }"> --%>
-<%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
-<%-- 		                                        </c:forEach> --%>
-<!--                                             </select> -->
-<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
-                                    <label for="hod_user_id_fk">HOD</label>
+  										<div class="col s12 m6 input-field">
+                                            <select name="designation" id="designation" class="validate-dropdown"> 
+                                     		  <option value="" selected>Select</option> 
+                                                 <c:forEach var="obj" items="${hodList }"> 
+		                                    	  <option value="${obj.designation }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+		                                        </c:forEach> 
+                                            </select> 
+<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+ -->                                    <label for="hod_user_id_fk">HOD</label>
                                             <span id="hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m6 input-field">
@@ -246,8 +245,8 @@
 <%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
 <%-- 		                                     	 </c:forEach> --%>
 <!--                                             </select> -->
-<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate">
-                                    <label for="dy_hod_user_id_fk">Dy HOD</label>
+										<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate">
+                               		     <label for="dy_hod_user_id_fk">Dy HOD</label>
                                             <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                     </div>
@@ -672,7 +671,7 @@
                                                         placeholder="Revision Number">
                                                 </td>
                                                 <td>
-                                                    <input id="revised_amounts${index.count }" name="revised_amounts" type="text" class="validate"
+                                                   <i class="material-icons prefix center-align">₹</i> <input id="revised_amounts${index.count }" name="revised_amounts" type="text" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
                                                 <td>
@@ -1329,7 +1328,7 @@ function addRevRow(){
  var total = 0;
  var html = '<tr id="revRow'+rNo+'">'
 	   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-	   +'<td><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
+	   +'<td><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
 	   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 	   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
 	   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'

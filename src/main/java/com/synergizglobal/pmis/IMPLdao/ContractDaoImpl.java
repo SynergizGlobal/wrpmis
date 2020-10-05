@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,9 +19,11 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ContractDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Insurence;
+import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.User;
 
 @Repository
@@ -36,9 +39,12 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 			List<Contract> objsList = null;
 			try {
-				String qry ="select w.work_name,c.work_id_fk,c.contract_id,c.contract_name,cr.contractor_id,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk " + 
+				String qry ="select w.work_name,dt.department_name,u.designation,c.work_id_fk,c.contract_id,c.contract_name,cr.contractor_id,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk " + 
 							"from contract c left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
-							"left join contractor cr on c.contractor_id_fk = cr.contractor_id where contract_id is not null ";
+							"left join contractor cr on c.contractor_id_fk = cr.contractor_id "
+							+"left join user u on c.hod_user_id_fk = u.user_id "
+							+"left join department dt on c.department_fk = dt.department " + 
+							"where contract_id is not null ";
 				
 				int arrSize = 0;
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -148,6 +154,19 @@ public class ContractDaoImpl implements ContractDao {
 		return objsList;
 	}
 	@Override
+	public List<Contract> getDepartmentList()throws Exception{
+		List<Contract> objsList = null;
+		try {
+			String qry = "select department as department_fk,department_name,contract_id_code from department";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	
+	}
+
+	@Override
 	public List<Contract> getContractStatusType()throws Exception{
 		List<Contract> objsList = null;
 		try {
@@ -172,8 +191,8 @@ public class ContractDaoImpl implements ContractDao {
 		SimpleDateFormat  sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			con = dataSource.getConnection();
-			String contract_id = getContract_id(contract.getDepartment_fk(),con);
-			String ContarctID = contract.getWork_id_fk()+contract_id;
+			String contract_id = getContract_id(contract.getDepartment_name(),con);
+			String ContarctID = contract.getWork_id_fk()+getDeptCode(contract.getDepartment_fk(),con)+contract_id;
 			
 		String ContractQry = "INSERT INTO contract "
 							+"(contract_id,work_id_fk,department_fk,contract_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
@@ -319,12 +338,41 @@ public class ContractDaoImpl implements ContractDao {
 		return flag;
 	}
 
-	private String getContract_id(String CID, Connection con) throws Exception {
+	private String getContractorId(String department_name, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getDeptCode(String deptId, Connection con) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String obj = null;
+		try {
+			String qry = "select contract_id_code from department where department = ?";
+			ps  = con.prepareStatement(qry);
+			ps.setString(1, deptId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				obj = rs.getString("contract_id_code");
+				
+			}
+			
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, ps, rs);
+		}
+		return obj;
+	}
+
+	private String getContract_id(String dept, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String contract_id = null;;
 		 String[] arrOfStr = null;
-		 String dept = CID;
 		try{
 			String maxIdQry = "SELECT CONCAT(SUBSTRING(contract_id, 1, LENGTH(contract_id)-2),LPAD(MAX(SUBSTRING(contract_id, 9, LENGTH(contract_id)))+1,2,'0') ) AS maxId FROM contract";
 			stmt = con.prepareStatement(maxIdQry);
@@ -334,29 +382,40 @@ public class ContractDaoImpl implements ContractDao {
 				if(contract_id == null) {
 					if(dept.contains("Eng") ){
 					  contract_id = "EN01";}
-				if(dept.contains("S&T") ){
+				if(dept.contains("Signa") ){
 					  contract_id = "ST01";}
 				if(dept.contains("Elec") ){
 					  contract_id = "EL01";}
-				else {
-					 contract_id = "EL01";}
+				if(dept.contains("CBTC") ){
+					  contract_id = "IT01";}
+				if(dept.contains("Fin") ){
+					  contract_id = "FA01";}
+				if(dept.contains("Plan") ){
+					  contract_id = "PL01";}
+				if(dept.contains("Pro") ){
+					  contract_id = "PR01";}
+				if(dept.contains("Tech") ){
+					  contract_id = "TC01";}
 			}
 				if(contract_id.length()>6) {
-					if(contract_id.contains("L")) {
-						  arrOfStr = contract_id.split("L");}
-					if(contract_id.contains("T")) {
+					if(contract_id.contains("IT")) {
 						  arrOfStr = contract_id.split("T");}
-					if(contract_id.contains("N")) {
+					if(contract_id.contains("EL")) {
+						  arrOfStr = contract_id.split("l");}
+					if(contract_id.contains("EN")) {
 						  arrOfStr = contract_id.split("N");}
-					if(dept.contains("Eng") ){
-						 for (String a : arrOfStr) 
-							 contract_id = "EN"+arrOfStr[1];}
-					if(dept.contains("S&T") ){
-						 for (String a : arrOfStr) 
-							 contract_id = "ST"+arrOfStr[1];}
-					if(dept.contains("Elec") ){
-						  for (String a : arrOfStr) 
-							  contract_id = "EL"+arrOfStr[1];}
+					if(contract_id.contains("FA")) {
+						  arrOfStr = contract_id.split("A");}
+					if(contract_id.contains("PL")) {
+						  arrOfStr = contract_id.split("L");}
+					if(contract_id.contains("PR")) {
+						  arrOfStr = contract_id.split("R");}
+					if(contract_id.contains("ST")) {
+						  arrOfStr = contract_id.split("T");}
+					if(contract_id.contains("TC")) {
+						  arrOfStr = contract_id.split("C");}
+					for (String a : arrOfStr) 
+						 contract_id = arrOfStr[1];
 				}
 			}
 		}catch(Exception e){ 		
@@ -375,23 +434,23 @@ public class ContractDaoImpl implements ContractDao {
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 		Contract contract = null;
+        DecimalFormat decimalFormat = new DecimalFormat("0.0000000000");
+
 		try{
 			con = dataSource.getConnection();
-			String contract_updateQry = "select w.work_name,w.project_id_fk,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 									",scope_of_contract,estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,final_bill_release,defect_liability_period,completed_cost,"
-									+"retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required, " + 
-									"bg.bg_type_fk,bg.bg_number,bg.bg_value,bg.bank_address,DATE_FORMAT(bg.valid_upto,'%d-%m-%Y') AS valid_upto,bg.issuing_bank,bg.remarks, " + 
-									"i.insurance_type_fk,i.insurance_number,i.insurance_value,i.issuing_agency,DATE_FORMAT(i.valid_upto,'%d-%m-%Y') AS valid_upto,i.remarks, " + 
-									"cm.milestone_name,DATE_FORMAT(cm.milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(cm.actual_date,'%d-%m-%Y') AS actual_date,cm.revision,cm.remarks, " + 
-									"crn.revision_number,DATE_FORMAT( crn.revised_doc,'%d-%m-%Y') AS revised_doc,crn.revised_amount,crn.remarks " + 
+									+"retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 									"left join bank_guarantee bg on c.contract_id = bg.contract_id_fk " + 
 									"left join insurance i on c.contract_id = i.contract_id_fk " + 
 									"left join contract_milestones cm on c.contract_id = cm.contract_id_fk " + 
-									"left join contract_revision crn on c.contract_id = crn.contract_id_fk  where contract_id = ?" ;
+									"left join contract_revision crn on c.contract_id = crn.contract_id_fk "
+									+"left join user u on c.hod_user_id_fk = u.user_id "
+									+"left join department dt on c.department_fk = dt.department where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());
 			resultSet = stmt.executeQuery();
@@ -399,6 +458,9 @@ public class ContractDaoImpl implements ContractDao {
 				contract = new Contract();
 				contract.setWork_name(resultSet.getString("work_name"));
 				contract.setWork_id_fk(resultSet.getString("work_id_fk"));
+				contract.setDesignation(resultSet.getString("designation"));
+				contract.setUser_name(resultSet.getString("user_name"));
+				contract.setContract_id_code(resultSet.getString("contract_id_code"));
 				contract.setProject_id_fk(resultSet.getString("project_id_fk"));
 				contract.setContract_id(resultSet.getString("contract_id"));
 				contract.setContract_type_fk(resultSet.getString("contract_type_fk"));
@@ -453,7 +515,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> contract_revision = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT revision_number,revised_amount,revised_doc"
+			String qry ="SELECT revision_number,revised_amount,DATE_FORMAT(revised_doc,'%d-%m-%Y') AS revised_doc"
 					+ ",remarks from contract_revision where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -483,7 +545,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> milestones = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT milestone_name,milestone_date,actual_date, revision"
+			String qry ="SELECT milestone_name,DATE_FORMAT(milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(actual_date,'%d-%m-%Y') AS actual_date, revision"
 					+ ",remarks from contract_milestones where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -513,7 +575,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> insurence = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address, insurance_number,insurance_value,valid_upto"
+			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
 					+ ",remarks from insurance where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -545,7 +607,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> bankGauranree = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT bg_type_fk,issuing_bank,bank_address, bg_number,bg_value,valid_upto"
+			String qry ="SELECT bg_type_fk,issuing_bank,bank_address, bg_number,bg_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
 					+ ",remarks from bank_guarantee where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -588,37 +650,38 @@ public class ContractDaoImpl implements ContractDao {
 								"retention_money_release = ?,pbg_release = ?,contract_closure = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ? "
 								+ "where contract_id = ?";
 						stmt = con.prepareStatement(contractUpdate_Qry);
-						stmt.setString(1,contract.getWork_id_fk()); 
-						stmt.setString(2,contract.getDepartment_fk()); 
-						stmt.setString(3,contract.getContract_name()); 
-						stmt.setString(4,contract.getContractor_id_fk()); 
-						stmt.setString(5,contract.getContract_type_fk());
-						stmt.setString(6,contract.getScope_of_contract()); 
-						stmt.setString(7,contract.getHod_user_id_fk());
-						stmt.setString(8,contract.getDy_hod_user_id_fk());
-						stmt.setString(9,contract.getDoc());
-						stmt.setString(10,contract.getAwarded_cost());
-						stmt.setString(11,contract.getLoa_letter_number());
-						stmt.setString(12,contract.getLoa_date());
-						stmt.setString(13,contract.getCa_no());
-						stmt.setString(14,contract.getCa_date());
-						stmt.setString(15,contract.getActual_completion_date());
-						stmt.setString(16,contract.getCompleted_cost()); 
-						stmt.setString(17,contract.getDate_of_start()); 
-						stmt.setString(18,contract.getEstimated_cost()); 
-						stmt.setString(19,contract.getContract_closure_date()); 
-						stmt.setString(20,contract.getCompletion_certificate_release()); 
-						stmt.setString(21,contract.getFinal_takeover()); 
-						stmt.setString(22,contract.getFinal_bill_release()); 
-						stmt.setString(23,contract.getDefect_liability_period()); 
-						stmt.setString(24,contract.getRetention_money_release()); 
-						stmt.setString(25,contract.getPbg_release()); 
-						stmt.setString(26,contract.getContract_closure()); 
-						stmt.setString(27,contract.getContract_status_fk()); 
-						stmt.setString(28,contract.getBg_required()); 
-						stmt.setString(29,contract.getInsurance_required()); 
-						stmt.setString(30,contract.getRemarks()); 
-						stmt.setString(31,contract.getContract_id()); 
+						int i = 1;
+						stmt.setString(i++,contract.getWork_id_fk()); 
+						stmt.setString(i++,contract.getDepartment_fk()); 
+						stmt.setString(i++,contract.getContract_name()); 
+						stmt.setString(i++,contract.getContractor_id_fk()); 
+						stmt.setString(i++,contract.getContract_type_fk());
+						stmt.setString(i++,contract.getScope_of_contract()); 
+						stmt.setString(i++,contract.getHod_user_id_fk());
+						stmt.setString(i++,contract.getDy_hod_user_id_fk());
+						stmt.setString(i++,contract.getDoc());
+						stmt.setString(i++,contract.getAwarded_cost());
+						stmt.setString(i++,contract.getLoa_letter_number());
+						stmt.setString(i++,contract.getLoa_date());
+						stmt.setString(i++,contract.getCa_no());
+						stmt.setString(i++,contract.getCa_date());
+						stmt.setString(i++,contract.getActual_completion_date());
+						stmt.setString(i++,contract.getCompleted_cost()); 
+						stmt.setString(i++,contract.getDate_of_start()); 
+						stmt.setString(i++,contract.getEstimated_cost()); 
+						stmt.setString(i++,contract.getContract_closure_date()); 
+						stmt.setString(i++,contract.getCompletion_certificate_release()); 
+						stmt.setString(i++,contract.getFinal_takeover()); 
+						stmt.setString(i++,contract.getFinal_bill_release()); 
+						stmt.setString(i++,contract.getDefect_liability_period()); 
+						stmt.setString(i++,contract.getRetention_money_release()); 
+						stmt.setString(i++,contract.getPbg_release()); 
+						stmt.setString(i++,contract.getContract_closure()); 
+						stmt.setString(i++,contract.getContract_status_fk()); 
+						stmt.setString(i++,contract.getBg_required()); 
+						stmt.setString(i++,contract.getInsurance_required()); 
+						stmt.setString(i++,contract.getRemarks()); 
+						stmt.setString(i++,contract.getContract_id()); 
 						count = stmt.executeUpdate();
 						if(stmt != null){stmt.close();}
 			if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
@@ -632,19 +695,48 @@ public class ContractDaoImpl implements ContractDao {
 									+"VALUES (?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(BankG_qry); 
 				    if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
-				    	for (int i = 0; i < contract.getBg_type_fks().length; i++) {
-				    		Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[i]);
+				    	for (int j = 0; j < contract.getBg_type_fks().length; j++) {
+				    		Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[j]);
 							String currentDate = sqlDate.format(convertedDate);
 							 
-							if(!StringUtils.isEmpty(contract.getBg_type_fks()[i])){
-								stmt.setString(1,contract.getBg_type_fks()[i]);
-								stmt.setString(2,contract.getIssuing_banks()[i]);
-								stmt.setString(3,contract.getBank_addresss()[i]);
-								stmt.setString(4,contract.getBg_numbers()[i]);
-								stmt.setString(5,contract.getBg_values()[i]);
-								stmt.setString(6,currentDate);
-								stmt.setString(7,contract.getRemarkss()[i]);
-								stmt.setString(8,contract.getContract_id());
+							if(!StringUtils.isEmpty(contract.getBg_type_fks()[j])){
+								stmt.setString(1,contract.getBg_type_fks()[j]);
+								if(!StringUtils.isEmpty(contract.getIssuing_banks()) && contract.getIssuing_banks().length > 0) {
+								stmt.setString(2,contract.getIssuing_banks()[j]);}
+								else {
+									stmt.setString(2,null);
+								}
+								if(!StringUtils.isEmpty(contract.getBank_addresss()) && contract.getBank_addresss().length > 0) {
+									stmt.setString(3,contract.getBank_addresss()[j]);}
+									else {
+										stmt.setString(3,null);
+									}
+								if(!StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
+									stmt.setString(4,contract.getBg_numbers()[j]);}
+									else {
+										stmt.setString(4,null);
+									}
+								if(!StringUtils.isEmpty(contract.getBg_values()) && contract.getBg_values().length > 0) {
+									stmt.setString(5,contract.getBg_values()[j]);}
+									else {
+										stmt.setString(5,null);
+									}
+							
+								if(!StringUtils.isEmpty(currentDate) && currentDate.length() > 0) {
+									stmt.setString(6,currentDate);}
+									else {
+										stmt.setString(6,"0000-00-00");
+									}
+								if(!StringUtils.isEmpty(contract.getRemarkss()) && contract.getRemarkss().length > 0) {
+									stmt.setString(7,contract.getRemarkss()[j]);}
+									else {
+										stmt.setString(7,null);
+									}
+								if(!StringUtils.isEmpty(contract.getContract_id()) && contract.getContract_id().length() > 0) {
+									stmt.setString(8,contract.getContract_id());}
+									else {
+										stmt.setString(8,null);
+									}
 								stmt.addBatch();
 							}
 							
@@ -665,19 +757,54 @@ public class ContractDaoImpl implements ContractDao {
 									+"VALUES (?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(Insurence_qry); 
 					if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
-						for (int i = 0; i < contract.getInsurance_type_fks().length; i++) {
-							Date insurenceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[i]);
+						for (int j = 0; j < contract.getInsurance_type_fks().length; j++) {
+							Date insurenceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[j]);
 							String insurenceCurrentDate = sqlDate.format(insurenceConvertedDate);
 							
-							if(!StringUtils.isEmpty(contract.getInsurance_type_fks()[i])){
-								stmt.setString(1,contract.getInsurance_type_fks()[i]);
-								stmt.setString(2,contract.getIssuing_agencys()[i]);
-								stmt.setString(3,contract.getAgency_addresss()[i]);
-								stmt.setString(4,contract.getInsurance_numbers()[i]);
-								stmt.setString(5,contract.getInsurance_values()[i]);
+							if(!StringUtils.isEmpty(contract.getInsurance_type_fks()[j])){
+								stmt.setString(1,contract.getInsurance_type_fks()[j]);
+								if( !StringUtils.isEmpty(contract.getIssuing_agencys()) && contract.getIssuing_agencys().length > 0) {
+								stmt.setString(2,contract.getIssuing_agencys()[j]);
+								}else {
+								stmt.setString(2,null);
+								}
+								
+								if( !StringUtils.isEmpty(contract.getAgency_addresss()) && contract.getAgency_addresss().length > 0) {
+								stmt.setString(3,contract.getAgency_addresss()[j]);
+								}else {
+								stmt.setString(3,null);
+								}
+								
+								if( !StringUtils.isEmpty(contract.getInsurance_numbers()) && contract.getInsurance_numbers().length > 0) {
+								stmt.setString(4,contract.getInsurance_numbers()[j]);
+								}else {
+								stmt.setString(4,null);
+								}
+								
+								if( !StringUtils.isEmpty(contract.getInsurance_values()) && contract.getInsurance_values().length > 0) {
+								stmt.setString(5,contract.getInsurance_values()[j]);
+								}else {
+								stmt.setString(5,null);
+								}
+								
+								if( !StringUtils.isEmpty(insurenceCurrentDate) && insurenceCurrentDate.length() > 0) {
 								stmt.setString(6,insurenceCurrentDate);
-								stmt.setString(7,contract.getInsurence_remarks()[i]);
+								}else {
+								stmt.setString(6,"0000-00-00");
+								}
+								
+								if( !StringUtils.isEmpty(contract.getInsurence_remarks()) && contract.getInsurence_remarks().length > 0) {
+								stmt.setString(7,contract.getInsurence_remarks()[j]);
+								}else {
+								stmt.setString(7,null);
+								}
+								
+								if( !StringUtils.isEmpty(contract.getContract_id()) && contract.getContract_id().length() > 0) {
 								stmt.setString(8,contract.getContract_id());
+								}else {
+								stmt.setString(8,null);
+								}
+								
 								stmt.addBatch();
 							}
 					}
@@ -695,21 +822,43 @@ public class ContractDaoImpl implements ContractDao {
 						+"VALUES (?,?,?,?,?,?)";
 				stmt = con.prepareStatement(Milestone_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
-					for (int i = 0; i < contract.getMilestone_names().length; i++) {
+					for (int j = 0; j < contract.getMilestone_names().length; j++) {
 						
-						Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
+						Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[j]);
 						String mileCurrentDate1 = sqlDate.format(mileConvertedDate);
 						
-						Date actualConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
+						Date actualConvertedDate = sdf.parse(contract.getMilestone_dates()[j]);
 						String mileCurrentDate2 = sqlDate.format(actualConvertedDate);
 						
-						if(!StringUtils.isEmpty(contract.getMilestone_names()[i])){
-							stmt.setString(1,contract.getMilestone_names()[i]);
+						if(!StringUtils.isEmpty(contract.getMilestone_names()[j])){
+							stmt.setString(1,contract.getMilestone_names()[j]);
+							
+							if( !StringUtils.isEmpty(mileCurrentDate1) && mileCurrentDate1.length() > 0) {
 							stmt.setString(2,mileCurrentDate1);
+							}else {
+							stmt.setString(2,"0000-00-00");
+							}
+							if( !StringUtils.isEmpty(mileCurrentDate2) && mileCurrentDate2.length() > 0) {
 							stmt.setString(3,mileCurrentDate2);
-							stmt.setString(4,contract.getRevisions()[i]);
-							stmt.setString(5,contract.getMile_remarks()[i]);
+							}else {
+							stmt.setString(3,"0000-00-00");
+							}
+							if( !StringUtils.isEmpty(contract.getRevisions()) && contract.getRevisions().length > 0) {
+							stmt.setString(4,contract.getRevisions()[j]);
+							}else {
+							stmt.setString(4,null);
+							}
+							if( !StringUtils.isEmpty(contract.getMile_remarks()) && contract.getMile_remarks().length > 0) {
+							stmt.setString(5,contract.getMile_remarks()[j]);
+							}else {
+							stmt.setString(5,null);
+							}
+							if( !StringUtils.isEmpty(contract.getContract_id()) && contract.getContract_id().length() > 0) {
 							stmt.setString(6,contract.getContract_id());
+							}else {
+							stmt.setString(6,null);
+							}
+								
 							stmt.addBatch();
 						}
 					}
@@ -728,15 +877,36 @@ public class ContractDaoImpl implements ContractDao {
 						  +"VALUES (?,?,?,?,?)";
 					stmt = con.prepareStatement(Revision_qry); 
 						if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
-							for (int i = 0; i < contract.getRevision_numbers().length; i++) {
-								Date revConvertedDate = sdf.parse(contract.getRevised_docs()[i]);
+							for (int j = 0; j < contract.getRevision_numbers().length; j++) {
+								Date revConvertedDate = sdf.parse(contract.getRevised_docs()[j]);
 								String revCurrentDate1 = sqlDate.format(revConvertedDate);
-								if(!StringUtils.isEmpty(contract.getRevision_numbers()[i])){
-									stmt.setString(1,contract.getRevision_numbers()[i]);
-									stmt.setString(2,contract.getRevised_amounts()[i]);
+								if(!StringUtils.isEmpty(contract.getRevision_numbers()[j])){
+									stmt.setString(1,contract.getRevision_numbers()[j]);
+									
+									if( !StringUtils.isEmpty(contract.getRevised_amounts()) && contract.getRevised_amounts().length > 0) {
+									stmt.setString(2,contract.getRevised_amounts()[j]);
+									}else {
+									stmt.setString(2,null);
+									}
+									
+									if( !StringUtils.isEmpty(revCurrentDate1) && revCurrentDate1.length() > 0) {
 									stmt.setString(3,revCurrentDate1);
-									stmt.setString(4,contract.getRevision_remarks()[i]);
+									}else {
+									stmt.setString(3,"0000-00-00");
+									}
+									
+									if( !StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
+									stmt.setString(4,contract.getRevision_remarks()[j]);
+									}else {
+									stmt.setString(4,null);
+									}
+									
+									if( !StringUtils.isEmpty(contract.getContract_id()) && contract.getContract_id().length() > 0) {
 									stmt.setString(5,contract.getContract_id());
+									}else {
+									stmt.setString(5,null);
+									}
+									
 									stmt.addBatch();
 								}
 						}

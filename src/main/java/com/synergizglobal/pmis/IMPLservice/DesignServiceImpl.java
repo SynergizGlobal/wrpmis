@@ -36,5 +36,9 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> getDepartmentList()throws Exception{
 		return designDao.getDepartmentList();
 	}
+	@Override
+	public Design getDesignDetails(Design obj)throws Exception{
+		return designDao.getDesignDetails(obj);
+	}
 
 }

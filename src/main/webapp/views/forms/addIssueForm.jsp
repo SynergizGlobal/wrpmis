@@ -86,7 +86,7 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="activity" name="activity" type="text" class="validate">
+                                    <input id="activity" name="activity" type="text" class="validate" style="margin-top:5px">
                                     <label for="activity"> Activity </label>
                                     <span id="activityError" class="error-msg" ></span>
                                 </div>
@@ -147,7 +147,7 @@
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="title" name="title" type="text" class="validate">
+                                    <input id="title" name="title" type="text" class="validate" style="margin-top:5px">
                                     <label for="title">Title</label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>

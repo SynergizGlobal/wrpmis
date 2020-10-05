@@ -211,4 +211,19 @@ public class FOBDaoImpl implements FOBDao {
 		return false;
 	}
 
+	@Override
+	public List<FOB> contractListFromFOB() throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "select f.contract_id_fk,contract_id,contract_name "
+					+ "from fob f "
+					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id ";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 }

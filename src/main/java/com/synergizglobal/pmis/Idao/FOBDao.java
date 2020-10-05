@@ -16,4 +16,6 @@ public interface FOBDao {
 
 	boolean deleteFOB(FOB obj) throws Exception;
 
+	List<FOB> contractListFromFOB() throws Exception;
+
 }

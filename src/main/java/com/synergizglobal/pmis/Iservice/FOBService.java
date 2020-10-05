@@ -16,4 +16,6 @@ public interface FOBService {
 
 	boolean deleteFOB(FOB obj) throws Exception;
 
+	List<FOB> contractListFromFOB() throws Exception;
+
 }

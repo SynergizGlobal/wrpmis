@@ -73,7 +73,7 @@ public class FOBController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.fobGrid);
-			List<Contract> contracts = contractService.contractList(null);
+			List<FOB> contracts = fobService.contractListFromFOB();
 			model.addObject("contracts", contracts);
 			
 			List<String> generalStatusList = homeService.getGeneralStatusList();

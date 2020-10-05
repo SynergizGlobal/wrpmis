@@ -5,7 +5,7 @@ import java.util.List;
 public class FOB {
 	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
-	detail_name,value,work_id_fk,project_id_fk,project_name;
+	detail_name,value,work_id_fk,project_id_fk,project_name,contract_id,contract_name;
 
 	private List<FOB> fobDetails;
 	
@@ -211,6 +211,22 @@ public class FOB {
 
 	public void setProject_name(String project_name) {
 		this.project_name = project_name;
+	}
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
 	}
 	
 }

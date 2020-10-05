@@ -8,6 +8,7 @@
     <title>Design & Drawing</title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
 
@@ -73,6 +74,10 @@
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #2E58AD !important;
         }
+        #example3 .select2-container{
+			text-align:left;
+			max-width:90px;
+		}
     </style>
 </head>
 <body>
@@ -97,45 +102,22 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                   <p> <label> Project ID </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label> Project ID </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                   <p> <label> Work ID </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label> Work ID </label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                    <label>Contract ID </label>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                    <label> Department </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -143,22 +125,45 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                <p> <label> Contract ID </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label>Consultant Contract ID </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                    <p> <label> Department </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label>Proof Consultant Contract ID </label>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                     <p> <label> Consultant Contract ID </label></p>
+                                    <select class="searchable">
+                                        <option value="0" selected>Select</option>
+                                        <option value="1">Agency 1</option>
+                                        <option value="2">Agency 2</option>
+                                        <option value="3">Agency 3</option>
+                                    </select>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <p> <label> Proof Consultant Contract ID </label></p>
+                                    <select class="searchable">
+                                        <option value="0" selected>Select</option>
+                                        <option value="1">Agency 1</option>
+                                        <option value="2">Agency 2</option>
+                                        <option value="3">Agency 3</option>
+                                    </select>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -180,22 +185,22 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                    <p> <label> Prepared By </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label>Prepared By </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                    <p> <label> Structure </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label>Structure </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -204,22 +209,22 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                     <p> <label> Component </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label>Component </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                    <p> <label>Drawing Type  </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label>Drawing Type </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -324,16 +329,16 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                     <p> <label> As Built Drawing Status </label></p>
+                                    <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label for="rivision_no">As Built Drawing Status</label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="as_built_date" type="text" class="validate datepicker">
+                                    <input id="as_built_date" type="text" class="validate datepicker" style="margin-top:5px">
                                     <label for="as_built_date">As Built Drawing Date </label>
                                     <button type="button" id="as_built_date_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -389,7 +394,7 @@
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <select>
+                                                    <select class="searchable">
                                                         <option value="0" selected>Select </option>
                                                         <option value="1">Agency 1</option>
                                                         <option value="2">Agency 2</option>
@@ -571,15 +576,15 @@
  
      <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	 <script src="/pmis/resources/js/select2.min.js"></script>
 <!-- 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script> -->
 <!-- 	<script src="/pmis/resources/js/dataTables.material.min.js"></script> -->
 
 
     <script>
         $(document).ready(function () {
-            $('select').formSelect();
-            $('.sidenav').sidenav();
-            $('.modal').modal();
+        	 $('select:not(.searchable)').formSelect();
+             $('.searchable').select2();
             $('#textarea1,#textarea3,#issueDesc').characterCounter();
             $("#planned_start,#as_built_date,#hq_approval,#divisional_approval,#mrvc_reviewed,#consultant,#gfc_released,#hq_approval_date,#planned_finish,#divisional_approval_date,#consultant_submission,#mrvc_reviewed_date").datepicker();
 

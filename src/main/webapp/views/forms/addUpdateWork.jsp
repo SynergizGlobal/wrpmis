@@ -54,8 +54,9 @@
 		    left: 0;
 		    z-index: 1000;
 		}		
-		.select2-container{
+		#revisionsTableBody .select2-container{
 			text-align:left;
+			max-width:127px;
 		}
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
@@ -247,7 +248,7 @@
                                         		<c:forEach var="revObj" items="${workDeatils.workRevisions }" varStatus="index">                                        	
 	                                           <tr id="revisionRow${index.count }">                                            	
 	                                                <td> 
-	                              					 <select  name="financial_years"  id="financial_years${index.count }"  class="selectDropdown searchable">
+	                              					 <select  name="financial_years"  id="financial_years${index.count }"  class="validate-dropdown searchable">
 	                                   					 <option value="" >select</option>
 	                                         			  <c:forEach var="obj" items="${yearList}">
 	                    					  				 <option value="${obj.financial_year }"<c:if test="${revObj.financial_year eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
@@ -288,7 +289,7 @@
                                         		<c:otherwise>
                                         		<tr id="revisionRow0">                                            	
 	                                                <td> 
-	                              					 <select  name="financial_years"  id="financial_years0"  class="selectDropdown searchable">
+	                              					 <select  name="financial_years"  id="financial_years0"  class="validate-dropdown searchable">
 	                                   					 <option value="" >Select</option>
 	                                         			  <c:forEach var="obj" items="${yearList}">
 	                    					  				 <option value="${obj.financial_year }">${obj.financial_year}</option>
@@ -597,12 +598,12 @@
         var total = 0;
        /*   $('select[name="financial_years"]').each(function(){
         	if($(this).val() != ''){
-                $('.selectDropdown').not(this).find('option[value="'+$(this).val()+'"]').remove();
+                $('.validate-dropdown').not(this).find('option[value="'+$(this).val()+'"]').remove();
         	} 
         });
          */
          var html = '<tr id="revisionRow'+rNo+'"><td> <div>'
-		   		   +'<select  name="financial_years" id="financial_years'+rNo+'"  class="selectDropdown searchable" >'	   			
+		   		   +'<select  name="financial_years" id="financial_years'+rNo+'"  class="validate-dropdown searchable" >'	   			
 		   		   +'<option value=" " >select</option>'
 				     <c:forEach var="obj" items="${yearList}">
 		     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
@@ -611,7 +612,7 @@
 				   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost"></td>'
 				   +'<td> <div>'
-				   +'<select class="test" id="year_of_revisions'+rNo+'" name="year_of_revisions" class="selectDropdown searchable" >'
+				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'
 				   +'<option value=" " selected>select</option>'
 				     <c:forEach var="obj" items="${yearList}">
 					   +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
@@ -623,11 +624,12 @@
 			 
 				 $('#revisionsTableBody').append(html);
 				 $("#rowNo").val(rNo);
+				// $('select').formSelect();
 				 $('.searchable').select2();
 		 //******************* Revision table Validation***************************************
 
 		
-		/*  var className = '.selectDropdown';
+		/*  var className = '.validate-dropdown';
 		  $(className).focus(function () {
 		                  oldValue = this.value;
 		                  oldText = $(this).find('option:selected').text();
@@ -635,7 +637,7 @@
 		                $(className).change(function () {
 		                  var newSelectedValue = $(this).val();
 		                  if (newSelectedValue != "") {
-		                      $('.selectDropdown').not(this).find('option[value="'+newSelectedValue+'"]').remove();
+		                      $('.validate-dropdown').not(this).find('option[value="'+newSelectedValue+'"]').remove();
 		                  }
 		                  if ($(className).not(this).find('option[value="'+this.value+'"]').length == 0) { // NOT EXIST
 		                      $(className).not(this).append('<option value='+this.value+'>' + $(this).find('option:selected').text() + '</option>');

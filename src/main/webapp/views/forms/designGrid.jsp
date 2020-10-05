@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <style>
@@ -84,53 +85,53 @@
                             <div class="col s12 m12">
                                 <div class="row">
                                     <div class="col s12 m2 input-field">
-                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getDesignList();">
+                                     <p>   <label>Contract </label></p>
+                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getDesignList();" class="searchable">
                                             <option value="" disabled selected>Select Contract</option>
                                             <c:forEach var="obj" items="${contractList}">
 	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
 	                                        </c:forEach>
                                         </select>
-                                        <label>Select Contract </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select id="department_id_fk" name="department_id_fk" onchange="getDesignList();">
+                                       <p><label>Department </label></p>
+                                        <select id="department_id_fk" name="department_id_fk" onchange="getDesignList();" class="searchable">
                                             <option value="" disabled selected>Select Department</option>
                                            		 <c:forEach var="obj" items="${departmentList}">
 	                       						   <option value="${obj.department_id_fk }" <c:if test="${param.department_id_fk eq obj.department_id_fk }">selected</c:if>>${obj.department_id_fk}<c:if test="${not empty obj.department_name}"> - </c:if>${obj.department_name}</option></option>
 	                                             </c:forEach>
                                         </select>
-                                        <label>Select Department </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select id="hod" name="hod" onchange="getDesignList();">
+                                    <p><label>HOD </label></p>
+                                        <select id="hod" name="hod" onchange="getDesignList();" class="searchable">
                                             <option value="" disabled selected>Select HOD</option>
                                            		<c:forEach var="obj" items="${hodList}">
 	                       						  <option value="${obj.designation }" <c:if test="${param.hod eq obj.designation }">selected</c:if>>${obj.designation}</option>
 	                                            </c:forEach>
                                         </select>
-                                        <label>Select HOD </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select id="structure_type_fk" name="structure_type_fk" onchange="getDesignList();">
+                                      <p>  <label>Structure </label></p>
+                                        <select id="structure_type_fk" name="structure_type_fk" onchange="getDesignList();" class="searchable">
                                             <option value="" disabled selected>Select Structure</option>
                                            		 <c:forEach var="obj" items="${structureTypeList}">
 	                       						   <option value="${obj.structure_type_fk }" <c:if test="${param.structure_type_fk eq obj.structure_type_fk }">selected</c:if>>${obj.structure_type_fk}</option>
 	                                             </c:forEach>
                                         </select>
-                                        <label>Select Structure </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <select id="drawing_type_fk" name="drawing_type_fk" onchange="getDesignList();">
+                                     <p>  <label>Drawing Type </label></p>
+                                        <select id="drawing_type_fk" name="drawing_type_fk" onchange="getDesignList();" class="searchable">
                                             <option value="" disabled selected>Select Drawing Type</option>
                                            		  <c:forEach var="obj" items="${drawingTypeList}">
 	                       						    <option value="${obj.drawing_type_fk }" <c:if test="${param.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
 	                                              </c:forEach>
                                         </select>
-                                        <label>Select Drawing Type </label>
                                     </div>
                                     <div class="col s12 m2 input-field">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 8px;width: 100%;">Clear Filters</button>
+                                            style="margin-top: 18px;width: 100%;">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -214,11 +215,13 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
+	 <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script> 
 	<script src=" //cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script> 
 	<script>
 	 $(document).ready(function () {
-	    	$('select').formSelect();
+		 $('select:not(.searchable)').formSelect();
+         $('.searchable').select2();
 	       	var table = $('#datatable-design').DataTable({
 	    		"bStateSave": true,
 	    		fixedHeader: true,

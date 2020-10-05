@@ -1,10 +1,21 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -14,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.UserService;
 import com.synergizglobal.pmis.constants.PageConstants2;
@@ -56,6 +68,7 @@ public class UserController {
 			model.addObject("reportingToList", reportingToList);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.info("users : " + e.getMessage());
 		}
 		return model;
@@ -82,10 +95,186 @@ public class UserController {
 			
 			model.addObject("action", "add");
 			
+			List<User> roles = userService.getUserRoles();
+			model.addObject("roles", roles);
+			
+			List<User> departments = userService.getUserDepartments();
+			model.addObject("departments", departments);
+			
+			List<User> reportingToList = userService.getUsersList(null);
+			model.addObject("reportingToList", reportingToList);
+			
+			
 		} catch (Exception e) {
 			logger.info("addUserForm : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value="/add-user",method=RequestMethod.POST)
+	public ModelAndView addUser(@ModelAttribute User obj,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		String user_Id = null;String userName = null;
+		try {
+			model.setViewName("redirect:/user");
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			boolean flag = userService.addUser(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "User added successfully");
+			}else {
+				attributes.addFlashAttribute("error", "Adding user is failed. Try again.");
+			}
+		} catch (Exception e) {
+			attributes.addFlashAttribute("error", commonError);
+			logger.info("addUser : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-user",method=RequestMethod.POST)
+	public ModelAndView getUser(@ModelAttribute User obj,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.addEditUser);
+			
+			model.addObject("action", "edit");
+			
+			List<User> roles = userService.getUserRoles();
+			model.addObject("roles", roles);
+			
+			List<User> departments = userService.getUserDepartments();
+			model.addObject("departments", departments);
+			
+			List<User> reportingToList = userService.getUsersList(null);
+			model.addObject("reportingToList", reportingToList);
+			
+			User user = userService.getUser(obj);
+			
+			model.addObject("user", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", commonError);
+			logger.info("getUser : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/update-user",method=RequestMethod.POST)
+	public ModelAndView updateUser(@ModelAttribute User obj,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		String user_Id = null;String userName = null;
+		try {
+			model.setViewName("redirect:/user");
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			boolean flag = userService.updateUser(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "User updated successfully");
+			}else {
+				attributes.addFlashAttribute("error", "Updating user is failed. Try again.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", commonError);
+			logger.info("updateUser : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/delete-user",method=RequestMethod.POST)
+	public ModelAndView deleteUser(@ModelAttribute User obj,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName("redirect:/user");
+			boolean flag = userService.deleteUser(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "User deleted successfully");
+			}else {
+				attributes.addFlashAttribute("error", "Deleting user is failed. Try again.");
+			}
+		} catch (Exception e) {
+			attributes.addFlashAttribute("error", commonError);
+			logger.info("deleteUser : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/export-users", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportUsers(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute User user,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants2.usersGrid);
+		List<User> dataList = new ArrayList<User>();
+		String userId = null;String userName = null;
+		try {
+			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			view.setViewName("redirect:/users");
+			dataList = userService.getUsersList(user);  
+			if(dataList != null && dataList.size() > 0){
+	            XSSFWorkbook  workBook = new XSSFWorkbook ();
+	            XSSFSheet sheet = workBook.createSheet();
+	            XSSFRow headingRow = sheet.createRow(0);
+	            headingRow.createCell((short)0).setCellValue("User ID");
+	            headingRow.createCell((short)1).setCellValue("User Name");
+	            headingRow.createCell((short)2).setCellValue("Department");
+	            headingRow.createCell((short)3).setCellValue("Reporting to");
+	            headingRow.createCell((short)4).setCellValue("Role");
+	            short rowNo = 1;
+	            for (User obj : dataList) {
+	                XSSFRow row = sheet.createRow(rowNo);
+	                row.createCell((short)0).setCellValue(obj.getUser_id());
+	                row.createCell((short)1).setCellValue(obj.getUser_name());
+	                row.createCell((short)2).setCellValue(obj.getDepartment_fk());
+	                row.createCell((short)3).setCellValue(obj.getReporting_to_name());
+	                row.createCell((short)4).setCellValue(obj.getUser_role_name_fk());
+	                
+	                rowNo++;
+	            }
+                
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+                Date date = new Date();
+                String fileName = "User_"+dateFormat.format(date);
+                
+	            try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+	        }else{
+	        	 attributes.addFlashAttribute("error",dataExportNoData);
+	        }
+		}catch(Exception e){	
+			e.printStackTrace();
+			logger.error("exportUsers : : User Id - "+userId+" - User Name - "+userName+" - "+e.getMessage());
+			attributes.addFlashAttribute("error", commonError);			
+		}
+		//return view;
 	}
 	
 }

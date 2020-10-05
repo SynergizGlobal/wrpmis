@@ -206,7 +206,7 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="fobDetailsTableBody"><del>
+                                        <tbody id="fobDetailsTableBody">
                                         	<c:choose>
                                         		<c:when test="${not empty fob.fobDetails && fn:length(fob.fobDetails) gt 0 }">
                                         			<c:forEach var="dObj" items="${fob.fobDetails }" varStatus="index">                                        	
@@ -245,7 +245,7 @@
                                     </table>
                                     
                                     <table class="mdl-data-table">
-                                        <tbody id="fobDetailsTableBody">                                          
+                                        <tbody>                                          
                                             <tr>
                                                 <td colspan="3" style="text-align: right;"><a href="javascript:void(0);" onclick="addFOBDetails()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
 											</tr>

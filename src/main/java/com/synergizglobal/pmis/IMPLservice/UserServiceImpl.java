@@ -33,4 +33,24 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUsersList(obj);
 	}
 
+	@Override
+	public boolean addUser(User obj) throws Exception {
+		return userDao.addUser(obj);
+	}
+
+	@Override
+	public User getUser(User obj) throws Exception {
+		return userDao.getUser(obj);
+	}
+
+	@Override
+	public boolean updateUser(User obj) throws Exception {
+		return userDao.updateUser(obj);
+	}
+
+	@Override
+	public boolean deleteUser(User obj) throws Exception {
+		return userDao.deleteUser(obj);
+	}
+
 }

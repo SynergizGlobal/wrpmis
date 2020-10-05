@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class User  {
@@ -9,10 +11,14 @@ public class User  {
 	private String confirmPassword;
 	private String passwordExpiredTime;
 	
-	private String user_access_type,user_access_table,user_id_fk,last_login,number_of_logins,user_role_name;
+	private String reporting_to_name,department,department_name,user_access_type,user_access_table,user_id_fk,
+	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value;
 	
+	private List<User> userPermissions;
 	
 	private MultipartFile fileName;
+	
+	private String[] user_access_types,user_access_values;
 
 
 	public String getUser_access_type() {
@@ -253,17 +259,82 @@ public class User  {
 		this.fileName = fileName;
 	}
 
+	public String getDepartment() {
+		return department;
+	}
 
-	@Override
-	public String toString() {
-		return "User [user_id=" + user_id + ", user_name=" + user_name + ", password=" + password + ", email_id="
-				+ email_id +", department_fk=" + department_fk
-				+ ", designation=" + designation + ", reporting_to_id_srfk=" + reporting_to_id_srfk
-				+ ", user_role_name_fk=" + user_role_name_fk 
-				+ ", mobile_number=" + mobile_number 
-				+ ", landline=" + landline + ", extension=" + extension + ", pmis_key_fk=" + pmis_key_fk + ", remarks="
-				+ remarks + ", oldPassword=" + oldPassword + ", newPassword=" + newPassword + ", confirmPassword="
-				+ confirmPassword + ", passwordExpiredTime=" + passwordExpiredTime + ", fileName=" + fileName + "]";
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
+	}
+
+
+	public String getReporting_to_name() {
+		return reporting_to_name;
+	}
+
+
+	public void setReporting_to_name(String reporting_to_name) {
+		this.reporting_to_name = reporting_to_name;
+	}
+
+
+	public List<User> getUserPermissions() {
+		return userPermissions;
+	}
+
+
+	public void setUserPermissions(List<User> userPermissions) {
+		this.userPermissions = userPermissions;
+	}
+
+	public String[] getUser_access_types() {
+		return user_access_types;
+	}
+
+
+	public void setUser_access_types(String[] user_access_types) {
+		this.user_access_types = user_access_types;
+	}
+
+
+	public String[] getUser_access_values() {
+		return user_access_values;
+	}
+
+
+	public void setUser_access_values(String[] user_access_values) {
+		this.user_access_values = user_access_values;
+	}
+
+
+	public String getUser_access_type_fk() {
+		return user_access_type_fk;
+	}
+
+
+	public void setUser_access_type_fk(String user_access_type_fk) {
+		this.user_access_type_fk = user_access_type_fk;
+	}
+
+
+	public String getAccess_value() {
+		return access_value;
+	}
+
+
+	public void setAccess_value(String access_value) {
+		this.access_value = access_value;
 	}
 	
 	

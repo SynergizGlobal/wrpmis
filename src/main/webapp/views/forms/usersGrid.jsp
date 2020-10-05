@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,15 +14,30 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
+	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<style>
-        p a {
+        <style>
+       p a {
             color: blue;
-        }
-          td:last-of-type,
-        td:last-child {
-            white-space: inherit;
-            ;
-        }
+       }
+       td{
+	        word-break: break-word;
+	    	word-wrap: break-word;
+	   		white-space: initial;
+     	}
+     	td:last-child,td:last-of-type{
+     		white-space:inherit;
+     	}
+       .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 <body>
@@ -39,10 +55,20 @@
                         </div>
                     </span>
                     <div class="">
+                    	<c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
                                 <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
                                 </div>
@@ -50,52 +76,52 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="users.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-user-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Users</strong></a>
                                 </div>
                             </div>
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a  href="javascript:void(0);" onclick="exportUser();"class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12 center-align">
+                            <div class="col m8 s12">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
-                                        <select>
-                                            <option value="" disabled selected>Select User Role </option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                        <label>Select User Role</label>
+                                    	 <p>User Role</p>
+                                        <select id="user_role_name_fk" name="user_role_name_fk" class="searchable" onchange="getUsersList();">
+                                            <option value="">Select</option>
+                                            <c:forEach var="obj" items="${roles }">
+                                            	<option value="${obj.user_role_name }">${obj.user_role_name }</option>
+                                            </c:forEach>
+                                        </select>                                       
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                        <select>
-                                            <option value="" disabled selected>Select Department</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                        <label>Select Department</label>
+                                    	<p>Department</p>
+                                        <select id="department_fk" name="department_fk" class="searchable" onchange="getUsersList();">
+                                            <option value="">Select</option>
+                                            <c:forEach var="obj" items="${departments }">
+                                            	<option value="${obj.department }">${obj.department_name }</option>
+                                            </c:forEach>
+                                        </select>                                        
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                        <select>
-                                            <option value="" disabled selected>Select Reporting To</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                        <label>Select Reporting To</label>
+                                    	<p>Reporting To</p>
+                                        <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable" onchange="getUsersList();">
+                                            <option value="">Select</option>
+                                            <c:forEach var="obj" items="${reportingToList }">
+                                            	<option value="${obj.reporting_to_id_srfk }">${obj.reporting_to_name }</option>
+                                            </c:forEach>
+                                        </select>                                        
                                     </div>
                                     <div class="col s12 m3">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 20px;width:100%">Clear Filters</button>
+                                            style="margin-top: 30px;width:100%" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +131,7 @@
                         <div class="row">
                             <div class="col m12 s12">
 
-                                <table id="example" class="mdl-data-table">
+                                <table id="datatable-users" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -119,7 +145,7 @@
                                     </thead>
                                     <tbody>
 
-                                        <tr>
+                                        <!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -132,7 +158,7 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
 
-                                        </tr>
+                                        </tr> -->
 
                                     </tbody>
 
@@ -166,34 +192,176 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 	
+	<form action="<%=request.getContextPath()%>/get-user" id="getForm" name="getForm" method="post">
+  		<input type="hidden" name="user_id" id="user_id"/>
+    </form>
+  
+  
+	<form action="<%=request.getContextPath() %>/export-users" name="exportUserForm" id="exportUserForm" target="_blank" method="post">	
+        <input type="hidden" name="user_role_name_fk" id="exportUser_role_name_fk" />
+         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
+        <input type="hidden" name="reporting_to_id_srfk" id="exportReporting_to_id_srfk" />
+	</form>
 	
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	 <script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script> 
+	<script src=" //cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script> 
+	<script>
         $(document).ready(function () {
-            $('select').formSelect();
-            $('.notification.dropdown-trigger').dropdown({
-                coverTrigger: false,
-                closeOnClick: false,
-            });
-            $('#example').DataTable({
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
+           	var table = $('#datatable-users').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
+                        className: 'mdl-data-table__cell--non-numeric'
                     },
-                    { "width": "20px", "targets": [5] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "scrollCollapse": true,
                 "sScrollY": 400,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+        	table.state.clear(); 
+    		
+        	
+        	$('.close-message').delay(3000).fadeOut('slow');
+        	
+        	getUsersList();
         });
+        
+        function clearFilter(){
+        	$("#user_role_name_fk").val('');
+        	$("#department_fk").val('');
+        	$("#reporting_to_id_srfk").val('');
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
+            
+        	getUsersList();
+        }
+        
+        function getUsersList(){
+        	$(".page-loader").show();
+        	 var user_role_name_fk = $("#user_role_name_fk").val();
+          	 var department_fk = $("#department_fk").val();
+          	 var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+         	
+         	table = $('#datatable-users').DataTable();
+    		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#datatable-users').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "scrollCollapse": true,
+                "sScrollY": 400,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		
+    		table.state.clear();		
+    	 
+    	 	var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getUsersList",type:"POST",data:myParams,success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+    	         		$.each(data,function(key,val){
+    	         			var user_id = "'"+val.user_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getUser('+user_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+    	                   	var rowArray = [];    	                  
+    	                   	
+    	                   	
+    	                   	rowArray.push($.trim(val.user_id));
+    	                   	rowArray.push($.trim(val.user_name));
+    	                   	rowArray.push($.trim(val.department_fk));
+    	                   	rowArray.push($.trim(val.reporting_to_name));
+    	                   	rowArray.push($.trim(val.user_role_name_fk));
+    	                   	
+    	                   	rowArray.push($.trim(actions));   	                   	
+    	                   	
+    	                    table.row.add(rowArray).draw( true );
+    	                    		                       
+    					});
+    	         		
+    	         		$(".page-loader").hide();
+    				}else{
+    					$(".page-loader").hide();
+    				}
+    				
+    			},error: function (jqXHR, exception) {
+    				$(".page-loader").hide();
+    	         	getErrorMessage(jqXHR, exception);
+    	     }});
+        }
+        
+      	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        
+        function getUser(user_id) {
+    		$("#user_id").val(user_id);
+    		$("#getForm").submit();
+    	}
+        
+        function exportUser(){
+          	 var user_role_name_fk = $("#user_role_name_fk").val();
+          	 var department_fk = $("#department_fk").val();
+          	 var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+          	 
+          	 $("#exportUser_role_name_fk").val(user_role_name_fk);
+          	 $("#exportDepartment_fk").val(department_fk);
+          	 $("#exportReporting_to_id_srfk").val(reporting_to_id_srfk);
+          	 $("#exportUserForm").submit();
+       	}
 
 
     </script>

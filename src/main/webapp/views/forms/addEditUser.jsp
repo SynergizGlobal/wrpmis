@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>add Issues</title>
+	<title>
+	<c:if test="${action eq 'edit'}">Update User</c:if>
+	<c:if test="${action eq 'add'}"> Add User</c:if>
+	</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -13,6 +18,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 <!-- 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css"> -->
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
+	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<style>
         #example3 .datepicker~button,
         #example4 .datepicker~button {
@@ -61,6 +67,17 @@
             width: 100%;
             overflow: auto;
         }
+        .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        .error-msg label{color:red!important;}
     </style>
 </head>
 <body>
@@ -77,63 +94,66 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Users</h6>
+                                <h6>
+                                	<c:if test="${action eq 'edit'}">Update User</c:if>
+									<c:if test="${action eq 'add'}"> Add User</c:if>
+								</h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <form action="#">
-
+                          <c:if test="${action eq 'edit'}">				                
+			                	<form action="<%=request.getContextPath() %>/update-user" id="userForm" name="userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                          </c:if>
+			              <c:if test="${action eq 'add'}">				                
+			                	<form action="<%=request.getContextPath() %>/add-user" id="userForm" name="userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+						  </c:if>
                             <div class="row">
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                    <label>User Role </label>
+                                     <p>User Role</p>
+                                      <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown">
+                                          <option value="">Select</option>
+                                          <c:forEach var="obj" items="${roles }">
+                                          	<option value="${obj.user_role_name }" <c:if test="${obj.user_role_name eq user.user_role_name_fk}">selected</c:if>>${obj.user_role_name }</option>
+                                          </c:forEach>
+                                      </select> 
+                                      <span id="user_role_name_fkError" class="error-msg" ></span>
                                 </div>
+                                <c:if test="${not empty user.user_id }">
                                 <div class="col s12 m4 input-field">
                                     <!-- <input type="text" id="user_id"> -->
-                                    <label class="primary-text-bold">User ID :</label>
+                                    <label class="primary-text-bold">User ID :  <input id="user_id" name="user_id" type="text" value="${user.user_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <br><br>
                                 </div>
+                                </c:if>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <!-- <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                    <label>Employee Type </label>
-                                </div> -->
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                    <label>Department </label>
+                                   <p>Department</p>
+                                    <select id="department_fk" name="department_fk" class="searchable validate-dropdown">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${departments }">
+                                        	<option value="${obj.department }" <c:if test="${obj.department eq user.department_fk}">selected</c:if>>${obj.department_name }</option>
+                                        </c:forEach>
+                                    </select>     
+                                    <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                    <label>Reporting To </label>
+                                   <p>Reporting To</p>
+                                   <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
+                                       <option value="">Select</option>
+                                       <c:forEach var="obj" items="${reportingToList }">
+                                       	<option value="${obj.reporting_to_id_srfk }" <c:if test="${obj.reporting_to_id_srfk eq user.reporting_to_id_srfk}">selected</c:if>>${obj.reporting_to_name }</option>
+                                       </c:forEach>
+                                   </select>   
+                                   <span id="reporting_to_id_srfkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -141,24 +161,28 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="name" type="text" class="validate">
+                                    <input id="user_name" name="user_name" type="text" class="validate" value="${user.user_name }">
                                     <label for="name">Name</label>
+                                    <span id="user_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="designation" type="text" class="validate">
+                                    <input id="designation" name="designation" type="text" class="validate" value="${user.designation }">
                                     <label for="designation">Designation </label>
+                                    <span id="designationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="email" type="email" class="validate">
-                                    <label for="email">Email ID </label>
+                                    <input id="email_id" name="email_id" type="email" class="validate" value="${user.email_id }">
+                                    <label for="email_id">Email ID </label>
+                                    <span id="email_idError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="mobile" type="number" class="validate">
-                                    <label for="mobile"> Mobile Number </label>
+                                    <input id="mobile_number" name="mobile_number" type="text" class="validate" value="${user.mobile_number }">
+                                    <label for="mobile_number"> Mobile Number </label>
+                                    <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
 
                                 <div class="col m2 hide-on-small-only"></div>
@@ -166,12 +190,14 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="landline" type="number" class="validate">
+                                    <input id="landline" name="landline" type="number" class="validate" value="${user.landline }">
                                     <label for="landline"> Landline </label>
+                                    <span id="landlineError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="extension" type="number" class="validate">
+                                    <input id="extension" name="extension" type="number" class="validate" value="${user.extension }">
                                     <label for="extension">Extension</label>
+                                     <span id="extensionError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -183,7 +209,7 @@
                                 <!-- <div class="table-inside"> -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
-                                    <table id="example3" class="mdl-data-table" style="margin-left: 11px;">
+                                    <table id="userPermissionsTable" class="mdl-data-table" style="margin-left: 11px;">
                                         <thead>
                                             <tr>
                                                 <th>User Access Type</th>
@@ -191,39 +217,77 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <select>
-                                                        <option value="0" selected>User Access Type</option>
-                                                        <option value="1">Agency 1</option>
-                                                        <option value="2">Agency 2</option>
-                                                        <option value="3">Agency 3</option>
-                                                    </select>
-                                                </td>                                               
-                                                <td>
-                                                    <select>
-                                                        <option value="0" selected>Select Value</option>
-                                                        <option value="1">Agency 1</option>
-                                                        <option value="2">Agency 2</option>
-                                                        <option value="3">Agency 3</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
-                                                            class="fa fa-plus"></i></a>
-                                                </td>
-                                            </tr>
+                                        <tbody id="userPermissionsTableBody">
+                                            <c:choose>
+                                        		<c:when test="${not empty user.userPermissions && fn:length(user.userPermissions) gt 0 }">
+                                        			<c:forEach var="dObj" items="${user.userPermissions }" varStatus="index">                                        	
+			                                           <tr id="userPermissionsRow${index.count }">
+		                                                <td>
+		                                                    <select id="user_access_types${index.count }" name="user_access_types">
+		                                                        <option value="">User Access Type</option>
+		                                                        <c:forEach var="obj" items="${userAccessTypes }">
+		                                                        	<option value="${obj.user_access_type }" <c:if test="${dObj.user_access_type eq obj.user_access_type}">selected</c:if>>${obj.user_access_type }</option>
+		                                                        </c:forEach>		                                                        
+		                                                    </select>
+		                                                </td>                                               
+		                                                <td>
+		                                                    <select id="user_access_values${index.count }" name="user_access_values">
+		                                                        <option value="0" selected>Select Value</option>
+		                                                        <c:forEach var="obj" items="${userAccessValues }">
+		                                                        	<option value="${obj.access_value }" <c:if test="${dObj.access_value eq obj.access_value}">selected</c:if>>${obj.access_value }</option>
+		                                                        </c:forEach>
+		                                                    </select>
+		                                                </td>
+		                                                <td>
+		                                                    <a  href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('${index.count }');"> <i
+		                                                            class="fa fa-close"></i></a>
+		                                                </td>
+		                                            </tr>
+		                                            </c:forEach> 
+                                        		</c:when>
+                                        		<c:otherwise>
+	                                        		<tr id="userPermissionsRow0">
+		                                                <td>
+		                                                    <select id="user_access_types0" name="user_access_types">
+		                                                        <option value="">User Access Type</option>
+		                                                        <c:forEach var="obj" items="${userAccessTypes }">
+		                                                        	<option value="${obj.user_access_type }">${obj.user_access_type }</option>
+		                                                        </c:forEach>
+		                                                    </select>
+		                                                </td>                                               
+		                                                <td>
+		                                                    <select id="user_access_values0" name="user_access_values">
+		                                                        <option value="0" selected>Select Value</option>
+		                                                        <c:forEach var="obj" items="${userAccessValues }">
+		                                                        	<option value="${obj.access_value }">${obj.access_value }</option>
+		                                                        </c:forEach>
+		                                                    </select>
+		                                                </td>
+		                                                <td>
+		                                                    <a  href="javascript:void(0);" class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('0');"> <i
+		                                                            class="fa fa-close"></i></a>
+		                                                </td>
+		                                            </tr>
+                                        		</c:otherwise>
+                                        	</c:choose> 
                                         </tbody>
                                     </table>
+                                    
+                                    <table class="mdl-data-table">
+                                        <tbody>                                          
+                                            <tr>
+                                                <td colspan="3" style="text-align: right;"><a href="javascript:void(0);" onclick="addUserPermissions()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                    <c:choose>
+                                        <c:when test="${not empty user.userPermissions && fn:length(user.userPermissions) gt 0 }">
+                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(user.userPermissions)}" />
+                                        </c:when>
+                                        <c:otherwise>
+                                        	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                        </c:otherwise>
+                                    </c:choose> 
 
                                 </div>
                                 <!-- </div> -->
@@ -235,7 +299,7 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
-                                            <input type="file">
+                                            <input type="file" id="fileName" name="fileName">
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
@@ -249,8 +313,9 @@
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="textarea1">Remarks</label>
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${user.remarks }</textarea>
+                                    <label for="remarks">Remarks</label>
+                                    <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
 
@@ -259,14 +324,18 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button style="width: 100%;" class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+                                        <c:if test="${action eq 'edit'}">
+	                                       <button type="button" onclick="updateUser();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                    </c:if>
+	                                    <c:if test="${action eq 'add'}">
+	                                        <button type="button" onclick="addUser();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+	                                    </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                        <a href="<%=request.getContextPath()%>/users" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -302,100 +371,185 @@
 	
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-<!-- 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script> -->
-<!-- 	<script src="/pmis/resources/js/dataTables.material.min.js"></script> -->
-
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('select').formSelect();
-            $('#textarea1,#textarea2,#textarea3').characterCounter();
-            $("#loa_date").datepicker();
-            $("#ca_date,#co_date").datepicker();
-            $("#bg_upto_valid,#insurance_upto_valid").datepicker();
-            $("#milestone_date,#actual_date,#revised_doc").datepicker();
-
-            $('#sactioned_year').datepicker({
-                format: 'yyyy',
-                selectYears: true,
-                selectMonths: true,
-                selectDays: false,
-                onSelect: function (arg) {
-                    var selectedYear = parseInt(arg.getFullYear());
-                    var selectedMonth = parseInt(arg.getMonth() + 1);
-                    var year = (selectedMonth >= 4) ? selectedYear + '-' + (selectedYear + 1) : (selectedYear - 1) + '-' + selectedYear;
-                    console.log('sactioned_year : ' + year);
-
-                }
-            });
-            $('#loa_date_icon').click(function () {
-                event.stopPropagation();
-                $('#loa_date').click();
-            });
-            $('#ca_date_icon').click(function () {
-                event.stopPropagation();
-                $('#ca_date').click();
-            });
-            $('#co_date_icon').click(function () {
-                event.stopPropagation();
-                $('#co_date').click();
-            });
-            $('#bg_upto_valid_icon').click(function () {
-                event.stopPropagation();
-                $('#bg_upto_valid').click();
-            });
-            $('#insurance_upto_valid_icon').click(function () {
-                event.stopPropagation();
-                $('#insurance_upto_valid').click();
-            });
-            $('#milestone_date_icon').click(function () {
-                event.stopPropagation();
-                $('#milestone_date').click();
-            });
-            $('#actual_date_icon').click(function () {
-                event.stopPropagation();
-                $('#actual_date').click();
-            });
-            $('#revised_doc_icon').click(function () {
-                event.stopPropagation();
-                $('#revised_doc').click();
-            });
-
-            $('#example,#example1').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    }
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                "sScrollY": 400,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-            // show or hide based on bg 
-            $('input[name="bank_guarantee"]').change(function () {
-                var radioval = $('input[name="bank_guarantee"]:checked').val();
-                if (radioval == 'yes') {
-                    $('#bank_guarantee_div').css("display", "block");
-                }
-                else if (radioval == 'no') {
-                    $('#bank_guarantee_div').css("display", "none");
-                }
-            });
-            // show or hide based on insurance 
-
-            $('input[name="insurance"]').change(function () {
-                var radioval = $('input[name="insurance"]:checked').val();
-                if (radioval == 'yes') {
-                    $('#insurance_div').css("display", "block");
-                }
-                else if (radioval == 'no') {
-                    $('#insurance_div').css("display", "none");
-                }
-            });
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
+            $('#remarks').characterCounter();
         });
+        
+        
+        $('form').on('reset', function () {
+            $(".searchable").trigger("change");
+        });
+        
+        function addUser(){
+    		if(validator.form()){ // validation perform
+    			$(".page-loader").show();
+    			document.getElementById("userForm").submit();			
+    	 	}
+    	}
+    	
+        function updateUser(){
+      		if(validator.form()){ // validation perform
+      			$(".page-loader").show();	    		
+    			document.getElementById("userForm").submit();			
+    	 	}
+    	}
+    	
+    	//Wait for the DOM to be ready
+    	
+    	// to validate apartment form inputs thruogh jquery.
+    	   
+    	var validator = $('#userForm').validate({
+    	    	ignore: ":hidden:not(.validate-dropdown)",
+    			   rules: {
+        				  "user_role_name_fk": {
+       				 		required: true
+       				 	  },"department_fk": {
+    				 		required: true
+    				 	  },"reporting_to_id_srfk": {
+    				 		required: true
+    				 	  },"user_name": {
+    				 		required: true
+    				 	  },"designation": {
+    				 		required: true
+    				 	  },"email_id": {
+    				 		required: true
+    				 	  },"mobile_number": {
+    				 		required: true
+    				 	  },"landline": {
+    			 		    required: true,
+    			 	   	  },"extension": {
+    				 		required: true
+    				 	  },"remarks":{
+    				 		 required: false
+    				 	  }
+    				 				
+    			 	},
+    			   messages: {
+        				 "user_role_name_fk": {
+       			 			required: 'Required'
+       			 	  	 },"department_fk": {
+    			 			required: 'Required'
+    			 	  	 },"reporting_to_id_srfk": {
+    			 			required: 'Required'
+    			 	  	 },"user_name": {
+    			 			required: 'Required'
+    			 	  	 },"designation": {
+    			 			required: 'Required'
+    			 	  	 },"email_id": {
+    			 			required: 'Required'
+    			 	  	 },"mobile_number": {
+    			 			required: 'Required'
+    			 	  	 },"landline": {
+    			 			required: 'Required'
+    			 	  	 },"extension": {
+    			 			required: 'Required'
+    			 	  	 },"remarks":{
+    			 	  		required: 'Required'
+    				 	  }
+    			 				      
+    		    },
+    			  errorPlacement:
+    			 	function(error, element){
+        				if (element.attr("id") == "user_role_name_fk" ){
+     			 		     document.getElementById("user_role_name_fkError").innerHTML="";
+     			 			 error.appendTo('#user_role_name_fkError');
+     			 	    }else if (element.attr("id") == "department_fk" ){
+    			 		     document.getElementById("department_fkError").innerHTML="";
+    			 			 error.appendTo('#department_fkError');
+    			 	    }else if (element.attr("id") == "reporting_to_id_srfk" ){
+    			 	    	 document.getElementById("reporting_to_id_srfkError").innerHTML="";
+    			 			 error.appendTo('#reporting_to_id_srfkError');
+    			 	    }else if (element.attr("id") == "user_name" ){
+    			 		     document.getElementById("user_nameError").innerHTML="";
+    			 			 error.appendTo('#user_nameError');
+    			 	    }else if (element.attr("id") == "designation" ){
+    			 		     document.getElementById("designationError").innerHTML="";
+    			 			 error.appendTo('#designationError');
+    			 	    }else if (element.attr("id") == "email_id" ){
+    			 		     document.getElementById("email_idError").innerHTML="";
+    			 			 error.appendTo('#email_idError');
+    			 	    }else if (element.attr("id") == "mobile_number" ){
+    			 		     document.getElementById("mobile_numberError").innerHTML="";
+    			 			 error.appendTo('#mobile_numberError');
+    			 	    }else if (element.attr("id") == "landline" ){
+    			 		     document.getElementById("landlineError").innerHTML="";
+    			 			 error.appendTo('#landlineError');
+    			 	    }else if (element.attr("id") == "extension" ){
+    			 		     document.getElementById("extensionError").innerHTML="";
+    			 			 error.appendTo('#extensionError');
+    			 	    }else if (element.attr("id") == "remarks" ){
+    			 		     document.getElementById("remarksError").innerHTML="";
+    			 			 error.appendTo('#remarksError');
+    			 	    }
+    			 },submitHandler: function(form) {
+    			    // do other things for a valid form
+    			    //form.submit();
+    			    //return true;
+    			  }
+    		});
+    	
+    	    $.validator.addMethod("dateFormat",
+        	    function(value, element) {
+        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+        	    	//return dtRegex.test(value);
+        	    },
+        	    //"Date format (Aug 02,2020)"
+        	    "Date format (DD-MM-YYYY)"
+        	);
+            
+            
+            $('select').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            $('input').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            
+            
+            function addUserPermissions(){      		
+                var rowNo = $("#rowNo").val();
+                var rNo = Number(rowNo)+1;
+                var html = '<tr id="userPermissionsRow'+rNo+'">'
+        		   		  +'<td>'
+        		   		+'<select id="user_access_types'+rNo+'" name="user_access_types">'
+        		   		+'<option value="">User Access Type</option>'
+        		   		<c:forEach var="obj" items="${userAccessTypes }">
+        		   		+'<option value="${obj.user_access_type }">${obj.user_access_type }</option>'
+			            </c:forEach>		                                                        
+			            +'</select>'
+			            +'</td>'                                   
+			            +'<td>'
+			            +'<select id="user_access_values'+rNo+'" name="user_access_values">'
+			            +'<option value="0" selected>Select Value</option>'
+                        <c:forEach var="obj" items="${userAccessValues }">
+                        +'<option value="${obj.access_value }">${obj.access_value }</option>'
+                        </c:forEach>
+                        +'</select>'
+                        +'</td>'
+        			   	+'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+        			 
+    			 $('#userPermissionsTableBody').append(html);
+    			 $("#rowNo").val(rNo);
+    			 
+    			 $('select:not(.searchable)').formSelect();
+    	         $('.searchable').select2();
+            }
+            
+    		function removeUserPermissions(rowNo){
+            	$("#userPermissionsRow"+rowNo).remove();
+            }
     </script>
 </body>
 </html>

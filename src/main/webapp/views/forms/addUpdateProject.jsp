@@ -13,35 +13,37 @@
 		 <c:if test="${action eq 'add'}"> Add Project</c:if>
     
     </title>
-         <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">    
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    
-    <style>
-    
-    
-    .my-error-class {
-    color:red;
-}
-	.my-valid-class {
-    color:green;
-}
- .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-			
-    </style>
+	<style>
+		.my-error-class {
+			color: red;
+		}
+		
+		.my-valid-class {
+			color: green;
+		}
+		
+		.page-loader {
+			background: #332e2ec2 !important;
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1000;
+		}
+		
+		.preloader-wrapper {
+			top: 45% !important;
+			left: 47% !important;
+		}
+	</style>
 </head>
 
 <body>
@@ -104,7 +106,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
-                                    <label for="p_name">Project Name</label>
+                                    <label for="project_name">Project Name</label>
                                       <span  id="project_nameError"> </span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -199,15 +201,16 @@
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
  
 
     <script>
         $(document).ready(function () {
-            $('select').formSelect();
-            $('.sidenav').sidenav();
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
             $(".datepicker").datepicker();
-            $('#textarea1,#p_desc').characterCounter();
+            $('#remarks,#p_desc').characterCounter();
         });
         
         function addProject(){

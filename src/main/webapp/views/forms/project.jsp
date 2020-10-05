@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <style>
@@ -140,6 +141,7 @@
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <form name="getForm" id="getForm" method="post">
@@ -152,12 +154,8 @@
 
     <script>
         $(document).ready(function () {
-            $('.sidenav').sidenav();
-            $('select').formSelect();
-            // $('.modal').modal();
-            // $('.tooltipped').tooltip();
-            // $(".datepicker").datepicker();
-            // $('#textarea1').characterCounter();
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
             $('.notification.dropdown-trigger').dropdown({
                 coverTrigger: false,
                 closeOnClick: false,

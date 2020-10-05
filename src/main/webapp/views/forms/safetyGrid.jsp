@@ -334,7 +334,7 @@
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var safety_id = "'"+val.safety_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit">Edit</a>';    	                   	
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                 
     	                   	
     	                	var workName = '';

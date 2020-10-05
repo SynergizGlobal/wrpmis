@@ -2,7 +2,6 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.StripChart;
 
 public interface StripChartDao {
@@ -14,7 +13,7 @@ public interface StripChartDao {
 	public List<StripChart> getStripChartStructures(StripChart obj) throws Exception;
 	public List<StripChart> getStripChartTypes() throws Exception;
 	public List<StripChart> getStripChartStructureTypes() throws Exception;
-	public List<Contract> getContractsList(StripChart obj) throws Exception;
+	public List<StripChart> getStripChartContractsList(StripChart obj) throws Exception;
 	public StripChart getStripChartDetails(StripChart obj) throws Exception;
 	public boolean updateStripChart(StripChart obj) throws Exception;
 }

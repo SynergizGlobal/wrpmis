@@ -6,4 +6,7 @@ public class PageConstants2 {
 	
 	public static final String fobGrid = "forms/fobGrid";
 	public static final String addEditFob = "forms/addEditFob";
+	
+	public static final String usersGrid = "forms/usersGrid";
+	public static final String addEditUser = "forms/addEditUser";
 }

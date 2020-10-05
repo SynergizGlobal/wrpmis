@@ -370,7 +370,7 @@ public class ContractDaoImpl implements ContractDao {
 	}
 	
 	@Override
-	public Contract getcontract(String contractId, Contract obj)throws Exception{
+	public Contract getContract(Contract obj)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
@@ -393,7 +393,7 @@ public class ContractDaoImpl implements ContractDao {
 									"left join contract_milestones cm on c.contract_id = cm.contract_id_fk " + 
 									"left join contract_revision crn on c.contract_id = crn.contract_id_fk  where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
-			stmt.setString(1, contractId);
+			stmt.setString(1, obj.getContract_id());
 			resultSet = stmt.executeQuery();
 			while(resultSet.next()) {
 				contract = new Contract();

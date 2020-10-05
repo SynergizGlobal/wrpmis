@@ -26,7 +26,6 @@ import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.StripChart;
@@ -75,10 +74,10 @@ public class StripChartController {
 	
 	@RequestMapping(value = "/ajax/getStripChartContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getStripChartContractsList(@ModelAttribute StripChart obj){
-		List<Contract> contracts = null;
+	public List<StripChart> getStripChartContractsList(@ModelAttribute StripChart obj){
+		List<StripChart> contracts = null;
 		try{
-			contracts = stripChartService.getContractsList(obj);			
+			contracts = stripChartService.getStripChartContractsList(obj);			
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getStripChartContractsList() : "+e.getMessage());

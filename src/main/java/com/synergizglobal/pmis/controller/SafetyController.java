@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -188,7 +189,7 @@ public class SafetyController {
 		return model;
 	}
 	
-	@RequestMapping(value="/get-safety",method=RequestMethod.POST)
+	@RequestMapping(value="/get-safety",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
@@ -212,6 +213,40 @@ public class SafetyController {
 			List<Safety> departmentList = safetyService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
+			Safety safety = safetyService.getSafety(obj);
+			model.addObject("safety", safety);
+		} catch (Exception e) {
+			attributes.addFlashAttribute("error", commonError);
+			logger.info("getSafety : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-safety/{safety_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getSafety(@ModelAttribute Safety obj,@PathVariable("safety_id") String safety_id,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.updateSafetyForm);
+			
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			
+			List<Safety> safetyStatusList = safetyService.getSafetyStatusList();
+			model.addObject("safetyStatusList", safetyStatusList);
+			
+			List<Safety> safetyImpactList = safetyService.getSafetyImpactList();
+			model.addObject("safetyImpactList", safetyImpactList);
+			
+			List<Safety> safetyCategoryList = safetyService.getSafetyCategoryList();
+			model.addObject("safetyCategoryList", safetyCategoryList);
+			
+			List<Safety> safetyRootCauseList = safetyService.getSafetyRootCauseList();
+			model.addObject("safetyRootCauseList", safetyRootCauseList);
+			
+			List<Safety> departmentList = safetyService.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			
+			obj.setSafety_id(safety_id);
 			Safety safety = safetyService.getSafety(obj);
 			model.addObject("safety", safety);
 		} catch (Exception e) {

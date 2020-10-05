@@ -9,8 +9,70 @@ public class User  {
 	private String confirmPassword;
 	private String passwordExpiredTime;
 	
+	private String user_access_type,user_access_table,user_id_fk,last_login,number_of_logins,user_role_name;
+	
 	
 	private MultipartFile fileName;
+
+
+	public String getUser_access_type() {
+		return user_access_type;
+	}
+
+
+	public void setUser_access_type(String user_access_type) {
+		this.user_access_type = user_access_type;
+	}
+
+
+	public String getUser_access_table() {
+		return user_access_table;
+	}
+
+
+	public void setUser_access_table(String user_access_table) {
+		this.user_access_table = user_access_table;
+	}
+
+
+	public String getUser_id_fk() {
+		return user_id_fk;
+	}
+
+
+	public void setUser_id_fk(String user_id_fk) {
+		this.user_id_fk = user_id_fk;
+	}
+
+
+	public String getLast_login() {
+		return last_login;
+	}
+
+
+	public void setLast_login(String last_login) {
+		this.last_login = last_login;
+	}
+
+
+	public String getNumber_of_logins() {
+		return number_of_logins;
+	}
+
+
+	public void setNumber_of_logins(String number_of_logins) {
+		this.number_of_logins = number_of_logins;
+	}
+
+
+	public String getUser_role_name() {
+		return user_role_name;
+	}
+
+
+	public void setUser_role_name(String user_role_name) {
+		this.user_role_name = user_role_name;
+	}
 
 
 	public String getUser_id() {

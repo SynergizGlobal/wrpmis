@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -176,7 +177,7 @@ public class IssueController {
 		return model;
 	}
 	
-	@RequestMapping(value="/get-issue",method=RequestMethod.POST)
+	@RequestMapping(value="/get-issue",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
@@ -197,6 +198,36 @@ public class IssueController {
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
+			Issue issue = issueService.getIssue(obj);
+			model.addObject("issue", issue);
+		} catch (Exception e) {
+			attributes.addFlashAttribute("error", commonError);
+			logger.info("getIssue : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/get-issue/{issue_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getIssueByIssueId(@ModelAttribute Issue obj,@PathVariable("issue_id") String issue_id,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.updateIssueForm);
+			
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			
+			List<Issue> issuesStatusList = issueService.getIssuesStatusList();
+			model.addObject("issuesStatusList", issuesStatusList);
+			
+			List<Issue> issuesPriorityList = issueService.getIssuesPriorityList();
+			model.addObject("issuesPriorityList", issuesPriorityList);
+			
+			List<Issue> issuesCategoryList = issueService.getIssuesCategoryList();
+			model.addObject("issuesCategoryList", issuesCategoryList);
+			
+			List<Issue> departmentList = issueService.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			obj.setIssue_id(issue_id);
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);
 		} catch (Exception e) {

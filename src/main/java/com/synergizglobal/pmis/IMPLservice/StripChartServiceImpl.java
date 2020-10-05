@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.StripChartDao;
 import com.synergizglobal.pmis.Iservice.StripChartService;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Service
@@ -57,8 +56,8 @@ public class StripChartServiceImpl implements StripChartService{
 	}
 
 	@Override
-	public List<Contract> getContractsList(StripChart obj) throws Exception {
-		return stripChartDao.getContractsList(obj);
+	public List<StripChart> getStripChartContractsList(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartContractsList(obj);
 	}
 
 	@Override
@@ -70,6 +69,5 @@ public class StripChartServiceImpl implements StripChartService{
 	public boolean updateStripChart(StripChart obj) throws Exception {
 		return stripChartDao.updateStripChart(obj);
 	}
-	
 	
 }

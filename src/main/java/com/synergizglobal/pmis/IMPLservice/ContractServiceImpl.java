@@ -52,8 +52,8 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.insurenceType();
 	}
 	@Override
-	public Contract getcontract(String contractId, Contract obj)throws Exception{
-		return contractDao.getcontract(contractId,obj);
+	public Contract getContract(Contract obj)throws Exception{
+		return contractDao.getContract(obj);
 	}
 	@Override
 	public List<Contract> getContractStatusType()throws Exception{

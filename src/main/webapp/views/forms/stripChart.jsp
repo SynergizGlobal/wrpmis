@@ -658,7 +658,7 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsList",
+                    url: "<%=request.getContextPath()%>/ajax/getStripChartContractsList",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {

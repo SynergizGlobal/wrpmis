@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +42,6 @@ import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
@@ -148,7 +148,7 @@ public class ContractController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/add-Contract", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContract(@ModelAttribute  Contract contract,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -221,7 +221,6 @@ public class ContractController {
 	@RequestMapping(value = "/get-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getcontract(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();
-		String contractId = null;
 		try{
 			model.setViewName(PageConstants.updateContractForm);
 			List<Project> projectsList = homeService.getProjectsList();
@@ -232,26 +231,55 @@ public class ContractController {
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
-			/*
-			 * List<Contract> contracts = stripChartService.getContractsList(null);
-			 * model.addObject("contracts", contracts);
-			 */
 			List<Contract> contractor = contractservice.getContractorList();
 			model.addObject("contractor", contractor);
 			List<Contract> contract_type = contractservice.getContractTypeList();
 			model.addObject("contract_type", contract_type);
 			List<Contract> insurance_type = contractservice.getInsurenceTypeList();
 			model.addObject("insurance_type", insurance_type);
-			List<Contract> contractList = contractservice.contractList(obj);
-			model.addObject("contractList", contractList);
 			List<BankGuarantee> bankGuaranteeTYpe = contractservice.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
 			List<Insurence> InsurenceType = contractservice.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
 			List<Contract> contract_Statustype = contractservice.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
-			contractId = obj.getContract_id();
-			Contract contractDeatils = contractservice.getcontract(contractId, obj);
+			Contract contractDeatils = contractservice.getContract(obj);
+			model.addObject("contractDeatils", contractDeatils);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("Contract : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/get-contract/{contract_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getcontract(@ModelAttribute Contract obj,@PathVariable("contract_id") String contract_id ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.updateContractForm);
+			List<Project> projectsList = homeService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<Work> workList = workService.getworkList();
+			model.addObject("workList", workList);
+			List<Safety> departmentList = safetyService.getDepartmentList();
+			model.addObject("departmentList", departmentList);
+			List<User> hodList = contractservice.setHodList();
+			model.addObject("hodList", hodList);
+			List<Contract> contractor = contractservice.getContractorList();
+			model.addObject("contractor", contractor);
+			List<Contract> contract_type = contractservice.getContractTypeList();
+			model.addObject("contract_type", contract_type);
+			List<Contract> insurance_type = contractservice.getInsurenceTypeList();
+			model.addObject("insurance_type", insurance_type);
+			List<BankGuarantee> bankGuaranteeTYpe = contractservice.bankGuarantee();
+			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
+			List<Insurence> InsurenceType = contractservice.insurenceType();
+			model.addObject("InsurenceType", InsurenceType);
+			List<Contract> contract_Statustype = contractservice.getContractStatusType();
+			model.addObject("contract_Statustype", contract_Statustype);
+			
+			obj.setContract_id(contract_id);
+			Contract contractDeatils = contractservice.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 		}catch (Exception e) {
 			e.printStackTrace();

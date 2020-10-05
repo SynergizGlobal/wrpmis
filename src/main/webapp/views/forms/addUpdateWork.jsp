@@ -16,10 +16,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    
+    <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
-    <!-- <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"> -->
     <style>
         #example3 input[type="text"]::-webkit-input-placeholder,
         #example3 input[type="text"]:-ms-input-placeholder,
@@ -55,6 +54,9 @@
 		    left: 0;
 		    z-index: 1000;
 		}		
+		.select2-container{
+			text-align:left;
+		}
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
@@ -107,6 +109,7 @@
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                    <p><label>Project ID</label></p>
                                     <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
                                    		 <c:if test="${action eq 'add'}">	
                                           	 <option value="${workDeatils.project_id_fk}" selected hidden>select</option>
@@ -115,7 +118,6 @@
                        						  <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id}</option>
                                             </c:forEach>
                                     </select>
-                                    <label>Project ID</label>
                                       <span id="project_id_fkError"></span>
                                 </div>
                                 
@@ -202,23 +204,23 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Railway Agency</label></p>
                                   <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" size='1' >
                                   		 <option value="" >select</option>
                                                 <c:forEach var="obj" items="${railwaysList}">
   													 <option value="${obj.railway_id }" <c:if test="${workDeatils.railway_id_fk eq obj.railway_id}">selected</c:if>>${obj.railway_name}</option>
                                                 </c:forEach>
                                   </select>
-                                    <label>Railway Agency</label>
                                       <span id="railway_id_fkError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Executed By</label></p>
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk"  size='1'>
                                    <option value="" >select</option>
                                             <c:forEach var="obj" items="${railwaysList}">
                     					  			 <option value="${obj.railway_id }"<c:if test="${workDeatils.executed_by_id_fk eq obj.railway_id}">selected</c:if>> ${obj.railway_name}</option>
                                             </c:forEach>
                                   </select>
-                                    <label>Executed By </label>
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
                             </div> 
@@ -245,7 +247,7 @@
                                         		<c:forEach var="revObj" items="${workDeatils.workRevisions }" varStatus="index">                                        	
 	                                           <tr id="revisionRow${index.count }">                                            	
 	                                                <td> 
-	                              					 <select  name="financial_years"  id="financial_years${index.count }"  class="selectDropdown">
+	                              					 <select  name="financial_years"  id="financial_years${index.count }"  class="selectDropdown searchable">
 	                                   					 <option value="" >select</option>
 	                                         			  <c:forEach var="obj" items="${yearList}">
 	                    					  				 <option value="${obj.financial_year }"<c:if test="${revObj.financial_year eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
@@ -261,7 +263,7 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                </td>
 	                                                <td>
-	                                                   <select id="year_of_revisions${index.count }"  name="year_of_revisions" >
+	                                                   <select id="year_of_revisions${index.count }"  name="year_of_revisions" class="searchable">
 	                                                           <option value="" >select</option>
 	                                                        <c:forEach var="obj" items="${yearList}">
 	                    					  				  <option  value="${obj.financial_year }"<c:if test="${revObj.year_of_revision eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
@@ -286,8 +288,8 @@
                                         		<c:otherwise>
                                         		<tr id="revisionRow0">                                            	
 	                                                <td> 
-	                              					 <select  name="financial_years"  id="financial_years0"  class="selectDropdown">
-	                                   					 <option value="" >select</option>
+	                              					 <select  name="financial_years"  id="financial_years0"  class="selectDropdown searchable">
+	                                   					 <option value="" >Select</option>
 	                                         			  <c:forEach var="obj" items="${yearList}">
 	                    					  				 <option value="${obj.financial_year }">${obj.financial_year}</option>
 	                                          			  </c:forEach>
@@ -302,8 +304,8 @@
 	                                                        placeholder="Latest Revised Cost">
 	                                                </td>
 	                                                <td>
-	                                                   <select id="year_of_revisions0" name ="year_of_revisions" >
-	                                                           <option value="" selected>select</option>
+	                                                   <select id="year_of_revisions0" name ="year_of_revisions" class="searchable" >
+	                                                           <option value="" selected>Select</option>
 	                                                        <c:forEach var="obj" items="${yearList}">
 	                    					  				  <option  value="${obj.financial_year }"> ${obj.financial_year}</option>
 	                                          			    </c:forEach>
@@ -424,6 +426,7 @@
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
 
@@ -438,43 +441,10 @@
         })
     });
         $(document).ready(function () {
-            $('select').formSelect();
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
             $('#remarks').characterCounter();
-            // $(".datepicker").datepicker();
-          /*   $("#year_of_completion").datepicker({
-                format: 'yyyy',
-                selectYears: true,
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            }); */
-           /*  $("#financial_year").datepicker({
-                format: 'yyyy',
-                selectYears: true,
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            });
-            $("#year_revision").datepicker({
-                format: 'yyyy',
-                selectYears: true,
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            }); */
-           /*  $('#sanctioned_year').datepicker({
-                format: 'yyyy',
-                selectYears: true,
-                selectMonths: true,
-                selectDays: false,
-                onSelect: function (arg) {
-                    var selectedYear = parseInt(arg.getFullYear());
-                    var selectedMonth = parseInt(arg.getMonth() + 1);
-                    var year = (selectedMonth >= 4) ? selectedYear + '-' + (selectedYear + 1) : (selectedYear - 1) + '-' + selectedYear;
-                    console.log('sanctioned_year : ' + year);
-                    $('.confirmation-btns .datepicker-done').click();
-                }
-            }); */
+            // $(".datepicker").datepicker();          
             $('#sanctioned_year_icon').click(function () {
                 event.stopPropagation();
                 $('#sanctioned_year').click();
@@ -483,29 +453,7 @@
                 event.stopPropagation();
                 $('#year_completed').click();
             });
-          /*   $('#financial_year_icon').click(function () {
-                event.stopPropagation();
-                $('#financial_year').click();
-            });
-            $('#year_revision_icon').click(function () {
-                event.stopPropagation();
-                $('#year_revision').click();
-            }); */
-            /* $('#revisionsTable').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    }
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                "sScrollY": 400,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }); */
-          
+                   
         });
         
   //*********************VALIDATION FOR WORK ADD/EDIT FORMS*************************************      
@@ -654,7 +602,7 @@
         });
          */
          var html = '<tr id="revisionRow'+rNo+'"><td> <div>'
-		   		   +'<select  name="financial_years" id="financial_years'+rNo+'"  class="selectDropdown" >'	   			
+		   		   +'<select  name="financial_years" id="financial_years'+rNo+'"  class="selectDropdown searchable" >'	   			
 		   		   +'<option value=" " >select</option>'
 				     <c:forEach var="obj" items="${yearList}">
 		     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
@@ -663,7 +611,7 @@
 				   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost"></td>'
 				   +'<td> <div>'
-				   +'<select class="test" id="year_of_revisions'+rNo+'" name="year_of_revisions" >'
+				   +'<select class="test" id="year_of_revisions'+rNo+'" name="year_of_revisions" class="selectDropdown searchable" >'
 				   +'<option value=" " selected>select</option>'
 				     <c:forEach var="obj" items="${yearList}">
 					   +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
@@ -675,7 +623,7 @@
 			 
 				 $('#revisionsTableBody').append(html);
 				 $("#rowNo").val(rNo);
-				 $('select').formSelect();
+				 $('.searchable').select2();
 		 //******************* Revision table Validation***************************************
 
 		

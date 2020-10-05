@@ -11,6 +11,7 @@
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/pmis/resources/css/issues.css">
@@ -54,6 +55,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                    <p><label> Project ID </label></p>                                    
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -61,15 +63,14 @@
                                             <option value="${obj.project_id }" >${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>
-                                    <label> Project ID </label>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                 <p><label> Work ID </label></p> 
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
                                     </select>
-                                    <label> Work ID </label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -78,15 +79,15 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                 <p><label> Contract ID </label></p> 
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
-                                    <label>Contract ID</label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="activity" name="activity" type="text" class="validate">
-                                    <label> Activity </label>
+                                    <label for="activity"> Activity </label>
                                     <span id="activityError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -94,13 +95,13 @@
                             <div class="row">
                             	<div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                 <p><label>Department </label></p> 
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
                                             <option value="${obj.department_fk }" >${obj.department_fk}</option>
                                         </c:forEach>
                                     </select>
-                                    <label>Department </label>
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
 
@@ -110,23 +111,23 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Issue Category </label></p> 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesCategoryList }">
                                             <option value="${obj.category }" >${obj.category}</option>
                                         </c:forEach>
                                     </select>
-                                    <label>Issue Category </label>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Issue Priority </label></p> 
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesPriorityList }">
                                             <option value="${obj.priority }" >${obj.priority}</option>
                                         </c:forEach>
                                     </select>
-                                    <label>Issue Priority </label>
                                     <span id="priority_fkError" class="error-msg" ></span>
 
                                 </div>
@@ -136,13 +137,13 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Issue Status </label></p> 
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesStatusList }">
                                             <option value="${obj.status }" >${obj.status}</option>
                                         </c:forEach>
                                     </select>                                    
-                                    <label>Issue Status </label>
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -316,10 +317,12 @@
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
+	<script src="/pmis/resources/js/select2.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
         $(document).ready(function () {
-            $('select').formSelect();
+            $('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
             $('#corrective_measure').characterCounter();
             $('#remarks').characterCounter();
             

@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/material-design-lite-v.1.0.css">
-	
+	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
@@ -89,44 +89,44 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m1 hide-on-small-only"></div>
                             <div class="col s12 m2 input-field">
-                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getSafetyList();">
+                            	<p><label>Select Contract</label></p>
+                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select Contract</option>
                                      <c:forEach var="obj" items="${contracts }">
 		                               	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
 		                             </c:forEach>
-                                 </select>
-                                <label>Select Contract</label>
+                                 </select>                                
                             </div>
                             <div class="col s12 m2 input-field">
-                                <select id="department_fk" name="department_fk" onchange="getSafetyList();">
+                            <p><label>Select Department</label></p>
+                                <select id="department_fk" name="department_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select Department</option>
                                      <c:forEach var="obj" items="${departments }">
 		                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
 		                             </c:forEach>
                                  </select>
-                                <label>Select Department</label>
                             </div>
                             <div class="col s12 m2 input-field">
-                                 <select id="category_fk" name="category_fk" onchange="getSafetyList();">
+                            <p><label>Select Category</label></p>
+                                 <select id="category_fk" name="category_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select Category</option>
                                      <c:forEach var="obj" items="${categorys }">
 		                               	<option value="${obj.category_fk }" <c:if test="${param.category_fk eq obj.category_fk }">selected</c:if>>${obj.category_fk }</option>
 		                             </c:forEach>
                                  </select>
-                                <label>Select Category</label>
                             </div>
                             <div class="col s12 m2 input-field">
-                                 <select id="status_fk" name="status_fk" onchange="getSafetyList();">
+                            <p><label>Select Status</label></p>
+                                 <select id="status_fk" name="status_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select Status</option>
                                      <c:forEach var="obj" items="${statuses }">
 		                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
 		                             </c:forEach>
                                  </select>
-                                <label>Select Status</label>
                             </div>
                             <div class="col s12 m2">
-                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 20px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+                                <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
+                                    style="margin-top: 30px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                             </div>
                             <div class="col m1 hide-on-small-only"></div>
                         </div>
@@ -242,12 +242,14 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>	
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script> 
 	<script src=" //cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script> 
 	<script>
         $(document).ready(function () {
-        	$('select').formSelect();
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
            	var table = $('#datatable-safety').DataTable({
         		"bStateSave": true,
         		fixedHeader: true,

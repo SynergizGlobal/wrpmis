@@ -22,4 +22,14 @@ public interface UserService {
 	
 	boolean deleteUser(User obj) throws Exception;
 
+	List<User> getWorksForUserAccessTypes(User obj) throws Exception;
+
+	List<User> getModulesForUserAccessTypes(User obj) throws Exception;
+
+	List<User> getDepartmentsForUserAccessTypes(User obj) throws Exception;
+
+	List<User> getContractsForUserAccessTypes(User obj) throws Exception;
+
+	List<User> getUserAccessTypes(User obj) throws Exception;
+	
 }

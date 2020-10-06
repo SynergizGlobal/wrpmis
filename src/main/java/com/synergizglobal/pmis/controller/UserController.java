@@ -104,6 +104,8 @@ public class UserController {
 			List<User> reportingToList = userService.getUsersList(null);
 			model.addObject("reportingToList", reportingToList);
 			
+			List<User> userAccessTypes = userService.getUserAccessTypes(null);
+			model.addObject("userAccessTypes", userAccessTypes);
 			
 		} catch (Exception e) {
 			logger.info("addUserForm : " + e.getMessage());
@@ -111,12 +113,64 @@ public class UserController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getContractsForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getContractsForUserAccessTypes(@ModelAttribute User obj) {
+		List<User> contracts = null;
+		try {
+			contracts = userService.getContractsForUserAccessTypes(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("getContractsForUserAccessTypes : " + e.getMessage());
+		}
+		return contracts;
+	}
+	
+	@RequestMapping(value = "/ajax/getDepartmentsForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getDepartmentsForUserAccessTypes(@ModelAttribute User obj) {
+		List<User> departments = null;
+		try {
+			departments = userService.getDepartmentsForUserAccessTypes(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("getDepartmentsForUserAccessTypes : " + e.getMessage());
+		}
+		return departments;
+	}
+	
+	@RequestMapping(value = "/ajax/getModulesForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getModulesForUserAccessTypes(@ModelAttribute User obj) {
+		List<User> modules = null;
+		try {
+			modules = userService.getModulesForUserAccessTypes(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("getModulesForUserAccessTypes : " + e.getMessage());
+		}
+		return modules;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksForUserAccessTypes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getWorksForUserAccessTypes(@ModelAttribute User obj) {
+		List<User> works = null;
+		try {
+			works = userService.getWorksForUserAccessTypes(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("getWorksForUserAccessTypes : " + e.getMessage());
+		}
+		return works;
+	}
+	
 	@RequestMapping(value="/add-user",method=RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute User obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		String user_Id = null;String userName = null;
 		try {
-			model.setViewName("redirect:/user");
+			model.setViewName("redirect:/users");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			boolean flag = userService.addUser(obj);
 			if(flag) {
@@ -148,9 +202,24 @@ public class UserController {
 			List<User> reportingToList = userService.getUsersList(null);
 			model.addObject("reportingToList", reportingToList);
 			
-			User user = userService.getUser(obj);
+			List<User> userAccessTypes = userService.getUserAccessTypes(null);
+			model.addObject("userAccessTypes", userAccessTypes);
 			
-			model.addObject("user", user);
+			User user = userService.getUser(obj);			
+			model.addObject("usrObj", user);
+			
+			List<User> contractsForAccess = userService.getContractsForUserAccessTypes(obj);
+			model.addObject("contractsForAccess", contractsForAccess);
+			
+			List<User> departmentsForAccess = userService.getDepartmentsForUserAccessTypes(obj);
+			model.addObject("departmentsForAccess", departmentsForAccess);
+			
+			List<User> modulesForAccess = userService.getModulesForUserAccessTypes(obj);
+			model.addObject("modulesForAccess", modulesForAccess);
+			
+			List<User> worksForAccess = userService.getWorksForUserAccessTypes(obj);
+			model.addObject("worksForAccess", worksForAccess);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
@@ -164,7 +233,7 @@ public class UserController {
 		ModelAndView model = new ModelAndView();
 		String user_Id = null;String userName = null;
 		try {
-			model.setViewName("redirect:/user");
+			model.setViewName("redirect:/users");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			boolean flag = userService.updateUser(obj);
 			if(flag) {
@@ -184,7 +253,7 @@ public class UserController {
 	public ModelAndView deleteUser(@ModelAttribute User obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
-			model.setViewName("redirect:/user");
+			model.setViewName("redirect:/users");
 			boolean flag = userService.deleteUser(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "User deleted successfully");

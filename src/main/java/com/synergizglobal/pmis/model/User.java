@@ -12,13 +12,64 @@ public class User  {
 	private String passwordExpiredTime;
 	
 	private String reporting_to_name,department,department_name,user_access_type,user_access_table,user_id_fk,
-	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value;
+	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
+	access_value_id,access_value_name;
 	
 	private List<User> userPermissions;
 	
 	private MultipartFile fileName;
 	
 	private String[] user_access_types,user_access_values;
+
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
+	}
+
+
+	public String getModule_name() {
+		return module_name;
+	}
+
+
+	public void setModule_name(String module_name) {
+		this.module_name = module_name;
+	}
+
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+
+	public String getWork_name() {
+		return work_name;
+	}
+
+
+	public void setWork_name(String work_name) {
+		this.work_name = work_name;
+	}
 
 
 	public String getUser_access_type() {
@@ -335,6 +386,26 @@ public class User  {
 
 	public void setAccess_value(String access_value) {
 		this.access_value = access_value;
+	}
+
+
+	public String getAccess_value_id() {
+		return access_value_id;
+	}
+
+
+	public void setAccess_value_id(String access_value_id) {
+		this.access_value_id = access_value_id;
+	}
+
+
+	public String getAccess_value_name() {
+		return access_value_name;
+	}
+
+
+	public void setAccess_value_name(String access_value_name) {
+		this.access_value_name = access_value_name;
 	}
 	
 	

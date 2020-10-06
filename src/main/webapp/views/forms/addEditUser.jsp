@@ -117,15 +117,22 @@
                                       <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown">
                                           <option value="">Select</option>
                                           <c:forEach var="obj" items="${roles }">
-                                          	<option value="${obj.user_role_name }" <c:if test="${obj.user_role_name eq user.user_role_name_fk}">selected</c:if>>${obj.user_role_name }</option>
+                                          	<option value="${obj.user_role_name }" <c:if test="${obj.user_role_name eq usrObj.user_role_name_fk}">selected</c:if>>${obj.user_role_name }</option>
                                           </c:forEach>
                                       </select> 
                                       <span id="user_role_name_fkError" class="error-msg" ></span>
                                 </div>
-                                <c:if test="${not empty user.user_id }">
+                                <c:if test="${empty usrObj.user_id }">
+                                <div class="col s12 m4 input-field">
+                                    <input id="user_id" name="user_id" type="text" class="validate">
+                                    <label for="user_id">User ID</label>
+                                    <span id="user_idError" class="error-msg" ></span>
+                                </div>
+                                </c:if>
+                                <c:if test="${not empty usrObj.user_id }">
                                 <div class="col s12 m4 input-field">
                                     <!-- <input type="text" id="user_id"> -->
-                                    <label class="primary-text-bold">User ID :  <input id="user_id" name="user_id" type="text" value="${user.user_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+                                    <label class="primary-text-bold">User ID :  <input id="user_id" name="user_id" type="text" value="${usrObj.user_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <br><br>
                                 </div>
                                 </c:if>
@@ -140,7 +147,7 @@
                                     <select id="department_fk" name="department_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departments }">
-                                        	<option value="${obj.department }" <c:if test="${obj.department eq user.department_fk}">selected</c:if>>${obj.department_name }</option>
+                                        	<option value="${obj.department }" <c:if test="${obj.department eq usrObj.department_fk}">selected</c:if>>${obj.department_name }</option>
                                         </c:forEach>
                                     </select>     
                                     <span id="department_fkError" class="error-msg" ></span>
@@ -150,7 +157,7 @@
                                    <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
                                        <option value="">Select</option>
                                        <c:forEach var="obj" items="${reportingToList }">
-                                       	<option value="${obj.reporting_to_id_srfk }" <c:if test="${obj.reporting_to_id_srfk eq user.reporting_to_id_srfk}">selected</c:if>>${obj.reporting_to_name }</option>
+                                       	<option value="${obj.user_id }" <c:if test="${obj.user_id eq usrObj.reporting_to_id_srfk}">selected</c:if>><c:if test="${not empty obj.designation}">${obj.designation } - </c:if>${obj.user_name }</option>
                                        </c:forEach>
                                    </select>   
                                    <span id="reporting_to_id_srfkError" class="error-msg" ></span>
@@ -161,12 +168,12 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="user_name" name="user_name" type="text" class="validate" value="${user.user_name }">
+                                    <input id="user_name" name="user_name" type="text" class="validate" value="${usrObj.user_name }">
                                     <label for="name">Name</label>
                                     <span id="user_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="designation" name="designation" type="text" class="validate" value="${user.designation }">
+                                    <input id="designation" name="designation" type="text" class="validate" value="${usrObj.designation }">
                                     <label for="designation">Designation </label>
                                     <span id="designationError" class="error-msg" ></span>
                                 </div>
@@ -175,12 +182,12 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="email_id" name="email_id" type="email" class="validate" value="${user.email_id }">
+                                    <input id="email_id" name="email_id" type="email" class="validate" value="${usrObj.email_id }">
                                     <label for="email_id">Email ID </label>
                                     <span id="email_idError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="mobile_number" name="mobile_number" type="text" class="validate" value="${user.mobile_number }">
+                                    <input id="mobile_number" name="mobile_number" type="text" class="validate" value="${usrObj.mobile_number }">
                                     <label for="mobile_number"> Mobile Number </label>
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
@@ -190,12 +197,12 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="landline" name="landline" type="number" class="validate" value="${user.landline }">
+                                    <input id="landline" name="landline" type="number" class="validate" value="${usrObj.landline }">
                                     <label for="landline"> Landline </label>
                                     <span id="landlineError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="extension" name="extension" type="number" class="validate" value="${user.extension }">
+                                    <input id="extension" name="extension" type="number" class="validate" value="${usrObj.extension }">
                                     <label for="extension">Extension</label>
                                      <span id="extensionError" class="error-msg" ></span>
                                 </div>
@@ -219,23 +226,40 @@
                                         </thead>
                                         <tbody id="userPermissionsTableBody">
                                             <c:choose>
-                                        		<c:when test="${not empty user.userPermissions && fn:length(user.userPermissions) gt 0 }">
-                                        			<c:forEach var="dObj" items="${user.userPermissions }" varStatus="index">                                        	
+                                        		<c:when test="${not empty usrObj.userPermissions && fn:length(usrObj.userPermissions) gt 0 }">
+                                        			<c:forEach var="dObj" items="${usrObj.userPermissions }" varStatus="index">                                        	
 			                                           <tr id="userPermissionsRow${index.count }">
 		                                                <td>
-		                                                    <select id="user_access_types${index.count }" name="user_access_types">
+		                                                    <select id="user_access_types${index.count }" name="user_access_types" onchange="getUserAccessValues(this.value,'${index.count }');">
 		                                                        <option value="">User Access Type</option>
 		                                                        <c:forEach var="obj" items="${userAccessTypes }">
 		                                                        	<option value="${obj.user_access_type }" <c:if test="${dObj.user_access_type eq obj.user_access_type}">selected</c:if>>${obj.user_access_type }</option>
 		                                                        </c:forEach>		                                                        
 		                                                    </select>
-		                                                </td>                                               
+		                                                </td>                                 
 		                                                <td>
 		                                                    <select id="user_access_values${index.count }" name="user_access_values">
-		                                                        <option value="0" selected>Select Value</option>
-		                                                        <c:forEach var="obj" items="${userAccessValues }">
-		                                                        	<option value="${obj.access_value }" <c:if test="${dObj.access_value eq obj.access_value}">selected</c:if>>${obj.access_value }</option>
-		                                                        </c:forEach>
+		                                                        <option value="" selected>Select Value</option>
+		                                                         <c:if test="${dObj.user_access_type eq 'Contracts' }">		                                                		  
+			                                                        <c:forEach var="obj" items="${contractsForAccess }">
+			                                                        	<option value="${obj.access_value_id }" <c:if test="${dObj.access_value eq obj.access_value_id}">selected</c:if>>${obj.access_value_id}<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
+			                                                        </c:forEach>
+		                                                        </c:if>
+		                                                        <c:if test="${dObj.user_access_type eq 'Department' }">		                                                		  
+			                                                        <c:forEach var="obj" items="${departmentsForAccess }">
+			                                                        	<option value="${obj.access_value_id }" <c:if test="${dObj.access_value eq obj.access_value_id}">selected</c:if>>${obj.access_value_name }</option>
+			                                                        </c:forEach>
+		                                                        </c:if>  
+		                                                        <c:if test="${dObj.user_access_type eq 'Module' }">		                                                		  
+			                                                        <c:forEach var="obj" items="${modulesForAccess }">
+			                                                        	<option value="${obj.access_value_id }" <c:if test="${dObj.access_value eq obj.access_value_id}">selected</c:if>>${obj.access_value_name }</option>
+			                                                        </c:forEach>
+		                                                        </c:if>  
+		                                                        <c:if test="${dObj.user_access_type eq 'Works' }">		                                                		  
+			                                                        <c:forEach var="obj" items="${worksForAccess }">
+			                                                        	<option value="${obj.access_value_id }" <c:if test="${dObj.access_value eq obj.access_value_id}">selected</c:if>>${obj.access_value_id}<c:if test="${not empty obj.access_value_name}"> - </c:if> ${obj.access_value_name }</option>
+			                                                        </c:forEach>
+		                                                        </c:if>    
 		                                                    </select>
 		                                                </td>
 		                                                <td>
@@ -248,8 +272,8 @@
                                         		<c:otherwise>
 	                                        		<tr id="userPermissionsRow0">
 		                                                <td>
-		                                                    <select id="user_access_types0" name="user_access_types">
-		                                                        <option value="">User Access Type</option>
+		                                                    <select id="user_access_types0" name="user_access_types" onchange="getUserAccessValues(this.value,'0');">
+		                                                        <option value="" selected>User Access Type</option>
 		                                                        <c:forEach var="obj" items="${userAccessTypes }">
 		                                                        	<option value="${obj.user_access_type }">${obj.user_access_type }</option>
 		                                                        </c:forEach>
@@ -257,10 +281,7 @@
 		                                                </td>                                               
 		                                                <td>
 		                                                    <select id="user_access_values0" name="user_access_values">
-		                                                        <option value="0" selected>Select Value</option>
-		                                                        <c:forEach var="obj" items="${userAccessValues }">
-		                                                        	<option value="${obj.access_value }">${obj.access_value }</option>
-		                                                        </c:forEach>
+		                                                        <option value="" selected>Select Value</option>
 		                                                    </select>
 		                                                </td>
 		                                                <td>
@@ -281,8 +302,8 @@
                                         </tbody>
                                     </table>
                                     <c:choose>
-                                        <c:when test="${not empty user.userPermissions && fn:length(user.userPermissions) gt 0 }">
-                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(user.userPermissions)}" />
+                                        <c:when test="${not empty usrObj.userPermissions && fn:length(usrObj.userPermissions) gt 0 }">
+                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(usrObj.userPermissions)}" />
                                         </c:when>
                                         <c:otherwise>
                                         	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
@@ -313,7 +334,7 @@
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${user.remarks }</textarea>
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${usrObj.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
@@ -381,6 +402,55 @@
         });
         
         
+        function getUserAccessValues(user_access_type,indexNo){
+        	var url = "";
+        	if(user_access_type == 'Contracts'){
+        		url = "<%=request.getContextPath()%>/ajax/getContractsForUserAccessTypes";
+        	}else if(user_access_type == 'Department'){
+        		url = "<%=request.getContextPath()%>/ajax/getDepartmentsForUserAccessTypes";
+        	}else if(user_access_type == 'Module'){
+        		url = "<%=request.getContextPath()%>/ajax/getModulesForUserAccessTypes";
+        	}else if(user_access_type == 'Works'){
+        		url = "<%=request.getContextPath()%>/ajax/getWorksForUserAccessTypes";
+        	}
+        	
+        	if($.trim(url) != ''){
+        		$("#user_access_values"+indexNo+" option:not(:first)").remove();
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                        	if(user_access_type == 'Contracts'){
+                        		 $.each(data, function (i, val) {
+                        			 var access_value_name = '';
+                                     if ($.trim(val.access_value_name) != '') { access_value_name = ' - ' + $.trim(val.access_value_name) }
+                                     $("#user_access_values"+indexNo).append('<option value="' + val.access_value_id + '">' + $.trim(val.access_value_id) + access_value_name+ '</option>');
+                                 });
+                        	}else if(user_access_type == 'Department'){
+                        		 $.each(data, function (i, val) {
+                                     $("#user_access_values"+indexNo).append('<option value="' + val.access_value_id + '">' + $.trim(val.access_value_name) + '</option>');
+                                 });
+                        	}else if(user_access_type == 'Module'){
+                        		 $.each(data, function (i, val) {
+                                     $("#user_access_values"+indexNo).append('<option value="' + val.access_value_id + '">' + $.trim(val.access_value_name) + '</option>');
+                                 });
+                        	}else if(user_access_type == 'Works'){
+                        		 $.each(data, function (i, val) {
+                        			 var access_value_name = '';
+                                     if ($.trim(val.access_value_name) != '') { access_value_name = ' - ' + $.trim(val.access_value_name) }
+                                     $("#user_access_values"+indexNo).append('<option value="' + val.access_value_id + '">' + $.trim(val.access_value_id) + access_value_name + '</option>');
+                                 });
+                        	}
+                           
+                        }
+                        $("#user_access_values"+indexNo).formSelect();
+                    }
+                });
+        	}
+        }
+        
+        
         $('form').on('reset', function () {
             $(".searchable").trigger("change");
         });
@@ -406,7 +476,9 @@
     	var validator = $('#userForm').validate({
     	    	ignore: ":hidden:not(.validate-dropdown)",
     			   rules: {
-        				  "user_role_name_fk": {
+    				   	  "user_id0":{
+    				   		required: true
+    				   	  },"user_role_name_fk": {
        				 		required: true
        				 	  },"department_fk": {
     				 		required: true
@@ -430,7 +502,9 @@
     				 				
     			 	},
     			   messages: {
-        				 "user_role_name_fk": {
+	    				 "user_id0":{
+	    					 required: 'Required'
+	   				   	 },"user_role_name_fk": {
        			 			required: 'Required'
        			 	  	 },"department_fk": {
     			 			required: 'Required'
@@ -455,7 +529,10 @@
     		    },
     			  errorPlacement:
     			 	function(error, element){
-        				if (element.attr("id") == "user_role_name_fk" ){
+	    				if (element.attr("id") == "user_id" ){
+	  			 		     document.getElementById("user_idError").innerHTML="";
+	  			 			 error.appendTo('#user_idError');
+	  			 	    }else if (element.attr("id") == "user_role_name_fk" ){
      			 		     document.getElementById("user_role_name_fkError").innerHTML="";
      			 			 error.appendTo('#user_role_name_fkError');
      			 	    }else if (element.attr("id") == "department_fk" ){
@@ -523,7 +600,7 @@
                 var rNo = Number(rowNo)+1;
                 var html = '<tr id="userPermissionsRow'+rNo+'">'
         		   		  +'<td>'
-        		   		+'<select id="user_access_types'+rNo+'" name="user_access_types">'
+        		   		+'<select id="user_access_types'+rNo+'" name="user_access_types" onchange="getUserAccessValues(this.value,'+rNo+');">'
         		   		+'<option value="">User Access Type</option>'
         		   		<c:forEach var="obj" items="${userAccessTypes }">
         		   		+'<option value="${obj.user_access_type }">${obj.user_access_type }</option>'
@@ -533,9 +610,6 @@
 			            +'<td>'
 			            +'<select id="user_access_values'+rNo+'" name="user_access_values">'
 			            +'<option value="0" selected>Select Value</option>'
-                        <c:forEach var="obj" items="${userAccessValues }">
-                        +'<option value="${obj.access_value }">${obj.access_value }</option>'
-                        </c:forEach>
                         +'</select>'
                         +'</td>'
         			   	+'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeUserPermissions('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';

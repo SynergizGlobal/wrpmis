@@ -53,4 +53,29 @@ public class UserServiceImpl implements UserService{
 		return userDao.deleteUser(obj);
 	}
 
+	@Override
+	public List<User> getWorksForUserAccessTypes(User obj) throws Exception {
+		return userDao.getWorksForUserAccessTypes(obj);
+	}
+
+	@Override
+	public List<User> getModulesForUserAccessTypes(User obj) throws Exception {
+		return userDao.getModulesForUserAccessTypes(obj);
+	}
+
+	@Override
+	public List<User> getDepartmentsForUserAccessTypes(User obj) throws Exception {
+		return userDao.getDepartmentsForUserAccessTypes(obj);
+	}
+
+	@Override
+	public List<User> getContractsForUserAccessTypes(User obj) throws Exception {
+		return userDao.getContractsForUserAccessTypes(obj);
+	}
+
+	@Override
+	public List<User> getUserAccessTypes(User obj) throws Exception {
+		return userDao.getUserAccessTypes(obj);
+	}
+
 }

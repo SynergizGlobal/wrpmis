@@ -520,6 +520,12 @@
                                         </div>
                                     </div>
                                     <input type="hidden" id="strip_chart_id" name="strip_chart_id" />
+                                    
+                                    <input type="hidden" id="strip_chart_component_id_name" name="strip_chart_component_id_name" />
+                                    <input type="hidden" id="strip_chart_line" name="strip_chart_line" />
+                                    <input type="hidden" id="strip_chart_section_name" name="strip_chart_section_name" />
+                                    <input type="hidden" id="strip_chart_activity_name" name="strip_chart_activity_name" />
+            
                                     <div class="row">
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
@@ -928,8 +934,24 @@
         function getStripChartDetails(activitiId) {
         	$(".page-loader").show();
             var componentId = $("#strip_chart_component_id").val();
+            var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
+            var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+            var strip_chart_section_id_fk = $("#strip_chart_section_id_fk").val();
+            
+            var component_name = $("#strip_chart_component_id option:selected").text();
+            var line_name = $("#strip_chart_line_id_fk option:selected").text();
+            var section_name = $("#strip_chart_section_id_fk option:selected").text();
+            var activity_name = $("#strip_chart_activity_id option:selected").text();
+            
+            $("#strip_chart_component_id_name").val(component_name);
+            $("#strip_chart_line").val(line_name);
+            $("#strip_chart_section_name").val(section_name);
+            $("#strip_chart_activity_name").val(activity_name);
+            
             if ($.trim(strip_chart_activity_id) != "") {
-                var myParams = { strip_chart_component_id: componentId, strip_chart_activity_id: activitiId };
+                var myParams = { strip_chart_component_id: componentId, strip_chart_activity_id: activitiId , 
+                		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
+                		strip_chart_section_id_fk : strip_chart_section_id_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStripChartDetails",
                     data: myParams, cache: false,
@@ -937,14 +959,17 @@
                     	$("#plannedStart").html(data.planned_start);
                     	$("#plannedFinish").html(data.planned_finish);
                     	var scope = 0;
-                    	if($.trim(data.scope)){
+                    	if($.trim(data.scope) != ''){
                     		scope = $.trim(data.scope);
                     	}
                     	var completed = 0;
-                    	if($.trim(data.completed)){
+                    	if($.trim(data.completed) != ''){
                     		completed = $.trim(data.completed);
                     	}
-                    	var remaining = scope - completed;
+                    	var remaining = 0;
+                    	if($.trim(data.remaining) != ''){
+                    		remaining = $.trim(data.remaining);
+                    	}
                     	$("#totalScope").val(scope);
                     	$("#completed").val(completed);
                     	$("#remaining").val(remaining);

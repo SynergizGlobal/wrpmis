@@ -55,22 +55,84 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserReportingToList() throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select u.reporting_to_id_srfk,usr.user_name as reporting_to_name "
-					+ "from user u "
-					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
-					+ "WHERE u.reporting_to_id_srfk is not null ";
+			String qry = "select user_id,designation,user_name from user u ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<User> getUserAccessTypes(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select user_access_type,user_access_table from user_access_type";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<User> getContractsForUserAccessTypes(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select contract_id as access_value_id,contract_name as access_value_name from contract";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<User> getDepartmentsForUserAccessTypes(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select department as access_value_id,department_name as access_value_name from department";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<User> getModulesForUserAccessTypes(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select module_name as access_value_id,module_name as access_value_name from module";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<User> getWorksForUserAccessTypes(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select work_id as access_value_id,work_name as access_value_name from work";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}	
 
 	@Override
 	public List<User> getUsersList(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,u.mobile_number,u.landline,u.extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,ROUND(u.mobile_number) as mobile_number,ROUND(u.landline) as landline,u.extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
@@ -160,7 +222,7 @@ public class UserDaoImpl implements UserDao{
 	public User getUser(User obj) throws Exception {
 		User uobj = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,u.mobile_number,u.landline,u.extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,ROUND(u.mobile_number) as mobile_number,ROUND(u.landline) as landline,u.extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
@@ -217,7 +279,7 @@ public class UserDaoImpl implements UserDao{
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "UPDATE user SET ser_name=:user_name,designation=:designation,email_id=:email_id,mobile_number=:mobile_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,remarks=:remarks "
+			String qry = "UPDATE user SET user_name=:user_name,designation=:designation,email_id=:email_id,mobile_number=:mobile_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,remarks=:remarks "
 					+ "WHERE user_id = :user_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			

@@ -191,6 +191,7 @@ public class ContractDaoImpl implements ContractDao {
 		SimpleDateFormat  sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			con = dataSource.getConnection();
+			con.setAutoCommit(false);
 			String contract_id = getContract_id(contract.getDepartment_name(),con);
 			String ContarctID = contract.getWork_id_fk()+getDeptCode(contract.getDepartment_fk(),con)+contract_id;
 			
@@ -242,17 +243,47 @@ public class ContractDaoImpl implements ContractDao {
 			stmt = con.prepareStatement(BankG_qry); 
 		    if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
 		    	for (int i = 0; i < contract.getBg_numbers().length; i++) {
-		    		Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[i]);
-		    		String currentDate = sqlDate.format(convertedDate);
 					if(!StringUtils.isEmpty(contract.getBg_numbers()[i])){
 						stmt.setString(1,contract.getBg_type_fks()[i]);
-						stmt.setString(2,contract.getIssuing_banks()[i]);
-						stmt.setString(3,contract.getBank_addresss()[i]);
-						stmt.setString(4,contract.getBg_numbers()[i]);
-						stmt.setString(5,contract.getBg_values()[i]);
-						stmt.setString(6,currentDate);
-						stmt.setString(7,contract.getRemarkss()[i]);
-						stmt.setString(8,ContarctID);
+						if( !StringUtils.isEmpty(contract.getIssuing_banks()) && contract.getIssuing_banks().length > 0) {
+								stmt.setString(2,contract.getIssuing_banks()[i]);
+							}else {
+								stmt.setString(2,null);
+							}
+						if( !StringUtils.isEmpty(contract.getBank_addresss()) && contract.getBank_addresss().length > 0) {
+								stmt.setString(3,contract.getBank_addresss()[i]);
+							}else {
+								stmt.setString(3,null);
+							}
+						if( !StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
+								stmt.setString(4,contract.getBg_numbers()[i]);
+							}else {
+								stmt.setString(4,null);
+							}
+						if( !StringUtils.isEmpty(contract.getBg_values()) && contract.getBg_values().length > 0) {
+								stmt.setString(5,contract.getBg_values()[i]);
+							}else {
+								stmt.setString(5,null);
+							}
+						if(!StringUtils.isEmpty(contract.getBg_valid_uptos()) && contract.getBg_valid_uptos().length > 0) {
+							if(!StringUtils.isEmpty(contract.getInsurence_valid_uptos()[i])) {
+								Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[i]);
+								String currentDate = sqlDate.format(convertedDate);										
+								stmt.setString(6,currentDate);}
+							}
+							else {
+								stmt.setString(6,null);
+							}
+						if( !StringUtils.isEmpty(contract.getRemarkss()) && contract.getRemarkss().length > 0) {
+								stmt.setString(7,contract.getRemarkss()[i]);
+							}else {
+								stmt.setString(7,null);
+							}
+						if( !StringUtils.isEmpty(ContarctID) && ContarctID.length() > 0) {
+								stmt.setString(8,ContarctID);
+							}else {
+								stmt.setString(8,null);
+							}
 						stmt.addBatch();
 					}
 				}
@@ -266,17 +297,48 @@ public class ContractDaoImpl implements ContractDao {
 				stmt = con.prepareStatement(Insurence_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
 					for (int i = 0; i < contract.getInsurance_type_fks().length; i++) {
-						Date insureceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[i]);
-						String insurenceCurrentDate = sqlDate.format(insureceConvertedDate);
 						if(!StringUtils.isEmpty(contract.getInsurance_type_fks()[i])){
 							stmt.setString(1,contract.getInsurance_type_fks()[i]);
-							stmt.setString(2,contract.getIssuing_agencys()[i]);
-							stmt.setString(3,contract.getAgency_addresss()[i]);
-							stmt.setString(4,contract.getInsurance_numbers()[i]);
-							stmt.setString(5,contract.getInsurance_values()[i]);
-							stmt.setString(6,insurenceCurrentDate);
-							stmt.setString(7,contract.getInsurence_remarks()[i]);
-							stmt.setString(8,ContarctID);
+						
+						if( !StringUtils.isEmpty(contract.getIssuing_agencys()) && contract.getIssuing_agencys().length > 0) {
+								stmt.setString(2,contract.getIssuing_agencys()[i]);
+							}else {
+								stmt.setString(2,null);
+							}
+						if( !StringUtils.isEmpty(contract.getAgency_addresss()) && contract.getAgency_addresss().length > 0) {
+								stmt.setString(3,contract.getAgency_addresss()[i]);
+							}else {
+								stmt.setString(3,null);
+							}
+						if( !StringUtils.isEmpty(contract.getInsurance_numbers()) && contract.getInsurance_numbers().length > 0) {
+								stmt.setString(4,contract.getInsurance_numbers()[i]);
+							}else {
+								stmt.setString(4,null);
+							}
+						if( !StringUtils.isEmpty(contract.getInsurance_values()) && contract.getInsurance_values().length > 0) {
+								stmt.setString(5,contract.getInsurance_values()[i]);
+							}else {
+								stmt.setString(5,null);
+							}
+						if( !StringUtils.isEmpty(contract.getInsurence_valid_uptos()) && contract.getInsurence_valid_uptos().length > 0) {
+							if(!StringUtils.isEmpty(contract.getInsurence_valid_uptos()[i])) {
+								Date insurenceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[i]);
+								String insurenceCurrentDate = sqlDate.format(insurenceConvertedDate);										
+								stmt.setString(6,insurenceCurrentDate);
+							}
+						}else {
+							stmt.setString(6,null);
+						}
+						if( !StringUtils.isEmpty(contract.getInsurence_remarks()) && contract.getInsurence_remarks().length > 0) {
+								stmt.setString(7,contract.getInsurence_remarks()[i]);
+							}else {
+								stmt.setString(7,null);
+							}
+						if( !StringUtils.isEmpty(ContarctID) && ContarctID.length() > 0) {
+								stmt.setString(8,ContarctID);
+							}else {
+								stmt.setString(8,null);
+							}
 							stmt.addBatch();
 						}
 				}
@@ -289,21 +351,47 @@ public class ContractDaoImpl implements ContractDao {
 			stmt = con.prepareStatement(Milestone_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
 					for (int i = 0; i < contract.getMilestone_names().length; i++) {
-						Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
-						String mileCurrentDate = sqlDate.format(mileConvertedDate);
-						Date actualConvertedDate = sdf.parse(contract.getActual_dates()[i]);
-						String actualCurrentDate = sqlDate.format(actualConvertedDate);
 						if(!StringUtils.isEmpty(contract.getMilestone_names()[i])){
 							stmt.setString(1,contract.getMilestone_names()[i]);
-							stmt.setString(2,mileCurrentDate);
-							stmt.setString(3,actualCurrentDate);
-							stmt.setString(4,contract.getRevisions()[i]);
-							stmt.setString(5,contract.getMile_remarks()[i]);
-							stmt.setString(6,ContarctID);
+						}
+						
+						if( !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
+							if(!StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
+								Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
+								String mileCurrentDate1 = sqlDate.format(mileConvertedDate);
+								stmt.setString(2,mileCurrentDate1);
+							}
+						}else {
+								stmt.setString(2,null);
+						}
+						if( !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
+							if(!StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
+								Date actualConvertedDate = sdf.parse(contract.getMilestone_dates()[i]);
+								String mileCurrentDate2 = sqlDate.format(actualConvertedDate);
+								stmt.setString(3,mileCurrentDate2);
+							}
+						}else {
+							stmt.setString(3,null);
+						}
+						if( !StringUtils.isEmpty(contract.getRevisions()) && contract.getRevisions().length > 0) {
+								stmt.setString(4,contract.getRevisions()[i]);
+							}else {
+								stmt.setString(4,null);
+							}
+						if( !StringUtils.isEmpty(contract.getMile_remarks()) && contract.getMile_remarks().length > 0) {
+								stmt.setString(5,contract.getMile_remarks()[i]);
+							}else {
+								stmt.setString(5,null);
+							}
+						if( !StringUtils.isEmpty(ContarctID) && ContarctID.length() > 0) {
+								stmt.setString(6,ContarctID);
+							}else {
+								stmt.setString(6,null);
+							}
 							stmt.addBatch();
 						}
 			}
-		}
+		
 		c = stmt.executeBatch();
 		if(stmt != null){stmt.close();}
 	
@@ -312,23 +400,43 @@ public class ContractDaoImpl implements ContractDao {
 			stmt = con.prepareStatement(Revision_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 					for (int i = 0; i < contract.getRevision_numbers().length; i++) {
-						Date revConvertedDate = sdf.parse(contract.getRevised_docs()[i]);
-						String revCurrentDate = sqlDate.format(revConvertedDate);
 						if(!StringUtils.isEmpty(contract.getRevision_numbers()[i])){
 							stmt.setString(1,contract.getRevision_numbers()[i]);
+						}
+						if( !StringUtils.isEmpty(contract.getRevised_amounts()) && contract.getRevised_amounts().length > 0) {
 							stmt.setString(2,contract.getRevised_amounts()[i]);
-							stmt.setString(3,revCurrentDate);
-							stmt.setString(4,contract.getRevision_remarks()[i]);
-							stmt.setString(5,ContarctID);
+							}else {
+							stmt.setString(2,null);
+							}
+						if( !StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
+							if(!StringUtils.isEmpty(contract.getMilestone_dates()[i])) {
+								Date revConvertedDate = sdf.parse(contract.getRevised_docs()[i]);
+								String revCurrentDate1 = sqlDate.format(revConvertedDate);
+								stmt.setString(3,revCurrentDate1);										}
+						}else {
+								stmt.setString(3,null);
+						}
+					
+						if( !StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
+								stmt.setString(4,contract.getRevision_remarks()[i]);
+							}else {
+								stmt.setString(4,null);
+							}
+						if( !StringUtils.isEmpty(ContarctID) && ContarctID.length() > 0) {
+								stmt.setString(5,ContarctID);
+							}else {
+								stmt.setString(5,null);
+							}
 							stmt.addBatch();
 						}
 				}
-			}
 			c = stmt.executeBatch();
 			if(c.length > 0 || count > 0){
 				flag = true; 
 			}
+			con.commit();
 		}catch(Exception e){ 
+			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e);
 		}
@@ -338,11 +446,7 @@ public class ContractDaoImpl implements ContractDao {
 		return flag;
 	}
 
-	private String getContractorId(String department_name, Connection con) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	private String getDeptCode(String deptId, Connection con) throws Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -354,11 +458,7 @@ public class ContractDaoImpl implements ContractDao {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				obj = rs.getString("contract_id_code");
-				
 			}
-			
-			
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -434,8 +534,6 @@ public class ContractDaoImpl implements ContractDao {
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 		Contract contract = null;
-        DecimalFormat decimalFormat = new DecimalFormat("0.0000000000");
-
 		try{
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
@@ -515,7 +613,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> contract_revision = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT revision_number,revised_amount,DATE_FORMAT(revised_doc,'%d-%m-%Y') AS revised_doc"
+			String qry ="SELECT revision_number,cast(revised_amount as decimal(65,5)) as revised_amount ,DATE_FORMAT(revised_doc,'%d-%m-%Y') AS revised_doc"
 					+ ",remarks from contract_revision where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -643,6 +741,7 @@ public class ContractDaoImpl implements ContractDao {
 		SimpleDateFormat  sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			con = dataSource.getConnection();
+			con.setAutoCommit(false);
 			String contractUpdate_Qry = "UPDATE  contract SET work_id_fk = ?,department_fk = ?,contract_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
@@ -696,9 +795,6 @@ public class ContractDaoImpl implements ContractDao {
 					stmt = con.prepareStatement(BankG_qry); 
 				    if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
 				    	for (int j = 0; j < contract.getBg_type_fks().length; j++) {
-				    		Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[j]);
-							String currentDate = sqlDate.format(convertedDate);
-							 
 							if(!StringUtils.isEmpty(contract.getBg_type_fks()[j])){
 								stmt.setString(1,contract.getBg_type_fks()[j]);
 								if(!StringUtils.isEmpty(contract.getIssuing_banks()) && contract.getIssuing_banks().length > 0) {
@@ -722,10 +818,14 @@ public class ContractDaoImpl implements ContractDao {
 										stmt.setString(5,null);
 									}
 							
-								if(!StringUtils.isEmpty(currentDate) && currentDate.length() > 0) {
-									stmt.setString(6,currentDate);}
+								if(!StringUtils.isEmpty(contract.getBg_valid_uptos()) && contract.getBg_valid_uptos().length > 0) {
+									if(!StringUtils.isEmpty(contract.getInsurence_valid_uptos()[j])) {
+										Date convertedDate = sdf.parse(contract.getBg_valid_uptos()[j]);
+										String currentDate = sqlDate.format(convertedDate);										
+										stmt.setString(6,currentDate);}
+									}
 									else {
-										stmt.setString(6,"0000-00-00");
+										stmt.setString(6,null);
 									}
 								if(!StringUtils.isEmpty(contract.getRemarkss()) && contract.getRemarkss().length > 0) {
 									stmt.setString(7,contract.getRemarkss()[j]);}
@@ -758,51 +858,54 @@ public class ContractDaoImpl implements ContractDao {
 					stmt = con.prepareStatement(Insurence_qry); 
 					if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
 						for (int j = 0; j < contract.getInsurance_type_fks().length; j++) {
-							Date insurenceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[j]);
-							String insurenceCurrentDate = sqlDate.format(insurenceConvertedDate);
+							
+							
 							
 							if(!StringUtils.isEmpty(contract.getInsurance_type_fks()[j])){
 								stmt.setString(1,contract.getInsurance_type_fks()[j]);
 								if( !StringUtils.isEmpty(contract.getIssuing_agencys()) && contract.getIssuing_agencys().length > 0) {
-								stmt.setString(2,contract.getIssuing_agencys()[j]);
+									stmt.setString(2,contract.getIssuing_agencys()[j]);
 								}else {
-								stmt.setString(2,null);
+									stmt.setString(2,null);
 								}
 								
 								if( !StringUtils.isEmpty(contract.getAgency_addresss()) && contract.getAgency_addresss().length > 0) {
-								stmt.setString(3,contract.getAgency_addresss()[j]);
+									stmt.setString(3,contract.getAgency_addresss()[j]);
 								}else {
-								stmt.setString(3,null);
+									stmt.setString(3,null);
 								}
 								
 								if( !StringUtils.isEmpty(contract.getInsurance_numbers()) && contract.getInsurance_numbers().length > 0) {
-								stmt.setString(4,contract.getInsurance_numbers()[j]);
+									stmt.setString(4,contract.getInsurance_numbers()[j]);
 								}else {
-								stmt.setString(4,null);
+									stmt.setString(4,null);
 								}
 								
 								if( !StringUtils.isEmpty(contract.getInsurance_values()) && contract.getInsurance_values().length > 0) {
-								stmt.setString(5,contract.getInsurance_values()[j]);
+									stmt.setString(5,contract.getInsurance_values()[j]);
 								}else {
-								stmt.setString(5,null);
+									stmt.setString(5,null);
 								}
-								
-								if( !StringUtils.isEmpty(insurenceCurrentDate) && insurenceCurrentDate.length() > 0) {
-								stmt.setString(6,insurenceCurrentDate);
+								if( !StringUtils.isEmpty(contract.getInsurence_valid_uptos()) && contract.getInsurence_valid_uptos().length > 0) {
+									if(!StringUtils.isEmpty(contract.getInsurence_valid_uptos()[j])) {
+										Date insurenceConvertedDate = sdf.parse(contract.getInsurence_valid_uptos()[j]);
+										String insurenceCurrentDate = sqlDate.format(insurenceConvertedDate);										
+										stmt.setString(6,insurenceCurrentDate);
+									}
 								}else {
-								stmt.setString(6,"0000-00-00");
+									stmt.setString(6,null);
 								}
 								
 								if( !StringUtils.isEmpty(contract.getInsurence_remarks()) && contract.getInsurence_remarks().length > 0) {
-								stmt.setString(7,contract.getInsurence_remarks()[j]);
+									stmt.setString(7,contract.getInsurence_remarks()[j]);
 								}else {
-								stmt.setString(7,null);
+									stmt.setString(7,null);
 								}
 								
 								if( !StringUtils.isEmpty(contract.getContract_id()) && contract.getContract_id().length() > 0) {
-								stmt.setString(8,contract.getContract_id());
+									stmt.setString(8,contract.getContract_id());
 								}else {
-								stmt.setString(8,null);
+									stmt.setString(8,null);
 								}
 								
 								stmt.addBatch();
@@ -823,39 +926,41 @@ public class ContractDaoImpl implements ContractDao {
 				stmt = con.prepareStatement(Milestone_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
 					for (int j = 0; j < contract.getMilestone_names().length; j++) {
-						Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[j]);
-						String mileCurrentDate1 = sqlDate.format(mileConvertedDate);
-						
-						Date actualConvertedDate = sdf.parse(contract.getMilestone_dates()[j]);
-						String mileCurrentDate2 = sqlDate.format(actualConvertedDate);
-						
 						if(!StringUtils.isEmpty(contract.getMilestone_names()[j])){
-							stmt.setString(1,contract.getMilestone_names()[j]);
+								stmt.setString(1,contract.getMilestone_names()[j]);
 							
-							if( !StringUtils.isEmpty(mileCurrentDate1) && mileCurrentDate1.length() > 0) {
-							stmt.setString(2,mileCurrentDate1);
+							if( !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
+								if(!StringUtils.isEmpty(contract.getMilestone_dates()[j])) {
+									Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[j]);
+									String mileCurrentDate1 = sqlDate.format(mileConvertedDate);
+									stmt.setString(2,mileCurrentDate1);
+								}
 							}else {
-							stmt.setString(2,"0000-00-00");
+									stmt.setString(2,null);
 							}
-							if( !StringUtils.isEmpty(mileCurrentDate2) && mileCurrentDate2.length() > 0) {
-							stmt.setString(3,mileCurrentDate2);
+							if( !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
+								if(!StringUtils.isEmpty(contract.getMilestone_dates()[j])) {
+									Date actualConvertedDate = sdf.parse(contract.getMilestone_dates()[j]);
+									String mileCurrentDate2 = sqlDate.format(actualConvertedDate);
+									stmt.setString(3,mileCurrentDate2);
+								}
 							}else {
-							stmt.setString(3,"0000-00-00");
+								stmt.setString(3,null);
 							}
 							if( !StringUtils.isEmpty(contract.getRevisions()) && contract.getRevisions().length > 0) {
-							stmt.setString(4,contract.getRevisions()[j]);
+								stmt.setString(4,contract.getRevisions()[j]);
 							}else {
-							stmt.setString(4,null);
+								stmt.setString(4,null);
 							}
 							if( !StringUtils.isEmpty(contract.getMile_remarks()) && contract.getMile_remarks().length > 0) {
-							stmt.setString(5,contract.getMile_remarks()[j]);
+								stmt.setString(5,contract.getMile_remarks()[j]);
 							}else {
-							stmt.setString(5,null);
+								stmt.setString(5,null);
 							}
 							if( !StringUtils.isEmpty(contract.getContract_id()) && contract.getContract_id().length() > 0) {
-							stmt.setString(6,contract.getContract_id());
+								stmt.setString(6,contract.getContract_id());
 							}else {
-							stmt.setString(6,null);
+								stmt.setString(6,null);
 							}
 								
 							stmt.addBatch();
@@ -877,45 +982,50 @@ public class ContractDaoImpl implements ContractDao {
 					stmt = con.prepareStatement(Revision_qry); 
 						if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 							for (int j = 0; j < contract.getRevision_numbers().length; j++) {
-								Date revConvertedDate = sdf.parse(contract.getRevised_docs()[j]);
-								String revCurrentDate1 = sqlDate.format(revConvertedDate);
+								if(!StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevision_numbers().length != 0){
 								if(!StringUtils.isEmpty(contract.getRevision_numbers()[j])){
 									stmt.setString(1,contract.getRevision_numbers()[j]);
 									
 									if( !StringUtils.isEmpty(contract.getRevised_amounts()) && contract.getRevised_amounts().length > 0) {
-									stmt.setString(2,contract.getRevised_amounts()[j]);
+										stmt.setString(2,contract.getRevised_amounts()[j]);
 									}else {
-									stmt.setString(2,null);
+										stmt.setString(2,null);
 									}
 									
-									if( !StringUtils.isEmpty(revCurrentDate1) && revCurrentDate1.length() > 0) {
-									stmt.setString(3,revCurrentDate1);
+									if( !StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
+										if(!StringUtils.isEmpty(contract.getMilestone_dates()[j])) {
+											Date revConvertedDate = sdf.parse(contract.getRevised_docs()[j]);
+											String revCurrentDate1 = sqlDate.format(revConvertedDate);
+											stmt.setString(3,revCurrentDate1);										}
 									}else {
-									stmt.setString(3,"0000-00-00");
+										stmt.setString(3,null);
 									}
 									
 									if( !StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
-									stmt.setString(4,contract.getRevision_remarks()[j]);
+										stmt.setString(4,contract.getRevision_remarks()[j]);
 									}else {
-									stmt.setString(4,null);
+										stmt.setString(4,null);
 									}
 									
 									if( !StringUtils.isEmpty(contract.getContract_id()) && contract.getContract_id().length() > 0) {
-									stmt.setString(5,contract.getContract_id());
+										stmt.setString(5,contract.getContract_id());
 									}else {
-									stmt.setString(5,null);
+										stmt.setString(5,null);
 									}
 									
 									stmt.addBatch();
 								}
-						}
+						} }
 					}
 					c = stmt.executeBatch();
 			if(c.length > 0 || count > 0){
 				flag = true; 
 			}
+			
+			con.commit();
 		
 		}catch(Exception e){ 
+			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e);
 		}

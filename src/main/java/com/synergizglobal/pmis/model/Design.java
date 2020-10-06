@@ -1,16 +1,54 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class Design {
 	
 	private String design_id, contract_id_fk, department_id_fk,department_name, hod, dy_hod,designation, prepared_by_id_fk, consultant_contract_id_fk,
-	proof_consultant_contract_id_fk, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
-	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk, 
+	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
+	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,
 	 revision_status_fk, revision_remarks;
 
+	private MultipartFile designFile;
+	
+	private List<Design> designRevisions;
 	
 	
-	
+	public List<Design> getDesignRevisions() {
+		return designRevisions;
+	}
+
+	public void setDesignRevisions(List<Design> designRevisions) {
+		this.designRevisions = designRevisions;
+	}
+
+	public MultipartFile getDesignFile() {
+		return designFile;
+	}
+
+	public void setDesignFile(MultipartFile designFile) {
+		this.designFile = designFile;
+	}
+
+	public String getDepartment_fk() {
+		return department_fk;
+	}
+
+	public void setDepartment_fk(String department_fk) {
+		this.department_fk = department_fk;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
+	}
+
 	public String getRevision_status_fk() {
 		return revision_status_fk;
 	}

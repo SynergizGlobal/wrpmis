@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,6 +34,8 @@ import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Safety;
@@ -116,10 +119,21 @@ public class DesignController {
 			model.addObject("projectsList", projectsList);
 			List<Work> workList = workService.getworkList();
 			model.addObject("workList", workList);
-			List<Safety> departmentList = safetyService.getDepartmentList();
+			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			Design designDetails = designService.getDesignDetails(obj);
 			model.addObject("designDetails", designDetails);
+			List<Design> contractList = designService.getContractList();
+			model.addObject("contractList", contractList);
+			List<Design> structureTypeList = designService.structureList();
+			model.addObject("structureTypeList", structureTypeList);
+			List<Design> preparedBy = designService.getPreparedByList();
+			model.addObject("preparedBy", preparedBy);
+			List<Design> drawingTypeList = designService.drawingTypeList();
+			model.addObject("drawingTypeList", drawingTypeList);
+			List<Design> revisionStatuses = designService.getRevisionStatuses();
+			model.addObject("revisionStatuses", revisionStatuses);
+			 
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.info("Design : " + e.getMessage());
@@ -128,7 +142,7 @@ public class DesignController {
 	}
 	
 	@RequestMapping(value = "/add-design-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addContractForm(@ModelAttribute Contract obj){
+	public ModelAndView addContractForm(@ModelAttribute Design obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDesign);	
@@ -137,9 +151,45 @@ public class DesignController {
 			model.addObject("projectsList", projectsList);
 			List<Work> workList = workService.getworkList();
 			model.addObject("workList", workList);
-			List<Safety> departmentList = safetyService.getDepartmentList();
+			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			List<Design> contractList = designService.getContractList();
+			model.addObject("contractList", contractList);
+			List<Design> preparedBy = designService.getPreparedByList();
+			model.addObject("preparedBy", preparedBy);
+			List<Design> structureTypeList = designService.structureList();
+			model.addObject("structureTypeList", structureTypeList);
+			List<Design> drawingTypeList = designService.drawingTypeList();
+			model.addObject("drawingTypeList", drawingTypeList);
+			List<Design> revisionStatuses = designService.getRevisionStatuses();
+			model.addObject("revisionStatuses", revisionStatuses);
 		}catch (Exception e) {
+			logger.info("Design : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/add-design", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView addDesign(@ModelAttribute Design obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/design");
+			boolean flag =  designService.addDesign(obj);
+			if(flag == true) {
+				MultipartFile file = obj.getDesignFile();
+				if (null != file && !file.isEmpty()){
+					String saveDirectory = CommonConstants.DESIGN_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				}
+				attributes.addFlashAttribute("success", "Design Added Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Adding Design is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Adding Design is failed. Try again.");
 			logger.info("Design : " + e.getMessage());
 		}
 		return model;

@@ -10,11 +10,12 @@
     <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
 
        <style>
-        #example3 .datepicker~button,
+        #revTable .datepicker~button,
         #example4 .datepicker~button {
             top: 30px;
             right:2px;
@@ -75,6 +76,10 @@
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #2E58AD !important;
         }
+        #revTable .select2-container{
+        max-width:80px;
+        text-align:left;
+        }
     </style>
 </head>
 <body>
@@ -107,6 +112,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                    <p><label> Project ID </label></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
                                         <option value="" selected>Select</option>
@@ -114,15 +120,14 @@
                                       	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
                                     </select>
-                                    <label> Project ID </label>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
+                                    <p><label> Work ID </label></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
                                     </select>
-                                    <label> Work ID </label>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -131,20 +136,20 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                    <p><label>Contract ID </label></p>
                                      <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
                                     </select>
-                                    <label>Contract ID </label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                     <select name="department_fk" id="department_fk">
+                                    <p><label> Department </label></p>
+                                     <select name="department_id_fk" id="department_id_fk" class="searchable">
                                         <option value="" selected>Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
                                       	    <option value= "${ obj.department_fk}" <c:if test="${designDetails.department_id_fk eq obj.department_fk}">selected</c:if>>${ obj.department_fk}</option>
                                           </c:forEach>
                                     </select>
-                                    <label> Department </label>
                                      <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -153,22 +158,24 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <p><label>Consultant Contract ID </label></p>
+                                    <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable">
+                                        <option value="" selected>Select</option>
+                                       <c:forEach var="obj" items="${contractList }">
+                                      	   <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
+                                         </c:forEach>
                                     </select>
-                                    <label>Consultant Contract ID </label>
+                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <p> <label>Proof Consultant Contract ID </label></p>
+                                    <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable">
+                                        <option value="" selected>Select</option>
+                                          <option value="" selected>Select</option>
+                                      	   <c:forEach var="obj" items="${contractList }">
+                                      	    <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
+                                           </c:forEach>
                                     </select>
-                                    <label>Proof Consultant Contract ID </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -190,22 +197,22 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <p> <label>Prepared By </label></p>
+                                    <select class="searchable" name="prepared_by_id_fk" id="prepared_by_id_fk">
+                                        <option value="" selected>Select</option>
+                                         <c:forEach var="obj" items="${preparedBy }">
+                                      	    <option value= "${ obj.prepared_by_id_fk}" <c:if test="${designDetails.prepared_by_id_fk eq obj.prepared_by_id_fk}">selected</c:if>>${obj.prepared_by_id_fk}</option>
+                                          </c:forEach>
                                     </select>
-                                    <label>Prepared By </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                                <p> <label>Structure </label></p>
+                                    <select id="structure_type_fk" name="structure_type_fk" class="searchable">
+                                        <option value="" selected>Select</option>
+                                       			<c:forEach var="obj" items="${structureTypeList}">
+	                       						   <option value="${obj.structure_type_fk }" <c:if test="${designDetails.structure_type_fk eq obj.structure_type_fk }">selected</c:if>>${obj.structure_type_fk}</option>
+	                                            </c:forEach>
                                     </select>
-                                    <label>Structure </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -214,22 +221,22 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
+                                        <p><label>Component </label></p>
+                                    <select class="searchable" name="component" id="component">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select>
-                                    <label>Component </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <p> <label>Drawing Type </label></p>
+                                    <select id="drawing_type_fk" name="drawing_type_fk" class="searchable">
+                                        <option value="" selected>Select</option>
+                                       			 <c:forEach var="obj" items="${drawingTypeList}">
+	                       						    <option value="${obj.drawing_type_fk }" <c:if test="${designDetails.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
+	                                             </c:forEach>
                                     </select>
-                                    <label>Drawing Type </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -237,13 +244,13 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="contractor_drawing_no" type="text" class="validate">
+                                    <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate">
                                     <label for="contractor_drawing_no"> Contractor Drawing No </label>
 
 
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="mrvc_drawing_no" type="text" class="validate">
+                                    <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate">
                                     <label for="mrvc_drawing_no"> MRVC Drawing No </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -252,11 +259,11 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="division_drawing_no" type="text" class="validate">
+                                    <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate">
                                     <label for="division_drawing_no"> Division Drawing No</label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="hq_drawing_no" type="text" class="validate">
+                                    <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate">
                                     <label for="hq_drawing_no"> HQ Drawing No </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -265,21 +272,21 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="textarea2" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="textarea2">Drawing Title</label>
+                                    <textarea id="drawing_title" name="drawing_title" class="materialize-textarea" data-length="1000"></textarea>
+                                    <label for="drawing_title">Drawing Title</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="planned_start" type="text" class="validate datepicker">
+                                    <input id="planned_start" name="planned_start" type="text" class="validate datepicker">
                                     <label for="planned_start">Planned Start </label>
                                     <button type="button" id="planned_start_icon"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="planned_finish" type="text" class="validate datepicker">
+                                    <input id="planned_finish" name="planned_finish" type="text" class="validate datepicker">
                                     <label for="planned_finish">Planned Finish </label>
                                     <button type="button" id="planned_finish_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -289,11 +296,11 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="rivision_no" type="text" class="validate">
-                                    <label for="rivision_no">Revision</label>
+                                    <input id="revision" name="revision" type="text" class="validate">
+                                    <label for="revision">Revision</label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="consultant_submission" type="text" class="validate datepicker">
+                                    <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker">
                                     <label for="consultant_submission">Consultant Submission </label>
                                     <button type="button" id="consultant_submission_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -303,13 +310,13 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="mrvc_reviewed_date" type="text" class="validate datepicker">
+                                    <input id="mrvc_reviewed_date" name="mrvc_reviewed" type="text" class="validate datepicker">
                                     <label for="mrvc_reviewed_date">MRVC Reviewed </label>
                                     <button type="button" id="mrvc_reviewed_date_icon"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="divisional_approval_date" type="text" class="validate datepicker">
+                                    <input id="divisional_approval_date" name="divisional_approval" type="text" class="validate datepicker">
                                     <label for="divisional_approval_date">Divisional Approval </label>
                                     <button type="button" id="divisional_approval_date_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -319,13 +326,13 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="hq_approval_date" type="text" class="validate datepicker">
+                                    <input id="hq_approval_date" name="hq_approval" type="text" class="validate datepicker">
                                     <label for="hq_approval_date">HQ Approval </label>
                                     <button type="button" id="hq_approval_date_icon"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="gfc_released" type="text" class="validate datepicker">
+                                    <input id="gfc_released" name="gfc_released" type="text" class="validate datepicker">
                                     <label for="gfc_released">GFC Released </label>
                                     <button type="button" id="gfc_released_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
@@ -334,16 +341,16 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select>
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <p> <label for="rivision_no">As Built Drawing Status</label></p>
+                                    <select name="as_built_status" id="as_built_status" class="searchable">
+                                        <option value="" selected>Select</option>
+                                        	 <c:forEach var="obj" items="${revisionStatuses }">
+		                                    	<option value="${obj.as_built_status }" <c:if test="${designDetails.as_built_status eq obj.as_built_status}">selected</c:if>>${obj.as_built_status }</option>
+		                                    </c:forEach>
                                     </select>
-                                    <label for="rivision_no">As Built Drawing Status</label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="as_built_date" type="text" class="validate datepicker">
+                                    <input id="as_built_date" name="as_built_date" type="text" class="validate datepicker" style="margin-top:10px">
                                     <label for="as_built_date">As Built Drawing Date </label>
                                     <button type="button" id="as_built_date_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -355,7 +362,7 @@
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
 
-                                    <table id="example3" class="mdl-data-table">
+                                    <table id="revTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Revision </th>
@@ -368,70 +375,66 @@
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>                                               
+                                        <tbody id="revisionsTableBody">
+                                        	<c:forEach var="revObj" items="${designDetails.designRevisions }" varStatus="index">  
+                                             <tr id="revisionRow${index.count }">                                                
                                                 <td>
-                                                    <input id="revision" type="text" class="validate"
+                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate"
                                                         placeholder="Revision">
                                                 </td>
                                                 <td>
-                                                    <input id="consultant" type="text" class="validate datepicker"
+                                                    <input id="consultant_submissions${index.count }" name="consultant_submissions" type="text" class="validate datepicker"
                                                         placeholder="Consultant Submission">
                                                     <button type="button" id="consultant_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="mrvc_reviewed" type="text" class="validate datepicker"
+                                                    <input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker"
                                                         placeholder="MRVC Reviewed">
                                                     <button type="button" id="mrvc_reviewed_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="divisional_approval" type="text"
+                                                    <input id="divisional_approvals${index.count }" name="divisional_approvals" type="text"
                                                         class="validate datepicker" placeholder="Divisional Approval">
                                                     <button type="button" id="divisional_approval_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="hq_approval" type="text" class="validate datepicker"
+                                                    <input id="hq_approvals${index.count }" name="hq_approvals" type="text" class="validate datepicker"
                                                         placeholder="HQ approval">
                                                     <button type="button" id="hq_approval_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <select>
-                                                        <option value="0" selected>Select </option>
-                                                        <option value="1">Agency 1</option>
-                                                        <option value="2">Agency 2</option>
-                                                        <option value="3">Agency 3</option>
+                                                    <select class="searchable" id="revision_status_fks${index.count }" name="revision_status_fks">
+                                                        <option value="" selected>Select </option>
+                                                          <c:forEach var="obj" items="${revisionStatuses }">
+		                                    				<option value="${obj.as_built_status }" <c:if test="${designDetails.as_built_status eq obj.as_built_status}">selected</c:if>>${obj.as_built_status }</option>
+		                                  				  </c:forEach>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input id="remarks" type="text" class="validate"
+                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i
+                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
-                                                            class="fa fa-plus"></i></a>
-                                                </td>
-
-                                            </tr>
+                                           </c:forEach>
+                                           
                                         </tbody>
                                     </table>
-
+ 									<table class="mdl-data-table">
+                                        <tbody id="revTableBody">                                          
+			                                    <tr>
+			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addRevisionRow()"> <i
+			                                                            class="fa fa-plus"></i></a>
+			                                    </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>                       
 
@@ -482,13 +485,13 @@
                                     <div class="col m8 s12">
                                         <div class="row">
                                             <div class="col s12 m6 input-field" style="margin-top: 40px;">
-                                                <select class="select">
+                                                <p> <label>Issue Category</label></p>
+                                                <select class="searchable">
                                                     <option value="0" selected>Select</option>
                                                     <option value="1">Category 1</option>
                                                     <option value="2">Category 2</option>
                                                     <option value="3">Category 3</option>
                                                 </select>
-                                                <label>Issue Category</label>
                                             </div>
                                             <div class="col s12 m6 input-field" style="padding-top: 14px;">
                                                 <p class="prio">Priority</p>
@@ -528,8 +531,8 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="textarea1">Remarks</label>
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
+                                    <label for="remarks">Remarks</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -537,10 +540,10 @@
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
                                        <c:if test="${action eq 'edit'}">
-	                                       <button type="button" onclick="updateFOB();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                       <button type="button" onclick="updateDesign();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
 	                                    </c:if>
 	                                    <c:if test="${action eq 'add'}">
-	                                        <button type="button" onclick="addFOB();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+	                                        <button type="button" onclick="addDesign();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
 	                                    </c:if>
                                     </div>
                                 </div>
@@ -583,18 +586,22 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-<!-- 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script> -->
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+
+	
 <!-- 	<script src="/pmis/resources/js/dataTables.material.min.js"></script> -->
 
 
     <script>
         $(document).ready(function () {
-            $('select').formSelect();
-            $('.sidenav').sidenav();
-            $('.modal').modal();
-            $('#textarea1,#textarea3,#issueDesc').characterCounter();
+            $('select:not(.searchable)').formSelect();
+         $('.searchable').select2();
+            $('#remarks,#textarea3,#issueDesc').characterCounter();
             $("#planned_start,#as_built_date,#hq_approval,#divisional_approval,#mrvc_reviewed,#consultant,#gfc_released,#hq_approval_date,#planned_finish,#divisional_approval_date,#consultant_submission,#mrvc_reviewed_date").datepicker();
 
             $('#planned_start_icon').click(function () {
@@ -726,7 +733,53 @@
             	$(".page-loader").hide();
             }
         }
-        
+        function addDesign(){
+    			$(".page-loader").show();
+    			document.getElementById("designForm").submit();			
+    	 	
+    	}
+    
+    function updateDesign(){
+		if(validator.form()){ // validation perform
+			$(".page-loader").show();
+			document.getElementById("designForm").submit();			
+	 	}
+	}
+    
+
+	  function addRevisionRow(){
+		
+      var rowNo = $("#rowNo").val();
+      var rNo = Number(rowNo)+1;
+      
+      var html ='<tr id="revisionRow'+rNo+'"> '
+		      +'<td> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
+		      +'<td><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
+		      +'<td><input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
+		      +'<td><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approval_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
+			  +'<td><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approval_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
+			  +'<td>'
+			  +'<select class="searchable" id="revision_status_fks'+rNo+'" name="revision_status_fks">'
+		      +'<option value="" selected>Select </option>'
+		        <c:forEach var="obj" items="${revisionStatuses }">
+			  	  +'<option value="${obj.as_built_status }">${obj.as_built_status }</option>'
+				</c:forEach>
+			  +'</select></td>'
+			  +'<td> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
+			  +'<td><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+				
+			  $('#revisionsTableBody').append(html);
+				 $("#rowNo").val(rNo);
+				// $('select').formSelect();
+				 $('.searchable').select2();
+	  }
+	  
+	  function removeRevision(rowNo){
+	    	//alert("#revisionRow"+rowNo);
+	    	$("#revisionRow"+rowNo).remove();
+	    }
+    
+    
     </script>
 
 </body>

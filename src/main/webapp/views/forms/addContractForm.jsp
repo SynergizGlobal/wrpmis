@@ -130,7 +130,7 @@
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <form action="add-Contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                        <form action="add-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                             <div class="row">
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -228,10 +228,10 @@
                                 <div class="col s12 m8 ">
                                     <div class="row">
   										<div class="col s12 m6 input-field">
-                                            <select name="designation" id="designation" class="validate-dropdown"> 
+                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown"> 
                                      		  <option value="" selected>Select</option> 
                                                  <c:forEach var="obj" items="${hodList }"> 
-		                                    	  <option value="${obj.designation }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+		                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 		                                        </c:forEach> 
                                             </select> 
 <!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">

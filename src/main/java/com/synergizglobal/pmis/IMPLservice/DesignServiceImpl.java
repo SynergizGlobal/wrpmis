@@ -40,5 +40,25 @@ public class DesignServiceImpl implements DesignService{
 	public Design getDesignDetails(Design obj)throws Exception{
 		return designDao.getDesignDetails(obj);
 	}
+	@Override
+	public List<Design> getContractList()throws Exception{
+		return designDao.getContractList();
+	}
+	
+	@Override
+	public List<Design> getPreparedByList()throws Exception{
+		return designDao.getPreparedByList();
+	}
+	
+	@Override
+	public List<Design> getRevisionStatuses()throws Exception{
+		return designDao.getRevisionStatuses();
+
+	}
+	
+	@Override
+	public boolean addDesign(Design obj)throws Exception{
+		return designDao.addDesign(obj);
+	}
 
 }

@@ -33,6 +33,16 @@
     	 td:last-child,td:last-of-type{
      		white-space:inherit;
      	}
+     	 .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 <body>
@@ -137,7 +147,19 @@
         </div>
     </div>
 
-
+<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
 
 

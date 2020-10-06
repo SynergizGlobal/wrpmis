@@ -96,10 +96,22 @@ public class FOBDaoImpl implements FOBDao {
 			                 
 			                @Override
 			                public void setValues(PreparedStatement ps, int i) throws SQLException {
-			                    ps.setString(1, obj.getFob_id());
-			                    ps.setString(2, fobDetailNames[i]);
-			                    ps.setString(3, fobDetailValues[i]);
-			                    
+			                
+								if(!StringUtils.isEmpty(obj.getFob_id()) && obj.getFob_id().length() > 0) {
+									   ps.setString(1, obj.getFob_id());
+								}else {
+									   ps.setString(1, null);
+								}	
+								if(!StringUtils.isEmpty(fobDetailNames) && fobDetailNames.length > 0) {
+									   ps.setString(2,fobDetailNames[i]);
+								}else {
+									   ps.setString(2, null);
+								}	
+								if(!StringUtils.isEmpty(fobDetailValues) && fobDetailValues.length > 0) {
+									 ps.setString(3, fobDetailValues[i]);
+								}else {
+									   ps.setString(3, null);
+								}	
 			                }
 			                @Override  
 			                public int getBatchSize() {
@@ -187,9 +199,21 @@ public class FOBDaoImpl implements FOBDao {
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail, new BatchPreparedStatementSetter() { 
 					                @Override
 					                public void setValues(PreparedStatement ps, int i) throws SQLException {
-					                    ps.setString(1, obj.getFob_id());
-					                    ps.setString(2, fobDetailNames[i]);
-					                    ps.setString(3, fobDetailValues[i]);
+					                	if(!StringUtils.isEmpty(obj.getFob_id()) && obj.getFob_id().length() > 0) {
+											   ps.setString(1, obj.getFob_id());
+										}else {
+											   ps.setString(1, null);
+										}	
+										if(!StringUtils.isEmpty(fobDetailNames) && fobDetailNames.length > 0) {
+											   ps.setString(2,fobDetailNames[i]);
+										}else {
+											   ps.setString(2, null);
+										}	
+										if(!StringUtils.isEmpty(fobDetailValues) && fobDetailValues.length > 0) {
+											 ps.setString(3, fobDetailValues[i]);
+										}else {
+											   ps.setString(3, null);
+										}	
 					                    
 					                }
 					                @Override  

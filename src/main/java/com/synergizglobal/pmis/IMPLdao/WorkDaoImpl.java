@@ -166,13 +166,14 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(3,work.getRemarks());
 			stmt.setString(4,work.getWork_id());
 			count = stmt.executeUpdate();
+			
 			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
-
-			String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
-			stmt = con.prepareStatement(qryDelete); 
-		
-			stmt.setString(1,work.getWork_id());}
-			count = stmt.executeUpdate();
+				String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
+				stmt = con.prepareStatement(qryDelete); 			
+				stmt.setString(1,work.getWork_id());
+				count = stmt.executeUpdate();
+			}
+			
 			
 			if(stmt != null){stmt.close();}	
 			String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
@@ -196,7 +197,12 @@ public class WorkDaoImpl implements WorkDao {
 							stmt.setString(p++,null);
 						}	
 						if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
-							stmt.setString(p++,work.getYear_of_revisions()[i]);
+							if(!StringUtils.isEmpty(work.getYear_of_revisions()[i])) {
+								stmt.setString(p++,work.getYear_of_revisions()[i]);
+							} else {
+								stmt.setString(p++,null);
+							}	
+							
 						}else {
 							stmt.setString(p++,null);
 						}	
@@ -284,13 +290,46 @@ public class WorkDaoImpl implements WorkDao {
 			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
 				for (int i = 0; i < work.getFinancial_years().length; i++) {
 					if(!StringUtils.isEmpty(work.getFinancial_years()[i])){
-						stmt.setString(1,work.getFinancial_years()[i]+"-00-00");
-						stmt.setString(2,work.getPink_book_item_numbers()[i]);
-						stmt.setString(3,work.getLatest_revised_costs()[i]);
-						stmt.setString(4,work.getYear_of_revisions()[i]+"-00-00");
-						stmt.setString(5,work.getRevision_numbers()[i]);
-						stmt.setString(6,work.getRemarkss()[i]);
-						stmt.setString(7,wID);
+						int p = 1;
+						stmt.setString(p++,work.getFinancial_years()[i]);
+						if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
+							stmt.setString(p++,work.getPink_book_item_numbers()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}	
+						
+						if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
+							stmt.setString(p++,work.getLatest_revised_costs()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}	
+						if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
+							if(!StringUtils.isEmpty(work.getYear_of_revisions()[i])) {
+								stmt.setString(p++,work.getYear_of_revisions()[i]);
+							} else {
+								stmt.setString(p++,null);
+							}	
+							
+						}else {
+							stmt.setString(p++,null);
+						}
+						
+						if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
+							stmt.setString(p++,work.getRevision_numbers()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}
+						
+						if(!StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
+							stmt.setString(p++,work.getRemarkss()[i]);
+						}else {
+							stmt.setString(p++,null);
+						}
+						if(!StringUtils.isEmpty(wID) ) {
+							stmt.setString(p++,wID);
+						} else {
+							stmt.setString(p++,null);
+						}
 	
 						stmt.addBatch();
 					}

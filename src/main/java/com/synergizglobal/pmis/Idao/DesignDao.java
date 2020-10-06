@@ -17,5 +17,12 @@ public interface DesignDao {
 
 	public Design getDesignDetails(Design obj)throws Exception;
 
+	public List<Design> getContractList()throws Exception;
+
+	public List<Design> getPreparedByList()throws Exception;
+
+	public List<Design> getRevisionStatuses()throws Exception;
+
+	public boolean addDesign(Design obj)throws Exception;
 
 }

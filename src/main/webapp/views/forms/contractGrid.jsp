@@ -138,7 +138,7 @@
                                     
                                     <div class="col s12 m3">
                                         <button class="btn bg-m waves-effect waves-light t-c"
-                                            style="margin-top: 30px;">Clear Filters</button>
+                                            style="margin-top: 30px;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
     	$("#contractor_id_fk").val("");
     	$("#department_fk").val("");
     	$("#work_id_fk").val("");
-
+    	$('.searchable').select2();
     	getContractList();
     }
     function getContractList(){

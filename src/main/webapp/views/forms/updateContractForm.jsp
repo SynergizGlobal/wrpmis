@@ -234,10 +234,10 @@
                                     <div class="row">
 
                                         <div class="col s12 m6 input-field">
-                                             <select name="designation" id="designation" class="validate-dropdown"> 
+                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown"> 
                                      		  <option value="" selected>Select</option> 
                                                  <c:forEach var="obj" items="${hodList }"> 
-		                                    	  <option value="${obj.designation }" <c:if test="${contractDeatils.designation eq obj.designation}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+		                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.designation eq obj.designation}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 		                                        </c:forEach> 
                                             </select> 
                                             <label>HOD</label>
@@ -1069,7 +1069,7 @@
         })
     });
     
-        $(document).ready(function () {
+        $(document).ready(function () {												
             $('select').formSelect();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();
@@ -1169,14 +1169,6 @@
                 $('#revised_doc').click();
             });
           
-
-           
-           
-          
-           
-          
-         
-
             $('#insurance_upto_icon').click(function () {
                 event.stopPropagation();
                 $('#insurance_upto').click();
@@ -1224,7 +1216,20 @@
                 event.stopPropagation();
                 $('#final_takeover_client').click();
             });
-            
+           
+            // exponential E Notation Remove 
+          /*    var awarded_cost = parseFloat(document.getElementById("awarded_cost").value);
+        	   var estimated_cost = parseFloat(document.getElementById("estimated_cost").value);
+        	   var revised_amounts = parseFloat(document.getElementsByName("revised_amounts")[0].value);
+
+        	   awardedostExp=awarded_cost.toExponential();
+        	   estimatedCostExp=estimated_cost.toExponential();
+        	   revisedAmountExp=revised_amounts.toExponential();
+        	   
+               document.getElementById("awarded_cost").value = parseFloat(parseFloat(awardedostExp).toPrecision());
+               document.getElementById("estimated_cost").value = parseFloat(parseFloat(estimatedCostExp).toPrecision());
+               document.getElementsByName("revised_amounts")[0].value = parseFloat(parseFloat(revisedAmountExp).toPrecision());
+ */
             // show or hide based on bg 
             $('input[name="bg_required"]').change(function () {
                 var radioval = $('input[name="bg_required"]:checked').val();

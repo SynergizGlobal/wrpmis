@@ -1,16 +1,23 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Safety;
@@ -117,6 +124,46 @@ public class DesignDaoImpl implements DesignDao{
 		}
 		return objsList;
 	}
+	
+	@Override
+	public List<Design> getContractList()throws Exception{
+		List<Design> objList = null;
+		try {
+			String qry ="select contract_id as contract_id_fk,contract_name from contract";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objList;
+	}
+	
+	@Override
+	public List<Design> getPreparedByList()throws Exception{
+		List<Design> objList = null;
+		try {
+			String qry ="select prepared_by as prepared_by_id_fk from design_prepared_by";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objList;
+	}
+	
+	@Override
+	public List<Design> getRevisionStatuses()throws Exception{
+		List<Design> objList = null;
+		try {
+			String qry ="select revision_status as as_built_status from revision_status";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objList;
+	}
+	
+
+
+
 	@Override
 	public Design getDesignDetails(Design obj)throws Exception{
 		Design dObj = null;
@@ -147,4 +194,107 @@ public class DesignDaoImpl implements DesignDao{
 		return dObj;
 	}
 
+	@Override
+	public boolean addDesign(Design obj) throws Exception {
+		boolean flag = false;
+		try{
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
+					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title"
+					+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval"
+					+ "gfc_released,as_built_status,as_built_date,remarks "
+					+ "VALUES(:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
+					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
+					+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks)";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(qry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+			if(flag && !StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
+				String[] designRevision = obj.getRevisions();
+				String[] consultantSubmission = obj.getConsultant_submissions();
+				String[] mrvcReviewed = obj.getMrvc_revieweds();
+				String[] divisionalApproval = obj.getDivisional_approvals();
+				String[] hqApproval = obj.getHq_approvals();
+				String[] revisionStatus = obj.getRevision_status_fks();
+				String[] remarks = obj.getRemarkss();
+
+				String qryDesignRevision = "INSERT INTO design_revisions (design_id,revision,consultant_submission,mrvc_reviewed,divisional_approval"
+						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
+			            new BatchPreparedStatementSetter() {
+
+							@Override
+							public void setValues(PreparedStatement ps, int i) throws SQLException {
+								if(!StringUtils.isEmpty(obj.getDesign_id()) && obj.getDesign_id().length() > 0) {
+									   ps.setString(1, obj.getDesign_id());
+								}else {
+									   ps.setString(1, null);
+								}	
+								if(!StringUtils.isEmpty(designRevision) && designRevision.length > 0) {
+									   ps.setString(2,designRevision[i]);
+								}else {
+									   ps.setString(2, null);
+								}	
+								if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
+									   ps.setString(3,consultantSubmission[i]);
+								}else {
+									   ps.setString(3, null);
+								}	
+								if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
+									   ps.setString(4,mrvcReviewed[i]);
+								}else {
+									   ps.setString(4, null);
+								}
+								if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
+									   ps.setString(5,divisionalApproval[i]);
+								}else {
+									   ps.setString(5, null);
+								}
+								if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
+									   ps.setString(6,hqApproval[i]);
+								}else {
+									   ps.setString(6, null);
+								}
+								if(!StringUtils.isEmpty(revisionStatus) && revisionStatus.length > 0) {
+									   ps.setString(7,revisionStatus[i]);
+								}else {
+									   ps.setString(7, null);
+								}
+								if(!StringUtils.isEmpty(remarks) && remarks.length > 0) {
+									   ps.setString(8,remarks[i]);
+								}else {
+									   ps.setString(8, null);
+								}
+							}
+							@Override
+							public int getBatchSize() {
+								 return obj.getRevisions().length;
+							}
+				  });
+					
+				}
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+			
+		return flag;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

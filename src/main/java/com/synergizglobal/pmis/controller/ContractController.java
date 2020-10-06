@@ -86,7 +86,7 @@ public class ContractController {
 		try {
 			List<Work> workList = workService.getworkList();
 			model.addObject("workList", workList);
-			List<Safety> departmentList = safetyService.getDepartmentList();
+			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);

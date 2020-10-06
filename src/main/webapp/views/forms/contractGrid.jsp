@@ -326,8 +326,8 @@
 	                   	rowArray.push($.trim(val.contract_id));
 	                   	rowArray.push($.trim(val.contract_name));
 	                   	rowArray.push($.trim(val.contractor_name));
-	                   	rowArray.push($.trim(val.department_fk));
-	                   	rowArray.push($.trim(val.hod_user_id_fk));
+	                   	rowArray.push($.trim(val.department_name));
+	                   	rowArray.push($.trim(val.designation));
 	                   	rowArray.push($.trim(val.dy_hod_user_id_fk));
 	                   	rowArray.push($.trim(actions));   	                   	
 	                   	

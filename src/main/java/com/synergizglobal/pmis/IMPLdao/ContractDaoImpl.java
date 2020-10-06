@@ -823,7 +823,6 @@ public class ContractDaoImpl implements ContractDao {
 				stmt = con.prepareStatement(Milestone_qry); 
 				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
 					for (int j = 0; j < contract.getMilestone_names().length; j++) {
-						
 						Date mileConvertedDate = sdf.parse(contract.getMilestone_dates()[j]);
 						String mileCurrentDate1 = sqlDate.format(mileConvertedDate);
 						

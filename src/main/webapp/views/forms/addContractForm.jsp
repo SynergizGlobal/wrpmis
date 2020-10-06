@@ -201,7 +201,7 @@
                                 </div>
                                 
                                 <div class="col s12 m4 input-field">
-                                 <p><label>Contractor ID</label></p>
+                                 <p><label>Contractor Name</label></p>
                                     <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
                                         <option value="" selected>Select</option>
                                        	    <c:forEach var="obj" items="${contractors }">

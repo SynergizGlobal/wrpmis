@@ -115,7 +115,7 @@
                                         <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable" onchange="getUsersList();">
                                             <option value="">Select</option>
                                             <c:forEach var="obj" items="${reportingToList }">
-                                            	<option value="${obj.reporting_to_id_srfk }">${obj.reporting_to_name }</option>
+                                            	<option value="${obj.user_id }"><c:if test="${not empty obj.designation}">${obj.designation } - </c:if>${obj.user_name }</option>
                                             </c:forEach>
                                         </select>                                        
                                     </div>

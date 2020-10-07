@@ -208,8 +208,8 @@
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script> 
-	<script src=" //cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script> 
+	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	<script>
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
@@ -230,7 +230,7 @@
                     },
                     { orderable: false, 'aTargets': ['nosort'] }
                 ],
-                // "ScrollX": true,
+                //"ScrollX": true,
                 "scrollCollapse": true,
                 "sScrollY": 400,
                 initComplete: function () {

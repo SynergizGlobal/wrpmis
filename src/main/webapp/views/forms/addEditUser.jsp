@@ -122,13 +122,13 @@
                                       </select> 
                                       <span id="user_role_name_fkError" class="error-msg" ></span>
                                 </div>
-                                <c:if test="${empty usrObj.user_id }">
+                                <%-- <c:if test="${empty usrObj.user_id }">
                                 <div class="col s12 m4 input-field">
                                     <input id="user_id" name="user_id" type="text" class="validate">
                                     <label for="user_id">User ID</label>
                                     <span id="user_idError" class="error-msg" ></span>
                                 </div>
-                                </c:if>
+                                </c:if> --%>
                                 <c:if test="${not empty usrObj.user_id }">
                                 <div class="col s12 m4 input-field">
                                     <!-- <input type="text" id="user_id"> -->

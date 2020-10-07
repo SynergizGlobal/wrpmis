@@ -58,7 +58,7 @@
         <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
         <a href="<%=request.getContextPath() %>/home" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
         <ul class="right hide-on-med-and-down top-level-menu">
-          <c:if test="${homeHeader ne 'yes'}">
+          <%-- <c:if test="${homeHeader ne 'yes'}">
           <li class="searchproject">
             <select id="searchProjectId" name="searchProjectId" onchange="getWorksListForSearch(this.value);" class="customDropdown">
               <option>Select Project</option>
@@ -69,7 +69,7 @@
               <option>Select Work</option>
             </select>
           </li>
-          </c:if>
+          </c:if> --%>
           <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
           <!-- 1st level Dropdown starts -->
           <!-- img src="/pmis/resources/images/dashboard-white.png"--> 
@@ -244,7 +244,7 @@
   	</div>
   </li>
   
-    <li>
+    <!-- <li>
       <select id="mobileSearchProjectId" name="searchProjectId" onchange="getWorksListForSearch(this.value);">
         <option>Select Project</option>
       </select>
@@ -254,7 +254,7 @@
       <select id="mobileSearchWorkId" name="searchWorkId">
         <option>Select Work</option>
       </select>
-    </li>				
+    </li> -->				
     <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Dashboard</a>
 <!-- Mobile dropdown stars here -->
           <ul class="dropdown-data collapsible collapsible-body second-lvl">         
@@ -417,11 +417,11 @@
 		$("#mobileSearchWorkId").formSelect();
 		 //initialization of material components ends
 			
-		getProjectsListForSearch();
+		/* getProjectsListForSearch();
 		var globalProjectId = "${sessionScope.globalProjectId}";
 		if($.trim(globalProjectId) != ''){
 			getWorksListForSearch(globalProjectId);
-		}
+		} */
 
 //notification searching 
         $('.browser-default.searching').on('keyup', function () {

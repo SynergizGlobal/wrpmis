@@ -109,6 +109,10 @@
 		#bankTableBody .select2-container{
 			max-width:100px
 		}
+		#insurenceTableBody td.input-field .prefix,
+		#revTableBody td.input-field .prefix {
+    		top: 1.5rem;
+		}
     </style>
 </head>
 
@@ -228,14 +232,15 @@
                                 <div class="col s12 m8 ">
                                     <div class="row">
   										<div class="col s12 m6 input-field">
-                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown"> 
+  										 	<p><label>HOD</label></p>
+                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
                                      		  <option value="" selected>Select</option> 
                                                  <c:forEach var="obj" items="${hodList }"> 
 		                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 		                                        </c:forEach> 
                                             </select> 
 <!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
- -->                                    <label for="hod_user_id_fk">HOD</label>
+<!--                                    <label for="hod_user_id_fk">HOD</label> -->
                                             <span id="hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m6 input-field">
@@ -245,7 +250,7 @@
 <%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
 <%-- 		                                     	 </c:forEach> --%>
 <!--                                             </select> -->
-										<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate">
+										<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
                                		     <label for="dy_hod_user_id_fk">Dy HOD</label>
                                             <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
@@ -670,7 +675,7 @@
                                                 <td> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" 
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td>
+                                                <td class="input-field">
                                                    <i class="material-icons prefix center-align">₹</i> <input id="revised_amounts${index.count }" name="revised_amounts" type="text" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
@@ -1328,7 +1333,7 @@ function addRevRow(){
  var total = 0;
  var html = '<tr id="revRow'+rNo+'">'
 	   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-	   +'<td><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
+	   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
 	   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 	   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
 	   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'

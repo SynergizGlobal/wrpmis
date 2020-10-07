@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>
         /* #bank_guarantee_div,
@@ -105,6 +106,19 @@
 			right: -34px;
 			top: 5px;
 		}
+		.mt-10{
+			margin-top:10px;
+		}
+			#insurenceTableBody .select2-container{
+			max-width:134px
+		}
+		#bankTableBody .select2-container{
+			max-width:100px
+		}
+		#insurenceTableBody td.input-field .prefix,
+		#revTableBody td.input-field .prefix {
+    		top: 1.5rem;
+		}
     </style>
 </head>
 
@@ -133,6 +147,7 @@
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
+                                <p><label>Project ID</label></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
                                         <option value="" >Select</option>
@@ -140,16 +155,14 @@
                                             <option value="${obj.project_id }" <c:if test="${contractDeatils.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
                                     </select>
-                                    <label>Project ID</label>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                   
+                                    <p><label>Work Name</label></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
                                         <option value="" selected>Select</option>
                                     </select>
-                                    <label>Work Name</label>
-                               <span id="work_id_fkError" class="error-msg" ></span>
+                              		 <span id="work_id_fkError" class="error-msg" ></span>
                                     
                                 </div>
 
@@ -161,18 +174,18 @@
                                 <div class="col m2 hide-on-small-only"></div>
 
                                 <div class="col s12 m4 input-field">
-                                    <select name="department_fk" id="department_fk">
+                                 <p><label>Department</label></p>
+                                    <select name="department_fk" id="department_fk" class="searchable">
                                         <option value="" selected>Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
                                       	    <option value= "${ obj.department_fk}" <c:if test="${contractDeatils.department_fk eq obj.department_fk}">selected</c:if>>${ obj.department_name}</option>
                                           </c:forEach>
                                     </select>
-                                    <label>Department</label>
-                              <span id="department_fkError" class="error-msg" ></span>
+                             		 <span id="department_fkError" class="error-msg" ></span>
                                     
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <label class="primary-text-bold">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+                                    <label class="primary-text-bold mt-10">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -194,25 +207,24 @@
                                 <div class="col m2 hide-on-small-only"></div>
 
                                 <div class="col s12 m4 input-field">
-                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown">
+                                 <p><label>Contract Type</label></p>
+                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
                                         <option value="" selected>Select</option>
                                        	   <c:forEach var="obj" items="${contract_type }">
 		                                     <option value="${obj.contract_type_fk }" <c:if test="${contractDeatils.contract_type_fk eq obj.contract_type_fk}">selected</c:if>>${obj.contract_type_fk }</option>
 		                                   </c:forEach>
-                                    </select>
-                                    <label>Contract Type</label>
+                                    </select>                                   
                                      <span id="contract_type_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown">
+                                    <p><label>Contractor Name</label></p>
+                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
                                         <option value="" selected>Select</option>
                                        	    <c:forEach var="obj" items="${contractor }">
 		                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
 		                                    </c:forEach>
                                     </select>
-                                    <label>Contractor Name</label>
-                            		<span id="contractor_id_fkError" class="error-msg" ></span>
-                                    
+                            		<span id="contractor_id_fkError" class="error-msg" ></span>                                    
                                 </div>                             
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -234,17 +246,17 @@
                                     <div class="row">
 
                                         <div class="col s12 m6 input-field">
-                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown"> 
+                                        	<p><label>HOD</label></p>
+                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
                                      		  <option value="" selected>Select</option> 
                                                  <c:forEach var="obj" items="${hodList }"> 
 		                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.designation eq obj.designation}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 		                                        </c:forEach> 
                                             </select> 
-                                            <label>HOD</label>
                                             <span id="hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m6 input-field">
-                                           <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" value="${contractDeatils.dy_hod_user_id_fk }">
+                                           <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" value="${contractDeatils.dy_hod_user_id_fk }" style="margin-top:10px">
                                     		<label for="dy_hod_user_id_fk">Dy HOD</label>
                                             <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
                                         </div>
@@ -397,13 +409,13 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown">
+                                   <p>   <label>Status of Contract</label></p>
+                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
                                         <option value="" selected>Select</option>
                                            <c:forEach var="obj" items="${contract_Statustype }">
 		                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
 		                                    </c:forEach>
                                     </select>
-                                    <label>Status of Contract</label>
                                      <span id="contract_status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -454,7 +466,7 @@
                                 		  <c:forEach var="bankObj" items="${contractDeatils.bankGauranree }" varStatus="index">                                        	
                                         
                                             <tr id="bankRow${index.count }">
-                                                <td> <select id="bg_type_fks${index.count }" name="bg_type_fks">
+                                                <td> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select
                                                         </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
@@ -509,7 +521,7 @@
                                            </c:when>
                                              <c:otherwise>
                                              <tr id="bankRow0">
-                                                <td> <select id="bg_type_fks0" name="bg_type_fks">
+                                                <td> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		                                    			   <option value="${obj.bg_type_fk }" >${obj.bg_type_fk }</option>
@@ -627,7 +639,7 @@
                                           <c:forEach var="insurenceObj" items="${contractDeatils.insurence }" varStatus="index">  
                                             <tr id="insurenceRow${index.count }">
                                                 <td>
-                                                    <select id="insurance_type_fks${index.count }" name="insurance_type_fks">
+                                                    <select id="insurance_type_fks${index.count }" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
                                                           <c:forEach var="obj" items="${insurance_type }">
                                       					   <option value= "${ obj.insurance_type}" <c:if test="${insurenceObj.insurance_type_fk eq obj.insurance_type}">selected</c:if>>${ obj.insurance_type}</option>
@@ -897,7 +909,7 @@
                                                 <td> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td><i class="material-icons prefix center-align">₹</i>
+                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="revised_amounts${index.count }" name="revised_amounts" type="text" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
                                                 </td>
@@ -931,7 +943,7 @@
                                                 <td> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td>
+                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="revised_amounts0" name="revised_amounts" type="text" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
@@ -1056,6 +1068,7 @@
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
 
@@ -1070,100 +1083,42 @@
     });
     
         $(document).ready(function () {												
-            $('select').formSelect();
-            $('#remarks').characterCounter();
-            // $(".datepicker").datepicker();
-           /*  $("#loa_date").datepicker({
-            	
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-   	    	     $('.confirmation-btns .datepicker-done').click();
-   	    	  } }); */
+        	 $('select:not(.searchable)').formSelect();
+             $('.searchable').select2();
+            $('#remarks').characterCounter();          
             $('#loa_date_icon').click(function () {
                 event.stopPropagation();
                 $('#loa_date').click();
-            });
-           /*  $("#doc").datepicker({
-            	
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-   	    	     $('.confirmation-btns .datepicker-done').click();
-   	    	  } }); */
+            });          
             $('#doc_icon').click(function () {
                 event.stopPropagation();
                 $('#doc').click();
-            });
-           /*  $("#ca_date").datepicker({
-            	
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           }); */
+            });          
             $('#ca_date_icon').click(function () {
                 event.stopPropagation();
                 $('#ca_date').click();
-            });
-          
-           /*  $("#actual_completion_date").datepicker({
-            	 maxDate: new Date(),
-	           	 format:'dd-mm-yyyy',
-	             onSelect: function () {
-		    	     $('.confirmation-btns .datepicker-done').click();
-		    	  } }); */
-     /* 
-            $("#bg_valid_uptos").datepicker({
-            	
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  } }); */
-            
+            });         
+                     
             $('#bg_upto_valid_icon').click(function () {
                 event.stopPropagation();
                 $('#bg_upto_valid').click();
             });
-          /*  
-            $("#insurence_valid_uptos").datepicker({
-            	
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            }); */
+          
             $('#insurance_upto_valid_icon').click(function () {
                 event.stopPropagation();
                 $('#insurance_upto_valid').click();
             });
-           /*  $("#milestone_dates").datepicker({
-            	
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            }); */
-
+          
             $('#milestone_date_icon').click(function () {
                 event.stopPropagation();
                 $('#milestone_date').click();
             });
-           /*  $("#actual_dates").datepicker({
-            	
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            }); */
+           
             $('#actual_date_icon').click(function () {
                 event.stopPropagation();
                 $('#actual_date').click();
             });
-           /*  $("#revised_docs").datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            }); */
+          
             $('#revised_doc_icon').click(function () {
                 event.stopPropagation();
                 $('#revised_doc').click();
@@ -1173,45 +1128,24 @@
                 event.stopPropagation();
                 $('#insurance_upto').click();
             });
-
-          /*   $('#contract_closure_date').datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           }); */
+         
             $('#contract_closure_date_icon').click(function () {
                 event.stopPropagation();
                 $('#contract_closure_date').click();
             });
 
-           /*  $('#completion_certificate_date').datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           }); */
+          
             $('#completion_certificate_date_icon').click(function () {
                 event.stopPropagation();
                 $('#completion_certificate_date').click();
             });
-          /*   $('#start_date').datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           }); */
+       
             $('#start_date_icon').click(function () {
                 event.stopPropagation();
                 $('#start_date').click();
             });
            
-          /*   $('#final_takeover_client').datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           }); */
+         
             $('#final_takeover_client_icon').click(function () {
                 event.stopPropagation();
                 $('#final_takeover_client').click();
@@ -1284,7 +1218,7 @@
                                 }
                             });
                         }
-                        $('select').formSelect();
+                        $('.searchable').select2();
                         $(".page-loader").hide();
                     }
                 });
@@ -1542,7 +1476,7 @@
           var rNo = Number(rowNo)+1;
           var total = 0;
           var html = '<tr id="bankRow'+rNo+'"><td> <div>'
-  		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'" >'	   			
+  		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'" class="searchable">'	   			
   		   +'<option value="" >select</option>'
   		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
@@ -1558,7 +1492,7 @@
 	 
 		 $('#bankTableBody').append(html);
 		 $("#bankRowNo").val(rNo);
-		 $('select').formSelect();
+		 $('.searchable').select2();
 		 
 		 $("#bg_valid_uptos"+rNo).datepicker({
          	 format:'dd-mm-yyyy',
@@ -1583,7 +1517,7 @@ function addInsurenceRow(){
     var rNo = Number(rowNo)+1;
     console.log(rNo)
     var html = '<tr id="insurenceRow'+rNo+'"><td> <div>'
-	   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'"  >'	   			
+	   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'"  class="searchable">'	   			
 	   +'<option value="" >select</option>'
 	   <c:forEach var="obj" items="${insurance_type }">
 		  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
@@ -1599,7 +1533,7 @@ function addInsurenceRow(){
  		  
 	 $('#insurenceTableBody').append(html);
 	 $("#insurenceRowNo").val(rNo);
-	 $('select').formSelect();
+	 $('.searchable').select2();
 	 $("#insurence_valid_uptos"+rNo).datepicker({
 	      	 format:'dd-mm-yyyy',
 	          onSelect: function () {
@@ -1631,7 +1565,7 @@ function addMilestoneRow(){
 
 	 $('#milestoneTableBody').append(html);
 	 $("#mileRowNo").val(rNo);
-	 $('select').formSelect();
+	 $('.searchable').select2();
 	 
 	 $("#milestone_dates"+rNo).datepicker({
 	      	 format:'dd-mm-yyyy',
@@ -1659,7 +1593,7 @@ function addRevRow(){
     var total = 0;
     var html = '<tr id="revRow'+rNo+'">'
 	   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-	   +'<td><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
+	   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
 	   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 	   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
 	   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
@@ -1668,7 +1602,7 @@ function addRevRow(){
 
 	 $('#revTableBody').append(html);
 	 $("#revRowNo").val(rNo);
-	 $('select').formSelect();
+	 $('searchable').select2();
 	 
 	 $("#revised_docs"+rNo).datepicker({
 	      	 format:'dd-mm-yyyy',

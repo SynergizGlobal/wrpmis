@@ -17,9 +17,7 @@
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<style>
         <style>
-       p a {
-            color: blue;
-       }
+      	p a{            color:#ff0000;       	}
        td{
 	        word-break: break-word;
 	    	word-wrap: break-word;

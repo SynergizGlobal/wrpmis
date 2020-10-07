@@ -78,6 +78,26 @@
 		}		
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
         .error-msg label{color:red!important;}
+        /*table with fixed header & height start */
+		.max-h{
+			max-height:400px;
+			height:auto;
+			overflow:auto;			
+		}	
+		.max-h tr{
+			position:relative;
+		}
+		.max-h thead th{
+			position:sticky;
+			top:0;
+			z-index:2;
+			background-color:#508484;
+		}
+		/*table with fixed header & height ends */
+        #userPermissionsTableBody .select2-container{
+        	max-width:290px;
+        	text-align:left;
+        }
     </style>
 </head>
 <body>
@@ -133,7 +153,7 @@
                                 <c:if test="${not empty usrObj.user_id }">
                                 <div class="col s12 m4 input-field">
                                     <!-- <input type="text" id="user_id"> -->
-                                    <label class="primary-text-bold">User ID :  <input id="user_id" name="user_id" type="text" value="${usrObj.user_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+                                    <label class="primary-text-bold" style="margin-top:10px">User ID :  <input id="user_id" name="user_id" type="text" value="${usrObj.user_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <br><br>
                                 </div>
                                 </c:if>
@@ -216,7 +236,7 @@
                                 <h5 class="center-align">User Permissions</h5>
                                 <!-- <div class="table-inside"> -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
+                                <div class="col m8 s12 max-h">
                                     <table id="userPermissionsTable" class="mdl-data-table" style="margin-left: 11px;">
                                         <thead>
                                             <tr>
@@ -231,7 +251,7 @@
                                         			<c:forEach var="dObj" items="${usrObj.userPermissions }" varStatus="index">                                        	
 			                                           <tr id="userPermissionsRow${index.count }">
 		                                                <td>
-		                                                    <select id="user_access_types${index.count }" name="user_access_types" onchange="getUserAccessValues(this.value,'${index.count }');">
+		                                                    <select id="user_access_types${index.count }" name="user_access_types" onchange="getUserAccessValues(this.value,'${index.count }');" class="searchable">
 		                                                        <option value="">User Access Type</option>
 		                                                        <c:forEach var="obj" items="${userAccessTypes }">
 		                                                        	<option value="${obj.user_access_type }" <c:if test="${dObj.user_access_type eq obj.user_access_type}">selected</c:if>>${obj.user_access_type }</option>
@@ -239,7 +259,7 @@
 		                                                    </select>
 		                                                </td>                                 
 		                                                <td>
-		                                                    <select id="user_access_values${index.count }" name="user_access_values">
+		                                                    <select id="user_access_values${index.count }" name="user_access_values" class="searchable">
 		                                                        <option value="" selected>Select Value</option>
 		                                                         <c:if test="${dObj.user_access_type eq 'Contracts' }">		                                                		  
 			                                                        <c:forEach var="obj" items="${contractsForAccess }">
@@ -273,7 +293,7 @@
                                         		<c:otherwise>
 	                                        		<tr id="userPermissionsRow0">
 		                                                <td>
-		                                                    <select id="user_access_types0" name="user_access_types" onchange="getUserAccessValues(this.value,'0');">
+		                                                    <select id="user_access_types0" name="user_access_types" onchange="getUserAccessValues(this.value,'0');" class="searchable">
 		                                                        <option value="" selected>User Access Type</option>
 		                                                        <c:forEach var="obj" items="${userAccessTypes }">
 		                                                        	<option value="${obj.user_access_type }">${obj.user_access_type }</option>
@@ -281,7 +301,7 @@
 		                                                    </select>
 		                                                </td>                                               
 		                                                <td>
-		                                                    <select id="user_access_values0" name="user_access_values">
+		                                                    <select id="user_access_values0" name="user_access_values" class="searchable">
 		                                                        <option value="" selected>Select Value</option>
 		                                                    </select>
 		                                                </td>
@@ -597,16 +617,14 @@
         	    if ($(this).val() != ""){
         	        $(this).valid();
         	    }
-        	});
-            
-            
-            
+        	});            
+                        
             function addUserPermissions(){      		
                 var rowNo = $("#rowNo").val();
                 var rNo = Number(rowNo)+1;
                 var html = '<tr id="userPermissionsRow'+rNo+'">'
         		   		  +'<td>'
-        		   		+'<select id="user_access_types'+rNo+'" name="user_access_types" onchange="getUserAccessValues(this.value,'+rNo+');">'
+        		   		+'<select id="user_access_types'+rNo+'" name="user_access_types" onchange="getUserAccessValues(this.value,'+rNo+');" class="searchable">'
         		   		+'<option value="">User Access Type</option>'
         		   		<c:forEach var="obj" items="${userAccessTypes }">
         		   		+'<option value="${obj.user_access_type }">${obj.user_access_type }</option>'
@@ -614,7 +632,7 @@
 			            +'</select>'
 			            +'</td>'                                   
 			            +'<td>'
-			            +'<select id="user_access_values'+rNo+'" name="user_access_values">'
+			            +'<select id="user_access_values'+rNo+'" name="user_access_values" class="searchable">'
 			            +'<option value="0" selected>Select Value</option>'
                         +'</select>'
                         +'</td>'
@@ -623,7 +641,7 @@
     			 $('#userPermissionsTableBody').append(html);
     			 $("#rowNo").val(rNo);
     			 
-    			 $('select:not(.searchable)').formSelect();
+    			 //$('select:not(.searchable)').formSelect();
     	         $('.searchable').select2();
             }
             

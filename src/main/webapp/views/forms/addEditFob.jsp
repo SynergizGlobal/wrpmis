@@ -34,7 +34,24 @@
 		    top: 0;
 		    left: 0;
 		    z-index: 1000;
-		}		
+		}	
+		/*table with fixed header & height start */
+		.max-h{
+			max-height:400px;
+			height:auto;
+			overflow:auto;			
+		}	
+		.max-h tr{
+			position:relative;
+		}
+		.max-h thead th{
+			position:sticky;
+			top:0;
+			z-index:2;
+			background-color:#003049;
+		}
+		/*table with fixed header & height ends */
+		
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
         .error-msg label{color:red!important;}
     </style>
@@ -101,7 +118,7 @@
                                 </div>
                                 <c:if test="${not empty fob.fob_id }">
                                 <div class="col s12 m4 input-field">
-                                    <label> FOB ID :<input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+                                    <label style="margin-top:10px"> FOB ID : <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <span id="fob_idError" class="error-msg" ></span>
                                 </div>
                                 </c:if>
@@ -197,7 +214,7 @@
                             <div class="row fixed-width">
                                 <h5 class="center-align">FOB Details</h5>
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 ">
+                                <div class="col s12 m8 max-h">
                                     <table id="fobDetailsTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
@@ -355,68 +372,28 @@
             event.stopPropagation();
             $('#date_of_approval').click();
         });
-        
-        /* $('#date_of_approval').datepicker({ 
-   	    	format:'dd-mm-yyyy',
-   	    	//perform click event on done button
-   	    	onSelect: function () {
-   	    	   $('.confirmation-btns .datepicker-done').click();
-   	    	}
-	    }); */
-        
+                     
         $('#construction_start_date_icon').click(function () {
             event.stopPropagation();
             $('#construction_start_date').click();
         });
         
-        /* $('#construction_start_date').datepicker({  
-	    	    format:'dd-mm-yyyy',
-	    	    //perform click event on done button
-	    	    onSelect: function () {
-	    	       $('.confirmation-btns .datepicker-done').click();
-	    	    }
-	    }); */
-        
+              
         $('#actual_completion_date_icon').click(function () {
             event.stopPropagation();
             $('#actual_completion_date').click();
         });
-        
-        /* $('#actual_completion_date').datepicker({     
-	    	    format:'dd-mm-yyyy',
-	    	    //perform click event on done button
-	    	    onSelect: function () {
-	    	       $('.confirmation-btns .datepicker-done').click();
-	    	    }
-	    }); */
-        
-        
+                            
         $('#commissioning_date_icon').click(function () {
             event.stopPropagation();
             $('#commissioning_date').click();
         });
-        
-        /* $('#commissioning_date').datepicker({  
-	    	    format:'dd-mm-yyyy',
-	    	    //perform click event on done button
-	    	    onSelect: function () {
-	    	       $('.confirmation-btns .datepicker-done').click();
-	    	    }
-	    }); */
-        
+               
         $('#target_date_icon').click(function () {
             event.stopPropagation();
             $('#target_date').click();
         });
-        
-        /*$('#target_date').datepicker({   
-	    	    format:'dd-mm-yyyy',
-	    	    //perform click event on done button
-	    	    onSelect: function () {
-	    	       $('.confirmation-btns .datepicker-done').click();
-	    	    }
-	    });*/
-        
+                       
         var project_id_fk = "${fob.project_id_fk}";
         if ($.trim(project_id_fk) != '') {
             getWorksList(project_id_fk);
@@ -452,7 +429,7 @@
                             }
                         });
                     }
-                    $('select').formSelect();
+                    $('.searchable').select2();
                     $(".page-loader").hide();
                 }
             });
@@ -483,7 +460,7 @@
                             }
                         });
                     }
-                    $('select').formSelect();
+                    $('.searchable').select2();
                     $(".page-loader").hide();
                 }
             });

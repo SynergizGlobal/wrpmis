@@ -105,7 +105,7 @@
                                     <div class="col s12 m2 input-field">
                                         <p> <label>Select HOD </label></p>
                                         <select id="hod" name="hod" onchange="getDesignList();" class="searchable">
-                                            <option value="" disabled selected>Select HOD</option>
+                                            <option value="">Select HOD</option>
                                            		<c:forEach var="obj" items="${hodList}">
 	                       						  <option value="${obj.designation }" <c:if test="${param.hod eq obj.designation }">selected</c:if>>${obj.designation}</option>
 	                                            </c:forEach>
@@ -300,7 +300,7 @@
 			table.state.clear();		
 		 
 		 	var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
-			$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesign",type:"POST",data:myParams,success : function(data){    				
+			$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesigns",type:"POST",data:myParams,success : function(data){    				
 					if(data != null && data != '' && data.length > 0){    					
 		         		$.each(data,function(key,val){
 		         			var design_id = "'"+val.design_id+"'";

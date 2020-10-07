@@ -18,47 +18,51 @@ public class DesignServiceImpl implements DesignService{
 	DesignDao designDao;
 	
 	@Override
-	public List<Design> structureList()throws Exception{
+	public List<Design> structureList() throws Exception{
 		return designDao.structureList();
 	}
 	
 	@Override
-	public List<Design> design(Design obj)throws Exception{
-		return designDao.design(obj);
+	public List<Design> getDesigns(Design obj) throws Exception{
+		return designDao.getDesigns(obj);
 	}
 	
 	@Override
-	public List<Design> drawingTypeList()throws Exception{
+	public List<Design> drawingTypeList() throws Exception{
 	return designDao.drawingTypeList();
 	}
 	
 	@Override
-	public List<Design> getDepartmentList()throws Exception{
+	public List<Design> getDepartmentList() throws Exception{
 		return designDao.getDepartmentList();
 	}
 	@Override
-	public Design getDesignDetails(Design obj)throws Exception{
+	public Design getDesignDetails(Design obj) throws Exception{
 		return designDao.getDesignDetails(obj);
 	}
 	@Override
-	public List<Design> getContractList()throws Exception{
+	public List<Design> getContractList() throws Exception{
 		return designDao.getContractList();
 	}
 	
 	@Override
-	public List<Design> getPreparedByList()throws Exception{
+	public List<Design> getPreparedByList() throws Exception{
 		return designDao.getPreparedByList();
 	}
 	
 	@Override
-	public List<Design> getRevisionStatuses()throws Exception{
+	public List<Design> getRevisionStatuses() throws Exception{
 		return designDao.getRevisionStatuses();
-
 	}
-	
+
 	@Override
-	public boolean addDesign(Design obj)throws Exception{
+	public boolean addDesign(Design obj) throws Exception {
 		return designDao.addDesign(obj);
+	}
+
+	@Override
+	public boolean updateDesign(Design obj) throws Exception {
+		return designDao.updateDesign(obj);
 	}
 
 }

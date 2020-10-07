@@ -223,10 +223,7 @@
                                 <div class="col s12 m4 input-field">
                                         <p><label>Component </label></p>
                                     <select class="searchable" name="component" id="component">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                        <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -433,6 +430,15 @@
 			                                    </tr>
                                         </tbody>
                                     </table>
+                                    
+                                    <c:choose>
+                                        <c:when test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
+                                            <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(designDetails.designRevisions)}" />
+                                        </c:when>
+                                        <c:otherwise>
+                                        	<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                        </c:otherwise>
+                                    </c:choose> 
                                 </div>
                             </div>                       
 
@@ -596,12 +602,23 @@
 
 
     <script>
+
+	    $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
+	    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
          	$('.searchable').select2();
             $('#remarks,#textarea3,#issueDesc').characterCounter();
-            $("#planned_start,#as_built_date,#hq_approval,#divisional_approval,#mrvc_reviewed,#consultant,#gfc_released,#hq_approval_date,#planned_finish,#divisional_approval_date,#consultant_submission,#mrvc_reviewed_date").datepicker();
+            //$("#planned_start,#as_built_date,#hq_approval,#divisional_approval,#mrvc_reviewed,#consultant,#gfc_released,#hq_approval_date,#planned_finish,#divisional_approval_date,#consultant_submission,#mrvc_reviewed_date").datepicker();
 
+            
             $('#planned_start_icon').click(function () {
                 event.stopPropagation();
                 $('#planned_start').click();
@@ -737,11 +754,9 @@
     	 	
     	}
     
-    function updateDesign(){
-		if(validator.form()){ // validation perform
-			$(".page-loader").show();
-			document.getElementById("designForm").submit();			
-	 	}
+    function updateDesign(){		
+		$(".page-loader").show();
+		document.getElementById("designForm").submit();		
 	}
     
 
@@ -753,7 +768,7 @@
       var html ='<tr id="revisionRow'+rNo+'"> '
 		      +'<td> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 		      +'<td><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
-		      +'<td><input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
+		      +'<td><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
 		      +'<td><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approval_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
 			  +'<td><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approval_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
 			  +'<td>'
@@ -767,9 +782,19 @@
 			  +'<td><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 				
 			  $('#revisionsTableBody').append(html);
-				 $("#rowNo").val(rNo);
-				// $('select').formSelect();
-				 $('.searchable').select2();
+			  $("#rowNo").val(rNo);
+			  // $('select').formSelect();
+		      $('.searchable').select2();
+		      
+
+	            $(document).on('focus', '.datepicker',function(){
+			        $(this).datepicker({
+			        	format:'dd-mm-yyyy',
+			   	    	onSelect: function () {
+			   	    	   $('.confirmation-btns .datepicker-done').click();
+			   	    	}
+			        })
+			    });
 	  }
 	  
 	  function removeRevision(rowNo){

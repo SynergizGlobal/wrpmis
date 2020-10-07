@@ -83,7 +83,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<User> setHodList()throws Exception{
 		List<User> objsList = null;
 		try {
-			String qry ="select user_id,user_name,designation from user";
+			String qry ="select user_id,user_name,designation from user where designation is not null and designation <>''";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

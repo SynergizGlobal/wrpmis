@@ -1,6 +1,5 @@
 package com.synergizglobal.pmis.IMPLdao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -13,15 +12,15 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
-import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.FOB;
-import com.synergizglobal.pmis.model.Safety;
-import com.synergizglobal.pmis.model.User;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -33,7 +32,7 @@ public class DesignDaoImpl implements DesignDao{
 	JdbcTemplate jdbcTemplate ;
 	
 	@Override
-	public List<Design> design(Design obj)throws Exception{
+	public List<Design> getDesigns(Design obj)throws Exception{
 		List<Design> objsList = null;
 		try {
 			String qry ="select design_id,d.contract_id_fk,d.structure_type_fk,d.drawing_type_fk,d.department_id_fk,d.hod,d.dy_hod,d.structure_type_fk,d.contractor_drawing_no,"
@@ -200,18 +199,125 @@ public class DesignDaoImpl implements DesignDao{
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
-					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title"
-					+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval"
+					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
+					+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
 					+ "gfc_released,as_built_status,as_built_date,remarks) "
 					+ "VALUES(:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
 					+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks)";
+			
+
+			
+			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+		    KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
+		    //return keyHolder.getKey().intValue();
+
+			//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			//int count = namedParamJdbcTemplate.update(qry, paramSource);			
+			if(count > 0) {
+				 int designId = keyHolder.getKey().intValue();
+				 flag = true;
+			
+				if(flag && !StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
+					String[] designRevision = obj.getRevisions();
+					String[] consultantSubmission = obj.getConsultant_submissions();
+					String[] mrvcReviewed = obj.getMrvc_revieweds();
+					String[] divisionalApproval = obj.getDivisional_approvals();
+					String[] hqApproval = obj.getHq_approvals();
+					String[] revisionStatus = obj.getRevision_status_fks();
+					String[] remarks = obj.getRemarkss();
+	
+					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval"
+							+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
+				            new BatchPreparedStatementSetter() {
+	
+								@Override
+								public void setValues(PreparedStatement ps, int i) throws SQLException {
+									
+									try {
+										
+										int k = 1;
+										ps.setString(k++, String.valueOf(designId));
+										
+										if(!StringUtils.isEmpty(designRevision) && designRevision.length > 0) {
+											   ps.setString(k++,designRevision[i]);
+										}else {
+											   ps.setString(k++, null);
+										}	
+										if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
+											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(consultantSubmission[i]));
+										}else {
+											   ps.setString(k++, null);
+										}	
+										if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
+											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(mrvcReviewed[i]));
+										}else {
+											   ps.setString(k++, null);
+										}
+										if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
+											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(divisionalApproval[i]));
+										}else {
+											   ps.setString(k++, null);
+										}
+										if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
+											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(hqApproval[i]));
+										}else {
+											   ps.setString(k++, null);
+										}
+										if(!StringUtils.isEmpty(revisionStatus) && revisionStatus.length > 0) {
+											   ps.setString(k++,revisionStatus[i]);
+										}else {
+											   ps.setString(k++, null);
+										}
+										if(!StringUtils.isEmpty(remarks) && remarks.length > 0) {
+											   ps.setString(k++,remarks[i]);
+										}else {
+											   ps.setString(k++, null);
+										}
+									
+									} catch (Exception e) {
+										
+									}
+								}
+								@Override
+								public int getBatchSize() {
+									 return obj.getRevisions().length;
+								}
+					  });
+						
+				}
+			}
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+			
+		return flag;
+	}
+
+	@Override
+	public boolean updateDesign(Design obj) throws Exception {
+		boolean flag = false;
+		try{
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String qry = "UPDATE design SET contract_id_fk=:contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
+					+ ",component=:component,drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,planned_start=:planned_start,planned_finish=:planned_finish,"
+					+ "revision=:revision,consultant_submission=:consultant_submission,mrvc_reviewed=:mrvc_reviewed,divisional_approval=:divisional_approval,hq_approval=:hq_approval,gfc_released=:gfc_released,as_built_status=:as_built_status,as_built_date=:as_built_date,remarks=:remarks "
+					+ "WHERE design_id = :design_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
 			}
 			if(flag && !StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
+				
+				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id_fk";		 
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+				
 				String[] designRevision = obj.getRevisions();
 				String[] consultantSubmission = obj.getConsultant_submissions();
 				String[] mrvcReviewed = obj.getMrvc_revieweds();
@@ -220,52 +326,54 @@ public class DesignDaoImpl implements DesignDao{
 				String[] revisionStatus = obj.getRevision_status_fks();
 				String[] remarks = obj.getRemarkss();
 
-				String qryDesignRevision = "INSERT INTO design_revisions (design_id,revision,consultant_submission,mrvc_reviewed,divisional_approval"
+				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval"
 						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
 				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 			            new BatchPreparedStatementSetter() {
 
 							@Override
 							public void setValues(PreparedStatement ps, int i) throws SQLException {
-								if(!StringUtils.isEmpty(obj.getDesign_id()) && obj.getDesign_id().length() > 0) {
-									   ps.setString(1, obj.getDesign_id());
-								}else {
-									   ps.setString(1, null);
-								}	
-								if(!StringUtils.isEmpty(designRevision) && designRevision.length > 0) {
-									   ps.setString(2,designRevision[i]);
-								}else {
-									   ps.setString(2, null);
-								}	
-								if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
-									   ps.setString(3,consultantSubmission[i]);
-								}else {
-									   ps.setString(3, null);
-								}	
-								if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
-									   ps.setString(4,mrvcReviewed[i]);
-								}else {
-									   ps.setString(4, null);
-								}
-								if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
-									   ps.setString(5,divisionalApproval[i]);
-								}else {
-									   ps.setString(5, null);
-								}
-								if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
-									   ps.setString(6,hqApproval[i]);
-								}else {
-									   ps.setString(6, null);
-								}
-								if(!StringUtils.isEmpty(revisionStatus) && revisionStatus.length > 0) {
-									   ps.setString(7,revisionStatus[i]);
-								}else {
-									   ps.setString(7, null);
-								}
-								if(!StringUtils.isEmpty(remarks) && remarks.length > 0) {
-									   ps.setString(8,remarks[i]);
-								}else {
-									   ps.setString(8, null);
+								try {
+									int k = 1;
+									ps.setString(k++, obj.getDesign_id());
+									
+									if(!StringUtils.isEmpty(designRevision) && designRevision.length > 0) {
+										   ps.setString(k++,designRevision[i]);
+									}else {
+										   ps.setString(k++, null);
+									}	
+									if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
+										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(consultantSubmission[i]));
+									}else {
+										   ps.setString(k++, null);
+									}	
+									if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
+										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(mrvcReviewed[i]));
+									}else {
+										   ps.setString(k++, null);
+									}
+									if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
+										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(divisionalApproval[i]));
+									}else {
+										   ps.setString(k++, null);
+									}
+									if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
+										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(hqApproval[i]));
+									}else {
+										   ps.setString(k++, null);
+									}
+									if(!StringUtils.isEmpty(revisionStatus) && revisionStatus.length > 0) {
+										   ps.setString(k++,revisionStatus[i]);
+									}else {
+										   ps.setString(k++, null);
+									}
+									if(!StringUtils.isEmpty(remarks) && remarks.length > 0) {
+										   ps.setString(k++,remarks[i]);
+									}else {
+										   ps.setString(k++, null);
+									}
+								} catch (Exception e) {
+									// TODO: handle exception
 								}
 							}
 							@Override

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -34,15 +33,15 @@ import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.Safety;
-import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.Work;
 
 @Controller
 public class DesignController {
@@ -96,12 +95,12 @@ public class DesignController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getDesigns", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Design> getContractList(@ModelAttribute Design obj) {
+	public List<Design> getDesigns(@ModelAttribute Design obj) {
 		List<Design> design = null;
 		try {
-			design = designService.design(obj);
+			design = designService.getDesigns(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.info("design : " + e.getMessage());
@@ -175,6 +174,16 @@ public class DesignController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/design");
+			
+			obj.setPlanned_start(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_start()));
+			obj.setPlanned_finish(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_finish()));
+			obj.setConsultant_submission(CommonMethods.convertStringDateToMysqlDate(obj.getConsultant_submission()));
+			obj.setMrvc_reviewed(CommonMethods.convertStringDateToMysqlDate(obj.getMrvc_reviewed()));
+			obj.setDivisional_approval(CommonMethods.convertStringDateToMysqlDate(obj.getDivisional_approval()));
+			obj.setHq_approval(CommonMethods.convertStringDateToMysqlDate(obj.getHq_approval()));
+			obj.setGfc_released(CommonMethods.convertStringDateToMysqlDate(obj.getGfc_released()));
+			obj.setAs_built_date(CommonMethods.convertStringDateToMysqlDate(obj.getAs_built_date()));
+			
 			boolean flag =  designService.addDesign(obj);
 			if(flag == true) {
 				MultipartFile file = obj.getDesignFile();
@@ -194,6 +203,43 @@ public class DesignController {
 		}
 		return model;
 	}
+
+	@RequestMapping(value = "/update-design", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateDesign(@ModelAttribute Design obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/design");
+			
+			obj.setPlanned_start(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_start()));
+			obj.setPlanned_finish(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_finish()));
+			obj.setConsultant_submission(CommonMethods.convertStringDateToMysqlDate(obj.getConsultant_submission()));
+			obj.setMrvc_reviewed(CommonMethods.convertStringDateToMysqlDate(obj.getMrvc_reviewed()));
+			obj.setDivisional_approval(CommonMethods.convertStringDateToMysqlDate(obj.getDivisional_approval()));
+			obj.setHq_approval(CommonMethods.convertStringDateToMysqlDate(obj.getHq_approval()));
+			obj.setGfc_released(CommonMethods.convertStringDateToMysqlDate(obj.getGfc_released()));
+			obj.setAs_built_date(CommonMethods.convertStringDateToMysqlDate(obj.getAs_built_date()));
+			
+			boolean flag =  designService.updateDesign(obj);
+			if(flag == true) {
+				MultipartFile file = obj.getDesignFile();
+				if (null != file && !file.isEmpty()){
+					String saveDirectory = CommonConstants.DESIGN_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				}
+				attributes.addFlashAttribute("success", "Design Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Design is failed. Try again.");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error","Updating Design is failed. Try again.");
+			logger.info("updateDesign : " + e.getMessage());
+		}
+		return model;
+	}
 	
 	@RequestMapping(value = "/export-design", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Design design,RedirectAttributes attributes){
@@ -203,7 +249,7 @@ public class DesignController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/design");
-			dataList = designService.design(design);  
+			dataList = designService.getDesigns(design);  
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
 			            XSSFSheet sheet = workBook.createSheet();

@@ -95,13 +95,9 @@ public class FOBDaoImpl implements FOBDao {
 			            new BatchPreparedStatementSetter() {
 			                 
 			                @Override
-			                public void setValues(PreparedStatement ps, int i) throws SQLException {
-			                
-								if(!StringUtils.isEmpty(obj.getFob_id()) && obj.getFob_id().length() > 0) {
-									   ps.setString(1, obj.getFob_id());
-								}else {
-									   ps.setString(1, null);
-								}	
+			                public void setValues(PreparedStatement ps, int i) throws SQLException {			                
+								ps.setString(1, obj.getFob_id());
+								
 								if(!StringUtils.isEmpty(fobDetailNames) && fobDetailNames.length > 0) {
 									   ps.setString(2,fobDetailNames[i]);
 								}else {
@@ -199,11 +195,7 @@ public class FOBDaoImpl implements FOBDao {
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail, new BatchPreparedStatementSetter() { 
 					                @Override
 					                public void setValues(PreparedStatement ps, int i) throws SQLException {
-					                	if(!StringUtils.isEmpty(obj.getFob_id()) && obj.getFob_id().length() > 0) {
-											   ps.setString(1, obj.getFob_id());
-										}else {
-											   ps.setString(1, null);
-										}	
+					                	ps.setString(1, obj.getFob_id());
 										if(!StringUtils.isEmpty(fobDetailNames) && fobDetailNames.length > 0) {
 											   ps.setString(2,fobDetailNames[i]);
 										}else {

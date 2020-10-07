@@ -20,11 +20,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>
-        /* #bank_guarantee_div,
-        #insurance_div {
-            display: none;
-        } */
-
+ 
         #ravTable .datepicker~button,
         #insurenceTable .datepicker~button,
         #bankTable .datepicker~button,
@@ -119,6 +115,9 @@
 		#revTableBody td.input-field .prefix {
     		top: 1.5rem;
 		}
+		textarea{
+			height:auto;
+		}
     </style>
 </head>
 
@@ -195,7 +194,8 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <input name="contract_name" id="contract_name" type="text" class="validate"  value="${contractDeatils.contract_name }"  >
+<%--                                     <input name="contract_name" id="contract_name" type="text" class="validate"  value="${contractDeatils.contract_name }"  > --%>
+                                    <textarea id="contract_name" name ="contract_name" class="materialize-textarea" data-length="1000">${contractDeatils.contract_name }</textarea>
                                     <label for="contract_name">Contract Name</label>
                                     <span id="contract_nameError" class="error-msg" ></span>
                                 </div>

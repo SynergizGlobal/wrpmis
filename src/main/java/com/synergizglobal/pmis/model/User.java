@@ -13,7 +13,7 @@ public class User  {
 	
 	private String reporting_to_name,department,department_name,user_access_type,user_access_table,user_id_fk,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
-	access_value_id,access_value_name;
+	access_value_id,access_value_name,user_role_code;
 	
 	private List<User> userPermissions;
 	
@@ -406,6 +406,16 @@ public class User  {
 
 	public void setAccess_value_name(String access_value_name) {
 		this.access_value_name = access_value_name;
+	}
+
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
 	}
 	
 	

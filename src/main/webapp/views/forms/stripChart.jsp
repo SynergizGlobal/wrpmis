@@ -219,8 +219,10 @@
                                         </div>
                                         <div class="col m12 s12 input-field">
                                             <p>Contract</p>
+                                            <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
+                                                onchange="getComponentIdsList('1');getStripChartStructures(); getStripChartLines(); getStripChartSections();"> -->
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
-                                                onchange="getComponentIdsList('1');getStripChartStructures(); getStripChartLines(); getStripChartSections();">
+                                                onchange="getStripChartStructures(); getStripChartLines(); getStripChartSections();">
                                                 <option value="">Select</option>
                                                 <%-- <c:forEach var="obj" items="${contractsList }">
                                                 	<option value="${obj.contract_id }" <c:if test="${obj.contract_id eq ''}">selected</c:if>>${obj.contract_name}</option>
@@ -351,20 +353,25 @@
 
 
                                     <div class="row">
-                                        <div class="col m4 s12 input-field">
-                                            <p>Component</p>
-                                            <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
-                                                <option value="">Select</option>
-                                            </select>
-                                            <span id="strip_chart_componentError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col m4 s12 input-field">
+                                    	
+                                    	<div class="col m4 s12 input-field">
                                             <p>Component ID</p>
                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
                                                 <option value="">Select</option>
                                             </select>
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
                                         </div>
+                                        
+                                        <div class="col m4 s12 input-field">
+                                        	<p for="strip_chart_component">Component</p>
+                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 1.8rem;" readonly="readonly">
+                                            <!-- <p>Component</p>
+                                            <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
+                                                <option value="">Select</option>
+                                            </select>
+                                            <span id="strip_chart_componentError" class="error-msg" ></span> -->
+                                        </div>
+                                        
                                         <div class="col m4 s12 input-field">
                                             <p>Activity</p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
@@ -394,19 +401,19 @@
                                             <div class="primary-text">Scope <span class="right">:</span></div>
                                         </div>
                                         <div class="col m2 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="totalScope" name="scope" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"/><span style="width:40%;" class="unit_fk"></span></div>
+                                            <div style="opacity: 0.8;"><input type="text" id="totalScope" name="scope" readonly="readonly" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"/><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                         <div class="col m2 s6 ">
                                             <div class="primary-text">Completed <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m2 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="completed" name="completed" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
+                                            <div style="opacity: 0.8;"><input type="text" id="completed" name="completed" readonly="readonly" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                         <div class="col m2 s6 ">
                                             <div class="primary-text">Remaining <span class="right">:</span> </div>
                                         </div>
                                         <div class="col m2 s6 ">
-                                            <div style="opacity: 0.8;"><input type="text" id="remaining" name="remaining" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
+                                            <div style="opacity: 0.8;"><input type="text" id="remaining" name="remaining" readonly="readonly" style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;" /><span style="width:40%;" class="unit_fk"></span></div>
                                         </div>
                                     </div>
 
@@ -694,7 +701,7 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '">' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -747,15 +754,22 @@
         function getComponentIdsList(filterNo) {   
         	$(".page-loader").show();
         	
-        	$("#strip_chart_component option:not(:first)").remove();
+        	//$("#strip_chart_component option:not(:first)").remove();
+        	
+        	$("#strip_chart_component").attr("readonly", false); 
+        	$("#strip_chart_component").val('');
+        	$("#strip_chart_component").attr("readonly", true);
+        	
         	$("#strip_chart_component_id option:not(:first)").remove();
         	$("#strip_chart_activity_id option:not(:first)").remove();
         	
             var html = "";
+            $("#component_circles").html(html);
             var contract_id_fk = $("#contract_id_fk").val();
             var myParams = {contract_id_fk: contract_id_fk};
+            var structureId = "";
             if($.trim(filterNo) != '1' ){
-	            var structureId = $("#strip_chart_structure_id_fk").val();
+	            structureId = $("#strip_chart_structure_id_fk").val();
 	            var laneId = $("#strip_chart_line_id_fk").val();
 	            var sectionId = $("#strip_chart_section_id_fk").val();
 	            myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_id_fk: sectionId };
@@ -767,7 +781,7 @@
             	$('.searchable').select2();
             }
 
-            if ($.trim(contract_id_fk) != "") {                
+            if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" ) {                
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getComponentIdsList",
                     data: myParams, cache: false,
@@ -827,9 +841,13 @@
         	$( ".dot" ).removeClass( "active" );
         	$( "#"+componentId ).addClass( "active" );
         	
-        	$("#strip_chart_component option:not(:first)").remove();
+        	/* $("#strip_chart_component option:not(:first)").remove();
         	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
-        	$('.searchable').select2();
+        	$('.searchable').select2(); */
+        	
+        	$("#strip_chart_component").attr("readonly", false); 
+        	$("#strip_chart_component").val(componentName);
+        	$("#strip_chart_component").attr("readonly", true); 
         	
         	$("#strip_chart_component_id").val(componentId);
         	$(".page-loader").show();
@@ -877,9 +895,12 @@
                         
         	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");
         	
-        	$("#strip_chart_component option:not(:first)").remove();
+        	/* $("#strip_chart_component option:not(:first)").remove();
         	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
-        	$('.searchable').select2();
+        	$('.searchable').select2(); */
+        	$("#strip_chart_component").attr("readonly", false); 
+        	$("#strip_chart_component").val(componentName);
+        	$("#strip_chart_component").attr("readonly", true);
         	
         	$(".page-loader").show();
             $("#strip_chart_activity_id option:not(:first)").remove();
@@ -1012,7 +1033,7 @@
     				 	  },"contract_id_fk": {
     				 		required: true
     				 	  },"strip_chart_component": {
-    				 		required: true
+    				 		required: false
     				 	  },"strip_chart_component_id": {
     				 		required: true
     				 	  },"strip_chart_activity_id": {

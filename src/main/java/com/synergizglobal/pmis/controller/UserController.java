@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,15 +23,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.UserService;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
@@ -51,6 +57,12 @@ public class UserController {
 	
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
+	
+	@Value("${template.upload.common.error}")
+	public String uploadCommonError;
+	
+	@Value("${template.upload.formatError}")
+	public String uploadformatError;
 	
 	@RequestMapping(value="/users",method=RequestMethod.GET)
 	public ModelAndView users(@ModelAttribute User obj,HttpSession session) {
@@ -179,6 +191,7 @@ public class UserController {
 				attributes.addFlashAttribute("error", "Adding user is failed. Try again.");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
 			logger.info("addUser : " + e.getMessage());
 		}
@@ -344,6 +357,208 @@ public class UserController {
 			attributes.addFlashAttribute("error", commonError);			
 		}
 		//return view;
+	}
+	
+	
+	@RequestMapping(value = "/upload-users", method = {RequestMethod.POST})
+	public ModelAndView uploadUsers(@ModelAttribute User user,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String fileName = null;
+		String userId = null;String userName = null;
+		XSSFWorkbook workbook = null;
+		XSSFSheet uploadFilesSheet = null;
+		try {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			model.setViewName("redirect:/users");
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			
+			if(!StringUtils.isEmpty(user.getFileName())){
+				MultipartFile multipartFile = user.getFileName();
+				// Creates a workbook object from the uploaded excelfile
+				if (null != multipartFile && multipartFile.getSize() > 0){					
+					workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					if(workbook != null && !"".equals(workbook)) {
+						int sheetsCount = workbook.getNumberOfSheets();
+						if(sheetsCount > 0) {
+							uploadFilesSheet = workbook.getSheetAt(2);
+							//System.out.println(uploadFilesSheet.getSheetName());
+							//header row
+							XSSFRow headerRow = uploadFilesSheet.getRow(1);
+							//checking given file format
+							if(headerRow != null){
+								List<String> fileFormat = FileFormatModel.getUserFileFormat();;	
+								int noOfColumns = headerRow.getLastCellNum();
+								if(noOfColumns == fileFormat.size()){
+									for (int i = 0; i < fileFormat.size();i++) {
+					                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+					                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+										String columnName = headerRow.getCell(i).getStringCellValue().trim();
+										if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+					                		attributes.addFlashAttribute("error",uploadformatError);
+					                		return model;
+					                	}
+									}
+								}else{
+									attributes.addFlashAttribute("error",uploadformatError);
+			                		return model;
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+		                		return model;
+							}
+							
+							int count = uploadUsers(user,userId,userName,workbook);
+							attributes.addFlashAttribute("success", count + " Users added successfully.");	
+						}
+					}
+					
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+	
+	/**
+	 * This method uploadUsers() is called when user upload the file
+	 * 
+	 * @param obj is object for the model class User.
+	 * @param userId is type of String it store the userId
+	 * @param userName is type of String it store the userName
+	 * @param workbook is type of XSSWorkbook variable it takes the workbook as input.
+	 * @return type of this method is count.
+	 * @throws IOException will raise an exception when abnormal termination occur.
+	 */
+	
+	public int uploadUsers(User obj, String userId, String userName, XSSFWorkbook workbook) throws Exception {
+		logger.info("AirportController  >> uploadActivities() >> start");
+		User user = null;
+		List<User> usersList = new ArrayList<User>();
+		
+		//XSSFWorkbook workbook = null;
+		XSSFSheet uploadFilesSheet = null;
+		Writer w = null;
+		int count = 0;
+		try {	
+			/*List<String> fileFormat = null;				
+			fileFormat = FileFormatModel.getActivityFileFormat();*/
+			
+			MultipartFile excelfile = obj.getFileName();
+			// Creates a workbook object from the uploaded excelfile
+			if (null != excelfile){
+				 String fileName = excelfile.getOriginalFilename();
+				 String fileType = FilenameUtils.getExtension(fileName);
+				 
+				 if(excelfile.getSize() > 0)
+					//workbook = new XSSFWorkbook(excelfile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					if(workbook != null && !"".equals(workbook)) {
+						int sheetsCount = workbook.getNumberOfSheets();
+						if(sheetsCount > 0) {
+							uploadFilesSheet = workbook.getSheetAt(2);
+							//System.out.println(uploadFilesSheet.getSheetName());
+							//header row
+							//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+							
+							for(int i = 2; i<= uploadFilesSheet.getLastRowNum();i++){
+								XSSFRow row = uploadFilesSheet.getRow(i);
+								// Sets the Read data to the model class
+								DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+								// Cell cell = row.getCell(0);
+								// String j_username = formatter.formatCellValue(row.getCell(0));
+								
+								user = new User();
+								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
+									user.setUser_name(formatter.formatCellValue(row.getCell(0)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
+									user.setEmail_id(formatter.formatCellValue(row.getCell(1)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
+									user.setDepartment_name(formatter.formatCellValue(row.getCell(2)).trim());								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
+									user.setDesignation(formatter.formatCellValue(row.getCell(3)).trim());											
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
+									user.setReporting_to_id_srfk(formatter.formatCellValue(row.getCell(4)).trim());								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
+									user.setUser_role_name_fk(formatter.formatCellValue(row.getCell(5)).trim());										
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
+									user.setMobile_number(formatter.formatCellValue(row.getCell(6)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
+									user.setLandline(formatter.formatCellValue(row.getCell(7)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
+									user.setExtension(formatter.formatCellValue(row.getCell(8)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(9)).trim()))
+									user.setRemarks(formatter.formatCellValue(row.getCell(9)).trim());
+								
+
+								List<User> pObjList = new ArrayList<User>();
+								if(!StringUtils.isEmpty(user.getDesignation())) {
+									XSSFSheet uploadFilesSheet2 = workbook.getSheetAt(3);
+									for(int j = 2; j<= uploadFilesSheet2.getLastRowNum();j++){
+										XSSFRow row2 = uploadFilesSheet2.getRow(j);
+										// Sets the Read data to the model class
+										DataFormatter formatter2 = new DataFormatter(); //creating formatter using the default locale
+										// Cell cell = row.getCell(0);
+										// String j_username = formatter.formatCellValue(row.getCell(0));
+										
+										User pObj = new User();
+										
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
+											pObj.setDesignation(formatter2.formatCellValue(row2.getCell(0)).trim());
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(1)).trim()))
+											pObj.setUser_access_type(formatter2.formatCellValue(row2.getCell(1)).trim());
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(2)).trim()))
+											pObj.setAccess_value(formatter2.formatCellValue(row2.getCell(2)).trim());								
+										
+										if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getDesignation()) 
+												&& !StringUtils.isEmpty(pObj.getUser_access_type())
+												&& !StringUtils.isEmpty(pObj.getAccess_value())
+												&& pObj.getDesignation().equals(user.getDesignation()))
+											pObjList.add(pObj);
+									}
+									user.setUserPermissions(pObjList);
+								}
+								
+								
+								if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getUser_name()) && !StringUtils.isEmpty(user.getDepartment_name())) {
+									usersList.add(user);
+								}
+							}
+							
+							if(!usersList.isEmpty() && usersList != null){
+								count  = userService.uploadUsers(usersList);
+							}
+						}
+						workbook.close();
+					}
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadUsers() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadUsers() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return count;
 	}
 	
 }

@@ -114,14 +114,15 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                      <p>User Role</p>
-                                      <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown">
+                                      <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">
                                           <option value="">Select</option>
                                           <c:forEach var="obj" items="${roles }">
-                                          	<option value="${obj.user_role_name }" <c:if test="${obj.user_role_name eq usrObj.user_role_name_fk}">selected</c:if>>${obj.user_role_name }</option>
+                                          	<option name="${obj.user_role_code }" value="${obj.user_role_name }" <c:if test="${obj.user_role_name eq usrObj.user_role_name_fk}">selected</c:if>>${obj.user_role_name }</option>
                                           </c:forEach>
                                       </select> 
                                       <span id="user_role_name_fkError" class="error-msg" ></span>
                                 </div>
+                                <input id="user_role_code" name="user_role_code" type="hidden">
                                 <%-- <c:if test="${empty usrObj.user_id }">
                                 <div class="col s12 m4 input-field">
                                     <input id="user_id" name="user_id" type="text" class="validate">
@@ -401,6 +402,11 @@
             $('#remarks').characterCounter();
         });
         
+        function setUserRoleCode(){
+        	var user_role_code = $("#user_role_name_fk").find('option:selected').attr("name");
+        	
+        	$('#user_role_code').val(user_role_code);
+        }        
         
         function getUserAccessValues(user_access_type,indexNo){
         	var url = "";

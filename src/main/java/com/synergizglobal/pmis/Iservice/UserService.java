@@ -31,5 +31,7 @@ public interface UserService {
 	List<User> getContractsForUserAccessTypes(User obj) throws Exception;
 
 	List<User> getUserAccessTypes(User obj) throws Exception;
+
+	int uploadUsers(List<User> usersList) throws Exception;
 	
 }

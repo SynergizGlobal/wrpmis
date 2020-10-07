@@ -1,6 +1,8 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.UserDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.User;
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -29,7 +32,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserRoles() throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_role_name from user_role";
+			String qry = "select user_role_name,user_role_code from user_role";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
@@ -178,6 +181,9 @@ public class UserDaoImpl implements UserDao{
 	public boolean addUser(User obj) throws Exception {
 		boolean flag = false;
 		try {
+			
+			String user_id = getMaxUserId(obj.getUser_role_code());
+			obj.setUser_id(user_id);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO user"
 					+ "(user_id,user_name,password,designation,email_id,mobile_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
@@ -194,9 +200,9 @@ public class UserDaoImpl implements UserDao{
 				String[] types = obj.getUser_access_types();
 				String[] values = obj.getUser_access_values();
 				
-				String qryFOBDetail = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
+				String qryUserPermissions = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
 				
-				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail,
+				int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
 			            new BatchPreparedStatementSetter() {
 			                 
 			                @Override
@@ -216,6 +222,30 @@ public class UserDaoImpl implements UserDao{
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+	
+	public String getMaxUserId(String role_code) throws Exception {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String user_id = null;;
+		try{
+			connection = dataSource.getConnection();
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(user_id, 1, LENGTH(user_id)-7),'_"+role_code+"_',LPAD(MAX(SUBSTRING(user_id, 9, LENGTH(user_id)))+1,3,'0') ) AS maxId "
+					+ "FROM user WHERE user_id LIKE 'PMIS_%'";
+			
+			stmt = connection.prepareStatement(maxIdQry);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				user_id = rs.getString("maxId");
+			}
+		}catch(Exception e){ 			
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return user_id;
 	}
 
 	@Override
@@ -296,9 +326,9 @@ public class UserDaoImpl implements UserDao{
 				String[] types = obj.getUser_access_types();
 				String[] values = obj.getUser_access_values();
 				
-				String qryFOBDetail = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
+				String qryUserPermissions = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
 				
-				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail,
+				int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
 			            new BatchPreparedStatementSetter() {
 			                 
 			                @Override
@@ -324,6 +354,64 @@ public class UserDaoImpl implements UserDao{
 	public boolean deleteUser(User obj) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int uploadUsers(List<User> usersList) throws Exception {
+		int count = 0;
+		boolean flag = false;
+		try {
+			for (User user : usersList) {				
+
+				String user_role_code_qry = "select user_role_code from user_role where user_role_name = ?";
+				
+				String user_role_code = (String)jdbcTemplate.queryForObject( user_role_code_qry,new Object[] {user.getUser_role_name_fk()}, String.class);	
+				
+				String user_id = getMaxUserId(user_role_code);
+				
+
+				String department_qry = "select department from department where department_name = ?";
+				
+				String department_id = (String)jdbcTemplate.queryForObject( department_qry,new Object[] {user.getDepartment_name()}, String.class);					
+				user.setDepartment_fk(department_id);
+				user.setUser_id(user_id);
+				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
+				String qry = "INSERT INTO user"
+						+ "(user_id,user_name,password,designation,email_id,mobile_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
+						+ "VALUES "
+						+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
+				count = namedParamJdbcTemplate.update(qry, paramSource);			
+				if(count > 0) {
+					flag = true;
+				}
+				
+				if(flag && !StringUtils.isEmpty(user.getUserPermissions()) && user.getUserPermissions().size() > 0) {
+					String qryUserPermissions = "INSERT INTO user_access (user_id_fk,user_access_type_fk,access_value) VALUES  (?,?,?)";		
+					
+					int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
+				            new BatchPreparedStatementSetter() {				                 
+				                @Override
+				                public void setValues(PreparedStatement ps, int i) throws SQLException {
+				                    ps.setString(1, user_id);
+				                    ps.setString(2, user.getUserPermissions().get(i).getUser_access_type());
+				                    ps.setString(3, user.getUserPermissions().get(i).getAccess_value());			                    
+				                }
+				                @Override  
+				                public int getBatchSize() {
+				                    return user.getUserPermissions().size();
+				                }
+				            });
+					
+				}
+			}
+			
+			count = usersList.size();
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return count;
 	}
 
 }

@@ -78,4 +78,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUserAccessTypes(obj);
 	}
 
+	@Override
+	public int uploadUsers(List<User> usersList) throws Exception {
+		return userDao.uploadUsers(usersList);
+	}
+
 }

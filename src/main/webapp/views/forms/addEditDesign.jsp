@@ -350,7 +350,7 @@
                                     </select>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="as_built_date" name="as_built_date" type="text" class="validate datepicker" style="margin-top:10px">
+                                    <input id="as_built_date" name="as_built_date" type="text" class="validate datepicker" style="margin-top:5px">
                                     <label for="as_built_date">As Built Drawing Date </label>
                                     <button type="button" id="as_built_date_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -361,7 +361,6 @@
                             <div class="row fixed-width">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
-
                                     <table id="revTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
@@ -380,7 +379,7 @@
                                              <tr id="revisionRow${index.count }">                                                
                                                 <td>
                                                     <input id="revisions${index.count }" name="revisions" type="text" class="validate"
-                                                        placeholder="Revision">
+                                                        placeholder="Revision">                                                        
                                                 </td>
                                                 <td>
                                                     <input id="consultant_submissions${index.count }" name="consultant_submissions" type="text" class="validate datepicker"
@@ -423,8 +422,7 @@
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                           </c:forEach>
-                                           
+                                           </c:forEach>                                           
                                         </tbody>
                                     </table>
  									<table class="mdl-data-table">
@@ -600,7 +598,7 @@
     <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
-         $('.searchable').select2();
+         	$('.searchable').select2();
             $('#remarks,#textarea3,#issueDesc').characterCounter();
             $("#planned_start,#as_built_date,#hq_approval,#divisional_approval,#mrvc_reviewed,#consultant,#gfc_released,#hq_approval_date,#planned_finish,#divisional_approval_date,#consultant_submission,#mrvc_reviewed_date").datepicker();
 
@@ -696,7 +694,7 @@
                                 }
                             });
                         }
-                        $('select').formSelect();
+                        $('.searchable').select2();
                         $(".page-loader").hide();
                     }
                 });
@@ -725,7 +723,7 @@
                                 }
                             });
                         }
-                        $('select').formSelect();
+                        $('.searchable').select2();
                         $(".page-loader").hide();
                     }
                 });
@@ -751,7 +749,7 @@
 		
       var rowNo = $("#rowNo").val();
       var rNo = Number(rowNo)+1;
-      
+	//console.log("rowno= "+rowNo+" rno= "+rNo);
       var html ='<tr id="revisionRow'+rNo+'"> '
 		      +'<td> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 		      +'<td><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'

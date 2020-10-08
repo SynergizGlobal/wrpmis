@@ -29,8 +29,6 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.ProjectService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Railway;
-import com.synergizglobal.pmis.model.Work;
 
 @Controller
 public class ProjectController {

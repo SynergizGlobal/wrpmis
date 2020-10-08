@@ -78,10 +78,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                           <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form">
+			                	<form action="<%=request.getContextPath() %>/update-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form">
+			                	<form action="<%=request.getContextPath() %>/add-fob" id="fobForm" name="fobForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -285,7 +285,7 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attach Image</span>
-                                            <input type="file" accept="image/x-png,image/jpeg">
+                                            <input type="file" id="fobFile" name="fobFile">
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">

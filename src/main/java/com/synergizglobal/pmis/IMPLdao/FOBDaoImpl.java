@@ -195,16 +195,17 @@ public class FOBDaoImpl implements FOBDao {
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail, new BatchPreparedStatementSetter() { 
 					                @Override
 					                public void setValues(PreparedStatement ps, int i) throws SQLException {
-					                	ps.setString(1, obj.getFob_id());
+					                	int k = 1;
+					                	ps.setString(k++, obj.getFob_id());
 										if(!StringUtils.isEmpty(fobDetailNames) && fobDetailNames.length > 0) {
-											   ps.setString(2,fobDetailNames[i]);
+											 ps.setString(k++,fobDetailNames[i]);
 										}else {
-											   ps.setString(2, null);
+											 ps.setString(k++, null);
 										}	
 										if(!StringUtils.isEmpty(fobDetailValues) && fobDetailValues.length > 0) {
-											 ps.setString(3, fobDetailValues[i]);
+											 ps.setString(k++, fobDetailValues[i]);
 										}else {
-											   ps.setString(3, null);
+											 ps.setString(k++, null);
 										}	
 					                    
 					                }

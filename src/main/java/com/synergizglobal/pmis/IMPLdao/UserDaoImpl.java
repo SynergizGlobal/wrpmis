@@ -135,7 +135,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUsersList(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,ROUND(u.mobile_number) as mobile_number,ROUND(u.landline) as landline,u.extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
@@ -252,7 +252,7 @@ public class UserDaoImpl implements UserDao{
 	public User getUser(User obj) throws Exception {
 		User uobj = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,ROUND(u.mobile_number) as mobile_number,ROUND(u.landline) as landline,u.extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "

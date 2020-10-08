@@ -123,8 +123,8 @@
                                             <td>${ obj.work_id }</td>
                                             <td>${ obj.work_name }</td>
                                             <td>${ obj.sanctioned_year }</td>
-                                            <td>${ obj.railway_name }</td>
-                                            <td>${ obj.executed_by_id_fk }</td>
+                                            <td>${ obj.railway }</td>
+                                            <td>${ obj.executed_by }</td>
                                             <td>&nbsp;${ obj.remarks }</td>
                                             <td class="last-column"> <a href="javascript:void(0);" 
                                             				onclick="getWork('${ obj.work_id }');"

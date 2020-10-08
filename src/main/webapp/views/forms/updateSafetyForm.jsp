@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-	<link rel="stylesheet" href="/pmis/resources/css/issues.css">
+	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
 	
 	 <style>
         .no-mar .row {

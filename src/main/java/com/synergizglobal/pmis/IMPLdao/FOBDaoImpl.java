@@ -33,7 +33,7 @@ public class FOBDaoImpl implements FOBDao {
 		try {
 			String qry = "select fob_id,fob_name,f.contract_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
 					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,f.estimated_cost,f.completion_cost,work_status_fk,latitude,longitude,f.remarks,"
+					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.completion_cost as CHAR) as completion_cost,work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "contract_name,c.work_id_fk,work_name,module_name_fk,month,status_as_on_month,w.project_id_fk,p.project_name "
 					+ "from fob f "
 					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "
@@ -128,7 +128,7 @@ public class FOBDaoImpl implements FOBDao {
 		try {
 			String qry = "select fob_id,fob_name,f.contract_id_fk,DATE_FORMAT(date_of_approval,'%d-%m-%Y') AS date_of_approval,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date,"
 					+ "DATE_FORMAT(construction_start_date,'%d-%m-%Y') AS construction_start_date,DATE_FORMAT(f.actual_completion_date,'%d-%m-%Y') AS actual_completion_date,"
-					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,f.estimated_cost,f.completion_cost,work_status_fk,latitude,longitude,f.remarks,"
+					+ "DATE_FORMAT(commissioning_date,'%d-%m-%Y') AS commissioning_date,cast(f.estimated_cost as CHAR) as estimated_cost,cast(f.completion_cost as CHAR) as completion_cost,work_status_fk,cast(f.latitude as CHAR) as latitude,cast(f.longitude as CHAR) as longitude,f.remarks,"
 					+ "contract_name,c.work_id_fk,work_name,module_name_fk,month,status_as_on_month,w.project_id_fk,p.project_name "
 					+ "from fob f "
 					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id "

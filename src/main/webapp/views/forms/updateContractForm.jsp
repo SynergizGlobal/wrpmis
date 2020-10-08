@@ -1273,22 +1273,9 @@
                 event.stopPropagation();
                 $('#final_takeover_client').click();
             });
-           
-            // exponential E Notation Remove 
-          /*    var awarded_cost = parseFloat(document.getElementById("awarded_cost").value);
-        	   var estimated_cost = parseFloat(document.getElementById("estimated_cost").value);
-        	   var revised_amounts = parseFloat(document.getElementsByName("revised_amounts")[0].value);
-
-        	   awardedostExp=awarded_cost.toExponential();
-        	   estimatedCostExp=estimated_cost.toExponential();
-        	   revisedAmountExp=revised_amounts.toExponential();
-        	   
-               document.getElementById("awarded_cost").value = parseFloat(parseFloat(awardedostExp).toPrecision());
-               document.getElementById("estimated_cost").value = parseFloat(parseFloat(estimatedCostExp).toPrecision());
-               document.getElementsByName("revised_amounts")[0].value = parseFloat(parseFloat(revisedAmountExp).toPrecision());
- */
+            
             // show or hide based on bg 
-            $('input[name="bg_required"]').change(function () {
+            /* $('input[name="bg_required"]').change(function () {
                 var radioval = $('input[name="bg_required"]:checked').val();
                 if (radioval == 'Yes') {
                     $('#bank_guarantee_div .btn').removeClass('disabled');
@@ -1299,10 +1286,10 @@
                     $('#bank_guarantee_div .btn').addClass('disabled');
                     $('#bank_guarantee_div input').prop("disabled", true);
                 }
-            });
+            }); */
             // show or hide based on insurance 
 
-            $('input[name="insurance_required"]').change(function () {
+           /*  $('input[name="insurance_required"]').change(function () {
                 var radioval = $('input[name="insurance_required"]:checked').val();
                 if (radioval == 'Yes') {
                     $('#insurance_div .btn').removeClass('disabled');
@@ -1312,7 +1299,7 @@
                     $('#insurance_div .btn').addClass('disabled');
                     $('#insurance_div input').prop("disabled", true);
                 }
-            });
+            }); */
        
             var projectId = "${contractDeatils.project_id_fk}";
             if($.trim(projectId) != ''){

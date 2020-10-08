@@ -528,7 +528,8 @@
                                          </tr>
                                         </tbody>
                                     </table>
-													<input type="hidden" id="bankRowNo"  name="bankRowNo" value="0" />                                </div>
+									<input type="hidden" id="bankRowNo"  name="bankRowNo" value="0" />                                
+								</div>
                             </div>
  							
  							<div class="container container-no-margin">
@@ -1034,7 +1035,7 @@
             });
             
             // show or hide based on bg 
-            $('input[name="bg_required"]').change(function () {
+            /* $('input[name="bg_required"]').change(function () {
                 var radioval = $('input[name="bg_required"]:checked').val();
                 if (radioval == 'Yes') {
                     $('#bank_guarantee_div .btn').removeClass('disabled');
@@ -1045,10 +1046,10 @@
                     $('#bank_guarantee_div .btn').addClass('disabled');
                     $('#bank_guarantee_div input').prop("disabled", true);
                 }
-            });
+            }); */
             // show or hide based on insurance 
 
-            $('input[name="insurance_required"]').change(function () {
+           /*  $('input[name="insurance_required"]').change(function () {
                 var radioval = $('input[name="insurance_required"]:checked').val();
                 if (radioval == 'Yes') {
                     $('#insurance_div .btn').removeClass('disabled');
@@ -1058,7 +1059,7 @@
                     $('#insurance_div .btn').addClass('disabled');
                     $('#insurance_div input').prop("disabled", true);
                 }
-            });
+            }); */
         });
         function getWorksList(projectId) {
         	$(".page-loader").show();

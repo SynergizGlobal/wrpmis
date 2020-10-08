@@ -12,6 +12,129 @@ public class Contract {
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark;
+	
+	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
+
+	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,
+	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,
+	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
+	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
+	
+	private MultipartFile contractFile;
+	
+	private String[] contractDocumentNames,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds;
+	private MultipartFile[] contractDocumentFiles;
+	
+	private List<Contract> bankGauranree;
+	private List<Contract> insurence;
+	private List<Contract> milestones;
+	private List<Contract> contract_revision;
+	private List<Contract> contractDocuments;
+	private List<Contract> contractKeyPersonnels;
+	
+	public String getContract_documents_id() {
+		return contract_documents_id;
+	}
+
+	public void setContract_documents_id(String contract_documents_id) {
+		this.contract_documents_id = contract_documents_id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	public String getContract_key_personnel_id() {
+		return contract_key_personnel_id;
+	}
+
+	public void setContract_key_personnel_id(String contract_key_personnel_id) {
+		this.contract_key_personnel_id = contract_key_personnel_id;
+	}
+
+	public String getMobile_no() {
+		return mobile_no;
+	}
+
+	public void setMobile_no(String mobile_no) {
+		this.mobile_no = mobile_no;
+	}
+
+	public String getEmail_id() {
+		return email_id;
+	}
+
+	public void setEmail_id(String email_id) {
+		this.email_id = email_id;
+	}
+
+	public String[] getContractDocumentNames() {
+		return contractDocumentNames;
+	}
+
+	public void setContractDocumentNames(String[] contractDocumentNames) {
+		this.contractDocumentNames = contractDocumentNames;
+	}
+
+	public String[] getContractKeyPersonnelNames() {
+		return contractKeyPersonnelNames;
+	}
+
+	public void setContractKeyPersonnelNames(String[] contractKeyPersonnelNames) {
+		this.contractKeyPersonnelNames = contractKeyPersonnelNames;
+	}
+
+	public String[] getContractKeyPersonnelMobileNos() {
+		return contractKeyPersonnelMobileNos;
+	}
+
+	public void setContractKeyPersonnelMobileNos(String[] contractKeyPersonnelMobileNos) {
+		this.contractKeyPersonnelMobileNos = contractKeyPersonnelMobileNos;
+	}
+
+	public String[] getContractKeyPersonnelEmailIds() {
+		return contractKeyPersonnelEmailIds;
+	}
+
+	public void setContractKeyPersonnelEmailIds(String[] contractKeyPersonnelEmailIds) {
+		this.contractKeyPersonnelEmailIds = contractKeyPersonnelEmailIds;
+	}
+
+	public MultipartFile[] getContractDocumentFiles() {
+		return contractDocumentFiles;
+	}
+
+	public void setContractDocumentFiles(MultipartFile[] contractDocumentFiles) {
+		this.contractDocumentFiles = contractDocumentFiles;
+	}
+
+	public List<Contract> getContractDocuments() {
+		return contractDocuments;
+	}
+
+	public void setContractDocuments(List<Contract> contractDocuments) {
+		this.contractDocuments = contractDocuments;
+	}
+
+	public List<Contract> getContractKeyPersonnels() {
+		return contractKeyPersonnels;
+	}
+
+	public void setContractKeyPersonnels(List<Contract> contractKeyPersonnels) {
+		this.contractKeyPersonnels = contractKeyPersonnels;
+	}
 
 	public String getContract_id_code() {
 		return contract_id_code;
@@ -164,18 +287,6 @@ public class Contract {
 	public void setCompletion_certificate_release(String completion_certificate_release) {
 		this.completion_certificate_release = completion_certificate_release;
 	}
-
-	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,
-	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,
-	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
-	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
-	
-	private MultipartFile contractFile;
-	
-	private List<Contract> bankGauranree;
-	private List<Contract> insurence;
-	private List<Contract> milestones;
-	private List<Contract> contract_revision;
 	public List<Contract> getContract_revision() {
 		return contract_revision;
 	}

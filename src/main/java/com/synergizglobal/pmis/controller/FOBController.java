@@ -20,11 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,8 +33,9 @@ import com.synergizglobal.pmis.Iservice.FOBService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Project;
 
@@ -131,7 +132,12 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
-			
+			MultipartFile file = obj.getFobFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+			}
 			boolean flag = fobService.addFOB(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "FOB added successfully");
@@ -181,7 +187,12 @@ public class FOBController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
 			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
-			
+			MultipartFile file = obj.getFobFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+			}
 			boolean flag = fobService.updateFOB(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "FOB updated successfully");

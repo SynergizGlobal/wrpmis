@@ -2,11 +2,14 @@ package com.synergizglobal.pmis.model;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class FOB {
 	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
 	detail_name,value,work_id_fk,project_id_fk,project_name,contract_id,contract_name;
 
+	private MultipartFile fobFile;
 	private List<FOB> fobDetails;
 	
 	private String[] fob_detail_names,fob_detail_values;
@@ -227,6 +230,14 @@ public class FOB {
 
 	public void setContract_name(String contract_name) {
 		this.contract_name = contract_name;
+	}
+
+	public MultipartFile getFobFile() {
+		return fobFile;
+	}
+
+	public void setFobFile(MultipartFile fobFile) {
+		this.fobFile = fobFile;
 	}
 	
 }

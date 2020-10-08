@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.FOBDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.model.FOB;
 
 @Repository
@@ -71,7 +72,8 @@ public class FOBDaoImpl implements FOBDao {
 	public boolean addFOB(FOB obj) throws Exception {
 		boolean flag = false;
 		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);		
+			
 			String qry = "INSERT INTO fob"
 					+ "(fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
 					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks) "
@@ -85,6 +87,13 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			
 			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+				obj.setFob_detail_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_names()));
+			}
+			if(flag && !StringUtils.isEmpty(obj.getFob_detail_values()) && obj.getFob_detail_values().length > 0) {
+				obj.setFob_detail_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_values()));
+			}
+			
+			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
 				
 				String[] fobDetailNames = obj.getFob_detail_names();
 				String[] fobDetailValues = obj.getFob_detail_values();
@@ -92,22 +101,13 @@ public class FOBDaoImpl implements FOBDao {
 				String qryFOBDetail = "INSERT INTO fob_detail (fob_id_fk,detail_name,value) VALUES  (?,?,?)";		
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail,
-			            new BatchPreparedStatementSetter() {
-			                 
+			            new BatchPreparedStatementSetter() {			                 
 			                @Override
-			                public void setValues(PreparedStatement ps, int i) throws SQLException {			                
+			                public void setValues(PreparedStatement ps, int i) throws SQLException {	
+			                	int k = 1;
 								ps.setString(1, obj.getFob_id());
-								
-								if(!StringUtils.isEmpty(fobDetailNames) && fobDetailNames.length > 0) {
-									   ps.setString(2,fobDetailNames[i]);
-								}else {
-									   ps.setString(2, null);
-								}	
-								if(!StringUtils.isEmpty(fobDetailValues) && fobDetailValues.length > 0) {
-									 ps.setString(3, fobDetailValues[i]);
-								}else {
-									   ps.setString(3, null);
-								}	
+								ps.setString(k++,fobDetailNames[i]);
+								ps.setString(k++, fobDetailValues[i]);
 			                }
 			                @Override  
 			                public int getBatchSize() {

@@ -116,11 +116,18 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
+                                <c:if test="${empty fob.fob_id }">
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="fob_id" name="fob_id" type="text" class="validate" style="margin-top: 5px;">
+	                                     <label for="fob_name">FOB ID</label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
+	                                </div>
+                                </c:if>
                                 <c:if test="${not empty fob.fob_id }">
-                                <div class="col s12 m4 input-field">
-                                    <label style="margin-top:10px"> FOB ID : <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-                                    <span id="fob_idError" class="error-msg" ></span>
-                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <label style="margin-top:10px"> FOB ID : <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                    <span id="fob_idError" class="error-msg" ></span>
+	                                </div>
                                 </c:if>
                             </div>
 
@@ -495,7 +502,9 @@
 	var validator = $('#fobForm').validate({
 	    	ignore: ":hidden:not(.validate-dropdown)",
 			   rules: {
-    				  "project_id_fk": {
+				   	  "fob_id": {
+				 		required: true
+			 	  	  },"project_id_fk": {
    				 		required: true
    				 	  },"work_id_fk": {
 				 		required: true
@@ -527,7 +536,9 @@
 				 				
 			 	},
 			   messages: {
-    				 "project_id_fk": {
+				     "fob_id": {
+  			 			required: 'Required'
+  			 	  	 },"project_id_fk": {
    			 			required: 'Required'
    			 	  	 },"work_id_fk": {
 			 			required: 'Required'
@@ -560,7 +571,10 @@
 		    },
 			  errorPlacement:
 			 	function(error, element){
-    				if (element.attr("id") == "project_id_fk" ){
+				    if (element.attr("id") == "fob_id" ){
+			 		     document.getElementById("fob_idError").innerHTML="";
+			 			 error.appendTo('#fob_idError');
+			 	    }else if (element.attr("id") == "project_id_fk" ){
  			 		     document.getElementById("project_id_fkError").innerHTML="";
  			 			 error.appendTo('#project_id_fkError');
  			 	    }else if (element.attr("id") == "work_id_fk" ){

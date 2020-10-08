@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.UserDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.User;
 @Repository
@@ -196,6 +197,13 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
+				obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
+			}
+			if(flag && !StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
+				obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
+			}
+			
+			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
 				
 				String[] types = obj.getUser_access_types();
 				String[] values = obj.getUser_access_values();
@@ -318,6 +326,13 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
+				obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
+			}
+			if(flag && !StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
+				obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
+			}
+			
+			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
 				
 				String deleteQry = "DELETE from user_access where user_id_fk = :user_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -393,9 +408,11 @@ public class UserDaoImpl implements UserDao{
 				            new BatchPreparedStatementSetter() {				                 
 				                @Override
 				                public void setValues(PreparedStatement ps, int i) throws SQLException {
+				                	String permission = user.getUserPermissions().get(i).getUser_access_type();
+				                	String value = user.getUserPermissions().get(i).getAccess_value();
 				                    ps.setString(1, user_id);
-				                    ps.setString(2, user.getUserPermissions().get(i).getUser_access_type());
-				                    ps.setString(3, user.getUserPermissions().get(i).getAccess_value());			                    
+				                    ps.setString(2, !StringUtils.isEmpty(permission)?permission:null);
+				                    ps.setString(3, !StringUtils.isEmpty(value)?value:null);			                    
 				                }
 				                @Override  
 				                public int getBatchSize() {

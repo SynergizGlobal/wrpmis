@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.WorkDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Railway;
 import com.synergizglobal.pmis.model.Work;
@@ -169,12 +170,10 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(4,work.getWork_id());
 			count = stmt.executeUpdate();
 			
-			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
-				String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
-				stmt = con.prepareStatement(qryDelete); 			
-				stmt.setString(1,work.getWork_id());
-				count = stmt.executeUpdate();
-			}
+			String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
+			stmt = con.prepareStatement(qryDelete); 			
+			stmt.setString(1,work.getWork_id());
+			count = stmt.executeUpdate();
 			
 			
 			if(stmt != null){stmt.close();}	
@@ -182,50 +181,37 @@ public class WorkDaoImpl implements WorkDao {
 					 +"year_of_revision,revision_number,remarks,work_id_fk) "
 					 +"VALUES (?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry4); 
+			
+			if(flag && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
+				work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
+				work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
+				work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
+				work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
+				work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
+				work.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(work.getRemarkss()));
+			}
+			
 			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
 				for (int i = 0; i < work.getFinancial_years().length; i++) {
 					if(!StringUtils.isEmpty(work.getFinancial_years()[i])){
 						int p = 1;
 						stmt.setString(p++,work.getFinancial_years()[i]);
-						if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
-							stmt.setString(p++,work.getPink_book_item_numbers()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}	
-						
-						if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
-							stmt.setString(p++,work.getLatest_revised_costs()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}	
-						if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
-							if(!StringUtils.isEmpty(work.getYear_of_revisions()[i])) {
-								stmt.setString(p++,work.getYear_of_revisions()[i]);
-							} else {
-								stmt.setString(p++,null);
-							}	
-							
-						}else {
-							stmt.setString(p++,null);
-						}	
-						
-						if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
-							stmt.setString(p++,work.getRevision_numbers()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}
-						
-						if(!StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
-							stmt.setString(p++,work.getRemarkss()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}
-						if(!StringUtils.isEmpty(work.getWork_id()) ) {
-							stmt.setString(p++,work.getWork_id());
-						} else {
-							stmt.setString(p++,null);
-						}
-						
+						stmt.setString(p++,work.getPink_book_item_numbers()[i]);
+						stmt.setString(p++,work.getLatest_revised_costs()[i]);
+						stmt.setString(p++,work.getYear_of_revisions()[i]);						
+						stmt.setString(p++,work.getRevision_numbers()[i]);
+						stmt.setString(p++,work.getRemarkss()[i]);
+						stmt.setString(p++,work.getWork_id());
 	
 						stmt.addBatch();
 					}
@@ -289,49 +275,36 @@ public class WorkDaoImpl implements WorkDao {
 						 +"year_of_revision,revision_number,remarks,work_id_fk) "
 						 +"VALUES (?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry4); 
+			if(flag && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
+				work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
+				work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
+				work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
+				work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
+				work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
+			}
+			if(flag && !StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
+				work.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(work.getRemarkss()));
+			}
+			
 			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
 				for (int i = 0; i < work.getFinancial_years().length; i++) {
 					if(!StringUtils.isEmpty(work.getFinancial_years()[i])){
 						int p = 1;
 						stmt.setString(p++,work.getFinancial_years()[i]);
-						if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
-							stmt.setString(p++,work.getPink_book_item_numbers()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}	
-						
-						if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
-							stmt.setString(p++,work.getLatest_revised_costs()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}	
-						if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
-							if(!StringUtils.isEmpty(work.getYear_of_revisions()[i])) {
-								stmt.setString(p++,work.getYear_of_revisions()[i]);
-							} else {
-								stmt.setString(p++,null);
-							}	
-							
-						}else {
-							stmt.setString(p++,null);
-						}
-						
-						if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
-							stmt.setString(p++,work.getRevision_numbers()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}
-						
-						if(!StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
-							stmt.setString(p++,work.getRemarkss()[i]);
-						}else {
-							stmt.setString(p++,null);
-						}
-						if(!StringUtils.isEmpty(wID) ) {
-							stmt.setString(p++,wID);
-						} else {
-							stmt.setString(p++,null);
-						}
+						stmt.setString(p++,work.getPink_book_item_numbers()[i]);
+						stmt.setString(p++,work.getLatest_revised_costs()[i]);
+						stmt.setString(p++,work.getYear_of_revisions()[i]);						
+						stmt.setString(p++,work.getRevision_numbers()[i]);
+						stmt.setString(p++,work.getRemarkss()[i]);
+						stmt.setString(p++,work.getWork_id());
 	
 						stmt.addBatch();
 					}

@@ -18,8 +18,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +44,12 @@ import com.synergizglobal.pmis.model.Project;
 
 @Controller
 public class FOBController {
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+	
 	Logger logger = Logger.getLogger(FOBController.class);	
 	
 	@Autowired
@@ -145,8 +154,9 @@ public class FOBController {
 				attributes.addFlashAttribute("error", "Adding fob is failed. Try again.");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("addFOB : " + e.getMessage());
+			logger.error("addFOB : " + e.getMessage());
 		}
 		return model;
 	}

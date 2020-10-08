@@ -110,7 +110,8 @@
 			max-width:100px
 		}
 		#insurenceTableBody td.input-field .prefix,
-		#revTableBody td.input-field .prefix {
+		#revTableBody td.input-field .prefix,
+		#bankTableBody td.input-field .prefix {
     		top: 1.5rem;
 		}
 		
@@ -498,7 +499,7 @@
                                                     <input id="bg_numbers${index.count }" name="bg_numbers" type="text" class="validate"
                                                         placeholder="BG Number">
                                                 </td>
-                                                <td>
+                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values${index.count }" name="bg_values" type="text" class="validate"
                                                         placeholder="BG Value">
                                                 </td>
@@ -590,7 +591,7 @@
                                                     <input id="insurance_numbers${index.count }" name="insurance_numbers" type="text" class="validate" 
                                                         placeholder="Insurance Number">
                                                 </td>
-                                                <td>
+                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="insurance_values${index.count }" name="insurance_values" type="text" class="validate" 
                                                         placeholder="Insurance Value">
                                                 </td>
@@ -1355,7 +1356,7 @@
 		   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
 		   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
-		   +'<td><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
+		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
 		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button" id="bg_upto_icon"><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 	   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -1393,7 +1394,7 @@ function addInsurenceRow(){
 	   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
 	   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 	   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-	   +'<td><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
+	   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
 	   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurance_upto_icon"><i class="fa fa-calendar"></i></button></td>'
 	   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';

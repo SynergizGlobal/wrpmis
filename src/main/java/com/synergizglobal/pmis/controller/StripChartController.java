@@ -200,17 +200,8 @@ public class StripChartController {
 	public ModelAndView updateStripChart(@ModelAttribute StripChart obj, HttpSession session,RedirectAttributes attributes) throws IOException {
 		ModelAndView model = new ModelAndView("redirect:/strip-chart");
 		String user_Id = null;String userName = null;
-		//SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-		//SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try {			
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			
-			/*if(!StringUtils.isEmpty(obj.getProgress_date())){
-				Date convertedDate = sdf.parse(obj.getProgress_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setProgress_date(currentDate);
-			}*/
 			
 			obj.setProgress_date(DateParser.parse(obj.getProgress_date())); 
 			

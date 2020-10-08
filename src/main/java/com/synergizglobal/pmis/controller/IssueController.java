@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -137,25 +138,13 @@ public class IssueController {
 	@RequestMapping(value="/add-issue",method=RequestMethod.POST)
 	public ModelAndView addIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/issues");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			
-			if(!StringUtils.isEmpty(obj.getDate())){
-				Date convertedDate = sdf.parse(obj.getDate());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setDate(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getResolved_date())){
-				Date convertedDate = sdf.parse(obj.getResolved_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setResolved_date(currentDate);
-			}
+			obj.setDate(DateParser.parse(obj.getDate()));			
+			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
 			
 			MultipartFile file = obj.getIssueFile();
 			if (null != file && !file.isEmpty()){
@@ -240,25 +229,13 @@ public class IssueController {
 	@RequestMapping(value="/update-issue",method=RequestMethod.POST)
 	public ModelAndView updateIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/issues");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			
-			if(!StringUtils.isEmpty(obj.getDate())){
-				Date convertedDate = sdf.parse(obj.getDate());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setDate(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getResolved_date())){
-				Date convertedDate = sdf.parse(obj.getResolved_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setResolved_date(currentDate);
-			}
+			obj.setDate(DateParser.parse(obj.getDate()));			
+			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
 			
 			MultipartFile file = obj.getIssueFile();
 			if (null != file && !file.isEmpty()){

@@ -372,9 +372,6 @@ public class UserController {
 			userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName("redirect:/users");
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
-			
 			if(!StringUtils.isEmpty(user.getFileName())){
 				MultipartFile multipartFile = user.getFileName();
 				// Creates a workbook object from the uploaded excelfile

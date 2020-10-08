@@ -35,6 +35,7 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -147,52 +148,16 @@ public class ContractController {
 	@RequestMapping(value = "/add-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContract(@ModelAttribute  Contract contract,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			model.setViewName("redirect:/contract");
-			
-			if(!StringUtils.isEmpty(contract.getDoc())){
-				Date convertedDate = sdf.parse(contract.getDoc());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setDoc(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getCa_date())){
-				Date convertedDate = sdf.parse(contract.getCa_date());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setCa_date(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getDate_of_start())){
-				Date convertedDate = sdf.parse(contract.getDate_of_start());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setDate_of_start(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getLoa_date())){
-				Date convertedDate = sdf.parse(contract.getLoa_date());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setLoa_date(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getActual_completion_date())){
-				Date convertedDate = sdf.parse(contract.getActual_completion_date());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setActual_completion_date(currentDate);
-			}
-		
-		if(!StringUtils.isEmpty(contract.getContract_closure_date())){
-			Date convertedDate = sdf.parse(contract.getContract_closure_date());
-			String currentDate = sqlDate.format(convertedDate);
-			contract.setContract_closure_date(currentDate);
-		}
-		if(!StringUtils.isEmpty(contract.getCompletion_certificate_release())){
-			Date convertedDate = sdf.parse(contract.getCompletion_certificate_release());
-			String currentDate = sqlDate.format(convertedDate);
-			contract.setCompletion_certificate_release(currentDate);
-		}
-		if(!StringUtils.isEmpty(contract.getFinal_takeover())){
-			Date convertedDate = sdf.parse(contract.getFinal_takeover());
-			String currentDate = sqlDate.format(convertedDate);
-			contract.setFinal_takeover(currentDate);
-		}
+			contract.setDoc(DateParser.parse(contract.getDoc()));
+			contract.setCa_date(DateParser.parse(contract.getCa_date()));
+			contract.setDate_of_start(DateParser.parse(contract.getDate_of_start()));			
+			contract.setLoa_date(DateParser.parse(contract.getLoa_date()));
+			contract.setActual_completion_date(DateParser.parse(contract.getActual_completion_date()));		
+			contract.setContract_closure_date(DateParser.parse(contract.getContract_closure_date()));
+			contract.setCompletion_certificate_release(DateParser.parse(contract.getCompletion_certificate_release()));		
+			contract.setFinal_takeover(DateParser.parse(contract.getFinal_takeover()));
 		
 			boolean flag =  contractservice.addContract(contract);
 			
@@ -287,52 +252,17 @@ public class ContractController {
 	@RequestMapping(value = "/update-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateWork(@ModelAttribute Contract contract,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try{
 			model.setViewName("redirect:/contract");
 
-			if(!StringUtils.isEmpty(contract.getDoc())){
-				Date convertedDate = sdf.parse(contract.getDoc());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setDoc(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getCa_date())){
-				Date convertedDate = sdf.parse(contract.getCa_date());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setCa_date(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getDate_of_start())){
-				Date convertedDate = sdf.parse(contract.getDate_of_start());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setDate_of_start(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getLoa_date())){
-				Date convertedDate = sdf.parse(contract.getLoa_date());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setLoa_date(currentDate);
-			}
-			if(!StringUtils.isEmpty(contract.getActual_completion_date())){
-				Date convertedDate = sdf.parse(contract.getActual_completion_date());
-				String currentDate = sqlDate.format(convertedDate);
-				contract.setActual_completion_date(currentDate);
-			}
-		
-		if(!StringUtils.isEmpty(contract.getContract_closure_date())){
-			Date convertedDate = sdf.parse(contract.getContract_closure_date());
-			String currentDate = sqlDate.format(convertedDate);
-			contract.setContract_closure_date(currentDate);
-		}
-		if(!StringUtils.isEmpty(contract.getCompletion_certificate_release())){
-			Date convertedDate = sdf.parse(contract.getCompletion_certificate_release());
-			String currentDate = sqlDate.format(convertedDate);
-			contract.setCompletion_certificate_release(currentDate);
-		}
-		if(!StringUtils.isEmpty(contract.getFinal_takeover())){
-			Date convertedDate = sdf.parse(contract.getFinal_takeover());
-			String currentDate = sqlDate.format(convertedDate);
-			contract.setFinal_takeover(currentDate);
-		}
+			contract.setDoc(DateParser.parse(contract.getDoc()));
+			contract.setCa_date(DateParser.parse(contract.getCa_date()));
+			contract.setDate_of_start(DateParser.parse(contract.getDate_of_start()));			
+			contract.setLoa_date(DateParser.parse(contract.getLoa_date()));
+			contract.setActual_completion_date(DateParser.parse(contract.getActual_completion_date()));		
+			contract.setContract_closure_date(DateParser.parse(contract.getContract_closure_date()));
+			contract.setCompletion_certificate_release(DateParser.parse(contract.getCompletion_certificate_release()));		
+			contract.setFinal_takeover(DateParser.parse(contract.getFinal_takeover()));
 		
 			boolean flag =  contractservice.updateContract(contract);
 			if(flag == true) {

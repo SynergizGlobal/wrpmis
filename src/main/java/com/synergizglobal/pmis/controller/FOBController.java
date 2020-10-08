@@ -32,6 +32,7 @@ import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.FOBService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
@@ -121,37 +122,15 @@ public class FOBController {
 	@RequestMapping(value="/add-fob",method=RequestMethod.POST)
 	public ModelAndView addFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/fob");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			
-			if(!StringUtils.isEmpty(obj.getTarget_date())){
-				Date convertedDate = sdf.parse(obj.getTarget_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setTarget_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getConstruction_start_date())){
-				Date convertedDate = sdf.parse(obj.getConstruction_start_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setConstruction_start_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getCommissioning_date())){
-				Date convertedDate = sdf.parse(obj.getCommissioning_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setCommissioning_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getActual_completion_date())){
-				Date convertedDate = sdf.parse(obj.getActual_completion_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setActual_completion_date(currentDate);
-			}
+			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));			
+			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
+			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
+			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
 			
 			boolean flag = fobService.addFOB(obj);
 			if(flag) {
@@ -193,37 +172,15 @@ public class FOBController {
 	@RequestMapping(value="/update-fob",method=RequestMethod.POST)
 	public ModelAndView updateFOB(@ModelAttribute FOB obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/fob");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			
-			if(!StringUtils.isEmpty(obj.getTarget_date())){
-				Date convertedDate = sdf.parse(obj.getTarget_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setTarget_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getConstruction_start_date())){
-				Date convertedDate = sdf.parse(obj.getConstruction_start_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setConstruction_start_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getCommissioning_date())){
-				Date convertedDate = sdf.parse(obj.getCommissioning_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setCommissioning_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getActual_completion_date())){
-				Date convertedDate = sdf.parse(obj.getActual_completion_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setActual_completion_date(currentDate);
-			}
+			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));			
+			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));			
+			obj.setCommissioning_date(DateParser.parse(obj.getCommissioning_date()));			
+			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));
 			
 			boolean flag = fobService.updateFOB(obj);
 			if(flag) {

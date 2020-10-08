@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -138,35 +139,13 @@ public class SafetyController {
 	@RequestMapping(value="/add-safety",method=RequestMethod.POST)
 	public ModelAndView addSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			model.setViewName("redirect:/safety");
 			
-			if(!StringUtils.isEmpty(obj.getDate())){
-				Date convertedDate = sdf.parse(obj.getDate());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setDate(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getClosure_date())){
-				Date convertedDate = sdf.parse(obj.getClosure_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setClosure_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getInvestigation_completed())){
-				Date convertedDate = sdf.parse(obj.getInvestigation_completed());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setInvestigation_completed(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getPayment_date())){
-				Date convertedDate = sdf.parse(obj.getPayment_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setPayment_date(currentDate);
-			}
+			obj.setDate(DateParser.parse(obj.getDate()));			
+			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
+			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
+			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
 			
 			MultipartFile file = obj.getSafetyFile();
 			if (null != file && !file.isEmpty()){
@@ -259,35 +238,13 @@ public class SafetyController {
 	@RequestMapping(value="/update-safety",method=RequestMethod.POST)
 	public ModelAndView updateSafety(@ModelAttribute Safety obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		//SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-		SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			model.setViewName("redirect:/safety");
 			
-			if(!StringUtils.isEmpty(obj.getDate())){
-				Date convertedDate = sdf.parse(obj.getDate());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setDate(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getClosure_date())){
-				Date convertedDate = sdf.parse(obj.getClosure_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setClosure_date(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getInvestigation_completed())){
-				Date convertedDate = sdf.parse(obj.getInvestigation_completed());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setInvestigation_completed(currentDate);
-			}
-			
-			if(!StringUtils.isEmpty(obj.getPayment_date())){
-				Date convertedDate = sdf.parse(obj.getPayment_date());
-				String currentDate = sqlDate.format(convertedDate);
-				obj.setPayment_date(currentDate);
-			}
+			obj.setDate(DateParser.parse(obj.getDate()));			
+			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
+			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
+			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
 			
 			MultipartFile file = obj.getSafetyFile();
 			if (null != file && !file.isEmpty()){

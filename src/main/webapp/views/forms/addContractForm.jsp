@@ -113,6 +113,31 @@
 		#revTableBody td.input-field .prefix {
     		top: 1.5rem;
 		}
+		
+		    .filevalue {
+            display: block;
+            margin-top: 10px;
+        }
+        #insurance_div,#bank_guarantee_div{
+        	margin:0
+        }
+        .table-inside td .btn{
+        	padding:6px 12px;
+        	line-height:20px;
+        	height:auto;
+        }
+         .table-inside td .btn .fa{
+         	font-size:1rem;
+         }
+         
+         .table-inside .normal-btn .btn{
+         	padding:0 16px;
+        	line-height:36px;
+        	height:36px;
+         }
+         .table-inside .normal-btn .btn .fa{
+         	font-size:1.3rem;
+         }
     </style>
 </head>
 
@@ -133,286 +158,287 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <div class="container container-no-margin">
+<!--                     <div class="container container-no-margin"> -->
                         <form action="add-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-                            <div class="row">
-                                <!-- row 1  -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                <p><label>Project ID</label></p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
-                                    onchange="getWorksList(this.value);">
-                                        <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}" >${ obj.project_id}</option>
-                                         </c:forEach>
-                                    </select>                                    
-                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                <p><label>Work Name</label></p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
-                                        <option value="" selected>Select</option>
-                                    </select>
-                                     <span id="work_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <!-- row 1  -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                <p><label>Department</label></p>
-                                    <select name="department_fk" id="department_fk" class="validate-dropdown searchable">
-                                        <option value="">Select</option>
-                                           <c:forEach var="obj" items="${departmentList }">
-                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
-                                          </c:forEach>
-                                    </select>
-                                      <span id="department_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <label class="primary-text-bold" style="margin-top:10px">Contract ID :</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <!-- row 4 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <input name="contract_name" id="contract_name" type="text" class="validate" >
-                                    <label for="contract_name">Contract Name</label>
-                                      <span id="contract_nameError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <!-- row 6 -->
-                                <div class="col m2 hide-on-small-only"></div>
-
-                                <div class="col s12 m4 input-field">
-                                 <p><label>Contract Type</label></p>
-                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
-                                        <option value="" selected>Select</option>
-                                       	   <c:forEach var="obj" items="${contract_type }">
-		                                     <option value="${obj.contract_type_fk }" >${obj.contract_type_fk }</option>
-		                                   </c:forEach>
-                                    </select>                                   
-                                     <span id="contract_type_fkError" class="error-msg" ></span>
-                                    
-                                </div>
-                                
-                                <div class="col s12 m4 input-field">
-                                 <p><label>Contractor Name</label></p>
-                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
-                                        <option value="" selected>Select</option>
-                                       	    <c:forEach var="obj" items="${contractors }">
-		                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_name }</option>
-		                                    </c:forEach>
-                                    </select>
-                                    <span id="contractor_id_fkError" class="error-msg" ></span>
-                                </div>                             
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <input id="scope_of_contract" name="scope_of_contract" type="text" class="validate">
-                                    <label for="scope_of_contract">Scope of Contract</label>
-                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-
-                            </div>
-                            <div class="row">
-                                <!-- //row 9 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 ">
-                                    <div class="row">
-  										<div class="col s12 m6 input-field">
-  										 	<p><label>HOD</label></p>
-                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
-                                     		  <option value="" selected>Select</option> 
-                                                 <c:forEach var="obj" items="${hodList }"> 
-		                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-		                                        </c:forEach> 
-                                            </select> 
-<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
-<!--                                    <label for="hod_user_id_fk">HOD</label> -->
-                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col s12 m6 input-field">
-<!--                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown"> -->
-<!--                                                 <option value="" selected>Select</option> -->
-<%--                                                 <c:forEach var="obj" items="${hodList }"> --%>
-<%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
-<%-- 		                                     	 </c:forEach> --%>
-<!--                                             </select> -->
-										<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
-                               		     <label for="dy_hod_user_id_fk">Dy HOD</label>
-                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <!-- //row 7 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input name="doc" id="doc" type="text" class="validate datepicker">
-                                    <label for="doc">Planned DOC</label>
-                                    <span id="docError" class="error-msg" ></span>
-                                     <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>
-                                    <input id="awarded_cost" name="awarded_cost" type="text" class="validate">
-                                    <label for="awarded_cost">Awarded cost</label>
-                                    <span id="awarded_costError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                                <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="start_date" name="date_of_start" type="text" class="validate datepicker">
-                                    <label for="start_date">Date of Start</label>
-                                     <span id="date_of_startError" class="error-msg" ></span>
-                                    <button type="button" id="start_date_icon"><i class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="estimated_cost" name="estimated_cost" type="text" class="validate">
-                                    <label for="estimated_cost">estimated cost</label>
-                                     <span id="estimated_costError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate">
-                                    <label for="loa_letter_number">LOA Letter No</label>
-                                    <span id="loa_letter_numberError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker">
-                                    <label for="loa_date">LOA Date</label>
-                                     <span id="loa_dateError" class="error-msg" ></span>
-                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="ca_no" name="ca_no" type="text" class="validate">
-                                    <label for="ca_no">CA No</label>
-                                    <span id="ca_noError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker">
-                                    <label for="ca_date">CA Date</label>
-                                    <span id="ca_dateError" class="error-msg" ></span>
-                                    <button type="button" id="ca_date_icon"><i class="fa fa-calendar"></i></button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker">
-                                    <label for="actual_completion_date">Actual Completed Date</label>
-                                     <span id="actual_completion_dateError" class="error-msg" ></span>
-                                    <button type="button" id="co_date_icon"><i class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                	<i class="material-icons prefix center-align">₹</i>
-                                    <input id="completed_cost" name="completed_cost" type="text" class="validate">
-                                    <label for="completed_cost">Completed Cost</label>
-                                      <span id="completed_costError" class="error-msg" ></span>
-                                </div>                              
-                            </div> 
-      						<div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field"> 
-                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker">
-                                    <label for="contract_closure_date">Contract Closure</label>
-                                    <span id="contract_closure_dateError" class="error-msg" ></span>
-                                    <button type="button" id="contract_closure_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="completion_certificate_date" name="completion_certificate_release" type="text" class="validate datepicker">
-                                    <label for="completion_certificate_date">Release of Completion Certificate</label>
-                                     <span id="completion_certificate_dateError" class="error-msg" ></span>
-                                    <button type="button" id="completion_certificate_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="final_takeover_client" name="final_takeover" type="text" class="validate datepicker">
-                                    <label for="final_takeover_client">Final Taking over by Client</label>
-                                    <span id="final_takeover_clientError" class="error-msg" ></span>
-                                    <button type="button" id="final_takeover_client_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate">
-                                    <label for="final_bill_release">Release of Final bill</label>
-                                    <span id="final_bill_releaseError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate">
-                                    <label for="defect_liability_period">Defect Liability Period</label>
-                                    <span id="defect_liability_periodError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate">
-                                    <label for="final_retention_release"> Release of Final Retention amount/BG</label>
-                                     <span id="final_retention_releaseError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="release_of_pbg" name="pbg_release" type="text" class="validate">
-                                    <label for="release_of_pbg">Release of PBG</label>
-                                    <span id="release_of_pbgError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="contract_closure" name="contract_closure" type="text" class="validate">
-                                    <label for="contract_closure"> Contract Closure Comment</label>
-                                    <span id="ontract_closureError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                 <p>   <label>Status of Contract</label></p>
-                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
-                                        <option value="" selected>Select</option>
-                                       		 <c:forEach var="obj" items="${contract_Statustype }">
-		                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
-		                                      </c:forEach>
-                                    </select>
-                                    <span id="contract_status_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
+                            <div class="container container-no-margin">
+	                            <div class="row">
+	                                <!-- row 1  -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                <p><label>Project ID</label></p>
+	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
+	                                    onchange="getWorksList(this.value);">
+	                                        <option value="" selected>Select</option>
+	                                         <c:forEach var="obj" items="${projectsList }">
+	                                      	   <option value= "${ obj.project_id}" >${ obj.project_id}</option>
+	                                         </c:forEach>
+	                                    </select>                                    
+	                                     <span id="project_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                <p><label>Work Name</label></p>
+	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
+	                                        <option value="" selected>Select</option>
+	                                    </select>
+	                                     <span id="work_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <!-- row 1  -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                <p><label>Department</label></p>
+	                                    <select name="department_fk" id="department_fk" class="validate-dropdown searchable">
+	                                        <option value="">Select</option>
+	                                           <c:forEach var="obj" items="${departmentList }">
+	                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
+	                                          </c:forEach>
+	                                    </select>
+	                                      <span id="department_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <label class="primary-text-bold" style="margin-top:10px">Contract ID :</label>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	
+	                            <div class="row">
+	                                <!-- row 4 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 input-field">
+	                                    <input name="contract_name" id="contract_name" type="text" class="validate" >
+	                                    <label for="contract_name">Contract Name</label>
+	                                      <span id="contract_nameError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	
+	                            <div class="row">
+	                                <!-- row 6 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	
+	                                <div class="col s12 m4 input-field">
+	                                 <p><label>Contract Type</label></p>
+	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
+	                                        <option value="" selected>Select</option>
+	                                       	   <c:forEach var="obj" items="${contract_type }">
+			                                     <option value="${obj.contract_type_fk }" >${obj.contract_type_fk }</option>
+			                                   </c:forEach>
+	                                    </select>                                   
+	                                     <span id="contract_type_fkError" class="error-msg" ></span>
+	                                    
+	                                </div>
+	                                
+	                                <div class="col s12 m4 input-field">
+	                                 <p><label>Contractor Name</label></p>
+	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
+	                                        <option value="" selected>Select</option>
+	                                       	    <c:forEach var="obj" items="${contractors }">
+			                                      <option value="${obj.contractor_id_fk }" >${obj.contractor_name }</option>
+			                                    </c:forEach>
+	                                    </select>
+	                                    <span id="contractor_id_fkError" class="error-msg" ></span>
+	                                </div>                             
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 input-field">
+	                                    <input id="scope_of_contract" name="scope_of_contract" type="text" class="validate">
+	                                    <label for="scope_of_contract">Scope of Contract</label>
+	                                 <span id="scope_of_contractError" class="error-msg" ></span>                                    
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	
+	                            </div>
+	                            <div class="row">
+	                                <!-- //row 9 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 ">
+	                                    <div class="row">
+	  										<div class="col s12 m6 input-field">
+	  										 	<p><label>HOD</label></p>
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
+	                                     		  <option value="" selected>Select</option> 
+	                                                 <c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select> 
+	<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+	<!--                                    <label for="hod_user_id_fk">HOD</label> -->
+	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                        <div class="col s12 m6 input-field">
+	<!--                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown"> -->
+	<!--                                                 <option value="" selected>Select</option> -->
+	<%--                                                 <c:forEach var="obj" items="${hodList }"> --%>
+	<%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
+	<%-- 		                                     	 </c:forEach> --%>
+	<!--                                             </select> -->
+											<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
+	                               		     <label for="dy_hod_user_id_fk">Dy HOD</label>
+	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <!-- //row 7 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
+	                                    <label for="doc">Planned DOC</label>
+	                                    <span id="docError" class="error-msg" ></span>
+	                                     <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                	<i class="material-icons prefix center-align">₹</i>
+	                                    <input id="awarded_cost" name="awarded_cost" type="text" class="validate">
+	                                    <label for="awarded_cost">Awarded cost</label>
+	                                    <span id="awarded_costError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="start_date" name="date_of_start" type="text" class="validate datepicker">
+	                                    <label for="start_date">Date of Start</label>
+	                                     <span id="date_of_startError" class="error-msg" ></span>
+	                                    <button type="button" id="start_date_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <i class="material-icons prefix center-align">₹</i>
+	                                    <input id="estimated_cost" name="estimated_cost" type="text" class="validate">
+	                                    <label for="estimated_cost">estimated cost</label>
+	                                     <span id="estimated_costError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate">
+	                                    <label for="loa_letter_number">LOA Letter No</label>
+	                                    <span id="loa_letter_numberError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="loa_date" name="loa_date" type="text" class="validate datepicker">
+	                                    <label for="loa_date">LOA Date</label>
+	                                     <span id="loa_dateError" class="error-msg" ></span>
+	                                    <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="ca_no" name="ca_no" type="text" class="validate">
+	                                    <label for="ca_no">CA No</label>
+	                                    <span id="ca_noError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="ca_date" name="ca_date" type="text" class="validate datepicker">
+	                                    <label for="ca_date">CA Date</label>
+	                                    <span id="ca_dateError" class="error-msg" ></span>
+	                                    <button type="button" id="ca_date_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker">
+	                                    <label for="actual_completion_date">Actual Completed Date</label>
+	                                     <span id="actual_completion_dateError" class="error-msg" ></span>
+	                                    <button type="button" id="co_date_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                	<i class="material-icons prefix center-align">₹</i>
+	                                    <input id="completed_cost" name="completed_cost" type="text" class="validate">
+	                                    <label for="completed_cost">Completed Cost</label>
+	                                      <span id="completed_costError" class="error-msg" ></span>
+	                                </div>                              
+	                            </div> 
+	      						<div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field"> 
+	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker">
+	                                    <label for="contract_closure_date">Contract Closure</label>
+	                                    <span id="contract_closure_dateError" class="error-msg" ></span>
+	                                    <button type="button" id="contract_closure_date_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="completion_certificate_date" name="completion_certificate_release" type="text" class="validate datepicker">
+	                                    <label for="completion_certificate_date">Release of Completion Certificate</label>
+	                                     <span id="completion_certificate_dateError" class="error-msg" ></span>
+	                                    <button type="button" id="completion_certificate_date_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="final_takeover_client" name="final_takeover" type="text" class="validate datepicker">
+	                                    <label for="final_takeover_client">Final Taking over by Client</label>
+	                                    <span id="final_takeover_clientError" class="error-msg" ></span>
+	                                    <button type="button" id="final_takeover_client_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate">
+	                                    <label for="final_bill_release">Release of Final bill</label>
+	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate">
+	                                    <label for="defect_liability_period">Defect Liability Period</label>
+	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate">
+	                                    <label for="final_retention_release"> Release of Final Retention amount/BG</label>
+	                                     <span id="final_retention_releaseError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="release_of_pbg" name="pbg_release" type="text" class="validate">
+	                                    <label for="release_of_pbg">Release of PBG</label>
+	                                    <span id="release_of_pbgError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="contract_closure" name="contract_closure" type="text" class="validate">
+	                                    <label for="contract_closure"> Contract Closure Comment</label>
+	                                    <span id="ontract_closureError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                 <p>   <label>Status of Contract</label></p>
+	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
+	                                        <option value="" selected>Select</option>
+	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
+			                                      </c:forEach>
+	                                    </select>
+	                                    <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 input-field center-align no-float-small">
                                     <p>Bank Guarantee Required</p>
@@ -429,7 +455,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							</div>
                             <!-- bg show hide div  -->
                             <div class="row fixed-width" id="bank_guarantee_div">
                                 <h5 class="center-align">Bank Guarantee Details</h5>
@@ -503,25 +529,26 @@
                                     </table>
 													<input type="hidden" id="bankRowNo"  name="bankRowNo" value="0" />                                </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 input-field center-align no-float-small">
-                                    <p>Insurance Required</p>
-                                    <p>
-                                        <label>
-                                            <input class="with-gap" name="insurance_required" type="radio" value="Yes" />
-                                            <span>Yes</span>
-                                        </label>
-                                        <label>
-                                            <input class="with-gap" name="insurance_required" type="radio" value="No" />
-                                            <span>No</span>
-                                        </label>
-                                    </p>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
+ 							
+ 							<div class="container container-no-margin">
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col m8 input-field center-align no-float-small">
+	                                    <p>Insurance Required</p>
+	                                    <p>
+	                                        <label>
+	                                            <input class="with-gap" name="insurance_required" type="radio" value="Yes" />
+	                                            <span>Yes</span>
+	                                        </label>
+	                                        <label>
+	                                            <input class="with-gap" name="insurance_required" type="radio" value="No" />
+	                                            <span>No</span>
+	                                        </label>
+	                                    </p>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							</div>
                             <!-- insurance show hide div  -->
                             <div class="row fixed-width" id="insurance_div">
                                 <h5 class="center-align">Insurance Details</h5>
@@ -597,65 +624,66 @@
                                 </div>
                             </div>
 
-                            <div class="row fixed-width">
-                                <h5 class="center-align">Milestone Details</h5>
-                                <div class="table-inside">
-                                    <table id="mileTable" class="mdl-data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Milestone Name </th>
-                                                <th>Milestone Date </th>
-                                                <th>Actual Date </th>
-                                                <th>Revision</th>
-                                                <th>Remarks </th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                         <tbody id="milestoneTableBody" >
-                                        
-                                            <tr id="mileRow${index.count }">                                    
-                                                <td>
-                                                    <input id="milestone_names${index.count }" name="milestone_names" type="text" class="validate" 
-                                                        placeholder="Milestone Name ">
-                                                </td>
-                                                <td>
-                                                    <input id="milestone_dates${index.count }" name="milestone_dates" type="text" class="validate datepicker" 
-                                                        placeholder="Milestone Date">
-                                                    <button type="button" id="milestone_date_icon"><i
-                                                            class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker" 
-                                                        placeholder="Actual Date">
-                                                    <button type="button" id="actual_date_icon"><i
-                                                            class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate" 
-                                                        placeholder="Revision">
-                                                </td>
-                                                <td>
-                                                    <input id="mile_remarks${index.count }" name="mile_remarks" type="text" class="validate" 
-                                                        placeholder="Remarks">
-                                                </td>
-                                                <td><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-  												<table class="mdl-data-table">
-                                        <tbody id="milestoneTableBody">                                          
-                                            <tr>
-  										<td colspan="6" style="text-align: right;" ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
-                                                            class="fa fa-plus"></i></a></td> 
-                                             </tr>
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" id="mileRowNo"  name="mileRowNo" value="0" />
-                                </div>
-                            </div>
-                            <div class="row fixed-width">
+ 							<div class="container container-no-margin">
+	                            <div class="row fixed-width">
+	                                <h5 class="center-align">Milestone Details</h5>
+	                                <div class="table-inside">
+	                                    <table id="mileTable" class="mdl-data-table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th>Milestone Name </th>
+	                                                <th>Milestone Date </th>
+	                                                <th>Actual Date </th>
+	                                                <th>Revision</th>
+	                                                <th>Remarks </th>
+	                                                <th>Action</th>
+	                                            </tr>
+	                                        </thead>
+	                                         <tbody id="milestoneTableBody" >
+	                                        
+	                                            <tr id="mileRow${index.count }">                                    
+	                                                <td>
+	                                                    <input id="milestone_names${index.count }" name="milestone_names" type="text" class="validate" 
+	                                                        placeholder="Milestone Name ">
+	                                                </td>
+	                                                <td>
+	                                                    <input id="milestone_dates${index.count }" name="milestone_dates" type="text" class="validate datepicker" 
+	                                                        placeholder="Milestone Date">
+	                                                    <button type="button" id="milestone_date_icon"><i
+	                                                            class="fa fa-calendar"></i></button>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker" 
+	                                                        placeholder="Actual Date">
+	                                                    <button type="button" id="actual_date_icon"><i
+	                                                            class="fa fa-calendar"></i></button>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate" 
+	                                                        placeholder="Revision">
+	                                                </td>
+	                                                <td>
+	                                                    <input id="mile_remarks${index.count }" name="mile_remarks" type="text" class="validate" 
+	                                                        placeholder="Remarks">
+	                                                </td>
+	                                                <td><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>
+	                                            </tr>
+	                                        </tbody>
+	                                    </table>
+	  												<table class="mdl-data-table">
+	                                        <tbody id="milestoneTableBody">                                          
+	                                            <tr>
+	  										<td colspan="6" style="text-align: right;" ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
+	                                                            class="fa fa-plus"></i></a></td> 
+	                                             </tr>
+	                                        </tbody>
+	                                    </table>
+	                                    <input type="hidden" id="mileRowNo"  name="mileRowNo" value="0" />
+	                                </div>
+	                            </div>
+	                            <div class="row fixed-width">
                                 <h5 class="center-align">Revision Details</h5>
                                 <div class="table-inside">
 
@@ -704,23 +732,118 @@
                                    	 <input type="hidden" id="revRowNo"  name="revRowNo" value="0" />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
+                            </div>
+                              <!-- new code  starts-->
+                            <div class="container container-no-margin">
+	                            <div class="container">
+	                                <div class="row fixed-width">
+	                                    <h5 class="center-align">Key Personnel</h5>
+	                                    <div class="table-inside">
+	                                        <table id="example6" class="mdl-data-table">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>Name </th>
+	                                                    <th>Mobile No</th>
+	                                                    <th>Email ID </th>
+	                                                    <th>Action</th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody>
+	                                                <tr>
+	                                                    <td> <input id="person_name" type="text" class="validate"
+	                                                            placeholder="Name">
+	                                                    </td>
+	                                                    <td>
+	                                                        <input id="person_mobile" type="number" class="validate"
+	                                                            placeholder="Mobile No">
+	                                                    </td>
+	                                                    <td>
+	                                                        <input id="person_email" type="text" class="validate"
+	                                                            placeholder="Email">
+	                                                    </td>
+	                                                    <td>
+	                                                        <a href="#" class="btn waves-effect waves-light red t-c "> <i
+	                                                                class="fa fa-close"></i></a>
+	                                                    </td>
+	                                                </tr>
+	                                                <tr>
+	                                                    <td></td>
+	                                                    <td></td>
+	                                                    <td></td>
+	                                                    <td>
+	                                                        <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
+	                                                                class="fa fa-plus"></i></a>
+	                                                    </td>
+	                                                </tr>
+	                                            </tbody>
+	                                        </table>
+	                                    </div>
+	                                </div>
+	                            </div>
+	
+	                            <div class="container" style="margin-bottom:30px">
+                                <div class="row fixed-width">
+                                    <h5 class="center-align">Documents</h5>
+                                    <div class="table-inside">
+                                        <table id="example7" class="mdl-data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name </th>
+                                                    <th>Attachment</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> <input id="doc_name" type="text" class="validate"
+                                                            placeholder="Name">
+                                                    </td>
+                                                    <td>
+                                                        <div class="normal-btn">
+                                                            <input type="file" name="doc_file" id="doc_file"
+                                                                style="display:none" />
+                                                            <label for="doc_file" class="btn bg-m"><i
+                                                                    class="fa fa-paperclip"></i></label>
+                                                            <span id="fileVal" class="filevalue">fileName</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" class="btn waves-effect waves-light red t-c "> <i
+                                                                class="fa fa-close"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
+                                                                class="fa fa-plus"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
-
                             </div>
+							</div>
+                            <!-- new code  ends-->
+                            
+<!--                             <div class="row"> -->
+<!--                                 <div class="col m2 hide-on-small-only"></div> -->
+<!--                                 <div class="col m8 s12"> -->
+<!--                                     <div class="file-field input-field"> -->
+<!--                                         <div class="btn bg-m"> -->
+<!--                                             <span>Attachment</span> -->
+<!--                                             <input type="file"> -->
+<!--                                         </div> -->
+<!--                                         <div class="file-path-wrapper"> -->
+<!--                                             <input class="file-path validate" type="text"> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="col m2 hide-on-small-only"></div> -->
+<!--                             </div> -->
+                         <div class="container container-no-margin">    
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -746,6 +869,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                       </div>
                         </form>
                     </div>
                     <!-- form ends  -->
@@ -753,7 +877,7 @@
 
             </div>
         </div>
-    </div>
+<!--     </div> -->
 
 
 

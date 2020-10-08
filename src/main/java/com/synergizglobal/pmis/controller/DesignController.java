@@ -34,6 +34,7 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
 import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -175,14 +176,14 @@ public class DesignController {
 		try{
 			model.setViewName("redirect:/design");
 			
-			obj.setPlanned_start(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_start()));
-			obj.setPlanned_finish(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_finish()));
-			obj.setConsultant_submission(CommonMethods.convertStringDateToMysqlDate(obj.getConsultant_submission()));
-			obj.setMrvc_reviewed(CommonMethods.convertStringDateToMysqlDate(obj.getMrvc_reviewed()));
-			obj.setDivisional_approval(CommonMethods.convertStringDateToMysqlDate(obj.getDivisional_approval()));
-			obj.setHq_approval(CommonMethods.convertStringDateToMysqlDate(obj.getHq_approval()));
-			obj.setGfc_released(CommonMethods.convertStringDateToMysqlDate(obj.getGfc_released()));
-			obj.setAs_built_date(CommonMethods.convertStringDateToMysqlDate(obj.getAs_built_date()));
+			obj.setPlanned_start(DateParser.parse(obj.getPlanned_start()));
+			obj.setPlanned_finish(DateParser.parse(obj.getPlanned_finish()));
+			obj.setConsultant_submission(DateParser.parse(obj.getConsultant_submission()));
+			obj.setMrvc_reviewed(DateParser.parse(obj.getMrvc_reviewed()));
+			obj.setDivisional_approval(DateParser.parse(obj.getDivisional_approval()));
+			obj.setHq_approval(DateParser.parse(obj.getHq_approval()));
+			obj.setGfc_released(DateParser.parse(obj.getGfc_released()));
+			obj.setAs_built_date(DateParser.parse(obj.getAs_built_date()));
 			
 			boolean flag =  designService.addDesign(obj);
 			if(flag == true) {
@@ -211,14 +212,14 @@ public class DesignController {
 		try{
 			model.setViewName("redirect:/design");
 			
-			obj.setPlanned_start(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_start()));
-			obj.setPlanned_finish(CommonMethods.convertStringDateToMysqlDate(obj.getPlanned_finish()));
-			obj.setConsultant_submission(CommonMethods.convertStringDateToMysqlDate(obj.getConsultant_submission()));
-			obj.setMrvc_reviewed(CommonMethods.convertStringDateToMysqlDate(obj.getMrvc_reviewed()));
-			obj.setDivisional_approval(CommonMethods.convertStringDateToMysqlDate(obj.getDivisional_approval()));
-			obj.setHq_approval(CommonMethods.convertStringDateToMysqlDate(obj.getHq_approval()));
-			obj.setGfc_released(CommonMethods.convertStringDateToMysqlDate(obj.getGfc_released()));
-			obj.setAs_built_date(CommonMethods.convertStringDateToMysqlDate(obj.getAs_built_date()));
+			obj.setPlanned_start(DateParser.parse(obj.getPlanned_start()));
+			obj.setPlanned_finish(DateParser.parse(obj.getPlanned_finish()));
+			obj.setConsultant_submission(DateParser.parse(obj.getConsultant_submission()));
+			obj.setMrvc_reviewed(DateParser.parse(obj.getMrvc_reviewed()));
+			obj.setDivisional_approval(DateParser.parse(obj.getDivisional_approval()));
+			obj.setHq_approval(DateParser.parse(obj.getHq_approval()));
+			obj.setGfc_released(DateParser.parse(obj.getGfc_released()));
+			obj.setAs_built_date(DateParser.parse(obj.getAs_built_date()));
 			
 			boolean flag =  designService.updateDesign(obj);
 			if(flag == true) {

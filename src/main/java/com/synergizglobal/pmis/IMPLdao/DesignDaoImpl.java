@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
-import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.model.Design;
 
 @Repository
@@ -247,22 +247,22 @@ public class DesignDaoImpl implements DesignDao{
 											   ps.setString(k++, null);
 										}	
 										if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
-											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(consultantSubmission[i]));
+											   ps.setString(k++,DateParser.parse(consultantSubmission[i]));
 										}else {
 											   ps.setString(k++, null);
 										}	
 										if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
-											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(mrvcReviewed[i]));
+											   ps.setString(k++,DateParser.parse(mrvcReviewed[i]));
 										}else {
 											   ps.setString(k++, null);
 										}
 										if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
-											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(divisionalApproval[i]));
+											   ps.setString(k++,DateParser.parse(divisionalApproval[i]));
 										}else {
 											   ps.setString(k++, null);
 										}
 										if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
-											   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(hqApproval[i]));
+											   ps.setString(k++,DateParser.parse(hqApproval[i]));
 										}else {
 											   ps.setString(k++, null);
 										}
@@ -343,22 +343,22 @@ public class DesignDaoImpl implements DesignDao{
 										   ps.setString(k++, null);
 									}	
 									if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
-										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(consultantSubmission[i]));
+										   ps.setString(k++,DateParser.parse(consultantSubmission[i]));
 									}else {
 										   ps.setString(k++, null);
 									}	
 									if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
-										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(mrvcReviewed[i]));
+										   ps.setString(k++,DateParser.parse(mrvcReviewed[i]));
 									}else {
 										   ps.setString(k++, null);
 									}
 									if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
-										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(divisionalApproval[i]));
+										   ps.setString(k++,DateParser.parse(divisionalApproval[i]));
 									}else {
 										   ps.setString(k++, null);
 									}
 									if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
-										   ps.setString(k++,CommonMethods.convertStringDateToMysqlDate(hqApproval[i]));
+										   ps.setString(k++,DateParser.parse(hqApproval[i]));
 									}else {
 										   ps.setString(k++, null);
 									}

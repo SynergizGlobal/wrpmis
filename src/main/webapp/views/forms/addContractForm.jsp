@@ -418,12 +418,11 @@
                                     <p>Bank Guarantee Required</p>
                                     <p>
                                         <label>
-                                            <input class="with-gap" name="bg_required" type="radio" checked
-                                                value="yes" />
+                                            <input class="with-gap" name="bg_required" type="radio" value="Yes" />
                                             <span>Yes</span>
                                         </label>
                                         <label>
-                                            <input class="with-gap" name="bg_required" type="radio" value="no" />
+                                            <input class="with-gap" name="bg_required" type="radio" value="No" />
                                             <span>No</span>
                                         </label>
                                     </p>
@@ -511,11 +510,11 @@
                                     <p>Insurance Required</p>
                                     <p>
                                         <label>
-                                            <input class="with-gap" name="insurance_required" type="radio" checked value="yes" />
+                                            <input class="with-gap" name="insurance_required" type="radio" value="Yes" />
                                             <span>Yes</span>
                                         </label>
                                         <label>
-                                            <input class="with-gap" name="insurance_required" type="radio" value="no" />
+                                            <input class="with-gap" name="insurance_required" type="radio" value="No" />
                                             <span>No</span>
                                         </label>
                                     </p>
@@ -912,12 +911,12 @@
             // show or hide based on bg 
             $('input[name="bg_required"]').change(function () {
                 var radioval = $('input[name="bg_required"]:checked').val();
-                if (radioval == 'yes') {
+                if (radioval == 'Yes') {
                     $('#bank_guarantee_div .btn').removeClass('disabled');
                     $('#bank_guarantee_div input').prop("disabled", false);
                     // .css("display", "block");
                 }
-                else if (radioval == 'no') {
+                else if (radioval == 'No') {
                     $('#bank_guarantee_div .btn').addClass('disabled');
                     $('#bank_guarantee_div input').prop("disabled", true);
                 }
@@ -926,11 +925,11 @@
 
             $('input[name="insurance_required"]').change(function () {
                 var radioval = $('input[name="insurance_required"]:checked').val();
-                if (radioval == 'yes') {
+                if (radioval == 'Yes') {
                     $('#insurance_div .btn').removeClass('disabled');
                     $('#insurance_div input').prop("disabled", false);
                 }
-                else if (radioval == 'no') {
+                else if (radioval == 'No') {
                     $('#insurance_div .btn').addClass('disabled');
                     $('#insurance_div input').prop("disabled", true);
                 }

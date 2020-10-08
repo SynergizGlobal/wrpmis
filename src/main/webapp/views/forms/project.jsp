@@ -211,8 +211,8 @@
 	    }
         
         function exportProject(){
+        	
         	 var project_id = $("#project_id").val();
-        	 
         	 $("#exportProject_id").val(project_id);
         	 $("#exportProjectForm").submit();
      	}

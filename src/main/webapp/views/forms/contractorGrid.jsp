@@ -1,13 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %><!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Equipment </title>
+    <title>Contractor </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
+<!--     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
+ -->    
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -24,6 +27,21 @@
         td:last-of-type {
             white-space: inherit;
         }
+         td{
+       		 word-break: break-word;
+    		 word-wrap: break-word;
+   			 white-space: initial;
+    	 }
+         .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -40,6 +58,20 @@
                             <h6> Contractor</h6>
                         </div>
                     </span>
+                    <div class="row clearfix">
+              			  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               				  <c:if test="${not empty success }">
+				      			  <div class="center-align m-1 close-message">	
+								    ${success}
+							      </div>
+							  </c:if>
+						      <c:if test="${not empty error }">
+								   <div class="center-align m-1 close-message">
+						  		    ${error}
+								  </div>
+							  </c:if>
+						  </div>
+				    </div>
                     <div class="">
 
                         <div class="row plr-1 center-align">
@@ -53,21 +85,21 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="contractor.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-contractor-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Contractor</strong></a>
                                 </div>
                             </div>
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="javascript:void(0);" onclick="exportContractor();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="example" class="mdl-data-table">
+                                <table id="contractorTable" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Contractor ID</th>
@@ -79,19 +111,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                     <c:forEach var="obj" items="${contractorsList }">
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                           
-                                            <td></td>
-                                            <td class="last-column"> <a href="contractor.html"
+                                            <td>${obj.contractor_id }</td>
+                                            <td>${obj.contractor_name }</td>
+                                            <td>${obj.contractor_specilization_fk }</td>
+                                            <td>${obj.address }</td>                                           
+                                            <td>${obj.remarks }</td>
+                                            <td class="last-column"> <a  href="javascript:void(0);"
+                                            onclick="getContractor('${ obj.contractor_id }')"
                                                     class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
+                                                <a onclick="deleteContractor('${ obj.contractor_id }');" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
+                                       </c:forEach> 
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -102,7 +138,21 @@
         </div>
     </div>
 
-
+ <!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+	
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -115,10 +165,16 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 
-
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="contractor_id" id="contractor_id" />
+    </form>
+     
+    <form action="<%=request.getContextPath() %>/export-contractor" name="exportContractorForm" id="exportContractorForm" target="_blank" method="post">	
+        <input type="hidden" name="contractor_id" id="exportContractor_id" />
+	</form>
     <script>
         $(document).ready(function () {
-            $('#example').DataTable({
+            $('#contractorTable').DataTable({
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
@@ -129,11 +185,54 @@
                 ], "scrollCollapse": true,
                 fixedHeader: true,
                 // "sScrollY": 400,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
         });
+        
+        function getContractor(contractor_id){
+	    	$("#contractor_id").val(contractor_id);
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-contractor');
+	    	$('#getForm').submit();
+	    }
+        
+    	function deleteContractor(contractor_id){
+        	$("#contractor_id").val(contractor_id);
+        	showCancelMessage();
+	    }
+        	
+        
+        function showCancelMessage() {
+        	swal({
+	            title: "Are you sure?",
+	            text: "You will be able to change the status of record!",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "Yes, delete it!",
+	            cancelButtonText: "No, cancel it!",
+	            closeOnConfirm: false,
+	            closeOnCancel: false
+	        }, function (isConfirm) {
+	            if (isConfirm) {
+	               // swal("Deleted!", "Record has been deleted", "success");
+	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-contractor');
+	    	    	$('#getForm').submit();
+	           }else {
+	                swal("Cancelled", "Record is safe :)", "error");
+	            }
+	        });
+	    }
+        
+        function exportContractor(){
+        	 var contractor_id = $("#contractor_id").val();
+        	 $("#exportContractor_id").val(contractor_id);
+        	 $("#exportContractorForm").submit();
+     	}
     </script>
 </body>
 

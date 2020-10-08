@@ -426,13 +426,13 @@
                                     <p>Bank Guarantee Required</p>							<%-- ${contractDeatils.bg_required } --%>
                                     <p>
                                         <label>
-                                            <input class="with-gap" name="bg_required" type="radio"  value="yes" <c:if test="${contractDeatils.bg_required eq 'yes'}">checked
+                                            <input class="with-gap" name="bg_required" type="radio"  value="Yes" <c:if test="${contractDeatils.bg_required eq 'Yes'}">checked
                                             </c:if> />
                                                
                                             <span>Yes</span>
                                         </label>
                                         <label>
-                                            <input class="with-gap" name="bg_required" type="radio" value="no" <c:if test="${contractDeatils.bg_required eq 'no'}">checked
+                                            <input class="with-gap" name="bg_required" type="radio" value="No" <c:if test="${contractDeatils.bg_required eq 'No'}">checked
                                             </c:if> />
                                             <span>No</span>
                                         </label>
@@ -602,12 +602,12 @@
                                     <p>Insurance Required</p>
                                     <p>
                                         <label>
-                                            <input class="with-gap" name="insurance_required" type="radio"  value="yes" <c:if test="${contractDeatils.insurance_required eq 'yes'}">checked
+                                            <input class="with-gap" name="insurance_required" type="radio"  value="Yes" <c:if test="${contractDeatils.insurance_required eq 'Yes'}">checked
                                             </c:if> />
                                             <span>Yes</span>
                                         </label>
                                         <label>
-                                            <input class="with-gap" name="insurance_required" type="radio"  value="no" <c:if test="${contractDeatils.insurance_required eq 'no'}">checked
+                                            <input class="with-gap" name="insurance_required" type="radio"  value="No" <c:if test="${contractDeatils.insurance_required eq 'No'}">checked
                                             </c:if> />
                                             <span>No</span>
                                         </label>

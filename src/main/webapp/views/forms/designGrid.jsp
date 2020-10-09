@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
         p a {
             color: blue;
@@ -240,11 +240,12 @@
 	                    targets: [0, 1, 2],
 	                    className: 'mdl-data-table__cell--non-numeric'
 	                },
-	                { orderable: false, 'aTargets': ['nosort'] }
+	                { orderable: false, 'aTargets': ['nosort'] },
+	               // { "width": "100px", "targets": [1] }, to get 100px width in title column
 	            ],
-	            // "ScrollX": true,
-	            "scrollCollapse": true,
-	            "sScrollY": 400,
+	            "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
 	            initComplete: function () {
 	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	            }
@@ -286,11 +287,12 @@
 	                    targets: [0, 1, 2],
 	                    className: 'mdl-data-table__cell--non-numeric'
 	                },
-	                { orderable: false, 'aTargets': ['nosort'] }
-	            ],
-	            // "ScrollX": true,
-	            "scrollCollapse": true,
-	            "sScrollY": 400,
+	                { orderable: false, 'aTargets': ['nosort'] },
+	                // { "width": "100px", "targets": [1] }, to get 100px width in title column
+	            ],	            
+	            "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
 	            initComplete: function () {
 	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	            }

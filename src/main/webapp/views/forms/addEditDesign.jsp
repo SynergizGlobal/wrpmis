@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 
        <style>
         #revTable .datepicker~button,
@@ -77,8 +78,9 @@
             border: 2px solid #2E58AD !important;
         }
         #revTable .select2-container{
-        max-width:80px;
-        text-align:left;
+	        max-width:80px;
+	        text-align:left;
+	        margin-top:10px;
         }
     </style>
 </head>
@@ -497,7 +499,7 @@
                                                     <option value="3">Category 3</option>
                                                 </select>
                                             </div>
-                                            <div class="col s12 m6 input-field" style="padding-top: 14px;">
+                                            <div class="col s12 m6 input-field" style="padding-top: 24px;">
                                                 <p class="prio">Priority</p>
                                                 <p class="radiogroup">
                                                     <label>

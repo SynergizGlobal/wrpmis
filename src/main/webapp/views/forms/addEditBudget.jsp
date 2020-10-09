@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
         p a {
             color: blue
@@ -41,6 +42,11 @@
                 min-width: 80px;
             }
         }
+
+        .table-inside td span {
+            text-align: left;
+            display: block;
+        }
     </style>
 </head>
 
@@ -48,7 +54,7 @@
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
-       <div class="row">
+         <div class="row">
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
@@ -62,11 +68,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <form action="#">
-
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label> Project ID </label></p>
+                                    <p> <label> Project </label></p>
                                     <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
@@ -75,7 +80,7 @@
                                     </select>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label> Work ID </label></p>
+                                    <p> <label> Work </label></p>
                                     <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
@@ -87,7 +92,7 @@
 
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+                            <!-- 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -105,9 +110,9 @@
                                     <label for="latest_sanction_cost">Latest Sanction Cost</label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> -->
 
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
@@ -120,7 +125,7 @@
                                     <label for="cumulative_expenditure_fy">Cumulative Expenditure in FY</label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> -->
 
                             <div class="row">
                                 <div class="col m4 hide-on-small-only"></div>
@@ -137,169 +142,154 @@
                             </div>
 
                             <div class="container">
-                                <div class="row fixed-width">
-                                    <h5 class="center-align">Budget & Grants</h5>
-                                    <div class="table-inside">
-                                        <table id="example4" class="mdl-data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Budget Type </th>
-                                                    <th>Amount </th>
-                                                    <th>Remarks</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="budget_type1" type="text" class="validate"
-                                                            value="BE">
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-field">
-                                                            <i class="material-icons prefix center-align">₹</i>
-                                                            <input id="budget_amount1" type="text" class="validate"
-                                                                placeholder="Amount">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input id="budget_remakrs1" type="text" class="validate"
-                                                            placeholder="Remarks">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input id="budget_type2" type="text" class="validate"
-                                                            value="August RE">
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-field">
-                                                            <i class="material-icons prefix center-align">₹</i>
-                                                            <input id="budget_amount2" type="text" class="validate"
-                                                                placeholder="Amount">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input id="budget_remakrs2" type="text" class="validate"
-                                                            placeholder="Remarks">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input id="budget_type3" type="text" class="validate"
-                                                            value="RE">
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-field">
-                                                            <i class="material-icons prefix center-align">₹</i>
-                                                            <input id="budget_amount3" type="text" class="validate"
-                                                                placeholder="Amount">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input id="budget_remakrs3" type="text" class="validate"
-                                                            placeholder="Remarks">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input id="budget_type4" type="text" class="validate"
-                                                            value="Final Estimate">
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-field">
-                                                            <i class="material-icons prefix center-align">₹</i>
-                                                            <input id="budget_amount4" type="text" class="validate"
-                                                                placeholder="Amount">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input id="budget_remakrs4" type="text" class="validate"
-                                                            placeholder="Remarks">
-                                                    </td>
-                                                </tr>
+                                <div class="row">
+                                    <div class="col m6 s12">
+                                        <div class="row fixed-width">
+                                            <h5 class="center-align">Budget</h5>
+                                            <div class="table-inside">
+                                                <table id="example4" class="mdl-data-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Budget Type </th>
+                                                            <th>Amount </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <span>Budget Estimate</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-field">
+                                                                    <i class="material-icons prefix center-align">₹</i>
+                                                                    <input id="budget_amount1" type="text"
+                                                                        class="validate" placeholder="Amount">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span>August Review Estimate</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-field">
+                                                                    <i class="material-icons prefix center-align">₹</i>
+                                                                    <input id="budget_amount2" type="text"
+                                                                        class="validate" placeholder="Amount">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span>Revised Estimate</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-field">
+                                                                    <i class="material-icons prefix center-align">₹</i>
+                                                                    <input id="budget_amount3" type="text"
+                                                                        class="validate" placeholder="Amount">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span>Final Estimate</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-field">
+                                                                    <i class="material-icons prefix center-align">₹</i>
+                                                                    <input id="budget_amount4" type="text"
+                                                                        class="validate" placeholder="Amount">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
 
-                                            </tbody>
-                                        </table>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col m6 s12">
+                                        <div class="row fixed-width">
+                                            <h5 class="center-align">Grants</h5>
+                                            <div class="table-inside">
+                                                <table id="example5" class="mdl-data-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Grant Type </th>
+                                                            <th>Amount </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <span>Budget Grant</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-field">
+                                                                    <i class="material-icons prefix center-align">₹</i>
+                                                                    <input id="grant_amount1" type="text"
+                                                                        class="validate" placeholder="Amount">
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span>Revised Grant</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-field">
+                                                                    <i class="material-icons prefix center-align">₹</i>
+                                                                    <input id="grant_amount2" type="text"
+                                                                        class="validate" placeholder="Amount">
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span>Final Grant</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-field">
+                                                                    <i class="material-icons prefix center-align">₹</i>
+                                                                    <input id="grant_amount3" type="text"
+                                                                        class="validate" placeholder="Amount">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="container">
-                                <div class="row fixed-width" style="margin-top: 40px; margin-bottom:30px;">
-                                    <div class="table-inside">
-                                        <table id="example5" class="mdl-data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Grant Type </th>
-                                                    <th>Amount </th>
-                                                    <th>Remarks</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input id="grant_type1" type="text" class="validate" value="BG">
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-field">
-                                                            <i class="material-icons prefix center-align">₹</i>
-                                                            <input id="grant_amount1" type="text" class="validate"
-                                                                placeholder="Amount">
-                                                        </div>
 
-                                                    </td>
-                                                    <td>
-                                                        <input id="grant_remakrs1" type="text" class="validate"
-                                                            placeholder="Remarks">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input id="grant_type2" type="text" class="validate" value="RG">
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-field">
-                                                            <i class="material-icons prefix center-align">₹</i>
-                                                            <input id="grant_amount2" type="text" class="validate"
-                                                                placeholder="Amount">
-                                                        </div>
-
-                                                    </td>
-                                                    <td>
-                                                        <input id="grant_remakrs2" type="text" class="validate"
-                                                            placeholder="Remarks">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input id="grant_type3" type="text" class="validate" value="FG">
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-field">
-                                                            <i class="material-icons prefix center-align">₹</i>
-                                                            <input id="grant_amount3" type="text" class="validate"
-                                                                placeholder="Amount">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input id="grant_remakrs3" type="text" class="validate"
-                                                            placeholder="Remarks">
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
+                                    <div class="file-field input-field">
+                                        <div class="btn bg-m">
+                                            <span>Attachment</span>
+                                            <input type="file" accept="image/x-png,image/jpeg">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea>
                                     <label for="textarea1">Remarks</label>
                                 </div>
                             </div>
-
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -325,7 +315,7 @@
             </div>
         </div>
     </div>
-
+     
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 

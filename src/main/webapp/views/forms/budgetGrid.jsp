@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
         p a {
             color: blue
@@ -107,24 +108,22 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="example" class="mdl-data-table">
+                                         <table id="example" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Project</th>
                                             <th>Work </th>
-                                            <th>Latest Sanction Cost </th>
-                                            <th>Executed by </th>
                                             <th>Financial Year</th>
                                             <th>Budget Estimate</th>
                                             <th>Budget Grant </th>
                                             <th>Reivised Estimate</th>
                                             <th>Reivised Grant </th>
+                                            <th>Final Estimate</th>
+                                            <th>Final Grant </th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -142,7 +141,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
@@ -164,7 +162,8 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
- <script>
+
+    <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -175,16 +174,17 @@
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "20px", "targets": [9] },
-                ], "scrollCollapse": true,
+                    { "width": "20px", "targets": [8] },
+                ],
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 fixedHeader: true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
         });
-
-
     </script>
 
 </body>

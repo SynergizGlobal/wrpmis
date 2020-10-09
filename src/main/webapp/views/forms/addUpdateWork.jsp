@@ -148,11 +148,15 @@
                                 <div class="col m8 s12">
                                     <div class="row"> 
                                         <div class="col s12 m3 input-field">
-                                            <input id="sanctioned_year" type="text" class="validate datepicker" name="sanctioned_year" value="${workDeatils.sanctioned_year }">
-                                            <label for="sanctioned_year">Sanctioned Year</label>
+<%--                                     <input id="sanctioned_year" type="text" class="validate datepicker" name="sanctioned_year" value="${workDeatils.sanctioned_year }"> --%>
+                                           <p class="searchable_label"> Sanctioned Year</p>
+                                            <select class="searchable" id="sanctioned_year">
+                                                <option value="0" selected>Select</option>
+                                                <option value="1">Agency 1</option>
+                                                <option value="2">Agency 2</option>
+                                                <option value="3">Agency 3</option>
+                                            </select>
                                              <span id="sanctioned_yearError"></span>
-                                            <button type="button" id="sanctioned_year_icon"><i
-                                                    class="fa fa-calendar"></i></button>
                                         </div>
                                          <div class="col s12 m5 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
@@ -189,11 +193,15 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="year_of_completion" type="text" class="validate datepicker" name="year_of_completion" value="${workDeatils.year_of_completion }">
-                                    <label for="year_of_completion">Year of Completion </label>
+<%--                                <input id="year_of_completion" type="text" class="validate datepicker" name="year_of_completion" value="${workDeatils.year_of_completion }"> --%>
+                                   <p> <label for="year_of_completion">Year of Completion </label></p>
+                                    <select id="year_of_completion" class="searchable">
+                                          <option value="0" selected>Select</option>
+                                          <option value="1">Agency 1</option>
+                                          <option value="2">Agency 2</option>
+                                          <option value="3">Agency 3</option>
+                                    </select>
                                     <span id="year_of_completionError"></span>
-                                    <button type="button" id="year_completed_icon"><i
-                                            class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <i class="material-icons prefix center-align">₹</i>
@@ -238,7 +246,7 @@
                                                 <th>Latest Revised Cost </th>
                                                 <th>Year of Revision </th>
                                                 <th>Revision No </th>
-                                                <th>Remarks </th>
+<!--                                                 <th>Remarks </th> -->
                                                 <th>Action</th>
                                             </tr>
                                         </thead> 
@@ -276,10 +284,10 @@
 	                                                    <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
 	                                                        placeholder="Revision Number">
 	                                                </td>
-	                                                <td>
-	                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate" value="${revObj.remarks }"
-	                                                        placeholder="Remarks">
-	                                                </td>
+<!-- 	                                                <td> -->
+<%-- 	                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate" value="${revObj.remarks }" --%>
+<!-- 	                                                        placeholder="Remarks"> -->
+<!-- 	                                                </td> -->
 	                                                <td>
 	                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
 	                                                            class="fa fa-close"></i></a>
@@ -317,10 +325,10 @@
 	                                                    <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
 	                                                        placeholder="Revision Number">
 	                                                </td>
-	                                                <td>
-	                                                    <input id="remarkss0" name="remarkss" type="text" class="validate" 
-	                                                        placeholder="Remarks">
-	                                                </td>
+<!-- 	                                                <td> -->
+<!-- 	                                                    <input id="remarkss0" name="remarkss" type="text" class="validate"  -->
+<!-- 	                                                        placeholder="Remarks"> -->
+<!-- 	                                                </td> -->
 	                                                <td>
 	                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
 	                                                            class="fa fa-close"></i></a>
@@ -620,7 +628,7 @@
 				     </c:forEach>
 				   +'</select></div></td>'
 				   +'<td><input  type="text" class="validate" id="revision_numbers'+rNo+'" name="revision_numbers" placeholder="Revision Number"></td>'
-				   +'<td><input  type="text" class="validate" id="remarkss'+rNo+'" name="remarkss" placeholder="Remarks"></td>'
+				   
 			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			 
 				 $('#revisionsTableBody').append(html);

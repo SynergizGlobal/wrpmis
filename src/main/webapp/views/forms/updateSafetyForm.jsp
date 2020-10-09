@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
-	
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
@@ -79,7 +79,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <!-- <input type="text" id="user_id"> -->
-                                    <label for="user_id">Safety ID : <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+                                    <label for="user_id" style="margin-top:10px">Safety ID : <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <br><br>
                                 </div>
                                 <div class="col s12 m4 input-field">

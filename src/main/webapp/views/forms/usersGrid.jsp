@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<style>
         <style>
       	p a{            color:#ff0000;       	}
@@ -288,8 +289,11 @@
                     { orderable: false, 'aTargets': ['nosort'] }
                 ],
                 //"ScrollX": true,
-                "scrollCollapse": true,
-                "sScrollY": 400,
+                //"scrollCollapse": true,
+                //"sScrollY": 400,
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
@@ -340,8 +344,11 @@
                     { orderable: false, 'aTargets': ['nosort'] }
                 ],
                 // "ScrollX": true,
-                "scrollCollapse": true,
-                "sScrollY": 400,
+                //"scrollCollapse": true,
+                //"sScrollY": 400,
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }

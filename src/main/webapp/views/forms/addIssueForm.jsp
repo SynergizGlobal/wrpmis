@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
-	
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/pmis/resources/css/issues.css">
 	

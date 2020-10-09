@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>
  
@@ -116,10 +117,10 @@
 		#bankTableBody td.input-field .prefix {
     		top: 1.5rem;
 		}
-		textarea{
-			height:auto;
-		}
-			    .filevalue {
+/* 		textarea{ */
+/* 			height:auto; */
+/* 		} */
+		.filevalue {
             display: block;
             margin-top: 10px;
         }

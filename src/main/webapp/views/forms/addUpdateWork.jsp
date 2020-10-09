@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>
         #example3 input[type="text"]::-webkit-input-placeholder,

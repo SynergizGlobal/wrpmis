@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	
 	 <style>
         .no-mar .row {

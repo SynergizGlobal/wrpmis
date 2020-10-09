@@ -14,8 +14,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
-
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
 
     <style>
@@ -364,7 +364,7 @@
                                         
                                         <div class="col m4 s12 input-field">
                                         	<p for="strip_chart_component">Component</p>
-                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 1.8rem;" readonly="readonly">
+                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2rem;" readonly="readonly">
                                             <!-- <p>Component</p>
                                             <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
                                                 <option value="">Select</option>
@@ -478,13 +478,13 @@
                                             <!-- <div class="col s12 m6 input-field" style="margin-top: 40px;"> -->
                                             <div class="col s12 m6 input-field" style="margin-top: 23px;">
                                             	<p>Issue Category</p>
-                                                <select class="browser-default" id="issue_category_id" name="issue_category_id">
+                                                <select class="browser-default searchable" id="issue_category_id" name="issue_category_id">
                                                     <option value="" selected>Select</option>
                                                 </select>
                                                 <!-- <label>Issue Category</label> -->
                                                 <span id="issue_category_idError" class="error-msg" ></span>
                                             </div>
-                                            <div class="col s12 m6 input-field" style="padding-top: 14px;">
+                                            <div class="col s12 m6 input-field" style="padding-top: 4px;">
 
                                                 <p class="prio">Priority</p>
                                                 <p class="radiogroup">

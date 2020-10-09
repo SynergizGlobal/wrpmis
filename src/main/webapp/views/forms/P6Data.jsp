@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/p6data.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
      .text-primary p a:not(.btn) {
             color: blue;
@@ -294,9 +295,13 @@
                         targets: [0, 1, 2],
                         className: 'mdl-data-table__cell--non-numeric'
                     }
-                ], "scrollCollapse": true,
+                ], 
+                //"scrollCollapse": true,
                 fixedHeader: true,
-                "sScrollY": 400,
+               // "sScrollY": 400,
+               "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }

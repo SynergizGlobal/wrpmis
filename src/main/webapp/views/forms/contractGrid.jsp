@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+<!--     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css"> -->
     <!-- <link rel="stylesheet" href="/pmis/resources/css/update_page.css"> -->
     <style>
         .row.no-mar {
@@ -250,7 +251,10 @@
             ],
             // "ScrollX": true,
             "scrollCollapse": true,
-            "sScrollY": 400,
+            //"sScrollY": 400,
+            "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
             initComplete: function () {
                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
             }

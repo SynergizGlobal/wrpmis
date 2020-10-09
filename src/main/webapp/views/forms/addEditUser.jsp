@@ -19,6 +19,7 @@
 <!-- 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css"> -->
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<style>
         #example3 .datepicker~button,
         #example4 .datepicker~button {

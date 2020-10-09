@@ -171,7 +171,10 @@
                     { "width": "20px", "targets": [5] },
                 ], "scrollCollapse": true,
                 fixedHeader: true,
-                "sScrollY": 400,
+               // "sScrollY": 400,
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }

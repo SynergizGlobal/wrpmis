@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
      <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>

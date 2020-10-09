@@ -1,20 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Equipment </title>
+    <title>
+   	     <c:if test="${action eq 'edit'}">Update Safety Equipment </c:if>
+		 <c:if test="${action eq 'add'}"> Add Safety Equipment </c:if>
+    </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+<!--     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
+ -->    
+ 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
          .fixed-width {
             width: 100%;
@@ -71,43 +77,50 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Safety Equipment</h6>
+                              <h6>
+	                             <c:if test="${action eq 'edit'}">Update Safety Equipment</c:if>
+								 <c:if test="${action eq 'add'}"> Add Safety Equipment</c:if>
+							  </h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <form action="#">
-                            <div class="row">
+	                       	 <c:if test="${action eq 'edit'}">				                
+				                	<form action="<%=request.getContextPath() %>/update-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" >
+	                         </c:if>
+				             <c:if test="${action eq 'add'}">				                
+				                	<form action="<%=request.getContextPath() %>/add-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" >
+							 </c:if>
+                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <div class="row">
                                         <div class="col s12 m4 input-field">
                                             <p><label> Project ID </label></p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Agency 1</option>
-                                                <option value="2">Agency 2</option>
-                                                <option value="3">Agency 3</option>
-                                            </select>
+                                            <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
+                                   			 onchange="getWorksList(this.value);">
+		                                        <option value="" selected>Select</option>
+		                                         <c:forEach var="obj" items="${projectsList }">
+		                                      	   <option value= "${ obj.project_id}" <c:if test="${safetyDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+		                                         </c:forEach>
+                                    		</select>
+                                   			 <span id="project_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
                                             <p><label> Work ID </label></p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Agency 1</option>
-                                                <option value="2">Agency 2</option>
-                                                <option value="3">Agency 3</option>
-                                            </select>
+                                           <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                      		  onchange="getContractsList(this.value);">
+                                      		  <option value="" selected>Select</option>
+                                   		 	</select>
+                                     		 <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
                                             <p> <label>Contract ID </label></p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Agency 1</option>
-                                                <option value="2">Agency 2</option>
-                                                <option value="3">Agency 3</option>
-                                            </select>
+                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                       			 <option value="" selected>Select</option>
+                                  			 </select>
+                                   			 <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
                                     </div>
                                 </div>
@@ -128,29 +141,32 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
+                                      <tbody id="safetyTableBody">
+                                       <c:choose>
+                                      	 <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
+                                       	 <c:forEach var="sObj" items="${safetyDetails.safetyEquipments }" varStatus="index"> 
+                                            <tr id="safetyRow${index.count }">
                                                 <td>
-                                                    <input id="equip_no1" type="text" class="validate"
+                                                    <input id="safety_equipment_numbers${index.count }" name="safety_equipment_numbers" type="text" class="validate" value="${sObj.safety_equipment_number }"
                                                         placeholder="Equipment No">
                                                 </td>
                                                 <td>
-                                                    <input id="equip_details" type="text" class="validate"
+                                                    <input id="safety_equipment_details${index.count }" name="safety_equipment_details" type="text" class="validate" value="${sObj.safety_equipment_detail }"
                                                         placeholder="Equipment Details">
                                                 </td>
                                                 <td>
-                                                    <input id="validity_1" type="text" class="validate datepicker"
+                                                    <input id="validity_dates${index.count }" name="validity_dates" type="text" class="validate datepicker" value="${sObj.validity_date }"
                                                         placeholder="Validity of Equipment">
                                                     <button type="button" id="validity_1_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="completed_cost" type="text" class="validate"
+                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate" value="${sObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
                                                     <div class="">
-                                                        <input type="file" name="myfile" id="myFile"
+                                                        <input type="file" name="attachments" id="attachments${index.count }" value="${sObj.attachment }"  class="myFile"
                                                             style="display:none" />
                                                         <label for="myFile" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
@@ -158,34 +174,101 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i
+                                                    <a onclick="removeSafety('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <script>
+		                                            $("#attachments${index.count }").change(function () {
+		                                                filename1 = $('#attachments${index.count }')[0].value;
+		                                                $('#fileVal').html(filename1);
+		                                                console.log(filename1)
+		                                            });
+                                            </script>
+                                          </c:forEach>
+                                       </c:when>
+                                       	<c:otherwise>
+                                       	 <tr id="safetyRow0">
                                                 <td>
-                                                    <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
-                                                            class="fa fa-plus"></i></a>
+                                                    <input id="safety_equipment_numbers0" name="safety_equipment_numbers" type="text" class="validate" 
+                                                        placeholder="Equipment No">
+                                                </td>
+                                                <td>
+                                                    <input id="safety_equipment_details0" name="safety_equipment_details" type="text" class="validate"
+                                                        placeholder="Equipment Details">
+                                                </td>
+                                                <td>
+                                                    <input id="validity_dates0" name="validity_dates" type="text" class="validate datepicker" 
+                                                        placeholder="Validity of Equipment">
+                                                    <button type="button" id="validity_1_icon" class="white"><i
+                                                            class="fa fa-calendar"></i></button>
+                                                </td>
+                                                <td>
+                                                    <input id="remarkss0" name="remarkss" type="text" class="validate" 
+                                                        placeholder="Remarks">
+                                                </td>
+                                                <td>
+                                                    <div class="">
+                                                        <input type="file" name="attachments" id="attachments0"  class="myFile"
+                                                            style="display:none" />
+                                                        <label for="myFile" class="btn bg-m"><i
+                                                                class="fa fa-paperclip"></i></label>
+                                                        <span id="fileVal" class="filevalue">fileName</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a onclick="removeSafety('0');" class="btn waves-effect waves-light red t-c "> <i
+                                                            class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-
+	                                         <script type="text/javascript">
+			                                                $("#validity_dates0").datepicker({
+			                                                 	 format:'dd-mm-yyyy',
+			                                                     onSelect: function () {
+			                                          	    	     $('.confirmation-btns .datepicker-done').click();
+			                                          	    	  }
+			                                                 });
+			                                             
+				                                            $("#attachments0").change(function () {
+				                                                filename1 = $('#attachments0')[0].value;
+				                                                $('#fileVal').html(filename1);
+				                                                console.log(filename1)
+				                                            });
+		                                           
+		                                      </script>
+                                    	  </c:otherwise>
+                                     	</c:choose>
                                         </tbody>
                                     </table>
-
+                                     <table class="mdl-data-table">
+                                        <tbody id="safetyBody">                                          
+			                                    <tr>
+			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addSafetyRow()"> <i
+			                                                            class="fa fa-plus"></i></a>
+			                                    </tr>
+                                        </tbody>
+                                    </table>
+  									<c:choose>
+                                        <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(safetyDetails.safetyEquipments) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose>  
                                 </div>
                             </div>
                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button style="width: 100%;"
-                                            class="btn waves-effect waves-light bg-m black-text">Add / Edit</button>
+                                     <div class="center-align m-1">
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
@@ -215,23 +298,139 @@
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-
+<!--     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+ -->
     <script>
+	    $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $("#validity_1").datepicker();
+           // $("#validity_1").datepicker();
             $('#validity_1_icon').click(function () {
                 event.stopPropagation();
                 $('#validity_1').click();
             });
-            $("#myFile").change(function () {
-                filename1 = $('#myFile')[0].value;
+            $(".myFile").change(function () {
+                filename1 = $('.myFile')[0].value;
                 $('#fileVal').html(filename1);
                 console.log(filename1)
             });
+            var projectId = "${safetyDetails.project_id}";
+            if($.trim(projectId) != ''){
+            	getWorksList(projectId);
+            }
+            var work_id_fk = "${safetyDetails.work_id}";
+            if($.trim(work_id_fk) != ''){
+            	getContractsList(work_id_fk);
+            }
         });
+
+        function getWorksList(projectId) {
+        	$(".page-loader").show();
+            $("#work_id_fk option:not(:first)").remove();
+
+            if ($.trim(projectId) != "") {
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                var workId = "${safetyDetails.work_id}";
+                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                
+                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        function getContractsList(work_id_fk) {
+        	$(".page-loader").show();
+            $("#contract_id_fk option:not(:first)").remove();
+            if ($.trim(work_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContract",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_name = '';
+                            	var contract_id_fk = "${safetyDetails.contract_id_fk }";
+                                if ($.trim(val.contract_name) != '') { contract_name =contract_id_fk+ ' - ' + $.trim(val.contract_name) }
+                                var contract_id_fk = "${safetyDetails.contract_id_fk }";
+                                if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
+                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                }else {
+                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        
+        function addSafetyRow(){
+      		
+            var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+          
+             var html = '<tr id="safetyRow'+rNo+'">'
+    				   +'<td> <input id="safety_equipment_numbers'+rNo+'" name="safety_equipment_numbers" type="text" class="validate" placeholder="Equipment No"></td>'
+    				   +'<td> <input id="safety_equipment_details'+rNo+'" name="safety_equipment_details" type="text" class="validate" placeholder="Equipment Details"></td>'
+    				   +'<td><input id="validity_dates'+rNo+'" name="validity_dates" type="text" class="validate datepicker" placeholder="Validity of Equipment"><button type="button" id="validity_1_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
+    				   +'<td><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
+    			   	   +'<td><div class=""> <input type="file" name="attachments" id="attachments'+rNo+'" style="display:none" /> <label for="myFile" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal" class="filevalue">fileName</span> </div></td>'
+    				   +'<td> <a onclick="removeSafety('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+
+    				 $('#safetyTableBody').append(html);
+    				 $("#rowNo").val(rNo);
+    				// $('select').formSelect();
+    				 $('.searchable').select2();
+    				  $("#validity_dates"+rNo).datepicker({
+                      	
+                      	 format:'dd-mm-yyyy',
+                          onSelect: function () {
+               	    	     $('.confirmation-btns .datepicker-done').click();
+               	    	  }
+                      });
+    				  $("#attachments"+rNo).change(function () {
+                          filename1 = $('#attachments0')[0].value;
+                          $('#fileVal').html(filename1);
+                          console.log(filename1)
+                      });
+         } 
+   
+        
+        function removeSafety(rowNo){
+        	//alert("#revisionRow"+rowNo);
+        	$("#safetyRow"+rowNo).remove();
+        }
+        
     </script>
 
 </body>

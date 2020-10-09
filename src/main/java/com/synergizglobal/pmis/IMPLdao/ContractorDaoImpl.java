@@ -65,15 +65,14 @@ public class ContractorDaoImpl implements ContractorDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				qry = qry + " and contractor_id = ?";
 				arrSize++;
-				Object[] pValues = new Object[arrSize];
-				
-				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-					pValues[i++] = obj.getContractor_id();
-				}
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
+				pValues[i++] = obj.getContractor_id();
+			}
 			contractor = (Contractor)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Contractor>(Contractor.class));	
-			}	
-	
+				
 		}catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}

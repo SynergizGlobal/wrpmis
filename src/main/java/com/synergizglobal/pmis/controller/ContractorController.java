@@ -155,7 +155,7 @@ public class ContractorController {
 	}
 	
 	@RequestMapping(value = "/export-contractor", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportWork(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contractor contractor,RedirectAttributes attributes){
+	public void exportContractor(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contractor contractor,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.contractorGrid);
 		List<Contractor> dataList = new ArrayList<Contractor>();
 		try {

@@ -32,6 +32,14 @@ public class PageConstants {
 
 	public static final String contractorGrid = "forms/contractorGrid";
 	public static final String addEditContractor = "forms/addEditContractor";
+	
+	public static final String safetyEquipmentGrid = "forms/safetyEquipmentGrid";
+	public static final String addEditSafetyEquipment = "forms/addEditSafetyEquipment";
+	
+	public static final String budgetGrid = "forms/budgetGrid";
+	public static final String addEditBudget = "forms/addEditBudget";
+
+
 
 	
 }

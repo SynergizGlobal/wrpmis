@@ -262,104 +262,19 @@
 			   validClass: "my-valid-class",
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		  "contractor_specilization_fk": {
+	  		 		 "contractor_name": {
 	  			 		required: true
-	  			 	  },"contractor_name": {
-	  			 		required: true
-	  			 	  },"address": {
-	  		 		   	required: true
-	  			 	  },"primary_contact_name": {
-	  			 		required: true
-	  			 	  },"phone_number": {
-	  			 		required: true,
-	  			 	    number:true,
-	  			 		minlength:10,
-	  		     		maxlength:10
-	  			 	  },"email_id": {
-	  			 		required: true,
-	  			 		email:true
-	  			 	  },"bank_name": {
-	  			 		required: true
-	  			 	  }	,"account_number": {
-	  			 		required: true
-	  			 	  }	,"ifsc_code": {
-	  			 		required: true
-	  			 	  }	,"pan_number": {
-	  			 		required: true
-	  			 	  }	,"gst_number": {
-	  			 		required: true
-	  			 	  }	,"remarks": {
-	  			 		required: true
-	  			 	  }				
+	  			 	  }		
 	  		 	},
 	  		    messages: {
-	  		 		   "contractor_specilization_fk": {
-	  				 	required: 'Required',
-	  			 	  },"contractor_name": {
+	  		 		  "contractor_name": {
 	  			 		required: 'Required'
-	  			 	  },"address": {
-	  		 			required: 'Required'
-	  		 	  	 },"primary_contact_name": {
-	  		 			required: 'Required'
-	  		 	  	 },"phone_number": {
-	  		 			required: 'Required',
-	  		 			number: "Enter only numbers",
-	  		 			maxlength:"Maximum length 10 digits",
-		  		 		minlength:"Invalid number"
-	  		 	  	 },"email_id": {
-	  		 			required: 'Required',
-	  		 			email:"Invalid email address"
-	  		 	  	 },"bank_name": {
-	  		 			required: 'Required'
-	  		 	  	 },"account_number": {
-	  		 			required: 'Required'
-	  		 	  	 },"ifsc_code": {
-	  		 			required: 'Required'
-	  		 	  	 },"pan_number": {
-	  		 			required: 'Required'
-	  		 	  	 },"gst_number": {
-	  		 			required: 'Required'
-	  		 	  	 },"remarks": {
-	  		 			required: 'Required'
-	  		 	  	 }
+	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	  if (element.attr("id") == "specialization" ){
-						 document.getElementById("specilizationError").innerHTML="";
-				 		 error.appendTo('#specilizationError');
-					 }else if(element.attr("id") == "contractor_name" ){
+		   		 	  if(element.attr("id") == "contractor_name" ){
 					     document.getElementById("contractor_nameError").innerHTML="";
 				 	     error.appendTo('#contractor_nameError');
-					 }else if(element.attr("id") == "address" ){
-						 document.getElementById("addressError").innerHTML="";
-					 	 error.appendTo('#addressError');
-					 }else if(element.attr("id") == "primary_contract" ){
-				 		 document.getElementById("primary_contractError").innerHTML="";
-		 				 error.appendTo('#primary_contractError');
-					 }else if(element.attr("id") == "phone_number" ){
-						 document.getElementById("phone_numberError").innerHTML="";
-					 	 error.appendTo('#phone_numberError');
-					 }else if(element.attr("id") == "email" ){
-						 document.getElementById("emailError").innerHTML="";
-					 	 error.appendTo('#emailError');
-					 }else if(element.attr("id") == "bank_name" ){
-						 document.getElementById("bank_nameError").innerHTML="";
-					 	 error.appendTo('#bank_nameError');	
-					 }else if(element.attr("id") == "ac_no" ){
-						 document.getElementById("ac_noError").innerHTML="";
-					 	 error.appendTo('#ac_noError');
-					 }else if(element.attr("id") == "ifsc_code" ){
-						 document.getElementById("ifsc_codeError").innerHTML="";
-					 	 error.appendTo('#ifsc_codeError');
-					 }else if(element.attr("id") == "pan_number" ){
-						 document.getElementById("pan_numberError").innerHTML="";
-					 	 error.appendTo('#pan_numberError');
-					 }else if(element.attr("id") == "gst_number" ){
-						 document.getElementById("gst_numberError").innerHTML="";
-					 	 error.appendTo('#gst_numberError');
-					 }else if(element.attr("id") == "remarks" ){
-						 document.getElementById("remarksError").innerHTML="";
-					 	 error.appendTo('#remarksError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

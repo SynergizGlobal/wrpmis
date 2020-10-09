@@ -22,6 +22,7 @@ public class CommonConstants {
 	public final static String WORK_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"WORK_FILES"+File.separator;
 	public final static String CONTRACT_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"CONTRACT_FILES"+File.separator;
 	public final static String DESIGN_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
+	public final static String SAFETYEQUIPMENT_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_EQUIPMENT_FILES"+File.separator;
 
 	/*********** PRODUCTION ****************************************************/
 	
@@ -32,6 +33,7 @@ public class CommonConstants {
 	public final static String WORK_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/WORK_FILES/";
 	public final static String CONTRACT_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/CONTRACT_FILES/";
 	public final static String DESIGN_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/DESIGN_FILES/";
+	public final static String SAFETYEQUIPMENT_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/SAFETY_EQUIPMENT_FILES/";
 
 	*/
 	

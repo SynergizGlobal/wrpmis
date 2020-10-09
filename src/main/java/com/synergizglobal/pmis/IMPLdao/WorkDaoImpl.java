@@ -345,14 +345,13 @@ public class WorkDaoImpl implements WorkDao {
 		boolean flag = false;
 		try{
 			con = dataSource.getConnection();
-			String workId = getWorkId(con);
-			String wID = work.getProject_id_fk()+workId;
+			String workId = getWorkId(work.getProject_id_fk(),con);
 			con.setAutoCommit(false);
 			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks)"+
 						" VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
-			stmt.setString(1,wID ); 
+			stmt.setString(1,workId ); 
 			stmt.setString(2,work.getWork_name()); 
 			stmt.setString(3,work.getProject_id_fk());
 			stmt.setString(4,work.getSanctioned_year_fk());
@@ -375,13 +374,13 @@ public class WorkDaoImpl implements WorkDao {
 				if(work.getRailway_id_fk().contains(",")) {
 					String[] ids = work.getRailway_id_fk().split(",");					
 					for (int i = 0; i < ids.length; i++) {
-						stmt.setString(1,wID);
+						stmt.setString(1,workId);
 						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
 						stmt.addBatch(); 
 					}					
 					stmt.executeBatch();
 				}else {
-					stmt.setString(1,wID);
+					stmt.setString(1,workId);
 					stmt.setString(2,work.getRailway_id_fk());
 					stmt.executeUpdate(); 
 				}				
@@ -394,13 +393,13 @@ public class WorkDaoImpl implements WorkDao {
 				if(work.getExecuted_by_id_fk().contains(",")) {
 					String[] ids = work.getExecuted_by_id_fk().split(",");					
 					for (int i = 0; i < ids.length; i++) {
-						stmt.setString(1,wID);
+						stmt.setString(1,workId);
 						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
 						stmt.addBatch(); 
 					}					
 					stmt.executeBatch();
 				}else {
-					stmt.setString(1,wID);
+					stmt.setString(1,workId);
 					stmt.setString(2,work.getExecuted_by_id_fk());
 					stmt.executeUpdate(); 
 				}				
@@ -471,24 +470,19 @@ public class WorkDaoImpl implements WorkDao {
 	
 	
 	
-	private String getWorkId(Connection con) throws Exception {
+	private String getWorkId(String projectId,Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String workId = null;;
-		String WID = null;
-		try{
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(work_id, 1, LENGTH(work_id)-2),LPAD(MAX(SUBSTRING(work_id, 5, LENGTH(work_id)))+1,2,'0') ) AS maxId FROM work";
+		String workId = null;
+		try{			
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(work_id, 1, LENGTH(work_id)-3),'W',LPAD(MAX(SUBSTRING(work_id, 5, LENGTH(work_id)))+1,2,'0') ) AS maxId FROM work WHERE work_id LIKE ?";
 			stmt = con.prepareStatement(maxIdQry);
+			stmt.setString(1, projectId+"%");
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
 				workId = rs.getString("maxId");
-				if(workId == null) {
-					workId = "W01";
-				}
-				if(workId.length()>3) {
-					  String[] arrOfStr = workId.split("W"); 
-				        for (String a : arrOfStr) 
-				        WID = "W"+arrOfStr[1];
+				if(StringUtils.isEmpty(workId)) {
+					workId = projectId+"W01";
 				}
 			}
 		}catch(Exception e){ 		
@@ -498,7 +492,7 @@ public class WorkDaoImpl implements WorkDao {
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
-		return WID;
+		return workId;
 	}
 
 	@Override

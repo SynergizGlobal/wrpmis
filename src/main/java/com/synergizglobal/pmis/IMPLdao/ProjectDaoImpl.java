@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ProjectDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
@@ -142,12 +143,12 @@ public class ProjectDaoImpl implements ProjectDao {
 		ResultSet rs = null;
 		String projectId = null;;
 		try{
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(project_id, 1, LENGTH(project_id)-2),LPAD(MAX(SUBSTRING(project_id, 2, LENGTH(project_id)))+1,2,'0') ) AS maxId FROM project;";
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(project_id, 1, LENGTH(project_id)-2),LPAD(MAX(SUBSTRING(project_id, 2, LENGTH(project_id)))+1,2,'0') ) AS maxId FROM project";
 			stmt = con.prepareStatement(maxIdQry);
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
 				projectId = rs.getString("maxId");
-				if(projectId == null) {
+				if(StringUtils.isEmpty(projectId)) {
 					projectId = "P01";
 				}
 			}

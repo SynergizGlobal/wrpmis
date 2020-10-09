@@ -242,7 +242,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Work> getWorksList(Work obj) throws Exception {
 		List<Work> objsList = new ArrayList<Work>();
 		try {
-			String qry = "select work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost,completeion_period_months,"
+			String qry = "select work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,"
 					+ "sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,w.remarks,project_name "
 					+ "from `work` w "
 					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id ";

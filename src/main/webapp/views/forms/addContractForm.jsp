@@ -1079,7 +1079,6 @@
                                 $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                             });
                         }
-                        $('select').formSelect();
                         $(".page-loader").hide();
                     }
                 });

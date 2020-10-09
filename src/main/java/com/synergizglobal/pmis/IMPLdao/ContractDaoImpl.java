@@ -187,8 +187,7 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String contract_id = getContract_id(contract.getDepartment_name(),con);
-			String contarctId = contract.getWork_id_fk()+getDeptCode(contract.getDepartment_fk(),con)+contract_id;
+			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),getDepartmentCode(contract.getDepartment_fk(),con),con);
 			
 			String ContractQry = "INSERT INTO contract "
 							+"(contract_id,work_id_fk,department_fk,contract_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
@@ -197,7 +196,7 @@ public class ContractDaoImpl implements ContractDao {
 							+ "retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,remarks)"
 							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
-			stmt.setString(1,contarctId); 
+			stmt.setString(1,contract_id); 
 			stmt.setString(2,contract.getWork_id_fk()); 
 			stmt.setString(3,contract.getDepartment_fk()); 
 			stmt.setString(4,contract.getContract_name()); 
@@ -468,7 +467,7 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	
-	private String getDeptCode(String deptId, Connection con) throws Exception {
+	private String getDepartmentCode(String deptId, Connection con) throws Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String obj = null;
@@ -489,54 +488,19 @@ public class ContractDaoImpl implements ContractDao {
 		return obj;
 	}
 
-	private String getContract_id(String dept, Connection con) throws Exception {
+	private String getContractIdByWorkId(String work_id, String department_code, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String contract_id = null;;
-		 String[] arrOfStr = null;
+		String contract_id = null;
 		try{
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(contract_id, 1, LENGTH(contract_id)-2),LPAD(MAX(SUBSTRING(contract_id, 9, LENGTH(contract_id)))+1,2,'0') ) AS maxId FROM contract";
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(contract_id, 1, LENGTH(contract_id)-4),'"+department_code+"',LPAD(MAX(SUBSTRING(contract_id, 9, LENGTH(contract_id)))+1,2,'0') ) AS maxId FROM contract WHERE contract_id LIKE ?";
 			stmt = con.prepareStatement(maxIdQry);
+			stmt.setString(1, work_id+department_code+"%");
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
 				contract_id = rs.getString("maxId");
-				if(contract_id == null) {
-					if(dept.contains("Eng") ){
-					  contract_id = "EN01";}
-				if(dept.contains("Signa") ){
-					  contract_id = "ST01";}
-				if(dept.contains("Elec") ){
-					  contract_id = "EL01";}
-				if(dept.contains("CBTC") ){
-					  contract_id = "IT01";}
-				if(dept.contains("Fin") ){
-					  contract_id = "FA01";}
-				if(dept.contains("Plan") ){
-					  contract_id = "PL01";}
-				if(dept.contains("Pro") ){
-					  contract_id = "PR01";}
-				if(dept.contains("Tech") ){
-					  contract_id = "TC01";}
-			}
-				if(contract_id.length()>6) {
-					if(contract_id.contains("IT")) {
-						  arrOfStr = contract_id.split("T");}
-					if(contract_id.contains("EL")) {
-						  arrOfStr = contract_id.split("l");}
-					if(contract_id.contains("EN")) {
-						  arrOfStr = contract_id.split("N");}
-					if(contract_id.contains("FA")) {
-						  arrOfStr = contract_id.split("A");}
-					if(contract_id.contains("PL")) {
-						  arrOfStr = contract_id.split("L");}
-					if(contract_id.contains("PR")) {
-						  arrOfStr = contract_id.split("R");}
-					if(contract_id.contains("ST")) {
-						  arrOfStr = contract_id.split("T");}
-					if(contract_id.contains("TC")) {
-						  arrOfStr = contract_id.split("C");}
-					for (String a : arrOfStr) 
-						 contract_id = arrOfStr[1];
+				if(StringUtils.isEmpty(contract_id)) {
+					contract_id =  work_id+department_code+"01";
 				}
 			}
 		}catch(Exception e){ 		

@@ -110,9 +110,9 @@
                                             <td></td>
                                             <td></td>
                                             <td class="last-column"> <a href="safety_Equipment.html"
-                                                    class="btn waves-effect waves-light bg-s t-c "><i
+                                                    class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
+                                                <a href="#" class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -123,9 +123,9 @@
                                             <td></td>
                                             <td></td>
                                             <td class="last-column"> <a href="safety_Equipment.html"
-                                                    class="btn waves-effect waves-light bg-s t-c "><i
+                                                    class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
+                                                <a href="#" class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>

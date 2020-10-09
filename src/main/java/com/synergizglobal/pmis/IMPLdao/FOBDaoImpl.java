@@ -86,14 +86,13 @@ public class FOBDaoImpl implements FOBDao {
 				flag = true;
 			}
 			
-			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
-				obj.setFob_detail_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_names()));
-			}
-			if(flag && !StringUtils.isEmpty(obj.getFob_detail_values()) && obj.getFob_detail_values().length > 0) {
-				obj.setFob_detail_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_values()));
-			}
-			
-			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+			if(flag) {
+				if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+					obj.setFob_detail_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_names()));
+				}
+				if(flag && !StringUtils.isEmpty(obj.getFob_detail_values()) && obj.getFob_detail_values().length > 0) {
+					obj.setFob_detail_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_values()));
+				}
 				
 				String[] fobDetailNames = obj.getFob_detail_names();
 				String[] fobDetailValues = obj.getFob_detail_values();
@@ -101,20 +100,32 @@ public class FOBDaoImpl implements FOBDao {
 				String qryFOBDetail = "INSERT INTO fob_detail (fob_id_fk,detail_name,value) VALUES  (?,?,?)";		
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryFOBDetail,
-			            new BatchPreparedStatementSetter() {			                 
-			                @Override
-			                public void setValues(PreparedStatement ps, int i) throws SQLException {	
-			                	int k = 1;
-								ps.setString(1, obj.getFob_id());
-								ps.setString(k++,fobDetailNames[i]);
-								ps.setString(k++, fobDetailValues[i]);
-			                }
-			                @Override  
-			                public int getBatchSize() {
-			                    return obj.getFob_detail_names().length;
-			                }
-			            });
-				
+		            new BatchPreparedStatementSetter() {			                 
+		                @Override
+		                public void setValues(PreparedStatement ps, int i) throws SQLException {	
+		                	int k = 1;
+							ps.setString(1, obj.getFob_id());
+							ps.setString(k++, fobDetailNames.length > 0 ?fobDetailNames[i]:null);
+							ps.setString(k++, fobDetailValues.length > 0 ?fobDetailValues[i]:null);
+		                }
+		                @Override  
+		                public int getBatchSize() {		                	
+		                	int arraySize = 0;
+		    				if(!StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+		    					obj.setFob_detail_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_names()));
+		    					if(arraySize < obj.getFob_detail_names().length) {
+		    						arraySize = obj.getFob_detail_names().length;
+		    					}
+		    				}
+		    				if(!StringUtils.isEmpty(obj.getFob_detail_values()) && obj.getFob_detail_values().length > 0) {
+		    					obj.setFob_detail_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_values()));
+		    					if(arraySize < obj.getFob_detail_values().length) {
+		    						arraySize = obj.getFob_detail_values().length;
+		    					}
+		    				}
+		                    return arraySize;
+		                }
+		            });
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -181,11 +192,18 @@ public class FOBDaoImpl implements FOBDao {
 				flag = true;
 			}
 			
-			if(flag && !StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+			if(flag) {
 				
 				String deleteQry = "DELETE from fob_detail where fob_id_fk = :fob_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);				
+				
+				if(!StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+					obj.setFob_detail_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_names()));
+				}
+				if(!StringUtils.isEmpty(obj.getFob_detail_values()) && obj.getFob_detail_values().length > 0) {
+					obj.setFob_detail_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_values()));
+				}
 				
 				String[] fobDetailNames = obj.getFob_detail_names();
 				String[] fobDetailValues = obj.getFob_detail_values();
@@ -197,21 +215,26 @@ public class FOBDaoImpl implements FOBDao {
 					                public void setValues(PreparedStatement ps, int i) throws SQLException {
 					                	int k = 1;
 					                	ps.setString(k++, obj.getFob_id());
-										if(!StringUtils.isEmpty(fobDetailNames) && fobDetailNames.length > 0) {
-											 ps.setString(k++,fobDetailNames[i]);
-										}else {
-											 ps.setString(k++, null);
-										}	
-										if(!StringUtils.isEmpty(fobDetailValues) && fobDetailValues.length > 0) {
-											 ps.setString(k++, fobDetailValues[i]);
-										}else {
-											 ps.setString(k++, null);
-										}	
-					                    
+										ps.setString(k++,fobDetailNames.length > 0?fobDetailNames[i]:null);
+										ps.setString(k++,fobDetailValues.length > 0?fobDetailValues[i]:null);
+										
 					                }
 					                @Override  
 					                public int getBatchSize() {
-					                    return obj.getFob_detail_names().length;
+					                	int arraySize = 0;
+					    				if(!StringUtils.isEmpty(obj.getFob_detail_names()) && obj.getFob_detail_names().length > 0) {
+					    					obj.setFob_detail_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_names()));
+					    					if(arraySize < obj.getFob_detail_names().length) {
+					    						arraySize = obj.getFob_detail_names().length;
+					    					}
+					    				}
+					    				if(!StringUtils.isEmpty(obj.getFob_detail_values()) && obj.getFob_detail_values().length > 0) {
+					    					obj.setFob_detail_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getFob_detail_values()));
+					    					if(arraySize < obj.getFob_detail_values().length) {
+					    						arraySize = obj.getFob_detail_values().length;
+					    					}
+					    				}
+					                    return arraySize;
 					                }
 					           });
 				

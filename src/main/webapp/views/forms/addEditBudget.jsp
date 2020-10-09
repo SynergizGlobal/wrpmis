@@ -47,6 +47,9 @@
             text-align: left;
             display: block;
         }
+           .primary-text {
+            color: #118AB2;
+        }
     </style>
 </head>
 
@@ -92,41 +95,7 @@
 
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            <!-- 
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p><label>Executed By </label></p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="latest_sanction_cost" type="text" class="validate">
-                                    <label for="latest_sanction_cost">Latest Sanction Cost</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> -->
-
-                            <!-- <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="cumulative_expenditure" type="text" class="validate">
-                                    <label for="cumulative_expenditure">Cumulative Expenditure</label>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="cumulative_expenditure_fy" type="text" class="validate">
-                                    <label for="cumulative_expenditure_fy">Cumulative Expenditure in FY</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> -->
-
+                           
                             <div class="row">
                                 <div class="col m4 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -141,7 +110,7 @@
                                 <div class="col m4 hide-on-small-only"></div>
                             </div>
 
-                            <div class="container">
+                            <div class="container" style="margin-bottom:20px;">
                                 <div class="row">
                                     <div class="col m6 s12">
                                         <div class="row fixed-width">
@@ -157,7 +126,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <span>Budget Estimate</span>
+                                                                <span class="primary-text">Budget Estimate</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -169,7 +138,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span>August Review Estimate</span>
+                                                                <span class="primary-text">August Review Estimate</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -181,7 +150,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span>Revised Estimate</span>
+                                                                <span class="primary-text">Revised Estimate</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -193,7 +162,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span>Final Estimate</span>
+                                                                <span class="primary-text">Final Estimate</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -223,7 +192,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <span>Budget Grant</span>
+                                                                <span class="primary-text">Budget Grant</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -236,7 +205,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span>Revised Grant</span>
+                                                                <span class="primary-text">Revised Grant</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -249,7 +218,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span>Final Grant</span>
+                                                                <span class="primary-text">Final Grant</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">

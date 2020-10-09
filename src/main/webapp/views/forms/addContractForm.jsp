@@ -294,7 +294,7 @@
 	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
 	                                    <label for="doc">Planned DOC</label>
 	                                    <span id="docError" class="error-msg" ></span>
-	                                     <button type="button" id="loa_date_icon"><i class="fa fa-calendar"></i></button>
+	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                	<i class="material-icons prefix center-align">₹</i>
@@ -802,10 +802,10 @@
                                                     <td>
                                                         <div class="normal-btn">
                                                             <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
-                                                                style="display:none" />
-                                                            <label for="doc_file" class="btn bg-m"><i
+                                                                style="display:none" onchange="getFileName('0')"/>
+                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
                                                                     class="fa fa-paperclip"></i></label>
-                                                            <span id="contractDocumentFileName0" class="filevalue">fileName</span>
+                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -1499,7 +1499,7 @@
 	}
 	
 	function removeKeyPersonnel(rowNo){
-		$("#keyPersonnelRow"+rowNo).remove(rowNo);
+		$("#keyPersonnelRow"+rowNo).remove();
 	}
 
 	function addContractDocumentRow(){		
@@ -1510,8 +1510,8 @@
 					 +'<td> <input id="contractDocumentNames'+rNo+'" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
 					 +'<td>'
 					 +'<div class="normal-btn">'
-					 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" />'
-					 +'<label for="doc_file" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+					 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
+					 +'<label for="contractDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
 					 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
 					 +'</div>'
 					 +'</td>'
@@ -1523,8 +1523,14 @@
 			 $('#contractDocumentTableBody').append(html);
 			 $("#documentRowNo").val(rNo);
 	} 
-	function removeContractDocument(){
-		$("#contractDocumentRow"+rowNo).remove(rowNo);
+	function removeContractDocument(rowNo){
+		$("#contractDocumentRow"+rowNo).remove();
+	}
+	
+	
+	function getFileName(rowNo){
+		var filename = $('#contractDocumentFiles'+rowNo)[0].files[0].name;
+	    $('#contractDocumentFileName'+rowNo).html(filename);
 	}
 
     </script>

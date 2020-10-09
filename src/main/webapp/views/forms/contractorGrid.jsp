@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contractor.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+   	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
         p a {
             color: blue

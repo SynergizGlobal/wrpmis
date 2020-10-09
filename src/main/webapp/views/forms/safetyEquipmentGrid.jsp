@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Safety Equipment </title>
     <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -14,6 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
         p a {
             color: blue
@@ -152,8 +152,8 @@
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+	 <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	
     <script>
         $(document).ready(function () {
@@ -167,7 +167,11 @@
                         targets: 'no-sort', orderable: false,
                     },
                     { "width": "20px", "targets": [5] },
-                ], "scrollCollapse": true,
+                ], 
+                //"scrollCollapse": true,
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 fixedHeader: true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });

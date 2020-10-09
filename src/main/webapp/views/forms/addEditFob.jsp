@@ -47,7 +47,7 @@
 		.max-h thead th{
 			position:sticky;
 			top:0;
-			z-index:2;
+			z-index:1;
 			background-color:#003049;
 		}
 		/*table with fixed header & height ends */

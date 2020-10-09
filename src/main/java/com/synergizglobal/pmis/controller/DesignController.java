@@ -125,7 +125,7 @@ public class DesignController {
 			model.addObject("action", "edit");
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getworkList();
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -157,7 +157,7 @@ public class DesignController {
 			model.addObject("action", "add");
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getworkList();
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);

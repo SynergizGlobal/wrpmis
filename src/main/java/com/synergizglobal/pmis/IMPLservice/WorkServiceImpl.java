@@ -18,11 +18,6 @@ public class WorkServiceImpl implements WorkService {
 	WorkDao workDao;
 	
 	@Override
-	public List<Work> getworkList()throws Exception{
-		return workDao.getworkList();
-	}
-	
-	@Override
 	public Work getWork(String workId,Work work)throws Exception{
 		return workDao.getWork(workId, work);
 	}

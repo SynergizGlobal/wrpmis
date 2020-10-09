@@ -8,10 +8,6 @@ import com.synergizglobal.pmis.model.Year;
 
 public interface WorkService {
 
-	
-
-	public List<Work> getworkList()throws Exception;
-
 	public Work getWork(String workId,Work work)throws Exception;
 
 	public boolean updateWork(Work work)throws Exception;

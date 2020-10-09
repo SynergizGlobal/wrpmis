@@ -112,7 +112,7 @@
                                     <div class="col s12 m3 input-field">
                                       <p><label>Work Name</label></p>
                                         <select id="work_id_fk" name="work_id_fk" onchange="getContractList();" class="searchable">
-                                            <option value="" disabled selected>Select Work Name</option>
+                                            <option value="">Select Work Name</option>
 	                                            <c:forEach var="obj" items="${workList}">
 	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id eq obj.work_id }">selected</c:if>>${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
 	                                             </c:forEach>
@@ -121,7 +121,7 @@
                                     <div class="col s12 m3 input-field">
                                       <p><label>Department</label></p>
                                         <select id="department_fk" name="department_fk" onchange="getContractList();" class="searchable">
-                                            <option value="" disabled selected>Select Department</option>
+                                            <option value="">Select Department</option>
 	                                             <c:forEach var="obj" items="${departmentList}">
 	                       						  <option value="${obj.department_fk }" <c:if test="${param.department_fk eq obj.department_fk }">selected</c:if>>${obj.department_fk}</option>
 	                                             </c:forEach>
@@ -130,7 +130,7 @@
                                     <div class="col s12 m3 input-field">
                                     <p><label>Contractor</label></p>
                                         <select id="contractor_id_fk" name="contractor_id_fk" onchange="getContractList();" class="searchable">
-                                            <option value="" disabled selected>Select Contractor</option>
+                                            <option value="">Select Contractor</option>
 		                                          <c:forEach var="obj" items="${contractor}">
 		                       						 <option value="${obj.contractor_id_fk }" <c:if test="${param.contractor_id_fk eq obj.contractor_id_fk }">selected</c:if>>${obj.contractor_id_fk }<c:if test="${not empty obj.contractor_name}"> - </c:if>${obj.contractor_name}</option>
 		                                           </c:forEach>

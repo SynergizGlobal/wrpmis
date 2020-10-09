@@ -150,11 +150,11 @@
                                         <div class="col s12 m3 input-field">
 <%--                                     <input id="sanctioned_year" type="text" class="validate datepicker" name="sanctioned_year" value="${workDeatils.sanctioned_year }"> --%>
                                            <p class="searchable_label"> Sanctioned Year</p>
-                                            <select class="searchable" id="sanctioned_year">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Agency 1</option>
-                                                <option value="2">Agency 2</option>
-                                                <option value="3">Agency 3</option>
+                                            <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
+                                                <option value="">Select</option>
+                                                <c:forEach var="obj" items="${yearList}">
+	        					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.sanctioned_year_fk eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+	                              			    </c:forEach>
                                             </select>
                                              <span id="sanctioned_yearError"></span>
                                         </div>
@@ -195,11 +195,11 @@
                                 <div class="col s12 m4 input-field ">
 <%--                                <input id="year_of_completion" type="text" class="validate datepicker" name="year_of_completion" value="${workDeatils.year_of_completion }"> --%>
                                    <p> <label for="year_of_completion">Year of Completion </label></p>
-                                    <select id="year_of_completion" class="searchable">
-                                          <option value="0" selected>Select</option>
-                                          <option value="1">Agency 1</option>
-                                          <option value="2">Agency 2</option>
-                                          <option value="3">Agency 3</option>
+                                    <select id="year_of_completion" name="year_of_completion" class="searchable">
+                                          <option value="">Select</option>
+                                           <c:forEach var="obj" items="${yearList}">
+        					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.year_of_completion eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+                              			   </c:forEach>
                                     </select>
                                     <span id="year_of_completionError"></span>
                                 </div>
@@ -215,21 +215,29 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                 <p><label>Railway Agency</label></p>
-                                  <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" size='1' >
+                                  <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
                                   		 <option value="" >select</option>
-                                                <c:forEach var="obj" items="${railwaysList}">
-  													 <option value="${obj.railway_id }" <c:if test="${workDeatils.railway_id_fk eq obj.railway_id}">selected</c:if>>${obj.railway_name}</option>
-                                                </c:forEach>
+                                          <c:forEach var="obj" items="${railwaysList}">
+									 		<option value="${obj.railway_id }" 
+										 		<c:forEach var="tempobj" items="${workDeatils.railwayAgencyList}">
+										 			<c:if test="${tempobj.railway_id_fk eq obj.railway_id}">selected</c:if>
+	                                          	</c:forEach>
+									 		>${obj.railway_name}</option>
+                                          </c:forEach>
                                   </select>
                                       <span id="railway_id_fkError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <p><label>Executed By</label></p>
-                                  <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk"  size='1'>
+                                  <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
                                    <option value="" >select</option>
-                                            <c:forEach var="obj" items="${railwaysList}">
-                    					  			 <option value="${obj.railway_id }"<c:if test="${workDeatils.executed_by_id_fk eq obj.railway_id}">selected</c:if>> ${obj.railway_name}</option>
-                                            </c:forEach>
+                                   <c:forEach var="obj" items="${railwaysList}">
+           					  			 <option value="${obj.railway_id }"            					  			 
+           					  			 		<c:forEach var="tempobj" items="${workDeatils.executedByList}">
+										 			<c:if test="${tempobj.executed_by_id_fk eq obj.railway_id}">selected</c:if>
+	                                          	</c:forEach>           					  			 
+           					  			 > ${obj.railway_name}</option>
+                                   </c:forEach>
                                   </select>
                                      <span id="executed_by_id_fkError"></span>
                                 </div>
@@ -284,10 +292,6 @@
 	                                                    <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
 	                                                        placeholder="Revision Number">
 	                                                </td>
-<!-- 	                                                <td> -->
-<%-- 	                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate" value="${revObj.remarks }" --%>
-<!-- 	                                                        placeholder="Remarks"> -->
-<!-- 	                                                </td> -->
 	                                                <td>
 	                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
 	                                                            class="fa fa-close"></i></a>
@@ -325,10 +329,6 @@
 	                                                    <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
 	                                                        placeholder="Revision Number">
 	                                                </td>
-<!-- 	                                                <td> -->
-<!-- 	                                                    <input id="remarkss0" name="remarkss" type="text" class="validate"  -->
-<!-- 	                                                        placeholder="Remarks"> -->
-<!-- 	                                                </td> -->
 	                                                <td>
 	                                                    <a class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
 	                                                            class="fa fa-close"></i></a>
@@ -613,7 +613,7 @@
          */
          var html = '<tr id="revisionRow'+rNo+'"><td> <div>'
 		   		   +'<select  name="financial_years" id="financial_years'+rNo+'"  class="validate-dropdown searchable" >'	   			
-		   		   +'<option value=" " >select</option>'
+		   		   +'<option value="" >select</option>'
 				     <c:forEach var="obj" items="${yearList}">
 		     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 				     </c:forEach>
@@ -622,7 +622,7 @@
 				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost"></td>'
 				   +'<td> <div>'
 				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'
-				   +'<option value=" " selected>select</option>'
+				   +'<option value="" selected>select</option>'
 				     <c:forEach var="obj" items="${yearList}">
 					   +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 				     </c:forEach>

@@ -77,7 +77,7 @@ public class WorkController {
 	public ModelAndView Work(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.work);
 		try {
-			List<Work> workList = workService.getworkList();
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);	
 		}catch (Exception e) {
 			e.printStackTrace();

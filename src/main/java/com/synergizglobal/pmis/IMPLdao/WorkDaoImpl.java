@@ -32,17 +32,15 @@ public class WorkDaoImpl implements WorkDao {
 	
 	
 	@Override
-	public List<Work> getworkList() throws Exception{
+	public List<Work> getWorkList(Work obj) throws Exception{
 		List<Work> objsList = null;
 		try {
-			String qry ="SELECT DISTINCT work_id,work_name,project_id_fk,wr.executed_by_id_fk,railway_id_fk,r.railway_name,p.project_name,YEAR(sanctioned_year) as sanctioned_year,sanctioned_estimated_cost,"
+			String qry ="SELECT DISTINCT work_id,work_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
-					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,YEAR(year_of_completion) as year_of_completion,completion_cost" + 
+					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" + 
 						",w.remarks FROM work w " + 
-						"LEFT JOIN project p ON w.project_id_fk = p.project_id " + 
-						"LEFT JOIN work_railway wr ON w.work_id COLLATE utf8mb4_unicode_ci  = wr.work_id_fk " + 
-						"LEFT JOIN railway r ON wr.railway_id_fk = r.railway_id ";
+						"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
 		
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
 		
@@ -62,13 +60,11 @@ public class WorkDaoImpl implements WorkDao {
 		Work work = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="SELECT DISTINCT work_id,work_name,project_id_fk,wr.executed_by_id_fk,railway_id_fk,r.railway_name,p.project_name,YEAR(sanctioned_year) as sanctioned_year,sanctioned_estimated_cost," + 
-					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,YEAR(year_of_completion) as year_of_completion,completion_cost" + 
+			String qry ="SELECT work_id,work_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," + 
+					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" + 
 					",w.remarks FROM work w " + 
-					"LEFT JOIN project p ON w.project_id_fk = p.project_id " + 
-					"LEFT JOIN work_railway wr ON w.work_id COLLATE utf8mb4_unicode_ci  = wr.work_id_fk " + 
-					"LEFT JOIN railway r ON wr.railway_id_fk = r.railway_id "
-				    + "where work_id_fk = ?";
+					"LEFT JOIN project p ON w.project_id_fk = p.project_id " +
+				    "where work_id = ?";
 		
 			stmt = connection.prepareStatement(qry);
 			stmt.setString(1, workId);
@@ -78,7 +74,7 @@ public class WorkDaoImpl implements WorkDao {
 				work.setWork_id(resultSet.getString("work_id"));
 				work.setWork_name(resultSet.getString("work_name"));
 				work.setProject_id_fk(resultSet.getString("project_id_fk"));
-				work.setSanctioned_year(resultSet.getString("sanctioned_year"));
+				work.setSanctioned_year_fk(resultSet.getString("sanctioned_year_fk"));
 				work.setSanctioned_estimated_cost(resultSet.getString("sanctioned_estimated_cost"));
 				work.setSanctioned_completion_cost(resultSet.getString("sanctioned_completion_cost"));
 				work.setCompleteion_period_months(resultSet.getString("completeion_period_months"));
@@ -86,9 +82,9 @@ public class WorkDaoImpl implements WorkDao {
 				work.setYear_of_completion(resultSet.getString("year_of_completion"));
 				work.setCompletion_cost(resultSet.getString("completion_cost"));
 				work.setRemarks(resultSet.getString("remarks"));
-				work.setRailway_id_fk(resultSet.getString("railway_id_fk"));
-				work.setExecuted_by_id_fk(resultSet.getString("executed_by_id_fk"));
-				work.setWorkRevisions(getWorkRevisions(work.getWork_id(),connection));				
+				work.setWorkRevisions(getWorkRevisions(work.getWork_id(),connection));	
+				work.setRailwayAgencyList(getRailwayAgencyList(work.getWork_id(),connection));
+				work.setExecutedByList(getExecutedByList(work.getWork_id(),connection));
 				
 			}
 		}catch(Exception e){ 
@@ -101,6 +97,69 @@ public class WorkDaoImpl implements WorkDao {
 		return work;
 	}
 	
+	private List<Work> getExecutedByList(String work_id, Connection connection) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Work> objsList = new ArrayList<Work>();
+		Work obj = null;
+		try {
+			String qry ="SELECT executed_by_id_fk,railway_name "
+					+ "from work_railway wr "
+					+ "left join railway ON executed_by_id_fk = railway_id "
+					+ "where work_id_fk = ?";
+		
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, work_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Work();
+				obj.setExecuted_by_id_fk(resultSet.getString("executed_by_id_fk"));
+				obj.setRailway_name(resultSet.getString("railway_name"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+
+
+	private List<Work> getRailwayAgencyList(String work_id, Connection connection) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Work> objsList = new ArrayList<Work>();
+		Work obj = null;
+		try {
+			String qry ="SELECT railway_id_fk,railway_name "
+					+ "from work_railway wr "
+					+ "left join railway ON railway_id_fk = railway_id "
+					+ "where work_id_fk = ?";
+		
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, work_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Work();
+				obj.setRailway_id_fk(resultSet.getString("railway_id_fk"));
+				obj.setRailway_name(resultSet.getString("railway_name"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+		
+	}
+
+
 	private List<Work> getWorkRevisions(String work_id, Connection connection) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
@@ -108,7 +167,7 @@ public class WorkDaoImpl implements WorkDao {
 		Work obj = null;
 		try {
 			String qry ="SELECT financial_year,pink_book_item_number,latest_revised_cost, year_of_revision,revision_number"
-					+ ",remarks from work_yearly_sanction where work_id_fk = ?";
+					+ " from work_yearly_sanction where work_id_fk = ?";
 		
 			stmt = connection.prepareStatement(qry);
 			stmt.setString(1, work_id);
@@ -120,7 +179,6 @@ public class WorkDaoImpl implements WorkDao {
 				obj.setLatest_revised_cost(resultSet.getString("latest_revised_cost"));
 				obj.setYear_of_revision(resultSet.getString("year_of_revision"));
 				obj.setRevision_number(resultSet.getString("revision_number"));
-				obj.setRemarks(resultSet.getString("remarks"));
 				workRevisions.add(obj);
 			}
 		}catch(Exception e){ 
@@ -142,86 +200,134 @@ public class WorkDaoImpl implements WorkDao {
 		boolean flag = false;
 		try{
 			con = dataSource.getConnection();
-			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year=?,sanctioned_estimated_cost = ?," + 
+			con.setAutoCommit(false);
+			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year_fk=?,sanctioned_estimated_cost = ?," + 
 						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,completion_cost = ?,remarks = ? "+
 						 "where work_id =?";
 		
 			stmt = con.prepareStatement(qry); 
 			stmt.setString(1,work.getWork_name());
 			stmt.setString(2,work.getProject_id_fk());
-			stmt.setString(3,work.getSanctioned_year()+"-00-00");
+			stmt.setString(3,work.getSanctioned_year_fk());
 			stmt.setString(4,work.getSanctioned_estimated_cost());
 			stmt.setString(5,work.getCompleteion_period_months());
 			stmt.setString(6,work.getSanctioned_completion_cost());
 			stmt.setString(7,work.getAnticipated_cost());
-			stmt.setString(8,work.getYear_of_completion()+"-00-00");
+			stmt.setString(8,work.getYear_of_completion());
 			stmt.setString(9,work.getCompletion_cost());
 			stmt.setString(10,work.getRemarks());
 			stmt.setString(11,work.getWork_id());
 			int count = stmt.executeUpdate();
-			
+			if(count > 0){
+				flag = true; 
+			}
 			if(stmt != null){stmt.close();}
-		
-			String qry3 = "update work_railway set railway_id_fk =?,executed_by_id_fk = ?,remarks =? where work_id_fk = ?";
-			stmt = con.prepareStatement(qry3); 
-			stmt.setString(1,work.getRailway_id_fk());
-			stmt.setString(2,work.getExecuted_by_id_fk());
-			stmt.setString(3,work.getRemarks());
-			stmt.setString(4,work.getWork_id());
+			
+			String deleteWorkRailwayQry = "delete from work_railway where work_id_fk = ?";
+			stmt = con.prepareStatement(deleteWorkRailwayQry); 
+			stmt.setString(1,work.getWork_id());
 			count = stmt.executeUpdate();
+			if(stmt != null){stmt.close();}
+			
+			if(!StringUtils.isEmpty(work.getRailway_id_fk())) {
+				String qry3 = "INSERT into  work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
+				stmt = con.prepareStatement(qry3); 
+				if(work.getRailway_id_fk().contains(",")) {
+					String[] ids = work.getRailway_id_fk().split(",");					
+					for (int i = 0; i < ids.length; i++) {
+						stmt.setString(1,work.getWork_id());
+						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+						stmt.addBatch(); 
+					}					
+					stmt.executeBatch();
+				}else {
+					stmt.setString(1,work.getWork_id());
+					stmt.setString(2,work.getRailway_id_fk());
+					stmt.executeUpdate(); 
+				}				
+				if(stmt != null){stmt.close();}
+			}
+
+			if(!StringUtils.isEmpty(work.getExecuted_by_id_fk())) {
+				String qry3 = "INSERT into  work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
+				stmt = con.prepareStatement(qry3); 
+				if(work.getExecuted_by_id_fk().contains(",")) {
+					String[] ids = work.getExecuted_by_id_fk().split(",");					
+					for (int i = 0; i < ids.length; i++) {
+						stmt.setString(1,work.getWork_id());
+						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+						stmt.addBatch(); 
+					}					
+					stmt.executeBatch();
+				}else {
+					stmt.setString(1,work.getWork_id());
+					stmt.setString(2,work.getExecuted_by_id_fk());
+					stmt.executeUpdate(); 
+				}				
+				if(stmt != null){stmt.close();}
+			}
 			
 			String qryDelete = "delete from work_yearly_sanction where work_id_fk = ?";
 			stmt = con.prepareStatement(qryDelete); 			
 			stmt.setString(1,work.getWork_id());
-			count = stmt.executeUpdate();
-			
-			
+			count = stmt.executeUpdate();			
 			if(stmt != null){stmt.close();}	
-			String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
-					 +"year_of_revision,revision_number,remarks,work_id_fk) "
-					 +"VALUES (?,?,?,?,?,?,?)";
-			stmt = con.prepareStatement(qry4); 
 			
-			if(flag && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
-				work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
-				work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
-				work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
-				work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
-				work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
-				work.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(work.getRemarkss()));
-			}
-			
-			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
-				for (int i = 0; i < work.getFinancial_years().length; i++) {
-					if(!StringUtils.isEmpty(work.getFinancial_years()[i])){
-						int p = 1;
-						stmt.setString(p++,work.getFinancial_years()[i]);
-						stmt.setString(p++,work.getPink_book_item_numbers()[i]);
-						stmt.setString(p++,work.getLatest_revised_costs()[i]);
-						stmt.setString(p++,work.getYear_of_revisions()[i]);						
-						stmt.setString(p++,work.getRevision_numbers()[i]);
-						stmt.setString(p++,work.getRemarkss()[i]);
-						stmt.setString(p++,work.getWork_id());
-	
-						stmt.addBatch();
+			if(flag) {			
+				String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
+						 +"year_of_revision,revision_number,work_id_fk) "
+						 +"VALUES (?,?,?,?,?,?)";
+				stmt = con.prepareStatement(qry4); 
+				
+				int arraySize = 0;
+				
+				if(!StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
+					work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
+					if(arraySize < work.getFinancial_years().length) {
+						arraySize = work.getFinancial_years().length;
 					}
 				}
+				if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
+					work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
+					if(arraySize < work.getPink_book_item_numbers().length) {
+						arraySize = work.getPink_book_item_numbers().length;
+					}
+				}
+				if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
+					work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
+					if(arraySize < work.getLatest_revised_costs().length) {
+						arraySize = work.getLatest_revised_costs().length;
+					}
+				}
+				if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
+					work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
+					if(arraySize < work.getYear_of_revisions().length) {
+						arraySize = work.getYear_of_revisions().length;
+					}
+				}
+				if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
+					work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
+					if(arraySize < work.getRevision_numbers().length) {
+						arraySize = work.getRevision_numbers().length;
+					}
+				}
+				
+				for (int i = 0; i < arraySize; i++) {
+					int p = 1;
+					stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
+					stmt.setString(p++,(work.getPink_book_item_numbers().length > 0)?work.getPink_book_item_numbers()[i]:null);
+					stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
+					stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
+					stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
+					stmt.setString(p++,work.getWork_id());
+					stmt.addBatch();
+				}
+				int[] c = stmt.executeBatch();
 			}
-			int[] c = stmt.executeBatch();
-			if(c.length > 0 || count > 0){
-				flag = true; 
-			}
+			
+			con.commit();
 		}catch(Exception e){ 
+			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e);
 		}
@@ -237,84 +343,123 @@ public class WorkDaoImpl implements WorkDao {
 		PreparedStatement stmt = null;
 		int count = 0;
 		boolean flag = false;
-		int[] c = {};
 		try{
 			con = dataSource.getConnection();
 			String workId = getWorkId(con);
 			String wID = work.getProject_id_fk()+workId;
-			
-			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year,sanctioned_estimated_cost," + 
+			con.setAutoCommit(false);
+			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks)"+
 						" VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			stmt.setString(1,wID ); 
 			stmt.setString(2,work.getWork_name()); 
 			stmt.setString(3,work.getProject_id_fk());
-			stmt.setString(4,work.getSanctioned_year()+"-00-00");
+			stmt.setString(4,work.getSanctioned_year_fk());
 			stmt.setString(5,work.getSanctioned_estimated_cost());
 			stmt.setString(6,work.getCompleteion_period_months());
 			stmt.setString(7,work.getSanctioned_completion_cost());
 			stmt.setString(8,work.getAnticipated_cost());
-			stmt.setString(9,work.getYear_of_completion()+"-00-00");
+			stmt.setString(9,work.getYear_of_completion());
 			stmt.setString(10,work.getCompletion_cost());
 			stmt.setString(11,work.getRemarks());
 			count = stmt.executeUpdate();
-			
-			if(stmt != null){stmt.close();}
-
-			String qry3 = "INSERT into  work_railway (work_id_fk,railway_id_fk,executed_by_id_fk,remarks) VALUES (?,?,?,?)";
-			stmt = con.prepareStatement(qry3); 
-			stmt.setString(1,wID);
-			stmt.setString(2,work.getRailway_id_fk());
-			stmt.setString(3,work.getExecuted_by_id_fk());
-			stmt.setString(4,work.getRemarks());
-			count = stmt.executeUpdate(); 
-			
-			if(stmt != null){stmt.close();}
-			String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
-						 +"year_of_revision,revision_number,remarks,work_id_fk) "
-						 +"VALUES (?,?,?,?,?,?,?)";
-			stmt = con.prepareStatement(qry4); 
-			if(flag && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
-				work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
-				work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
-				work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
-				work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
-				work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
-			}
-			if(flag && !StringUtils.isEmpty(work.getRemarkss()) && work.getRemarkss().length > 0) {
-				work.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(work.getRemarkss()));
-			}
-			
-			if(!StringUtils.isEmpty(work) && !StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
-				for (int i = 0; i < work.getFinancial_years().length; i++) {
-					if(!StringUtils.isEmpty(work.getFinancial_years()[i])){
-						int p = 1;
-						stmt.setString(p++,work.getFinancial_years()[i]);
-						stmt.setString(p++,work.getPink_book_item_numbers()[i]);
-						stmt.setString(p++,work.getLatest_revised_costs()[i]);
-						stmt.setString(p++,work.getYear_of_revisions()[i]);						
-						stmt.setString(p++,work.getRevision_numbers()[i]);
-						stmt.setString(p++,work.getRemarkss()[i]);
-						stmt.setString(p++,work.getWork_id());
-	
-						stmt.addBatch();
-					}
-				}
-			}
-			c = stmt.executeBatch();
-			if(c.length > 0 || count > 0){
+			if(count > 0){
 				flag = true; 
 			}
+			if(stmt != null){stmt.close();}
+			
+			if(!StringUtils.isEmpty(work.getRailway_id_fk())) {
+				String qry3 = "INSERT into  work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
+				stmt = con.prepareStatement(qry3); 
+				if(work.getRailway_id_fk().contains(",")) {
+					String[] ids = work.getRailway_id_fk().split(",");					
+					for (int i = 0; i < ids.length; i++) {
+						stmt.setString(1,wID);
+						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+						stmt.addBatch(); 
+					}					
+					stmt.executeBatch();
+				}else {
+					stmt.setString(1,wID);
+					stmt.setString(2,work.getRailway_id_fk());
+					stmt.executeUpdate(); 
+				}				
+				if(stmt != null){stmt.close();}
+			}
+
+			if(!StringUtils.isEmpty(work.getExecuted_by_id_fk())) {
+				String qry3 = "INSERT into  work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
+				stmt = con.prepareStatement(qry3); 
+				if(work.getExecuted_by_id_fk().contains(",")) {
+					String[] ids = work.getExecuted_by_id_fk().split(",");					
+					for (int i = 0; i < ids.length; i++) {
+						stmt.setString(1,wID);
+						stmt.setString(2,!StringUtils.isEmpty(ids[i])?ids[i]:null);
+						stmt.addBatch(); 
+					}					
+					stmt.executeBatch();
+				}else {
+					stmt.setString(1,wID);
+					stmt.setString(2,work.getExecuted_by_id_fk());
+					stmt.executeUpdate(); 
+				}				
+				if(stmt != null){stmt.close();}
+			}
+			
+			
+			String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
+						 +"year_of_revision,revision_number,work_id_fk) "
+						 +"VALUES (?,?,?,?,?,?)";
+			stmt = con.prepareStatement(qry4); 
+			if(flag) {		
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(work.getFinancial_years()) && work.getFinancial_years().length > 0) {
+					work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
+					if(arraySize < work.getFinancial_years().length) {
+						arraySize = work.getFinancial_years().length;
+					}
+				}
+				if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
+					work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
+					if(arraySize < work.getPink_book_item_numbers().length) {
+						arraySize = work.getPink_book_item_numbers().length;
+					}
+				}
+				if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
+					work.setLatest_revised_costs(CommonMethods.replaceEmptyByNullInSringArray(work.getLatest_revised_costs()));
+					if(arraySize < work.getLatest_revised_costs().length) {
+						arraySize = work.getLatest_revised_costs().length;
+					}
+				}
+				if(!StringUtils.isEmpty(work.getYear_of_revisions()) && work.getYear_of_revisions().length > 0) {
+					work.setYear_of_revisions(CommonMethods.replaceEmptyByNullInSringArray(work.getYear_of_revisions()));
+					if(arraySize < work.getYear_of_revisions().length) {
+						arraySize = work.getYear_of_revisions().length;
+					}
+				}
+				if(!StringUtils.isEmpty(work.getRevision_numbers()) && work.getRevision_numbers().length > 0) {
+					work.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getRevision_numbers()));
+					if(arraySize < work.getRevision_numbers().length) {
+						arraySize = work.getRevision_numbers().length;
+					}
+				}
+				
+				for (int i = 0; i < arraySize; i++) {
+					int p = 1;
+					stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
+					stmt.setString(p++,(work.getPink_book_item_numbers().length > 0)?work.getPink_book_item_numbers()[i]:null);
+					stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
+					stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
+					stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
+					stmt.setString(p++,work.getWork_id());
+					stmt.addBatch();
+				}
+				int[] c = stmt.executeBatch();
+			}
+			con.commit();
 		}catch(Exception e){ 
+			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e);
 		}
@@ -430,36 +575,5 @@ public class WorkDaoImpl implements WorkDao {
 		}
 		return objsList;
 	}
-	
-	@Override
-	public List<Work> getWorkList(Work work)throws Exception{
-		List<Work> objsList = null;
-		
-      try {
-		   String qry = "SELECT DISTINCT work_id,work_name,project_id_fk,wr.executed_by_id_fk,railway_id_fk,r.railway_name,p.project_name,YEAR(sanctioned_year) as sanctioned_year,sanctioned_estimated_cost," + 
-					    "completeion_period_months,sanctioned_completion_cost,anticipated_cost,YEAR(year_of_completion) as year_of_completion,completion_cost" + 
-						",w.remarks FROM work w " + 
-						"LEFT JOIN project p ON w.project_id_fk = p.project_id " + 
-						"LEFT JOIN work_railway wr ON w.work_id COLLATE utf8mb4_unicode_ci  = wr.work_id_fk " + 
-						"LEFT JOIN railway r ON wr.railway_id_fk = r.railway_id ";
-
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
-		
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		
-		return objsList;
-	
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

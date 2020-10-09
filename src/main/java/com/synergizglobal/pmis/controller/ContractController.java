@@ -92,7 +92,7 @@ public class ContractController {
 	public ModelAndView Contract(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractGrid);
 		try {
-			List<Work> workList = workService.getworkList();
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -126,7 +126,7 @@ public class ContractController {
 			model.setViewName(PageConstants.addContractForm);	
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getworkList();
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -193,7 +193,7 @@ public class ContractController {
 			model.setViewName(PageConstants.updateContractForm);
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getworkList();
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -227,7 +227,7 @@ public class ContractController {
 			model.setViewName(PageConstants.updateContractForm);
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getworkList();
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);

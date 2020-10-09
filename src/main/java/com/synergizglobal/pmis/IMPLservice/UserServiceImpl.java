@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public boolean addUser(User obj) throws Exception {
+	public String addUser(User obj) throws Exception {
 		return userDao.addUser(obj);
 	}
 

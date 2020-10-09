@@ -137,7 +137,7 @@ public class UserDaoImpl implements UserDao{
 		List<User> objsList = null;
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
-					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,department_name,usr.user_name as reporting_to_name "
+					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
 					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
@@ -179,31 +179,31 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean addUser(User obj) throws Exception {
-		boolean flag = false;
+	public String addUser(User obj) throws Exception {
+		String userId = null;
 		try {
 			
 			String user_id = getMaxUserId(obj.getUser_role_code());
 			obj.setUser_id(user_id);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO user"
-					+ "(user_id,user_name,password,designation,email_id,mobile_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
+					+ "(user_id,user_name,password,designation,email_id,mobile_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image) "
 					+ "VALUES "
-					+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
+					+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks,:user_image)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
-				flag = true;
+				userId = user_id;
 			}
 			
-			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
+			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
 				obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
 			}
-			if(flag && !StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
+			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
 				obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
 			}
 			
-			if(flag && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
+			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
 				
 				String[] types = obj.getUser_access_types();
 				String[] values = obj.getUser_access_values();
@@ -229,7 +229,7 @@ public class UserDaoImpl implements UserDao{
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
-		return flag;
+		return userId;
 	}
 	
 	public String getMaxUserId(String role_code) throws Exception {
@@ -261,7 +261,7 @@ public class UserDaoImpl implements UserDao{
 		User uobj = null;
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
-					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,department_name,usr.user_name as reporting_to_name "
+					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
 					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
@@ -317,7 +317,7 @@ public class UserDaoImpl implements UserDao{
 		boolean flag = false;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "UPDATE user SET user_name=:user_name,designation=:designation,email_id=:email_id,mobile_number=:mobile_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,remarks=:remarks "
+			String qry = "UPDATE user SET user_name=:user_name,designation=:designation,email_id=:email_id,mobile_number=:mobile_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,user_image=:user_image "
 					+ "WHERE user_id = :user_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			

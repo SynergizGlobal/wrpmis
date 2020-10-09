@@ -477,8 +477,8 @@
                                             </tr>
                                         </thead>
                                         <tbody id="bankTableBody">
-                                            <tr id="bankRow${index.count }">
-                                                <td> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
+                                            <tr id="bankRow0">
+                                                <td> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		                                    			   <option value="${obj.bg_type_fk }" >${obj.bg_type_fk }</option>
@@ -489,33 +489,33 @@
                                                         placeholder="BG Type">
                                                 </td> -->
                                                 <td>
-                                                    <input id="issuing_banks${index.count }" name="issuing_banks"  type="text" class="validate"
+                                                    <input id="issuing_banks0" name="issuing_banks"  type="text" class="validate"
                                                         placeholder="Issuing Bank">
                                                 </td>
                                                 <td>
-                                                    <input id="bank_addresss${index.count }" name ="bank_addresss" type="text" class="validate"
+                                                    <input id="bank_addresss0" name ="bank_addresss" type="text" class="validate"
                                                         placeholder="Bank Address">
                                                 </td>
                                                 <td>
-                                                    <input id="bg_numbers${index.count }" name="bg_numbers" type="text" class="validate"
+                                                    <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
                                                         placeholder="BG Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="bg_values${index.count }" name="bg_values" type="text" class="validate"
+                                                    <input id="bg_values0" name="bg_values" type="text" class="validate"
                                                         placeholder="BG Value">
                                                 </td>
                                                 <td>
-                                                    <input id="bg_valid_uptos${index.count }" name="bg_valid_uptos" type="text" class="validate datepicker"
+                                                    <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
                                                         placeholder="Valid Upto">
                                                     <button type="button" id="bg_upto_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="remarkss${index.count }" name ="remarkss" type="text" class="validate"
+                                                    <input id="remarkss0" name ="remarkss" type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
-                                                    <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+                                                    <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
@@ -571,9 +571,9 @@
                                         </thead>
                                          <tbody id="insurenceTableBody">
                                         
-                                            <tr id="insurenceRow${index.count }">
+                                            <tr id="insurenceRow0">
                                                 <td>
-                                                    <select id="insurance_type_fks${index.count }" name="insurance_type_fks" class="searchable">
+                                                    <select id="insurance_type_fks0" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
                                                           <c:forEach var="obj" items="${insurance_type }">
                                       					   <option value= "${ obj.insurance_type}" >${ obj.insurance_type}</option>
@@ -581,34 +581,34 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input id="issuing_agencys${index.count }" name="issuing_agencys" type="text" class="validate" 
+                                                    <input id="issuing_agencys0" name="issuing_agencys" type="text" class="validate" 
                                                         placeholder="Issuing Agency">
                                                 </td>
                                                 <td>
-                                                    <input id="agency_addresss${index.count }" name="agency_addresss" type="text" class="validate" 
+                                                    <input id="agency_addresss0" name="agency_addresss" type="text" class="validate" 
                                                         placeholder="Agency Address">
                                                 </td>
 
                                                 <td>
-                                                    <input id="insurance_numbers${index.count }" name="insurance_numbers" type="text" class="validate" 
+                                                    <input id="insurance_numbers0" name="insurance_numbers" type="text" class="validate" 
                                                         placeholder="Insurance Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="insurance_values${index.count }" name="insurance_values" type="text" class="validate" 
+                                                    <input id="insurance_values0" name="insurance_values" type="text" class="validate" 
                                                         placeholder="Insurance Value">
                                                 </td>
                                                 <td>
-                                                    <input id="insurence_valid_uptos${index.count }" name="insurence_valid_uptos" type="text" 
+                                                    <input id="insurence_valid_uptos0" name="insurence_valid_uptos" type="text" 
                                                         class="validate datepicker" placeholder="Valid Upto">
                                                     <button type="button" id="insurance_upto_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="insurence_remarks${index.count }" name="insurence_remarks"  type="text" class="validate" 
+                                                    <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
                                                 <td>
-                                                    <a onclick="removeInsurence('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+                                                    <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
@@ -644,32 +644,32 @@
 	                                        </thead>
 	                                         <tbody id="milestoneTableBody" >
 	                                        
-	                                            <tr id="mileRow${index.count }">                                    
+	                                            <tr id="mileRow0">                                    
 	                                                <td>
-	                                                    <input id="milestone_names${index.count }" name="milestone_names" type="text" class="validate" 
+	                                                    <input id="milestone_names0" name="milestone_names" type="text" class="validate" 
 	                                                        placeholder="Milestone Name ">
 	                                                </td>
 	                                                <td>
-	                                                    <input id="milestone_dates${index.count }" name="milestone_dates" type="text" class="validate datepicker" 
+	                                                    <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Milestone Date">
 	                                                    <button type="button" id="milestone_date_icon"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
-	                                                    <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker" 
+	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Actual Date">
 	                                                    <button type="button" id="actual_date_icon"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
-	                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate" 
+	                                                    <input id="revisions0" name="revisions" type="text" class="validate" 
 	                                                        placeholder="Revision">
 	                                                </td>
 	                                                <td>
-	                                                    <input id="mile_remarks${index.count }" name="mile_remarks" type="text" class="validate" 
+	                                                    <input id="mile_remarks0" name="mile_remarks" type="text" class="validate" 
 	                                                        placeholder="Remarks">
 	                                                </td>
-	                                                <td><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+	                                                <td><a onclick="removeMilestone('0');" class="btn waves-effect waves-light red t-c "> <i
 	                                                            class="fa fa-close"></i></a>
 	                                                </td>
 	                                            </tr>
@@ -701,25 +701,25 @@
                                             </tr>
                                         </thead>
                                          <tbody  id="revTableBody" >
-                                            <tr id="revRow${index.count }">
-                                                <td> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" 
+                                            <tr id="revRow0">
+                                                <td> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
                                                         placeholder="Revision Number">
                                                 </td>
                                                 <td class="input-field">
-                                                   <i class="material-icons prefix center-align">₹</i> <input id="revised_amounts${index.count }" name="revised_amounts" type="text" class="validate"
+                                                   <i class="material-icons prefix center-align">₹</i> <input id="revised_amounts0" name="revised_amounts" type="text" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
                                                 <td>
-                                                    <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" 
+                                                    <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
                                                         placeholder="Revised DOC">
                                                     <button type="button" id="revised_doc_icon"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td> 
-                                                    <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" 
+                                                    <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+                                                <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
@@ -753,33 +753,35 @@
 	                                            </thead>
 	                                            <tbody>
 	                                                <tr>
-	                                                    <td> <input id="person_name" type="text" class="validate"
+	                                                    <td> <input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate"
 	                                                            placeholder="Name">
 	                                                    </td>
 	                                                    <td>
-	                                                        <input id="person_mobile" type="number" class="validate"
+	                                                        <input id="contractKeyPersonnelMobileNos" name="contractKeyPersonnelMobileNos" type="number" class="validate"
 	                                                            placeholder="Mobile No">
 	                                                    </td>
 	                                                    <td>
-	                                                        <input id="person_email" type="text" class="validate"
+	                                                        <input id="contractKeyPersonnelEmailIds" name="contractKeyPersonnelEmailIds" type="text" class="validate"
 	                                                            placeholder="Email">
 	                                                    </td>
 	                                                    <td>
-	                                                        <a href="#" class="btn waves-effect waves-light red t-c "> <i
+	                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"  class="btn waves-effect waves-light red t-c "> <i
 	                                                                class="fa fa-close"></i></a>
-	                                                    </td>
-	                                                </tr>
-	                                                <tr>
-	                                                    <td></td>
-	                                                    <td></td>
-	                                                    <td></td>
-	                                                    <td>
-	                                                        <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
-	                                                                class="fa fa-plus"></i></a>
 	                                                    </td>
 	                                                </tr>
 	                                            </tbody>
 	                                        </table>
+	                                        
+	                                        <table class="mdl-data-table">
+		                                        <tbody id="revTableBody">                                          
+		                                            <tr>
+														<td colspan="4" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
+		                                                            class="fa fa-plus"></i></a></td>
+		                                              </tr>
+		                                        </tbody>
+		                                     </table>
+		                                   	 <input type="hidden" id="keyRowNo"  name="keyRowNo" value="0" />
+                                   	 
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -798,12 +800,12 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td> <input id="doc_name" type="text" class="validate"
+                                                    <td> <input id="contractDocumentNames" name="contractDocumentNames" type="text" class="validate"
                                                             placeholder="Name">
                                                     </td>
                                                     <td>
                                                         <div class="normal-btn">
-                                                            <input type="file" name="doc_file" id="doc_file"
+                                                            <input type="file" name="contractDocumentFiles" id="contractDocumentFiles0"
                                                                 style="display:none" />
                                                             <label for="doc_file" class="btn bg-m"><i
                                                                     class="fa fa-paperclip"></i></label>

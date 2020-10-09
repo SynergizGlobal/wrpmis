@@ -36,6 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.UserService;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.User;
@@ -193,8 +195,19 @@ public class UserController {
 		try {
 			model.setViewName("redirect:/users");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			boolean flag = userService.addUser(obj);
-			if(flag) {
+			
+			String fileDirectory = CommonConstants2.USER_IMAGE_SAVING_PATH ;
+			MultipartFile file = obj.getFileName();
+			if (null != file && !file.isEmpty()){
+				String fileName = file.getOriginalFilename();
+				obj.setUser_image(fileName);
+			}
+			String userId = userService.addUser(obj);
+			if(!StringUtils.isEmpty(userId)) {
+				if (null != file && !file.isEmpty()){
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, fileDirectory, fileName);
+				}
 				attributes.addFlashAttribute("success", "User added successfully");
 			}else {
 				attributes.addFlashAttribute("error", "Adding user is failed. Try again.");
@@ -257,8 +270,19 @@ public class UserController {
 		try {
 			model.setViewName("redirect:/users");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			String fileDirectory = CommonConstants2.USER_IMAGE_SAVING_PATH ;
+			MultipartFile file = obj.getFileName();
+			if (null != file && !file.isEmpty()){
+				String fileName = file.getOriginalFilename();
+				obj.setUser_image(fileName);
+			}
+			
 			boolean flag = userService.updateUser(obj);
 			if(flag) {
+				if (null != file && !file.isEmpty()){
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, fileDirectory, fileName);
+				}
 				attributes.addFlashAttribute("success", "User updated successfully");
 			}else {
 				attributes.addFlashAttribute("error", "Updating user is failed. Try again.");

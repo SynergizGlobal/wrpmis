@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -338,21 +339,42 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
 
-                                <div class="col m8 s12">
+                                <!-- <div class="col m8 s12">
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="fileName" name="fileName">
+                                            <span>User Image</span>
+                                            <input type="file" id="fileName" name="fileName" accept="image/*">
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
                                         </div>
                                     </div>
+                                </div> -->
+                                
+                                <div class="col m8 s12">
+                                    <div class="file-field input-field">
+                                        <div class="btn bg-m">
+                                        	<c:if test="${not empty usrObj.user_image }">
+                                            <span>Change Image</span>
+                                            </c:if>
+                                            <c:if test="${empty usrObj.user_image }">
+                                            <span>User Image</span>
+                                            </c:if>
+                                            <input type="file" id="fileName" name="fileName" accept="image/*" onchange="readURL(this);">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                            <img style="height: 20%;width: 20%;" id="userImagePreview" src="<%=CommonConstants2.USER_IMAGES %>${usrObj.user_image }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="userImage" />
+                                        </div>
+                                    </div>
                                 </div>
+                                
+                                
+                      
                                 <div class="col m2 hide-on-small-only"></div>
 
                             </div>
-                            <div class="row">
+                            <%-- <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
@@ -360,7 +382,7 @@
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
-                            </div>
+                            </div> --%>
 
 
                             <div class="row">
@@ -649,6 +671,22 @@
     		function removeUserPermissions(rowNo){
             	$("#userPermissionsRow"+rowNo).remove();
             }
+    		
+    		function readURL(input) {
+ 	            if (input.files && input.files[0]) {
+ 	                var reader = new FileReader();
+
+ 	                reader.onload = function (e) {
+ 	                    $('#userImagePreview')
+ 	                        .attr('src', e.target.result)
+ 	                        //.width(150)
+ 	                        //.height(200);
+ 	                };
+
+ 	                reader.readAsDataURL(input.files[0]);
+ 	            }
+ 	        }
+    		 
     </script>
 </body>
 </html>

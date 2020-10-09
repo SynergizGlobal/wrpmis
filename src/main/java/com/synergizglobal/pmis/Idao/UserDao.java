@@ -14,7 +14,7 @@ public interface UserDao {
 
 	List<User> getUsersList(User obj) throws Exception;
 
-	boolean addUser(User obj) throws Exception;
+	String addUser(User obj) throws Exception;
 
 	User getUser(User obj) throws Exception;
 	

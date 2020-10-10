@@ -132,7 +132,7 @@ public class SafetyEquipmentController {
 			model.addObject("projectsList", projectsList);
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
-			SafetyEquipment safetyDetails = service.getSafetyDetails(obj);
+			List<SafetyEquipment> safetyDetails = service.getSafetyDetails(obj);
 			model.addObject("safetyDetails", safetyDetails);
 		}catch (Exception e) {
 			e.printStackTrace();

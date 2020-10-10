@@ -7,12 +7,15 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.BudgetDao;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Work;
 
@@ -42,7 +45,7 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Project> getProjectsList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry ="select project_id as project_id_fk,project_name from project ";
+			String qry ="select project_id,project_name from project ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -54,7 +57,7 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> budgetList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="select budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,financial_year_fk,budget_grant, " + 
+			String qry ="select budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,financial_year_fk,budget_estimate,budget_grant, " + 
 					"revised_estimate,revised_grant,final_estimate,final_grant " + 
 					"from budget b " + 
 					"left join work w on b.work_id_fk = w.work_id " + 
@@ -93,5 +96,100 @@ public class BudgetDaoImpl implements BudgetDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public Budget getBudget(Budget obj)throws Exception{
+		Budget budget = null;
+		try {
+			String qry = "select budget_id, work_id_fk, b.financial_year_fk,w.project_id_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate," + 
+					"budget_grant, revised_grant, final_grant, b.remarks, b.attachment from budget b " + 
+					"left join work w on b.work_id_fk = w.work_id " + 
+					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join financial_year f on b.financial_year_fk = f.financial_year where budget_id is not null";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBudget_id())) {
+				qry = qry + " and budget_id = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBudget_id())) {
+				pValues[i++] = obj.getBudget_id();
+			}
+			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
+				
+		}catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
+		return budget;
+	}
+
+	@Override
+	public boolean addBudget(Budget budget) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "INSERT INTO budget"
+					+ "(work_id_fk, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, "
+					+ "final_estimate, budget_grant, revised_grant, final_grant, attachment, remarks)"
+					+ "VALUES"
+					+ "(:work_id_fk,:financial_year_fk,:budget_estimate,:august_review_estimate,:revised_estimate,"
+					+ ":final_estimate,:budget_grant,:revised_grant,:final_grant,:attachment,:remarks)";
+			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(budget);		 
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean updateBudget(Budget budget) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String updateQry = "UPDATE budget set "
+					+ "work_id_fk= :work_id_fk, financial_year_fk= :financial_year_fk, budget_estimate= :budget_estimate, "
+					+ "august_review_estimate= :august_review_estimate, revised_estimate= :revised_estimate, final_estimate= :final_estimate,budget_grant= :budget_grant, "
+					+ "revised_grant= :revised_grant, final_grant= :final_grant, attachment = :attachment, remarks= :remarks "
+					+ "where budget_id= :budget_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(budget);		 
+			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean deleteBudget(Budget obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String deleteQry = "DELETE FROM budget where budget_id= :budget_id ";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+		
+	
+
 
 }

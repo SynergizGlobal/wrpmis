@@ -89,7 +89,7 @@ public class ContractorController {
 	 }
 	
 	@RequestMapping(value = "/get-contractor", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView editContractorForm(@ModelAttribute Contractor obj ){
+	public ModelAndView getContractorForm(@ModelAttribute Contractor obj ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditContractor);
@@ -143,7 +143,7 @@ public class ContractorController {
 	}
 	
 	@RequestMapping(value = "/delete-contractor", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView deleteContractorRow(@ModelAttribute Contractor obj){
+	public ModelAndView deleteContractor(@ModelAttribute Contractor obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/contractor");
@@ -171,7 +171,7 @@ public class ContractorController {
 	            headingRow.createCell((short)3).setCellValue("Address");
 	            headingRow.createCell((short)4).setCellValue("Remarks");
 	            short rowNo = 1;
-	            for (com.synergizglobal.pmis.model.Contractor obj : dataList) {
+	            for (Contractor obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getContractor_id());
 	                row.createCell((short)1).setCellValue(obj.getContractor_name());

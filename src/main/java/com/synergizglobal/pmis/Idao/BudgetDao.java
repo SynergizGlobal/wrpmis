@@ -14,4 +14,14 @@ public interface BudgetDao {
 
 	public List<Budget> budgetList(Budget obj)throws Exception;
 
+	public Budget getBudget(Budget obj)throws Exception;
+
+	public boolean addBudget(Budget budget)throws Exception;
+
+	public boolean updateBudget(Budget budget)throws Exception;
+
+	public boolean deleteBudget(Budget obj)throws Exception;
+
+
+
 }

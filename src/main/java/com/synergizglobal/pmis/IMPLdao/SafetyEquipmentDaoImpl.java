@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -64,8 +65,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	}
 
 	@Override
-	public SafetyEquipment getSafetyDetails(SafetyEquipment obj)throws Exception{
-		SafetyEquipment sObj = null;
+	public List<SafetyEquipment> getSafetyDetails(SafetyEquipment obj)throws Exception{
+		List<SafetyEquipment> sObj = new ArrayList<SafetyEquipment>();
+		
 		try {
 			String qry = "select w.work_id,safety_equipment_id,p.project_id,contract_id_fk, safety_equipment_number,"
 					+"safety_equipment_detail, validity_date,s.remarks from safety_equipment s "
@@ -83,8 +85,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_equipment_id())) {
 				pValues[i++] = obj.getSafety_equipment_id();
 			}
-			sObj = (SafetyEquipment)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
-			
+			obj = (SafetyEquipment)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
+			sObj.add(obj);
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -202,7 +204,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	public List<Project> getProjectsList()throws Exception{
 		List<Project> objsList = null;
 		try {
-			String qry ="select project_id as project_id_fk,project_name from project ";
+			String qry ="select project_id ,project_name from project ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

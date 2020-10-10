@@ -12,6 +12,8 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
@@ -54,6 +56,16 @@
                         </div>
                     </span>
                     <div class="">
+                    <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
                                 <div class="m-1 l-align">
@@ -72,7 +84,7 @@
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="javascript:void(0);" onclick="exportBudget();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
@@ -97,7 +109,7 @@
                                         <select id="work_id_fk" name="work_id_fk" onchange="getBudgetList();" class="searchable">
                                             <option value="" >Select Work Name</option>
 	                                            <c:forEach var="obj" items="${workList}">
-	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id eq obj.work_id }">selected</c:if>>${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
+	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id_fk eq obj.work_id }">selected</c:if>>${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
 	                                             </c:forEach>
                                         </select>
                                     </div>
@@ -188,7 +200,14 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-
+    
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="budget_id" id="budget_id" />
+    </form>
+    
+     <form action="<%=request.getContextPath() %>/export-budget" name="exportBudgetForm" id="exportBudgetForm" target="_blank" method="post">	
+        <input type="hidden" name="budget_id" id="exportBudget_id" />
+	</form>
     <script>
     $(document).ready(function () {
  	   $('select:not(.searchable)').formSelect();
@@ -276,8 +295,8 @@
 			if(data != null && data != '' && data.length > 0){    					
          		$.each(data,function(key,val){
          			var budget_id = "'"+val.budget_id+"'";
-                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+budget_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit">Edit</a>'
-                    			  +'<a href="#" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit">Edit</a>'
+                    			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
                    	var rowArray = [];    	                 
                    	
                 	var workName = '';
@@ -286,6 +305,7 @@
                    	rowArray.push($.trim(val.work_id_fk) + workName);
                    	rowArray.push($.trim(val.financial_year_fk));
                    	rowArray.push($.trim(val.budget_estimate));
+                   	rowArray.push($.trim(val.budget_grant));
                    	rowArray.push($.trim(val.revised_estimate));
                    	rowArray.push($.trim(val.revised_grant));
                    	rowArray.push($.trim(val.final_estimate));
@@ -306,6 +326,45 @@
          	getErrorMessage(jqXHR, exception);
      }});
 }
+    function getBudget(budget_id){
+    	$("#budget_id").val(budget_id);
+    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-budget');
+    	$('#getForm').submit();
+    }
+    function deleteBudget(budget_id){
+    	$("#budget_id").val(budget_id);
+    	showCancelMessage();
+    }
+    	
+    
+    function showCancelMessage() {
+    	swal({
+            title: "Are you sure?",
+            text: "You will be able to change the status of record!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel it!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function (isConfirm) {
+            if (isConfirm) {
+               // swal("Deleted!", "Record has been deleted", "success");
+            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-budget');
+    	    	$('#getForm').submit();
+           }else {
+                swal("Cancelled", "Record is safe :)", "error");
+            }
+        });
+    }
+    
+    function exportContractor(){
+   	 var budget_id = $("#budget_id").val();
+   	 $("#exportBudget_id").val(budget_id);
+   	 $("#exportBudgetForm").submit();
+	}
+    
     
     </script>
 

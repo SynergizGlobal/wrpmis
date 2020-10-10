@@ -1,9 +1,21 @@
 package com.synergizglobal.pmis.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Budget {
 	
 	private String budget_id, work_id_fk, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
 					final_grant, remarks, attachment,project_id_fk;
+
+	private MultipartFile budgetFile;
+	
+	public MultipartFile getBudgetFile() {
+		return budgetFile;
+	}
+
+	public void setBudgetFile(MultipartFile budgetFile) {
+		this.budgetFile = budgetFile;
+	}
 
 	public String getProject_id_fk() {
 		return project_id_fk;

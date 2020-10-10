@@ -98,13 +98,13 @@
                                     <div class="row">
                                         <div class="col s12 m4 input-field">
                                             <p><label> Project ID </label></p>
-                                            <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
-                                   			 onchange="getWorksList(this.value);">
-		                                        <option value="" selected>Select</option>
-		                                         <c:forEach var="obj" items="${projectsList }">
-		                                      	   <option value= "${ obj.project_id}" <c:if test="${safetyDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-		                                         </c:forEach>
-                                    		</select>
+                                            <select class="searchable validate-dropdown" id="project_id" name="project_id"  
+	                                    onchange="getWorksList(this.value);">
+	                                        <option value="" >Select</option>
+	                                         <c:forEach var="obj" items="${projectsList }">
+	                                            <option value="${obj.project_id }" <c:if test="${safetyDetails.project_id eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+	                                         </c:forEach>
+	                                    </select>
                                    			 <span id="project_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
@@ -142,7 +142,8 @@
                                             </tr>
                                         </thead>
                                       <tbody id="safetyTableBody">
-                                       <c:choose>
+                                     
+                                                      <c:choose>
                                       	 <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
                                        	 <c:forEach var="sObj" items="${safetyDetails.safetyEquipments }" varStatus="index"> 
                                             <tr id="safetyRow${index.count }">
@@ -247,6 +248,15 @@
 			                                                            class="fa fa-plus"></i></a>
 			                                    </tr>
                                         </tbody>
+                                    </table>
+  									<c:choose>
+                                        <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(safetyDetails.safetyEquipments) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose> 
                                     </table>
   									<c:choose>
                                         <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">

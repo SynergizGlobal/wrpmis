@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Equipment </title>
+    <title>
+     	 <c:if test="${action eq 'edit'}">Update Budget</c:if>
+		 <c:if test="${action eq 'add'}"> Add Budget</c:if>
+    </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -75,29 +77,32 @@
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <form action="#">
+                         <c:if test="${action eq 'edit'}">				                
+			                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                         </c:if>
+			              <c:if test="${action eq 'add'}">				                
+			                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+						  </c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label> Project </label></p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <p><label> Project ID </label></p>
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
+                                 	   onchange="getWorksList(this.value);">
+                                        <option value="" selected>Select</option>
+                                         <c:forEach var="obj" items="${projectsList }">
+                                      	   <option value= "${ obj.project_id}" <c:if test="${budgetDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                         </c:forEach>
                                     </select>
+                                    <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label> Work </label></p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <p><label> Work ID </label></p>
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" >
+                                        <option value="" selected>Select</option>
                                     </select>
+                                      <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-
-
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                            
@@ -105,16 +110,18 @@
                                 <div class="col m4 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p><label> Financial Year</label></p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
+                                    <select class="searchable" name="financial_year_fk" id="financial_year_fk">
+                                            <option value="" >Select Financial Year </option>
+                                            	 <c:forEach var="obj" items="${financialYearList}">
+	                       						  <option value="${obj.financial_year }" <c:if test="${budgetDetails.financial_year_fk eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
+	                                             </c:forEach>
+                                        </select>
                                 </div>
                                 <div class="col m4 hide-on-small-only"></div>
                             </div>
-
+							<div>
+							<input type="hidden" name="budget_id" value="${budgetDetails.budget_id }" />
+							</div>
                             <div class="container" style="margin-bottom:20px;">
                                 <div class="row">
                                     <div class="col m6 s12">
@@ -136,8 +143,8 @@
                                                             <td>
                                                                 <div class="input-field">
                                                                     <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="budget_amount1" type="text"
-                                                                        class="validate" placeholder="Amount">
+                                                                    <input id="budget_estimate" type="text" name="budget_estimate"
+                                                                        class="validate"  placeholder="Amount" value="${budgetDetails.budget_estimate }">
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -148,8 +155,8 @@
                                                             <td>
                                                                 <div class="input-field">
                                                                     <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="budget_amount2" type="text"
-                                                                        class="validate" placeholder="Amount">
+                                                                    <input id="august_review_estimate" name="august_review_estimate" type="text" 
+                                                                        class="validate" placeholder="Amount" value="${budgetDetails.august_review_estimate }">
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -160,8 +167,8 @@
                                                             <td>
                                                                 <div class="input-field">
                                                                     <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="budget_amount3" type="text"
-                                                                        class="validate" placeholder="Amount">
+                                                                    <input id="revised_estimate" name="revised_estimate" type="text"
+                                                                        class="validate" placeholder="Amount" value="${budgetDetails.revised_estimate }">
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -172,8 +179,8 @@
                                                             <td>
                                                                 <div class="input-field">
                                                                     <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="budget_amount4" type="text"
-                                                                        class="validate" placeholder="Amount">
+                                                                    <input id="final_estimate" name="final_estimate" type="text"
+                                                                        class="validate" placeholder="Amount" value="${budgetDetails.final_estimate }">
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -202,8 +209,8 @@
                                                             <td>
                                                                 <div class="input-field">
                                                                     <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="grant_amount1" type="text"
-                                                                        class="validate" placeholder="Amount">
+                                                                    <input id="budget_grant" name="budget_grant" type="text"
+                                                                        class="validate" placeholder="Amount" value="${budgetDetails.budget_grant }">
                                                                 </div>
 
                                                             </td>
@@ -215,8 +222,8 @@
                                                             <td>
                                                                 <div class="input-field">
                                                                     <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="grant_amount2" type="text"
-                                                                        class="validate" placeholder="Amount">
+                                                                    <input id="revised_grant" name="revised_grant" type="text"
+                                                                        class="validate" placeholder="Amount" value="${budgetDetails.revised_grant }">
                                                                 </div>
 
                                                             </td>
@@ -228,8 +235,8 @@
                                                             <td>
                                                                 <div class="input-field">
                                                                     <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="grant_amount3" type="text"
-                                                                        class="validate" placeholder="Amount">
+                                                                    <input id="final_grant" name="final_grant" type="text"
+                                                                        class="validate" placeholder="Amount" value="${budgetDetails.final_grant }">
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -248,10 +255,11 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
-                                            <input type="file" accept="image/x-png,image/jpeg">
+                                            <input type="file" accept="image/x-png,image/jpeg" name="attachment" id="attachment">
+                                           
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text"   value="${budgetDetails.attachment }">
                                         </div>
                                     </div>
                                 </div>
@@ -260,8 +268,8 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="textarea1">Remarks</label>
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${budgetDetails.remarks}</textarea>
+                                    <label for="remarks">Remarks</label>
                                 </div>
                             </div>
 
@@ -279,8 +287,8 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                        <a href="<%=request.getContextPath()%>/budget" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -309,7 +317,7 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#textarea1,#textarea2,#textarea3,#issueDesc').characterCounter();
+            $('#remarks,#textarea2,#textarea3,#issueDesc').characterCounter();
             $("#joint_survey,#design_finalisation,#payment_date,#date_initiative,#date_approval").datepicker();
             $("#shifting_date,#start_date,#identification").datepicker();
 
@@ -355,7 +363,53 @@
                     $('#issue_yes').css("display", "none");
                 }
             });
+            
+            var projectId = "${budgetDetails.project_id_fk}";
+            if($.trim(projectId) != ''){
+            	getWorksList(projectId);
+            }
         });
+        
+        function getWorksList(projectId) {
+        	$(".page-loader").show();
+            $("#work_id_fk option:not(:first)").remove();
+
+            if ($.trim(projectId) != "") {
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                var workId = "${budgetDetails.work_id_fk}";
+                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        
+        function addBudget(){
+        	$(".page-loader").show();	    		
+   			document.getElementById("budgetForm").submit();			
+   	 	 }
+        function updateBudget(){
+        	$(".page-loader").show();	    		
+   			document.getElementById("budgetForm").submit();	
+        }
+        
     </script>
 
 

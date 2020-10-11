@@ -206,7 +206,9 @@
     </form>
     
      <form action="<%=request.getContextPath() %>/export-budget" name="exportBudgetForm" id="exportBudgetForm" target="_blank" method="post">	
-        <input type="hidden" name="budget_id" id="exportBudget_id" />
+         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
+         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+         <input type="hidden" name="financial_year_fk" id="exportFinancial_year_fk" />
 	</form>
     <script>
     $(document).ready(function () {
@@ -359,9 +361,13 @@
         });
     }
     
-    function exportContractor(){
-   	 var budget_id = $("#budget_id").val();
-   	 $("#exportBudget_id").val(budget_id);
+    function exportBudget(){
+   	 var project_id_fk = $("#project_id_fk").val();
+   	var work_id_fk = $("#work_id_fk").val();
+   	var financial_year_fk = $("#financial_year_fk").val();
+   	 $("#exportProject_id_fk").val(project_id_fk);
+   	 $("#exportWork_id_fk").val(work_id_fk);
+   	 $("#financial_year_fk").val(financial_year_fk);
    	 $("#exportBudgetForm").submit();
 	}
     

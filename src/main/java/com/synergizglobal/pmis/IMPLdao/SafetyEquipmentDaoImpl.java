@@ -24,6 +24,7 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.SafetyEquipment;
 import com.synergizglobal.pmis.model.User;
@@ -65,12 +66,11 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	}
 
 	@Override
-	public List<SafetyEquipment> getSafetyDetails(SafetyEquipment obj)throws Exception{
-		List<SafetyEquipment> sObj = new ArrayList<SafetyEquipment>();
+	public SafetyEquipment getSafetyDetails(SafetyEquipment obj)throws Exception{
+	SafetyEquipment sObj =null;
 		
 		try {
-			String qry = "select w.work_id,safety_equipment_id,p.project_id,contract_id_fk, safety_equipment_number,"
-					+"safety_equipment_detail, validity_date,s.remarks from safety_equipment s "
+			String qry = "select w.work_id,safety_equipment_id,p.project_id,contract_id_fk from safety_equipment s "
 					+"LEFT OUTER join contract c on contract_id_fk =c.contract_id " 
 					+"LEFT OUTER join work w on c.work_id_fk = w.work_id "  
 					+"LEFT OUTER join project p on w.project_id_fk = p.project_id "
@@ -85,8 +85,19 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_equipment_id())) {
 				pValues[i++] = obj.getSafety_equipment_id();
 			}
-			obj = (SafetyEquipment)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
-			sObj.add(obj);
+			sObj = (SafetyEquipment)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
+			
+			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getSafety_equipment_id())) {
+			
+				List<SafetyEquipment> objsList = null;
+			String qryDetails = "select safety_equipment_id,contract_id_fk, safety_equipment_number,"
+					+"safety_equipment_detail, validity_date,remarks from safety_equipment "
+					+"where safety_equipment_id is not null and safety_equipment_id = ? ";
+			
+			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getSafety_equipment_id()}, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
+			sObj.setSafetyEquipments(objsList);
+			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -104,44 +115,55 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO safety_equipment"
-					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment,)"
+					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?)";
 			stmt = con.prepareStatement(insertQry);
-			if(flag && !StringUtils.isEmpty(obj.getContract_id_fks()) && obj.getContract_id_fks().length > 0) {
-				obj.setContract_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getContract_id_fks()));
-			}
-			if(flag && !StringUtils.isEmpty(obj.getSafety_equipment_numbers()) && obj.getSafety_equipment_numbers().length > 0) {
+		int	arraySize = 0;
+			
+			if( !StringUtils.isEmpty(obj.getSafety_equipment_numbers()) && obj.getSafety_equipment_numbers().length > 0) {
 				obj.setSafety_equipment_numbers(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_numbers()));
-			}
-			if(flag && !StringUtils.isEmpty(obj.getSafety_equipment_details()) && obj.getSafety_equipment_details().length > 0) {
-				obj.setSafety_equipment_details(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_details()));
-			}
-			if(flag && !StringUtils.isEmpty(obj.getValidity_dates()) && obj.getValidity_dates().length > 0) {
-				obj.setValidity_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getValidity_dates()));
-			}
-			if(flag && !StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
-				obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
-			}
-			if(flag && !StringUtils.isEmpty(obj.getAttachments()) && obj.getAttachments().length > 0) {
-				obj.setAttachments(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttachments()));
-			}
-			 if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_equipment_numbers()) && obj.getSafety_equipment_numbers().length > 0) {
-			    	for (int i = 0; i < obj.getSafety_equipment_numbers().length; i++) {
-						int k = 1;
-						stmt.setString(k++,obj.getContract_id_fks()[i]);
-						stmt.setString(k++,obj.getSafety_equipment_numbers()[i]);
-						stmt.setString(k++,obj.getSafety_equipment_details()[i]);
-						stmt.setString(k++,DateParser.parse(obj.getValidity_dates()[i]));
-						stmt.setString(k++,obj.getRemarkss()[i]);
-						stmt.setString(k++,obj.getAttachments()[i]);
-						stmt.addBatch();
-					}
+				if(arraySize < obj.getSafety_equipment_numbers().length) {
+					arraySize = obj.getSafety_equipment_numbers().length;
 				}
+			}
+			if( !StringUtils.isEmpty(obj.getSafety_equipment_details()) && obj.getSafety_equipment_details().length > 0) {
+				obj.setSafety_equipment_details(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_details()));
+				if(arraySize < obj.getSafety_equipment_details().length) {
+					arraySize = obj.getSafety_equipment_details().length;
+				}
+			}if( !StringUtils.isEmpty(obj.getValidity_dates()) && obj.getValidity_dates().length > 0) {
+				obj.setValidity_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getValidity_dates()));
+				if(arraySize < obj.getValidity_dates().length) {
+					arraySize = obj.getValidity_dates().length;
+				}
+			}if( !StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+				obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+				if(arraySize < obj.getRemarkss().length) {
+					arraySize = obj.getRemarkss().length;
+				}
+			}if( !StringUtils.isEmpty(obj.getAttachments()) && obj.getAttachments().length > 0) {
+				obj.setAttachments(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttachments()));
+				if(arraySize < obj.getAttachments().length) {
+					arraySize = obj.getAttachments().length;
+				}
+			}
+			for (int i = 0; i < arraySize; i++) {
+			    int k = 1;
+			    stmt.setString(k++,(obj.getContract_id_fk().length() > 0)?obj.getContract_id_fk():null);
+			    stmt.setString(k++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
+			    stmt.setString(k++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
+				stmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
+			    stmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+			    stmt.setString(k++,(obj.getAttachments().length > 0)?obj.getAttachments()[i]:null);
+				
+				stmt.addBatch();
+			}
+			
 				c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
 
-			if(count > 0) {
+			if(c.length > 0) {
 				flag = true;
 			}
 		 

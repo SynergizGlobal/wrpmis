@@ -110,7 +110,6 @@ public class ContractorDaoImpl implements ContractorDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String contractorId = null;;
-		String cId = null;
 		try{
 			con = dataSource.getConnection();
 			String maxIdQry = "SELECT CONCAT(SUBSTRING(contractor_id, 1, LENGTH(contractor_id)-2),LPAD(MAX(SUBSTRING(contractor_id, 5, LENGTH(contractor_id)))+1,2,'0') ) AS maxId FROM contractor";
@@ -118,13 +117,8 @@ public class ContractorDaoImpl implements ContractorDao {
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
 				contractorId = rs.getString("maxId");
-				if(contractorId == null) {
+				if(StringUtils.isEmpty(contractorId)) {
 					contractorId = "CON0001"; 
-				}
-				if(contractorId.length()>3) {
-					String[] arrOfStr = contractorId.split("N"); 
-				       for (String a : arrOfStr) 
-				         cId = "CON"+arrOfStr[1];
 				}
 			}
 		}catch(Exception e){ 		
@@ -134,7 +128,7 @@ public class ContractorDaoImpl implements ContractorDao {
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
-		return cId;
+		return contractorId;
 	}
 
 	@Override

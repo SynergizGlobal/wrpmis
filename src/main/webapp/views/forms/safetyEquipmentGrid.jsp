@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Safety Equipment </title>
     <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -53,6 +52,16 @@
                         </div>
                     </span>
                     <div class="">
+                     <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
 
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
@@ -261,7 +270,7 @@
 		table.state.clear();		
 	 
 	 	var myParams = {contract_id_fk : contract_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-safetyEquipment",type:"POST",data:myParams,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-safetyequipment",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	         			var safety_equipment_id = "'"+val.safety_equipment_id+"'";
@@ -269,10 +278,7 @@
 	                    			  +'<a onclick="deleteSafetyEquipment('+safety_equipment_id +');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>';
 
 	                   	var rowArray = [];    	                 
-	                   	
-	                	/* var workName = '';
-                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) } */
-                        
+	                   
 	                   	rowArray.push($.trim(val.contract_id_fk));
 	                   	rowArray.push($.trim(val.safety_equipment_number));
 	                   	rowArray.push($.trim(val.safety_equipment_detail));

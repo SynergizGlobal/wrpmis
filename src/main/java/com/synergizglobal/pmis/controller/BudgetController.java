@@ -224,9 +224,9 @@ public class BudgetController {
 	         	headingRow.createCell((short)2).setCellValue("Budget Estimate");
 	            headingRow.createCell((short)3).setCellValue("Budget Grant");
 	            headingRow.createCell((short)4).setCellValue("Reivised Estimate");
-	            headingRow.createCell((short)4).setCellValue("Reivised Grant");
-	            headingRow.createCell((short)4).setCellValue("Final Estimate");
-	            headingRow.createCell((short)4).setCellValue("Final Grant");
+	            headingRow.createCell((short)5).setCellValue("Reivised Grant");
+	            headingRow.createCell((short)6).setCellValue("Final Estimate");
+	            headingRow.createCell((short)7).setCellValue("Final Grant");
 
 	            short rowNo = 1;
 	            for (Budget obj : dataList) {
@@ -236,9 +236,9 @@ public class BudgetController {
 	                row.createCell((short)2).setCellValue(obj.getBudget_estimate());
 	                row.createCell((short)3).setCellValue(obj.getBudget_grant());
 	                row.createCell((short)4).setCellValue(obj.getRevised_estimate());
-	                row.createCell((short)4).setCellValue(obj.getRevised_grant());
-	                row.createCell((short)4).setCellValue(obj.getBudget_estimate());
-	                row.createCell((short)4).setCellValue(obj.getFinal_grant());
+	                row.createCell((short)5).setCellValue(obj.getRevised_grant());
+	                row.createCell((short)6).setCellValue(obj.getBudget_estimate());
+	                row.createCell((short)7).setCellValue(obj.getFinal_grant());
 	                rowNo++;
 	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();

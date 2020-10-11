@@ -6,7 +6,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SafetyEquipment {
 	private String safety_equipment_id, safety_equipment_number, safety_equipment_detail, validity_date,contract_id_fk,
-	project_id_fk,work_id_fk,project_name,work_name,contract_name,attachment,remarks,work_id,project_id;
+	project_id_fk,work_id_fk,project_name,work_name,contract_name,attachment,remarks,work_id,project_id,contract_id;
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
 
 	public String getWork_id() {
 		return work_id;

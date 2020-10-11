@@ -78,10 +78,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                          <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
                          </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post"  enctype="multipart/form-data">
 						  </c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -317,52 +317,7 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#remarks,#textarea2,#textarea3,#issueDesc').characterCounter();
-            $("#joint_survey,#design_finalisation,#payment_date,#date_initiative,#date_approval").datepicker();
-            $("#shifting_date,#start_date,#identification").datepicker();
-
-            $('#joint_survey_icon').click(function () {
-                event.stopPropagation();
-                $('#joint_survey').click();
-            });
-            $('#design_finalisation_icon').click(function () {
-                event.stopPropagation();
-                $('#design_finalisation').click();
-            });
-            $('#payment_date_icon').click(function () {
-                event.stopPropagation();
-                $('#payment_date').click();
-            });
-            $('#date_initiative_icon').click(function () {
-                event.stopPropagation();
-                $('#date_initiative').click();
-            });
-            $('#date_approval_icon').click(function () {
-                event.stopPropagation();
-                $('#date_approval').click();
-            });
-            $('#shifting_date_icon').click(function () {
-                event.stopPropagation();
-                $('#shifting_date').click();
-            });
-            $('#start_date_icon').click(function () {
-                event.stopPropagation();
-                $('#start_date').click();
-            });
-            $('#identification_icon').click(function () {
-                event.stopPropagation();
-                $('#identification').click();
-            });
-
-            $('input[name=issue]').change(function () {
-                var radioval = $('input[name=issue]:checked').val();
-                if (radioval == 'yes') {
-                    $('#issue_yes').css("display", "block");
-                }
-                else if (radioval == 'no') {
-                    $('#issue_yes').css("display", "none");
-                }
-            });
+            $('#remarks').characterCounter();
             
             var projectId = "${budgetDetails.project_id_fk}";
             if($.trim(projectId) != ''){

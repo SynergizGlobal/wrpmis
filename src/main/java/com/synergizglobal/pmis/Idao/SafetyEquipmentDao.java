@@ -10,7 +10,7 @@ public interface SafetyEquipmentDao {
 
 	public List<SafetyEquipment> getSafetyEquipment(SafetyEquipment obj)throws Exception;
 
-	public List<SafetyEquipment> getSafetyDetails(SafetyEquipment obj)throws Exception;
+	public SafetyEquipment getSafetyDetails(SafetyEquipment obj)throws Exception;
 
 	public boolean addSafetyEquipment(SafetyEquipment obj)throws Exception;
 

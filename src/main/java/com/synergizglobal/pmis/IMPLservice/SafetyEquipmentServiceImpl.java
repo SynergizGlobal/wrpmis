@@ -22,7 +22,7 @@ public class SafetyEquipmentServiceImpl implements SafetyEquipmentService {
 		return safetyEquipmentDao.getSafetyEquipment(obj);
 	}
 	@Override
-	public List<SafetyEquipment> getSafetyDetails(SafetyEquipment obj)throws Exception{
+	public SafetyEquipment getSafetyDetails(SafetyEquipment obj)throws Exception{
 		return safetyEquipmentDao.getSafetyDetails(obj);
 	}
 	@Override

@@ -12,8 +12,6 @@
 		 <c:if test="${action eq 'add'}"> Add Safety Equipment </c:if>
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-<!--     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
- -->    
  	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -171,7 +169,7 @@
                                                             style="display:none" />
                                                         <label for="myFile" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
-                                                        <span id="fileVal" class="filevalue">fileName</span>
+                                                        <span id="fileVal" class="filevalue" >fileName</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -191,11 +189,11 @@
                                        	<c:otherwise>
                                        	 <tr id="safetyRow0">
                                                 <td>
-                                                    <input id="safety_equipment_numbers0" name="safety_equipment_numbers" type="text" class="validate" 
+                                                    <input id="safety_equipment_numbers0" name="safety_equipment_numbers" type="text" class="validate"  
                                                         placeholder="Equipment No">
                                                 </td>
                                                 <td>
-                                                    <input id="safety_equipment_details0" name="safety_equipment_details" type="text" class="validate"
+                                                    <input id="safety_equipment_details0" name="safety_equipment_details" type="text" class="validate" 
                                                         placeholder="Equipment Details">
                                                 </td>
                                                 <td>
@@ -210,11 +208,11 @@
                                                 </td>
                                                 <td>
                                                     <div class="">
-                                                        <input type="file" name="attachments" id="attachments0"  class="myFile"
+                                                        <input type="file" name="attachments" id="attachments0"  
                                                             style="display:none" />
                                                         <label for="myFile" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
-                                                        <span id="fileVal" class="filevalue">fileName</span>
+                                                        <span id="fileVal" class="filevalue" >fileName</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -230,11 +228,7 @@
 			                                          	    	  }
 			                                                 });
 			                                             
-				                                            $("#attachments0").change(function () {
-				                                                filename1 = $('#attachments0')[0].value;
-				                                                $('#fileVal').html(filename1);
-				                                                console.log(filename1)
-				                                            });
+				                                          
 		                                           
 		                                      </script>
                                     	  </c:otherwise>
@@ -257,15 +251,6 @@
                                      		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
                                      	</c:otherwise>
                                      </c:choose> 
-                                    </table>
-  									<c:choose>
-                                        <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
-                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(safetyDetails.safetyEquipments) }" />
-                                    	</c:when>
-                                     	<c:otherwise>
-                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
-                                     	</c:otherwise>
-                                     </c:choose>  
                                 </div>
                             </div>
                            
@@ -327,8 +312,9 @@
                 event.stopPropagation();
                 $('#validity_1').click();
             });
-            $(".myFile").change(function () {
-                filename1 = $('.myFile')[0].value;
+            
+            $("#attachments0").change(function () {
+                filename1 = $('#attachments0')[0].value;
                 $('#fileVal').html(filename1);
                 console.log(filename1)
             });
@@ -386,7 +372,7 @@
                             $.each(data, function (i, val) {
                             	var contract_name = '';
                             	var contract_id_fk = "${safetyDetails.contract_id_fk }";
-                                if ($.trim(val.contract_name) != '') { contract_name =contract_id_fk+ ' - ' + $.trim(val.contract_name) }
+                                if ($.trim(val.contract_name) != '') { contract_name = val.contract_id+' - ' + $.trim(val.contract_name) }
                                 var contract_id_fk = "${safetyDetails.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
                                 	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
@@ -441,6 +427,15 @@
         	$("#safetyRow"+rowNo).remove();
         }
         
+        
+        function addSafetyEquipment(){
+        	$(".page-loader").show();	    		
+   			document.getElementById("safetyEquipmentForm").submit();	
+        }
+        function updateSafetyEquipment(){
+        	$(".page-loader").show();	    		
+   			document.getElementById("safetyEquipmentForm").submit();	
+        }
     </script>
 
 </body>

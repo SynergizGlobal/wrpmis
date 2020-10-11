@@ -93,7 +93,7 @@ public class SafetyEquipmentController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/get-safetyEquipment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/get-safetyequipment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<SafetyEquipment> getDesigns(@ModelAttribute SafetyEquipment obj) {
 		List<SafetyEquipment> safetyEquipment = null;
@@ -132,7 +132,7 @@ public class SafetyEquipmentController {
 			model.addObject("projectsList", projectsList);
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
-			List<SafetyEquipment> safetyDetails = service.getSafetyDetails(obj);
+			SafetyEquipment safetyDetails = service.getSafetyDetails(obj);
 			model.addObject("safetyDetails", safetyDetails);
 		}catch (Exception e) {
 			e.printStackTrace();

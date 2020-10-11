@@ -27,8 +27,8 @@
         td:last-of-type {
             white-space: inherit;
         }
-          #example5 td.input-field .prefix,
-        #example4 td.input-field .prefix {
+          #budgetTable2 td.input-field .prefix,
+        #budgetTable1 td.input-field .prefix {
             top: 1.5rem;
         }
         
@@ -128,7 +128,7 @@
                                         <div class="row fixed-width">
                                             <h5 class="center-align">Budget</h5>
                                             <div class="table-inside">
-                                                <table id="example4" class="mdl-data-table">
+                                                <table id="budgetTable1" class="mdl-data-table">
                                                     <thead>
                                                         <tr>
                                                             <th>Budget Type </th>
@@ -194,7 +194,7 @@
                                         <div class="row fixed-width">
                                             <h5 class="center-align">Grants</h5>
                                             <div class="table-inside">
-                                                <table id="example5" class="mdl-data-table">
+                                                <table id="budgetTable2" class="mdl-data-table">
                                                     <thead>
                                                         <tr>
                                                             <th>Grant Type </th>
@@ -255,11 +255,13 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
-                                            <input type="file" accept="image/x-png,image/jpeg" name="attachment" id="attachment">
-                                           
+                                            <input type="file" accept="image/x-png,image/jpeg" name=budgetFile id="budgetFile" >
+                                              <input name="attachment" id="attachment" type="hidden"  />
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text"   value="${budgetDetails.attachment }">
+                                            <input class="file-path validate" type="text" name="attachment"  value="${budgetDetails.attachment }">
+                                          
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -323,6 +325,9 @@
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
             }
+            $('#budgetFile').change(function() {
+                $('#attachment').val($(this).val());
+          });
         });
         
         function getWorksList(projectId) {

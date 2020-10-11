@@ -19,7 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -27,22 +26,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.MediaType;
 
 import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.DesignService;
-import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.Iservice.SafetyEquipmentService;
-import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.SafetyEquipment;
-import com.synergizglobal.pmis.model.Work;
 
 
 @Controller
@@ -149,6 +148,7 @@ public class SafetyEquipmentController {
 			obj.setValidity_date(DateParser.parse(obj.getValidity_date()));
 			boolean flag =  service.addSafetyEquipment(obj);
 			if(flag == true) {
+				
 				attributes.addFlashAttribute("success", "SafetyEquipment Added Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error","Adding SafetyEquipment is failed. Try again.");

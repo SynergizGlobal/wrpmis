@@ -51,7 +51,7 @@ public class SafetyEquipment {
 		this.safetyEquipments = safetyEquipments;
 	}
 
-	private MultipartFile[] SafetyEquipmentFile;
+	private MultipartFile SafetyEquipmentFile;
 	
 
 
@@ -97,11 +97,11 @@ public class SafetyEquipment {
 
 	
 
-	public MultipartFile[] getSafetyEquipmentFile() {
+	public MultipartFile getSafetyEquipmentFile() {
 		return SafetyEquipmentFile;
 	}
 
-	public void setSafetyEquipmentFile(MultipartFile[] safetyEquipmentFile) {
+	public void setSafetyEquipmentFile(MultipartFile safetyEquipmentFile) {
 		SafetyEquipmentFile = safetyEquipmentFile;
 	}
 

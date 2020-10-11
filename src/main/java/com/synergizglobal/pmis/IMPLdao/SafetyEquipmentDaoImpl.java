@@ -22,6 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.synergizglobal.pmis.Idao.SafetyEquipmentDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FOB;
@@ -91,7 +94,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			
 				List<SafetyEquipment> objsList = null;
 			String qryDetails = "select safety_equipment_id,contract_id_fk, safety_equipment_number,"
-					+"safety_equipment_detail, validity_date,remarks from safety_equipment "
+					+"safety_equipment_detail, DATE_FORMAT(validity_date,'%d-%m-%Y') AS validity_date,remarks,attachment from safety_equipment "
 					+"where safety_equipment_id is not null and safety_equipment_id = ? ";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getSafety_equipment_id()}, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
@@ -156,7 +159,13 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 				stmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
 			    stmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 			    stmt.setString(k++,(obj.getAttachments().length > 0)?obj.getAttachments()[i]:null);
-				
+			    MultipartFile file = obj.getSafetyEquipmentFile();
+			    if (null != file && !file.isEmpty()){
+			    	String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+			    }
+			   
 				stmt.addBatch();
 			}
 			

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
@@ -102,7 +104,7 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
+                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text" onclick="clearFilter();"
                                             style="margin-top: 18px;width: 100%;">Clear Filters</button>
                                     </div>
                                 </div>
@@ -232,6 +234,12 @@
 	    	
 	    	getSafetyEquiptmentList();
 	    });
+    
+    function clearFilter(){
+    	$("#contract_id_fk").val("");
+    	$('.searchable').select2();
+    	getSafetyEquiptmentList();
+    }
 
     function getSafetyEquiptmentList(){
     	

@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +18,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		
+    
     <style>
          .fixed-width {
             width: 100%;
@@ -61,6 +62,16 @@
             display: block;
             margin-top: 10px;
         }
+         .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -85,10 +96,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
 	                       	 <c:if test="${action eq 'edit'}">				                
-				                	<form action="<%=request.getContextPath() %>/update-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" >
+				                 	<form action="<%=request.getContextPath() %>/update-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 	                         </c:if>
 				             <c:if test="${action eq 'add'}">				                
-				                	<form action="<%=request.getContextPath() %>/add-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" >
+				                	<form action="<%=request.getContextPath() %>/add-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							 </c:if>
                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -167,9 +178,9 @@
                                                     <div class="">
                                                         <input type="file" name="attachments" id="attachments${index.count }" value="${sObj.attachment }"  class="myFile"
                                                             style="display:none" />
-                                                        <label for="myFile" class="btn bg-m"><i
+                                                        <label for="attachments${index.count }" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
-                                                        <span id="fileVal" class="filevalue" >fileName</span>
+                                                        <span id="fileVal${index.count }" class="filevalue" >${sObj.attachment }</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -179,8 +190,9 @@
                                             </tr>
                                             <script>
 		                                            $("#attachments${index.count }").change(function () {
+		                                            	alert()
 		                                                filename1 = $('#attachments${index.count }')[0].value;
-		                                                $('#fileVal').html(filename1);
+		                                                $('#fileVal${index.count }').html(filename1);
 		                                                console.log(filename1)
 		                                            });
                                             </script>
@@ -208,11 +220,12 @@
                                                 </td>
                                                 <td>
                                                     <div class="">
-                                                        <input type="file" name="attachments" id="attachments0"  
+                                                        <input type="file" name="SafetyEquipmentFile" id="attachments0"   
                                                             style="display:none" />
-                                                        <label for="myFile" class="btn bg-m"><i
+                                                           <input name="attachments" id="attachmentss0" type="hidden" />
+                                                        <label for="attachments0" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
-                                                        <span id="fileVal" class="filevalue" >fileName</span>
+                                                        <span id="fileVal0" class="filevalue" >fileName</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -227,8 +240,15 @@
 			                                          	    	     $('.confirmation-btns .datepicker-done').click();
 			                                          	    	  }
 			                                                 });
-			                                             
-				                                          
+			                                                
+			                                                $("#attachments0").change(function () {
+				                                                filename1 = $('#attachments0')[0].value;
+				                                                $('#fileVal0').html(filename1);
+				                                                console.log(filename1)
+				                                            });
+			                                                $('#attachments0').change(function() {
+			                                                    $('#attachmentss0').val($(this).val());
+			                                              });
 		                                           
 		                                      </script>
                                     	  </c:otherwise>
@@ -282,7 +302,20 @@
             </div>
         </div>
     </div>
-
+ <!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
 
     <!-- footer included -->
@@ -313,11 +346,7 @@
                 $('#validity_1').click();
             });
             
-            $("#attachments0").change(function () {
-                filename1 = $('#attachments0')[0].value;
-                $('#fileVal').html(filename1);
-                console.log(filename1)
-            });
+           
             var projectId = "${safetyDetails.project_id}";
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
@@ -400,7 +429,7 @@
     				   +'<td> <input id="safety_equipment_details'+rNo+'" name="safety_equipment_details" type="text" class="validate" placeholder="Equipment Details"></td>'
     				   +'<td><input id="validity_dates'+rNo+'" name="validity_dates" type="text" class="validate datepicker" placeholder="Validity of Equipment"><button type="button" id="validity_1_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
     				   +'<td><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
-    			   	   +'<td><div class=""> <input type="file" name="attachments" id="attachments'+rNo+'" style="display:none" /> <label for="myFile" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal" class="filevalue">fileName</span> </div></td>'
+    			   	   +'<td><div class=""> <input type="file" name="SafetyEquipmentFile" id="attachments'+rNo+'"  multiple style="display:none" />  <input name="attachments" id="attachmentss'+rNo+'" type="hidden" /> <label for="attachments'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+'" class="filevalue">fileName</span> </div></td>'
     				   +'<td> <a onclick="removeSafety('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
 
     				 $('#safetyTableBody').append(html);
@@ -415,10 +444,19 @@
                	    	  }
                       });
     				  $("#attachments"+rNo).change(function () {
-                          filename1 = $('#attachments0')[0].value;
-                          $('#fileVal').html(filename1);
-                          console.log(filename1)
+                          filename2 = $('#attachments'+rNo)[0].value;
+                          $('#fileVal'+rNo).html(filename2);
+                          console.log(filename2)
                       });
+    				  $("#attachmentss"+rNo).change(function () {
+                          filename2 = $('#attachmentss'+rNo)[0].value;
+                          $('#fileVal'+rNo).html(filename2);
+                          console.log(filename2)
+                      });
+    				  $('#attachments'+rNo).change(function() {
+                          $('#attachmentss'+rNo).val($(this).val());
+                    });
+    				  
          } 
    
         

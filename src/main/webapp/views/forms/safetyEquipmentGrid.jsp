@@ -283,8 +283,8 @@
 	         		$.each(data,function(key,val){
 	         			var safety_equipment_id = "'"+val.safety_equipment_id+"'";
 	                    var actions = '<a href="javascript:void(0);"  onclick="getSafetyEquipmentId('+safety_equipment_id+');"  class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-pencil"></i> </a>'
-	                    			  +'<a onclick="deleteSafetyEquipment('+safety_equipment_id +');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>';
-
+/* 	                    			  +'<a onclick="deleteSafetyEquipment('+safety_equipment_id +');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>';
+ */
 	                   	var rowArray = [];    	                 
 	                   
 	                   	rowArray.push($.trim(val.contract_id_fk));

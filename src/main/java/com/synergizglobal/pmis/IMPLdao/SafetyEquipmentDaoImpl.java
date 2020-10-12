@@ -112,7 +112,6 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	public boolean addSafetyEquipment(SafetyEquipment obj)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
-		int count = 0;
 		int[] c = {};
 		boolean flag = false;
 		try {
@@ -185,16 +184,67 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	
 	@Override
 	public boolean updateSafetyEquipment(SafetyEquipment obj)throws Exception{
+		Connection con = null;
+		PreparedStatement stmt = null;
+		int[] c = {};
 		boolean flag = false;
 		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			con = dataSource.getConnection();
 			String updateQry = "UPDATE safety_equipment set "
-					+ "contract_id_fk= :contract_id_fk, safety_equipment_number= :safety_equipment_number, safety_equipment_detail= :safety_equipment_detail,"
-					+ "validity_date= :validity_date, remarks= :remarks, attachment= :attachment "
-					+ "where safety_equipment_id= :safety_equipment_id";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
-			if(count > 0) {
+					+ "contract_id_fk= ?, safety_equipment_number= ?, safety_equipment_detail=? ,"
+					+ "validity_date= ?, remarks= ?, attachment= ? "
+					+ "where safety_equipment_id= ?";
+			stmt = con.prepareStatement(updateQry);
+			int	arraySize = 0;
+				
+				if( !StringUtils.isEmpty(obj.getSafety_equipment_numbers()) && obj.getSafety_equipment_numbers().length > 0) {
+					obj.setSafety_equipment_numbers(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_numbers()));
+					if(arraySize < obj.getSafety_equipment_numbers().length) {
+						arraySize = obj.getSafety_equipment_numbers().length;
+					}
+				}
+				if( !StringUtils.isEmpty(obj.getSafety_equipment_details()) && obj.getSafety_equipment_details().length > 0) {
+					obj.setSafety_equipment_details(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_details()));
+					if(arraySize < obj.getSafety_equipment_details().length) {
+						arraySize = obj.getSafety_equipment_details().length;
+					}
+				}if( !StringUtils.isEmpty(obj.getValidity_dates()) && obj.getValidity_dates().length > 0) {
+					obj.setValidity_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getValidity_dates()));
+					if(arraySize < obj.getValidity_dates().length) {
+						arraySize = obj.getValidity_dates().length;
+					}
+				}if( !StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+					obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+					if(arraySize < obj.getRemarkss().length) {
+						arraySize = obj.getRemarkss().length;
+					}
+				}if( !StringUtils.isEmpty(obj.getAttachments()) && obj.getAttachments().length > 0) {
+					obj.setAttachments(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttachments()));
+					if(arraySize < obj.getAttachments().length) {
+						arraySize = obj.getAttachments().length;
+					}
+				}
+				for (int i = 0; i < arraySize; i++){
+				    int k = 1;
+				    stmt.setString(k++,(obj.getContract_id_fk().length() > 0)?obj.getContract_id_fk():null);
+				    stmt.setString(k++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
+				    stmt.setString(k++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
+					stmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
+				    stmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+				    stmt.setString(k++,(obj.getAttachments().length > 0)?obj.getAttachments()[i]:null);
+				    stmt.setString(k++,obj.getSafety_equipment_id());
+				    MultipartFile file = obj.getSafetyEquipmentFile();
+				    if (null != file && !file.isEmpty()){
+				    	String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
+						String fileName = file.getOriginalFilename();
+						FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				    }
+					stmt.addBatch();
+				}
+					c = stmt.executeBatch();
+					if(stmt != null){stmt.close();}
+
+			if(c.length > 0) {
 				flag = true;
 			}
 		}catch(Exception e){ 

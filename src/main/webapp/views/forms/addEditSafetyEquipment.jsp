@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+								<input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyDetails.safety_equipment_id}" />
                             <div class="row fixed-width" style="margin-bottom: 40px;">
                                 <h5 class="center-align">Equipment Details</h5>
                                 <div class="table-inside">
@@ -176,8 +176,9 @@
                                                 </td>
                                                 <td>
                                                     <div class="">
-                                                        <input type="file" name="attachments" id="attachments${index.count }" value="${sObj.attachment }"  class="myFile"
+                                                        <input type="file" name="SafetyEquipmentFile" id="attachments${index.count }"  
                                                             style="display:none" />
+                                                             <input name="attachments" id="attachmentss${index.count }" value="${sObj.attachment }" type="hidden" />
                                                         <label for="attachments${index.count }" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
                                                         <span id="fileVal${index.count }" class="filevalue" >${sObj.attachment }</span>
@@ -195,6 +196,9 @@
 		                                                $('#fileVal${index.count }').html(filename1);
 		                                                console.log(filename1)
 		                                            });
+		                                            $('#attachments${index.count }').change(function() {
+	                                                    $('#attachmentss${index.count }').val($(this).val());
+	                                              });
                                             </script>
                                           </c:forEach>
                                        </c:when>

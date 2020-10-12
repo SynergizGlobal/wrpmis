@@ -165,6 +165,7 @@ public class SafetyEquipmentController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/safety-equipment");
+			obj.setValidity_date(DateParser.parse(obj.getValidity_date()));
 			boolean flag =  service.updateSafetyEquipment(obj);
 			if(flag == true) {
 				attributes.addFlashAttribute("success", "SafetyEquipment Updated Succesfully.");

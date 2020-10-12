@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/contractor.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
    	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+   	<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <style>
         p a {
             color: blue
@@ -123,8 +125,8 @@
                                             onclick="getContractor('${ obj.contractor_id }')"
                                                     class="btn waves-effect waves-light bg-m t-c "><i
                                                         class="fa fa-pencil"></i> </a>
-                                                <a onclick="deleteContractor('${ obj.contractor_id }');" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
+                                                <%-- <a onclick="deleteContractor('${ obj.contractor_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+                                                        class="fa fa-trash"></i></a> --%>
                                             </td>
                                         </tr>
                                        </c:forEach> 

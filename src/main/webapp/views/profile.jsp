@@ -13,88 +13,80 @@
    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-
    
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    
-   
-   
-    <style>
-
-        /* profile related styling  */
-        .card-title {
+       
+     <style>
+      .card-title {
             background-color: #DFE6F6;
         }
-
-        .profile-head.row {
-            margin-bottom: 0;
+	     thead tr {
+	        background-color: #2E58AD;
+	     }
+	     td{
+	        word-break: break-word;
+	    	word-wrap: break-word;
+	   		white-space: initial;
+	   		width:50%;     
+	     }
+	     thead th{
+	     	text-align: center !important;
+   			color: #fff !important;
+	     }
+        .card-title.headbg {
+            padding: 15px;
+            margin: -24px;
+            text-align: center;
         }
 
-        .profile-head {
-            padding: 24px;
-            box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
-            background-color: #DFE6F6;
+        /* left side code  */
+        .profile_photo img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
         }
 
-        .profile-head.row h6 {
-            margin-bottom: 0;
-            margin-top: 14px;
+        .profile_name {
+            font-size: 3rem;
+            margin: 20px 0;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
-        .profile-summery {
-            border: 1px solid #DFE6F6;
-            box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .profile-summery .col {
+        .profile_designation {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin: 20px 0;
             text-transform: capitalize;
-            padding-top: .5rem;
-            padding-bottom: .5rem;
         }
 
-        /* data table  styling  */
-        .dataTables_scrollBody,
-        .dataTables_scrollHead,
-        .dataTables_scrollFoot {
-            overflow: initial !important;
+        .profile_role {
+            font-size: 1rem;
+            font-weight: 300;
+            text-transform: capitalize;
         }
 
-        .dataTables_scroll {
-            overflow: auto;
+        /* right side code  */
+        .profile_info {
+            text-align: left;
+            /* padding: 20px; */
         }
-
-        .dataTables_filter label::after {
-            position: relative;
-            content: '\f002';
-            color: #6C587B;
-            right: 15px;
-            font: normal normal normal 14px/1 FontAwesome;
-        }
-
-        .dataTables_filter label {
-            color: #fff;
+       
+        .card .card {
+            -webkit-box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
         }
 
         @media only screen and (max-width: 600px) {
-            div.dataTables_wrapper div.dataTables_filter input {
-                width: 90% !important;
-                margin-left: 0;
+
+            .dataTables_info,
+            .pagination {
+                text-align: center;
             }
-        }
-
-        /* min and max height for data table  */
-        .p-2 {
-            padding: 1.2rem !important;
-        }
-
-        #example1_wrapper {
-            min-height: 465px;
-            min-height: 216px;
-        }
-    </style>
+        }        
     </style>
 </head>
 
@@ -102,125 +94,107 @@
   <!-- header included -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
 
-  
+
     <div class="row">
-        <!-- <div class="col m3 hide-on-small-only"></div> -->
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
-                    <!-- <span class="card-title headbg">
-
-                        <div class="profile-head row">
-                            <div class="col m2 s6">
-                                <h6 class="left-align"><b>My Profile</b></h6>
-                            </div>
-                            <div class="col m3 s6">
-                                <div class="profile-img right-align">
-                                    <img src="images/user-black.png" alt=""
-                                        style="width:50px;height:50px;border-radius:50%;background-color:#fff; ">
+                    <div class="row">
+                      <c:forEach var="obj" items="${userDetails }">
+                        <div class="col m4 s12 center-align">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title headbg">Basic Details</span>
+                                    <div class="profile_photo">
+                                        <img src="/pmis/resources/images/mrvc.png">
+                                    </div>
+                                    <div class="profile_name">${ obj.user_name } </div>
+                                    <div class="profile_designation">${ obj.designation }
+                                        <span class="profile_role">( ${ obj.user_role_name_fk } )</span>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
-
-                    </span> -->
-                    
-                    
-                    <div class="container">
-                        <div class="row">
-                            <div class="col m5 s12">
-                                <div class="profile-head row">
-                                    <div class="col m6 s6">
-                                        <h6 class="left-align"><b>My Profile</b></h6>
-                                    </div>
-                                    <div class="col m6 s6">
-                                        <div class="profile-img right-align">
-                                            <img src="images/user-black.png" alt=""
-                                                style="width:50px;height:50px;border-radius:50%;background-color:#fff; ">
+                        <div class="col m4 s12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title headbg">Other Details</span>
+                                    <div class="profile_info">
+                                        <div class="row">                                        
+											<table>
+											    <tbody>
+											        <tr>
+											            <td>User ID</td>
+											            <td>: &nbsp; ${ obj.user_id }</td>
+											        </tr>
+											         <tr>
+											            <td>Email</td>
+											            <td>: &nbsp; ${ obj.email_id }</td>
+											        </tr>
+											        <tr>
+											            <td>Department</td>
+											            <td>: &nbsp; ${ obj.department_fk }</td>
+											        </tr>
+											        <tr>
+											            <td>Reporting To</td>
+											            <td>: &nbsp; ${ obj.reporting_to_id_srfk }</td>
+											        </tr>
+											        <tr>
+											            <td>Mobile No</td>
+											            <td>: &nbsp; ${ obj.mobile_number }</td>
+											        </tr>
+											        <tr>
+											            <td>Landline</td>
+											            <td>: &nbsp; ${ obj.landline }</td>
+											        </tr>
+											        <tr>
+											            <td>Extension</td>
+											            <td>: &nbsp; ${ obj.extension }</td>
+											        </tr>
+											         <tr>
+											            <td>PMIS Key</td>
+											            <td>: &nbsp; ${ obj.pmis_key_fk }</td>
+											        </tr>
+											         <tr>
+											            <td>Remarks</td>
+											            <td>: &nbsp; ${ obj.remarks }</td>
+											        </tr>
+											        
+											    </tbody>
+											</table>
                                         </div>
-
                                     </div>
-                                </div>
-                                <div class="row profile-summery">
-                                <c:forEach var="obj" items="${userDetails }">
-                                
-                                	<div class="col m6 s6"> User ID: </div>
-                                    <div class="col m6 s6">&nbsp;${ obj.user_id }  </div>
-                                    
-                                     <div class="col m6 s6"> Name: </div>
-                                    <div class="col m6 s6">&nbsp;${ obj.user_name }  </div>
-
-                                    <div class="col m6 s6"> Email: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.email_id } </div>
-
-                                    <div class="col m6 s6"> Department: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.department_fk } </div>
-
-                                    <div class="col m6 s6"> Designation: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.designation } </div>
-
-                                    <div class="col m6 s6"> Reporting To: </div>
-                                    <div class="col m6 s6">&nbsp; ${ obj.reporting_to_id_srfk }</div>
-
-                                    <div class="col m6 s6"> User Role: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.user_role_name_fk } </div>
-
-                                    <div class="col m6 s6"> Mobile No: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.mobile_number } </div>
-
-                                    <div class="col m6 s6"> Landline: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.landline } </div>
-
-                                    <div class="col m6 s6"> Extension: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.extension } </div>
-
-                                    <div class="col m6 s6"> PMIS Key: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.pmis_key_fk } </div>
-
-                                    <div class="col m6 s6"> Remarks: </div>
-                                    <div class="col m6 s6"> &nbsp;${ obj.remarks } </div>
-                                   </c:forEach> 
                                 </div>
                             </div>
-                            <div class="col m6 s12 offset-m1">
-                                <div class="profile-head">
-                                    <!-- <div class="col m12 s12"> -->
-                                    <h6 class="center-align"><b>User Access</b></h6>
-                                    <!-- </div> -->
-                                </div>
-                                <div class="profile-summery">
-                                    <!-- this can be delete if data entered in table  -->
-                                    <div style="padding-top:90px"></div>
-                                    <table id="example1" class="mdl-data-table">
+                        </div>
+                        <div class="col m4 s12">
+                            <div class="card" style="min-height: 445px;">
+                                <div class="card-content">
+                                    <span class="card-title headbg">User Access</span>
+                                    <!-- <div style="padding-top: 100px;"></div> -->
+                                    <table id="example2" class="mdl-data-table">
                                         <thead>
                                             <tr>
                                                 <th>Access Type</th>
                                                 <th>Value</th>
-                                                <th style="display: none;"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                <td style="display: none;"></td>
                                             </tr>
-
                                         </tbody>
                                     </table>
-                                    <!-- this can be delete if data entered in table  -->
-                                    <div style="padding-bottom:90px"></div>
                                 </div>
                             </div>
                         </div>
+                       </c:forEach>
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
-
 
   <!-- footer included -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
@@ -230,32 +204,31 @@
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-
-	 <script>
+	
+	  <script>
         $(document).ready(function () {
-            $('select').formSelect();
-            $('#example1').DataTable({
+            $('#example2').DataTable({
                 "searching": false,
-                "ordering": false,
-                "language": {
-                    "lengthMenu": ""
-                },
                 columnDefs: [
                     {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
+                        targets: ['_all'],
+                        className: 'mdc-data-table__cell'
                     }
                 ],
+                "language": {
+                    "info": "Showing _START_ - _END_ in _TOTAL_ ",
+                    "lengthMenu": "",
+                    "paginate": {
+                        "previous": "<",
+                        "next": ">",
+                    },
+                },
                 "ScrollX": true,
                 "scrollCollapse": true,
                 "sScrollY": 400,
-                initComplete: function () {
-                    // $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
             });
-        });
-    </script>	
-	
+        })
+    </script>
 	
 </body>
 

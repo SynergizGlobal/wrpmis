@@ -507,7 +507,7 @@
                         	}
                            
                         }
-                        $("#user_access_values"+indexNo).formSelect();
+                        $("#user_access_values"+indexNo).select2();
                     }
                 });
         	}

@@ -15,9 +15,7 @@
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-<!-- 	<link rel="stylesheet" href="/mrvc/resources/css/material-design-lite-v.1.0.css">	 -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-<!-- 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css"> -->
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
@@ -92,7 +90,7 @@
 		.max-h thead th{
 			position:sticky;
 			top:0;
-			z-index:2;
+			z-index:1;
 			background-color:#508484;
 		}
 		/*table with fixed header & height ends */
@@ -255,7 +253,7 @@
                                 <!-- <div class="table-inside"> -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12 max-h">
-                                    <table id="userPermissionsTable" class="mdl-data-table" style="margin-left: 11px;">
+                                    <table id="userPermissionsTable" class="mdl-data-table" >
                                         <thead>
                                             <tr>
                                                 <th>User Access Type</th>

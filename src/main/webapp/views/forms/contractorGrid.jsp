@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/contractor.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
    	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-   	<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+   	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
+   	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
     <style>
         p a {
             color: blue

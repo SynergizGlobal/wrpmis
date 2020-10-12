@@ -146,6 +146,7 @@ public class FOBController {
 				String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH ;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
 			}
 			boolean flag = fobService.addFOB(obj);
 			if(flag) {
@@ -202,6 +203,7 @@ public class FOBController {
 				String saveDirectory = CommonConstants2.FOB_FILE_SAVING_PATH ;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
 			}
 			boolean flag = fobService.updateFOB(obj);
 			if(flag) {

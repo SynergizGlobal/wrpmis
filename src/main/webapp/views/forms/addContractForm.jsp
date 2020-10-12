@@ -209,9 +209,20 @@
 	                                <!-- row 4 -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field">
-	                                    <input name="contract_name" id="contract_name" type="text" class="validate" >
+	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate" ></textarea>
 	                                    <label for="contract_name">Contract Name</label>
-	                                      <span id="contract_nameError" class="error-msg" ></span>
+	                                    <span id="contract_nameError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            
+	                            <div class="row">
+	                                <!-- row 4 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 input-field">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" >
+	                                    <label for="contract_short_name">Contract Short Name</label>
+	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>

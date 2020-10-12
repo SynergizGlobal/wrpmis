@@ -230,7 +230,18 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row">
+                             <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field "></div>
+                                <div class="col s12 m4 input-field">                                
+                                    <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
+                                    <label for="pmis_key_fk">PMIS KEY</label>
+                                    <span id="pmis_key_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                           <%--  <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field "></div>
                                 <div class="col s12 m4 input-field">                                
@@ -244,7 +255,7 @@
                                     <span id="pmis_key_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
 
 
                             <!-- insurance show hide div  -->
@@ -453,6 +464,7 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
     <script>
+    	
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -518,19 +530,54 @@
             $(".searchable").trigger("change");
         });
         
+        var flag = false;
+        $('#pmis_key_fk').on('blur', function(){
+        	$('#pmis_key_fkError').html('');
+            var pmis_key_fk = $('#pmis_key_fk').val();
+            if ($.trim(pmis_key_fk) != '' && pmis_key_fk != '${usrObj.pmis_key_fk }') {             
+	             $.ajax({
+	               url: '<%=request.getContextPath()%>/ajax/checkPMISKeyAvailability',
+	               type: 'POST',
+	               data: { pmis_key_fk : pmis_key_fk},
+	               success: function(response){
+	                 if (response.keyAvailability == 'Taken' ) {
+	                 	 $('#pmis_key_fkError').html('Sorry... Already taken').css('color', 'red');
+	                 	 flag = false;
+	                 } else if (response.keyAvailability == 'Available') {
+	                 	 $('#pmis_key_fkError').html('Available').css('color', 'green');;
+	                 	 flag = true;
+	                 } else {
+	                 	 $('#pmis_key_fkError').html('No Key Available').css('color', 'red');;
+	                 	 flag = false;
+	                 }
+	               }
+	             });
+            }else if (pmis_key_fk == '${usrObj.pmis_key_fk }') {     
+            	flag = true;
+            }
+        });
+        
         function addUser(){
     		if(validator.form()){ // validation perform
-    			$(".page-loader").show();
-    			document.getElementById("userForm").submit();			
+    			if(flag){
+        			$(".page-loader").show();
+        			document.getElementById("userForm").submit();	
+            	}		
     	 	}
     	}
     	
         function updateUser(){
       		if(validator.form()){ // validation perform
-      			$(".page-loader").show();	    		
-    			document.getElementById("userForm").submit();			
+      			if(flag){
+        			$(".page-loader").show();
+        			document.getElementById("userForm").submit();	
+            	}			
     	 	}
     	}
+        
+        
+        
+        
     	
     	//Wait for the DOM to be ready
     	
@@ -539,7 +586,7 @@
     	var validator = $('#userForm').validate({
     	    	ignore: ":hidden:not(.validate-dropdown)",
     			   rules: {
-    				   	  "user_id0":{
+    				   	  "user_id":{
     				   		required: true
     				   	  },"user_role_name_fk": {
        				 		required: true
@@ -562,12 +609,13 @@
     				 	  },"remarks":{
     				 		 required: false
     				 	  },"pmis_key_fk":{
-    				 		 required: false
+    				 		 required: true,
+    				 		 //checkExists: true
     				 	  }
     				 				
     			 	},
     			   messages: {
-	    				 "user_id0":{
+	    				 "user_id":{
 	    					 required: 'Required'
 	   				   	 },"user_role_name_fk": {
        			 			required: 'Required'
@@ -649,6 +697,28 @@
         	    //"Date format (Aug 02,2020)"
         	    "Date format (DD-MM-YYYY)"
         	);
+    	    
+    	    
+    	    <%-- $.validator.addMethod("checkExists", function(value, element) {
+    		    var pmis_key_fk = $('#pmis_key_fk').val();
+	            $.ajax({
+	               url: '<%=request.getContextPath()%>/ajax/checkPMISKeyAvailability',
+	               type: 'POST',
+	               data: { pmis_key_fk : pmis_key_fk},
+	               success: function(response){
+		                 if (response.keyAvailability == "Taken" ) {
+		                	 $('#pmis_key_fkError').html("Sorry... Already taken");
+		                	 return false;
+		                 } else if (response.keyAvailability == "Available") {
+		                 	 return true;
+		                 } else {
+		                	 $('#pmis_key_fkError').html("No Key Available");
+		                	 return false ;
+		                 }
+	               }
+		        });
+
+    		}, ""); --%>
             
             
             $('select').change(function(){

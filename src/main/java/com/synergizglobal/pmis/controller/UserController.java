@@ -110,6 +110,21 @@ public class UserController {
 		return users;
 	}
 	
+	@RequestMapping(value = "/ajax/checkPMISKeyAvailability", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public User checkPMISKeyAvailability(@ModelAttribute User obj) {
+		String pmis_key = null;
+		User dObj = new User();
+		try {
+			pmis_key = userService.checkPMISKeyAvailability(obj);
+			dObj.setKeyAvailability(pmis_key);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("checkPMISKeyAvailability : " + e.getMessage());
+		}
+		return dObj;
+	}
+	
 	@RequestMapping(value="/add-user-form",method=RequestMethod.GET)
 	public ModelAndView addUserForm(HttpSession session) {
 		ModelAndView model = new ModelAndView();

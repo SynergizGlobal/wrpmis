@@ -222,10 +222,19 @@
 	                                <!-- row 4 -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field">
-	<%--                                     <input name="contract_name" id="contract_name" type="text" class="validate"  value="${contractDeatils.contract_name }"  > --%>
 	                                    <textarea id="contract_name" name ="contract_name" class="materialize-textarea" data-length="1000">${contractDeatils.contract_name }</textarea>
 	                                    <label for="contract_name">Contract Name</label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
+	                                <!-- row 4 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 input-field">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" value="${contractDeatils.contract_short_name }" >
+	                                    <label for="contract_short_name">Contract Short Name</label>
+	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
@@ -1417,12 +1426,14 @@
         	   rules: {
         			  "project_id_fk": {
         			 		required: true
-        			 	  },"work_id_fk": {
+        			   },"work_id_fk": {
         		 		required: true
         		 	  },"department_fk": {
         		 		required: true
         		 	  },"contract_name": {
         		 		required: true
+        		 	  },"contract_short_name":{
+        		 		 required: true
         		 	  },"contract_type_fk": {
         		 		required: true
         		 	  },"contractor_id_fk": {
@@ -1485,7 +1496,9 @@
         	 			required: 'Required'
         	 	  	 },"contract_name": {
         	 			required: 'Required'
-        	 	  	 },"contract_type_fk": {
+        	 	  	 },"contract_short_name":{
+        	 	  		required: 'Required'
+       		 	  	 },"contract_type_fk": {
         	 			required: 'Required'
         	 	  	 },"contractor_id_fk": {
         	 			required: 'Required'
@@ -1552,6 +1565,9 @@
 	        	 	    }else if (element.attr("id") == "contract_name" ){
 	        	 		     document.getElementById("contract_nameError").innerHTML="";
 	        	 			 error.appendTo('#contract_nameError');
+	        	 	    }else if (element.attr("id") == "contract_short_name" ){
+	        	 		     document.getElementById("contract_short_nameError").innerHTML="";
+	        	 			 error.appendTo('#contract_short_nameError');
 	        	 	    }else if (element.attr("id") == "contract_type_fk" ){
 	        	 		     document.getElementById("contract_type_fkError").innerHTML="";
 	        	 			 error.appendTo('#contract_type_fkError');

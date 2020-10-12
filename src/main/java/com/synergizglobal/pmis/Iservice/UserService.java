@@ -35,5 +35,7 @@ public interface UserService {
 	int uploadUsers(List<User> usersList) throws Exception;
 
 	List<User> getPmisKeys() throws Exception;
+
+	String checkPMISKeyAvailability(User obj) throws Exception;
 	
 }

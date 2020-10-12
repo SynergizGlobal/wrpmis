@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Contract {
-	private String contract_id,contract_id_fk,Contract_ID,work_id_fk,contract_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,department_name,contract_id_code,
+	private String contract_id,contract_id_fk,Contract_ID,work_id_fk,contract_name,contract_short_name,contract_type_fk,strip_chart_type_fk,scope_of_contract,contractor_id_fk,department_fk,department_name,contract_id_code,
 	hod_user_id_fk,dy_hod_user_id_fk,designation,user_name,tally_head,estimated_cost,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,date_of_start,doc,completion_certificate_release,
 	final_takeover,final_bill_release,defect_liability_period,retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,
 	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk,
@@ -943,6 +943,14 @@ public class Contract {
 
 	public void setContractDocumentFileNames(String[] contractDocumentFileNames) {
 		this.contractDocumentFileNames = contractDocumentFileNames;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
 	}
 	
 }

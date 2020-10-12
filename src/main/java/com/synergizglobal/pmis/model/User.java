@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class User  {
-	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,mobile_number,landline,extension,pmis_key_fk,remarks,user_image;
+	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,mobile_number,landline,extension,pmis_key_fk,remarks,user_image,keyAvailability;
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
@@ -426,6 +426,16 @@ public class User  {
 
 	public void setUser_image(String user_image) {
 		this.user_image = user_image;
+	}
+
+
+	public String getKeyAvailability() {
+		return keyAvailability;
+	}
+
+
+	public void setKeyAvailability(String keyAvailability) {
+		this.keyAvailability = keyAvailability;
 	}
 	
 	

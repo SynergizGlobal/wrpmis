@@ -39,7 +39,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 			List<Contract> objsList = null;
 			try {
-				String qry ="select w.work_name,dt.department_name,u.designation,c.work_id_fk,c.contract_id,c.contract_name,cr.contractor_id,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk " + 
+				String qry ="select w.work_name,dt.department_name,u.designation,c.work_id_fk,c.contract_id,c.contract_name,c.contract_short_name,cr.contractor_id,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk " + 
 							"from contract c left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 							"left join contractor cr on c.contractor_id_fk = cr.contractor_id "
 							+"left join user u on c.hod_user_id_fk = u.user_id "
@@ -193,43 +193,45 @@ public class ContractDaoImpl implements ContractDao {
 			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),getDepartmentCode(contract.getDepartment_fk(),con),con);
 			
 			String ContractQry = "INSERT INTO contract "
-							+"(contract_id,work_id_fk,department_fk,contract_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
+							+"(contract_id,work_id_fk,department_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
 							+ "retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,remarks)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
-			stmt.setString(1,contract_id); 
-			stmt.setString(2,contract.getWork_id_fk()); 
-			stmt.setString(3,contract.getDepartment_fk()); 
-			stmt.setString(4,contract.getContract_name()); 
-			stmt.setString(5,contract.getContractor_id_fk()); 
-			stmt.setString(6,contract.getContract_type_fk());
-			stmt.setString(7,contract.getScope_of_contract()); 
-			stmt.setString(8,contract.getHod_user_id_fk());
-			stmt.setString(9,contract.getDy_hod_user_id_fk());
-			stmt.setString(10,contract.getDoc());
-			stmt.setString(11,contract.getAwarded_cost());
-			stmt.setString(12,contract.getLoa_letter_number());
-			stmt.setString(13,contract.getLoa_date());
-			stmt.setString(14,contract.getCa_no());
-			stmt.setString(15,contract.getCa_date());
-			stmt.setString(16,contract.getActual_completion_date());
-			stmt.setString(17,contract.getCompleted_cost()); 
-			stmt.setString(18,contract.getDate_of_start()); 
-			stmt.setString(19,contract.getEstimated_cost()); 
-			stmt.setString(20,contract.getContract_closure_date()); 
-			stmt.setString(21,contract.getCompletion_certificate_release()); 
-			stmt.setString(22,contract.getFinal_takeover()); 
-			stmt.setString(23,contract.getFinal_bill_release()); 
-			stmt.setString(24,contract.getDefect_liability_period()); 
-			stmt.setString(25,contract.getRetention_money_release()); 
-			stmt.setString(26,contract.getPbg_release()); 
-			stmt.setString(27,contract.getContract_closure()); 
-			stmt.setString(28,contract.getContract_status_fk()); 
-			stmt.setString(29,contract.getBg_required()); 
-			stmt.setString(30,contract.getBg_required()); 
-			stmt.setString(31,contract.getRemarks()); 
+			int q = 1;
+			stmt.setString(q++,contract_id); 
+			stmt.setString(q++,contract.getWork_id_fk()); 
+			stmt.setString(q++,contract.getDepartment_fk()); 
+			stmt.setString(q++,contract.getContract_name()); 
+			stmt.setString(q++,contract.getContract_short_name()); 
+			stmt.setString(q++,contract.getContractor_id_fk()); 
+			stmt.setString(q++,contract.getContract_type_fk());
+			stmt.setString(q++,contract.getScope_of_contract()); 
+			stmt.setString(q++,contract.getHod_user_id_fk());
+			stmt.setString(q++,contract.getDy_hod_user_id_fk());
+			stmt.setString(q++,contract.getDoc());
+			stmt.setString(q++,contract.getAwarded_cost());
+			stmt.setString(q++,contract.getLoa_letter_number());
+			stmt.setString(q++,contract.getLoa_date());
+			stmt.setString(q++,contract.getCa_no());
+			stmt.setString(q++,contract.getCa_date());
+			stmt.setString(q++,contract.getActual_completion_date());
+			stmt.setString(q++,contract.getCompleted_cost()); 
+			stmt.setString(q++,contract.getDate_of_start()); 
+			stmt.setString(q++,contract.getEstimated_cost()); 
+			stmt.setString(q++,contract.getContract_closure_date()); 
+			stmt.setString(q++,contract.getCompletion_certificate_release()); 
+			stmt.setString(q++,contract.getFinal_takeover()); 
+			stmt.setString(q++,contract.getFinal_bill_release()); 
+			stmt.setString(q++,contract.getDefect_liability_period()); 
+			stmt.setString(q++,contract.getRetention_money_release()); 
+			stmt.setString(q++,contract.getPbg_release()); 
+			stmt.setString(q++,contract.getContract_closure()); 
+			stmt.setString(q++,contract.getContract_status_fk()); 
+			stmt.setString(q++,contract.getBg_required()); 
+			stmt.setString(q++,contract.getBg_required()); 
+			stmt.setString(q++,contract.getRemarks()); 
 
 			count = stmt.executeUpdate();
 			
@@ -600,18 +602,14 @@ public class ContractDaoImpl implements ContractDao {
 		Contract contract = null;
 		try{
 			con = dataSource.getConnection();
-			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 									",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,final_bill_release,defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 									+"retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-									"left join bank_guarantee bg on c.contract_id = bg.contract_id_fk " + 
-									"left join insurance i on c.contract_id = i.contract_id_fk " + 
-									"left join contract_milestones cm on c.contract_id = cm.contract_id_fk " + 
-									"left join contract_revision crn on c.contract_id = crn.contract_id_fk "
-									+"left join user u on c.hod_user_id_fk = u.user_id "
+									"left join user u on c.hod_user_id_fk = u.user_id "
 									+"left join department dt on c.department_fk = dt.department where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());
@@ -627,6 +625,7 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setContract_id(resultSet.getString("contract_id"));
 				contract.setContract_type_fk(resultSet.getString("contract_type_fk"));
 				contract.setContract_name(resultSet.getString("contract_name"));
+				contract.setContract_short_name(resultSet.getString("contract_short_name"));
 				contract.setContractor_id_fk(resultSet.getString("contractor_id_fk"));
 				contract.setContractor_name(resultSet.getString("contractor_name"));
 				contract.setDepartment_fk(resultSet.getString("department_fk"));
@@ -859,7 +858,7 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,department_fk = ?,contract_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
+			String contractUpdate_Qry = "UPDATE contract SET work_id_fk = ?,department_fk = ?,contract_name = ?,contract_short_name = ?,contractor_id_fk = ?,contract_type_fk = ?,"
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
@@ -870,6 +869,7 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getWork_id_fk()); 
 				stmt.setString(p++,contract.getDepartment_fk()); 
 				stmt.setString(p++,contract.getContract_name()); 
+				stmt.setString(p++,contract.getContract_short_name()); 
 				stmt.setString(p++,contract.getContractor_id_fk()); 
 				stmt.setString(p++,contract.getContract_type_fk());
 				stmt.setString(p++,contract.getScope_of_contract()); 
@@ -1219,7 +1219,7 @@ public class ContractDaoImpl implements ContractDao {
 								String fileName = file.getOriginalFilename();
 								documentNames[i] = fileName;
 								FileUploads.singleFileSaving(file, saveDirectory, fileName);
-							} else if (!StringUtils.isEmpty(contract.getContractDocumentFileNames()[i])){
+							} else if (!StringUtils.isEmpty(contract.getContractDocumentFileNames()) && contract.getContractDocumentFileNames().length > 0 && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i])){
 								documentNames[i] = contract.getContractDocumentFileNames()[i];
 							} else {
 								documentNames[i] = null;

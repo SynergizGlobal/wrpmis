@@ -435,13 +435,35 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getPmisKeys() throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select pmis_key_fk from user";
+			String qry = "select pmis_key as pmis_key_fk from pmis_key";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public String checkPMISKeyAvailability(User obj) throws Exception {
+		String pmis_key = "NoKey";
+		try {
+			String qry = "select count(*) from pmis_key where pmis_key = ?";
+			
+			int count = jdbcTemplate.queryForObject( qry,new Object[] {obj.getPmis_key_fk()}, Integer.class);	
+			
+			if(count > 0) {
+				pmis_key = "Available";
+				qry = "select count(*) from user where pmis_key_fk = ?";				
+				count = jdbcTemplate.queryForObject( qry,new Object[] {obj.getPmis_key_fk()}, Integer.class);	
+				if(count > 0) {
+					pmis_key = "Taken";
+				}
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return pmis_key;
 	}
 
 }

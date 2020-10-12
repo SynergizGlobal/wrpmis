@@ -88,4 +88,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.getPmisKeys();
 	}
 
+	@Override
+	public String checkPMISKeyAvailability(User obj) throws Exception {
+		return userDao.checkPMISKeyAvailability(obj);
+	}
+
 }

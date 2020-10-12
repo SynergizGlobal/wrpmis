@@ -30,8 +30,11 @@
 	        word-break: break-word;
 	    	word-wrap: break-word;
 	   		white-space: initial;
-	   		width:50%;     
+	   		width:50%;  
 	     }
+	     .mdl-data-table tr td{	     
+	   		text-align:center !important;  
+	   	}
 	     thead th{
 	     	text-align: center !important;
    			color: #fff !important;

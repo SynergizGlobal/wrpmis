@@ -783,51 +783,51 @@
 	                            </div>
 	
 	                            <div class="container" style="margin-bottom:30px">
-                                <div class="row fixed-width">
-                                    <h5 class="center-align">Documents</h5>
-                                    <div class="table-inside">
-                                        <table class="mdl-data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name </th>
-                                                    <th>Attachment</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="contractDocumentTableBody" >
-                                                <tr id="contractDocumentRow0">
-                                                    <td> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
-                                                            placeholder="Name">
-                                                    </td>
-                                                    <td>
-                                                        <div class="normal-btn">
-                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
-                                                                style="display:none" onchange="getFileName('0')"/>
-                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
-                                                                    class="fa fa-paperclip"></i></label>
-                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
-                                                                class="fa fa-close"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        
-                                        <table class="mdl-data-table">
-	                                        <tbody id="revTableBody">                                          
-	                                            <tr>
-													<td colspan="3" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
-	                                                            class="fa fa-plus"></i></a></td>
-	                                              </tr>
-	                                        </tbody>
-	                                     </table>
-	                                   	 <input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
-                                    </div>
-                                </div>
-                            </div>
+	                                <div class="row fixed-width">
+	                                    <h5 class="center-align">Documents</h5>
+	                                    <div class="table-inside">
+	                                        <table class="mdl-data-table">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>Name </th>
+	                                                    <th>Attachment</th>
+	                                                    <th>Action</th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody id="contractDocumentTableBody" >
+	                                                <tr id="contractDocumentRow0">
+	                                                    <td> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+	                                                            placeholder="Name">
+	                                                    </td>
+	                                                    <td>
+	                                                        <div class="normal-btn">
+	                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
+	                                                                style="display:none" onchange="getFileName('0')"/>
+	                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
+	                                                                    class="fa fa-paperclip"></i></label>
+	                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
+	                                                        </div>
+	                                                    </td>
+	                                                    <td>
+	                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
+	                                                                class="fa fa-close"></i></a>
+	                                                    </td>
+	                                                </tr>
+	                                            </tbody>
+	                                        </table>
+	                                        
+	                                        <table class="mdl-data-table">
+		                                        <tbody id="revTableBody">                                          
+		                                            <tr>
+														<td colspan="3" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
+		                                                            class="fa fa-plus"></i></a></td>
+		                                              </tr>
+		                                        </tbody>
+		                                     </table>
+		                                   	 <input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
+	                                    </div>
+	                                </div>
+	                            </div>
 							</div>
                             <!-- new code  ends-->
                             

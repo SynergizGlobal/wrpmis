@@ -35,7 +35,7 @@ public class WorkDaoImpl implements WorkDao {
 	public List<Work> getWorkList(Work obj) throws Exception{
 		List<Work> objsList = null;
 		try {
-			String qry ="SELECT DISTINCT work_id,work_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
+			String qry ="SELECT DISTINCT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost,"
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" + 
@@ -60,7 +60,7 @@ public class WorkDaoImpl implements WorkDao {
 		Work work = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="SELECT work_id,work_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," + 
+			String qry ="SELECT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" + 
 					",w.remarks FROM work w " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id " +
@@ -73,6 +73,7 @@ public class WorkDaoImpl implements WorkDao {
 				work = new Work();
 				work.setWork_id(resultSet.getString("work_id"));
 				work.setWork_name(resultSet.getString("work_name"));
+				work.setWork_short_name(resultSet.getString("work_short_name"));
 				work.setProject_id_fk(resultSet.getString("project_id_fk"));
 				work.setSanctioned_year_fk(resultSet.getString("sanctioned_year_fk"));
 				work.setSanctioned_estimated_cost(resultSet.getString("sanctioned_estimated_cost"));

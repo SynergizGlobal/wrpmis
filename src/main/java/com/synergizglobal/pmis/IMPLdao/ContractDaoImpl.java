@@ -13,11 +13,14 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.ContractDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Insurence;
@@ -242,43 +245,43 @@ public class ContractDaoImpl implements ContractDao {
 						+"VALUES (?,?,?,?,?,?,?,?)";
 				stmt = con.prepareStatement(BankG_qry);
 		
-				if(flag && !StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
 					contract.setBg_type_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_type_fks()));
 					if(arraySize < contract.getBg_type_fks().length) {
 						arraySize = contract.getBg_type_fks().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getIssuing_banks()) && contract.getIssuing_banks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getIssuing_banks()) && contract.getIssuing_banks().length > 0) {
 					contract.setIssuing_banks(CommonMethods.replaceEmptyByNullInSringArray(contract.getIssuing_banks()));
 					if(arraySize < contract.getIssuing_banks().length) {
 						arraySize = contract.getIssuing_banks().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getBank_addresss()) && contract.getBank_addresss().length > 0) {
+				if(!StringUtils.isEmpty(contract.getBank_addresss()) && contract.getBank_addresss().length > 0) {
 					contract.setBank_addresss(CommonMethods.replaceEmptyByNullInSringArray(contract.getBank_addresss()));
 					if(arraySize < contract.getBank_addresss().length) {
 						arraySize = contract.getBank_addresss().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
+				if(!StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
 					contract.setBg_numbers(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_numbers()));
 					if(arraySize < contract.getBg_numbers().length) {
 						arraySize = contract.getBg_numbers().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getBg_values()) && contract.getBg_values().length > 0) {
+				if(!StringUtils.isEmpty(contract.getBg_values()) && contract.getBg_values().length > 0) {
 					contract.setBg_values(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_values()));
 					if(arraySize < contract.getBg_values().length) {
 						arraySize = contract.getBg_values().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getBg_valid_uptos()) && contract.getBg_valid_uptos().length > 0) {
+				if(!StringUtils.isEmpty(contract.getBg_valid_uptos()) && contract.getBg_valid_uptos().length > 0) {
 					contract.setBg_valid_uptos(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_valid_uptos()));
 					if(arraySize < contract.getBg_valid_uptos().length) {
 						arraySize = contract.getBg_valid_uptos().length;
 					}
 				}			
-				if(flag && !StringUtils.isEmpty(contract.getRemarkss()) && contract.getRemarkss().length > 0) {
+				if(!StringUtils.isEmpty(contract.getRemarkss()) && contract.getRemarkss().length > 0) {
 					contract.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(contract.getRemarkss()));
 					if(arraySize < contract.getRemarkss().length) {
 						arraySize = contract.getRemarkss().length;
@@ -305,43 +308,43 @@ public class ContractDaoImpl implements ContractDao {
 									+"VALUES (?,?,?,?,?,?,?,?)";
 				stmt = con.prepareStatement(Insurence_qry); 
 				arraySize = 0;
-				if(flag && !StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
 					contract.setInsurance_type_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurance_type_fks()));
 					if(arraySize < contract.getInsurance_type_fks().length) {
 						arraySize = contract.getInsurance_type_fks().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getIssuing_agencys()) && contract.getIssuing_agencys().length > 0) {
+				if(!StringUtils.isEmpty(contract.getIssuing_agencys()) && contract.getIssuing_agencys().length > 0) {
 					contract.setIssuing_agencys(CommonMethods.replaceEmptyByNullInSringArray(contract.getIssuing_agencys()));
 					if(arraySize < contract.getIssuing_agencys().length) {
 						arraySize = contract.getIssuing_agencys().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getAgency_addresss()) && contract.getAgency_addresss().length > 0) {
+				if(!StringUtils.isEmpty(contract.getAgency_addresss()) && contract.getAgency_addresss().length > 0) {
 					contract.setAgency_addresss(CommonMethods.replaceEmptyByNullInSringArray(contract.getAgency_addresss()));
 					if(arraySize < contract.getAgency_addresss().length) {
 						arraySize = contract.getAgency_addresss().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getInsurance_numbers()) && contract.getInsurance_numbers().length > 0) {
+				if(!StringUtils.isEmpty(contract.getInsurance_numbers()) && contract.getInsurance_numbers().length > 0) {
 					contract.setInsurance_numbers(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurance_numbers()));
 					if(arraySize < contract.getInsurance_numbers().length) {
 						arraySize = contract.getInsurance_numbers().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getInsurance_values()) && contract.getInsurance_values().length > 0) {
+				if(!StringUtils.isEmpty(contract.getInsurance_values()) && contract.getInsurance_values().length > 0) {
 					contract.setInsurance_values(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurance_values()));
 					if(arraySize < contract.getInsurance_values().length) {
 						arraySize = contract.getInsurance_values().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getInsurence_valid_uptos()) && contract.getInsurence_valid_uptos().length > 0) {
+				if(!StringUtils.isEmpty(contract.getInsurence_valid_uptos()) && contract.getInsurence_valid_uptos().length > 0) {
 					contract.setInsurence_valid_uptos(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurence_valid_uptos()));
 					if(arraySize < contract.getInsurence_valid_uptos().length) {
 						arraySize = contract.getInsurence_valid_uptos().length;
 					}
 				}			
-				if(flag && !StringUtils.isEmpty(contract.getInsurence_remarks()) && contract.getInsurence_remarks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getInsurence_remarks()) && contract.getInsurence_remarks().length > 0) {
 					contract.setInsurence_remarks(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurence_remarks()));
 					if(arraySize < contract.getInsurence_remarks().length) {
 						arraySize = contract.getInsurence_remarks().length;
@@ -367,31 +370,31 @@ public class ContractDaoImpl implements ContractDao {
 									+"VALUES (?,?,?,?,?,?)";
 				stmt = con.prepareStatement(Milestone_qry); 
 				arraySize = 0; 
-				if(flag && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
+				if(!StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
 					contract.setMilestone_names(CommonMethods.replaceEmptyByNullInSringArray(contract.getMilestone_names()));
 					if(arraySize < contract.getMilestone_names().length) {
 						arraySize = contract.getMilestone_names().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
+				if(!StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
 					contract.setMilestone_dates(CommonMethods.replaceEmptyByNullInSringArray(contract.getMilestone_dates()));
 					if(arraySize < contract.getMilestone_dates().length) {
 						arraySize = contract.getMilestone_dates().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getActual_dates()) && contract.getActual_dates().length > 0) {
+				if(!StringUtils.isEmpty(contract.getActual_dates()) && contract.getActual_dates().length > 0) {
 					contract.setActual_dates(CommonMethods.replaceEmptyByNullInSringArray(contract.getActual_dates()));
 					if(arraySize < contract.getActual_dates().length) {
 						arraySize = contract.getActual_dates().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getRevisions()) && contract.getRevisions().length > 0) {
+				if(!StringUtils.isEmpty(contract.getRevisions()) && contract.getRevisions().length > 0) {
 					contract.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevisions()));
 					if(arraySize < contract.getRevisions().length) {
 						arraySize = contract.getRevisions().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getMile_remarks()) && contract.getMile_remarks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getMile_remarks()) && contract.getMile_remarks().length > 0) {
 					contract.setMile_remarks(CommonMethods.replaceEmptyByNullInSringArray(contract.getMile_remarks()));
 					if(arraySize < contract.getMile_remarks().length) {
 						arraySize = contract.getMile_remarks().length;
@@ -417,25 +420,25 @@ public class ContractDaoImpl implements ContractDao {
 				stmt = con.prepareStatement(Revision_qry); 
 				
 				arraySize = 0;
-				if(flag && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
+				if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 					contract.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevision_numbers()));
 					if(arraySize < contract.getRevision_numbers().length) {
 						arraySize = contract.getRevision_numbers().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getRevised_amounts()) && contract.getRevised_amounts().length > 0) {
+				if(!StringUtils.isEmpty(contract.getRevised_amounts()) && contract.getRevised_amounts().length > 0) {
 					contract.setRevised_amounts(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevised_amounts()));
 					if(arraySize < contract.getRevised_amounts().length) {
 						arraySize = contract.getRevised_amounts().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
+				if(!StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
 					contract.setRevised_docs(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevised_docs()));
 					if(arraySize < contract.getRevised_docs().length) {
 						arraySize = contract.getRevised_docs().length;
 					}
 				}
-				if(flag && !StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
+				if(!StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
 					contract.setRevision_remarks(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevision_remarks()));
 					if(arraySize < contract.getRevision_remarks().length) {
 						arraySize = contract.getRevision_remarks().length;
@@ -452,6 +455,82 @@ public class ContractDaoImpl implements ContractDao {
 					stmt.addBatch();
 				}
 				c = stmt.executeBatch();
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				
+				String key_personnel_qry = "INSERT into contract_key_personnel (name,mobile_no,email_id,contract_id_fk) "
+						  +"VALUES (?,?,?,?)";
+				stmt = con.prepareStatement(key_personnel_qry); 
+				
+				arraySize = 0;
+				if(!StringUtils.isEmpty(contract.getContractKeyPersonnelNames()) && contract.getContractKeyPersonnelNames().length > 0) {
+					contract.setContractKeyPersonnelNames(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractKeyPersonnelNames()));
+					if(arraySize < contract.getContractKeyPersonnelNames().length) {
+						arraySize = contract.getContractKeyPersonnelNames().length;
+					}
+				}
+				if(!StringUtils.isEmpty(contract.getContractKeyPersonnelMobileNos()) && contract.getContractKeyPersonnelMobileNos().length > 0) {
+					contract.setContractKeyPersonnelMobileNos(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractKeyPersonnelMobileNos()));
+					if(arraySize < contract.getContractKeyPersonnelMobileNos().length) {
+						arraySize = contract.getContractKeyPersonnelMobileNos().length;
+					}
+				}
+				if(!StringUtils.isEmpty(contract.getContractKeyPersonnelEmailIds()) && contract.getContractKeyPersonnelEmailIds().length > 0) {
+					contract.setContractKeyPersonnelEmailIds(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractKeyPersonnelEmailIds()));
+					if(arraySize < contract.getContractKeyPersonnelEmailIds().length) {
+						arraySize = contract.getContractKeyPersonnelEmailIds().length;
+					}
+				}
+				
+				for (int i = 0; i < arraySize; i++) {
+					int k = 1;
+					stmt.setString(k++,(contract.getContractKeyPersonnelNames().length > 0)?contract.getContractKeyPersonnelNames()[i]:null);
+					stmt.setString(k++,(contract.getContractKeyPersonnelMobileNos().length > 0)?contract.getContractKeyPersonnelMobileNos()[i]:null);
+					stmt.setString(k++,(contract.getContractKeyPersonnelEmailIds().length > 0)?contract.getContractKeyPersonnelEmailIds()[i]:null);
+					stmt.setString(k++,contract.getContract_id());
+					stmt.addBatch();
+				}
+				c = stmt.executeBatch();
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				
+				String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk) "
+						  +"VALUES (?,?,?)";
+				stmt = con.prepareStatement(documents_qry); 
+				
+				arraySize = 0;
+				if(!StringUtils.isEmpty(contract.getContractDocumentNames()) && contract.getContractDocumentNames().length > 0) {
+					contract.setContractDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractDocumentNames()));
+					if(arraySize < contract.getContractDocumentNames().length) {
+						arraySize = contract.getContractDocumentNames().length;
+					}
+				}
+				String[] documentNames = new String[arraySize];
+				if(!StringUtils.isEmpty(contract.getContractDocumentFiles()) && contract.getContractDocumentFiles().length > 0) {
+					if(arraySize < contract.getContractDocumentFiles().length) {
+						arraySize = contract.getContractDocumentFiles().length;
+					}
+					String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+					documentNames = new String[arraySize];
+					for (int i = 0; i < documentNames.length; i++) {
+						MultipartFile file = contract.getContractDocumentFiles()[i];
+						if (null != file && !file.isEmpty()){
+							String fileName = file.getOriginalFilename();
+							documentNames[i] = fileName;
+							FileUploads.singleFileSaving(file, saveDirectory, fileName);
+						}else {
+							documentNames[i] = null;
+						}
+					}
+				}
+				
+				for (int i = 0; i < arraySize; i++) {
+					int k = 1;
+					stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
+					stmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);					
+					stmt.setString(k++,contract.getContract_id());
+					stmt.addBatch();
+				}
+				c = stmt.executeBatch();
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 			}
 			
 			con.commit();
@@ -581,6 +660,9 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
 				contract.setMilestones(getMilestones(contract.getContract_id(),con));	
 				contract.setContract_revision(getContract_revision(contract.getContract_id(),con));	
+				
+				contract.setContractKeyPersonnels(getContractKeyPersonnels(contract.getContract_id(),con));	
+				contract.setContractDocuments(getContractDocuments(contract.getContract_id(),con));
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -591,6 +673,59 @@ public class ContractDaoImpl implements ContractDao {
 		}		
 		return contract;	
 		}
+
+	private List<Contract> getContractDocuments(String contract_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT name,attachment from contract_documents where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setName(resultSet.getString("name"));
+				obj.setAttachment(resultSet.getString("attachment"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+
+	private List<Contract> getContractKeyPersonnels(String contract_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT name,mobile_no,email_id from contract_key_personnel where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setName(resultSet.getString("name"));
+				obj.setMobile_no(resultSet.getString("mobile_no"));
+				obj.setEmail_id(resultSet.getString("email_id"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
 
 	private List<Contract> getContract_revision(String contract_id, Connection con) throws Exception {
 		PreparedStatement stmt = null;
@@ -782,43 +917,43 @@ public class ContractDaoImpl implements ContractDao {
 							+"VALUES (?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(BankG_qry);
 			
-					if(flag && !StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getBg_type_fks()) && contract.getBg_type_fks().length > 0) {
 						contract.setBg_type_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_type_fks()));
 						if(arraySize < contract.getBg_type_fks().length) {
 							arraySize = contract.getBg_type_fks().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getIssuing_banks()) && contract.getIssuing_banks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getIssuing_banks()) && contract.getIssuing_banks().length > 0) {
 						contract.setIssuing_banks(CommonMethods.replaceEmptyByNullInSringArray(contract.getIssuing_banks()));
 						if(arraySize < contract.getIssuing_banks().length) {
 							arraySize = contract.getIssuing_banks().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getBank_addresss()) && contract.getBank_addresss().length > 0) {
+					if(!StringUtils.isEmpty(contract.getBank_addresss()) && contract.getBank_addresss().length > 0) {
 						contract.setBank_addresss(CommonMethods.replaceEmptyByNullInSringArray(contract.getBank_addresss()));
 						if(arraySize < contract.getBank_addresss().length) {
 							arraySize = contract.getBank_addresss().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
+					if(!StringUtils.isEmpty(contract.getBg_numbers()) && contract.getBg_numbers().length > 0) {
 						contract.setBg_numbers(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_numbers()));
 						if(arraySize < contract.getBg_numbers().length) {
 							arraySize = contract.getBg_numbers().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getBg_values()) && contract.getBg_values().length > 0) {
+					if(!StringUtils.isEmpty(contract.getBg_values()) && contract.getBg_values().length > 0) {
 						contract.setBg_values(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_values()));
 						if(arraySize < contract.getBg_values().length) {
 							arraySize = contract.getBg_values().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getBg_valid_uptos()) && contract.getBg_valid_uptos().length > 0) {
+					if(!StringUtils.isEmpty(contract.getBg_valid_uptos()) && contract.getBg_valid_uptos().length > 0) {
 						contract.setBg_valid_uptos(CommonMethods.replaceEmptyByNullInSringArray(contract.getBg_valid_uptos()));
 						if(arraySize < contract.getBg_valid_uptos().length) {
 							arraySize = contract.getBg_valid_uptos().length;
 						}
 					}			
-					if(flag && !StringUtils.isEmpty(contract.getRemarkss()) && contract.getRemarkss().length > 0) {
+					if(!StringUtils.isEmpty(contract.getRemarkss()) && contract.getRemarkss().length > 0) {
 						contract.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(contract.getRemarkss()));
 						if(arraySize < contract.getRemarkss().length) {
 							arraySize = contract.getRemarkss().length;
@@ -851,43 +986,43 @@ public class ContractDaoImpl implements ContractDao {
 										+"VALUES (?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(Insurence_qry); 
 					arraySize = 0;
-					if(flag && !StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getInsurance_type_fks()) && contract.getInsurance_type_fks().length > 0) {
 						contract.setInsurance_type_fks(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurance_type_fks()));
 						if(arraySize < contract.getInsurance_type_fks().length) {
 							arraySize = contract.getInsurance_type_fks().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getIssuing_agencys()) && contract.getIssuing_agencys().length > 0) {
+					if(!StringUtils.isEmpty(contract.getIssuing_agencys()) && contract.getIssuing_agencys().length > 0) {
 						contract.setIssuing_agencys(CommonMethods.replaceEmptyByNullInSringArray(contract.getIssuing_agencys()));
 						if(arraySize < contract.getIssuing_agencys().length) {
 							arraySize = contract.getIssuing_agencys().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getAgency_addresss()) && contract.getAgency_addresss().length > 0) {
+					if(!StringUtils.isEmpty(contract.getAgency_addresss()) && contract.getAgency_addresss().length > 0) {
 						contract.setAgency_addresss(CommonMethods.replaceEmptyByNullInSringArray(contract.getAgency_addresss()));
 						if(arraySize < contract.getAgency_addresss().length) {
 							arraySize = contract.getAgency_addresss().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getInsurance_numbers()) && contract.getInsurance_numbers().length > 0) {
+					if(!StringUtils.isEmpty(contract.getInsurance_numbers()) && contract.getInsurance_numbers().length > 0) {
 						contract.setInsurance_numbers(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurance_numbers()));
 						if(arraySize < contract.getInsurance_numbers().length) {
 							arraySize = contract.getInsurance_numbers().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getInsurance_values()) && contract.getInsurance_values().length > 0) {
+					if(!StringUtils.isEmpty(contract.getInsurance_values()) && contract.getInsurance_values().length > 0) {
 						contract.setInsurance_values(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurance_values()));
 						if(arraySize < contract.getInsurance_values().length) {
 							arraySize = contract.getInsurance_values().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getInsurence_valid_uptos()) && contract.getInsurence_valid_uptos().length > 0) {
+					if(!StringUtils.isEmpty(contract.getInsurence_valid_uptos()) && contract.getInsurence_valid_uptos().length > 0) {
 						contract.setInsurence_valid_uptos(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurence_valid_uptos()));
 						if(arraySize < contract.getInsurence_valid_uptos().length) {
 							arraySize = contract.getInsurence_valid_uptos().length;
 						}
 					}			
-					if(flag && !StringUtils.isEmpty(contract.getInsurence_remarks()) && contract.getInsurence_remarks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getInsurence_remarks()) && contract.getInsurence_remarks().length > 0) {
 						contract.setInsurence_remarks(CommonMethods.replaceEmptyByNullInSringArray(contract.getInsurence_remarks()));
 						if(arraySize < contract.getInsurence_remarks().length) {
 							arraySize = contract.getInsurence_remarks().length;
@@ -919,31 +1054,31 @@ public class ContractDaoImpl implements ContractDao {
 										+"VALUES (?,?,?,?,?,?)";
 					stmt = con.prepareStatement(Milestone_qry); 
 					arraySize = 0; 
-					if(flag && !StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
+					if(!StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
 						contract.setMilestone_names(CommonMethods.replaceEmptyByNullInSringArray(contract.getMilestone_names()));
 						if(arraySize < contract.getMilestone_names().length) {
 							arraySize = contract.getMilestone_names().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
+					if(!StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
 						contract.setMilestone_dates(CommonMethods.replaceEmptyByNullInSringArray(contract.getMilestone_dates()));
 						if(arraySize < contract.getMilestone_dates().length) {
 							arraySize = contract.getMilestone_dates().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getActual_dates()) && contract.getActual_dates().length > 0) {
+					if(!StringUtils.isEmpty(contract.getActual_dates()) && contract.getActual_dates().length > 0) {
 						contract.setActual_dates(CommonMethods.replaceEmptyByNullInSringArray(contract.getActual_dates()));
 						if(arraySize < contract.getActual_dates().length) {
 							arraySize = contract.getActual_dates().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getRevisions()) && contract.getRevisions().length > 0) {
+					if(!StringUtils.isEmpty(contract.getRevisions()) && contract.getRevisions().length > 0) {
 						contract.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevisions()));
 						if(arraySize < contract.getRevisions().length) {
 							arraySize = contract.getRevisions().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getMile_remarks()) && contract.getMile_remarks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getMile_remarks()) && contract.getMile_remarks().length > 0) {
 						contract.setMile_remarks(CommonMethods.replaceEmptyByNullInSringArray(contract.getMile_remarks()));
 						if(arraySize < contract.getMile_remarks().length) {
 							arraySize = contract.getMile_remarks().length;
@@ -975,25 +1110,25 @@ public class ContractDaoImpl implements ContractDao {
 					stmt = con.prepareStatement(Revision_qry); 
 					
 					arraySize = 0;
-					if(flag && !StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
+					if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 						contract.setRevision_numbers(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevision_numbers()));
 						if(arraySize < contract.getRevision_numbers().length) {
 							arraySize = contract.getRevision_numbers().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getRevised_amounts()) && contract.getRevised_amounts().length > 0) {
+					if(!StringUtils.isEmpty(contract.getRevised_amounts()) && contract.getRevised_amounts().length > 0) {
 						contract.setRevised_amounts(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevised_amounts()));
 						if(arraySize < contract.getRevised_amounts().length) {
 							arraySize = contract.getRevised_amounts().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
+					if(!StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
 						contract.setRevised_docs(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevised_docs()));
 						if(arraySize < contract.getRevised_docs().length) {
 							arraySize = contract.getRevised_docs().length;
 						}
 					}
-					if(flag && !StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
+					if(!StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
 						contract.setRevision_remarks(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevision_remarks()));
 						if(arraySize < contract.getRevision_remarks().length) {
 							arraySize = contract.getRevision_remarks().length;
@@ -1010,6 +1145,95 @@ public class ContractDaoImpl implements ContractDao {
 						stmt.addBatch();
 					}
 					c = stmt.executeBatch();
+					
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					deleteQry = "DELETE from contract_key_personnel where contract_id_fk = ?";		 
+					stmt = con.prepareStatement(deleteQry);
+					stmt.setString(1,contract.getContract_id()); 
+					stmt.executeUpdate();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					String key_personnel_qry = "INSERT into contract_key_personnel (name,mobile_no,email_id,contract_id_fk) "
+							  +"VALUES (?,?,?,?)";
+					stmt = con.prepareStatement(key_personnel_qry); 
+					
+					arraySize = 0;
+					if(!StringUtils.isEmpty(contract.getContractKeyPersonnelNames()) && contract.getContractKeyPersonnelNames().length > 0) {
+						contract.setContractKeyPersonnelNames(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractKeyPersonnelNames()));
+						if(arraySize < contract.getContractKeyPersonnelNames().length) {
+							arraySize = contract.getContractKeyPersonnelNames().length;
+						}
+					}
+					if(!StringUtils.isEmpty(contract.getContractKeyPersonnelMobileNos()) && contract.getContractKeyPersonnelMobileNos().length > 0) {
+						contract.setContractKeyPersonnelMobileNos(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractKeyPersonnelMobileNos()));
+						if(arraySize < contract.getContractKeyPersonnelMobileNos().length) {
+							arraySize = contract.getContractKeyPersonnelMobileNos().length;
+						}
+					}
+					if(!StringUtils.isEmpty(contract.getContractKeyPersonnelEmailIds()) && contract.getContractKeyPersonnelEmailIds().length > 0) {
+						contract.setContractKeyPersonnelEmailIds(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractKeyPersonnelEmailIds()));
+						if(arraySize < contract.getContractKeyPersonnelEmailIds().length) {
+							arraySize = contract.getContractKeyPersonnelEmailIds().length;
+						}
+					}
+					
+					for (int i = 0; i < arraySize; i++) {
+						int k = 1;
+						stmt.setString(k++,(contract.getContractKeyPersonnelNames().length > 0)?contract.getContractKeyPersonnelNames()[i]:null);
+						stmt.setString(k++,(contract.getContractKeyPersonnelMobileNos().length > 0)?contract.getContractKeyPersonnelMobileNos()[i]:null);
+						stmt.setString(k++,(contract.getContractKeyPersonnelEmailIds().length > 0)?contract.getContractKeyPersonnelEmailIds()[i]:null);
+						stmt.setString(k++,contract.getContract_id());
+						stmt.addBatch();
+					}
+					c = stmt.executeBatch();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					deleteQry = "DELETE from contract_documents where contract_id_fk = ?";		 
+					stmt = con.prepareStatement(deleteQry);
+					stmt.setString(1,contract.getContract_id()); 
+					stmt.executeUpdate();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk) "
+							  +"VALUES (?,?,?)";
+					stmt = con.prepareStatement(documents_qry); 
+					
+					arraySize = 0;
+					if(!StringUtils.isEmpty(contract.getContractDocumentNames()) && contract.getContractDocumentNames().length > 0) {
+						contract.setContractDocumentNames(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractDocumentNames()));
+						if(arraySize < contract.getContractDocumentNames().length) {
+							arraySize = contract.getContractDocumentNames().length;
+						}
+					}
+					String[] documentNames = new String[arraySize];
+					if(!StringUtils.isEmpty(contract.getContractDocumentFiles()) && contract.getContractDocumentFiles().length > 0) {
+						if(arraySize < contract.getContractDocumentFiles().length) {
+							arraySize = contract.getContractDocumentFiles().length;
+						}
+						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+						documentNames = new String[arraySize];
+						for (int i = 0; i < documentNames.length; i++) {
+							MultipartFile file = contract.getContractDocumentFiles()[i];
+							if (null != file && !file.isEmpty()){
+								String fileName = file.getOriginalFilename();
+								documentNames[i] = fileName;
+								FileUploads.singleFileSaving(file, saveDirectory, fileName);
+							}else {
+								documentNames[i] = null;
+							}
+						}
+					}
+					
+					for (int i = 0; i < arraySize; i++) {
+						int k = 1;
+						stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
+						stmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);					
+						stmt.setString(k++,contract.getContract_id());
+						stmt.addBatch();
+					}
+					c = stmt.executeBatch();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 				}
 			
 				con.commit();

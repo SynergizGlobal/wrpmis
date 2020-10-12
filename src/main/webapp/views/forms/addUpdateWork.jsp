@@ -136,14 +136,25 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <input id="work_name" type="text" class="validate" name="work_name" value="${workDeatils.work_name }">
+                                    <textarea id="work_name" class="materialize-textarea" data-length="1000" name="work_name">${workDeatils.work_name }</textarea>
                                     <label for="work_name">Work Name</label>
                                      <span id="work_nameError"></span>
                                 </div>
 								 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                             <div class="row">
+                                <!-- row 4 -->
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <input id="work_short_name" type="text" class="validate" name="work_short_name" value="${workDeatils.work_short_name }">
+                                    <label for="work_short_name">Work Short Name</label>
+                                     <span id="work_short_nameError"></span>
+                                </div>
+								 <div class="col m2 hide-on-small-only"></div>
+                            </div>
 
-                        <div class="row">
+                        	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
                                     <div class="row"> 
@@ -453,6 +464,7 @@
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
+            $('#work_name').characterCounter();
             $('#remarks').characterCounter();
             // $(".datepicker").datepicker();          
             $('#sanctioned_year_icon').click(function () {
@@ -492,25 +504,25 @@
 		  			 	  },"work_name": {
 		  			 		required: true
 		  			 	  },"sanctioned_estimated_cost": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  },"completeion_period_months": {
-		  		 		    required: true
+		  		 		    required: false
 		  		 	   	  },"sanctioned_year": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  },"sanctioned_completion_cost": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }	,"anticipated_cost": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }	,"year_of_completion": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }	,"completion_cost": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }	,"railway_id_fk": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }	,"executed_by_id_fk": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }	,"remarks": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }		
 		  		 	},
 		  		    messages: {

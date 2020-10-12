@@ -1,3 +1,5 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -492,8 +494,7 @@
                                         
                                             <tr id="bankRow${index.count }">
                                                 <td> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
-                                                        <option value="" selected>Select
-                                                        </option>
+                                                        <option value="">Select</option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		                                    			   <option value="${obj.bg_type_fk }" <c:if test="${bankObj.bg_type_fk eq obj.bg_type_fk}">selected</c:if>>${obj.bg_type_fk }</option>
 		                                     			  </c:forEach>
@@ -1026,7 +1027,7 @@
 	                                <div class="row fixed-width">
 	                                    <h5 class="center-align">Key Personnel</h5>
 	                                    <div class="table-inside">
-	                                        <table id="example6" class="mdl-data-table">
+	                                        <table class="mdl-data-table">
 	                                            <thead>
 	                                                <tr>
 	                                                    <th>Name </th>
@@ -1035,83 +1036,144 @@
 	                                                    <th>Action</th>
 	                                                </tr>
 	                                            </thead>
-	                                            <tbody>
-	                                                <tr>
-	                                                    <td> <input id="person_name" type="text" class="validate"
-	                                                            placeholder="Name">
-	                                                    </td>
-	                                                    <td>
-	                                                        <input id="person_mobile" type="number" class="validate"
-	                                                            placeholder="Mobile No">
-	                                                    </td>
-	                                                    <td>
-	                                                        <input id="person_email" type="text" class="validate"
-	                                                            placeholder="Email">
-	                                                    </td>
-	                                                    <td>
-	                                                        <a href="#" class="btn waves-effect waves-light red t-c "> <i
-	                                                                class="fa fa-close"></i></a>
-	                                                    </td>
-	                                                </tr>
-	                                                <tr>
-	                                                    <td></td>
-	                                                    <td></td>
-	                                                    <td></td>
-	                                                    <td>
-	                                                        <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
-	                                                                class="fa fa-plus"></i></a>
-	                                                    </td>
-	                                                </tr>
+	                                            <tbody id="keyPersonnelTableBody">
+	                                            <c:choose>
+			                                        <c:when test="${not empty contractDeatils.contractKeyPersonnels  && fn:length(contractDeatils.contractKeyPersonnels ) gt 0 }">			                                          
+				                                        <c:forEach var="keyObj" items="${contractDeatils.contractKeyPersonnels }" varStatus="index">  
+			                                                <tr id="keyPersonnelRow${index.count }">
+			                                                    <td> <input id="contractKeyPersonnelNames${index.count }" name="contractKeyPersonnelNames" type="text" value="${keyObj.name }" class="validate" placeholder="Name">
+			                                                    </td>
+			                                                    <td>
+			                                                        <input id="contractKeyPersonnelMobileNos${index.count }" name="contractKeyPersonnelMobileNos" type="number" value="${keyObj.mobile_no }" class="validate" placeholder="Mobile No">
+			                                                    </td>
+			                                                    <td>
+			                                                        <input id="contractKeyPersonnelEmailIds${index.count }" name="contractKeyPersonnelEmailIds" type="text" value="${keyObj.email_id }" class="validate" placeholder="Email">
+			                                                    </td>
+			                                                    <td>
+			                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('${index.count }');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+			                                                    </td>
+			                                                </tr>
+		                                                </c:forEach>
+	                                           		</c:when>
+	                                             	<c:otherwise>
+	                                             		<tr id="keyPersonnelRow0">
+		                                                    <td> <input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
+		                                                    </td>
+		                                                    <td>
+		                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">
+		                                                    </td>
+		                                                    <td>
+		                                                        <input id="contractKeyPersonnelEmailIds0" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">
+		                                                    </td>
+		                                                    <td>
+		                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
+		                                                    </td>
+		                                                </tr>
+	                                             	</c:otherwise>
+                                            	</c:choose> 
 	                                            </tbody>
 	                                        </table>
+	                                        
+	                                        <table class="mdl-data-table">
+		                                        <tbody id="revTableBody">                                          
+		                                            <tr>
+														<td colspan="4" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addKeyPersonnelRow()"> <i
+		                                                            class="fa fa-plus"></i></a></td>
+		                                              </tr>
+		                                        </tbody>
+		                                     </table>
+		                                   	 <c:choose>
+		                                        <c:when test="${not empty contractDeatils.contract_revision && fn:length(contractDeatils.contractKeyPersonnels) gt 0 }">
+		                                    		<input type="hidden" id="keyRowNo"  name="keyRowNo" value="${fn:length(contractDeatils.contractKeyPersonnels) }" />
+		                                    	</c:when>
+		                                     	<c:otherwise>
+		                                     		<input type="hidden" id="keyRowNo"  name="keyRowNo" value="0" />
+		                                     	</c:otherwise>
+		                                     </c:choose>  
+                                   	 
 	                                    </div>
 	                                </div>
 	                            </div>
 	
 	                            <div class="container" style="margin-bottom:30px">
-                               		<div class="row fixed-width">
-                                    <h5 class="center-align">Documents</h5>
-                                    <div class="table-inside">
-                                        <table id="example7" class="mdl-data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name </th>
-                                                    <th>Attachment</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td> <input id="doc_name" type="text" class="validate"
-                                                            placeholder="Name">
-                                                    </td>
-                                                    <td>
-                                                        <div class="normal-btn">
-                                                            <input type="file" name="doc_file" id="doc_file"
-                                                                style="display:none" />
-                                                            <label for="doc_file" class="btn bg-m"><i
-                                                                    class="fa fa-paperclip"></i></label>
-                                                            <span id="fileVal" class="filevalue">fileName</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#" class="btn waves-effect waves-light red t-c "> <i
-                                                                class="fa fa-close"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <a href="#" class="btn waves-effect waves-light bg-m t-c "> <i
-                                                                class="fa fa-plus"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            	</div>
+	                                <div class="row fixed-width">
+	                                    <h5 class="center-align">Documents</h5>
+	                                    <div class="table-inside">
+	                                        <table class="mdl-data-table">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>Name </th>
+	                                                    <th>Attachment</th>
+	                                                    <th>Action</th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody id="contractDocumentTableBody" >
+	                                             <c:choose>
+			                                        <c:when test="${not empty contractDeatils.contractDocuments  && fn:length(contractDeatils.contractDocuments ) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${contractDeatils.contractDocuments }" varStatus="index">  
+			                                                <tr id="contractDocumentRow${index.count }">
+			                                                    <td> <input id="contractDocumentNames${index.count }" name="contractDocumentNames" type="text" class="validate"
+			                                                            placeholder="Name" value="${docObj.name }">
+			                                                    </td>
+			                                                    <td>
+			                                                        <div class="normal-btn">
+			                                                            <input type="file" id="contractDocumentFiles${index.count }" name="contractDocumentFiles"
+			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
+			                                                            <label for="contractDocumentFiles${index.count }" class="btn bg-m"><i
+			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <a id="contractDocumentFileName${index.count }" class="filevalue" href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment }" donwload>${docObj.attachment }</a>
+			                                                        </div>
+			                                                    </td>
+			                                                    <td>
+			                                                        <a href="javascript:void(0);" onclick="removeContractDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+			                                                                class="fa fa-close"></i></a>
+			                                                    </td>
+			                                                </tr> 
+	                                                	</c:forEach>
+	                                           		</c:when>
+	                                             	<c:otherwise>
+	                                             		<tr id="contractDocumentRow0">
+		                                                    <td> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+		                                                            placeholder="Name">
+		                                                    </td>
+		                                                    <td>
+		                                                        <div class="normal-btn">
+		                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
+		                                                                style="display:none" onchange="getFileName('0')"/>
+		                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
+		                                                                    class="fa fa-paperclip"></i></label>
+		                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
+		                                                        </div>
+		                                                    </td>
+		                                                    <td>
+		                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
+		                                                                class="fa fa-close"></i></a>
+		                                                    </td>
+		                                                </tr>
+	                                             	</c:otherwise>
+                                            	</c:choose> 
+	                                            </tbody>
+	                                        </table>
+	                                        
+	                                        <table class="mdl-data-table">
+		                                        <tbody id="revTableBody">                                          
+		                                            <tr>
+														<td colspan="3" style="text-align: right;">	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
+		                                                            class="fa fa-plus"></i></a></td>
+		                                              </tr>
+		                                        </tbody>
+		                                     </table>
+		                                   	 <c:choose>
+		                                        <c:when test="${not empty contractDeatils.contract_revision && fn:length(contractDeatils.contractDocuments) gt 0 }">
+		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
+		                                    	</c:when>
+		                                     	<c:otherwise>
+		                                     		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
+		                                     	</c:otherwise>
+		                                     </c:choose> 
+	                                    </div>
+	                                </div>
+	                            </div>
 							</div>
                             <!-- new code  ends-->
                             
@@ -1372,43 +1434,43 @@
         	 	   	  },"doc": {
         		 		required: true
         		 	  },"awarded_cost": {
-        		 		required: true
+        		 		required: false
         		 	  },"date_of_start": {
-        		 		required: true
+        		 		required: false
         		 	  },"estimated_cost": {
-        		 		required: true
+        		 		required: false
         		 	  },"loa_letter_number": {
-        		 		required: true
+        		 		required: false
         		 	  },"loa_date":{
-        		 		 required: true
+        		 		 required: false
         		 	  },"ca_no": {
-        	 		    required: true,
+        	 		    required: false
         	 	   	  },"ca_date": {
-        		 		required: true
+        		 		required: false
         		 	  },"actual_completion_date": {
-        	 		    required: true
+        	 		    required: false
         	 	   	  },"completed_cost": {
-        		 		required: true
+        		 		required: false
         		 	  },"contract_closure_date": {
-        		 		required: true
+        		 		required: false
         		 	  },"completion_certificate_release":{
-        		 		 required: true
+        		 		 required: false
         		 	  },"final_takeover": {
-        	 		    required: true,
+        	 		    required: false
         	 	   	  },"final_bill_release": {
-        		 		required: true
+        		 		required: false
         		 	  },"defect_liability_period": {
-        	 		    required: true
+        	 		    required: false
         	 	   	  },"retention_money_release": {
-        		 		required: true
+        		 		required: false
         		 	  },"pbg_release":{
-        		 		 required: true
+        		 		 required: false
         		 	  },"contract_closure":{
-        		 		 required: true
+        		 		 required: false
         		 	  },"contract_status_fk":{
-        		 		 required: true
+        		 		 required: false
         		 	  },"remarks":{
-        		 		 required: true
+        		 		 required: false
         		 	  }
         		 				
         	 	},
@@ -1581,153 +1643,208 @@
                 $(this).valid();
             }
         });
-    	  function addBankRow(){
+    	
+        function addBankRow(){
     		
-          var rowNo = $("#bankRowNo").val();
-          var rNo = Number(rowNo)+1;
-          var total = 0;
-          var html = '<tr id="bankRow'+rNo+'"><td> <div>'
-  		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'" class="searchable">'	   			
-  		   +'<option value="" >select</option>'
-  		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
-		  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
-			</c:forEach>
-  		   +'</select></div></td>'
-		   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
-		   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
-		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
-		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button" id="bg_upto_icon"><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
-	   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	 
-		 $('#bankTableBody').append(html);
-		 $("#bankRowNo").val(rNo);
-		 $('.searchable').select2();
-		 
-		 $("#bg_valid_uptos"+rNo).datepicker({
-         	 format:'dd-mm-yyyy',
-             onSelect: function () {
-  	    	     $('.confirmation-btns .datepicker-done').click();
-  	    	  }
-         });
+		          var rowNo = $("#bankRowNo").val();
+		          var rNo = Number(rowNo)+1;
+		          var total = 0;
+		          var html = '<tr id="bankRow'+rNo+'"><td> <div>'
+		  		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'" class="searchable">'	   			
+		  		   +'<option value="" >select</option>'
+		  		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
+				  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
+					</c:forEach>
+		  		   +'</select></div></td>'
+				   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
+				   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
+				   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
+				   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
+				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button" id="bg_upto_icon"><i class="fa fa-calendar"></i></button></td>'
+				   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
+			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+			 
+				 $('#bankTableBody').append(html);
+				 $("#bankRowNo").val(rNo);
+				 $('.searchable').select2();
+				 
+				 $("#bg_valid_uptos"+rNo).datepicker({
+		         	 format:'dd-mm-yyyy',
+		             onSelect: function () {
+		  	    	     $('.confirmation-btns .datepicker-done').click();
+		  	    	  }
+		         });
 		
+		} 
+		
+		
+		function removeBank(rowNo){
+			$("#bankRow"+rowNo).remove();
+		}
+		
+		function addInsurenceRow(){
+			
+		    var rowNo = $("#insurenceRowNo").val();
+		    var rNo = Number(rowNo)+1;
+		    console.log(rNo)
+		    var html = '<tr id="insurenceRow'+rNo+'"><td> <div>'
+			   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'"  class="searchable">'	   			
+			   +'<option value="" >select</option>'
+			   <c:forEach var="obj" items="${insurance_type }">
+				  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
+			  </c:forEach>
+			   +'</select></div></td>'
+			   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
+			   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
+			   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
+			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
+			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurance_upto_icon"><i class="fa fa-calendar"></i></button></td>'
+			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
+		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+		 		  
+			 $('#insurenceTableBody').append(html);
+			 $("#insurenceRowNo").val(rNo);
+			 $('.searchable').select2();
+			 $("#insurence_valid_uptos"+rNo).datepicker({
+			      	 format:'dd-mm-yyyy',
+			          onSelect: function () {
+				    	     $('.confirmation-btns .datepicker-done').click();
+				    	  }
+			      });
+			
+		} 
+		
+		
+		function removeInsurence(rowNo){
+			$("#insurenceRow"+rowNo).remove();
+		}
+		
+		function addMilestoneRow(){
+			
+		    var rowNo = $("#mileRowNo").val();
+		    var rNo = Number(rowNo)+1;
+		    var total = 0;
+		    var html = '<tr id="mileRow'+rNo+'">'
+			   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
+			   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_date_icon"><i class="fa fa-calendar"></i></button></td>'
+			   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_date_icon"><i  class="fa fa-calendar"></i></button></td>'
+			   +'<td><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
+			   +'<td>  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
+		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+			   +'</tr>';
+		
+			 $('#milestoneTableBody').append(html);
+			 $("#mileRowNo").val(rNo);
+			 $('.searchable').select2();
+			 
+			 $("#milestone_dates"+rNo).datepicker({
+			      	 format:'dd-mm-yyyy',
+			          onSelect: function () {
+				    	     $('.confirmation-btns .datepicker-done').click();
+				    	  }
+			      });
+			 $("#actual_dates"+rNo).datepicker({
+			      	 format:'dd-mm-yyyy',
+			          onSelect: function () {
+				    	     $('.confirmation-btns .datepicker-done').click();
+				    	  }
+			      });
+		
+		} 
+		
+		
+		function removeMilestone(rowNo){
+			$("#mileRow"+rowNo).remove();
+		}
+		function addRevRow(){
+			
+		    var rowNo = $("#revRowNo").val();
+		    var rNo = Number(rowNo)+1;
+		    var total = 0;
+		    var html = '<tr id="revRow'+rNo+'">'
+			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
+			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
+			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
+			   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
+			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
+		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+			   +'</tr>';
+		
+			 $('#revTableBody').append(html);
+			 $("#revRowNo").val(rNo);
+			 $('searchable').select2();
+			 
+			 $("#revised_docs"+rNo).datepicker({
+			      	 format:'dd-mm-yyyy',
+			          onSelect: function () {
+				    	     $('.confirmation-btns .datepicker-done').click();
+				    	  }
+			      });
+		
+		} 
+		
+		
+		function removeRev(rowNo){
+			$("#revRow"+rowNo).remove();
+		}
+		
+		
+		function addKeyPersonnelRow(){		
+			 var rowNo = $("#keyRowNo").val();
+			 var rNo = Number(rowNo)+1;
+			 var total = 0;
+			 var html = '<tr id="keyPersonnelRow'+rNo+'">'
+						 +'<td> <input id="contractKeyPersonnelNames'+rNo+'" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">'
+						 +'</td>'
+						 +'<td>'
+						 +'<input id="contractKeyPersonnelMobileNos'+rNo+'" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">'
+						 +'</td>'
+						 +'<td>'
+						 +'<input id="contractKeyPersonnelEmailIds'+rNo+'" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">'
+						 +'</td>'
+						 +'<td>'
+						 +'<a href="javascript:void(0);" onclick="removeKeyPersonnel('+rNo+');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
+						 +'</td>'
+				   		 +'</tr>';
+			
+				 $('#keyPersonnelTableBody').append(html);
+				 $("#keyRowNo").val(rNo);
+		}
+		
+		function removeKeyPersonnel(rowNo){
+			$("#keyPersonnelRow"+rowNo).remove();
+		}
 
-    
-
-} 
-
-
-function removeBank(rowNo){
-$("#bankRow"+rowNo).remove();
-}
-
-function addInsurenceRow(){
-	
-    var rowNo = $("#insurenceRowNo").val();
-    var rNo = Number(rowNo)+1;
-    console.log(rNo)
-    var html = '<tr id="insurenceRow'+rNo+'"><td> <div>'
-	   +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'"  class="searchable">'	   			
-	   +'<option value="" >select</option>'
-	   <c:forEach var="obj" items="${insurance_type }">
-		  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
-	  </c:forEach>
-	   +'</select></div></td>'
-	   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
-	   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
-	   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-	   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
-	   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurance_upto_icon"><i class="fa fa-calendar"></i></button></td>'
-	   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
- 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
- 		  
-	 $('#insurenceTableBody').append(html);
-	 $("#insurenceRowNo").val(rNo);
-	 $('.searchable').select2();
-	 $("#insurence_valid_uptos"+rNo).datepicker({
-	      	 format:'dd-mm-yyyy',
-	          onSelect: function () {
-		    	     $('.confirmation-btns .datepicker-done').click();
-		    	  }
-	      });
-	
-} 
-
-
-function removeInsurence(rowNo){
-	console.log("#insurenceRow"+rowNo)
-$("#insurenceRow"+rowNo).remove();
-}
-
-function addMilestoneRow(){
-	
-    var rowNo = $("#mileRowNo").val();
-    var rNo = Number(rowNo)+1;
-    var total = 0;
-    var html = '<tr id="mileRow'+rNo+'">'
-	   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-	   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_date_icon"><i class="fa fa-calendar"></i></button></td>'
-	   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_date_icon"><i  class="fa fa-calendar"></i></button></td>'
-	   +'<td><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-	   +'<td>  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
- 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	   +'</tr>';
-
-	 $('#milestoneTableBody').append(html);
-	 $("#mileRowNo").val(rNo);
-	 $('.searchable').select2();
-	 
-	 $("#milestone_dates"+rNo).datepicker({
-	      	 format:'dd-mm-yyyy',
-	          onSelect: function () {
-		    	     $('.confirmation-btns .datepicker-done').click();
-		    	  }
-	      });
-	 $("#actual_dates"+rNo).datepicker({
-	      	 format:'dd-mm-yyyy',
-	          onSelect: function () {
-		    	     $('.confirmation-btns .datepicker-done').click();
-		    	  }
-	      });
-
-} 
-
-
-function removeMilestone(rowNo){
-$("#mileRow"+rowNo).remove();
-}
-function addRevRow(){
-	
-    var rowNo = $("#revRowNo").val();
-    var rNo = Number(rowNo)+1;
-    var total = 0;
-    var html = '<tr id="revRow'+rNo+'">'
-	   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-	   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
-	   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
-	   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
-	   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
- 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
-	   +'</tr>';
-
-	 $('#revTableBody').append(html);
-	 $("#revRowNo").val(rNo);
-	 $('searchable').select2();
-	 
-	 $("#revised_docs"+rNo).datepicker({
-	      	 format:'dd-mm-yyyy',
-	          onSelect: function () {
-		    	     $('.confirmation-btns .datepicker-done').click();
-		    	  }
-	      });
-
-} 
-
-
-function removeRev(rowNo){
-$("#revRow"+rowNo).remove();
-}
+		function addContractDocumentRow(){		
+			 var rowNo = $("#documentRowNo").val();
+			 var rNo = Number(rowNo)+1;
+			 var total = 0;
+			 var html = '<tr id="contractDocumentRow'+rNo+'">'
+						 +'<td> <input id="contractDocumentNames'+rNo+'" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
+						 +'<td>'
+						 +'<div class="normal-btn">'
+						 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
+						 +'<label for="contractDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+						 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
+						 +'</div>'
+						 +'</td>'
+						 +'<td>'
+						 +'<a href="javascript:void(0);" onclick="removeContractDocument('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
+						 +'</td>'
+				   		 +'</tr>';
+			
+				 $('#contractDocumentTableBody').append(html);
+				 $("#documentRowNo").val(rNo);
+		} 
+		function removeContractDocument(rowNo){
+			$("#contractDocumentRow"+rowNo).remove();
+		}
+		
+		
+		function getFileName(rowNo){
+			var filename = $('#contractDocumentFiles'+rowNo)[0].files[0].name;
+		    $('#contractDocumentFileName'+rowNo).html(filename);
+		}
 
 
 

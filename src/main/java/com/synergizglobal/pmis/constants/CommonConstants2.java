@@ -5,6 +5,7 @@ import java.io.File;
 public class CommonConstants2 {
 	
 	public static final String USER_IMAGES = "/pmis/USER_IMAGES/";
+	public static final String CONTRACT_FILES = "/pmis/CONTRACT_FILES/";
 	
 	/*********** LOCAL ****************************************************/
 	

@@ -166,19 +166,12 @@ public class ContractController {
 			contract.setCompletion_certificate_release(DateParser.parse(contract.getCompletion_certificate_release()));		
 			contract.setFinal_takeover(DateParser.parse(contract.getFinal_takeover()));
 		
-			boolean flag =  contractservice.addContract(contract);
-			
-			  if(flag == true) {
-				  MultipartFile file = contract.getContractFile();
-					if (null != file && !file.isEmpty()){
-						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
-						String fileName = file.getOriginalFilename();
-						FileUploads.singleFileSaving(file, saveDirectory, fileName);}
-					
-				  attributes.addFlashAttribute("success", "Contract Added Succesfully."); 
-			  } else {
-			  attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
-			  }
+			boolean flag =  contractservice.addContract(contract);			
+			if(flag) {
+				attributes.addFlashAttribute("success", "Contract Added Succesfully."); 
+			} else {
+				attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
+			}
 		 }catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
 			logger.info("Project : " + e.getMessage());
@@ -272,16 +265,9 @@ public class ContractController {
 			contract.setFinal_takeover(DateParser.parse(contract.getFinal_takeover()));
 		
 			boolean flag =  contractservice.updateContract(contract);
-			if(flag == true) {
-				MultipartFile file = contract.getContractFile();
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}				
+			if(flag) {
 				attributes.addFlashAttribute("success", "Contract Updated Succesfully.");
-			}
-			else {
+			}else {
 				attributes.addFlashAttribute("error","Updating Contract is failed. Try again.");
 			}
 		}catch (Exception e) {

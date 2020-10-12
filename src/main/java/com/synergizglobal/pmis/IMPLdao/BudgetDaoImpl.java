@@ -57,9 +57,9 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> budgetList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="select budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,financial_year_fk,budget_estimate,budget_grant, " + 
-					"revised_estimate,revised_grant,final_estimate,final_grant " + 
-					"from budget b " + 
+			String qry ="select budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " + 
+					"cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " + 
+					",b.remarks from budget b " + 
 					"left join work w on b.work_id_fk = w.work_id " + 
 					"left join financial_year f on b.financial_year_fk = f.financial_year " + 
 					"left join project p on  w.project_id_fk = p.project_id where budget_id is not null";
@@ -101,8 +101,8 @@ public class BudgetDaoImpl implements BudgetDao {
 	public Budget getBudget(Budget obj)throws Exception{
 		Budget budget = null;
 		try {
-			String qry = "select budget_id, work_id_fk, b.financial_year_fk,w.project_id_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate," + 
-					"budget_grant, revised_grant, final_grant, b.remarks, b.attachment from budget b " + 
+			String qry = "select budget_id, work_id_fk, b.financial_year_fk,w.project_id_fk, cast(budget_estimate as CHAR) as budget_estimate, cast(august_review_estimate as CHAR) as august_review_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate," + 
+					"cast(budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant, b.remarks, b.attachment from budget b " + 
 					"left join work w on b.work_id_fk = w.work_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join financial_year f on b.financial_year_fk = f.financial_year where budget_id is not null";

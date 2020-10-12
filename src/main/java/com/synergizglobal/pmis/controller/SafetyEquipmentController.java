@@ -63,7 +63,6 @@ public class SafetyEquipmentController {
 	@Autowired
 	DesignService designService;
 	
-	
 	@Value("${common.error.message}")
 	public String commonError;
 	
@@ -92,7 +91,7 @@ public class SafetyEquipmentController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/get-safetyequipment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/get-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<SafetyEquipment> getDesigns(@ModelAttribute SafetyEquipment obj) {
 		List<SafetyEquipment> safetyEquipment = null;
@@ -105,7 +104,7 @@ public class SafetyEquipmentController {
 		return safetyEquipment;
 	}
 	
-	@RequestMapping(value = "/add-safetyequipment-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-safety-equipment-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addSafetyEquipmentForm(){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -116,12 +115,12 @@ public class SafetyEquipmentController {
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
 		}catch (Exception e) {
-			logger.info("SafetyEquipment : " + e.getMessage());
+			logger.info("addSafetyEquipmentForm : " + e.getMessage());
 		}
 		return model;
      }
 
-	@RequestMapping(value = "/get-safetyEquipment", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/get-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getSafetyEquipmentForm(@ModelAttribute SafetyEquipment obj){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -135,39 +134,38 @@ public class SafetyEquipmentController {
 			model.addObject("safetyDetails", safetyDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("SafetyEquipment : " + e.getMessage());
+			logger.info("getSafetyEquipmentForm : " + e.getMessage());
 		}
 		return model;
      }
 	
-	@RequestMapping(value = "/add-safetyequipment", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addSafetyEquipment(@ModelAttribute SafetyEquipment obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/safety-equipment");
 			obj.setValidity_date(DateParser.parse(obj.getValidity_date()));
 			boolean flag =  service.addSafetyEquipment(obj);
-			if(flag == true) {
-				
+			if(flag) {
 				attributes.addFlashAttribute("success", "SafetyEquipment Added Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error","Adding SafetyEquipment is failed. Try again.");
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding SafetyEquipment is failed. Try again.");
-			logger.info("SafetyEquipment : " + e.getMessage());
+			logger.info("addSafetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}
 
-	@RequestMapping(value = "/update-safetyequipment", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/update-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateSafetyEquipment(@ModelAttribute SafetyEquipment obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/safety-equipment");
 			obj.setValidity_date(DateParser.parse(obj.getValidity_date()));
 			boolean flag =  service.updateSafetyEquipment(obj);
-			if(flag == true) {
+			if(flag) {
 				attributes.addFlashAttribute("success", "SafetyEquipment Updated Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error","Updating SafetyEquipment is failed. Try again.");
@@ -175,29 +173,29 @@ public class SafetyEquipmentController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error","Updating SafetyEquipment is failed. Try again.");
-			logger.info("SafetyEquipment : " + e.getMessage());
+			logger.info("updateSafetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/delete-safetyequipment", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/delete-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView deleteSafetyEquipment(@ModelAttribute SafetyEquipment obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/safety-equipment");
 			boolean flag =  service.deleteSafetyEquipment(obj);
 		}catch (Exception e) {
-			logger.info("SafetyEquipment : " + e.getMessage());
+			logger.info("deleteSafetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/export-safetyequipment", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/export-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportSafetyEquipment(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute SafetyEquipment sObj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.safetyEquipmentGrid);
 		List<SafetyEquipment> dataList = new ArrayList<SafetyEquipment>();
 		try {
-			view.setViewName("redirect:/contractor");
+			view.setViewName("redirect:/safety-equipment");
 			dataList =  service.getSafetyEquipment(sObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
@@ -259,7 +257,7 @@ public class SafetyEquipmentController {
 				attributes.addFlashAttribute("error",dataExportNoData);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 	}
 }

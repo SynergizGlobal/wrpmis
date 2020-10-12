@@ -54,6 +54,17 @@
            .primary-text {
             color: #118AB2;
         }
+         .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.error-msg label{color:red!important;}
     </style>
 </head>
 
@@ -110,12 +121,13 @@
                                 <div class="col m4 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p><label> Financial Year</label></p>
-                                    <select class="searchable" name="financial_year_fk" id="financial_year_fk">
+                                    <select class="searchable validate-dropdown" name="financial_year_fk" id="financial_year_fk">
                                             <option value="" >Select Financial Year </option>
                                             	 <c:forEach var="obj" items="${financialYearList}">
 	                       						  <option value="${obj.financial_year }" <c:if test="${budgetDetails.financial_year_fk eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
 	                                             </c:forEach>
                                         </select>
+                                         <span id="financial_year_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m4 hide-on-small-only"></div>
                             </div>
@@ -145,12 +157,14 @@
                                                                     <i class="material-icons prefix center-align">₹</i>
                                                                     <input id="budget_estimate" type="text" name="budget_estimate"
                                                                         class="validate"  placeholder="Amount" value="${budgetDetails.budget_estimate }">
+                                                                        <span id="budget_estimateError" class="error-msg" ></span>
                                                                 </div>
+                                                                
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">August Review Estimate</span>
+                                                                <span class="primary-text">August Review<br> Estimate</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -255,15 +269,14 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
-                                            <input type="file" accept="image/x-png,image/jpeg" name=budgetFile id="budgetFile" >
-                                              <input name="attachment" id="attachment" type="hidden"  />
+                                            <input type="file" accept="image/x-png,image/jpeg" name=budgetFile id="budgetFile" onchange="getFileName()" >
+                                           
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment"  value="${budgetDetails.attachment }">
-                                          
-                                            
+                                            <input class="file-path validate" type="text" name="attachment"  value="${budgetDetails.attachment }" >
                                         </div>
                                     </div>
+                                      <a id="fileVal" class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${budgetDetails.attachment }" download>${budgetDetails.attachment }</a>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -303,7 +316,20 @@
             </div>
         </div>
     </div>
-     
+     <!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -325,10 +351,12 @@
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
             }
-            $('#budgetFile').change(function() {
-                $('#attachment').val($(this).val());
-          });
         });
+        
+        function getFileName(){
+        	var filename = $('#budgetFile')[0].files[0].name;
+		    $('#fileVal'+rowNo).html(filename);
+        }
         
         function getWorksList(projectId) {
         	$(".page-loader").show();
@@ -362,14 +390,74 @@
         }
         
         function addBudget(){
+        	 if(validator.form()){ // validation perform
         	$(".page-loader").show();	    		
    			document.getElementById("budgetForm").submit();			
    	 	 }
+        }
         function updateBudget(){
         	$(".page-loader").show();	    		
    			document.getElementById("budgetForm").submit();	
         }
         
+        var validator =	$('#budgetForm').validate({
+			 errorClass: "my-error-class",
+			   validClass: "my-valid-class",
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		   "project_id_fk": {
+	  			 		  required: true
+	  			 	  },"work_id_fk": {
+	  			 		  required: true
+	  			 	  },"financial_year_fk": {
+	  			 		  required: true
+	  			 	  },"budget_estimate": {
+	  			 		  required: false
+	  			 	  }	
+	  		 	},
+	  		    messages: {
+	  		 		   "project_id_fk": {
+	  			 		  required: 'Required'
+	  			 	  },"work_id_fk": {
+	  			 		  required: 'Required'
+	  			 	  },"financial_year_fk": {
+	  			 		  required: 'Required'
+	  			 	  },"budget_estimate": {
+	  			 		  required: 'Required'
+	  			 	  }		
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	  if(element.attr("id") == "project_id_fk" ){
+					     document.getElementById("project_id_fkError").innerHTML="";
+				 	     error.appendTo('#project_id_fkError');
+					 }else if(element.attr("id") == "work_id_fk" ){
+					     document.getElementById("work_id_fkError").innerHTML="";
+				 	     error.appendTo('#work_id_fkError');
+					 }else if(element.attr("id") == "financial_year_fk" ){
+					     document.getElementById("financial_year_fkError").innerHTML="";
+				 	     error.appendTo('#financial_year_fkError');
+					 }else if(element.attr("id") == "budget_estimate" ){
+					     document.getElementById("budget_estimateError").innerHTML="";
+				 	     error.appendTo('#budget_estimateError');
+					 }else{
+	 					 error.insertAfter(element);
+			        } 
+		   		},submitHandler:function(form){
+			    	form.submit();
+			    }
+			});   
+      
+	       $('select').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
+	
+	       $('input').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
     </script>
 
 

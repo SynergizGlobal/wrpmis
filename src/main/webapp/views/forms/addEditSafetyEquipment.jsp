@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -96,10 +97,10 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
 	                       	 <c:if test="${action eq 'edit'}">				                
-				                 	<form action="<%=request.getContextPath() %>/update-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+				                 	<form action="<%=request.getContextPath() %>/update-safety-equipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 	                         </c:if>
 				             <c:if test="${action eq 'add'}">				                
-				                	<form action="<%=request.getContextPath() %>/add-safetyequipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+				                	<form action="<%=request.getContextPath() %>/add-safety-equipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							 </c:if>
                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -135,7 +136,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-								<input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyDetails.safety_equipment_id}" />
+                            <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyDetails.safety_equipment_id}" />
                             <div class="row fixed-width" style="margin-bottom: 40px;">
                                 <h5 class="center-align">Equipment Details</h5>
                                 <div class="table-inside">
@@ -155,8 +156,10 @@
                                                       <c:choose>
                                       	 <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
                                        	 <c:forEach var="sObj" items="${safetyDetails.safetyEquipments }" varStatus="index"> 
+                                       	 
                                             <tr id="safetyRow${index.count }">
                                                 <td>
+                                                	<input type="hidden" name= "safety_equipment_ids" id="safety_equipment_ids${index.count }" value="${sObj.safety_equipment_id}" />
                                                     <input id="safety_equipment_numbers${index.count }" name="safety_equipment_numbers" type="text" class="validate" value="${sObj.safety_equipment_number }"
                                                         placeholder="Equipment No">
                                                 </td>
@@ -176,13 +179,13 @@
                                                 </td>
                                                 <td>
                                                     <div class="">
-                                                        <input type="file" name="SafetyEquipmentFile" id="attachments${index.count }"  
+                                                        <input type="file" name="SafetyEquipmentFile" id="SafetyEquipmentFile${index.count }" onchange="getFileName('${index.count }')"   
                                                             style="display:none" />
-                                                             <input name="attachments" id="attachmentss${index.count }" value="${sObj.attachment }" type="hidden" />
-                                                        <label for="attachments${index.count }" class="btn bg-m"><i
+                                                        <label for="SafetyEquipmentFile${index.count }" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
-                                                        <span id="fileVal${index.count }" class="filevalue" >${sObj.attachment }</span>
+                                                        <a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.SAFETY_EQUIPMENT_FILES %>${sObj.attachment }" download>${sObj.attachment }</a>
                                                     </div>
+                                                    <input type="hidden" id="safetyEquipmentFileNames${index.count }" name="safetyEquipmentFileNames" value="${sObj.attachment }">
                                                 </td>
                                                 <td>
                                                     <a onclick="removeSafety('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
@@ -190,21 +193,20 @@
                                                 </td>
                                             </tr>
                                             <script>
-		                                            $("#attachments${index.count }").change(function () {
-		                                            	alert()
-		                                                filename1 = $('#attachments${index.count }')[0].value;
+		                                            $("#SafetyEquipmentFile${index.count }").change(function () {
+		                                                filename1 = $('#SafetyEquipmentFile${index.count }')[0].value;
 		                                                $('#fileVal${index.count }').html(filename1);
 		                                                console.log(filename1)
 		                                            });
-		                                            $('#attachments${index.count }').change(function() {
-	                                                    $('#attachmentss${index.count }').val($(this).val());
-	                                              });
+		                                           
                                             </script>
                                           </c:forEach>
                                        </c:when>
                                        	<c:otherwise>
                                        	 <tr id="safetyRow0">
                                                 <td>
+                                                    <input type="hidden" name= "safety_equipment_ids" id="safety_equipment_ids0" />
+                                                
                                                     <input id="safety_equipment_numbers0" name="safety_equipment_numbers" type="text" class="validate"  
                                                         placeholder="Equipment No">
                                                 </td>
@@ -224,13 +226,13 @@
                                                 </td>
                                                 <td>
                                                     <div class="">
-                                                        <input type="file" name="SafetyEquipmentFile" id="attachments0"   
+                                                        <input type="file" name="SafetyEquipmentFile" id="SafetyEquipmentFile0"   
                                                             style="display:none" />
-                                                           <input name="attachments" id="attachmentss0" type="hidden" />
-                                                        <label for="attachments0" class="btn bg-m"><i
-                                                                class="fa fa-paperclip"></i></label>
-                                                        <span id="fileVal0" class="filevalue" >fileName</span>
+                                                           <input name="SafetyEquipmentFile" id="SafetyEquipmentFiles0" type="hidden"  onchange="getFileName('0')"/>
+                                                        <label for="SafetyEquipmentFile0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+                                                        <span id="fileVal0" class="filevalue" ></span>
                                                     </div>
+                                                    <input type="hidden" id="safetyEquipmentFileNames0" name="safetyEquipmentFileNames">
                                                 </td>
                                                 <td>
                                                     <a onclick="removeSafety('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -244,15 +246,11 @@
 			                                          	    	     $('.confirmation-btns .datepicker-done').click();
 			                                          	    	  }
 			                                                 });
-			                                                
-			                                                $("#attachments0").change(function () {
-				                                                filename1 = $('#attachments0')[0].value;
+			                                                $("#SafetyEquipmentFile0").change(function () {
+				                                                filename1 = $('#SafetyEquipmentFile0')[0].value;
 				                                                $('#fileVal0').html(filename1);
 				                                                console.log(filename1)
 				                                            });
-			                                                $('#attachments0').change(function() {
-			                                                    $('#attachmentss0').val($(this).val());
-			                                              });
 		                                           
 		                                      </script>
                                     	  </c:otherwise>
@@ -429,37 +427,28 @@
             var rNo = Number(rowNo)+1;
           
              var html = '<tr id="safetyRow'+rNo+'">'
-    				   +'<td> <input id="safety_equipment_numbers'+rNo+'" name="safety_equipment_numbers" type="text" class="validate" placeholder="Equipment No"></td>'
+    				   +'<td>'
+    				   +' <input type="hidden" name= "safety_equipment_ids" id="safety_equipment_ids'+rNo+'" />'
+             			+'<input id="safety_equipment_numbers'+rNo+'" name="safety_equipment_numbers" type="text" class="validate" placeholder="Equipment No"></td>'
     				   +'<td> <input id="safety_equipment_details'+rNo+'" name="safety_equipment_details" type="text" class="validate" placeholder="Equipment Details"></td>'
     				   +'<td><input id="validity_dates'+rNo+'" name="validity_dates" type="text" class="validate datepicker" placeholder="Validity of Equipment"><button type="button" id="validity_1_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
     				   +'<td><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
-    			   	   +'<td><div class=""> <input type="file" name="SafetyEquipmentFile" id="attachments'+rNo+'"  multiple style="display:none" />  <input name="attachments" id="attachmentss'+rNo+'" type="hidden" /> <label for="attachments'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+'" class="filevalue">fileName</span> </div></td>'
+    			   	   +'<td><div class=""> <input type="file" name="SafetyEquipmentFile" id="SafetyEquipmentFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')" /> '
+    			   	   +'<label for="SafetyEquipmentFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+    			   	   +'<input type="hidden" id="safetyEquipmentFileNames'+rNo+'" name="safetyEquipmentFileNames">'
+                       +'<span id="fileVal'+rNo+'" class="filevalue" ></span> </div>'
+                       +'</td>'
     				   +'<td> <a onclick="removeSafety('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
 
     				 $('#safetyTableBody').append(html);
     				 $("#rowNo").val(rNo);
-    				// $('select').formSelect();
     				 $('.searchable').select2();
     				  $("#validity_dates"+rNo).datepicker({
-                      	
                       	 format:'dd-mm-yyyy',
                           onSelect: function () {
                	    	     $('.confirmation-btns .datepicker-done').click();
                	    	  }
                       });
-    				  $("#attachments"+rNo).change(function () {
-                          filename2 = $('#attachments'+rNo)[0].value;
-                          $('#fileVal'+rNo).html(filename2);
-                          console.log(filename2)
-                      });
-    				  $("#attachmentss"+rNo).change(function () {
-                          filename2 = $('#attachmentss'+rNo)[0].value;
-                          $('#fileVal'+rNo).html(filename2);
-                          console.log(filename2)
-                      });
-    				  $('#attachments'+rNo).change(function() {
-                          $('#attachmentss'+rNo).val($(this).val());
-                    });
     				  
          } 
    
@@ -469,6 +458,10 @@
         	$("#safetyRow"+rowNo).remove();
         }
         
+        function getFileName(rowNo){
+			var filename = $('#SafetyEquipmentFile'+rowNo)[0].files[0].name;
+		    $('#fileVal'+rowNo).html(filename);
+		}
         
         function addSafetyEquipment(){
         	$(".page-loader").show();	    		

@@ -13,6 +13,9 @@ public class CommonConstants {
 	public final static String  ACTIVE = "Active";
 	public final static String  INACTIVE = "Inactive";
 	
+	public final static String SAFETY_EQUIPMENT_FILES = "/pmis/SAFETY_EQUIPMENT_FILES/";
+	public final static String BUDGET_FILES = "/pmis/BUDGET_FILES/";
+	
 	/*********** LOCAL ****************************************************/
 	
 	public final static String LOGIN_BACKGROUND_IMAGE = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;

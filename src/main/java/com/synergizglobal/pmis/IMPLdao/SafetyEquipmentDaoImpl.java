@@ -111,8 +111,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	@Override
 	public boolean addSafetyEquipment(SafetyEquipment obj)throws Exception{
 		Connection con = null;
-		PreparedStatement stmt = null;
-		int[] c = {};
+		PreparedStatement insertStmt = null;
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
@@ -120,8 +119,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?)";
-			stmt = con.prepareStatement(insertQry);
-		int	arraySize = 0;
+			insertStmt = con.prepareStatement(insertQry);
+			int	arraySize = 0;
 			
 			if( !StringUtils.isEmpty(obj.getSafety_equipment_numbers()) && obj.getSafety_equipment_numbers().length > 0) {
 				obj.setSafety_equipment_numbers(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_numbers()));
@@ -144,34 +143,58 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 				if(arraySize < obj.getRemarkss().length) {
 					arraySize = obj.getRemarkss().length;
 				}
-			}if( !StringUtils.isEmpty(obj.getAttachments()) && obj.getAttachments().length > 0) {
-				obj.setAttachments(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttachments()));
-				if(arraySize < obj.getAttachments().length) {
-					arraySize = obj.getAttachments().length;
-				}
-			}
-			for (int i = 0; i < arraySize; i++) {
-			    int k = 1;
-			    stmt.setString(k++,(obj.getContract_id_fk().length() > 0)?obj.getContract_id_fk():null);
-			    stmt.setString(k++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
-			    stmt.setString(k++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
-				stmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
-			    stmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-			    stmt.setString(k++,(obj.getAttachments().length > 0)?obj.getAttachments()[i]:null);
-			    MultipartFile file = obj.getSafetyEquipmentFile();
-			    if (null != file && !file.isEmpty()){
-			    	String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-			    }
-			   
-				stmt.addBatch();
 			}
 			
-				c = stmt.executeBatch();
-				if(stmt != null){stmt.close();}
-
-			if(c.length > 0) {
+			if( !StringUtils.isEmpty(obj.getSafety_equipment_ids()) && obj.getSafety_equipment_ids().length > 0) {
+				obj.setSafety_equipment_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_ids()));
+				if(arraySize < obj.getSafety_equipment_ids().length) {
+					arraySize = obj.getSafety_equipment_ids().length;
+				}
+			}
+			if( !StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()) && obj.getSafetyEquipmentFileNames().length > 0) {
+				obj.setSafetyEquipmentFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafetyEquipmentFileNames()));
+				if(arraySize < obj.getSafetyEquipmentFileNames().length) {
+					arraySize = obj.getSafetyEquipmentFileNames().length;
+				}
+			}
+			
+			
+			String[] documentNames = new String[arraySize];
+			if(!StringUtils.isEmpty(obj.getSafetyEquipmentFile()) && obj.getSafetyEquipmentFile().length > 0) {
+				if(arraySize < obj.getSafetyEquipmentFile().length) {
+					arraySize = obj.getSafetyEquipmentFile().length;
+				}
+				String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
+				documentNames = new String[arraySize];
+				for (int i = 0; i < documentNames.length; i++) {
+					MultipartFile file = obj.getSafetyEquipmentFile()[i];
+					if (null != file && !file.isEmpty()){
+						String fileName = file.getOriginalFilename();
+						documentNames[i] = fileName;
+						FileUploads.singleFileSaving(file, saveDirectory, fileName);
+					} else if (!StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()[i])){
+						documentNames[i] = obj.getSafetyEquipmentFileNames()[i];
+					} else {
+						documentNames[i] = null;
+					}
+				}
+			}
+			
+			for (int i = 0; i < arraySize; i++) {
+			    int p = 1;
+			    insertStmt.setString(p++,(obj.getContract_id_fk()));
+			    insertStmt.setString(p++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
+			    insertStmt.setString(p++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
+			    insertStmt.setString(p++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
+			    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+			    insertStmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
+			    insertStmt.addBatch();
+			}
+			
+			
+			int[] insertCount = insertStmt.executeBatch();		
+				
+			if(insertCount.length > 0) {
 				flag = true;
 			}
 		 
@@ -185,7 +208,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	@Override
 	public boolean updateSafetyEquipment(SafetyEquipment obj)throws Exception{
 		Connection con = null;
-		PreparedStatement stmt = null;
+		PreparedStatement updateStmt = null;
+		PreparedStatement insertStmt = null;
 		int[] c = {};
 		boolean flag = false;
 		try {
@@ -194,7 +218,16 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					+ "contract_id_fk= ?, safety_equipment_number= ?, safety_equipment_detail=? ,"
 					+ "validity_date= ?, remarks= ?, attachment= ? "
 					+ "where safety_equipment_id= ?";
-			stmt = con.prepareStatement(updateQry);
+			
+			updateStmt = con.prepareStatement(updateQry);
+			
+			String insertQry = "INSERT INTO safety_equipment"
+					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment)"
+					+ "VALUES"
+					+ "(?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insertQry);
+			
+			
 			int	arraySize = 0;
 				
 				if( !StringUtils.isEmpty(obj.getSafety_equipment_numbers()) && obj.getSafety_equipment_numbers().length > 0) {
@@ -218,36 +251,82 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					if(arraySize < obj.getRemarkss().length) {
 						arraySize = obj.getRemarkss().length;
 					}
-				}if( !StringUtils.isEmpty(obj.getAttachments()) && obj.getAttachments().length > 0) {
-					obj.setAttachments(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttachments()));
-					if(arraySize < obj.getAttachments().length) {
-						arraySize = obj.getAttachments().length;
+				}
+				
+				if( !StringUtils.isEmpty(obj.getSafety_equipment_ids()) && obj.getSafety_equipment_ids().length > 0) {
+					obj.setSafety_equipment_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafety_equipment_ids()));
+					if(arraySize < obj.getSafety_equipment_ids().length) {
+						arraySize = obj.getSafety_equipment_ids().length;
 					}
 				}
-				for (int i = 0; i < arraySize; i++){
-				    int k = 1;
-				    stmt.setString(k++,(obj.getContract_id_fk().length() > 0)?obj.getContract_id_fk():null);
-				    stmt.setString(k++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
-				    stmt.setString(k++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
-					stmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
-				    stmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-				    stmt.setString(k++,(obj.getAttachments().length > 0)?obj.getAttachments()[i]:null);
-				    stmt.setString(k++,obj.getSafety_equipment_id());
-				    MultipartFile file = obj.getSafetyEquipmentFile();
-				    if (null != file && !file.isEmpty()){
-				    	String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
-						String fileName = file.getOriginalFilename();
-						FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				    }
-					stmt.addBatch();
+				
+				
+				if( !StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()) && obj.getSafetyEquipmentFileNames().length > 0) {
+					obj.setSafetyEquipmentFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getSafetyEquipmentFileNames()));
+					if(arraySize < obj.getSafetyEquipmentFileNames().length) {
+						arraySize = obj.getSafetyEquipmentFileNames().length;
+					}
 				}
-					c = stmt.executeBatch();
-					if(stmt != null){stmt.close();}
-
-			if(c.length > 0) {
-				flag = true;
-			}
+				
+				
+				String[] documentNames = new String[arraySize];
+				if(!StringUtils.isEmpty(obj.getSafetyEquipmentFile()) && obj.getSafetyEquipmentFile().length > 0) {
+					if(arraySize < obj.getSafetyEquipmentFile().length) {
+						arraySize = obj.getSafetyEquipmentFile().length;
+					}
+					String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
+					documentNames = new String[arraySize];
+					for (int i = 0; i < documentNames.length; i++) {
+						MultipartFile file = obj.getSafetyEquipmentFile()[i];
+						if (null != file && !file.isEmpty()){
+							String fileName = file.getOriginalFilename();
+							documentNames[i] = fileName;
+							FileUploads.singleFileSaving(file, saveDirectory, fileName);
+						} else if (!StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()[i])){
+							documentNames[i] = obj.getSafetyEquipmentFileNames()[i];
+						} else {
+							documentNames[i] = null;
+						}
+					}
+				}
+				
+				
+				for (int i = 0; i < arraySize; i++) {
+					String sId = obj.getSafety_equipment_ids()[i];
+					if(!StringUtils.isEmpty(sId)) {
+					    int k = 1;
+					    updateStmt.setString(k++,(obj.getContract_id_fk()));
+					    updateStmt.setString(k++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
+					    updateStmt.setString(k++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
+					    updateStmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
+					    updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+					    updateStmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);	
+					    updateStmt.setString(k++,(obj.getSafety_equipment_id()));
+					    updateStmt.addBatch();
+					} else {
+					    int p = 1;
+					    insertStmt.setString(p++,(obj.getContract_id_fk()));
+					    insertStmt.setString(p++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
+					    insertStmt.setString(p++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
+					    insertStmt.setString(p++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
+					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+					    insertStmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
+					    insertStmt.addBatch();
+					}
+				}
+				
+				
+				int[] updateCount = updateStmt.executeBatch();
+				
+				int[] insertCount = insertStmt.executeBatch();
+				
+			
+					
+				if(updateCount.length > 0 || insertCount.length > 0) {
+					flag = true;
+				}
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return flag;

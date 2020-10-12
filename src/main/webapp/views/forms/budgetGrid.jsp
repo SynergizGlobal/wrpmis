@@ -290,7 +290,6 @@
             }
         }).rows().remove().draw();
 		
-		
 		table.state.clear();		
 	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, financial_year_fk : financial_year_fk};
 	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/getBudget",type:"POST",data:myParams,success : function(data){    				

@@ -111,7 +111,7 @@ public class ContractorController {
 		try{
 			model.setViewName("redirect:/contractor");
 			boolean flag =  contractorService.addContractor(obj);
-			if(flag == true) {
+			if(flag) {
 				attributes.addFlashAttribute("success", "Contractor Added Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error","Adding Contractor is failed. Try again.");
@@ -129,7 +129,7 @@ public class ContractorController {
 		try{
 			model.setViewName("redirect:/contractor");
 			boolean flag =  contractorService.updateContractor(obj);
-			if(flag == true) {
+			if(flag) {
 				attributes.addFlashAttribute("success", "Contractor Updated Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error","Updating Contractor is failed. Try again.");

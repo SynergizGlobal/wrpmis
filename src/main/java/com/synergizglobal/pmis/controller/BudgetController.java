@@ -157,7 +157,7 @@ public class BudgetController {
 					FileUploads.singleFileSaving(file, saveDirectory, fileName);
 				}
 			boolean flag =  budgetService.addBudget(budget);
-			if(flag == true) {
+			if(flag) {
 				attributes.addFlashAttribute("success", "Budget Added Succesfully.");
 			}
 			else {
@@ -182,7 +182,7 @@ public class BudgetController {
 					FileUploads.singleFileSaving(file, saveDirectory, fileName);
 				}
 			boolean flag =  budgetService.updateBudget(budget);
-			if(flag == true) {
+			if(flag) {
 				attributes.addFlashAttribute("success", "Budget Updated Succesfully.");
 			}
 			else {

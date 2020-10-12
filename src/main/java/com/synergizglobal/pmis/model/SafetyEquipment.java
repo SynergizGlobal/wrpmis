@@ -7,6 +7,38 @@ import org.springframework.web.multipart.MultipartFile;
 public class SafetyEquipment {
 	private String safety_equipment_id, safety_equipment_number, safety_equipment_detail, validity_date,contract_id_fk,
 	project_id_fk,work_id_fk,project_name,work_name,contract_name,attachment,remarks,work_id,project_id,contract_id;
+	
+	private String[] safety_equipment_ids,safety_equipment_numbers, safety_equipment_details, validity_dates,contract_id_fks,attachments,remarkss,safetyEquipmentFileNames;
+	
+	
+	public String[] getSafetyEquipmentFileNames() {
+		return safetyEquipmentFileNames;
+	}
+
+	public void setSafetyEquipmentFileNames(String[] safetyEquipmentFileNames) {
+		this.safetyEquipmentFileNames = safetyEquipmentFileNames;
+	}
+
+	private List<SafetyEquipment> safetyEquipments;
+
+
+	private MultipartFile[] safetyEquipmentFile;
+	
+	public List<SafetyEquipment> getSafetyEquipments() {
+		return safetyEquipments;
+	}
+
+	public void setSafetyEquipments(List<SafetyEquipment> safetyEquipments) {
+		this.safetyEquipments = safetyEquipments;
+	}
+	
+	public String[] getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(String[] attachments) {
+		this.attachments = attachments;
+	}
 
 	public String getContract_id() {
 		return contract_id;
@@ -32,26 +64,7 @@ public class SafetyEquipment {
 		this.project_id = project_id;
 	}
 
-	private String[] safety_equipment_numbers, safety_equipment_details, validity_dates,contract_id_fks,attachments,remarkss;
 	
-	public String[] getAttachments() {
-		return attachments;
-	}
-
-	public void setAttachments(String[] attachments) {
-		this.attachments = attachments;
-	}
-
-	private List<SafetyEquipment> safetyEquipments;
-	public List<SafetyEquipment> getSafetyEquipments() {
-		return safetyEquipments;
-	}
-
-	public void setSafetyEquipments(List<SafetyEquipment> safetyEquipments) {
-		this.safetyEquipments = safetyEquipments;
-	}
-
-	private MultipartFile SafetyEquipmentFile;
 	
 
 
@@ -93,16 +106,6 @@ public class SafetyEquipment {
 
 	public void setRemarkss(String[] remarkss) {
 		this.remarkss = remarkss;
-	}
-
-	
-
-	public MultipartFile getSafetyEquipmentFile() {
-		return SafetyEquipmentFile;
-	}
-
-	public void setSafetyEquipmentFile(MultipartFile safetyEquipmentFile) {
-		SafetyEquipmentFile = safetyEquipmentFile;
 	}
 
 	public String getProject_name() {
@@ -199,6 +202,22 @@ public class SafetyEquipment {
 
 	public void setValidity_date(String validity_date) {
 		this.validity_date = validity_date;
+	}
+
+	public String[] getSafety_equipment_ids() {
+		return safety_equipment_ids;
+	}
+
+	public void setSafety_equipment_ids(String[] safety_equipment_ids) {
+		this.safety_equipment_ids = safety_equipment_ids;
+	}
+
+	public MultipartFile[] getSafetyEquipmentFile() {
+		return safetyEquipmentFile;
+	}
+
+	public void setSafetyEquipmentFile(MultipartFile[] safetyEquipmentFile) {
+		this.safetyEquipmentFile = safetyEquipmentFile;
 	}
 
 }

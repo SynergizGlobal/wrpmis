@@ -12,12 +12,15 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<!--     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" /> -->
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> -->
+    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
+    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <style>
         p a {
             color: blue
@@ -220,9 +223,9 @@
 	                },
 	                { orderable: false, 'aTargets': ['nosort'] }
 	            ],
-	            // "ScrollX": true,
-	            "scrollCollapse": true,
-	            "sScrollY": 400,
+	            "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
 	            initComplete: function () {
 	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	            }
@@ -266,9 +269,9 @@
                 },
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
-            // "ScrollX": true,
-            "scrollCollapse": true,
-            "sScrollY": 400,
+            "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
             initComplete: function () {
                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
             }

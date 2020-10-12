@@ -12,15 +12,11 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-<!--     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" /> -->
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> -->
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <style>
         p a {
             color: blue
@@ -79,14 +75,14 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-safetyequipment-form" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-safety-equipment-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Safety Equipment</strong></a>
                                 </div>
                             </div>
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="javascript:void(0);" onclick="exportSafetyEquipment()" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
@@ -194,11 +190,13 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+	
 	
 		<form name="getForm" id="getForm" method="post">
     		<input type="hidden" name="safety_equipment_id" id="safety_equipment_id" />
    	    </form>
-   	    <form action="<%=request.getContextPath() %>/export-contractor" name="exportSafetyEquipmentForm" id="exportSafetyEquipmentForm" target="_blank" method="post">	
+   	    <form action="<%=request.getContextPath() %>/export-safety-equipment" name="exportSafetyEquipmentForm" id="exportSafetyEquipmentForm" target="_blank" method="post">	
        		 <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
        		 <input type="hidden" name="safety_equipment_id" id="exportSafety_equipment_id" />
 		</form>
@@ -223,18 +221,15 @@
 	                },
 	                { orderable: false, 'aTargets': ['nosort'] }
 	            ],
-	            "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
+	            // "ScrollX": true,
+	            "scrollCollapse": true,
+	            "sScrollY": 400,
 	            initComplete: function () {
 	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	            }
 	        });
 	    	table.state.clear(); 
-			
-	    	
 	    	$('.close-message').delay(3000).fadeOut('slow');
-	    	
 	    	getSafetyEquiptmentList();
 	    });
     
@@ -245,13 +240,9 @@
     }
 
     function getSafetyEquiptmentList(){
-    	
     	var contract_id_fk = $("#contract_id_fk").val();
-    	
      	table = $('#datatable-safety').DataTable();
-		 
 		table.destroy();
-		
 		$.fn.dataTable.moment('DD-MMM-YYYY');
 		table = $('#datatable-safety').DataTable({
     		"bStateSave": true,
@@ -269,9 +260,9 @@
                 },
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
-            "sScrollX": "100%",
-            "sScrollXInner": "100%",
-            "bScrollCollapse": true,
+            // "ScrollX": true,
+            "scrollCollapse": true,
+            "sScrollY": 400,
             initComplete: function () {
                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
             }
@@ -281,7 +272,7 @@
 		table.state.clear();		
 	 
 	 	var myParams = {contract_id_fk : contract_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-safetyequipment",type:"POST",data:myParams,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-safety-equipment",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	         			var safety_equipment_id = "'"+val.safety_equipment_id+"'";
@@ -335,7 +326,7 @@
     	
     function getSafetyEquipmentId(safety_equipment_id){
     	$("#safety_equipment_id").val(safety_equipment_id);
-    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-safetyEquipment');
+    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-safety-equipment');
     	$('#getForm').submit();
     }
     
@@ -358,7 +349,7 @@
         }, function (isConfirm) {
             if (isConfirm) {
                // swal("Deleted!", "Record has been deleted", "success");
-            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-safetyequipment');
+            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-safety-equipment');
     	    	$('#getForm').submit();
            }else {
                 swal("Cancelled", "Record is safe :)", "error");
@@ -367,7 +358,7 @@
     }
     
 
-    function exportDesign(){
+    function exportSafetyEquipment(){
 	 var contract_id_fk  = $("#contract_id_fk ").val();
 	 var safety_equipment_id  = $("#safety_equipment_id ").val();
 

@@ -283,8 +283,9 @@
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,
-            "scrollCollapse": true,
-            "sScrollY": 400,
+            "sScrollX": "100%",
+             "sScrollXInner": "100%",
+             "bScrollCollapse": true,
             initComplete: function () {
                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
             }
@@ -296,7 +297,7 @@
 			if(data != null && data != '' && data.length > 0){    					
          		$.each(data,function(key,val){
          			var budget_id = "'"+val.budget_id+"'";
-                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit">Edit</a>'
+                    var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
 /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
  */                   	var rowArray = [];    	                 
                    	

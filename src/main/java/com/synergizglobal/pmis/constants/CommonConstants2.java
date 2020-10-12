@@ -6,6 +6,7 @@ public class CommonConstants2 {
 	
 	public static final String USER_IMAGES = "/pmis/USER_IMAGES/";
 	public static final String CONTRACT_FILES = "/pmis/CONTRACT_FILES/";
+	public static final String FOB_FILES = "/pmis/FOB_FILES/";
 	
 	/*********** LOCAL ****************************************************/
 	

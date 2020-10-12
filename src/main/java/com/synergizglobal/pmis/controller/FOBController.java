@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.util.StringUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -204,6 +206,8 @@ public class FOBController {
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
 				obj.setAttachment(fileName);
+			} else if(!StringUtils.isEmpty(obj.getAttachment())){
+				obj.setAttachment(obj.getAttachment());
 			}
 			boolean flag = fobService.updateFOB(obj);
 			if(flag) {

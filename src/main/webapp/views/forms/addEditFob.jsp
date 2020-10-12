@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -286,7 +287,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
- 							<div class="row">
+ 							<!-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
                                     <div class="file-field input-field">
@@ -300,7 +301,32 @@
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                            </div> -->
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+	                            <div class="col m8 s12">
+	                               <div class="file-field input-field">
+	                                   <div class="btn bg-m">
+	                                   	<c:if test="${not empty fob.attachment }">
+	                                       <span>Change Image</span>
+	                                       </c:if>
+	                                       <c:if test="${empty fob.attachment }">
+	                                       <span>Attach Image</span>
+	                                       </c:if>
+	                                       <input type="file" id="fobFile" name="fobFile" accept="image/*" onchange="readURL(this);">
+	                                   </div>
+	                                   <div class="file-path-wrapper">
+	                                       <input class="file-path validate" type="text">
+	                                       <img style="height: 20%;width: 20%;" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${fob.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
+	                                   </div>
+	                               </div>
+	                            </div>
+	                            <div class="col m2 hide-on-small-only"></div>
                             </div>
+                           
+                           <input type="hidden" id="attachment" name="attachment" value="${fob.attachment }" />
+                                
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -664,6 +690,21 @@
 		 function removeFOBDetails(rowNo){
         	$("#fobDetailsRow"+rowNo).remove();
          }
+		 
+		 function readURL(input) {
+	            if (input.files && input.files[0]) {
+	                var reader = new FileReader();
+
+	                reader.onload = function (e) {
+	                    $('#fobImagePreview')
+	                        .attr('src', e.target.result)
+	                        //.width(150)
+	                        //.height(200);
+	                };
+
+	                reader.readAsDataURL(input.files[0]);
+	            }
+	        }
     </script>
 	
 </body>

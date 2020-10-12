@@ -14,7 +14,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.UserDao;
@@ -28,6 +32,10 @@ public class UserDaoImpl implements UserDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager ;
+	
 	
 	@Override
 	public List<User> getUserRoles() throws Exception {
@@ -315,7 +323,10 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean updateUser(User obj) throws Exception {
 		boolean flag = false;
-		try {
+		
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		try {			  
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE user SET user_name=:user_name,designation=:designation,email_id=:email_id,mobile_number=:mobile_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,user_image=:user_image "
 					+ "WHERE user_id = :user_id";		 
@@ -359,7 +370,10 @@ public class UserDaoImpl implements UserDao{
 			            });
 				
 			}
+			
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 		return flag;

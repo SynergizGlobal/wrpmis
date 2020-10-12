@@ -829,7 +829,7 @@
 	                                                <td>
 	                                                    <input id="milestone_dates${index.count }" name="milestone_dates" type="text" class="validate datepicker" value="${milestonesObj.milestone_date }"
 	                                                        placeholder="Milestone Date">
-	                                                    <button type="button" id="milestone_date_icon"><i
+	                                                    <button type="button" id="milestone_date_icon${index.count }"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
@@ -870,13 +870,13 @@
 	                                                <td>
 	                                                    <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Milestone Date">
-	                                                    <button type="button" id="milestone_date_icon${index.count }"><i
+	                                                    <button type="button" id="milestone_date_icon0"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
 	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Actual Date">
-	                                                    <button type="button" id="actual_date_icon${index.count }"><i
+	                                                    <button type="button" id="actual_date_icon0"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
@@ -893,7 +893,6 @@
 	                                            </tr>
 	                                              <script type="text/javascript">
 		                                                $("#milestone_dates0,#actual_dates0").datepicker({
-		                                                	
 		                                                 	 format:'dd-mm-yyyy',
 		                                                     onSelect: function () {
 		                                          	    	     $('.confirmation-btns .datepicker-done').click();
@@ -987,7 +986,7 @@
                                                 <td>
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
                                                         placeholder="Revised DOC">
-                                                    <button type="button" id="revised_doc_icon"><i
+                                                    <button type="button" id="revised_doc_icon0"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td> 
@@ -1744,8 +1743,8 @@
 		    var total = 0;
 		    var html = '<tr id="mileRow'+rNo+'">'
 			   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-			   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_date_icon"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_date_icon"><i  class="fa fa-calendar"></i></button></td>'
+			   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_date_icon'+rNo+'"><i class="fa fa-calendar"></i></button></td>'
+			   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_date_icon'+rNo+'"><i  class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td>  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
 		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -1783,7 +1782,7 @@
 			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
-			   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
+			   +'<button type="button" id="revised_doc_icon'+rNo+'"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
 		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';

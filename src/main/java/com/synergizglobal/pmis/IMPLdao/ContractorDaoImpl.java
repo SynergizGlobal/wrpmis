@@ -112,7 +112,7 @@ public class ContractorDaoImpl implements ContractorDao {
 		String contractorId = null;;
 		try{
 			con = dataSource.getConnection();
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(contractor_id, 1, LENGTH(contractor_id)-4),LPAD(MAX(SUBSTRING(contractor_id, 5, LENGTH(contractor_id)))+1,2,'0') ) AS maxId FROM contractor";
+			String maxIdQry = "SELECT CONCAT(SUBSTRING(contractor_id, 1, LENGTH(contractor_id)-4),LPAD(MAX(SUBSTRING(contractor_id, 5, LENGTH(contractor_id)))+1,4,'0') ) AS maxId FROM contractor";
 			stmt = con.prepareStatement(maxIdQry);
 			rs = stmt.executeQuery();  
 			if(rs.next()) {

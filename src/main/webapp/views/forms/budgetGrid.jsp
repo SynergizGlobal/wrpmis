@@ -298,8 +298,8 @@
          		$.each(data,function(key,val){
          			var budget_id = "'"+val.budget_id+"'";
                     var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit">Edit</a>'
-                    			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
-                   	var rowArray = [];    	                 
+/*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+ */                   	var rowArray = [];    	                 
                    	
                 	var workName = '';
                     if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }

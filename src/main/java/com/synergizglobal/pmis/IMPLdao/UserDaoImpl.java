@@ -431,4 +431,17 @@ public class UserDaoImpl implements UserDao{
 		return count;
 	}
 
+	@Override
+	public List<User> getPmisKeys() throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select pmis_key_fk from user";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 }

@@ -231,6 +231,22 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field "></div>
+                                <div class="col s12 m4 input-field">                                
+                                    <p>PMIS KEY</p>
+                                   	<select id="pmis_key_fk" name="pmis_key_fk" class="searchable validate-dropdown">
+                                       <option value="">Select</option>
+                                       <c:forEach var="obj" items="${pmisKeys }">
+                                       	<option value="${obj.pmis_key_fk }" <c:if test="${obj.pmis_key_fk eq usrObj.pmis_key_fk}">selected</c:if>>${obj.pmis_key_fk }</option>
+                                       </c:forEach>
+                                   </select>
+                                    <span id="pmis_key_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
 
 
                             <!-- insurance show hide div  -->
@@ -547,6 +563,8 @@
     				 		required: true
     				 	  },"remarks":{
     				 		 required: false
+    				 	  },"pmis_key_fk":{
+    				 		 required: false
     				 	  }
     				 				
     			 	},
@@ -573,7 +591,9 @@
     			 			required: 'Required'
     			 	  	 },"remarks":{
     			 	  		required: 'Required'
-    				 	  }
+    				 	 },"pmis_key_fk":{
+    				 		required: 'Required'
+   				 	  	 }
     			 				      
     		    },
     			  errorPlacement:
@@ -611,7 +631,10 @@
     			 	    }else if (element.attr("id") == "remarks" ){
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');
-    			 	    }
+    			 	    }else if (element.attr("id") == "pmis_key_fk" ){
+	   			 		     document.getElementById("pmis_key_fkError").innerHTML="";
+				 			 error.appendTo('#pmis_key_fkError');
+				 	    }
     			 },submitHandler: function(form) {
     			    // do other things for a valid form
     			    //form.submit();

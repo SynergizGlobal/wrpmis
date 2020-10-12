@@ -83,4 +83,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.uploadUsers(usersList);
 	}
 
+	@Override
+	public List<User> getPmisKeys() throws Exception {
+		return userDao.getPmisKeys();
+	}
+
 }

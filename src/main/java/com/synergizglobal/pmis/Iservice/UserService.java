@@ -33,5 +33,7 @@ public interface UserService {
 	List<User> getUserAccessTypes(User obj) throws Exception;
 
 	int uploadUsers(List<User> usersList) throws Exception;
+
+	List<User> getPmisKeys() throws Exception;
 	
 }

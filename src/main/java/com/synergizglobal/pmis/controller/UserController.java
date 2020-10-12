@@ -130,6 +130,9 @@ public class UserController {
 			List<User> userAccessTypes = userService.getUserAccessTypes(null);
 			model.addObject("userAccessTypes", userAccessTypes);
 			
+			List<User> pmisKeys = userService.getPmisKeys();
+			model.addObject("pmisKeys", pmisKeys);
+			
 		} catch (Exception e) {
 			logger.info("addUserForm : " + e.getMessage());
 		}
@@ -239,6 +242,9 @@ public class UserController {
 			
 			List<User> userAccessTypes = userService.getUserAccessTypes(null);
 			model.addObject("userAccessTypes", userAccessTypes);
+			
+			List<User> pmisKeys = userService.getPmisKeys();
+			model.addObject("pmisKeys", pmisKeys);
 			
 			User user = userService.getUser(obj);			
 			model.addObject("usrObj", user);

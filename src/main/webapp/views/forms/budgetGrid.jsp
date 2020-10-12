@@ -68,11 +68,11 @@
 						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                                <div class="m-1 l-align">
+                               <!--  <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col s12 m4">
@@ -363,11 +363,11 @@
     
     function exportBudget(){
    	 var project_id_fk = $("#project_id_fk").val();
-   	var work_id_fk = $("#work_id_fk").val();
-   	var financial_year_fk = $("#financial_year_fk").val();
+     var work_id_fk = $("#work_id_fk").val();
+   	 var financial_year_fk = $("#financial_year_fk").val();
    	 $("#exportProject_id_fk").val(project_id_fk);
    	 $("#exportWork_id_fk").val(work_id_fk);
-   	 $("#financial_year_fk").val(financial_year_fk);
+   	 $("#exportFinancial_year_fk").val(financial_year_fk);
    	 $("#exportBudgetForm").submit();
 	}
     

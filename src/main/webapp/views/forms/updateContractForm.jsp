@@ -1121,6 +1121,7 @@
 			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
 			                                                            <label for="contractDocumentFiles${index.count }" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <input type="hidden" id="contractDocumentFileNames${index.count }" name="contractDocumentFileNames" value="${docObj.attachment }">
 			                                                            <a id="contractDocumentFileName${index.count }" class="filevalue" href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment }" donwload>${docObj.attachment }</a>
 			                                                        </div>
 			                                                    </td>
@@ -1142,6 +1143,7 @@
 		                                                                style="display:none" onchange="getFileName('0')"/>
 		                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
 		                                                                    class="fa fa-paperclip"></i></label>
+		                                                            <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames">
 		                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
 		                                                        </div>
 		                                                    </td>
@@ -1825,6 +1827,7 @@
 						 +'<div class="normal-btn">'
 						 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
 						 +'<label for="contractDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+						 +'<input type="hidden" id="contractDocumentFileNames'+rNo+'" name="contractDocumentFileNames">'
 						 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
 						 +'</div>'
 						 +'</td>'

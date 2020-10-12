@@ -1219,7 +1219,9 @@ public class ContractDaoImpl implements ContractDao {
 								String fileName = file.getOriginalFilename();
 								documentNames[i] = fileName;
 								FileUploads.singleFileSaving(file, saveDirectory, fileName);
-							}else {
+							} else if (!StringUtils.isEmpty(contract.getContractDocumentFileNames()[i])){
+								documentNames[i] = contract.getContractDocumentFileNames()[i];
+							} else {
 								documentNames[i] = null;
 							}
 						}

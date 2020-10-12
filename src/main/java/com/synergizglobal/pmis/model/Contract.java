@@ -22,7 +22,7 @@ public class Contract {
 	
 	private MultipartFile contractFile;
 	
-	private String[] contractDocumentNames,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds;
+	private String[] contractDocumentNames,contractDocumentFileNames,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds;
 	private MultipartFile[] contractDocumentFiles;
 	
 	private List<Contract> bankGauranree;
@@ -935,6 +935,14 @@ public class Contract {
 
 	public void setContract_ID(String contract_ID) {
 		Contract_ID = contract_ID;
+	}
+
+	public String[] getContractDocumentFileNames() {
+		return contractDocumentFileNames;
+	}
+
+	public void setContractDocumentFileNames(String[] contractDocumentFileNames) {
+		this.contractDocumentFileNames = contractDocumentFileNames;
 	}
 	
 }

@@ -269,14 +269,16 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
-                                            <input type="file" accept="image/x-png,image/jpeg" name=budgetFile id="budgetFile" onchange="getFileName()" >
+                                            <input type="file" accept="image/x-png,image/jpeg" name="budgetFile" id="budgetFile"  >
                                            
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text" name="attachment"  value="${budgetDetails.attachment }" >
                                         </div>
                                     </div>
-                                      <a id="fileVal" class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${budgetDetails.attachment }" download>${budgetDetails.attachment }</a>
+                                    <c:if test="${not empty budgetDetails.attachment }">
+                                      <a  class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${budgetDetails.attachment }" download>${budgetDetails.attachment }</a>
+                                    </c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -352,11 +354,7 @@
             	getWorksList(projectId);
             }
         });
-        
-        function getFileName(){
-        	var filename = $('#budgetFile')[0].files[0].name;
-		    $('#fileVal'+rowNo).html(filename);
-        }
+       
         
         function getWorksList(projectId) {
         	$(".page-loader").show();

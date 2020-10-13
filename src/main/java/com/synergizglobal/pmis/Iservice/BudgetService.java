@@ -5,6 +5,7 @@ import java.util.List;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Work;
+import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 public interface BudgetService {
 
@@ -21,6 +22,7 @@ public interface BudgetService {
 	public boolean updateBudget(Budget budget)throws Exception;
 
 	public boolean deleteBudget(Budget obj)throws Exception;
+
 	
 	
 

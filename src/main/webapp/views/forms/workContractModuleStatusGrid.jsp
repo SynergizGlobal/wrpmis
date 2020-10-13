@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 
@@ -31,6 +34,16 @@
         td:last-of-type {
             white-space: inherit;
         }
+        .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -53,7 +66,7 @@
                             <div class="col m4 hide-on-small-only"> </div>
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="work_contract_module.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-workContractModuleStatusGrid" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Work Contract Module
                                             Status</strong></a>
                                 </div>
@@ -67,34 +80,34 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Project</p>
-                                        <select class="searchable">
-                                            <option value="" disabled selected>Select Project</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                        <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getWorkContractList();">
+                                            <option value="" selected>Select Project</option>
+                                            	<c:forEach var="obj" items="${projectsList}">
+	                       						  <option value="${obj.project_id }" <c:if test="${param.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id }<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name}</option>
+	                                             </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Work</p>
-                                        <select class="searchable">
-                                            <option value="" disabled selected>Select Work </option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                       <select id="work_id_fk" name="work_id_fk" onchange="getWorkContractList();" class="searchable">
+                                            <option value="" >Select Work Name</option>
+	                                            <c:forEach var="obj" items="${workList}">
+	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id_fk eq obj.work_id }">selected</c:if>>${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
+	                                             </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Contract</p>
-                                        <select class="searchable">
-                                            <option value="" disabled selected>Select Contract </option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                         <select id="contract_id_fk" name="contract_id_fk" onchange="getWorkContractList();" class="searchable">
+                                            <option value="" >Select Contarct Id</option>
+	                                            <c:forEach var="obj" items="${contractsList}">
+	                       						  <option value="${obj.contract_id_fk }" <c:if test="${param.contract_id_fk eq obj.contract_id_fk }">selected</c:if>>${obj.contract_id_fk }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+	                                             </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m3">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 20px;width: 100%;">Clear Filters</button>
+                                            style="margin-top: 20px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -103,8 +116,8 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="example" class="mdl-data-table">
-                                    <thead>
+                                <table id="datatable-workcontract" class="mdl-data-table">
+                                    <thead >
                                         <tr>
                                             <th>Project</th>
                                             <th>Work</th>
@@ -114,7 +127,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                       <!--  <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -125,7 +138,7 @@
                                                 <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
 
@@ -136,7 +149,19 @@
             </div>
         </div>
     </div>
-
+<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -149,28 +174,136 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
+    
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="work_status_id" id="work_status_id" />
+    </form>
+    
   <script>
-        $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-            $('#example').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [4] },
-                ],
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                fixedHeader: true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-        });
+  $(document).ready(function () {
+	   $('select:not(.searchable)').formSelect();
+       $('.searchable').select2();
+   	var table = $('#datatable-workcontract').DataTable({
+		"bStateSave": true,
+		fixedHeader: true,
+        "fnStateSave": function (oSettings, oData) {
+            localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+        },
+        "fnStateLoad": function (oSettings) {
+            return JSON.parse(localStorage.getItem('MRVCDataTables'));
+        },
+        columnDefs: [
+            {
+                targets: [0, 1, 2],
+                className: 'mdl-data-table__cell--non-numeric'
+            },
+            { orderable: false, 'aTargets': ['nosort'] }
+        ],
+        // "ScrollX": true,
+        "scrollCollapse": true,
+        //"sScrollY": 400,
+        "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
+        initComplete: function () {
+            $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+        }
+    });
+	table.state.clear(); 
+		
+	
+	$('.close-message').delay(3000).fadeOut('slow');
+	
+	getWorkContractList();
+});
+
+   function clearFilter(){
+   	$("#project_id_fk").val("");
+   	$("#work_id_fk").val("");
+   	$("#contract_id_fk").val("");
+   	$('.searchable').select2();
+   	getWorkContractList();
+   }
+   
+   function getWorkContractList(){
+   	$(".page-loader").show();
+   	var project_id_fk = $("#project_id_fk").val();
+   	var work_id_fk = $("#work_id_fk").val();
+   	var contract_id_fk = $("#contract_id_fk").val();
+   	table = $('#datatable-workcontract').DataTable();
+		 
+		table.destroy();
+		
+		$.fn.dataTable.moment('DD-MMM-YYYY');
+		table = $('#datatable-workcontract').DataTable({
+   		"bStateSave": true,
+   		fixedHeader: true,
+           "fnStateSave": function (oSettings, oData) {
+               localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+           },
+           "fnStateLoad": function (oSettings) {
+               return JSON.parse(localStorage.getItem('MRVCDataTables'));
+           },
+           columnDefs: [
+               {
+                   targets: [0, 1, 2],
+                   className: 'mdl-data-table__cell--non-numeric'
+               },
+               { orderable: false, 'aTargets': ['nosort'] }
+           ],
+           // "ScrollX": true,
+           "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
+           initComplete: function () {
+               $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+           }
+       }).rows().remove().draw();
+		
+		table.state.clear();		
+	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/getWorkContractModule",type:"POST",data:myParams,success : function(data){    				
+			if(data != null && data != '' && data.length > 0){    					
+        		$.each(data,function(key,val){
+        			var work_status_id = "'"+val.work_status_id+"'";
+                   var actions = '<a href="javascript:void(0);"  onclick="getWorkStatus('+work_status_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+/*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+*/                   	var rowArray = [];    	                 
+                  	
+               	var workName = '';
+                   if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+               	var projectName = '';
+                if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+            	var contractName = '';
+                if ($.trim(val.contract_name) != '') { contractName = ' - ' + $.trim(val.contract_name) }
+                   
+                 	rowArray.push($.trim(val.project_id_fk)+ projectName);
+                  	rowArray.push($.trim(val.work_id_fk) + workName);
+                  	rowArray.push($.trim(val.contract_id_fk)+ contractName);
+                  	rowArray.push($.trim(val.month));
+                  	rowArray.push($.trim(actions));   	                   	
+                  	
+                   table.row.add(rowArray).draw( true );
+                   		                       
+				});
+        		
+        		$(".page-loader").hide();
+			}else{
+				$(".page-loader").hide();
+			}
+			
+		},error: function (jqXHR, exception) {
+			$(".page-loader").hide();
+        	getErrorMessage(jqXHR, exception);
+    }});
+}
+
+   function getWorkStatus(work_status_id){
+   	$("#work_status_id").val(work_status_id);
+   	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-workstatus');
+   	$('#getForm').submit();
+   }
     </script>
 
 

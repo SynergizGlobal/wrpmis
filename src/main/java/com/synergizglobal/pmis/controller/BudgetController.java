@@ -124,7 +124,7 @@ public class BudgetController {
 	 }
 	
 	@RequestMapping(value = "/get-budget", method = {RequestMethod.POST})
-	public ModelAndView gettBudgetForm(@ModelAttribute Budget budget,Work obj ){
+	public ModelAndView getBudgetForm(@ModelAttribute Budget budget,Work obj ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditBudget);

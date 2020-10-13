@@ -102,39 +102,62 @@
 				             <c:if test="${action eq 'add'}">				                
 				                	<form action="<%=request.getContextPath() %>/add-safety-equipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							 </c:if>
+							 
                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
+                                <c:if test="${action eq 'add'}">	
                                 <div class="col s12 m8 input-field">
                                     <div class="row">
                                         <div class="col s12 m4 input-field">
                                             <p><label> Project ID </label></p>
-                                            <select class="searchable validate-dropdown" id="project_id" name="project_id"  
-	                                    onchange="getWorksList(this.value);">
-	                                        <option value="" >Select</option>
-	                                         <c:forEach var="obj" items="${projectsList }">
-	                                            <option value="${obj.project_id }" <c:if test="${safetyDetails.project_id eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-	                                         </c:forEach>
-	                                    </select>
+		                                           <select class="searchable validate-dropdown" id="project_id" name="project_id"  
+		                                 	  		 onchange="getWorksList(this.value);">
+		                                      		  <option value="" >Select</option>
+		                                        		 <c:forEach var="obj" items="${projectsList }">
+		                                           			 <option value="${obj.project_id }" <c:if test="${safetyDetails.project_id eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+		                                        		 </c:forEach>
+		                                          </select>
                                    			 <span id="project_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
                                             <p><label> Work ID </label></p>
-                                           <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                      		  onchange="getContractsList(this.value);">
-                                      		  <option value="" selected>Select</option>
-                                   		 	</select>
+	                                           <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+	                                      		  onchange="getContractsList(this.value);">
+	                                      		  <option value="" selected>Select</option>
+	                                   		 	</select>
+                                   		   
                                      		 <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
+                                          
                                             <p> <label>Contract ID </label></p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                        			 <option value="" selected>Select</option>
                                   			 </select>
+                                  			
                                    			 <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
                                     </div>
                                 </div>
+                                 </c:if>
                                 <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div>
+                       		 <c:if test="${action eq 'edit'}">	
+                       		 <div class="row">
+                       		  <div class="col s12 m4 input-field">
+									<p><label> Project ID </label></p>
+                                         	 	<input type="text" name="project_id" id="project_id" value="${safetyDetails.project_id}- ${safetyDetails.project_name}" readonly />
+								 </div> 
+								  <div class="col s12 m4 input-field"> 
+								    <p><label> Work ID </label></p>
+                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${safetyDetails.work_id}- ${safetyDetails.work_name}" readonly />
+                                  </div>
+                                    </div> 
+                     				<p><label>Contract ID </label></p>        
+                              				   <input type="text" name="contract_id_fk" id="contract_id_fk" value="${safetyDetails.contract_id_fk}- ${safetyDetails.contract_name}" readonly />
+                            
+                             </c:if>
                             </div>
                             <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyDetails.safety_equipment_id}" />
                             <div class="row fixed-width" style="margin-bottom: 40px;">

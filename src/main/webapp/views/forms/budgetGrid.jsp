@@ -24,7 +24,14 @@
         p a {
             color: blue
         }
-
+ 		td{
+       		 word-break: break-word;
+    		 word-wrap: break-word;
+   			 white-space: initial;
+    	 }
+    	  td:last-child{
+    	 	word-break:inherit;
+    	 }
         td:last-child,
         td:last-of-type {
             white-space: inherit;

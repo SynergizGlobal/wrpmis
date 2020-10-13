@@ -46,8 +46,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	public List<SafetyEquipment> getSafetyEquipment(SafetyEquipment obj)throws Exception{
 		List<SafetyEquipment> objsList = null;
 		try {
-			String qry = "select safety_equipment_id,contract_id_fk, safety_equipment_number,"
-					+ "safety_equipment_detail, validity_date,remarks from safety_equipment where safety_equipment_id is not null";
+			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name, safety_equipment_number,safety_equipment_detail, validity_date,s.remarks from safety_equipment s " + 
+						 "left join contract c on  s.contract_id_fk = c.contract_id  where safety_equipment_id is not null";
+			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
@@ -73,7 +74,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	SafetyEquipment sObj =null;
 		
 		try {
-			String qry = "select w.work_id,safety_equipment_id,p.project_id,contract_id_fk from safety_equipment s "
+			String qry = "select w.work_id,safety_equipment_id,c.contract_name,p.project_id,p.project_name,w.work_name,contract_id_fk from safety_equipment s "
 					+"LEFT OUTER join contract c on contract_id_fk =c.contract_id " 
 					+"LEFT OUTER join work w on c.work_id_fk = w.work_id "  
 					+"LEFT OUTER join project p on w.project_id_fk = p.project_id "

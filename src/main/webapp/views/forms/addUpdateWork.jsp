@@ -194,16 +194,14 @@
                             
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
+                               
                                 <div class="col s12 m4 input-field">
-                       				<p> <label for="year_of_completion">Year of Completion </label></p>
-                                    <select id="year_of_completion" name="year_of_completion" class="searchable">
-                                          <option value="">Select</option>
-                                           <c:forEach var="obj" items="${yearList}">
-        					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.year_of_completion eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
-                              			   </c:forEach>
-                                    </select>
-                                    <span id="year_of_completionError"></span>
+                                    <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDeatils.projected_completion }">
+                                    <label for="date">Projected completion</label>
+                                    <button type="button" id="projected_completion_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="projected_completionError" class="error-msg" ></span>
                                 </div>
+                               
                                 <div class="col s12 m4 input-field">
                                   	<i class="material-icons prefix center-align">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDeatils.anticipated_cost }" min="1">
@@ -264,15 +262,15 @@
                             </div> --%>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
-                                   	<%-- <p> <label for="year_of_completion">Year of Completion </label></p>
+                                <div class="col s12 m4 input-field">
+                       				<p> <label for="year_of_completion">Year of Completion </label></p>
                                     <select id="year_of_completion" name="year_of_completion" class="searchable">
                                           <option value="">Select</option>
                                            <c:forEach var="obj" items="${yearList}">
         					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.year_of_completion eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
                               			   </c:forEach>
                                     </select>
-                                    <span id="year_of_completionError"></span> --%>
+                                    <span id="year_of_completionError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <i class="material-icons prefix center-align">₹</i>
@@ -516,11 +514,10 @@
     <script>
     $(document).on('focus', '.datepicker',function(){
         $(this).datepicker({
-        	 format: 'yyyy',
-             selectYears: true,
-   	    	onSelect: function () {
+        	 format: 'dd-mm-yyyy',
+   	    	 onSelect: function () {
    	    	   $('.confirmation-btns .datepicker-done').click();
-   	    	}
+   	    	 }
         })
     });
         $(document).ready(function () {
@@ -537,6 +534,11 @@
                 event.stopPropagation();
                 $('#year_completed').click();
             });
+            $('#projected_completion_icon').click(function () {
+                event.stopPropagation();
+                $('#projected_completion').click();
+            });
+            
                    
         });
         
@@ -577,7 +579,9 @@
 		  			 		required: false
 		  			 	  }	,"year_of_completion": {
 		  			 		required: false
-		  			 	  }	,"completion_cost": {
+		  			 	  }	,"projected_completion": {
+		  			 		required: false
+		  			 	  },"completion_cost": {
 		  			 		required: false
 		  			 	  }	,"railway_id_fk": {
 		  			 		required: false
@@ -604,7 +608,9 @@
 		  		 			required: '  This Field Required'
 		  		 	  	 },"year_of_completion": {
 		  		 			required: ' This Field Required  '
-		  		 	  	 },"completion_cost": {
+		  		 	  	 },"projected_completion": {
+		  		 	  		required: ' This Field Required  '
+		  			 	 },"completion_cost": {
 		  		 			required: ' This Field Required'
 		  		 	  	 },"railway_id_fk": {
 		  		 			required: ' This Field Required'
@@ -639,6 +645,9 @@
 					  	 }else if (element.attr("id") == "year_of_completion" ){
 							  document.getElementById("year_of_completionError").innerHTML="";
 							  error.appendTo('#year_of_completionError');
+						 }else if (element.attr("id") == "projected_completion" ){
+							  document.getElementById("projected_completionError").innerHTML="";
+							  error.appendTo('#projected_completionError');
 						 }else if (element.attr("id") == "completion_cost" ){
 							  document.getElementById("completion_costError").innerHTML="";
 							  error.appendTo('#completion_costError');

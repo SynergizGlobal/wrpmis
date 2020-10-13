@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -139,6 +140,8 @@ public class WorkController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
+			
+			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
 			MultipartFile file = work.getWorkFile();
 			if (null != file && !file.isEmpty()){
 				String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
@@ -168,6 +171,7 @@ public class WorkController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
+			work.setProjected_completion(DateParser.parse(work.getProjected_completion()));
 			MultipartFile file = work.getWorkFile();
 			if (null != file && !file.isEmpty()){
 				String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;

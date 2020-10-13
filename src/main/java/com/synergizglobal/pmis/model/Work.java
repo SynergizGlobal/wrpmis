@@ -8,7 +8,7 @@ public class Work {
 	private String work_id,work_name,work_short_name,project_id_fk,sanctioned_year,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,pink_book_item_number,latest_revised_cost,
-	year_of_revision,revision_number,wys_renarks,attachment,railway,executed_by;
+	year_of_revision,revision_number,wys_renarks,attachment,railway,executed_by,projected_completion;
 
 	private List<Work> workRevisions;
 	private MultipartFile workFile;
@@ -314,6 +314,14 @@ public class Work {
 
 	public void setWork_short_name(String work_short_name) {
 		this.work_short_name = work_short_name;
+	}
+
+	public String getProjected_completion() {
+		return projected_completion;
+	}
+
+	public void setProjected_completion(String projected_completion) {
+		this.projected_completion = projected_completion;
 	}
 	
 }

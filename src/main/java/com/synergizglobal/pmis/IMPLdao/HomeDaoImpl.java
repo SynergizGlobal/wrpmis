@@ -287,11 +287,11 @@ public class HomeDaoImpl implements HomeDao {
 		try {
 			connection = dataSource.getConnection();
 			
-			String qry = "select general_status from general_status";
+			String qry = "select general_status from general_status where general_status is not null and general_status <> ''";
 			statement = connection.prepareStatement(qry);
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
-				objsList.add(resultSet.getString("general_status"));
+				objsList.add(resultSet.getString("general_status").trim());
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

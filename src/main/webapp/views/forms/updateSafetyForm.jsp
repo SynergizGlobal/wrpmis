@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -326,10 +327,13 @@
                                             <input class="file-path validate" type="text">
                                         </div>
                                     </div>
+                                    <c:if test="${not empty safety.attachment }">
+                                       	<a href="<%=CommonConstants2.SAFETY_FILES %>${safety.attachment }" class="filevalue" download>${safety.attachment }</a>
+                                   	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-
                             </div>
+                            <input type="hidden" id="attachment" name="attachment" value="${safety.attachment }" />
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>

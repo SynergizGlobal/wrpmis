@@ -159,6 +159,7 @@ public class IssueController {
 				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
 			}
 			
 			boolean flag = issueService.addIssue(obj);
@@ -250,6 +251,7 @@ public class IssueController {
 				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
 			}
 			
 			boolean flag = issueService.updateIssue(obj);

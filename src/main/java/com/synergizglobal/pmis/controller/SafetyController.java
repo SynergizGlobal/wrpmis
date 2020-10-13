@@ -160,6 +160,7 @@ public class SafetyController {
 				String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
 			}
 			
 			boolean flag = safetyService.addSafety(obj);
@@ -259,6 +260,7 @@ public class SafetyController {
 				String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
 			}
 			
 			boolean flag = safetyService.updateSafety(obj);

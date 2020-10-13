@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Issue {
 	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
 	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,
-	project_id_fk,project_name,activity_name,strip_chart_component_fk,zonal_rly,department,department_name;
+	project_id_fk,project_name,activity_name,strip_chart_component_fk,zonal_rly,department,department_name,attachment;
 
 	private MultipartFile issueFile;
 	
@@ -281,6 +281,14 @@ public class Issue {
 
 	public void setActivity(String activity) {
 		this.activity = activity;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
 	}
 	
 }

@@ -242,34 +242,6 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate">
-                                    <label for="contractor_drawing_no"> Contractor Drawing No </label>
-
-
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate">
-                                    <label for="mrvc_drawing_no"> MRVC Drawing No </label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate">
-                                    <label for="division_drawing_no"> Division Drawing No</label>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate">
-                                    <label for="hq_drawing_no"> HQ Drawing No </label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="drawing_title" name="drawing_title" class="materialize-textarea" data-length="1000"></textarea>
                                     <label for="drawing_title">Drawing Title</label>
@@ -290,8 +262,82 @@
                                     <button type="button" id="planned_finish_icon"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                             <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate">
+                                    <label for="contractor_drawing_no"> Contractor Drawing No </label>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker">
+                                    <label for="consultant_submission">Consultant Submission </label>
+                                    <button type="button" id="consultant_submission_icon"><i class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
+                            
+
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate">
+                                    <label for="mrvc_drawing_no"> MRVC Drawing No </label>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="mrvc_reviewed_date" name="mrvc_reviewed" type="text" class="validate datepicker">
+                                    <label for="mrvc_reviewed_date">MRVC Reviewed </label>
+                                    <button type="button" id="mrvc_reviewed_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m3 input-field">
+                                    <select id="division_submission" name="division_submission" type="text" class="validate">
+                                    	<option value="">Select</option>
+                                    </select> 
+                                	<label for="division_submission">Divisional submission(y/n)</label>                        
+                                </div>
+                                <div class="col s12 m3 input-field">
+                                    <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate">
+                                    <label for="division_drawing_no"> Divisional Drawing No</label>
+                                </div>
+                                <div class="col s12 m2 input-field">
+                                    <input id="divisional_approval_date" name="divisional_approval" type="text" class="validate datepicker">
+                                    <label for="divisional_approval_date">Divisional Approval </label>
+                                    <button type="button" id="divisional_approval_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m3 input-field">
+                                    <select id="hq_submission" name="hq_submission" type="text" class="validate">
+                                    	<option value="">Select</option>
+                                    </select> 
+                                    <label for="hq_submission">Divisional submission(y/n)</label>
+                                </div>
+                                <div class="col s12 m3 input-field">
+                                    <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate">
+                                    <label for="hq_drawing_no"> HQ Drawing No </label>
+                                </div>
+                                <div class="col s12 m2 input-field">
+                                    <input id="hq_approval_date" name="hq_approval" type="text" class="validate datepicker">
+                                    <label for="hq_approval_date">HQ Approval </label>
+                                    <button type="button" id="hq_approval_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -299,42 +345,11 @@
                                     <label for="revision">Revision</label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker">
-                                    <label for="consultant_submission">Consultant Submission </label>
-                                    <button type="button" id="consultant_submission_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="mrvc_reviewed_date" name="mrvc_reviewed" type="text" class="validate datepicker">
-                                    <label for="mrvc_reviewed_date">MRVC Reviewed </label>
-                                    <button type="button" id="mrvc_reviewed_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="divisional_approval_date" name="divisional_approval" type="text" class="validate datepicker">
-                                    <label for="divisional_approval_date">Divisional Approval </label>
-                                    <button type="button" id="divisional_approval_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="hq_approval_date" name="hq_approval" type="text" class="validate datepicker">
-                                    <label for="hq_approval_date">HQ Approval </label>
-                                    <button type="button" id="hq_approval_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 input-field">
                                     <input id="gfc_released" name="gfc_released" type="text" class="validate datepicker">
                                     <label for="gfc_released">GFC Released </label>
                                     <button type="button" id="gfc_released_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
+                                <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">

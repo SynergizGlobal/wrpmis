@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
@@ -268,9 +269,15 @@
                                             <input class="file-path validate" type="text">
                                         </div>
                                     </div>
+                                    
+                                    <c:if test="${not empty issue.attachment }">
+                                       	<a href="<%=CommonConstants2.ISSUE_FILES %>${issue.attachment }" class="filevalue" download>${issue.attachment }</a>
+                                   	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <input type="hidden" id="attachment" name="attachment" value="${issue.attachment }" />
 
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>

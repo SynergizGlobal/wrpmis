@@ -318,7 +318,7 @@
 	                                   </div>
 	                                   <div class="file-path-wrapper">
 	                                       <input class="file-path validate" type="text">
-	                                       <img style="height: 20%;width: 20%;" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${fob.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
+	                                       <img style="height: 20%;width: 20%;<c:if test="${empty fob.attachment }">display:none;</c:if>" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${fob.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
 	                                   </div>
 	                               </div>
 	                            </div>
@@ -541,23 +541,23 @@
 				 	  },"work_status_fk": {
 				 		required: true
 				 	  },"target_date": {
-				 		required: true
+				 		required: false
 				 	  },"estimated_cost": {
-				 		required: true
+				 		required: false
 				 	  },"construction_start_date": {
-			 		    required: true,
+			 		    required: false,
 			 	   	  },"commissioning_date": {
-				 		required: true
+				 		required: false
 				 	  },"actual_completion_date": {
-			 		    required: true
+			 		    required: false
 			 	   	  },"completion_cost": {
-				 		required: true
+				 		required: false
 				 	  },"latitude": {
-				 		required: true
+				 		required: false
 				 	  },"longitude": {
-				 		required: true
+				 		required: false
 				 	  },"remarks":{
-				 		 required: true
+				 		 required: false
 				 	  }
 				 				
 			 	},
@@ -694,17 +694,15 @@
 		 function readURL(input) {
 	            if (input.files && input.files[0]) {
 	                var reader = new FileReader();
-
 	                reader.onload = function (e) {
-	                    $('#fobImagePreview')
-	                        .attr('src', e.target.result)
+	                    $('#fobImagePreview').attr('src', e.target.result)
 	                        //.width(150)
 	                        //.height(200);
 	                };
-
 	                reader.readAsDataURL(input.files[0]);
+	                $('#fobImagePreview').show();
 	            }
-	        }
+	     }
     </script>
 	
 </body>

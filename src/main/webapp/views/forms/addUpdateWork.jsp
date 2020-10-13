@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -153,13 +154,73 @@
                                 </div>
 								 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                       				<p class="searchable_label"> Sanctioned Year</p>
+                                    <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${yearList}">
+ 					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.sanctioned_year_fk eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+                       			    </c:forEach>
+                                    </select>
+                                    <span id="sanctioned_yearError"></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                   <input id="completeion_period_months" type="text" class="validate" name="completeion_period_months" value="${workDeatils.completeion_period_months }">
+                                   <label for="completeion_period_months">Completion Period </label>
+                                   <span id="completeion_period_monthsError"></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                       				<i class="material-icons prefix center-align">₹</i>
+                                    <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDeatils.sanctioned_estimated_cost }" min="1">
+                                    <label for="sanctioned_estimated_cost">Sanctioned Estimated Cost</label>
+                                    <span id="sanctioned_estimated_costError"></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                  	<i class="material-icons prefix center-align">₹</i>
+                                    <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDeatils.sanctioned_completion_cost }" min="1">
+                                    <label for="sanctioned_completion_cost"> Sanctioned Completion Cost </label>
+                                    <span id="sanctioned_completion_costError"></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                       				<p> <label for="year_of_completion">Year of Completion </label></p>
+                                    <select id="year_of_completion" name="year_of_completion" class="searchable">
+                                          <option value="">Select</option>
+                                           <c:forEach var="obj" items="${yearList}">
+        					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.year_of_completion eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
+                              			   </c:forEach>
+                                    </select>
+                                    <span id="year_of_completionError"></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                  	<i class="material-icons prefix center-align">₹</i>
+                                    <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDeatils.anticipated_cost }" min="1">
+                                    <label for="anticipated_cost">Anticipated cost</label>
+                                    <span id="anticipated_costError"></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            
 
-                        	<div class="row">
+                        	<%-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
                                     <div class="row"> 
                                         <div class="col s12 m3 input-field">
-<%--                                     <input id="sanctioned_year" type="text" class="validate datepicker" name="sanctioned_year" value="${workDeatils.sanctioned_year }"> --%>
+                                    <input id="sanctioned_year" type="text" class="validate datepicker" name="sanctioned_year" value="${workDeatils.sanctioned_year }">
                                            <p class="searchable_label"> Sanctioned Year</p>
                                             <select class="searchable" id="sanctioned_year_fk" name="sanctioned_year_fk">
                                                 <option value="">Select</option>
@@ -188,31 +249,30 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <i class="material-icons prefix center-align">₹</i>
+                                	<i class="material-icons prefix center-align">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDeatils.sanctioned_completion_cost }" min="1">
                                     <label for="sanctioned_completion_cost"> Sanctioned Completion Cost </label>
                                      <span id="sanctioned_completion_costError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <i class="material-icons prefix center-align">₹</i>
+                                	<i class="material-icons prefix center-align">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDeatils.anticipated_cost }" min="1">
                                     <label for="anticipated_cost">Anticipated cost</label>
                                       <span id="anticipated_costError"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">
-<%--                                <input id="year_of_completion" type="text" class="validate datepicker" name="year_of_completion" value="${workDeatils.year_of_completion }"> --%>
-                                   <p> <label for="year_of_completion">Year of Completion </label></p>
+                                   	<%-- <p> <label for="year_of_completion">Year of Completion </label></p>
                                     <select id="year_of_completion" name="year_of_completion" class="searchable">
                                           <option value="">Select</option>
                                            <c:forEach var="obj" items="${yearList}">
         					  				  <option  value="${obj.financial_year }"<c:if test="${workDeatils.year_of_completion eq obj.financial_year}">selected</c:if>> ${obj.financial_year}</option>
                               			   </c:forEach>
                                     </select>
-                                    <span id="year_of_completionError"></span>
+                                    <span id="year_of_completionError"></span> --%>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <i class="material-icons prefix center-align">₹</i>
@@ -371,7 +431,6 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-
                                 <div class="col m8 s12">
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
@@ -381,11 +440,14 @@
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
                                         </div>
-                                    </div>
+                                    </div>                                    
+                                    <c:if test="${not empty workDeatils.attachment }">
+                                       	<a href="<%=CommonConstants2.WORK_FILES %>${workDeatils.attachment }" class="filevalue" download>${workDeatils.attachment }</a>
+                                   	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-
                             </div>
+                            <input type="hidden" id="attachment" name="attachment" value="${workDeatils.attachment }" />
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">

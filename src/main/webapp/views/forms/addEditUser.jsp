@@ -231,14 +231,13 @@
                             </div>
                             
                              <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field "></div>
+                                <div class="col m4 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">                                
                                     <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
                                     <label for="pmis_key_fk">PMIS KEY</label>
                                     <span id="pmis_key_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m4 hide-on-small-only"></div>
                             </div>
                             
                            <%--  <div class="row">
@@ -389,11 +388,11 @@
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
-                                            <img style="height: 20%;width: 20%;" id="userImagePreview" src="<%=CommonConstants2.USER_IMAGES %>${usrObj.user_image }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="userImage" />
+                                            <img style="height: 20%;width: 20%;<c:if test="${empty usrObj.user_image }">display:none;</c:if>" id="userImagePreview" src="<%=CommonConstants2.USER_IMAGES %>${usrObj.user_image }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="userImage" />
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <input type="hidden" id="user_image" name="user_image" value="${usrObj.user_image }" />
                                 
                       
                                 <div class="col m2 hide-on-small-only"></div>
@@ -531,6 +530,12 @@
         });
         
         var flag = false;
+        
+        var pmis_key_fk = $('#pmis_key_fk').val();
+        if ($.trim(pmis_key_fk) != '' && pmis_key_fk == '${usrObj.pmis_key_fk }') { 
+        	flag = true;
+        }
+        
         $('#pmis_key_fk').on('blur', function(){
         	$('#pmis_key_fkError').html('');
             var pmis_key_fk = $('#pmis_key_fk').val();
@@ -766,15 +771,13 @@
     		function readURL(input) {
  	            if (input.files && input.files[0]) {
  	                var reader = new FileReader();
-
  	                reader.onload = function (e) {
- 	                    $('#userImagePreview')
- 	                        .attr('src', e.target.result)
+ 	                    $('#userImagePreview').attr('src', e.target.result)
  	                        //.width(150)
  	                        //.height(200);
  	                };
-
  	                reader.readAsDataURL(input.files[0]);
+ 	               $('#userImagePreview').show();
  	            }
  	        }
     		 

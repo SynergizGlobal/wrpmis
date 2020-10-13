@@ -39,7 +39,7 @@ public class WorkDaoImpl implements WorkDao {
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" + 
-						",w.remarks FROM work w " + 
+						",w.remarks,w.attachment FROM work w " + 
 						"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
 		
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
@@ -62,7 +62,7 @@ public class WorkDaoImpl implements WorkDao {
 			connection = dataSource.getConnection();
 			String qry ="SELECT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," + 
 					"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" + 
-					",w.remarks FROM work w " + 
+					",w.remarks,w.attachment FROM work w " + 
 					"LEFT JOIN project p ON w.project_id_fk = p.project_id " +
 				    "where work_id = ?";
 		
@@ -83,6 +83,7 @@ public class WorkDaoImpl implements WorkDao {
 				work.setYear_of_completion(resultSet.getString("year_of_completion"));
 				work.setCompletion_cost(resultSet.getString("completion_cost"));
 				work.setRemarks(resultSet.getString("remarks"));
+				work.setAttachment(resultSet.getString("attachment"));
 				work.setWorkRevisions(getWorkRevisions(work.getWork_id(),connection));	
 				work.setRailwayAgencyList(getRailwayAgencyList(work.getWork_id(),connection));
 				work.setExecutedByList(getExecutedByList(work.getWork_id(),connection));
@@ -203,7 +204,7 @@ public class WorkDaoImpl implements WorkDao {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year_fk=?,sanctioned_estimated_cost = ?," + 
-						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,completion_cost = ?,remarks = ? "+
+						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,completion_cost = ?,remarks = ?,attachment = ? "+
 						 "where work_id =?";
 		
 			stmt = con.prepareStatement(qry); 
@@ -217,7 +218,8 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(8,work.getYear_of_completion());
 			stmt.setString(9,work.getCompletion_cost());
 			stmt.setString(10,work.getRemarks());
-			stmt.setString(11,work.getWork_id());
+			stmt.setString(11,work.getAttachment());
+			stmt.setString(12,work.getWork_id());
 			int count = stmt.executeUpdate();
 			if(count > 0){
 				flag = true; 
@@ -349,8 +351,8 @@ public class WorkDaoImpl implements WorkDao {
 			String workId = getWorkId(work.getProject_id_fk(),con);
 			con.setAutoCommit(false);
 			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
-						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks)"+
-						" VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,attachment)"+
+						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			stmt.setString(1,workId ); 
 			stmt.setString(2,work.getWork_name()); 
@@ -363,6 +365,7 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(9,work.getYear_of_completion());
 			stmt.setString(10,work.getCompletion_cost());
 			stmt.setString(11,work.getRemarks());
+			stmt.setString(12,work.getAttachment());
 			count = stmt.executeUpdate();
 			if(count > 0){
 				flag = true; 

@@ -139,14 +139,15 @@ public class WorkController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
+			MultipartFile file = work.getWorkFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				work.setAttachment(fileName);
+			}				
 			boolean flag =  workService.updateWork(work);
-			if(flag == true) {
-				MultipartFile file = work.getWorkFile();
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}				
+			if(flag) {
 				attributes.addFlashAttribute("success", "Work Updated Succesfully.");
 			}
 			else {
@@ -167,14 +168,15 @@ public class WorkController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/work");
+			MultipartFile file = work.getWorkFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				work.setAttachment(fileName);
+			}
 			boolean flag =  workService.addWork(work);
-			if(flag == true) {
-				MultipartFile file = work.getWorkFile();
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.WORK_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
+			if(flag) {
 				attributes.addFlashAttribute("success", "Work Added Succesfully.");
 			}
 			else {
@@ -182,7 +184,7 @@ public class WorkController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Work is failed. Try again.");
-			logger.info("Work : " + e.getMessage());
+			logger.info("addWork : " + e.getMessage());
 		}
 		return model;
 	}

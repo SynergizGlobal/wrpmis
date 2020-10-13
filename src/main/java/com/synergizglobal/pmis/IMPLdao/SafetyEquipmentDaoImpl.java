@@ -95,9 +95,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 				List<SafetyEquipment> objsList = null;
 			String qryDetails = "select safety_equipment_id,contract_id_fk, safety_equipment_number,"
 					+"safety_equipment_detail, DATE_FORMAT(validity_date,'%d-%m-%Y') AS validity_date,remarks,attachment from safety_equipment "
-					+"where safety_equipment_id is not null and safety_equipment_id = ? ";
+					+"where safety_equipment_id is not null and contract_id_fk = ? ";
 			
-			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getSafety_equipment_id()}, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
+			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getContract_id_fk()}, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
 			sObj.setSafetyEquipments(objsList);
 			}
 			

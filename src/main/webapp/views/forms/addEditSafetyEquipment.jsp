@@ -193,11 +193,11 @@
                                                 </td>
                                             </tr>
                                             <script>
-		                                            $("#SafetyEquipmentFile${index.count }").change(function () {
+		                                           /*  $("#SafetyEquipmentFile${index.count }").change(function () {
 		                                                filename1 = $('#SafetyEquipmentFile${index.count }')[0].value;
 		                                                $('#fileVal${index.count }').html(filename1);
 		                                                console.log(filename1)
-		                                            });
+		                                            }); */
 		                                           
                                             </script>
                                           </c:forEach>
@@ -247,11 +247,11 @@
 			                                          	    	  }
 			                                                 });
 			                                                $("#SafetyEquipmentFile0").change(function () {
-				                                                filename1 = $('#SafetyEquipmentFile0')[0].value;
+				                                                filename1 = $('#SafetyEquipmentFile0')[0].files[0].name;
 				                                                $('#fileVal0').html(filename1);
 				                                                console.log(filename1)
 				                                            });
-		                                           
+			                                                
 		                                      </script>
                                     	  </c:otherwise>
                                      	</c:choose>

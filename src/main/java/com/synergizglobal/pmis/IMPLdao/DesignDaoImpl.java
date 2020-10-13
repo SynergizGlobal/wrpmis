@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.model.Design;
 
@@ -36,12 +37,10 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="select design_id,d.contract_id_fk,d.structure_type_fk,d.drawing_type_fk,d.department_id_fk,d.hod,d.dy_hod,d.structure_type_fk,d.contractor_drawing_no,"
-					+ "d.mrvc_drawing_no,d.division_drawing_no,d.drawing_title,d.hq_drawing_no " + 
-					"from design d "
-					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
-					
-					+ "LEFT JOIN user u on d.hod = u.user_id where design_id is not null"
-					;
+					+ "d.mrvc_drawing_no,d.division_drawing_no,d.drawing_title,d.hq_drawing_no " 
+					+"from design d "
+					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "					
+					+ "LEFT JOIN user u on d.hod = u.user_id where design_id is not null";
 				
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -170,7 +169,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select c.work_id_fk,w.project_id_fk,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title,d.planned_start,d.planned_finish,d.revision,d.consultant_submission,d.mrvc_reviewed,d.divisional_approval," + 
-					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks from design d " + 
+					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks,d.attachment from design d " + 
 					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " + 
 					"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
@@ -201,10 +200,10 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-					+ "gfc_released,as_built_status,as_built_date,remarks) "
+					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk) "
 					+ "VALUES(:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
-					+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks)";
+					+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,:divisional_submission_fk,:hq_submission_fk)";
 			
 
 			
@@ -214,80 +213,86 @@ public class DesignDaoImpl implements DesignDao{
 		    //return keyHolder.getKey().intValue();
 
 			//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			//int count = namedParamJdbcTemplate.update(qry, paramSource);			
+			//int count = namedParamJdbcTemplate.update(qry, paramSource);		
+		    String designId = null;
 			if(count > 0) {
-				 int designId = keyHolder.getKey().intValue();
+				 designId = String.valueOf(keyHolder.getKey().intValue());
 				 flag = true;
+			}
+			obj.setDesign_id(designId);
 			
-				if(flag && !StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
-					String[] designRevision = obj.getRevisions();
-					String[] consultantSubmission = obj.getConsultant_submissions();
-					String[] mrvcReviewed = obj.getMrvc_revieweds();
-					String[] divisionalApproval = obj.getDivisional_approvals();
-					String[] hqApproval = obj.getHq_approvals();
-					String[] revisionStatus = obj.getRevision_status_fks();
-					String[] remarks = obj.getRemarkss();
-	
-					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval"
-							+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
-					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
-				            new BatchPreparedStatementSetter() {
-	
-								@Override
-								public void setValues(PreparedStatement ps, int i) throws SQLException {
+			if(flag) {
+				
+				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval"
+						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+				
+				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
+			            new BatchPreparedStatementSetter() {
+							@Override
+							public void setValues(PreparedStatement ps, int i) throws SQLException {
+								try {
+									int k = 1;
+									ps.setString(k++, obj.getDesign_id());
+									ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);									
+									ps.setString(k++,DateParser.parse((obj.getConsultant_submissions().length > 0)?obj.getConsultant_submissions()[i]:null));
+									ps.setString(k++,DateParser.parse((obj.getMrvc_revieweds().length > 0)?obj.getMrvc_revieweds()[i]:null));
+									ps.setString(k++,DateParser.parse((obj.getDivisional_approvals().length > 0)?obj.getDivisional_approvals()[i]:null));
+									ps.setString(k++,DateParser.parse((obj.getHq_approvals().length > 0)?obj.getHq_approvals()[i]:null));
+									ps.setString(k++,(obj.getRevision_status_fks().length > 0)?obj.getRevision_status_fks()[i]:null);
+									ps.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+								
+								} catch (Exception e) {
 									
-									try {
-										
-										int k = 1;
-										ps.setString(k++, String.valueOf(designId));
-										
-										if(!StringUtils.isEmpty(designRevision) && designRevision.length > 0) {
-											   ps.setString(k++,designRevision[i]);
-										}else {
-											   ps.setString(k++, null);
-										}	
-										if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
-											   ps.setString(k++,DateParser.parse(consultantSubmission[i]));
-										}else {
-											   ps.setString(k++, null);
-										}	
-										if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
-											   ps.setString(k++,DateParser.parse(mrvcReviewed[i]));
-										}else {
-											   ps.setString(k++, null);
-										}
-										if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
-											   ps.setString(k++,DateParser.parse(divisionalApproval[i]));
-										}else {
-											   ps.setString(k++, null);
-										}
-										if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
-											   ps.setString(k++,DateParser.parse(hqApproval[i]));
-										}else {
-											   ps.setString(k++, null);
-										}
-										if(!StringUtils.isEmpty(revisionStatus) && revisionStatus.length > 0) {
-											   ps.setString(k++,revisionStatus[i]);
-										}else {
-											   ps.setString(k++, null);
-										}
-										if(!StringUtils.isEmpty(remarks) && remarks.length > 0) {
-											   ps.setString(k++,remarks[i]);
-										}else {
-											   ps.setString(k++, null);
-										}
-									
-									} catch (Exception e) {
-										
+								}
+							}
+							@Override
+							public int getBatchSize() {
+								int arraySize = 0;
+								if(!StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
+									obj.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevisions()));
+									if(arraySize < obj.getRevisions().length) {
+										arraySize = obj.getRevisions().length;
 									}
 								}
-								@Override
-								public int getBatchSize() {
-									 return obj.getRevisions().length;
+								if(!StringUtils.isEmpty(obj.getConsultant_submissions()) && obj.getConsultant_submissions().length > 0) {
+									obj.setConsultant_submissions(CommonMethods.replaceEmptyByNullInSringArray(obj.getConsultant_submissions()));
+									if(arraySize < obj.getConsultant_submissions().length) {
+										arraySize = obj.getConsultant_submissions().length;
+									}
 								}
-					  });
-						
-				}
+								if(!StringUtils.isEmpty(obj.getMrvc_revieweds()) && obj.getMrvc_revieweds().length > 0) {
+									obj.setMrvc_revieweds(CommonMethods.replaceEmptyByNullInSringArray(obj.getMrvc_revieweds()));
+									if(arraySize < obj.getMrvc_revieweds().length) {
+										arraySize = obj.getMrvc_revieweds().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getDivisional_approvals()) && obj.getDivisional_approvals().length > 0) {
+									obj.setDivisional_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getDivisional_approvals()));
+									if(arraySize < obj.getDivisional_approvals().length) {
+										arraySize = obj.getDivisional_approvals().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getHq_approvals()) && obj.getHq_approvals().length > 0) {
+									obj.setHq_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getHq_approvals()));
+									if(arraySize < obj.getHq_approvals().length) {
+										arraySize = obj.getHq_approvals().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getRevision_status_fks()) && obj.getRevision_status_fks().length > 0) {
+									obj.setRevision_status_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_status_fks()));
+									if(arraySize < obj.getRevision_status_fks().length) {
+										arraySize = obj.getRevision_status_fks().length;
+									}
+								}			
+								if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+									obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+									if(arraySize < obj.getRemarkss().length) {
+										arraySize = obj.getRemarkss().length;
+									}
+								}
+								return arraySize;
+						}
+				  });
 			}
 
 		}catch(Exception e){ 
@@ -305,84 +310,89 @@ public class DesignDaoImpl implements DesignDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String qry = "UPDATE design SET contract_id_fk=:contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
 					+ ",component=:component,drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,planned_start=:planned_start,planned_finish=:planned_finish,"
-					+ "revision=:revision,consultant_submission=:consultant_submission,mrvc_reviewed=:mrvc_reviewed,divisional_approval=:divisional_approval,hq_approval=:hq_approval,gfc_released=:gfc_released,as_built_status=:as_built_status,as_built_date=:as_built_date,remarks=:remarks "
+					+ "revision=:revision,consultant_submission=:consultant_submission,mrvc_reviewed=:mrvc_reviewed,divisional_approval=:divisional_approval,hq_approval=:hq_approval,gfc_released=:gfc_released,as_built_status=:as_built_status,as_built_date=:as_built_date,remarks=:remarks,attachment=:attachment,divisional_submission_fk=:divisional_submission_fk,hq_submission_fk=:hq_submission_fk "
 					+ "WHERE design_id = :design_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
 			}
-			if(flag && !StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
-				
+			if(flag) {
 				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id_fk";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
-				
-				String[] designRevision = obj.getRevisions();
-				String[] consultantSubmission = obj.getConsultant_submissions();
-				String[] mrvcReviewed = obj.getMrvc_revieweds();
-				String[] divisionalApproval = obj.getDivisional_approvals();
-				String[] hqApproval = obj.getHq_approvals();
-				String[] revisionStatus = obj.getRevision_status_fks();
-				String[] remarks = obj.getRemarkss();
-
+			
 				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval"
 						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+				
 				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 			            new BatchPreparedStatementSetter() {
-
 							@Override
 							public void setValues(PreparedStatement ps, int i) throws SQLException {
 								try {
 									int k = 1;
 									ps.setString(k++, obj.getDesign_id());
-									
-									if(!StringUtils.isEmpty(designRevision) && designRevision.length > 0) {
-										   ps.setString(k++,designRevision[i]);
-									}else {
-										   ps.setString(k++, null);
-									}	
-									if(!StringUtils.isEmpty(consultantSubmission) && consultantSubmission.length > 0) {
-										   ps.setString(k++,DateParser.parse(consultantSubmission[i]));
-									}else {
-										   ps.setString(k++, null);
-									}	
-									if(!StringUtils.isEmpty(mrvcReviewed) && mrvcReviewed.length > 0) {
-										   ps.setString(k++,DateParser.parse(mrvcReviewed[i]));
-									}else {
-										   ps.setString(k++, null);
-									}
-									if(!StringUtils.isEmpty(divisionalApproval) && divisionalApproval.length > 0) {
-										   ps.setString(k++,DateParser.parse(divisionalApproval[i]));
-									}else {
-										   ps.setString(k++, null);
-									}
-									if(!StringUtils.isEmpty(hqApproval) && hqApproval.length > 0) {
-										   ps.setString(k++,DateParser.parse(hqApproval[i]));
-									}else {
-										   ps.setString(k++, null);
-									}
-									if(!StringUtils.isEmpty(revisionStatus) && revisionStatus.length > 0) {
-										   ps.setString(k++,revisionStatus[i]);
-									}else {
-										   ps.setString(k++, null);
-									}
-									if(!StringUtils.isEmpty(remarks) && remarks.length > 0) {
-										   ps.setString(k++,remarks[i]);
-									}else {
-										   ps.setString(k++, null);
-									}
+									ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);									
+									ps.setString(k++,DateParser.parse((obj.getConsultant_submissions().length > 0)?obj.getConsultant_submissions()[i]:null));
+									ps.setString(k++,DateParser.parse((obj.getMrvc_revieweds().length > 0)?obj.getMrvc_revieweds()[i]:null));
+									ps.setString(k++,DateParser.parse((obj.getDivisional_approvals().length > 0)?obj.getDivisional_approvals()[i]:null));
+									ps.setString(k++,DateParser.parse((obj.getHq_approvals().length > 0)?obj.getHq_approvals()[i]:null));
+									ps.setString(k++,(obj.getRevision_status_fks().length > 0)?obj.getRevision_status_fks()[i]:null);
+									ps.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+								
 								} catch (Exception e) {
-									// TODO: handle exception
+									
 								}
 							}
 							@Override
 							public int getBatchSize() {
-								 return obj.getRevisions().length;
-							}
+								int arraySize = 0;
+								if(!StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
+									obj.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevisions()));
+									if(arraySize < obj.getRevisions().length) {
+										arraySize = obj.getRevisions().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getConsultant_submissions()) && obj.getConsultant_submissions().length > 0) {
+									obj.setConsultant_submissions(CommonMethods.replaceEmptyByNullInSringArray(obj.getConsultant_submissions()));
+									if(arraySize < obj.getConsultant_submissions().length) {
+										arraySize = obj.getConsultant_submissions().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getMrvc_revieweds()) && obj.getMrvc_revieweds().length > 0) {
+									obj.setMrvc_revieweds(CommonMethods.replaceEmptyByNullInSringArray(obj.getMrvc_revieweds()));
+									if(arraySize < obj.getMrvc_revieweds().length) {
+										arraySize = obj.getMrvc_revieweds().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getDivisional_approvals()) && obj.getDivisional_approvals().length > 0) {
+									obj.setDivisional_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getDivisional_approvals()));
+									if(arraySize < obj.getDivisional_approvals().length) {
+										arraySize = obj.getDivisional_approvals().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getHq_approvals()) && obj.getHq_approvals().length > 0) {
+									obj.setHq_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getHq_approvals()));
+									if(arraySize < obj.getHq_approvals().length) {
+										arraySize = obj.getHq_approvals().length;
+									}
+								}
+								if(!StringUtils.isEmpty(obj.getRevision_status_fks()) && obj.getRevision_status_fks().length > 0) {
+									obj.setRevision_status_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_status_fks()));
+									if(arraySize < obj.getRevision_status_fks().length) {
+										arraySize = obj.getRevision_status_fks().length;
+									}
+								}			
+								if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+									obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+									if(arraySize < obj.getRemarkss().length) {
+										arraySize = obj.getRemarkss().length;
+									}
+								}
+								return arraySize;
+						}
 				  });
-					
-				}
+			}
 
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -391,18 +401,6 @@ public class DesignDaoImpl implements DesignDao{
 			
 		return flag;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

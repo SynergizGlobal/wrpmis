@@ -406,25 +406,25 @@
 		                                                <td>
 		                                                    <input id="consultant_submissions${index.count }" name="consultant_submissions" type="text" class="validate datepicker"
 		                                                        placeholder="Consultant Submission">
-		                                                    <button type="button" id="consultant_icon" class="white"><i
+		                                                    <button type="button" id="consultant_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td>
 		                                                    <input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker"
 		                                                        placeholder="MRVC Reviewed">
-		                                                    <button type="button" id="mrvc_reviewed_icon" class="white"><i
+		                                                    <button type="button" id="mrvc_reviewed_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td>
 		                                                    <input id="divisional_approvals${index.count }" name="divisional_approvals" type="text"
 		                                                        class="validate datepicker" placeholder="Divisional Approval">
-		                                                    <button type="button" id="divisional_approval_icon" class="white"><i
+		                                                    <button type="button" id="divisional_approval_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td>
 		                                                    <input id="hq_approvals${index.count }" name="hq_approvals" type="text" class="validate datepicker"
 		                                                        placeholder="HQ approval">
-		                                                    <button type="button" id="hq_approval_icon" class="white"><i
+		                                                    <button type="button" id="hq_approval_icon${index.count }" class="white"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
 		                                                <td>
@@ -455,25 +455,25 @@
 	                                                <td>
 	                                                    <input id="consultant_submissions0" name="consultant_submissions" type="text" class="validate datepicker"
 	                                                        placeholder="Consultant Submission">
-	                                                    <button type="button" id="consultant_icon" class="white"><i
+	                                                    <button type="button" id="consultant_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
 	                                                    <input id="mrvc_revieweds0" name="mrvc_revieweds" type="text" class="validate datepicker"
 	                                                        placeholder="MRVC Reviewed">
-	                                                    <button type="button" id="mrvc_reviewed_icon" class="white"><i
+	                                                    <button type="button" id="mrvc_reviewed_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
 	                                                    <input id="divisional_approvals0" name="divisional_approvals" type="text"
 	                                                        class="validate datepicker" placeholder="Divisional Approval">
-	                                                    <button type="button" id="divisional_approval_icon" class="white"><i
+	                                                    <button type="button" id="divisional_approval_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
 	                                                    <input id="hq_approvals0" name="hq_approvals" type="text" class="validate datepicker"
 	                                                        placeholder="HQ approval">
-	                                                    <button type="button" id="hq_approval_icon" class="white"><i
+	                                                    <button type="button" id="hq_approval_icon0" class="white"><i
 	                                                            class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
@@ -533,7 +533,7 @@
                                             </div>
                                             
                                             <c:if test="${not empty designDetails.attachment }">
-		                                       	<a href="<%=CommonConstants2.DESIGN_FILE_SAVING_PATH %>${designDetails.attachment }" class="filevalue" download>${designDetails.attachment }</a>
+		                                       	<a href="<%=CommonConstants2.DESIGN_FILES %>${designDetails.attachment }" class="filevalue" download>${designDetails.attachment }</a>
 		                                   	</c:if>
 		                                   	
                                         </div>
@@ -695,56 +695,8 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
          	$('.searchable').select2();
-            $('#remarks,#textarea3,#issueDesc').characterCounter();
+            $('#remarks,#issueDesc').characterCounter();
             
-            $('#planned_start_icon').click(function () {
-                event.stopPropagation();
-                $('#planned_start').click();
-            });
-            $('#consultant_icon').click(function () {
-                event.stopPropagation();
-                $('#consultant').click();
-            });
-            $('#mrvc_reviewed_icon').click(function () {
-                event.stopPropagation();
-                $('#mrvc_reviewed').click();
-            });
-            $('#planned_finish_icon').click(function () {
-                event.stopPropagation();
-                $('#planned_finish').click();
-            });
-            $('#consultant_submission_icon').click(function () {
-                event.stopPropagation();
-                $('#consultant_submission').click();
-            });
-            $('#mrvc_reviewed_date_icon').click(function () {
-                event.stopPropagation();
-                $('#mrvc_reviewed_date').click();
-            });
-            $('#divisional_approval_date_icon').click(function () {
-                event.stopPropagation();
-                $('#divisional_approval_date').click();
-            });
-            $('#divisional_approval_icon').click(function () {
-                event.stopPropagation();
-                $('#divisional_approval').click();
-            });
-            $('#hq_approval_date_icon').click(function () {
-                event.stopPropagation();
-                $('#hq_approval_date').click();
-            });
-            $('#hq_approval_icon').click(function () {
-                event.stopPropagation();
-                $('#hq_approval').click();
-            });
-            $('#gfc_released_icon').click(function () {
-                event.stopPropagation();
-                $('#gfc_released').click();
-            });
-            $('#as_built_date_icon').click(function () {
-                event.stopPropagation();
-                $('#as_built_date').click();
-            });
 
             $('input[name=issue]').change(function () {
                 var radioval = $('input[name=issue]:checked').val();
@@ -933,10 +885,10 @@
 	//console.log("rowno= "+rowNo+" rno= "+rNo);
       var html ='<tr id="revisionRow'+rNo+'"> '
 		      +'<td> <input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-		      +'<td><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
-		      +'<td><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
-		      +'<td><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approval_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
-			  +'<td><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approval_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
+		      +'<td><input id="consultant_submissions'+rNo+'" name="consultant_submissions" type="text" class="validate datepicker" placeholder="Consultant Submission"><button type="button" id="consultant_submissions_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
+		      +'<td><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_reviewed_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
+		      +'<td><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
+			  +'<td><input id="hq_approvals'+rNo+'" name="hq_approvals" type="text" class="validate datepicker" placeholder="HQ approval"> <button type="button" id="hq_approval_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button> </td>'
 			  +'<td>'
 			  +'<select class="searchable" id="revision_status_fks'+rNo+'" name="revision_status_fks">'
 		      +'<option value="" selected>Select </option>'

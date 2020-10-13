@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -167,7 +168,7 @@
                                       	   <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
                                          </c:forEach>
                                     </select>
-                                     <span id="work_id_fkError" class="error-msg" ></span>
+                                     <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p> <label>Proof Consultant Contract ID </label></p>
@@ -178,6 +179,7 @@
                                       	    <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
                                            </c:forEach>
                                     </select>
+                                    <span id="proof_consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -232,9 +234,9 @@
                                     <p> <label>Drawing Type </label></p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable">
                                         <option value="" selected>Select</option>
-                                       			 <c:forEach var="obj" items="${drawingTypeList}">
-	                       						    <option value="${obj.drawing_type_fk }" <c:if test="${designDetails.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
-	                                             </c:forEach>
+                               			<c:forEach var="obj" items="${drawingTypeList}">
+                						    <option value="${obj.drawing_type_fk }" <c:if test="${designDetails.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
+                                      	</c:forEach>
                                     </select>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -288,9 +290,9 @@
                                     <label for="mrvc_drawing_no"> MRVC Drawing No </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="mrvc_reviewed_date" name="mrvc_reviewed" type="text" class="validate datepicker">
-                                    <label for="mrvc_reviewed_date">MRVC Reviewed </label>
-                                    <button type="button" id="mrvc_reviewed_date_icon"><i
+                                    <input id="mrvc_reviewed" name="mrvc_reviewed" type="text" class="validate datepicker">
+                                    <label for="mrvc_reviewed">MRVC Reviewed </label>
+                                    <button type="button" id="mrvc_reviewed_icon"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -299,19 +301,19 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m3 input-field">
-                                    <select id="division_submission" name="division_submission" type="text" class="validate">
+                                    <select id="divisional_submission_fk" name="divisional_submission_fk">
                                     	<option value="">Select</option>
                                     </select> 
-                                	<label for="division_submission">Divisional submission(y/n)</label>                        
+                                	<label for="divisional_submission_fk">Divisional submission(y/n)</label>                        
                                 </div>
                                 <div class="col s12 m3 input-field">
                                     <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate">
                                     <label for="division_drawing_no"> Divisional Drawing No</label>
                                 </div>
                                 <div class="col s12 m2 input-field">
-                                    <input id="divisional_approval_date" name="divisional_approval" type="text" class="validate datepicker">
-                                    <label for="divisional_approval_date">Divisional Approval </label>
-                                    <button type="button" id="divisional_approval_date_icon"><i
+                                    <input id="divisional_approval" name="divisional_approval" type="text" class="validate datepicker">
+                                    <label for="divisional_approval">Divisional Approval </label>
+                                    <button type="button" id="divisional_approval_icon"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -320,19 +322,19 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m3 input-field">
-                                    <select id="hq_submission" name="hq_submission" type="text" class="validate">
+                                    <select id="hq_submission_fk" name="hq_submission_fk">
                                     	<option value="">Select</option>
                                     </select> 
-                                    <label for="hq_submission">Divisional submission(y/n)</label>
+                                    <label for="hq_submission_fk">Divisional submission(y/n)</label>
                                 </div>
                                 <div class="col s12 m3 input-field">
                                     <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate">
                                     <label for="hq_drawing_no"> HQ Drawing No </label>
                                 </div>
                                 <div class="col s12 m2 input-field">
-                                    <input id="hq_approval_date" name="hq_approval" type="text" class="validate datepicker">
-                                    <label for="hq_approval_date">HQ Approval </label>
-                                    <button type="button" id="hq_approval_date_icon"><i
+                                    <input id="hq_approval" name="hq_approval" type="text" class="validate datepicker">
+                                    <label for="hq_approval">HQ Approval </label>
+                                    <button type="button" id="hq_approval_icon"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -389,54 +391,110 @@
                                             </tr>
                                         </thead>
                                         <tbody id="revisionsTableBody">
-                                        	<c:forEach var="revObj" items="${designDetails.designRevisions }" varStatus="index">  
-                                             <tr id="revisionRow${index.count }">                                                
-                                                <td>
-                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate"
-                                                        placeholder="Revision">                                                        
-                                                </td>
-                                                <td>
-                                                    <input id="consultant_submissions${index.count }" name="consultant_submissions" type="text" class="validate datepicker"
-                                                        placeholder="Consultant Submission">
-                                                    <button type="button" id="consultant_icon" class="white"><i
-                                                            class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker"
-                                                        placeholder="MRVC Reviewed">
-                                                    <button type="button" id="mrvc_reviewed_icon" class="white"><i
-                                                            class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="divisional_approvals${index.count }" name="divisional_approvals" type="text"
-                                                        class="validate datepicker" placeholder="Divisional Approval">
-                                                    <button type="button" id="divisional_approval_icon" class="white"><i
-                                                            class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="hq_approvals${index.count }" name="hq_approvals" type="text" class="validate datepicker"
-                                                        placeholder="HQ approval">
-                                                    <button type="button" id="hq_approval_icon" class="white"><i
-                                                            class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <td>
-                                                    <select class="searchable" id="revision_status_fks${index.count }" name="revision_status_fks">
-                                                        <option value="" selected>Select </option>
-                                                          <c:forEach var="obj" items="${revisionStatuses }">
-		                                    				<option value="${obj.as_built_status }" <c:if test="${designDetails.as_built_status eq obj.as_built_status}">selected</c:if>>${obj.as_built_status }</option>
-		                                  				  </c:forEach>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate"
-                                                        placeholder="Remarks">
-                                                </td>
-                                                <td>
-                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
-                                                            class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                           </c:forEach>                                           
+                                        
+	                                        	
+	                                        
+                                        
+                                        <c:choose>
+	                                        <c:when test="">
+	                                        	<c:forEach var="revObj" items="${designDetails.designRevisions }" varStatus="index">  
+		                                            <tr id="revisionRow${index.count }">                                                
+		                                                <td>
+		                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate"
+		                                                        placeholder="Revision">                                                        
+		                                                </td>
+		                                                <td>
+		                                                    <input id="consultant_submissions${index.count }" name="consultant_submissions" type="text" class="validate datepicker"
+		                                                        placeholder="Consultant Submission">
+		                                                    <button type="button" id="consultant_icon" class="white"><i
+		                                                            class="fa fa-calendar"></i></button>
+		                                                </td>
+		                                                <td>
+		                                                    <input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker"
+		                                                        placeholder="MRVC Reviewed">
+		                                                    <button type="button" id="mrvc_reviewed_icon" class="white"><i
+		                                                            class="fa fa-calendar"></i></button>
+		                                                </td>
+		                                                <td>
+		                                                    <input id="divisional_approvals${index.count }" name="divisional_approvals" type="text"
+		                                                        class="validate datepicker" placeholder="Divisional Approval">
+		                                                    <button type="button" id="divisional_approval_icon" class="white"><i
+		                                                            class="fa fa-calendar"></i></button>
+		                                                </td>
+		                                                <td>
+		                                                    <input id="hq_approvals${index.count }" name="hq_approvals" type="text" class="validate datepicker"
+		                                                        placeholder="HQ approval">
+		                                                    <button type="button" id="hq_approval_icon" class="white"><i
+		                                                            class="fa fa-calendar"></i></button>
+		                                                </td>
+		                                                <td>
+		                                                    <select class="searchable" id="revision_status_fks${index.count }" name="revision_status_fks">
+		                                                        <option value="" selected>Select </option>
+		                                                          <c:forEach var="obj" items="${revisionStatuses }">
+				                                    				<option value="${obj.as_built_status }" <c:if test="${designDetails.as_built_status eq obj.as_built_status}">selected</c:if>>${obj.as_built_status }</option>
+				                                  				  </c:forEach>
+		                                                    </select>
+		                                                </td>
+		                                                <td>
+		                                                    <input id="remarkss${index.count }" name="remarkss" type="text" class="validate"
+		                                                        placeholder="Remarks">
+		                                                </td>
+		                                                <td>
+		                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('${index.count }');"> <i
+		                                                            class="fa fa-close"></i></a>
+		                                                </td>
+		                                           </tr>
+	                                           </c:forEach> 
+                                           </c:when>
+	                                       <c:otherwise>
+	                                        	<tr id="revisionRow0">                                                
+	                                                <td>
+	                                                    <input id="revisions0" name="revisions" type="text" class="validate"
+	                                                        placeholder="Revision">                                                        
+	                                                </td>
+	                                                <td>
+	                                                    <input id="consultant_submissions0" name="consultant_submissions" type="text" class="validate datepicker"
+	                                                        placeholder="Consultant Submission">
+	                                                    <button type="button" id="consultant_icon" class="white"><i
+	                                                            class="fa fa-calendar"></i></button>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="mrvc_revieweds0" name="mrvc_revieweds" type="text" class="validate datepicker"
+	                                                        placeholder="MRVC Reviewed">
+	                                                    <button type="button" id="mrvc_reviewed_icon" class="white"><i
+	                                                            class="fa fa-calendar"></i></button>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="divisional_approvals0" name="divisional_approvals" type="text"
+	                                                        class="validate datepicker" placeholder="Divisional Approval">
+	                                                    <button type="button" id="divisional_approval_icon" class="white"><i
+	                                                            class="fa fa-calendar"></i></button>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="hq_approvals0" name="hq_approvals" type="text" class="validate datepicker"
+	                                                        placeholder="HQ approval">
+	                                                    <button type="button" id="hq_approval_icon" class="white"><i
+	                                                            class="fa fa-calendar"></i></button>
+	                                                </td>
+	                                                <td>
+	                                                    <select class="searchable" id="revision_status_fks0" name="revision_status_fks">
+	                                                        <option value="" selected>Select </option>
+	                                                          <c:forEach var="obj" items="${revisionStatuses }">
+			                                    				<option value="${obj.as_built_status }" <c:if test="${designDetails.as_built_status eq obj.as_built_status}">selected</c:if>>${obj.as_built_status }</option>
+			                                  				  </c:forEach>
+	                                                    </select>
+	                                                </td>
+	                                                <td>
+	                                                    <input id="remarkss0" name="remarkss" type="text" class="validate"
+	                                                        placeholder="Remarks">
+	                                                </td>
+	                                                <td>
+	                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
+	                                                            class="fa fa-close"></i></a>
+	                                                </td>
+	                                            </tr>
+	                                       </c:otherwise>
+                                        </c:choose>                                          
                                         </tbody>
                                     </table>
  									<table class="mdl-data-table">
@@ -467,12 +525,17 @@
                                             <div class="file-field input-field">
                                                 <div class="btn bg-m">
                                                     <span>Attachment</span>
-                                                    <input type="file">
+                                                    <input type="file" id="designFile" name="designFile">
                                                 </div>
                                                 <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text" name="attachment" value="">
+                                                    <input class="file-path validate" type="text" name="attachment" value="${designDetails.attachment }">
                                                 </div>
                                             </div>
+                                            
+                                            <c:if test="${not empty designDetails.attachment }">
+		                                       	<a href="<%=CommonConstants2.DESIGN_FILE_SAVING_PATH %>${designDetails.attachment }" class="filevalue" download>${designDetails.attachment }</a>
+		                                   	</c:if>
+		                                   	
                                         </div>
                                         <div class="col m6 s12">
                                             <div class="row">
@@ -633,8 +696,6 @@
             $('select:not(.searchable)').formSelect();
          	$('.searchable').select2();
             $('#remarks,#textarea3,#issueDesc').characterCounter();
-            //$("#planned_start,#as_built_date,#hq_approval,#divisional_approval,#mrvc_reviewed,#consultant,#gfc_released,#hq_approval_date,#planned_finish,#divisional_approval_date,#consultant_submission,#mrvc_reviewed_date").datepicker();
-
             
             $('#planned_start_icon').click(function () {
                 event.stopPropagation();
@@ -766,15 +827,103 @@
             }
         }
         function addDesign(){
-    			$(".page-loader").show();
-    			document.getElementById("designForm").submit();			
-    	 	
+        	if(validator.form()){ // validation perform
+	   			$(".page-loader").show();
+	   			document.getElementById("designForm").submit();	
+        	}
     	}
     
-    function updateDesign(){		
-		$(".page-loader").show();
-		document.getElementById("designForm").submit();		
-	}
+    	function updateDesign(){		
+    		if(validator.form()){ // validation perform
+				$(".page-loader").show();
+				document.getElementById("designForm").submit();		
+    		}
+		}
+    	   
+    	var validator = $('#designForm').validate({
+    	    	ignore: ":hidden:not(.validate-dropdown)",
+    			   rules: {
+    				   	  "project_id_fk": {
+       				 		required: true
+       				 	  },"work_id_fk": {
+    				 		required: true
+    				 	  },"contract_id_fk": {
+    				 		required: true
+    				 	  },"department_id_fk": {
+    				 		required: true
+    				 	  },"consultant_contract_id_fk": {
+    				 		required: true
+    				 	  },"proof_consultant_contract_id_fk": {
+    				 		required: false
+    				 	  }
+    				 				
+    			 	},
+    			   messages: {
+    				     "project_id_fk": {
+       			 			required: 'Required'
+       			 	  	 },"work_id_fk": {
+    			 			required: 'Required'
+    			 	  	 },"contract_id_fk": {
+    			 			required: 'Required'
+    			 	  	 },"department_id_fk": {
+    			 			required: 'Required'
+    			 	  	 },"consultant_contract_id_fk": {
+    			 			required: 'Required'
+    			 	  	 },"proof_consultant_contract_id_fk": {
+    			 			required: 'Required'
+    			 	  	 }      
+    		    },
+    			  errorPlacement:
+    			 	function(error, element){
+    				    if (element.attr("id") == "project_id_fk" ){
+     			 		     document.getElementById("project_id_fkError").innerHTML="";
+     			 			 error.appendTo('#project_id_fkError');
+     			 	    }else if (element.attr("id") == "work_id_fk" ){
+    			 		     document.getElementById("work_id_fkError").innerHTML="";
+    			 			 error.appendTo('#work_id_fkError');
+    			 	    }else if (element.attr("id") == "contract_id_fk" ){
+    			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
+    			 			 error.appendTo('#contract_id_fkError');
+    			 	    }else if (element.attr("id") == "department_id_fk" ){
+    			 		     document.getElementById("department_id_fkError").innerHTML="";
+    			 			 error.appendTo('#department_id_fkError');
+    			 	    }else if (element.attr("id") == "consultant_contract_id_fk" ){
+    			 		     document.getElementById("consultant_contract_id_fkError").innerHTML="";
+    			 			 error.appendTo('#consultant_contract_id_fkError');
+    			 	    }else if (element.attr("id") == "proof_consultant_contract_id_fk" ){
+    			 		     document.getElementById("proof_consultant_contract_id_fkError").innerHTML="";
+    			 			 error.appendTo('#proof_consultant_contract_id_fkError');
+    			 	    }
+    			 },submitHandler: function(form) {
+    			    // do other things for a valid form
+    			    //form.submit();
+    			    //return true;
+    			  }
+    		});
+    	
+    	    $.validator.addMethod("dateFormat",
+        	    function(value, element) {
+        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+        	    	//return dtRegex.test(value);
+        	    },
+        	    //"Date format (Aug 02,2020)"
+        	    "Date format (DD-MM-YYYY)"
+        	);
+            
+            
+            $('select').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            $('input').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
     
 
 	  function addRevisionRow(){
@@ -815,7 +964,6 @@
 	  }
 	  
 	  function removeRevision(rowNo){
-	    	//alert("#revisionRow"+rowNo);
 	    	$("#revisionRow"+rowNo).remove();
 	    }
     

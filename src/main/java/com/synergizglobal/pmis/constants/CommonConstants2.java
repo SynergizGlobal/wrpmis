@@ -10,6 +10,7 @@ public class CommonConstants2 {
 	public static final String ISSUE_FILES = "/pmis/ISSUE_FILES/";
 	public static final String SAFETY_FILES = "/pmis/SAFETY_FILES/";
 	public static final String WORK_FILES = "/pmis/WORK_FILES/";
+	public static final String DESIGN_FILES = "/pmis/DESIGN_FILES/";
 	
 	/*********** LOCAL ****************************************************/
 	

@@ -193,14 +193,15 @@ public class DesignController {
 			obj.setGfc_released(DateParser.parse(obj.getGfc_released()));
 			obj.setAs_built_date(DateParser.parse(obj.getAs_built_date()));
 			
+			MultipartFile file = obj.getDesignFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.DESIGN_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
+			}
 			boolean flag =  designService.addDesign(obj);
-			if(flag == true) {
-				MultipartFile file = obj.getDesignFile();
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.DESIGN_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
+			if(flag) {
 				attributes.addFlashAttribute("success", "Design Added Succesfully.");
 			}
 			else {
@@ -228,15 +229,16 @@ public class DesignController {
 			obj.setHq_approval(DateParser.parse(obj.getHq_approval()));
 			obj.setGfc_released(DateParser.parse(obj.getGfc_released()));
 			obj.setAs_built_date(DateParser.parse(obj.getAs_built_date()));
-			
+
+			MultipartFile file = obj.getDesignFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.DESIGN_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
+			}
 			boolean flag =  designService.updateDesign(obj);
-			if(flag == true) {
-				MultipartFile file = obj.getDesignFile();
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.DESIGN_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
+			if(flag) {
 				attributes.addFlashAttribute("success", "Design Updated Succesfully.");
 			}
 			else {

@@ -10,13 +10,37 @@ public class Design {
 	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,
-	 revision_status_fk, revision_remarks;
+	 revision_status_fk,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment;
 
 	private MultipartFile designFile;
 	
 	private List<Design> designRevisions;
 	
 	
+	public String getDivisional_submission_fk() {
+		return divisional_submission_fk;
+	}
+
+	public void setDivisional_submission_fk(String divisional_submission_fk) {
+		this.divisional_submission_fk = divisional_submission_fk;
+	}
+
+	public String getHq_submission_fk() {
+		return hq_submission_fk;
+	}
+
+	public void setHq_submission_fk(String hq_submission_fk) {
+		this.hq_submission_fk = hq_submission_fk;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
 	public List<Design> getDesignRevisions() {
 		return designRevisions;
 	}

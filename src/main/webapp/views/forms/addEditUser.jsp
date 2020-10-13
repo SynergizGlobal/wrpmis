@@ -387,12 +387,11 @@
                                             <input type="file" id="fileName" name="fileName" accept="image/*" onchange="readURL(this);">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text" name="user_image" value="${usrObj.user_image }">
                                             <img style="height: 20%;width: 20%;<c:if test="${empty usrObj.user_image }">display:none;</c:if>" id="userImagePreview" src="<%=CommonConstants2.USER_IMAGES %>${usrObj.user_image }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="userImage" />
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" id="user_image" name="user_image" value="${usrObj.user_image }" />
                                 
                       
                                 <div class="col m2 hide-on-small-only"></div>

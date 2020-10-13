@@ -470,7 +470,7 @@
                                                     <input type="file">
                                                 </div>
                                                 <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text">
+                                                    <input class="file-path validate" type="text" name="attachment" value="">
                                                 </div>
                                             </div>
                                         </div>

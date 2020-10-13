@@ -324,7 +324,7 @@
                                             <input type="file" id="safetyFile" name="safetyFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text" name="attachment" value="${safety.attachment }" >
                                         </div>
                                     </div>
                                     <c:if test="${not empty safety.attachment }">
@@ -333,7 +333,6 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            <input type="hidden" id="attachment" name="attachment" value="${safety.attachment }" />
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>

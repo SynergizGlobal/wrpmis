@@ -273,7 +273,7 @@
                                             <input type="file" id="issueFile" name="issueFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text" name="attachment" value="${issue.attachment }">
                                         </div>
                                     </div>
                                     
@@ -283,8 +283,6 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            
-                            <input type="hidden" id="attachment" name="attachment" value="${issue.attachment }" />
 
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>

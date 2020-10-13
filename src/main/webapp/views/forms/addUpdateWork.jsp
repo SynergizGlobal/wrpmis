@@ -436,7 +436,7 @@
                                             <input type="file" id="workFile" name="workFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text" name="attachment" value="${workDeatils.attachment }">
                                         </div>
                                     </div>                                    
                                     <c:if test="${not empty workDeatils.attachment }">
@@ -445,7 +445,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            <input type="hidden" id="attachment" name="attachment" value="${workDeatils.attachment }" />
+                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">

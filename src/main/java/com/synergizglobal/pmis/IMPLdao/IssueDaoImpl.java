@@ -29,11 +29,12 @@ public class IssueDaoImpl implements IssueDao {
 		List<Issue> objsList = null;
 		try {
 			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,i.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment "
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
 					+ "where issue_id is not null " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -126,10 +127,10 @@ public class IssueDaoImpl implements IssueDao {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
-					+"priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,attachment) "
+					+"priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,attachment,zonal_railway_fk) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:activity,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
-					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment)";		 
+					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment,:zonal_railway_fk)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
 			if(count > 0) {
@@ -146,11 +147,12 @@ public class IssueDaoImpl implements IssueDao {
 		Issue iobj = null;
 		try {
 			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,i.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment "
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
+					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
 					+ "where issue_id = ? " ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -201,7 +203,7 @@ public class IssueDaoImpl implements IssueDao {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE issue SET "
 					+ "contract_id_fk=:contract_id_fk,activity=:activity,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,"  
-					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,remarks=:remarks,attachment=:attachment "
+					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,remarks=:remarks,attachment=:attachment,zonal_railway_fk=:zonal_railway_fk "
 					+ "where issue_id = :issue_id" ;		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
@@ -277,6 +279,18 @@ public class IssueDaoImpl implements IssueDao {
 		List<Issue> objsList = null;
 		try {
 			String qry = "SELECT status_fk from issue GROUP BY status_fk ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getRailwayList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT railway_id,railway_name from railway";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

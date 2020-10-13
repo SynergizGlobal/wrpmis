@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Issue {
 	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
 	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,
-	project_id_fk,project_name,activity_name,strip_chart_component_fk,zonal_rly,department,department_name,attachment;
+	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk;
 
 	private MultipartFile issueFile;
 	
@@ -267,14 +267,6 @@ public class Issue {
 		this.activity_name = activity_name;
 	}
 
-	public String getZonal_rly() {
-		return zonal_rly;
-	}
-
-	public void setZonal_rly(String zonal_rly) {
-		this.zonal_rly = zonal_rly;
-	}
-
 	public String getActivity() {
 		return activity;
 	}
@@ -289,6 +281,30 @@ public class Issue {
 
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
+	}
+
+	public String getRailway_id() {
+		return railway_id;
+	}
+
+	public void setRailway_id(String railway_id) {
+		this.railway_id = railway_id;
+	}
+
+	public String getRailway_name() {
+		return railway_name;
+	}
+
+	public void setRailway_name(String railway_name) {
+		this.railway_name = railway_name;
+	}
+
+	public String getZonal_railway_fk() {
+		return zonal_railway_fk;
+	}
+
+	public void setZonal_railway_fk(String zonal_railway_fk) {
+		this.zonal_railway_fk = zonal_railway_fk;
 	}
 	
 }

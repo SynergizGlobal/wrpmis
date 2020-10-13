@@ -32,4 +32,6 @@ public interface IssueDao {
 
 	List<Issue> getStatusListFromIssue() throws Exception;
 
+	List<Issue> getRailwayList() throws Exception;
+
 }

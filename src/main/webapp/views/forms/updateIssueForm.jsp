@@ -85,20 +85,16 @@
                                         <option value="">Select</option>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
-                                </div>
+                                </div>                                
                                 <div class="col s12 m4 input-field">
-                                    <input id="activity" name="activity" type="text" class="validate" value="${issue.activity }">
-                                    <label> Activity </label>
-                                    <span id="activityError" class="error-msg" ></span>
+                                    <!-- <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea> -->
+                                    <label for="">Issue ID : <input id="issue_id" name="issue_id" type="text" value="${issue.issue_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <!-- <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea> -->
-                                    <label for="">Issue ID : <input id="issue_id" name="issue_id" type="text" value="${issue.issue_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-                                </div>
+                                
                                 <div class="col s12 m4 input-field">
                                  <p><label>Department </label></p> 
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
@@ -108,6 +104,12 @@
                                         </c:forEach>
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
+                                </div>
+                                
+                                 <div class="col s12 m4 input-field">
+                                    <input id="activity" name="activity" type="text" class="validate" value="${issue.activity }">
+                                    <label> Activity </label>
+                                    <span id="activityError" class="error-msg" ></span>
                                 </div>
 
                                 <div class="col m2 hide-on-small-only"></div>
@@ -217,9 +219,14 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="zonal_rly" name="zonal_rly" type="text" class="validate" value="${issue.zonal_rly }">
-                                    <label for="zonal_rly"> Zonal Rly</label>
-                                    <span id="zonal_rlyError" class="error-msg" ></span>
+                                    <p><label> Zonal Rly</label></p>
+                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${railwayList }">
+                                            <option value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
                             </div>
 
@@ -450,7 +457,7 @@
     				 	  },"contract_id_fk": {
     				 		required: true
     				 	  },"activity": {
-    				 		required: true
+    				 		required: false
     				 	  },"department_fk": {
     				 		required: true
     				 	  },"category_fk": {
@@ -462,29 +469,29 @@
     			 	   	  },"title": {
     				 		required: true
     				 	  },"description": {
-    			 		    required: true
+    			 		    required: false
     			 	   	  },"date": {
     				 		required: true
     				 	  },"location": {
-    				 		required: true
+    				 		required: false
     				 	  },"latitude": {
-    				 		required: true
+    				 		required: false
     				 	  },"longitude": {
-    				 		required: true
+    				 		required: false
     				 	  },"reported_by": {
-    				 		required: true
+    				 		required: false
     				 	  },"responsible_person":{
-    				 		 required: true
+    				 		 required: false
     				 	  },"corrective_measure": {
-    			 		    required: true,
+    			 		    required: false,
     			 	   	  },"resolved_date": {
-    				 		required: true
+    				 		required: false
     				 	  },"escalated_to": {
-    			 		    required: true
-    			 	   	  },"zonal_rly": {
-    				 		required: true
+    			 		    required: false
+    			 	   	  },"zonal_railway_fk": {
+    				 		required: false
     				 	  },"remarks":{
-    				 		 required: true
+    				 		 required: false
     				 	  }
     				 				
     			 	},
@@ -527,7 +534,7 @@
 	   				 		required: 'Required'
 	   				 	  },"escalated_to": {
 	   			 		    required: 'Required'
-	   			 	   	  },"zonal_rly": {
+	   			 	   	  },"zonal_railway_fk": {
 	   				 		required: 'Required'
 	   				 	  },"remarks":{
     			 	  		required: 'Required'
@@ -593,9 +600,9 @@
 	  			 	    }else if (element.attr("name") == "escalated_to" ){
 	  			 		     document.getElementById("escalated_toError").innerHTML="";
 	  			 			 error.appendTo('#escalated_toError');
-	  			 	    }else if (element.attr("id") == "zonal_rly" ){
-	  			 		     document.getElementById("zonal_rlyError").innerHTML="";
-	  			 			 error.appendTo('#zonal_rlyError');
+	  			 	    }else if (element.attr("id") == "zonal_railway_fk" ){
+	  			 		     document.getElementById("zonal_railway_fkError").innerHTML="";
+	  			 			 error.appendTo('#zonal_railway_fkError');
 	  			 	    }else if (element.attr("id") == "remarks" ){
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');

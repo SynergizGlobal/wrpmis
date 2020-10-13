@@ -31,5 +31,7 @@ public interface IssueService {
 	List<Issue> getCategoryListFromIssue() throws Exception;
 
 	List<Issue> getStatusListFromIssue() throws Exception;
+
+	List<Issue> getRailwayList() throws Exception;
 	
 }

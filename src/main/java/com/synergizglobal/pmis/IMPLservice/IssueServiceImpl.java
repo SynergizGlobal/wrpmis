@@ -78,5 +78,10 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getStatusListFromIssue() throws Exception {
 		return issueDao.getStatusListFromIssue();
 	}
+
+	@Override
+	public List<Issue> getRailwayList() throws Exception {
+		return issueDao.getRailwayList();
+	}
 	
 }

@@ -137,6 +137,9 @@ public class IssueController {
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
+			List<Issue> railwayList = issueService.getRailwayList();
+			model.addObject("railwayList", railwayList);
+			
 		} catch (Exception e) {
 			logger.info("addIssueForm : " + e.getMessage());
 		}
@@ -195,6 +198,9 @@ public class IssueController {
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
+			List<Issue> railwayList = issueService.getRailwayList();
+			model.addObject("railwayList", railwayList);
 			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);

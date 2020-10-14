@@ -365,7 +365,7 @@
 	                                    <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker">
 	                                    <label for="actual_completion_date">Actual Completed Date</label>
 	                                     <span id="actual_completion_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="co_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                	<i class="material-icons prefix center-align">₹</i>
@@ -518,8 +518,7 @@
                                                 <td>
                                                     <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
                                                         placeholder="Valid Upto">
-                                                    <button type="button" id="bg_upto_icon"><i
-                                                            class="fa fa-calendar"></i></button>
+                                                    <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
                                                     <input id="remarkss0" name ="remarkss" type="text" class="validate"
@@ -611,8 +610,7 @@
                                                 <td>
                                                     <input id="insurence_valid_uptos0" name="insurence_valid_uptos" type="text" 
                                                         class="validate datepicker" placeholder="Valid Upto">
-                                                    <button type="button" id="insurance_upto_icon"><i
-                                                            class="fa fa-calendar"></i></button>
+                                                    <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
@@ -663,14 +661,12 @@
 	                                                <td>
 	                                                    <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Milestone Date">
-	                                                    <button type="button" id="milestone_date_icon"><i
-	                                                            class="fa fa-calendar"></i></button>
+	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
 	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Actual Date">
-	                                                    <button type="button" id="actual_date_icon"><i
-	                                                            class="fa fa-calendar"></i></button>
+	                                                   <button type="button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
 	                                                <td>
 	                                                    <input id="revisions0" name="revisions" type="text" class="validate" 
@@ -723,8 +719,7 @@
                                                 <td>
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
                                                         placeholder="Revised DOC">
-                                                    <button type="button" id="revised_doc_icon"><i
-                                                            class="fa fa-calendar"></i></button>
+                                                    <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td> 
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
@@ -922,156 +917,19 @@
 
 
     <script>
+	    $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
+	    
         $(document).ready(function () {
         	 $('select:not(.searchable)').formSelect();
              $('.searchable').select2();
-            $('#remarks').characterCounter();
-            // $(".datepicker").datepicker();
-            $("#loa_date").datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-   	    	     $('.confirmation-btns .datepicker-done').click();
-   	    	  } });
-            $("#doc").datepicker({
-           	 format:'dd-mm-yyyy',
-               onSelect: function () {
-  	    	     $('.confirmation-btns .datepicker-done').click();
-  	    	  } });
-            
-            $("#actual_completion_date").datepicker({
-           	 format:'dd-mm-yyyy',
-               onSelect: function () {
-   	    	     $('.confirmation-btns .datepicker-done').click();
-   	    	  }
-          });
-            $("#ca_date").datepicker({
-           	 format:'dd-mm-yyyy',
-               onSelect: function () {
-   	    	     $('.confirmation-btns .datepicker-done').click();
-   	    	  }
-          });
-            $("#insurence_valid_uptos").datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            });
-            $("#bg_valid_uptos").datepicker({
-           	 format:'dd-mm-yyyy',
-               onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           });
-            $("#milestone_dates").datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-     	    	     $('.confirmation-btns .datepicker-done').click();
-     	    	  }
-            });
-            $("#actual_dates").datepicker({
-           	 format:'dd-mm-yyyy',
-               onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           });
-            $("#revised_docs").datepicker({
-           	 format:'dd-mm-yyyy',
-               onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           });
-           
-            $('#loa_date_icon').click(function () {
-                event.stopPropagation();
-                $('#loa_date').click();
-            });
-            $('#ca_date_icon').click(function () {
-                event.stopPropagation();
-                $('#ca_date').click();
-            });
-            $('#co_date_icon').click(function () {
-                event.stopPropagation();
-                $('#co_date').click();
-            });
-            $('#bg_upto_valid_icon').click(function () {
-                event.stopPropagation();
-                $('#bg_upto_valid').click();
-            });
-            $('#insurance_upto_valid_icon').click(function () {
-                event.stopPropagation();
-                $('#insurance_upto_valid').click();
-            });
-            $('#milestone_date_icon').click(function () {
-                event.stopPropagation();
-                $('#milestone_date').click();
-            });
-            $('#actual_date_icon').click(function () {
-                event.stopPropagation();
-                $('#actual_date').click();
-            });
-            $('#revised_doc_icon').click(function () {
-                event.stopPropagation();
-                $('#revised_doc').click();
-            });
-            $('#bg_upto_icon').click(function () {
-                event.stopPropagation();
-                $('#bg_upto').click();
-            });
-
-            $('#insurance_upto_icon').click(function () {
-                event.stopPropagation();
-                $('#insurance_upto').click();
-            });
-
-            $('#contract_closure_date,#completion_certificate_date,#final_takeover_client,#start_date').datepicker({
-            	 format:'dd-mm-yyyy',
-                onSelect: function () {
-    	    	     $('.confirmation-btns .datepicker-done').click();
-    	    	  }
-           });
-            $('#start_date_icon').click(function () {
-                event.stopPropagation();
-                $('#start_date').click();
-            });
-            $('#contract_closure_date_icon').click(function () {
-                event.stopPropagation();
-                $('#contract_closure_date').click();
-            });
-            $('#completion_certificate_date_icon').click(function () {
-                event.stopPropagation();
-                $('#completion_certificate_date').click();
-            });
-            $('#final_takeover_client_icon').click(function () {
-                event.stopPropagation();
-                $('#final_takeover_client').click();
-            });
-            
-            // show or hide based on bg 
-            /* $('input[name="bg_required"]').change(function () {
-                var radioval = $('input[name="bg_required"]:checked').val();
-                if (radioval == 'Yes') {
-                    $('#bank_guarantee_div .btn').removeClass('disabled');
-                    $('#bank_guarantee_div input').prop("disabled", false);
-                    // .css("display", "block");
-                }
-                else if (radioval == 'No') {
-                    $('#bank_guarantee_div .btn').addClass('disabled');
-                    $('#bank_guarantee_div input').prop("disabled", true);
-                }
-            }); */
-            // show or hide based on insurance 
-
-           /*  $('input[name="insurance_required"]').change(function () {
-                var radioval = $('input[name="insurance_required"]:checked').val();
-                if (radioval == 'Yes') {
-                    $('#insurance_div .btn').removeClass('disabled');
-                    $('#insurance_div input').prop("disabled", false);
-                }
-                else if (radioval == 'No') {
-                    $('#insurance_div .btn').addClass('disabled');
-                    $('#insurance_div input').prop("disabled", true);
-                }
-            }); */
+             $('#remarks').characterCounter();
         });
         function getWorksList(projectId) {
         	$(".page-loader").show();
@@ -1125,49 +983,49 @@
    	 	   	  },"scope_of_contract": {
    	 		    required: true,
    	 	   	  },"hod_user_id_fk": {
-   		 		required: true
+   		 		required: false
    		 	  },"dy_hod_user_id_fk": {
-   	 		    required: true
+   	 		    required: false
    	 	   	  },"doc": {
-   		 		required: true
+   		 		required: false
    		 	  },"awarded_cost": {
-   		 		required: true
+   		 		required: false
    		 	  },"date_of_start": {
-   		 		required: true
+   		 		required: false
    		 	  },"estimated_cost": {
-   		 		required: true
+   		 		required: false
    		 	  },"loa_letter_number": {
-   		 		required: true
+   		 		required: false
    		 	  },"loa_date":{
-   		 		 required: true
+   		 		 required: false
    		 	  },"ca_no": {
-   	 		    required: true,
+   	 		    required: false,
    	 	   	  },"ca_date": {
-   		 		required: true
+   		 		required: false
    		 	  },"actual_completion_date": {
-   	 		    required: true
+   	 		    required: false
    	 	   	  },"completed_cost": {
-   		 		required: true
+   		 		required: false
    		 	  },"contract_closure_date": {
-   		 		required: true
+   		 		required: false
    		 	  },"completion_certificate_release":{
-   		 		 required: true
+   		 		 required: false
    		 	  },"final_takeover": {
-   	 		    required: true,
+   	 		    required: false,
    	 	   	  },"final_bill_release": {
-   		 		required: true
+   		 		required: false
    		 	  },"defect_liability_period": {
-   	 		    required: true
+   	 		    required: false
    	 	   	  },"retention_money_release": {
-   		 		required: true
+   		 		required: false
    		 	  },"pbg_release":{
-   		 		 required: true
+   		 		 required: false
    		 	  },"contract_closure":{
-   		 		 required: true
+   		 		 required: false
    		 	  },"contract_status_fk":{
-   		 		 required: true
+   		 		 required: false
    		 	  },"remarks":{
- 		 		 required: true
+ 		 		 required: false
 		 	  }
    		 				
    	 	},
@@ -1364,7 +1222,7 @@
 		   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
 		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
-		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button" id="bg_upto_icon"><i class="fa fa-calendar"></i></button></td>'
+		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 	   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 	 
@@ -1402,7 +1260,7 @@
 		   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 		   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
 		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
-		   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" id="insurance_upto_icon"><i class="fa fa-calendar"></i></button></td>'
+		   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 	
@@ -1429,8 +1287,8 @@
 	 var total = 0;
 	 var html = '<tr id="mileRow'+rNo+'">'
 		   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-		   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button" id="milestone_date_icon"><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button" id="actual_date_icon"><i  class="fa fa-calendar"></i></button></td>'
+		   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
+		   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="revisions'+rNo+'" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
 		   +'<td>  <input id="mile_remarks'+rNo+'" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
 		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -1465,7 +1323,7 @@
 			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
-			   +'<button type="button" id="revised_doc_icon"><i class="fa fa-calendar"></i></button></td>'
+			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
 			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';

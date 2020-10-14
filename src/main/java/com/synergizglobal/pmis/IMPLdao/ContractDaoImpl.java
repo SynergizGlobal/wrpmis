@@ -355,7 +355,7 @@ public class ContractDaoImpl implements ContractDao {
 				
 				for (int i = 0; i < arraySize; i++) {
 				    int k = 1;
-				    stmt.setString(k++,(contract.getBg_type_fks().length > 0)?contract.getInsurance_type_fks()[i]:null);
+				    stmt.setString(k++,(contract.getInsurance_type_fks().length > 0)?contract.getInsurance_type_fks()[i]:null);
 					stmt.setString(k++,(contract.getIssuing_agencys().length > 0)?contract.getIssuing_agencys()[i]:null);
 					stmt.setString(k++,(contract.getAgency_addresss().length > 0)?contract.getAgency_addresss()[i]:null);
 					stmt.setString(k++,(contract.getInsurance_numbers().length > 0)?contract.getInsurance_numbers()[i]:null);
@@ -405,7 +405,7 @@ public class ContractDaoImpl implements ContractDao {
 				
 				for (int i = 0; i < arraySize; i++) {
 					 int k = 1;
-					    stmt.setString(k++,contract.getMilestone_names()[i]);
+					    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
 						stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
 						stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
 						stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
@@ -1031,7 +1031,7 @@ public class ContractDaoImpl implements ContractDao {
 					
 					for (int i = 0; i < arraySize; i++) {
 					    int k = 1;
-					    stmt.setString(k++,(contract.getBg_type_fks().length > 0)?contract.getInsurance_type_fks()[i]:null);
+					    stmt.setString(k++,(contract.getInsurance_type_fks().length > 0)?contract.getInsurance_type_fks()[i]:null);
 						stmt.setString(k++,(contract.getIssuing_agencys().length > 0)?contract.getIssuing_agencys()[i]:null);
 						stmt.setString(k++,(contract.getAgency_addresss().length > 0)?contract.getAgency_addresss()[i]:null);
 						stmt.setString(k++,(contract.getInsurance_numbers().length > 0)?contract.getInsurance_numbers()[i]:null);
@@ -1087,7 +1087,7 @@ public class ContractDaoImpl implements ContractDao {
 					
 					for (int i = 0; i < arraySize; i++) {
 						 int k = 1;
-						    stmt.setString(k++,contract.getMilestone_names()[i]);
+						    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
 							stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
 							stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
 							stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);

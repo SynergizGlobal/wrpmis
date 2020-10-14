@@ -8,9 +8,24 @@ public class WorkContractModuleStatus {
 
 	private List<WorkContractModuleStatus> workContractStatus;
 	
-	private String [] status_as_on_months;
+	private String [] status_as_on_months,module_name_fks,work_status_ids;
 	
-	
+	public String[] getWork_status_ids() {
+		return work_status_ids;
+	}
+
+	public void setWork_status_ids(String[] work_status_ids) {
+		this.work_status_ids = work_status_ids;
+	}
+
+	public String[] getModule_name_fks() {
+		return module_name_fks;
+	}
+
+	public void setModule_name_fks(String[] module_name_fks) {
+		this.module_name_fks = module_name_fks;
+	}
+
 	public String[] getStatus_as_on_months() {
 		return status_as_on_months;
 	}

@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Equipment </title>
+    <title>Work Contract Module Status </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -62,11 +62,21 @@
                         </div>
                     </span>
                     <div class="">
+                    <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col m4 hide-on-small-only"> </div>
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-workContractModuleStatusGrid" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-work-status-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Work Contract Module
                                             Status</strong></a>
                                 </div>
@@ -177,7 +187,9 @@
     
     
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="work_status_id" id="work_status_id" />
+    	<input type="hidden" name="project_id_fk" id="tempProject_id_fk" />
+    	<input type="hidden" name="work_id_fk" id="tempWork_id_fk" />
+    	<input type="hidden" name="contract_id_fk" id="tempContract_id_fk" />
     </form>
     
   <script>
@@ -266,8 +278,11 @@
 	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/getWorkContractModule",type:"POST",data:myParams,success : function(data){    				
 			if(data != null && data != '' && data.length > 0){    					
         		$.each(data,function(key,val){
-        			var work_status_id = "'"+val.work_status_id+"'";
-                   var actions = '<a href="javascript:void(0);"  onclick="getWorkStatus('+work_status_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+        			var project_id_fk = val.project_id_fk;
+        			var work_id_fk = val.work_id_fk;
+        			var contract_id_fk = val.contract_id_fk;
+        			var ids ="'"+ project_id_fk+"','"+work_id_fk+"','"+contract_id_fk+"'";
+                   var actions = '<a href="javascript:void(0);"  onclick="getWorkStatus('+ids+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
 /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
 */                   	var rowArray = [];    	                 
                   	
@@ -299,9 +314,12 @@
     }});
 }
 
-   function getWorkStatus(work_status_id){
-   	$("#work_status_id").val(work_status_id);
-   	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-workstatus');
+   function getWorkStatus(project_id_fk,work_id_fk,contract_id_fk){
+   	$("#tempProject_id_fk").val(project_id_fk);
+ 	$("#tempWork_id_fk").val(work_id_fk);
+ 	$("#tempContract_id_fk").val(contract_id_fk);
+   	
+   	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-work-status');
    	$('#getForm').submit();
    }
     </script>

@@ -14,6 +14,8 @@ public interface WorkContractModuleStatusService {
 	public WorkContractModuleStatus getWorkStatus(WorkContractModuleStatus wObj)throws Exception;
 
 	public boolean addWorkstatus(WorkContractModuleStatus obj)throws Exception;
+
+	public boolean updateWorkStatus(WorkContractModuleStatus obj)throws Exception;
 	
 	
 

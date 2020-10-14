@@ -159,8 +159,8 @@
                             
                              </c:if>
                             </div>
-                            <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyDetails.safety_equipment_id}" />
-                            <div class="row fixed-width" style="margin-bottom: 40px;">
+<%--                             <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyDetails.safety_equipment_id}" />
+ --%>                            <div class="row fixed-width" style="margin-bottom: 40px;">
                                 <h5 class="center-align">Equipment Details</h5>
                                 <div class="table-inside">
                                     <table id="example4" class="mdl-data-table">
@@ -313,8 +313,8 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s black-text"
-                                            style="width:100%">Cancel</button>
+                                          <a href="<%=request.getContextPath()%>/safety-equipment" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

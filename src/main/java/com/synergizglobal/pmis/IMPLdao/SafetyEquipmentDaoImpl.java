@@ -216,7 +216,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		try {
 			con = dataSource.getConnection();
 			String updateQry = "UPDATE safety_equipment set "
-					+ "contract_id_fk= ?, safety_equipment_number= ?, safety_equipment_detail=? ,"
+					+ "safety_equipment_number= ?, safety_equipment_detail=? ,"
 					+ "validity_date= ?, remarks= ?, attachment= ? "
 					+ "where safety_equipment_id= ?";
 			
@@ -296,13 +296,12 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					String sId = obj.getSafety_equipment_ids()[i];
 					if(!StringUtils.isEmpty(sId)) {
 					    int k = 1;
-					    updateStmt.setString(k++,(obj.getContract_id_fk()));
 					    updateStmt.setString(k++,(obj.getSafety_equipment_numbers().length > 0)?obj.getSafety_equipment_numbers()[i]:null);
 					    updateStmt.setString(k++,(obj.getSafety_equipment_details().length > 0)?obj.getSafety_equipment_details()[i]:null);
 					    updateStmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
 					    updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 					    updateStmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);	
-					    updateStmt.setString(k++,(obj.getSafety_equipment_id()));
+					    updateStmt.setString(k++,(obj.getSafety_equipment_ids()[i]));
 					    updateStmt.addBatch();
 					} else {
 					    int p = 1;

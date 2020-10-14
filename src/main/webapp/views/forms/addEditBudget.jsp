@@ -389,13 +389,15 @@
         
         function addBudget(){
         	 if(validator.form()){ // validation perform
-        	$(".page-loader").show();	    		
-   			document.getElementById("budgetForm").submit();			
+	        	$(".page-loader").show();	    		
+	   			document.getElementById("budgetForm").submit();			
    	 	 }
         }
         function updateBudget(){
-        	$(".page-loader").show();	    		
-   			document.getElementById("budgetForm").submit();	
+        	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	   			document.getElementById("budgetForm").submit();	
+        	}
         }
         
         var validator =	$('#budgetForm').validate({

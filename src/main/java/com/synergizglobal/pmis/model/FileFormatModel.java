@@ -18,4 +18,18 @@ public class FileFormatModel {
 		fileFormat.add("Remarks");
 		return fileFormat;
 	}
+	
+	public static List<String> getDesignFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Contract ID,	Department,	HOD,	Dy HOD,	Prepared By,	Consultant Contract ID,	Proof Consultant Contract ID,	Structure,	Component,	Drawing Type,	Contractor Drawing No,	MRVC Drawing No,	Division Drawing No,	HQ Drawing No,	Drawing Title,	Planned Start,	Planned Finish,	Revision,	Consultant Submission,	MRVC Reviewed,	Divisional Submission,	Divisional Approval,	HQ Submission,	HQ Approval,	GFC Released,	As Built Status,	As Built Date,	Remarks";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+
+		return fileFormat;
+	}
+	
+
+
 }

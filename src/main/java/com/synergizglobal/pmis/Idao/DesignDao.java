@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Safety;
+import com.synergizglobal.pmis.model.User;
 
 public interface DesignDao {
 
@@ -26,5 +27,7 @@ public interface DesignDao {
 	public boolean addDesign(Design obj) throws Exception;
 	
 	public boolean updateDesign(Design obj) throws Exception;
+
+	public int uploadDesigns(List<Design> designsList) throws Exception;
 
 }

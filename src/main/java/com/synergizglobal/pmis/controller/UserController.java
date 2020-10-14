@@ -492,7 +492,6 @@ public class UserController {
 	 */
 	
 	public int uploadUsers(User obj, String userId, String userName, XSSFWorkbook workbook) throws Exception {
-		logger.info("AirportController  >> uploadActivities() >> start");
 		User user = null;
 		List<User> usersList = new ArrayList<User>();
 		

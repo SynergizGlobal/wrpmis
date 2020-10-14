@@ -25,6 +25,7 @@ import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.User;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -460,6 +461,87 @@ public class DesignDaoImpl implements DesignDao{
 		}
 			
 		return flag;
+	}
+
+	@Override
+	public int uploadDesigns(List<Design> designsList) throws Exception {
+		int count = 0;
+		boolean flag = false;
+		try {
+			for (Design obj : designsList) {	
+
+				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+				String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
+						+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
+						+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
+						+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk) "
+						+ "VALUES(:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
+						+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
+						+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,:divisional_submission_fk,:hq_submission_fk)";
+				
+
+				
+				SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+			    KeyHolder keyHolder = new GeneratedKeyHolder();
+			    count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
+			    //return keyHolder.getKey().intValue();
+
+				//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+				//int count = namedParamJdbcTemplate.update(qry, paramSource);		
+			    String designId = null;
+				if(count > 0) {
+					 designId = String.valueOf(keyHolder.getKey().intValue());
+					 flag = true;
+				}
+				obj.setDesign_id(designId);
+				
+				
+				if(flag && !StringUtils.isEmpty(obj.getDesignRevisions())) {
+					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
+							+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+					
+					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
+				            new BatchPreparedStatementSetter() {
+								@Override
+								public void setValues(PreparedStatement ps, int i) throws SQLException {
+									try {
+										String revision = obj.getDesignRevisions().get(i).getRevision();										
+										String consultant_submission = obj.getDesignRevisions().get(i).getConsultant_submission();
+										String mrvc_reviewed = obj.getDesignRevisions().get(i).getMrvc_reviewed();
+										String divisional_approval = obj.getDesignRevisions().get(i).getDivisional_approval();
+										String hq_approval = obj.getDesignRevisions().get(i).getHq_approval();
+										String revision_status_fk = obj.getDesignRevisions().get(i).getRevision_status_fk();
+										String remarks = obj.getDesignRevisions().get(i).getRemarks();
+										
+										int k = 1;
+										ps.setString(k++, obj.getDesign_id());
+										ps.setString(k++,!StringUtils.isEmpty(revision)?revision:null);									
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(consultant_submission)?consultant_submission:null));
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(mrvc_reviewed)?mrvc_reviewed:null));
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(divisional_approval)?divisional_approval:null));
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(hq_approval)?hq_approval:null));
+										ps.setString(k++,!StringUtils.isEmpty(revision_status_fk)?revision_status_fk:null);
+										ps.setString(k++,!StringUtils.isEmpty(remarks)?remarks:null);
+									
+									} catch (Exception e) {
+										
+									}
+								}
+								@Override
+								public int getBatchSize() {
+									return obj.getDesignRevisions().size();
+							}
+					  });
+				}
+				
+			}
+			
+			count = designsList.size();
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return count;
 	}
 	
 	

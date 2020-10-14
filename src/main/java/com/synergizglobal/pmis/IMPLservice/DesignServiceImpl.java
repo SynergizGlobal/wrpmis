@@ -10,6 +10,7 @@ import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Safety;
+import com.synergizglobal.pmis.model.User;
 
 @Service
 public class DesignServiceImpl implements DesignService{
@@ -63,6 +64,11 @@ public class DesignServiceImpl implements DesignService{
 	@Override
 	public boolean updateDesign(Design obj) throws Exception {
 		return designDao.updateDesign(obj);
+	}
+
+	@Override
+	public int uploadDesigns(List<Design> designsList) throws Exception {
+		return designDao.uploadDesigns(designsList);
 	}
 
 }

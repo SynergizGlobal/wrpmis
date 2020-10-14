@@ -1,7 +1,9 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -36,11 +39,15 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getDesigns(Design obj)throws Exception{
 		List<Design> objsList = null;
 		try {
-			String qry ="select design_id,d.contract_id_fk,d.structure_type_fk,d.drawing_type_fk,d.department_id_fk,d.hod,d.dy_hod,d.structure_type_fk,d.contractor_drawing_no,"
-					+ "d.mrvc_drawing_no,d.division_drawing_no,d.drawing_title,d.hq_drawing_no " 
-					+"from design d "
-					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "					
-					+ "LEFT JOIN user u on d.hod = u.user_id where design_id is not null";
+			String qry ="select design_id,c.work_id_fk,w.project_id_fk,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
+					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
+					",d.hq_drawing_no,d.drawing_title,d.planned_start,d.planned_finish,d.revision,d.consultant_submission,d.mrvc_reviewed,d.divisional_approval," + 
+					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
+					+ "from design d "  
+					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " 
+					+"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
+					+ " where design_id is not null";
 				
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -166,25 +173,23 @@ public class DesignDaoImpl implements DesignDao{
 	public Design getDesignDetails(Design obj)throws Exception{
 		Design dObj = null;
 		try {
-			String qry ="select c.work_id_fk,w.project_id_fk,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
+			String qry ="select design_id,c.work_id_fk,w.project_id_fk,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title,d.planned_start,d.planned_finish,d.revision,d.consultant_submission,d.mrvc_reviewed,d.divisional_approval," + 
-					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks,d.attachment from design d " + 
+					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
+					+ "from design d " + 
 					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " + 
 					"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
-					+ "where design_id is not null" ;
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesign_id())) {
-				qry = qry + " and design_id = ?";
-				arrSize++;
-			}	
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesign_id())) {
-				pValues[i++] = obj.getDesign_id();
+					+ "where design_id is not null and design_id = ?" ;
+			
+			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
+			
+			if(!StringUtils.isEmpty(dObj)) {
+				String qry2 ="select revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,revision_status_fk,remarks from design_revisions where design_id_fk = ?";
+				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
+				dObj.setDesignRevisions(objList);
 			}
-			dObj = (Design)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -223,7 +228,7 @@ public class DesignDaoImpl implements DesignDao{
 			
 			if(flag) {
 				
-				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval"
+				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
 						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
@@ -293,6 +298,33 @@ public class DesignDaoImpl implements DesignDao{
 								return arraySize;
 						}
 				  });
+				
+				
+				String issueId = null;
+				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
+					String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk)VALUES(?,?,?,?,?,?,?,CURDATE(),?)";				
+					KeyHolder holder = new GeneratedKeyHolder();
+					jdbcTemplate.update(new PreparedStatementCreator() {
+						@Override
+						public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+							PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
+							int i = 1;
+							ps.setString(i++, !StringUtils.isEmpty(obj.getContract_id_fk())?obj.getContract_id_fk():null);
+							ps.setString(i++, obj.getIssue_description());
+							ps.setString(i++, obj.getIssue_description());
+							ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
+							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
+							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
+							ps.setString(i++, "Raised");
+							ps.setString(i++, !StringUtils.isEmpty(obj.getDepartment_id_fk())?obj.getDepartment_id_fk():null);
+							return ps;
+						}
+					}, holder);
+
+					issueId = String.valueOf(holder.getKey().longValue());				
+				}else{
+					issueId = null;
+				}
 			}
 
 		}catch(Exception e){ 
@@ -318,11 +350,11 @@ public class DesignDaoImpl implements DesignDao{
 				flag = true;
 			}
 			if(flag) {
-				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id_fk";		 
+				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id";		 
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			
-				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval"
+				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
 						+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
@@ -392,6 +424,34 @@ public class DesignDaoImpl implements DesignDao{
 								return arraySize;
 						}
 				  });
+				
+				
+				
+				String issueId = null;
+				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
+					String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk)VALUES(?,?,?,?,?,?,?,CURDATE(),?)";				
+					KeyHolder holder = new GeneratedKeyHolder();
+					jdbcTemplate.update(new PreparedStatementCreator() {
+						@Override
+						public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+							PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
+							int i = 1;
+							ps.setString(i++, !StringUtils.isEmpty(obj.getContract_id_fk())?obj.getContract_id_fk():null);
+							ps.setString(i++, obj.getIssue_description());
+							ps.setString(i++, obj.getIssue_description());
+							ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
+							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
+							ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
+							ps.setString(i++, "Raised");
+							ps.setString(i++, !StringUtils.isEmpty(obj.getDepartment_id_fk())?obj.getDepartment_id_fk():null);
+							return ps;
+						}
+					}, holder);
+
+					issueId = String.valueOf(holder.getKey().longValue());				
+				}else{
+					issueId = null;
+				}
 			}
 
 		}catch(Exception e){ 

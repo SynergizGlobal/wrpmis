@@ -34,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
 import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.common.DateParser;
@@ -42,6 +43,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
@@ -66,6 +68,8 @@ public class DesignController {
 	HomeService homeService;
 	@Autowired
 	WorkService workService;
+	@Autowired
+	IssueService issueService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -82,7 +86,7 @@ public class DesignController {
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
 	@RequestMapping(value="/design",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView Design(@ModelAttribute Contract obj,Design design,HttpSession session){
+	public ModelAndView design(@ModelAttribute Contract obj,Design design,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.designGrid);
 		
 		try {
@@ -99,7 +103,7 @@ public class DesignController {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Design : " + e.getMessage());
+			logger.info("design : " + e.getMessage());
 		}
 		return model;
 	}
@@ -112,7 +116,7 @@ public class DesignController {
 			design = designService.getDesigns(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("design : " + e.getMessage());
+			logger.info("getDesigns : " + e.getMessage());
 		}
 		return design;
 	}
@@ -125,64 +129,90 @@ public class DesignController {
 			model.addObject("action", "edit");
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getWorkList(null);
-			model.addObject("workList", workList);
+			
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
-			Design designDetails = designService.getDesignDetails(obj);
-			model.addObject("designDetails", designDetails);
+			
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
-			List<Design> structureTypeList = designService.structureList();
-			model.addObject("structureTypeList", structureTypeList);
+			
 			List<Design> preparedBy = designService.getPreparedByList();
 			model.addObject("preparedBy", preparedBy);
+			
+			List<Design> structureTypeList = designService.structureList();
+			model.addObject("structureTypeList", structureTypeList);
+			
 			List<Design> drawingTypeList = designService.drawingTypeList();
 			model.addObject("drawingTypeList", drawingTypeList);
+			
 			List<Design> revisionStatuses = designService.getRevisionStatuses();
 			model.addObject("revisionStatuses", revisionStatuses);
+			
+			List<Issue> issueCategoryList = issueService.getIssuesCategoryList();	
+			model.addObject("issueCategoryList", issueCategoryList);
+			
+			List<Issue> issuePriorityList = issueService.getIssuesPriorityList();
+			model.addObject("issuePriorityList", issuePriorityList);
+
+			Design designDetails = designService.getDesignDetails(obj);
+			model.addObject("designDetails", designDetails);
 			 
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Design : " + e.getMessage());
+			logger.info("getDesign : " + e.getMessage());
 		}
 		return model;
 	}
 	
 	@RequestMapping(value = "/add-design-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addContractForm(@ModelAttribute Design obj){
+	public ModelAndView addDesignForm(@ModelAttribute Design obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDesign);	
 			model.addObject("action", "add");
+			
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getWorkList(null);
-			model.addObject("workList", workList);
+			
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
+			
 			List<Design> preparedBy = designService.getPreparedByList();
 			model.addObject("preparedBy", preparedBy);
+			
 			List<Design> structureTypeList = designService.structureList();
 			model.addObject("structureTypeList", structureTypeList);
+			
 			List<Design> drawingTypeList = designService.drawingTypeList();
 			model.addObject("drawingTypeList", drawingTypeList);
+			
 			List<Design> revisionStatuses = designService.getRevisionStatuses();
 			model.addObject("revisionStatuses", revisionStatuses);
+			
+			List<Issue> issueCategoryList = issueService.getIssuesCategoryList();	
+			model.addObject("issueCategoryList", issueCategoryList);
+			
+			List<Issue> issuePriorityList = issueService.getIssuesPriorityList();
+			model.addObject("issuePriorityList", issuePriorityList);
+			
 		}catch (Exception e) {
-			logger.info("Design : " + e.getMessage());
+			logger.info("addDesignForm : " + e.getMessage());
 		}
 		return model;
-	}
+	}	
 	
 	@RequestMapping(value = "/add-design", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addDesign(@ModelAttribute Design obj,RedirectAttributes attributes){
+	public ModelAndView addDesign(@ModelAttribute Design obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		try{
+		try {			
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			obj.setCreated_by_user_id_fk(user_Id);
 			model.setViewName("redirect:/design");
+			
 			
 			obj.setPlanned_start(DateParser.parse(obj.getPlanned_start()));
 			obj.setPlanned_finish(DateParser.parse(obj.getPlanned_finish()));
@@ -209,16 +239,18 @@ public class DesignController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Design is failed. Try again.");
-			logger.info("Design : " + e.getMessage());
+			logger.info("addDesign : " + e.getMessage());
 		}
 		return model;
 	}
 
 	@RequestMapping(value = "/update-design", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView updateDesign(@ModelAttribute Design obj,RedirectAttributes attributes){
+	public ModelAndView updateDesign(@ModelAttribute Design obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			obj.setCreated_by_user_id_fk(user_Id);
 			model.setViewName("redirect:/design");
 			
 			obj.setPlanned_start(DateParser.parse(obj.getPlanned_start()));

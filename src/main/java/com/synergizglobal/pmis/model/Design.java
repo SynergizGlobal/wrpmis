@@ -10,13 +10,45 @@ public class Design {
 	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,
-	 revision_status_fk,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment;
+	 revision_status_fk,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,issue_category_id,created_by_user_id_fk;
 
 	private MultipartFile designFile;
 	
 	private List<Design> designRevisions;
 	
 	
+	public String getIssue_description() {
+		return issue_description;
+	}
+
+	public void setIssue_description(String issue_description) {
+		this.issue_description = issue_description;
+	}
+
+	public String getIssue_priority_id() {
+		return issue_priority_id;
+	}
+
+	public void setIssue_priority_id(String issue_priority_id) {
+		this.issue_priority_id = issue_priority_id;
+	}
+
+	public String getIssue_category_id() {
+		return issue_category_id;
+	}
+
+	public void setIssue_category_id(String issue_category_id) {
+		this.issue_category_id = issue_category_id;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
 	public String getDivisional_submission_fk() {
 		return divisional_submission_fk;
 	}
@@ -397,6 +429,14 @@ public class Design {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getIs_there_issue() {
+		return is_there_issue;
+	}
+
+	public void setIs_there_issue(String is_there_issue) {
+		this.is_there_issue = is_there_issue;
 	}
 
 }

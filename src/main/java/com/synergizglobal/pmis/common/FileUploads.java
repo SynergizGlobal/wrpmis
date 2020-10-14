@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -26,27 +27,32 @@ public class FileUploads {
                 if (!direcory.exists()) {
                 	direcory.mkdirs();
                 }
+				/*Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
+				FileAttribute<Set<PosixFilePermission>> fileAttributes = PosixFilePermissions.asFileAttribute(permissions);
+				Files.createDirectories(direcory.toPath(), fileAttributes);*/
+	            
 	            if (!"".equalsIgnoreCase(fileName)) {
 	                file.transferTo(new File(saveDirectory + fileName));
 	            }
 	            
 	            
-	            Path path = Paths.get(saveDirectory + fileName);
-	            if (!Files.exists(path)) Files.createFile(path);
-	            Set<PosixFilePermission> perms = Files.readAttributes(path,PosixFileAttributes.class).permissions();
-
-	            perms.add(PosixFilePermission.OWNER_WRITE);
-	            perms.add(PosixFilePermission.OWNER_READ);
-	            perms.add(PosixFilePermission.OWNER_EXECUTE);
-	            perms.add(PosixFilePermission.GROUP_WRITE);
-	            perms.add(PosixFilePermission.GROUP_READ);
-	            perms.add(PosixFilePermission.GROUP_EXECUTE);
-	            perms.add(PosixFilePermission.OTHERS_WRITE);
-	            perms.add(PosixFilePermission.OTHERS_READ);
-	            perms.add(PosixFilePermission.OTHERS_EXECUTE);
-	            Files.setPosixFilePermissions(path, perms);
+				/* Path path = Paths.get(saveDirectory + fileName);
+				if (!Files.exists(path)) Files.createFile(path);
+				Set<PosixFilePermission> perms = Files.readAttributes(path,PosixFileAttributes.class).permissions();
+				
+				perms.add(PosixFilePermission.OWNER_WRITE);
+				perms.add(PosixFilePermission.OWNER_READ);
+				perms.add(PosixFilePermission.OWNER_EXECUTE);
+				perms.add(PosixFilePermission.GROUP_WRITE);
+				perms.add(PosixFilePermission.GROUP_READ);
+				perms.add(PosixFilePermission.GROUP_EXECUTE);
+				perms.add(PosixFilePermission.OTHERS_WRITE);
+				perms.add(PosixFilePermission.OTHERS_READ);
+				perms.add(PosixFilePermission.OTHERS_EXECUTE);
+				Files.setPosixFilePermissions(path, perms);*/
 	        }
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("singleFileSaving() : "+e.getMessage());
 		}
     }
@@ -64,20 +70,20 @@ public class FileUploads {
 	                    multipartFile.transferTo(new File(saveDirectory + fileName));
 	                }
 	                
-	                Path path = Paths.get(saveDirectory + fileName);
-		            if (!Files.exists(path)) Files.createFile(path);
-		            Set<PosixFilePermission> perms = Files.readAttributes(path,PosixFileAttributes.class).permissions();
-
-		            perms.add(PosixFilePermission.OWNER_WRITE);
-		            perms.add(PosixFilePermission.OWNER_READ);
-		            perms.add(PosixFilePermission.OWNER_EXECUTE);
-		            perms.add(PosixFilePermission.GROUP_WRITE);
-		            perms.add(PosixFilePermission.GROUP_READ);
-		            perms.add(PosixFilePermission.GROUP_EXECUTE);
-		            perms.add(PosixFilePermission.OTHERS_WRITE);
-		            perms.add(PosixFilePermission.OTHERS_READ);
-		            perms.add(PosixFilePermission.OTHERS_EXECUTE);
-		            Files.setPosixFilePermissions(path, perms);
+					/*Path path = Paths.get(saveDirectory + fileName);
+					if (!Files.exists(path)) Files.createFile(path);
+					Set<PosixFilePermission> perms = Files.readAttributes(path,PosixFileAttributes.class).permissions();
+					
+					perms.add(PosixFilePermission.OWNER_WRITE);
+					perms.add(PosixFilePermission.OWNER_READ);
+					perms.add(PosixFilePermission.OWNER_EXECUTE);
+					perms.add(PosixFilePermission.GROUP_WRITE);
+					perms.add(PosixFilePermission.GROUP_READ);
+					perms.add(PosixFilePermission.GROUP_EXECUTE);
+					perms.add(PosixFilePermission.OTHERS_WRITE);
+					perms.add(PosixFilePermission.OTHERS_READ);
+					perms.add(PosixFilePermission.OTHERS_EXECUTE);
+					Files.setPosixFilePermissions(path, perms);*/
 	            }
 	        }
 		} catch (Exception e) {

@@ -56,7 +56,17 @@
                             <h6>Design & Drawing</h6>
                         </div>
                     </span>
-                    <div class="">                      
+                    <div class="">         
+                    	<c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>             
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4 l-align">
                                 <div class="m-1 ">
@@ -131,7 +141,7 @@
                                     </div>
                                     <div class="col s12 m2 input-field">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 18px;width: 100%;">Clear Filters</button>
+                                            style="margin-top: 18px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +266,17 @@
 	    	$('.close-message').delay(3000).fadeOut('slow');
 	    	
 	    	getDesignList();
-	    });
+	 });
+	 
+	 function clearFilter(){
+     	$("#contract_id_fk").val('');
+     	$("#department_id_fk").val('');
+     	$("#hod").val('');
+     	$("#structure_type_fk").val('');
+     	$("#drawing_type_fk").val('');
+     	$('.searchable').select2();
+     	getDesignList();
+     }
 
 	 function getDesignList(){
 	    	$(".page-loader").show();

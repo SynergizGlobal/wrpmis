@@ -101,7 +101,6 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 					"left join project p on  w.project_id_fk = p.project_id "  + 
 					"left join contract c on ws.contract_id_fk = c.contract_id where work_status_id is not null  and ws.work_id_fk =? and ws.contract_id_fk =? LIMIT 1";
 			
-			
 			obj = (WorkContractModuleStatus)jdbcTemplate.queryForObject(qry, new Object[] {wObj.getWork_id_fk(),wObj.getContract_id_fk()}, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
 			
 			if(!StringUtils.isEmpty(obj)) {
@@ -112,7 +111,6 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 				objsList = jdbcTemplate.query(qryDetails, new Object[] {wObj.getWork_id_fk(),wObj.getContract_id_fk()}, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
 				obj.setWorkContractStatus(objsList);
 			}
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -145,7 +143,6 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 					arraySize = obj.getModule_name_fks().length;
 				}
 			}
-			
 			for (int i = 0; i < arraySize; i++) {
 			
 			    int p = 1;
@@ -168,7 +165,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 				throw new Exception(e.getMessage());
 			}
 			return flag;
-		}
+	}
 
 	@Override
 	public boolean updateWorkStatus(WorkContractModuleStatus obj) throws Exception {
@@ -177,9 +174,7 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
-			String updateQry = "UPDATE work_status set "
-					+ "module_name_fk=? ,"
-					+ "month= ?, status_as_on_month= ? "
+			String updateQry = "UPDATE work_status set module_name_fk=? ,month= ?, status_as_on_month= ? "
 					+ "where work_status_id= ?";
 			
 			updateStmt = con.prepareStatement(updateQry);
@@ -196,26 +191,25 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 					arraySize = obj.getModule_name_fks().length;
 				}
 			}
-			
 			for (int i = 0; i < arraySize; i++) {
-			
+				
 			    int p = 1;
 			    updateStmt.setString(p++,(obj.getModule_name_fks().length > 0)?obj.getModule_name_fks()[i]:null);
 			    updateStmt.setString(p++,DateParser.parse(obj.getMonth()));
 			    updateStmt.setString(p++,(obj.getStatus_as_on_months().length > 0)?obj.getStatus_as_on_months()[i]:null);
 			    updateStmt.setString(p++,(obj.getWork_status_ids()[i]));
 			    updateStmt.addBatch();
-			  
 			}
 			int[] updateCount = updateStmt.executeBatch();
+			
 			if(updateCount.length > 0) {
 				flag = true;
 			}
-	}catch(Exception e){ 
-		e.printStackTrace();
-		throw new Exception(e.getMessage());
-	}
-	return flag;
-}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	 }
 	
 }

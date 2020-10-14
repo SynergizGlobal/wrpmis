@@ -56,12 +56,12 @@ public class WorkContractModuleStatusController {
 	public ModelAndView workContractModuleStatusGrid(HttpSession session,@ModelAttribute Work obj){
 		ModelAndView model = new ModelAndView(PageConstants.workContractModuleStatusGrid);
 		try {
-				List<Work> workList = workService.getWorkList(obj);
-				model.addObject("workList", workList);
-				List<Project> projectsList = budgetService.getProjectsList();
-				model.addObject("projectsList", projectsList);
-				List<WorkContractModuleStatus> contractsList = service.getContractsList();
-				model.addObject("contractsList", contractsList);
+			List<Work> workList = workService.getWorkList(obj);
+			model.addObject("workList", workList);
+			List<Project> projectsList = budgetService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<WorkContractModuleStatus> contractsList = service.getContractsList();
+			model.addObject("contractsList", contractsList);
 				
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -107,7 +107,6 @@ public class WorkContractModuleStatusController {
 			model.addObject("projectsList", projectsList);
 			WorkContractModuleStatus workStatusDetails = service.getWorkStatus(wObj);
 			model.addObject("workStatusDetails", workStatusDetails);
-		
 		}catch (Exception e) {
 				e.printStackTrace();
 				logger.info("getWorkStatus : " + e.getMessage());

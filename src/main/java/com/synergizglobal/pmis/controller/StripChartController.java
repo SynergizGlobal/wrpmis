@@ -60,7 +60,7 @@ public class StripChartController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("StripChart : " + e.getMessage());
+			logger.error("StripChart : " + e.getMessage());
 		}
 		return model;
 	}
@@ -231,7 +231,7 @@ public class StripChartController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
-			logger.info("updateStripChart : " + e.getMessage());
+			logger.error("updateStripChart : " + e.getMessage());
 		}
 		return model;
 	}

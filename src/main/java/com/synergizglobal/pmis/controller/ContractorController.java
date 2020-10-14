@@ -69,7 +69,7 @@ public class ContractorController {
 			model.addObject("contractorsList", contractorsList);	
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Contractor : " + e.getMessage());
+			logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	}
@@ -83,7 +83,7 @@ public class ContractorController {
 			List<Contractor> Specialization = contractorService.getContractorSpecialization();
 			model.addObject("Specialization", Specialization);
 		}catch (Exception e) {
-				logger.info("Contractor : " + e.getMessage());
+				logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -100,7 +100,7 @@ public class ContractorController {
 			model.addObject("Specialization", Specialization);
 		}catch (Exception e) {
 				e.printStackTrace();
-				logger.info("Contractor : " + e.getMessage());
+				logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -118,7 +118,7 @@ public class ContractorController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Contractor is failed. Try again.");
-			logger.info("Contractor : " + e.getMessage());
+			logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	}
@@ -137,7 +137,7 @@ public class ContractorController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error","Updating Contractor is failed. Try again.");
-			logger.info("Contractor : " + e.getMessage());
+			logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	}
@@ -149,7 +149,7 @@ public class ContractorController {
 			model.setViewName("redirect:/contractor");
 			boolean flag =  contractorService.deleteContractorRow(obj);
 		}catch (Exception e) {
-			logger.info("Contractor : " + e.getMessage());
+			logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	}

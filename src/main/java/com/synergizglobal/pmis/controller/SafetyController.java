@@ -94,7 +94,7 @@ public class SafetyController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("safety : " + e.getMessage());
+			logger.error("safety : " + e.getMessage());
 		}
 		return model;
 	}
@@ -107,7 +107,7 @@ public class SafetyController {
 			safetyList = safetyService.getSafetyList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getSafetyList : " + e.getMessage());
+			logger.error("getSafetyList : " + e.getMessage());
 		}
 		return safetyList;
 	}
@@ -139,7 +139,7 @@ public class SafetyController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("addSafetyForm : " + e.getMessage());
+			logger.error("addSafetyForm : " + e.getMessage());
 		}
 		return model;
 	}
@@ -172,7 +172,7 @@ public class SafetyController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("addSafety : " + e.getMessage());
+			logger.error("addSafety : " + e.getMessage());
 		}
 		return model;
 	}
@@ -205,7 +205,7 @@ public class SafetyController {
 			model.addObject("safety", safety);
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("getSafety : " + e.getMessage());
+			logger.error("getSafety : " + e.getMessage());
 		}
 		return model;
 	}
@@ -239,7 +239,7 @@ public class SafetyController {
 			model.addObject("safety", safety);
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("getSafety : " + e.getMessage());
+			logger.error("getSafety : " + e.getMessage());
 		}
 		return model;
 	}
@@ -271,7 +271,7 @@ public class SafetyController {
 			}
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("updateSafety : " + e.getMessage());
+			logger.error("updateSafety : " + e.getMessage());
 		}
 		return model;
 	}
@@ -289,7 +289,7 @@ public class SafetyController {
 			}
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("deleteSafety : " + e.getMessage());
+			logger.error("deleteSafety : " + e.getMessage());
 		}
 		return model;
 	}

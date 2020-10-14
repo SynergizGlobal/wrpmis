@@ -65,7 +65,7 @@ public class WorkContractModuleStatusController {
 				
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("workContractModuleStatusGrid : " + e.getMessage());
+			logger.error("workContractModuleStatusGrid : " + e.getMessage());
 		}
 		return model;
 	}
@@ -78,7 +78,7 @@ public class WorkContractModuleStatusController {
 			budgetList = service.workStatusList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("workStatusList : " + e.getMessage());
+			logger.error("workStatusList : " + e.getMessage());
 		}
 		return budgetList;
 	}
@@ -92,7 +92,7 @@ public class WorkContractModuleStatusController {
 			List<Project> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 		}catch (Exception e) {
-				logger.info("Contractor : " + e.getMessage());
+				logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -109,7 +109,7 @@ public class WorkContractModuleStatusController {
 			model.addObject("workStatusDetails", workStatusDetails);
 		}catch (Exception e) {
 				e.printStackTrace();
-				logger.info("getWorkStatus : " + e.getMessage());
+				logger.error("getWorkStatus : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -130,7 +130,7 @@ public class WorkContractModuleStatusController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Something Went Wrong. Try again.");
-			logger.info("addWorkstatus : " + e.getMessage());
+			logger.error("addWorkstatus : " + e.getMessage());
 		}
 		return model;
 	}
@@ -150,7 +150,7 @@ public class WorkContractModuleStatusController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Something Went Wrong. Try again.");
-			logger.info("updateWorkStatus : " + e.getMessage());
+			logger.error("updateWorkStatus : " + e.getMessage());
 		}
 		return model;
 	}

@@ -54,7 +54,7 @@ public class HomeController {
 				 model.setViewName(PageConstants.login);
 			 }				
 		} catch (Exception e) {
-			logger.info("welcome : " + e.getMessage());
+			logger.error("welcome : " + e.getMessage());
 		}
 		return model;
 	}

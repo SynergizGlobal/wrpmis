@@ -72,7 +72,7 @@ public class ProjectController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			
-			logger.info("Project : " + e.getMessage());
+			logger.error("Project : " + e.getMessage());
 		}
 		return model;
 	}
@@ -89,7 +89,7 @@ public class ProjectController {
 			model.addObject("projectDeatils", projectDeatils);
 			
 		}catch (Exception e) {
-			logger.info("Project : " + e.getMessage());
+			logger.error("Project : " + e.getMessage());
 		}
 		return model;
 
@@ -113,7 +113,7 @@ public class ProjectController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error","Updating Project is failed. Try again.");
-			logger.info("Project : " + e.getMessage());
+			logger.error("Project : " + e.getMessage());
 		}
 		return model;
 	}
@@ -126,7 +126,7 @@ public class ProjectController {
 			model.setViewName(PageConstants.addUpdateProject);
 			model.addObject("action", "add");
 		}catch (Exception e) {
-				logger.info("Work : " + e.getMessage());
+				logger.error("Work : " + e.getMessage());
 			}
 			return model;
 	 }
@@ -146,7 +146,7 @@ public class ProjectController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Project is failed. Try again.");
-			logger.info("Project : " + e.getMessage());
+			logger.error("Project : " + e.getMessage());
 		}
 		return model;
 	
@@ -161,7 +161,7 @@ public class ProjectController {
 			projectId= project.getProject_id();
 			boolean flag =  projectService.deleteProjectRow(projectId,project);
 		}catch (Exception e) {
-			logger.info("Work : " + e.getMessage());
+			logger.error("Work : " + e.getMessage());
 		}
 		return model;
 	

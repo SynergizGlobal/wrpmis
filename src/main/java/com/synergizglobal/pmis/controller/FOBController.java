@@ -93,7 +93,7 @@ public class FOBController {
 			model.addObject("generalStatusList", generalStatusList);
 			
 		} catch (Exception e) {
-			logger.info("fob : " + e.getMessage());
+			logger.error("fob : " + e.getMessage());
 		}
 		return model;
 	}
@@ -106,7 +106,7 @@ public class FOBController {
 			fobs = fobService.getFOBList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getFOBList : " + e.getMessage());
+			logger.error("getFOBList : " + e.getMessage());
 		}
 		return fobs;
 	}
@@ -126,7 +126,7 @@ public class FOBController {
 			model.addObject("generalStatusList", generalStatusList);
 			
 		} catch (Exception e) {
-			logger.info("addFOBForm : " + e.getMessage());
+			logger.error("addFOBForm : " + e.getMessage());
 		}
 		return model;
 	}
@@ -183,7 +183,7 @@ public class FOBController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("getFOB : " + e.getMessage());
+			logger.error("getFOB : " + e.getMessage());
 		}
 		return model;
 	}
@@ -218,7 +218,7 @@ public class FOBController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("updateFOB : " + e.getMessage());
+			logger.error("updateFOB : " + e.getMessage());
 		}
 		return model;
 	}
@@ -236,7 +236,7 @@ public class FOBController {
 			}
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("deleteFOB : " + e.getMessage());
+			logger.error("deleteFOB : " + e.getMessage());
 		}
 		return model;
 	}

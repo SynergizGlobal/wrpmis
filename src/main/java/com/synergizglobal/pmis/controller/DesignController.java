@@ -114,7 +114,7 @@ public class DesignController {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("design : " + e.getMessage());
+			logger.error("design : " + e.getMessage());
 		}
 		return model;
 	}
@@ -127,7 +127,7 @@ public class DesignController {
 			design = designService.getDesigns(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getDesigns : " + e.getMessage());
+			logger.error("getDesigns : " + e.getMessage());
 		}
 		return design;
 	}
@@ -170,7 +170,7 @@ public class DesignController {
 			 
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getDesign : " + e.getMessage());
+			logger.error("getDesign : " + e.getMessage());
 		}
 		return model;
 	}
@@ -210,7 +210,7 @@ public class DesignController {
 			model.addObject("issuePriorityList", issuePriorityList);
 			
 		}catch (Exception e) {
-			logger.info("addDesignForm : " + e.getMessage());
+			logger.error("addDesignForm : " + e.getMessage());
 		}
 		return model;
 	}	
@@ -250,7 +250,7 @@ public class DesignController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Design is failed. Try again.");
-			logger.info("addDesign : " + e.getMessage());
+			logger.error("addDesign : " + e.getMessage());
 		}
 		return model;
 	}
@@ -290,7 +290,7 @@ public class DesignController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error","Updating Design is failed. Try again.");
-			logger.info("updateDesign : " + e.getMessage());
+			logger.error("updateDesign : " + e.getMessage());
 		}
 		return model;
 	}

@@ -85,7 +85,7 @@ public class BudgetController {
 			model.addObject("projectsList", projectsList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Contract : " + e.getMessage());
+			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
 	}
@@ -98,7 +98,7 @@ public class BudgetController {
 			budgetList = budgetService.budgetList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("budgetList : " + e.getMessage());
+			logger.error("budgetList : " + e.getMessage());
 		}
 		return budgetList;
 	}
@@ -118,7 +118,7 @@ public class BudgetController {
 			model.addObject("projectsList", projectsList);
 			
 		}catch (Exception e) {
-				logger.info("Contractor : " + e.getMessage());
+				logger.error("Contractor : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -139,7 +139,7 @@ public class BudgetController {
 			model.addObject("budgetDetails", budgetDetails);
 		}catch (Exception e) {
 				e.printStackTrace();
-				logger.info("getBudget : " + e.getMessage());
+				logger.error("getBudget : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -165,7 +165,7 @@ public class BudgetController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Budget is failed. Try again.");
-			logger.info("addBudget : " + e.getMessage());
+			logger.error("addBudget : " + e.getMessage());
 		}
 		return model;
 	}
@@ -190,7 +190,7 @@ public class BudgetController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Updating Budget is failed. Try again.");
-			logger.info("updateBudget : " + e.getMessage());
+			logger.error("updateBudget : " + e.getMessage());
 		}
 		return model;
 	}
@@ -202,7 +202,7 @@ public class BudgetController {
 			model.setViewName("redirect:/budget");
 			boolean flag =  budgetService.deleteBudget(obj);
 		}catch (Exception e) {
-			logger.info("deleteBudget : " + e.getMessage());
+			logger.error("deleteBudget : " + e.getMessage());
 		}
 		return model;
 	}

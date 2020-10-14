@@ -92,7 +92,7 @@ public class UserController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("users : " + e.getMessage());
+			logger.error("users : " + e.getMessage());
 		}
 		return model;
 	}
@@ -105,7 +105,7 @@ public class UserController {
 			users = userService.getUsersList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getUsersList : " + e.getMessage());
+			logger.error("getUsersList : " + e.getMessage());
 		}
 		return users;
 	}
@@ -120,7 +120,7 @@ public class UserController {
 			dObj.setKeyAvailability(pmis_key);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("checkPMISKeyAvailability : " + e.getMessage());
+			logger.error("checkPMISKeyAvailability : " + e.getMessage());
 		}
 		return dObj;
 	}
@@ -149,7 +149,7 @@ public class UserController {
 			model.addObject("pmisKeys", pmisKeys);
 			
 		} catch (Exception e) {
-			logger.info("addUserForm : " + e.getMessage());
+			logger.error("addUserForm : " + e.getMessage());
 		}
 		return model;
 	}
@@ -162,7 +162,7 @@ public class UserController {
 			contracts = userService.getContractsForUserAccessTypes(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getContractsForUserAccessTypes : " + e.getMessage());
+			logger.error("getContractsForUserAccessTypes : " + e.getMessage());
 		}
 		return contracts;
 	}
@@ -175,7 +175,7 @@ public class UserController {
 			departments = userService.getDepartmentsForUserAccessTypes(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getDepartmentsForUserAccessTypes : " + e.getMessage());
+			logger.error("getDepartmentsForUserAccessTypes : " + e.getMessage());
 		}
 		return departments;
 	}
@@ -188,7 +188,7 @@ public class UserController {
 			modules = userService.getModulesForUserAccessTypes(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getModulesForUserAccessTypes : " + e.getMessage());
+			logger.error("getModulesForUserAccessTypes : " + e.getMessage());
 		}
 		return modules;
 	}
@@ -201,7 +201,7 @@ public class UserController {
 			works = userService.getWorksForUserAccessTypes(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getWorksForUserAccessTypes : " + e.getMessage());
+			logger.error("getWorksForUserAccessTypes : " + e.getMessage());
 		}
 		return works;
 	}
@@ -233,7 +233,7 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("addUser : " + e.getMessage());
+			logger.error("addUser : " + e.getMessage());
 		}
 		return model;
 	}
@@ -279,7 +279,7 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("getUser : " + e.getMessage());
+			logger.error("getUser : " + e.getMessage());
 		}
 		return model;
 	}
@@ -311,7 +311,7 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("updateUser : " + e.getMessage());
+			logger.error("updateUser : " + e.getMessage());
 		}
 		return model;
 	}
@@ -329,7 +329,7 @@ public class UserController {
 			}
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("deleteUser : " + e.getMessage());
+			logger.error("deleteUser : " + e.getMessage());
 		}
 		return model;
 	}

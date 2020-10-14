@@ -86,7 +86,7 @@ public class SafetyEquipmentController {
 			model.addObject("contractList", contractList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("SafetyEquipment : " + e.getMessage());
+			logger.error("SafetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}
@@ -99,7 +99,7 @@ public class SafetyEquipmentController {
 			safetyEquipment = service.getSafetyEquipment(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("SafetyEquipment : " + e.getMessage());
+			logger.error("SafetyEquipment : " + e.getMessage());
 		}
 		return safetyEquipment;
 	}
@@ -115,7 +115,7 @@ public class SafetyEquipmentController {
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
 		}catch (Exception e) {
-			logger.info("addSafetyEquipmentForm : " + e.getMessage());
+			logger.error("addSafetyEquipmentForm : " + e.getMessage());
 		}
 		return model;
      }
@@ -134,7 +134,7 @@ public class SafetyEquipmentController {
 			model.addObject("safetyDetails", safetyDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getSafetyEquipmentForm : " + e.getMessage());
+			logger.error("getSafetyEquipmentForm : " + e.getMessage());
 		}
 		return model;
      }
@@ -153,7 +153,7 @@ public class SafetyEquipmentController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding SafetyEquipment is failed. Try again.");
-			logger.info("addSafetyEquipment : " + e.getMessage());
+			logger.error("addSafetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}
@@ -173,7 +173,7 @@ public class SafetyEquipmentController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error","Updating SafetyEquipment is failed. Try again.");
-			logger.info("updateSafetyEquipment : " + e.getMessage());
+			logger.error("updateSafetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}
@@ -185,7 +185,7 @@ public class SafetyEquipmentController {
 			model.setViewName("redirect:/safety-equipment");
 			boolean flag =  service.deleteSafetyEquipment(obj);
 		}catch (Exception e) {
-			logger.info("deleteSafetyEquipment : " + e.getMessage());
+			logger.error("deleteSafetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}

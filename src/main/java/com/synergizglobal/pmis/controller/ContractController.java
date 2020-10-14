@@ -102,7 +102,7 @@ public class ContractController {
 			model.addObject("contractor", contractor);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Contract : " + e.getMessage());
+			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
 	}
@@ -114,7 +114,7 @@ public class ContractController {
 		 contractList = contractservice.contractList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("contractList : " + e.getMessage());
+			logger.error("contractList : " + e.getMessage());
 		}
 		return contractList;
 	}
@@ -147,7 +147,7 @@ public class ContractController {
 			List<Contract> contract_Statustype = contractservice.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
 		}catch (Exception e) {
-			logger.info("Contract : " + e.getMessage());
+			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
 	}
@@ -174,7 +174,7 @@ public class ContractController {
 			}
 		 }catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
-			logger.info("Project : " + e.getMessage());
+			logger.error("Project : " + e.getMessage());
 		}
 		return model;
 	}
@@ -208,7 +208,7 @@ public class ContractController {
 			model.addObject("contractDeatils", contractDeatils);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Contract : " + e.getMessage());
+			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
 	}
@@ -244,7 +244,7 @@ public class ContractController {
 			model.addObject("contractDeatils", contractDeatils);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Contract : " + e.getMessage());
+			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
 	}
@@ -273,7 +273,7 @@ public class ContractController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error","Updating Contract is failed. Try again.");
-			logger.info("Contract : " + e.getMessage());
+			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
 	}

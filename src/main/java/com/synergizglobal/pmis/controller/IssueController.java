@@ -98,7 +98,7 @@ public class IssueController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("issues : " + e.getMessage());
+			logger.error("issues : " + e.getMessage());
 		}
 		return model;
 	}
@@ -111,7 +111,7 @@ public class IssueController {
 			issues = issueService.getIssuesList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("getIssuesList : " + e.getMessage());
+			logger.error("getIssuesList : " + e.getMessage());
 		}
 		return issues;
 	}
@@ -141,7 +141,7 @@ public class IssueController {
 			model.addObject("railwayList", railwayList);
 			
 		} catch (Exception e) {
-			logger.info("addIssueForm : " + e.getMessage());
+			logger.error("addIssueForm : " + e.getMessage());
 		}
 		return model;
 	}
@@ -173,7 +173,7 @@ public class IssueController {
 			}
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("addIssue : " + e.getMessage());
+			logger.error("addIssue : " + e.getMessage());
 		}
 		return model;
 	}
@@ -206,7 +206,7 @@ public class IssueController {
 			model.addObject("issue", issue);
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("getIssue : " + e.getMessage());
+			logger.error("getIssue : " + e.getMessage());
 		}
 		return model;
 	}
@@ -236,7 +236,7 @@ public class IssueController {
 			model.addObject("issue", issue);
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("getIssue : " + e.getMessage());
+			logger.error("getIssue : " + e.getMessage());
 		}
 		return model;
 	}
@@ -269,7 +269,7 @@ public class IssueController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("updateIssue : " + e.getMessage());
+			logger.error("updateIssue : " + e.getMessage());
 		}
 		return model;
 	}
@@ -287,7 +287,7 @@ public class IssueController {
 			}
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
-			logger.info("deleteIssue : " + e.getMessage());
+			logger.error("deleteIssue : " + e.getMessage());
 		}
 		return model;
 	}

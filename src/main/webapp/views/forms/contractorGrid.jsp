@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
    	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
    	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-   	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
     <style>
         p a {
             color: blue
@@ -167,6 +166,8 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
+   	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
 
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="contractor_id" id="contractor_id" />

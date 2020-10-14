@@ -82,7 +82,7 @@ public class WorkController {
 			model.addObject("workList", workList);	
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Work : " + e.getMessage());
+			logger.error("Work : " + e.getMessage());
 		}
 		return model;
 	}
@@ -107,7 +107,7 @@ public class WorkController {
 			Work workDeatils = workService.getWork(workId, work);
 			model.addObject("workDeatils", workDeatils);
 		}catch (Exception e) {
-			logger.info("Work : " + e.getMessage());
+			logger.error("Work : " + e.getMessage());
 		}
 		return model;
 	}
@@ -129,7 +129,7 @@ public class WorkController {
 			model.addObject("yearList", yearList);
 
 		}catch (Exception e) {
-				logger.info("Work : " + e.getMessage());
+				logger.error("Work : " + e.getMessage());
 			}
 			return model;
 	 }
@@ -159,7 +159,7 @@ public class WorkController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error","Updating Work is failed. Try again.");
-			logger.info("Work : " + e.getMessage());
+			logger.error("Work : " + e.getMessage());
 		}
 		return model;
 	}
@@ -188,7 +188,7 @@ public class WorkController {
 			}
 		}catch (Exception e) {
 			attributes.addFlashAttribute("error","Adding Work is failed. Try again.");
-			logger.info("addWork : " + e.getMessage());
+			logger.error("addWork : " + e.getMessage());
 		}
 		return model;
 	}
@@ -202,7 +202,7 @@ public class WorkController {
 			workId = work.getWork_id();
 			boolean flag =  workService.deleteRow(workId,work);
 		}catch (Exception e) {
-			logger.info("Work : " + e.getMessage());
+			logger.error("Work : " + e.getMessage());
 		}
 		return model;
 	

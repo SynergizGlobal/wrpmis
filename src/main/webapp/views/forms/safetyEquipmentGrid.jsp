@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <style>
         p a {
             color: blue
@@ -221,9 +222,9 @@
 	                },
 	                { orderable: false, 'aTargets': ['nosort'] }
 	            ],
-	            // "ScrollX": true,
-	            "scrollCollapse": true,
-	            "sScrollY": 400,
+	            "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
 	            initComplete: function () {
 	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
 	            }
@@ -260,9 +261,9 @@
                 },
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
-            // "ScrollX": true,
-            "scrollCollapse": true,
-            "sScrollY": 400,
+            "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
             initComplete: function () {
                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
             }
@@ -276,7 +277,7 @@
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	         			var safety_equipment_id = "'"+val.safety_equipment_id+"'";
-	                    var actions = '<a href="javascript:void(0);"  onclick="getSafetyEquipmentId('+safety_equipment_id+');"  class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-pencil"></i> </a>'
+	                    var actions = '<a href="javascript:void(0);"  onclick="getSafetyEquipmentId('+safety_equipment_id+');"  class="btn waves-effect waves-light bg-m t-c "><i class="fa fa-pencil"></i> </a>'
 /* 	                    			  +'<a onclick="deleteSafetyEquipment('+safety_equipment_id +');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>';
  */
 	                   	var rowArray = [];    	                 

@@ -209,7 +209,7 @@
 	                                <!-- row 4 -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field">
-	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate" ></textarea>
+	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate materialize-textarea" ></textarea>
 	                                    <label for="contract_name">Contract Name</label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>

@@ -304,10 +304,10 @@
                                 <div class="col s12 m4">
                                      <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                           <button type="button" onclick="updateSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m black-text">Update</button>
 	                                         </c:if>
 											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+						                       <button type="button" onclick="addSafetyEquipment();" style="width: 100%;" class="btn waves-effect waves-light bg-m black-text">Add</button>
 											 </c:if>
                                     </div>
                                 </div>

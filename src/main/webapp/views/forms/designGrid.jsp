@@ -290,6 +290,7 @@
 	}
 	
 	 $(document).ready(function () {
+		 $('.modal').modal();
 		 $('select:not(.searchable)').formSelect();
          $('.searchable').select2();
 	       	var table = $('#datatable-design').DataTable({

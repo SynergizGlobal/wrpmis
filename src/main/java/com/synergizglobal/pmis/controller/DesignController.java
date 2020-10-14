@@ -408,7 +408,7 @@ public class DesignController {
 							XSSFRow headerRow = uploadFilesSheet.getRow(1);
 							//checking given file format
 							if(headerRow != null){
-								List<String> fileFormat = FileFormatModel.getUserFileFormat();;	
+								List<String> fileFormat = FileFormatModel.getDesignFileFormat();;	
 								int noOfColumns = headerRow.getLastCellNum();
 								if(noOfColumns == fileFormat.size()){
 									for (int i = 0; i < fileFormat.size();i++) {
@@ -558,6 +558,15 @@ public class DesignController {
 									design.setAs_built_date(formatter.formatCellValue(row.getCell(26)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(27)).trim()))
 									design.setRemarks(formatter.formatCellValue(row.getCell(27)).trim());
+								
+								design.setPlanned_start(DateParser.parse(design.getPlanned_start()));
+								design.setPlanned_finish(DateParser.parse(design.getPlanned_finish()));
+								design.setConsultant_submission(DateParser.parse(design.getConsultant_submission()));
+								design.setMrvc_reviewed(DateParser.parse(design.getMrvc_reviewed()));
+								design.setDivisional_approval(DateParser.parse(design.getDivisional_approval()));
+								design.setHq_approval(DateParser.parse(design.getHq_approval()));
+								design.setGfc_released(DateParser.parse(design.getGfc_released()));
+								design.setAs_built_date(DateParser.parse(design.getAs_built_date()));
 
 								List<Design> pObjList = new ArrayList<Design>();
 								if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) {
@@ -571,20 +580,25 @@ public class DesignController {
 										
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
 											pObj.setMrvc_drawing_no(formatter2.formatCellValue(row2.getCell(0)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
-											pObj.setRevision(formatter2.formatCellValue(row2.getCell(0)).trim());
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(1)).trim()))
-											pObj.setConsultant_submission(formatter2.formatCellValue(row2.getCell(1)).trim());
+											pObj.setRevision(formatter2.formatCellValue(row2.getCell(1)).trim());
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(2)).trim()))
-											pObj.setMrvc_reviewed(formatter2.formatCellValue(row2.getCell(2)).trim());
+											pObj.setConsultant_submission(formatter2.formatCellValue(row2.getCell(2)).trim());
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(3)).trim()))
-											pObj.setDivisional_approval(formatter2.formatCellValue(row2.getCell(3)).trim());
+											pObj.setMrvc_reviewed(formatter2.formatCellValue(row2.getCell(3)).trim());
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(4)).trim()))
-											pObj.setHq_approval(formatter2.formatCellValue(row2.getCell(4)).trim());	
+											pObj.setDivisional_approval(formatter2.formatCellValue(row2.getCell(4)).trim());
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(5)).trim()))
-											pObj.setRevision_status_fk(formatter2.formatCellValue(row2.getCell(5)).trim());	
+											pObj.setHq_approval(formatter2.formatCellValue(row2.getCell(5)).trim());	
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(6)).trim()))
-											pObj.setRemarks(formatter2.formatCellValue(row2.getCell(6)).trim());	
+											pObj.setRevision_status_fk(formatter2.formatCellValue(row2.getCell(6)).trim());	
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(7)).trim()))
+											pObj.setRemarks(formatter2.formatCellValue(row2.getCell(7)).trim());	
+										
+										pObj.setConsultant_submission(DateParser.parse(pObj.getConsultant_submission()));
+										pObj.setMrvc_reviewed(DateParser.parse(pObj.getMrvc_reviewed()));
+										pObj.setDivisional_approval(DateParser.parse(pObj.getDivisional_approval()));
+										pObj.setHq_approval(DateParser.parse(pObj.getHq_approval()));
 										
 										if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getMrvc_drawing_no())
 												&& pObj.getMrvc_drawing_no().equals(design.getMrvc_drawing_no()))
@@ -594,7 +608,7 @@ public class DesignController {
 								}
 								
 								
-								if(!StringUtils.isEmpty(design)) {
+								if(!StringUtils.isEmpty(design) && !StringUtils.isEmpty(design.getContract_id_fk()) && !StringUtils.isEmpty(design.getDepartment_id_fk())) {
 									designsList.add(design);
 								}
 							}

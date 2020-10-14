@@ -25,7 +25,6 @@ import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.User;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -42,8 +41,9 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			String qry ="select design_id,c.work_id_fk,w.project_id_fk,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
-					",d.hq_drawing_no,d.drawing_title,d.planned_start,d.planned_finish,d.revision,d.consultant_submission,d.mrvc_reviewed,d.divisional_approval," + 
-					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
+					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,"
+					+ "DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval," + 
+					"DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " 
@@ -176,10 +176,11 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			String qry ="select design_id,c.work_id_fk,w.project_id_fk,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
-					",d.hq_drawing_no,d.drawing_title,d.planned_start,d.planned_finish,d.revision,d.consultant_submission,d.mrvc_reviewed,d.divisional_approval," + 
-					"d.hq_approval,d.gfc_released,d.as_built_status,d.as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
-					+ "from design d " + 
-					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,"
+					+ "DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval," + 
+					"DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
+					+ "from design d "  
+					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " + 
 					"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
 					+ "where design_id is not null and design_id = ?" ;
@@ -187,7 +188,8 @@ public class DesignDaoImpl implements DesignDao{
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 			
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,revision_status_fk,remarks from design_revisions where design_id_fk = ?";
+				String qry2 ="select revision,DATE_FORMAT(consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,"
+						+ "DATE_FORMAT(divisional_approval,'%d-%m-%Y') AS divisional_approval,DATE_FORMAT(hq_approval,'%d-%m-%Y') AS hq_approval,revision_status_fk,remarks from design_revisions where design_id_fk = ?";
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignRevisions(objList);
 			}
@@ -468,7 +470,14 @@ public class DesignDaoImpl implements DesignDao{
 		int count = 0;
 		boolean flag = false;
 		try {
-			for (Design obj : designsList) {	
+			for (Design obj : designsList) {
+				String department = null;
+				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) {
+					String deptqry ="SELECT department from department where department_name = ?";
+					department = (String)jdbcTemplate.queryForObject( deptqry,new Object[] {obj.getDepartment_id_fk()} ,String.class);
+				}
+				
+				obj.setDepartment_id_fk(department);
 
 				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 				String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"

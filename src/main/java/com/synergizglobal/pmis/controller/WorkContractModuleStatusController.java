@@ -53,10 +53,10 @@ public class WorkContractModuleStatusController {
 	WorkContractModuleStatusService service;
 
 	@RequestMapping(value="/work-status",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView workContractModuleStatusGrid(HttpSession session,@ModelAttribute Work obj){
+	public ModelAndView workContractModuleStatusGrid(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.workContractModuleStatusGrid);
 		try {
-			List<Work> workList = workService.getWorkList(obj);
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
 			List<Project> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
@@ -65,12 +65,12 @@ public class WorkContractModuleStatusController {
 				
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("workContractModuleStatusGrid : " + e.getMessage());
+			logger.error("WorkContractModuleStatus : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorkContractModule", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/get-work-contract-module", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<WorkContractModuleStatus> getWorkStatusList(@ModelAttribute WorkContractModuleStatus obj) {
 		List<WorkContractModuleStatus> budgetList = null;
@@ -92,7 +92,7 @@ public class WorkContractModuleStatusController {
 			List<Project> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 		}catch (Exception e) {
-				logger.error("Contractor : " + e.getMessage());
+				logger.error("WorkContractModuleStatus : " + e.getMessage());
 		}
 		return model;
 	 }

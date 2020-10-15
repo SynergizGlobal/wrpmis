@@ -709,7 +709,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT name,mobile_no,email_id from contract_key_personnel where contract_id_fk = ?";
+			String qry ="SELECT name,cast(mobile_no as CHAR) as mobile_no,email_id from contract_key_personnel where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
 			resultSet = stmt.executeQuery();

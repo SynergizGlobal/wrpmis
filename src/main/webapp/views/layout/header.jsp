@@ -115,51 +115,54 @@
            <!-- 1st level Dropdown ends -->
               
           </li>
-          <li class="blue darken-1 dropdown">
-          	<a href="#" class='head-img'>
-               <span class="material-icons-outlined">post_add</span>
-          		Update Forms</a>
-          	  <ul class="second-level-menu">
-                  <c:forEach var="form" items="${forms }">
-                  	<li><a href="${form.webFormUrl }">${form.formName }</a></li>
-               	  </c:forEach>
-              </ul>
-              
-              
-              <ul class="second-level-menu">
-              <!-- 1st level Dropdown starts -->
-                  <c:forEach var="form" items="${forms }" varStatus="index">
-           			<c:if test="${empty form.formsSubMenu}">
-		              	<li>
-		              		<a href="${form.webFormUrl }">
-				 				<span class="nav-label">${form.formName }</span>
-				 			</a>
-				 		</li>
-			 		</c:if>
-			 		<c:if test="${not empty form.formsSubMenu}">
-				 		<li class="sub-menu">
-	                         <a href="#!">
-								<span class="nav-label">${form.formName }</span>
-							 </a>
-	                         <ul class="third-level-menu">
-	                         <!-- 2nd level Dropdown starts -->
-	                             <c:forEach var="subList" items="${form.formsSubMenu }">
-				           			<li>
-      									<a href="${subList.webFormUrl }">
-      										<span class="nav-label">${subList.formName }</span>
-          								</a>
-              						</li>
-				           		</c:forEach> 
-				           		<!-- 2nd level Dropdown ends -->
-	                         </ul>
-	                     </li>
-                     </c:if>
-                            
-	              </c:forEach>
-	              <!-- 1st level Dropdown ends -->
-              </ul>
-              
-          </li>
+          <c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
+	          <li class="blue darken-1 dropdown">
+	          	<a href="#" class='head-img'>
+	               <span class="material-icons-outlined">post_add</span>
+	          		Update Forms</a>
+	          	  <ul class="second-level-menu">
+	                  <c:forEach var="form" items="${forms }">
+	                  	<li><a href="${form.webFormUrl }">${form.formName }</a></li>
+	               	  </c:forEach>
+	              </ul>
+	              
+	              
+	              <ul class="second-level-menu">
+	              <!-- 1st level Dropdown starts -->
+	                  <c:forEach var="form" items="${forms }" varStatus="index">
+	           			<c:if test="${empty form.formsSubMenu}">
+			              	<li>
+			              		<a href="${form.webFormUrl }">
+					 				<span class="nav-label">${form.formName }</span>
+					 			</a>
+					 		</li>
+				 		</c:if>
+				 		<c:if test="${not empty form.formsSubMenu}">
+					 		<li class="sub-menu">
+		                         <a href="#!">
+									<span class="nav-label">${form.formName }</span>
+								 </a>
+		                         <ul class="third-level-menu">
+		                         <!-- 2nd level Dropdown starts -->
+		                             <c:forEach var="subList" items="${form.formsSubMenu }">
+					           			<li>
+	      									<a href="${subList.webFormUrl }">
+	      										<span class="nav-label">${subList.formName }</span>
+	          								</a>
+	              						</li>
+					           		</c:forEach> 
+					           		<!-- 2nd level Dropdown ends -->
+		                         </ul>
+		                     </li>
+	                     </c:if>
+	                            
+		              </c:forEach>
+		              <!-- 1st level Dropdown ends -->
+	              </ul>
+	              
+	          </li>          
+          </c:if>
+          
           <li class="blue"><a href="#" class='head-img'>
 	          <span class="material-icons-outlined">assignment</span> Reports</a>
           </li>

@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import com.synergizglobal.pmis.Iservice.ProfileService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.model.User;
 @Controller
 public class LoginController {
@@ -101,9 +103,13 @@ public class LoginController {
 			}else{
 				model.setViewName(PageConstants.login);
 			}
-		}catch(Exception e){
+		}catch(NoKeyException e){
 			logger.error("login : " + e.getMessage());
 			model.addObject("message", e.getMessage());
+			model.setViewName(PageConstants.login);
+		}catch(SQLException e){
+			logger.error("login : " + e.getMessage());
+			model.addObject("message", commonError);
 			model.setViewName(PageConstants.login);
 		}
 		return model;

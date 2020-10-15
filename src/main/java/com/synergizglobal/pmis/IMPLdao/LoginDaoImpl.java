@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
@@ -33,7 +34,7 @@ public class LoginDaoImpl implements LoginDao{
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user) throws Exception {
+	public User validateUser(User user) throws SQLException,NoKeyException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -74,8 +75,8 @@ public class LoginDaoImpl implements LoginDao{
 					throw new NoKeyException(noKeyAssigned);
 				}
 			}
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
@@ -84,7 +85,7 @@ public class LoginDaoImpl implements LoginDao{
 	}
 	
 	
-	public boolean saveUserLoginDetails(String user_id, Connection con) throws Exception {
+	public boolean saveUserLoginDetails(String user_id, Connection con) throws SQLException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		boolean flag = false;
@@ -113,8 +114,8 @@ public class LoginDaoImpl implements LoginDao{
 					flag = true;				
 				}
 			}
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);

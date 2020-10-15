@@ -1,10 +1,13 @@
 package com.synergizglobal.pmis.IMPLservice;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.Iservice.LoginService;
+import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.model.User;
 
 
@@ -22,7 +25,7 @@ public class LoginServiceImpl implements LoginService {
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public User validateUser(User user) throws Exception {
+	public User validateUser(User user) throws SQLException,NoKeyException {
 		return loginDao.validateUser(user);
 	}
 	

@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +35,9 @@ public class ContractDaoImpl implements ContractDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager;
 	
 	@Override
 	public List<Contract> contractList(Contract obj)throws Exception{

@@ -16,9 +16,13 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
@@ -34,6 +38,9 @@ public class DesignDaoImpl implements DesignDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager;
 	
 	@Override
 	public List<Design> getDesigns(Design obj)throws Exception{
@@ -203,6 +210,8 @@ public class DesignDaoImpl implements DesignDao{
 	@Override
 	public boolean addDesign(Design obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
@@ -330,7 +339,9 @@ public class DesignDaoImpl implements DesignDao{
 				}
 			}
 
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			e.printStackTrace();
 			throw new Exception(e);
 		}
@@ -341,6 +352,8 @@ public class DesignDaoImpl implements DesignDao{
 	@Override
 	public boolean updateDesign(Design obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String qry = "UPDATE design SET contract_id_fk=:contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
@@ -457,7 +470,9 @@ public class DesignDaoImpl implements DesignDao{
 				}
 			}
 
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			e.printStackTrace();
 			throw new Exception(e);
 		}

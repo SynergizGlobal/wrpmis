@@ -12,7 +12,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.FOBDao;
@@ -26,6 +30,9 @@ public class FOBDaoImpl implements FOBDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager;
 	
 	@Override
 	public List<FOB> getFOBList(FOB obj) throws Exception {
@@ -71,6 +78,8 @@ public class FOBDaoImpl implements FOBDao {
 	@Override
 	public boolean addFOB(FOB obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);		
 			
@@ -127,7 +136,9 @@ public class FOBDaoImpl implements FOBDao {
 		                }
 		            });
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 		return flag;
@@ -180,6 +191,8 @@ public class FOBDaoImpl implements FOBDao {
 	@Override
 	public boolean updateFOB(FOB obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE fob set "
@@ -239,7 +252,9 @@ public class FOBDaoImpl implements FOBDao {
 					           });
 				
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 		return flag;

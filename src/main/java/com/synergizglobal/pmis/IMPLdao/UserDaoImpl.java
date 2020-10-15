@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao{
 	JdbcTemplate jdbcTemplate ;
 	
 	@Autowired
-	DataSourceTransactionManager transactionManager ;
+	DataSourceTransactionManager transactionManager;
 	
 	
 	@Override
@@ -189,6 +189,8 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public String addUser(User obj) throws Exception {
 		String userId = null;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			
 			String user_id = getMaxUserId(obj.getUser_role_code());
@@ -203,7 +205,6 @@ public class UserDaoImpl implements UserDao{
 			if(count > 0) {
 				userId = user_id;
 			}
-			
 			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
 				obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
 			}
@@ -211,7 +212,7 @@ public class UserDaoImpl implements UserDao{
 				obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
 			}
 			
-			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
+			if(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {				
 				
 				String[] types = obj.getUser_access_types();
 				String[] values = obj.getUser_access_values();
@@ -224,17 +225,32 @@ public class UserDaoImpl implements UserDao{
 			                @Override
 			                public void setValues(PreparedStatement ps, int i) throws SQLException {
 			                    ps.setString(1, obj.getUser_id());
-			                    ps.setString(2, types[i]);
-			                    ps.setString(3, values[i]);			                    
+			                    ps.setString(2, types.length > 0?types[i]:null);
+			                    ps.setString(3, values.length > 0?values[i]:null);			                    
 			                }
 			                @Override  
 			                public int getBatchSize() {
-			                    return obj.getUser_access_types().length;
+			                	int arraySize = 0;
+			    				if(!StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
+			    					obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
+			    					if(arraySize < obj.getUser_access_types().length) {
+			    						arraySize = obj.getUser_access_types().length;
+			    					}
+			    				}
+			    				if(!StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
+			    					obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
+			    					if(arraySize < obj.getUser_access_values().length) {
+			    						arraySize = obj.getUser_access_values().length;
+			    					}
+			    				}
+			                    return arraySize;
 			                }
 			            });
 				
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 		return userId;
@@ -357,15 +373,28 @@ public class UserDaoImpl implements UserDao{
 				int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
 			            new BatchPreparedStatementSetter() {
 			                 
-			                @Override
+						 @Override
 			                public void setValues(PreparedStatement ps, int i) throws SQLException {
 			                    ps.setString(1, obj.getUser_id());
-			                    ps.setString(2, types[i]);
-			                    ps.setString(3, values[i]);			                    
+			                    ps.setString(2, types.length > 0?types[i]:null);
+			                    ps.setString(3, values.length > 0?values[i]:null);			                    
 			                }
 			                @Override  
 			                public int getBatchSize() {
-			                    return obj.getUser_access_types().length;
+			                	int arraySize = 0;
+			    				if(!StringUtils.isEmpty(obj.getUser_access_types()) && obj.getUser_access_types().length > 0) {
+			    					obj.setUser_access_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_types()));
+			    					if(arraySize < obj.getUser_access_types().length) {
+			    						arraySize = obj.getUser_access_types().length;
+			    					}
+			    				}
+			    				if(!StringUtils.isEmpty(obj.getUser_access_values()) && obj.getUser_access_values().length > 0) {
+			    					obj.setUser_access_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getUser_access_values()));
+			    					if(arraySize < obj.getUser_access_values().length) {
+			    						arraySize = obj.getUser_access_values().length;
+			    					}
+			    				}
+			                    return arraySize;
 			                }
 			            });
 				

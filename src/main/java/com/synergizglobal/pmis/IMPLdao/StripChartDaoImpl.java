@@ -14,9 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.StripChartDao;
@@ -30,6 +34,10 @@ public class StripChartDaoImpl implements StripChartDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager;
+	
 	
 	@Override
 	public List<StripChart> getStripChartContractsList(StripChart obj) throws Exception {
@@ -417,6 +425,8 @@ public class StripChartDaoImpl implements StripChartDao {
 	@Override
 	public boolean updateStripChart(StripChart obj) throws Exception {
 		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			String activity = "-";			
 			if(!StringUtils.isEmpty(obj.getStrip_chart_section_name()) && !obj.getStrip_chart_section_name().contains("Select")) {
@@ -537,7 +547,9 @@ public class StripChartDaoImpl implements StripChartDao {
 			if(count2 > 0) {
 				flag = true;
 			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 		return flag;

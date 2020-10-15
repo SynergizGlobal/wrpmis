@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +42,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager;
 	
 	@Override
 	public List<SafetyEquipment> getSafetyEquipment(SafetyEquipment obj)throws Exception{
@@ -113,7 +117,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	public boolean addSafetyEquipment(SafetyEquipment obj)throws Exception{
 		Connection con = null;
 		PreparedStatement insertStmt = null;
-		boolean flag = false;
+		boolean flag = false;		
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO safety_equipment"
@@ -211,10 +215,10 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		Connection con = null;
 		PreparedStatement updateStmt = null;
 		PreparedStatement insertStmt = null;
-		int[] c = {};
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
+			con.setAutoCommit(false);
 			String updateQry = "UPDATE safety_equipment set "
 					+ "safety_equipment_number= ?, safety_equipment_detail=? ,"
 					+ "validity_date= ?, remarks= ?, attachment= ? "
@@ -325,7 +329,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 				if(updateCount.length > 0 || insertCount.length > 0) {
 					flag = true;
 				}
+				con.commit();
 		}catch(Exception e){ 
+			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}

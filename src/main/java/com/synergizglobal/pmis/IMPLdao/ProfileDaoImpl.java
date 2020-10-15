@@ -22,15 +22,11 @@ public class ProfileDaoImpl implements ProfileDao {
 	DataSource dataSource;
 	
 	@Override
-	public List<User> getUserProfile(String userId) throws Exception {
-		
+	public User getUserProfile(String userId) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		User userDetails = null;
-		//HttpSession session=null;
-		List<User> profileList = new ArrayList<User>();
-		
 		try{  
 			con = dataSource.getConnection();
 			
@@ -43,7 +39,7 @@ public class ProfileDaoImpl implements ProfileDao {
 			stmt.setString(1,userId);
 			
 			rs = stmt.executeQuery();  
-			while(rs.next()) {
+			if(rs.next()) {
 				userDetails = new User();
 				
 				userDetails.setUser_id(rs.getString("user_id"));
@@ -58,11 +54,8 @@ public class ProfileDaoImpl implements ProfileDao {
 				userDetails.setExtension(rs.getString("extension"));
 				userDetails.setPmis_key_fk(rs.getString("pmis_key_fk"));
 				userDetails.setRemarks(rs.getString("remarks"));
-				
-				
-				profileList.add(userDetails);
+				userDetails.setUserPermissions(getUserPermissions(userDetails.getUser_id(),con));
 			}
-			
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -70,8 +63,39 @@ public class ProfileDaoImpl implements ProfileDao {
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
-		return profileList;
+		return userDetails;
 
+	}
+
+	private List<User> getUserPermissions(String user_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		User obj = null;
+		List<User> userPermissions = new ArrayList<User>();
+		try{  
+			
+			String qry = "select user_access_type_fk as user_access_type,access_value from user_access where user_id_fk = ? ";
+			
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1,user_id);
+			
+			rs = stmt.executeQuery();  
+			while(rs.next()) {
+				obj = new User();
+				
+				obj.setUser_access_type(rs.getString("user_access_type"));
+				obj.setAccess_value(rs.getString("access_value"));
+				
+				userPermissions.add(obj);
+			}
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return userPermissions;
 	}
 
 }

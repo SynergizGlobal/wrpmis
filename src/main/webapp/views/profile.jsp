@@ -103,7 +103,6 @@
             <div class="card">
                 <div class="card-content">
                     <div class="row">
-                      <c:forEach var="obj" items="${userDetails }">
                         <div class="col m4 s12 center-align">
                             <div class="card">
                                 <div class="card-content">
@@ -111,9 +110,9 @@
                                     <div class="profile_photo">
                                         <img src="/pmis/resources/images/mrvc.png">
                                     </div>
-                                    <div class="profile_name">${ obj.user_name } </div>
-                                    <div class="profile_designation">${ obj.designation }
-                                        <span class="profile_role">( ${ obj.user_role_name_fk } )</span>
+                                    <div class="profile_name">${ userDetails.user_name } </div>
+                                    <div class="profile_designation">${ userDetails.designation }
+                                        <span class="profile_role">( ${ userDetails.user_role_name_fk } )</span>
                                     </div>
                                 </div>
                             </div>
@@ -128,39 +127,39 @@
 											    <tbody>
 											        <tr>
 											            <td>User ID</td>
-											            <td>: &nbsp; ${ obj.user_id }</td>
+											            <td>: &nbsp; ${ userDetails.user_id }</td>
 											        </tr>
 											         <tr>
 											            <td>Email</td>
-											            <td>: &nbsp; ${ obj.email_id }</td>
+											            <td>: &nbsp; ${ userDetails.email_id }</td>
 											        </tr>
 											        <tr>
 											            <td>Department</td>
-											            <td>: &nbsp; ${ obj.department_fk }</td>
+											            <td>: &nbsp; ${ userDetails.department_fk }</td>
 											        </tr>
 											        <tr>
 											            <td>Reporting To</td>
-											            <td>: &nbsp; ${ obj.reporting_to_id_srfk }</td>
+											            <td>: &nbsp; ${ userDetails.reporting_to_id_srfk }</td>
 											        </tr>
 											        <tr>
 											            <td>Mobile No</td>
-											            <td>: &nbsp; ${ obj.mobile_number }</td>
+											            <td>: &nbsp; ${ userDetails.mobile_number }</td>
 											        </tr>
 											        <tr>
 											            <td>Landline</td>
-											            <td>: &nbsp; ${ obj.landline }</td>
+											            <td>: &nbsp; ${ userDetails.landline }</td>
 											        </tr>
 											        <tr>
 											            <td>Extension</td>
-											            <td>: &nbsp; ${ obj.extension }</td>
+											            <td>: &nbsp; ${ userDetails.extension }</td>
 											        </tr>
 											         <tr>
 											            <td>PMIS Key</td>
-											            <td>: &nbsp; ${ obj.pmis_key_fk }</td>
+											            <td>: &nbsp; ${ userDetails.pmis_key_fk }</td>
 											        </tr>
 											         <tr>
 											            <td>Remarks</td>
-											            <td>: &nbsp; ${ obj.remarks }</td>
+											            <td>: &nbsp; ${ userDetails.remarks }</td>
 											        </tr>
 											        
 											    </tbody>
@@ -183,16 +182,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                        	<c:forEach var="obj" items="${userDetails.userPermissions }">
+                                        		<tr>
+	                                                <td>${obj.user_access_type }</td>
+	                                                <td>${obj.access_value }</td>
+	                                            </tr>
+                                        	</c:forEach>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                       </c:forEach>
                     </div>
                 </div>
             </div>

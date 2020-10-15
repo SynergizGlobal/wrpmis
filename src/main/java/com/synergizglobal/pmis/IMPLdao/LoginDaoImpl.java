@@ -44,12 +44,14 @@ public class LoginDaoImpl implements LoginDao{
 			
 			String qry = "select user_id,user_name,password,designation,email_id,cast(mobile_number as CHAR) as mobile_number,cast(landline as CHAR) as landline,cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks "
 					+ "from user "
-					+ "where password = BINARY ? and user_id = BINARY ?";
+					+ "where password = BINARY ? and (user_id = BINARY ? OR mobile_number = ? OR email_id = ?)";
 			
 			
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, user.getPassword());
 			stmt.setString(2, user.getUser_id());
+			stmt.setString(3, user.getUser_id());
+			stmt.setString(4, user.getUser_id());
 			
 			rs = stmt.executeQuery();  
 			if(rs.next()) {

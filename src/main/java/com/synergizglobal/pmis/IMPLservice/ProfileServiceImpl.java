@@ -1,7 +1,5 @@
 package com.synergizglobal.pmis.IMPLservice;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,7 @@ public class ProfileServiceImpl implements ProfileService {
 	ProfileDao profileDao;
 	
 	@Override
-	public List<User> getUserProfile(String userId) throws Exception {
+	public User getUserProfile(String userId) throws Exception {
 		return profileDao.getUserProfile(userId);
 	}
 

@@ -98,7 +98,7 @@
                                     <p class="searchable_label">Project</p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
-                                        <option value="" selected>Select</option>
+                                        <option value="">Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${ obj.project_id}" <c:if test="${workStatusDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
@@ -109,7 +109,7 @@
                                     <p class="searchable_label">Work</p>
                                      <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
-                                        <option value="" selected>Select</option>
+                                        <option value="">Select</option>
                                     </select>
                                      <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -128,6 +128,7 @@
                                     <input id="date" type="text" class="validate datepicker" name="month" value="${workStatusDetails.month }"> 
                                     <label for="date"> Date </label>
                                     <button id="date_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="monthError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -390,6 +391,8 @@
 	  			 		  required: true
 	  			 	  },"contract_id_fk": {
 	  			 		  required: true
+	  			 	  },"month": {
+	  			 		  required: true
 	  			 	  }
 	  		 	},
 	  		    messages: {
@@ -398,6 +401,8 @@
 	  			 	  },"work_id_fk": {
 	  			 		  required: 'Required'
 	  			 	  },"contract_id_fk": {
+	  			 		  required: 'Required'
+	  			 	  },"month": {
 	  			 		  required: 'Required'
 	  			 	  }	
 		   		},
@@ -411,6 +416,9 @@
 					 }else if(element.attr("id") == "contract_id_fk" ){
 					     document.getElementById("contract_id_fkError").innerHTML="";
 				 	     error.appendTo('#contract_id_fkError');
+					 }else if(element.attr("name") == "month" ){
+					     document.getElementById("monthError").innerHTML="";
+				 	     error.appendTo('#monthError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

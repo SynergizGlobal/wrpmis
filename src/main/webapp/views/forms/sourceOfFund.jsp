@@ -71,7 +71,7 @@
                             <div class="col m8 s12">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
-                                        <p><label>Work Id</label></p>
+                                        <p><label>Work</label></p>
                                         <select class="searchable">
                                             <option value="" disabled selected>Select Work Id</option>
                                             <option value="1">Option 1</option>
@@ -112,7 +112,7 @@
                                 <table id="example" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Work ID</th>
+                                            <th>Work</th>
                                             <th>Source of Fund</th>
                                             <th>Railway</th>
                                             <th>Funding Date </th>

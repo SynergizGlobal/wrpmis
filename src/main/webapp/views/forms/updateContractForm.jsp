@@ -174,7 +174,7 @@
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                <p><label>Project ID</label></p>
+	                                <p><label>Project</label></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                                    onchange="getWorksList(this.value);">
 	                                        <option value="" >Select</option>
@@ -185,7 +185,7 @@
 	                                    <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p><label>Work Name</label></p>
+	                                    <p><label>Work</label></p>
 	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
 	                                        <option value="" selected>Select</option>
 	                                    </select>
@@ -1337,7 +1337,7 @@
         		 	  },"contractor_id_fk": {
         	 		    required: true,
         	 	   	  },"scope_of_contract": {
-        	 		    required: true,
+        	 		    required: false,
         	 	   	  },"hod_user_id_fk": {
         		 		required: false
         		 	  },"dy_hod_user_id_fk": {

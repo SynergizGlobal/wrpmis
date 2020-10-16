@@ -51,7 +51,7 @@
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Project</p>
                                     <select class="searchable">
-                                        <option value="0" selected>Select</option>
+                                        <option value="0">Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
@@ -60,7 +60,7 @@
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Work</p>
                                     <select class="searchable">
-                                        <option value="0" selected>Select</option>
+                                        <option value="0">Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
@@ -73,7 +73,7 @@
                                 <div class="col s12 m8 input-field">
                                     <p class="searchable_label">Contract</p>
                                     <select class="searchable">
-                                        <option value="0" selected>Select</option>
+                                        <option value="0">Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>

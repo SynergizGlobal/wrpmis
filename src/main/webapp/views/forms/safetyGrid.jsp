@@ -90,36 +90,36 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m1 hide-on-small-only"></div>
                             <div class="col s12 m2 input-field">
-                            	<p><label>Select Contract</label></p>
+                            	<p><label>Contract</label></p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="getSafetyList();" class="searchable">
-                                     <option value="" >Select Contract</option>
+                                     <option value="" >Select</option>
                                      <c:forEach var="obj" items="${contracts }">
 		                               	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
 		                             </c:forEach>
                                  </select>                                
                             </div>
                             <div class="col s12 m2 input-field">
-                            <p><label>Select Department</label></p>
+                            <p><label>Department</label></p>
                                 <select id="department_fk" name="department_fk" onchange="getSafetyList();" class="searchable">
-                                     <option value="" >Select Department</option>
+                                     <option value="" >Select</option>
                                      <c:forEach var="obj" items="${departments }">
 		                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
 		                             </c:forEach>
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
-                            <p><label>Select Category</label></p>
+                            <p><label>Category</label></p>
                                  <select id="category_fk" name="category_fk" onchange="getSafetyList();" class="searchable">
-                                     <option value="" >Select Category</option>
+                                     <option value="" >Select</option>
                                      <c:forEach var="obj" items="${categorys }">
 		                               	<option value="${obj.category_fk }" <c:if test="${param.category_fk eq obj.category_fk }">selected</c:if>>${obj.category_fk }</option>
 		                             </c:forEach>
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
-                            <p><label>Select Status</label></p>
+                            <p><label>Status</label></p>
                                  <select id="status_fk" name="status_fk" onchange="getSafetyList();" class="searchable">
-                                     <option value="" >Select Status</option>
+                                     <option value="" >Select</option>
                                      <c:forEach var="obj" items="${statuses }">
 		                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
 		                             </c:forEach>

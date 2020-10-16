@@ -223,7 +223,7 @@
                     
           <li class="blueblue lighten-1 dropdown"><a href="#" class='head-img'>
           <!--img src="/pmis/resources/images/user-white.png"--> 
-          <span class="material-icons">person</span>${USER_NAME }</a>
+          <span class="material-icons">person</span>${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a>
           <!-- change password and logout here -->
               <ul class="second-level-menu rs">
               	  <li><a href="<%=request.getContextPath()%>/profile">Profile</a></li>	

@@ -233,13 +233,13 @@
 				 ignore: ":hidden:not(.chosen-select)",
 		  		    rules: {
 		  		 		  "project_name": {
-		  			 	required: true
+		  			 		required: true
 		  			 	  },"plan_head_number": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  },"pink_book_item_number": {
-		  		 		    required: true
+		  		 		    required: false
 		  			 	  }	,"remarks": {
-		  			 		required: true
+		  			 		required: false
 		  			 	  }		
 		  		 	},
 		  		    messages: {

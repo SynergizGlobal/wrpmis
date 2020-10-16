@@ -86,18 +86,18 @@
                             <div class="col m6 s12 ">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m4 input-field">
-                                    <p><label>Select Contract</label></p>
+                                    <p><label>Contract</label></p>
                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();" class="searchable">
-                                            <option value="" >Select Contract ID</option>
+                                            <option value="" >Select</option>
                                             <c:forEach var="obj" items="${contracts }">
 		                                    	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
 		                                    </c:forEach>
                                         </select>                                        
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                    <p><label>Select Work Status</label></p>
+                                    <p><label>Work Status</label></p>
                                        <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();" class="searchable">
-                                            <option value="" >Select Work Status</option>     
+                                            <option value="" >Select</option>     
                                             <c:forEach var="obj" items="${generalStatusList }">
 	                                            <option value="${obj }" <c:if test="${obj eq fob.work_status_fk}">selected</c:if> >${obj}</option>
 	                                        </c:forEach>                                      

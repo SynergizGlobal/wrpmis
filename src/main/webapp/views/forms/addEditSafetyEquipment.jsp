@@ -73,6 +73,12 @@
 		    z-index: 1000;
 		}	
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.my-error-class {
+   			 color:red;
+		}
+		.my-valid-class {
+   			 color:green;
+		}
     </style>
 </head>
 
@@ -109,7 +115,7 @@
                                 <div class="col s12 m8 input-field">
                                     <div class="row">
                                         <div class="col s12 m4 input-field">
-                                            <p><label> Project ID </label></p>
+                                            <p><label> Project </label></p>
 		                                           <select class="searchable validate-dropdown" id="project_id" name="project_id"  
 		                                 	  		 onchange="getWorksList(this.value);">
 		                                      		  <option value="" >Select</option>
@@ -117,22 +123,22 @@
 		                                           			 <option value="${obj.project_id }" <c:if test="${safetyDetails.project_id eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
 		                                        		 </c:forEach>
 		                                          </select>
-                                   			 <span id="project_id_fkError" class="error-msg" ></span>
+                                   			 <span id="project_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
-                                            <p><label> Work ID </label></p>
+                                            <p><label> Work </label></p>
 	                                           <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
 	                                      		  onchange="getContractsList(this.value);">
-	                                      		  <option value="" selected>Select</option>
+	                                      		  <option value="">Select</option>
 	                                   		 	</select>
                                    		   
                                      		 <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
                                           
-                                            <p> <label>Contract ID </label></p>
+                                            <p> <label>Contract </label></p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
-                                       			 <option value="" selected>Select</option>
+                                       			 <option value="">Select</option>
                                   			 </select>
                                   			
                                    			 <span id="contract_id_fkError" class="error-msg" ></span>
@@ -146,15 +152,15 @@
                        		 <c:if test="${action eq 'edit'}">	
                        		 <div class="row">
                        		  <div class="col s12 m4 input-field">
-									<p><label> Project ID </label></p>
+									<p><label> Project </label></p>
                                          	 	<input type="text" name="project_id" id="project_id" value="${safetyDetails.project_id}- ${safetyDetails.project_name}" readonly />
 								 </div> 
 								  <div class="col s12 m4 input-field"> 
-								    <p><label> Work ID </label></p>
+								    <p><label> Work </label></p>
                                          	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${safetyDetails.work_id}- ${safetyDetails.work_name}" readonly />
                                   </div>
                                     </div> 
-                     				<p><label>Contract ID </label></p>        
+                     				<p><label>Contract </label></p>        
                               				   <input type="text" name="contract_id_fk" id="contract_id_fk" value="${safetyDetails.contract_id_fk}- ${safetyDetails.contract_name}" readonly />
                             
                              </c:if>
@@ -351,8 +357,9 @@
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-<!--     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
- -->
+    <!-- <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> -->
+
+
     <script>
 	    $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
@@ -487,13 +494,57 @@
 		}
         
         function addSafetyEquipment(){
-        	$(".page-loader").show();	    		
-   			document.getElementById("safetyEquipmentForm").submit();	
+        	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	   			document.getElementById("safetyEquipmentForm").submit();	
+        	}
         }
         function updateSafetyEquipment(){
-        	$(".page-loader").show();	    		
-   			document.getElementById("safetyEquipmentForm").submit();	
+        	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	   			document.getElementById("safetyEquipmentForm").submit();	
+        	}
         }
+        
+        var validator =	$('#safetyEquipmentForm').validate({
+			 errorClass: "my-error-class",
+			 validClass: "my-valid-class",
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		  "project_id": {
+	  			 		required: true
+	  			 	  },"work_id_fk": {
+	  			 		required: true
+	  			 	  },"contract_id_fk": {
+	  		 		    required: true
+	  			 	  }
+	  		 	},
+	  		    messages: {
+	  		 		 "project_id": {
+	  				 	required: 'This field is required',
+	  			 	  },"work_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"contract_id_fk": {
+	  		 			required: ' This field is required'
+	  		 	  	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if (element.attr("id") == "project_id" ){
+						 document.getElementById("project_idError").innerHTML="";
+				 		 error.appendTo('#project_idError');
+					}else if(element.attr("id") == "work_id_fk" ){
+					   document.getElementById("work_id_fkError").innerHTML="";
+				 	   error.appendTo('#work_id_fkError');
+					}else if(element.attr("id") == "contract_id_fk" ){
+						document.getElementById("contract_id_fkError").innerHTML="";
+					 	error.appendTo('#contract_id_fkError');
+					}else{
+	 					error.insertAfter(element);
+			        } 
+		   		},submitHandler:function(form){
+			    	form.submit();
+			    }
+			});   
     </script>
 
 </body>

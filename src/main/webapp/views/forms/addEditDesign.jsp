@@ -83,6 +83,13 @@
 	        text-align:left;
 	        margin-top:10px;
         }
+        
+        .my-error-class {
+   			 color:red;
+		}
+		.my-valid-class {
+   			 color:green;
+		}
     </style>
 </head>
 <body>
@@ -118,10 +125,10 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Project ID </label></p>
+                                    <p><label> Project </label></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
-                                         <option value="" selected>Select</option>
+                                         <option value="" >Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
@@ -129,10 +136,10 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Work ID </label></p>
+                                    <p><label> Work </label></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
-                                        <option value="" selected>Select</option>
+                                        <option value="" >Select</option>
                                     </select>
                                       <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -142,21 +149,21 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label>Contract ID </label></p>
+                                    <p><label>Contract </label></p>
                                      <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
-                                        <option value="" selected>Select</option>
+                                        <option value="">Select</option>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p><label> Department </label></p>
-                                     <select name="department_id_fk" id="department_id_fk" class="searchable">
-                                        <option value="" selected>Select</option>
+                                     <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
+                                        <option value="" >Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
                                       	    <option value= "${ obj.department_fk}" <c:if test="${designDetails.department_id_fk eq obj.department_fk}">selected</c:if>>${ obj.department_fk}</option>
                                           </c:forEach>
                                     </select>
-                                     <span id="work_id_fkError" class="error-msg" ></span>
+                                     <span id="department_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -164,9 +171,9 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label>Consultant Contract ID </label></p>
-                                    <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable">
-                                        <option value="" selected>Select</option>
+                                    <p><label>Consultant Contract </label></p>
+                                    <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
+                                        <option value="" >Select</option>
                                         <c:forEach var="obj" items="${contractList }">
                                       	   <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.consultant_contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
                                          </c:forEach>
@@ -174,9 +181,9 @@
                                      <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label>Proof Consultant Contract ID </label></p>
-                                    <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable">
-                                        <option value="" selected>Select</option>
+                                    <p> <label>Proof Consultant Contract </label></p>
+                                    <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
+                                        <option value="" >Select</option>
                                           <option value="" selected>Select</option>
                                       	   <c:forEach var="obj" items="${contractList }">
                                       	    <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.proof_consultant_contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
@@ -851,6 +858,8 @@
 		}
     	   
     	var validator = $('#designForm').validate({
+    		    errorClass: "my-error-class",
+			    validClass: "my-valid-class",
     	    	ignore: ":hidden:not(.validate-dropdown)",
     			   rules: {
     				   	  "project_id_fk": {
@@ -862,7 +871,7 @@
     				 	  },"department_id_fk": {
     				 		required: true
     				 	  },"consultant_contract_id_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"proof_consultant_contract_id_fk": {
     				 		required: false
     				 	  }

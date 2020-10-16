@@ -599,21 +599,21 @@
     				 	  },"reporting_to_id_srfk": {
     				 		required: true
     				 	  },"user_name": {
-    				 		required: true
+    				 		required: false
     				 	  },"designation": {
     				 		required: true
     				 	  },"email_id": {
-    				 		required: true
+    				 		required: false
     				 	  },"mobile_number": {
     				 		required: true
     				 	  },"landline": {
-    			 		    required: true,
+    			 		    required: false,
     			 	   	  },"extension": {
-    				 		required: true
+    				 		required: false
     				 	  },"remarks":{
     				 		 required: false
     				 	  },"pmis_key_fk":{
-    				 		 required: true,
+    				 		 required: false,
     				 		 //checkExists: true
     				 	  }
     				 				

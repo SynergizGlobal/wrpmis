@@ -104,7 +104,7 @@
                                 <table id="datatable-works" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Project Name </th>
+                                            <th>Project </th>
                                             <th>Work ID</th>
                                             <th>Work Name </th>
                                             <th>Sanctioned Year </th>

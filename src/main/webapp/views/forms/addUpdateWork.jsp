@@ -112,11 +112,9 @@
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label>Project ID</label></p>
+                                    <p><label>Project</label></p>
                                     <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
-                                   		 <c:if test="${action eq 'add'}">	
-                                          	 <option value="${workDeatils.project_id_fk}" selected hidden>select</option>
-                                          </c:if>
+                                   			<option value="">select</option>
                                           <c:forEach var="obj" items="${projectsList}">
                        						  <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id}</option>
                                             </c:forEach>

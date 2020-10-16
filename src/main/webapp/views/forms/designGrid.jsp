@@ -95,45 +95,45 @@
                             <div class="col s12 m12">
                                 <div class="row">
                                     <div class="col s12 m2 input-field">
-                                     <p> <label>Select Contract </label></p>
+                                     <p> <label>Contract </label></p>
                                         <select id="contract_id_fk" name="contract_id_fk" onchange="getDesignList();" class="searchable">
-                                            <option value="" disabled selected>Select Contract</option>
+                                            <option value="">Select</option>
                                             <c:forEach var="obj" items="${contractList}">
 	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
 	                                        </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <p> <label>Select Department </label></p>
+                                        <p> <label>Department </label></p>
                                         <select id="department_id_fk" name="department_id_fk" onchange="getDesignList();" class="searchable">
-                                            <option value="" disabled selected>Select Department</option>
+                                            <option value="">Select</option>
                                            		 <c:forEach var="obj" items="${departmentList}">
 	                       						   <option value="${obj.department_id_fk }" <c:if test="${param.department_id_fk eq obj.department_id_fk }">selected</c:if>>${obj.department_id_fk}<c:if test="${not empty obj.department_name}"> - </c:if>${obj.department_name}</option>
 	                                             </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <p> <label>Select HOD </label></p>
+                                        <p> <label>HOD </label></p>
                                         <select id="hod" name="hod" onchange="getDesignList();" class="searchable">
-                                            <option value="">Select HOD</option>
+                                            <option value="">Select</option>
                                            		<c:forEach var="obj" items="${hodList}">
 	                       						  <option value="${obj.designation }" <c:if test="${param.hod eq obj.designation }">selected</c:if>>${obj.designation}</option>
 	                                            </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <p> <label>Select Structure </label></p>
+                                        <p> <label>Structure </label></p>
                                         <select id="structure_type_fk" name="structure_type_fk" onchange="getDesignList();" class="searchable">
-                                            <option value="" disabled selected>Select Structure</option>
+                                            <option value="">Select</option>
                                            		 <c:forEach var="obj" items="${structureTypeList}">
 	                       						   <option value="${obj.structure_type_fk }" <c:if test="${param.structure_type_fk eq obj.structure_type_fk }">selected</c:if>>${obj.structure_type_fk}</option>
 	                                             </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                       <p> <label>Select Drawing Type </label></p>
+                                       <p> <label>Drawing Type </label></p>
                                         <select id="drawing_type_fk" name="drawing_type_fk" onchange="getDesignList();" class="searchable">
-                                            <option value="" disabled selected>Select Drawing Type</option>
+                                            <option value="">Select </option>
                                            		  <c:forEach var="obj" items="${drawingTypeList}">
 	                       						    <option value="${obj.drawing_type_fk }" <c:if test="${param.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
 	                                              </c:forEach>

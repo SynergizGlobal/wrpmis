@@ -104,7 +104,7 @@
                                     <div class="col s12 m3 input-field">
                                         <p><label>Project</label></p>
                                         <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getBudgetList();">
-                                            <option value="" selected>Select Project</option>
+                                            <option value="" selected>Select</option>
                                             	<c:forEach var="obj" items="${projectsList}">
 	                       						  <option value="${obj.project_id }" <c:if test="${param.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id }<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name}</option>
 	                                             </c:forEach>
@@ -113,7 +113,7 @@
                                     <div class="col s12 m3 input-field">
                                         <p><label>Work</label></p>
                                         <select id="work_id_fk" name="work_id_fk" onchange="getBudgetList();" class="searchable">
-                                            <option value="" >Select Work Name</option>
+                                            <option value="" >Select</option>
 	                                            <c:forEach var="obj" items="${workList}">
 	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id_fk eq obj.work_id }">selected</c:if>>${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
 	                                             </c:forEach>
@@ -122,7 +122,7 @@
                                     <div class="col s12 m3 input-field">
                                         <p><label>Financial Year</label></p>
                                         <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList();">
-                                            <option value="" >Select Financial Year </option>
+                                            <option value="" >Select</option>
                                             	 <c:forEach var="obj" items="${financialYearList}">
 	                       						  <option value="${obj.financial_year }" <c:if test="${param.financial_year eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
 	                                             </c:forEach>

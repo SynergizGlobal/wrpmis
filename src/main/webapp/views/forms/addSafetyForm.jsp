@@ -55,7 +55,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Project ID </label></p>
+                                <p> <label> Project </label></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -66,10 +66,10 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Work ID </label></p>
+                                <p> <label> Work </label></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
-                                        <option value="" selected>Select</option>
+                                        <option value="">Select</option>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -80,7 +80,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Contract ID </label></p>
+                                <p> <label> Contract </label></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
@@ -456,7 +456,7 @@
                                 }
                             });
                         }
-                        $('select').formSelect();
+                        $('select').select2();
                         $(".page-loader").hide();
                     }
                 });
@@ -482,7 +482,7 @@
                                 $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
                             });
                         }
-                        $('select').formSelect();
+                        $('select').select2();
                         $(".page-loader").hide();
                     }
                 });
@@ -520,53 +520,53 @@
     				 	  },"department_fk": {
     				 		required: true
     				 	  },"category_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"impact_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"status_fk": {
     			 		    required: true,
     			 	   	  },"root_cause_fk": {
-    			 		    required: true,
+    			 		    required: false,
     			 	   	  },"title": {
     				 		required: true
     				 	  },"description": {
-    			 		    required: true
+    			 		    required: false
     			 	   	  },"date": {
     				 		required: true
     				 	  },"location": {
-    				 		required: true
+    				 		required: false
     				 	  },"latitude": {
-    				 		required: true
+    				 		required: false
     				 	  },"longitude": {
-    				 		required: true
+    				 		required: false
     				 	  },"reported_by": {
-    				 		required: true
+    				 		required: false
     				 	  },"responsible_person":{
-    				 		 required: true
+    				 		 required: false
     				 	  },"closure_date": {
-    			 		    required: true,
+    			 		    required: false,
     			 	   	  },"committee_formed_fk": {
-    				 		required: true
+    				 		required: false
     				 	  },"lti_hours": {
-    			 		    required: true
+    			 		    required: false
     			 	   	  },"equipment_impact": {
-    				 		required: true
+    				 		required: false
     				 	  },"people_impact": {
-    				 		required: true
+    				 		required: false
     				 	  },"work_impact":{
-    				 		 required: true
+    				 		 required: false
     				 	  },"compensation": {
-    			 		    required: true,
+    			 		    required: false,
     			 	   	  },"investigation_completed": {
-    				 		required: true
+    				 		required: false
     				 	  },"payment_date": {
-    			 		    required: true
+    			 		    required: false
     			 	   	  },"corrective_measure_short_term": {
-    				 		required: true
+    				 		required: false
     				 	  },"corrective_measure_long_term":{
-    				 		 required: true
+    				 		 required: false
     				 	  },"remarks":{
-    				 		 required: true
+    				 		 required: false
     				 	  }
     				 				
     			 	},

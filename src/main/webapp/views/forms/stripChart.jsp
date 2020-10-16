@@ -1125,7 +1125,15 @@
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');
     			 	    }
-    			 },submitHandler: function(form) {
+    			 },invalidHandler: function (form, validator) {
+                     var errors = validator.numberOfInvalids();
+                     if (errors) {
+                         var position = validator.errorList[0].element;
+                         jQuery('html, body').animate({
+                             scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                         }, 1000);
+                     }
+                 },submitHandler: function(form) {
     			    // do other things for a valid form
     			    //form.submit();
     			    //return true;

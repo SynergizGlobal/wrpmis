@@ -50,4 +50,15 @@ public class FileFormatModel {
 
 		return fileFormat;
 	}
+	
+	public static List<String> getP6UpdateFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "	WBS Code,	Task Code,	Activity Name,	Activity Status,  Start,	 Finish,	Float	";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+
+		return fileFormat;
+	}
 }

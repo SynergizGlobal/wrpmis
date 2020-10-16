@@ -60,7 +60,7 @@
                
                 <div class="" id="existing">
                     <div class="container">
-                        <form action="<%=request.getContextPath() %>/upload-p6data" name="p6dataFrom" id="p6dataFrom" method="post" enctype="multipart/form-data">
+                        <form action="<%=request.getContextPath() %>/upload-p6-update" name="p6dataFrom" id="p6dataFrom" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -97,7 +97,7 @@
                                             <input type="file" name="p6dataFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text" name="p6_file_path">
                                         </div>
                                     </div>
                                 </div>
@@ -106,10 +106,9 @@
                             <div class="row">
                                 <div class="col s12 center-align">
                                     <div style="display: inline-block;">
-                                        <a href="javascript:void(0);" onclick="openUploadP6DataModal();"
-                                        class="btn waves-effect waves-light bg-m f-w-b">
+                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="UploadP6Update();">
                                             Upload Activities
-                                        </a>
+                                        </button>
                                     </div>
 
                                 </div>
@@ -121,7 +120,7 @@
                             <div class="col m12 text-primary">
                                 <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
                                     P6 data file will be in
-                                    the given format. Click <a href="/pmis/P6DataFile.xlsx" download>here</a> for
+                                    the given format. Click <a href="/pmis/P6UpdateFile.xlsx" download>here</a> for
                                     the file format</p>
                             </div>
 
@@ -131,12 +130,12 @@
                 
  				<div class="" id="baseline">
                     <div class="container">
-                        <form action="#">
+                        <form action="<%=request.getContextPath() %>/upload-p6-baseline" name="p6baselineFrom" id="p6baselineFrom" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p  class="searchable_label"> Contract ID</p>
-                                     <select id="contract_id_fk0" name="contract_id_fk"  class="searchable">
+                                     <select id="contract_id_fk0" name="contract_id_fk"  class="searchable" onchange="getFobList0(this.value);">
                                             <option value="" >Select Contarct</option>
                                             <c:forEach var="obj" items="${contractsList}">
                        						  <option value="${obj.contract_id_fk }" >${obj.contract_id_fk }</option>
@@ -165,10 +164,10 @@
                                     <div class="file-field input-field">
                                         <div class="btn btn-outline">
                                             <span>Upload P6 Export File</span>
-                                            <input type="file" name="p6_file_path">
+                                            <input type="file" name="p6dataFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text" name="p6_file_path">
                                         </div>
                                     </div>
                                 </div>
@@ -178,7 +177,7 @@
                                 <div class="col s12 center-align">
                                     <div style="display: inline-block;">
                                         <!-- <input type="submit" value="" > -->
-                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b">
+                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="UploadP6Baseline();">
                                             Upload Activities
                                         </button>
                                     </div>
@@ -192,7 +191,7 @@
                             <div class="col m12 text-primary">
                                 <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
                                     P6 data file will be in
-                                    the given format. Click <a href="/pmis/Baseline.xlsx" download>here</a> for
+                                    the given format. Click <a href="/pmis/P6BaselineFile.xlsx" download>here</a> for
                                     the file format</p>
                             </div>
 
@@ -227,17 +226,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                     <c:forEach var="obj" items="${activityDataList }">
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Baseline</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                           <td>${ obj.contract_id_fk }</td>
+                                            <td>${ obj.fob_id_fk }</td>
+                                            <td>${ obj.data_type }</td>
+                                            <td>${ obj.data_date }</td>
+                                            <td>${ obj.soft_delete_status_fk }</td>
+                                            <td>${ obj.p6_file_path }</td>
+                                            <td>${ obj.uploaded_by_user_id_fk }</td>
+                                            <td>${ obj.uploaded_date }</td>
                                         </tr>
-                                        <tr>
+                                        </c:forEach>
+                                       <!--  <tr>
                                             <td></td>
                                             <td></td>
                                             <td>Update</td>
@@ -246,7 +247,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -286,7 +287,13 @@
 	
 	
     <script>
-    function  openUploadP6DataModal() {
+    function  UploadP6Baseline() {
+		$("#p6dataFile").val('');
+		$(".page-loader").show();	    		
+		document.getElementById("p6baselineFrom").submit();
+	}
+    
+    function  UploadP6Update() {
 		$("#p6dataFile").val('');
 		$(".page-loader").show();	    		
 		document.getElementById("p6dataFrom").submit();
@@ -359,6 +366,36 @@
                                     $("#fob_id_fk").append('<option value="' + val.fob_id_fk + '" selected>' + $.trim(val.fob_id_fk) + '</option>');
                                 } else {
                                     $("#fob_id_fk").append('<option value="' + val.fob_id_fk + '">' + $.trim(val.fob_id_fk)  + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+      
+        function getFobList0(contract_id_fk) {
+        	$(".page-loader").show();
+            $("#fob_id_fk0 option:not(:first)").remove();
+
+            if ($.trim(contract_id_fk) != "") {
+                var myParams = { contract_id_fk: contract_id_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/get-fob-list",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                               
+                                var fob_id_fk = "${val.fob_id_fk }";
+                                if ($.trim(fob_id_fk) != '' && val.fob_id_fk == $.trim(fob_id_fk)) {
+                                    $("#fob_id_fk0").append('<option value="' + val.fob_id_fk + '" selected>' + $.trim(val.fob_id_fk) + '</option>');
+                                } else {
+                                    $("#fob_id_fk0").append('<option value="' + val.fob_id_fk + '">' + $.trim(val.fob_id_fk)  + '</option>');
                                 }
                             });
                         }

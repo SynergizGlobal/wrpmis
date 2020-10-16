@@ -8,10 +8,19 @@ public class P6Data {
 	
 	private String p6_activity_id, p6_task_code,p6_wbs_code_fk, p6_activity_name, status_fk, baseline_start, baseline_finish, 
 	start, finish, p6_float,p6_wbs_code, contract_id_fk, fob_id_fk, p6_wbs_name, p6_wbs_parent_code, p6_wbs_category_fk,
-	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date;
+	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date,data_type;
 
+	
 	private List<P6Data> p6_data;
 	private MultipartFile p6dataFile;
+	
+	public String getData_type() {
+		return data_type;
+	}
+
+	public void setData_type(String data_type) {
+		this.data_type = data_type;
+	}
 	
 	public List<P6Data> getP6_data() {
 		return p6_data;

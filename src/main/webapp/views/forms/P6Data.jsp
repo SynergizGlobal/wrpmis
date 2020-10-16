@@ -22,10 +22,8 @@
      .text-primary p a:not(.btn) {
             color: blue;
         }
-
-        #test1 p,
-        #test2 p {
-            margin-bottom: 0;
+        #existing p,#baseline p{
+        	 margin-bottom: 0;
         }
     </style>
 </head>
@@ -55,89 +53,18 @@
 							</div>
 						</c:if>     
                     <ul class="tabs">
-                        <li class="tab col s6"><a href="#baseline">Add Baseline</a></li>
                         <li class="tab col s6"><a class="active" href="#existing">Update Existing</a></li>
+                        <li class="tab col s6"><a href="#baseline">Add Baseline</a></li>
                     </ul>
                 </div>
-                <div class="" id="baseline">
-                    <div class="container">
-                        <form action="#">
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p> <label>Contract ID</label></p>
-                                     <select id="contract_id_fk0" name="contract_id_fk"  class="searchable">
-                                            <option value="" >Select Contarct</option>
-                                            <c:forEach var="obj" items="${contractsList}">
-                       						  <option value="${obj.contract_id_fk }" >${obj.contract_id_fk }</option>
-                                             </c:forEach>
-                                     </select>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <p> <label>FOB ID</label></p>
-                                     <select id="fob_id_fk0" name="fob_id_fk"  class="searchable">
-                                            <option value="" >Select FOB</option>
-                                            <c:forEach var="obj" items="${fobsList}">
-                       						  <option value="${obj.fob_id_fk }" >${obj.fob_id_fk }</option>
-                                             </c:forEach>
-                                     </select>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-
-                                <div class="col s12 m4 input-field">
-                                    <input id="data_date1" type="text" name="data_date" class="validate datepicker">
-                                    <label for="data_date1"> Data Date</label>
-                                    <button type="button" id="data_date1_icon"><i class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4">
-                                    <div class="file-field input-field">
-                                        <div class="btn btn-outline">
-                                            <span>Upload P6 Export File</span>
-                                            <input type="file" name="p6_file_path">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 center-align">
-                                    <div style="display: inline-block;">
-                                        <!-- <input type="submit" value="" > -->
-                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b">
-                                            Upload Activities
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="container-no-margin">
-                        <div class="row center-align">
-                            <div class="col m12 text-primary">
-                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
-                                    P6 data file will be in
-                                    the given format. Click <a href="/pmis/Baseline.xlsx" download>here</a> for
-                                    the file format</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="" id="existing">
                     <div class="container">
                         <form action="<%=request.getContextPath() %>/upload-p6data" name="p6dataFrom" id="p6dataFrom" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label>Contract ID</label></p>
+                                    <p  class="searchable_label">Contract ID</p>
                                      <select id="contract_id_fk" name="contract_id_fk"  class="searchable" onchange="getFobList(this.value);">
                                             <option value="" >Select Contarct</option>
                                             <c:forEach var="obj" items="${contractsList}">
@@ -147,7 +74,7 @@
                                      <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                   <p> <label>FOB ID</label></p>
+                                   <p  class="searchable_label"> FOB ID</p>
                                    <select id="fob_id_fk" name="fob_id_fk"  class="searchable">
                                             <option value="" >Select FOB</option>
                                    </select>
@@ -201,7 +128,77 @@
                         </div>
                     </div>
                 </div>
+                
+ 				<div class="" id="baseline">
+                    <div class="container">
+                        <form action="#">
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <p  class="searchable_label"> Contract ID</p>
+                                     <select id="contract_id_fk0" name="contract_id_fk"  class="searchable">
+                                            <option value="" >Select Contarct</option>
+                                            <c:forEach var="obj" items="${contractsList}">
+                       						  <option value="${obj.contract_id_fk }" >${obj.contract_id_fk }</option>
+                                             </c:forEach>
+                                     </select>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <p  class="searchable_label">FOB ID</p>
+                                     <select id="fob_id_fk0" name="fob_id_fk"  class="searchable">
+                                            <option value="" >Select FOB</option>
+                                            <c:forEach var="obj" items="${fobsList}">
+                       						  <option value="${obj.fob_id_fk }" >${obj.fob_id_fk }</option>
+                                             </c:forEach>
+                                     </select>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="data_date1" type="text" name="data_date" class="validate datepicker">
+                                    <label for="data_date1"> Data Date</label>
+                                    <button type="button" id="data_date1_icon"><i class="fa fa-calendar"></i></button>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="file-field input-field">
+                                        <div class="btn btn-outline">
+                                            <span>Upload P6 Export File</span>
+                                            <input type="file" name="p6_file_path">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <div style="display: inline-block;">
+                                        <!-- <input type="submit" value="" > -->
+                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b">
+                                            Upload Activities
+                                        </button>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="container-no-margin">
+                        <div class="row center-align">
+                            <div class="col m12 text-primary">
+                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
+                                    P6 data file will be in
+                                    the given format. Click <a href="/pmis/Baseline.xlsx" download>here</a> for
+                                    the file format</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

@@ -41,4 +41,9 @@ public class WorkContractModuleStatusServiceImpl implements WorkContractModuleSt
 		return dao.updateWorkStatus(obj);
 	}
 
+	@Override
+	public List<WorkContractModuleStatus> getModulesList() throws Exception {
+		return dao.getModulesList();
+	}
+
 }

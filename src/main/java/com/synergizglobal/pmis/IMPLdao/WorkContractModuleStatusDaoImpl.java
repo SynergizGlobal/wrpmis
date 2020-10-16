@@ -211,5 +211,17 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 		}
 		return flag;
 	 }
+
+	@Override
+	public List<WorkContractModuleStatus> getModulesList() throws Exception {
+		List<WorkContractModuleStatus> objList = null;
+		try {
+			String qry ="select module_name as module_name_fk from module";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objList;
+	}
 	
 }

@@ -93,13 +93,13 @@ public class SafetyEquipmentController {
 	
 	@RequestMapping(value = "/ajax/get-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<SafetyEquipment> getDesigns(@ModelAttribute SafetyEquipment obj) {
+	public List<SafetyEquipment> getSafetyEquipment(@ModelAttribute SafetyEquipment obj) {
 		List<SafetyEquipment> safetyEquipment = null;
 		try {
 			safetyEquipment = service.getSafetyEquipment(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("SafetyEquipment : " + e.getMessage());
+			logger.error("getSafetyEquipment : " + e.getMessage());
 		}
 		return safetyEquipment;
 	}

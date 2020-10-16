@@ -30,6 +30,24 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getP6WbsFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Contract ID,	FOB ID,	  WBS Code,	 WBS Name,	 Parent WBS Code,	 WBS Category";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
 
+		return fileFormat;
+	}
+	public static List<String> getP6ActivitiesFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "	WBS Code,	Task Code,	Activity Name,	Activity Status,	Baseline Start,	Baseline Finish,    Start,	 Finish,	Float	";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
 
+		return fileFormat;
+	}
 }

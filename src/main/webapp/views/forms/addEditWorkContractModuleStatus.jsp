@@ -165,7 +165,7 @@
                                         <div class="row fixed-width">
                                             <h5 class="center-align">Module Status</h5>
                                             <div class="table-inside">
-                                                <table id="workStatusTable" class="mdl-data-table">
+                                                <table class="mdl-data-table">
                                                     <thead>
                                                         <tr>
                                                             <th>Module </th>
@@ -174,9 +174,9 @@
                                                     </thead>
                                                     <tbody>
                                                     
-                                                      <c:choose>
+                                                    <c:choose>
                                       				 <c:when test="${not empty workStatusDetails.workContractStatus && fn:length(workStatusDetails.workContractStatus) gt 0 }">
-                                                     <c:forEach var="sObj" items="${workStatusDetails.workContractStatus }" varStatus="index"> 
+                                                      <c:forEach var="sObj" items="${workStatusDetails.workContractStatus }" varStatus="index"> 
                                                         <tr>
                                                             <td>
                                                                 <input type="hidden" name= "work_status_ids" id="work_status_ids${index.count }" value="${sObj.work_status_id}" />
@@ -188,155 +188,22 @@
                                                                     data-length="1000">${sObj.status_as_on_month }</textarea>
                                                             </td>
                                                           </tr>
-                                                      
                                                          </c:forEach>
-                                                          </c:when>
-                                     			  	<c:otherwise>
-                                     			  	 <tr>
+                                                       </c:when>
+                                     			  	   <c:otherwise>
+                                     			  	    <c:forEach var="sObj" items="${modulesList }"> 
+                                     			  		 <tr>
                                                             <td>
                                                                 <span class="primary-text" 
-                                                                    id="table_contract">Contract</span>
-                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="Contract">
+                                                                    id="table_contract">${sObj.module_name_fk }</span>
+                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="${sObj.module_name_fk }">
                                                             </td>
                                                             <td>
                                                                 <textarea id="status11" class="materialize-textarea" name="status_as_on_months"
                                                                     data-length="1000"></textarea>
                                                             </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_design">Design</span>
-                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="Design">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status21" class="materialize-textarea"  name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_execution_monitoring">Execution Monitoring</span>
-                                                                    <input type = "hidden" id="table_work"  name ="module_name_fks" value="Execution Monitoring">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status31" class="materialize-textarea"  name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_finance">Finance</span>
-                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="Finance">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status41" class="materialize-textarea"  name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_issues">Issues</span>
-                                                                    <input type = "hidden" id="table_work"  name ="module_name_fks" value="Issues">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status51" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_land_acquisition">Land Aquisition</span>
-                                                                    <input type = "hidden" id="table_work"  name ="module_name_fks" value="Land Aquisition">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status61" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" id="table_randr"   
-                                                                >R & R</span>
-                                                                <input type = "hidden" id="table_work"  name ="module_name_fks" value="R & R">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status71" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" id="table_risk"  
-                                                                >Risk</span>
-                                                                 <input type = "hidden" id="table_work"  name ="module_name_fks" value="Risk">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status81" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_safety">Safety</span>
-                                                                    <input type = "hidden" id="table_work"  name ="module_name_fks" value="Safety">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status91" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_training">Training</span>
-                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="Training">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status101" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" id="table_training" 
-                                                                >Unmanned
-                                                                    Aerial Vehicle</span>
-                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="Unmanned Aerial Vehicle">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status111" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text" id="table_us"   
-                                                                >Utility
-                                                                    Shifting</span>
-                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="Utility Shifting">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status121" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text"  
-                                                                >Work</span>
-                                                                <input type = "hidden" id="table_work"  name ="module_name_fks" value="Work">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status131" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                        </tr>
+                                                         </tr>
+                                                           </c:forEach>
                                                         </c:otherwise>
                                      				</c:choose>
                                                     </tbody>

@@ -42,7 +42,7 @@ public class PageConstants {
 	public static final String workContractModuleStatusGrid = "forms/workContractModuleStatusGrid";
 	public static final String addEditWorkContractModuleStatus = "forms/addEditWorkContractModuleStatus";
 
-
+	public static final String P6Data = "forms/P6Data";
 
 
 	

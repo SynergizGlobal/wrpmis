@@ -16,6 +16,8 @@ public interface WorkContractModuleStatusDao {
 	public boolean addWorkstatus(WorkContractModuleStatus obj)throws Exception;
 
 	public boolean updateWorkStatus(WorkContractModuleStatus obj)throws Exception;
+
+	public List<WorkContractModuleStatus> getModulesList()throws Exception;
 	
 
 }

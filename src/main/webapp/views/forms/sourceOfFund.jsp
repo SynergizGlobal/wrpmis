@@ -71,7 +71,7 @@
                             <div class="col m8 s12">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
-                                        <p><label>Sub Work Id</label></p>
+                                        <p><label>Work Id</label></p>
                                         <select class="searchable">
                                             <option value="" disabled selected>Select Work Id</option>
                                             <option value="1">Option 1</option>
@@ -89,9 +89,9 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                        <p><label>Sub Category</label></p>
+                                        <p><label> Railway</label></p>
                                         <select class="searchable">
-                                            <option value="" disabled selected>Select Sub Category</option>
+                                            <option value="" disabled selected>Select Railway</option>
                                             <option value="1">Option 1</option>
                                             <option value="2">Option 2</option>
                                             <option value="3">Option 3</option>
@@ -114,7 +114,7 @@
                                         <tr>
                                             <th>Work ID</th>
                                             <th>Source of Fund</th>
-                                            <th>Sub Category Railway</th>
+                                            <th>Railway</th>
                                             <th>Funding Date </th>
                                             <th> Fund Amount </th>
                                             <th>Ledger Account </th>

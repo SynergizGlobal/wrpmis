@@ -1,7 +1,7 @@
 package com.synergizglobal.pmis.model;
 
 public class Project {
-	private String project_id,project_name,plan_head_number,pink_book_item_number,project_description,remarks;
+	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks;
 
 	public String getProject_id() {
 		return project_id;
@@ -33,14 +33,6 @@ public class Project {
 
 	public void setPink_book_item_number(String pink_book_item_number) {
 		this.pink_book_item_number = pink_book_item_number;
-	}
-
-	public String getProject_description() {
-		return project_description;
-	}
-
-	public void setProject_description(String project_description) {
-		this.project_description = project_description;
 	}
 
 	public String getRemarks() {

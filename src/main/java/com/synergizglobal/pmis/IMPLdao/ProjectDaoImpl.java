@@ -33,7 +33,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<Project> getProjectList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,project_description,remarks FROM project";
+			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,remarks FROM project";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -50,7 +50,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		Project project = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,project_description,remarks FROM project"
+			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,remarks FROM project"
 					+ " where project_id = ?";
 			stmt = connection.prepareStatement(qry);
 			stmt.setString(1, projectId);
@@ -164,7 +164,7 @@ public class ProjectDaoImpl implements ProjectDao {
 
 
 	@Override
-	public boolean deleteProjectRow(String projectId, Project project)throws Exception{
+	public boolean deleteProject(String projectId, Project project)throws Exception{
 		
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -187,17 +187,6 @@ public class ProjectDaoImpl implements ProjectDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return flag;
-	}
-	@Override
-	public List<Project> getSafetyList(Project project)throws Exception{
-		List<Project> objsList = null;
-		try {
-			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,project_description,remarks FROM project";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-	}
-		return objsList;
 	}
 
 }

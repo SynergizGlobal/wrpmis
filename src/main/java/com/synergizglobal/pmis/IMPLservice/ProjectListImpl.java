@@ -35,15 +35,10 @@ public class ProjectListImpl implements ProjectService{
 		return projectDao.addProject(project);
 	}
 	@Override
-	public boolean deleteProjectRow(String projectId, Project project)throws Exception{
-		return projectDao.deleteProjectRow(projectId,project);
-	}
-	@Override
-	public List<Project> getSafetyList(Project project)throws Exception{
-		return projectDao.getSafetyList(project);
-
+	public boolean deleteProject(String projectId, Project project)throws Exception{
+		return projectDao.deleteProject(projectId,project);
 	}
 
-	}
+}
 
 

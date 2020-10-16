@@ -159,7 +159,7 @@ public class ProjectController {
 		try{
 			model.setViewName("redirect:/project");
 			projectId= project.getProject_id();
-			boolean flag =  projectService.deleteProjectRow(projectId,project);
+			boolean flag =  projectService.deleteProject(projectId,project);
 		}catch (Exception e) {
 			logger.error("Work : " + e.getMessage());
 		}
@@ -172,7 +172,7 @@ public class ProjectController {
 		List<Project> dataList = new ArrayList<Project>();
 		try {
 			view.setViewName("redirect:/project");
-			dataList = projectService.getSafetyList(project); 
+			dataList = projectService.getProjectList(); 
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet sheet = workBook.createSheet();

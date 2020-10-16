@@ -227,7 +227,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Project> getProjectsList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry = "select project_id,project_name,plan_head_number,pink_book_item_number,project_description,remarks from `project`";
+			String qry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks from `project`";
 			//objsList = jdbcTemplate.query( qry, BeanPropertyRowMapper.newInstance(Project.class));
 			//OR
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));

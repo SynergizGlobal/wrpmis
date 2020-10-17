@@ -1260,22 +1260,16 @@
 
 
     <script>
- 
-        $(document).ready(function () {	
-    	    $('.datepicker').each(function() {
-    	    	 $(this).datepicker({
-     	        	format:'dd-mm-yyyy',
-     	   	    	onSelect: function () {
-     	   	    	   $('.confirmation-btns .datepicker-done').click();
-     	   	    	}
-     	        })
-    	 	});        	
-        	$('.datepicker~button').click(function (event) {
-    	    	var id=$(this).attr("id").substring(0,$(this).attr("id").length-5);	    	
-                    event.stopPropagation();
-                    $('#'+id).click();    	    	
-    	    });
-        	
+	    $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
+    
+        $(document).ready(function () {												
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#remarks').characterCounter();

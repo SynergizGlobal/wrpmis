@@ -64,14 +64,23 @@
                         </div>
                     </span>
                     <div class="">
-
+ 						<c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                                <div class="m-1 l-align">
+                               <!--  <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col s12 m4">
@@ -97,7 +106,7 @@
                                          <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select Work ID</option>
 	                                            <c:forEach var="obj" items="${workList}">
-	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id_fk eq obj.work_id }">selected</c:if>>${obj.work_id }</option>
+	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }</option>
 	                                            </c:forEach>
                                         </select>
                                     </div>

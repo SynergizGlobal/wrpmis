@@ -31,8 +31,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> getSourceOfFundList() throws Exception {
 		List<SourceOfFund> objsList = null;
 		try {
-			String qry ="select source_of_funds as source_of_funds_fk  from source_of_funds ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+			String qry ="select source_of_funds_fk  from funds f "
+					+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
+					+ "GROUP BY source_of_funds_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
@@ -40,11 +42,13 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	}
 
 	@Override
-	public List<SourceOfFund> getRailwayListList() throws Exception {
+	public List<SourceOfFund> getRailwayList() throws Exception {
 		List<SourceOfFund> objsList = null;
 		try {
-			String qry ="select railway_id as sub_category_railway_id_fk, railway_name  from railway ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+			String qry ="select sub_category_railway_id_fk, r.railway_name  from funds "
+					+ "LEFT JOIN railway r on sub_category_railway_id_fk = railway_id "
+					+ "GROUP BY sub_category_railway_id_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
@@ -182,6 +186,32 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+
+	@Override
+	public List<SourceOfFund> getWorkList() throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry ="select work_id_fk,w.work_name  from funds f "
+					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
+					+ "GROUP BY work_id_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<SourceOfFund> getRailways() throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry ="select railway_id,railway_name  from railway ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 	

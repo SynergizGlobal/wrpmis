@@ -33,7 +33,9 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Work> getFinancialYearList() throws Exception {
 		List<Work> objsList = null;
 		try {
-			String qry ="select financial_year from financial_year ";
+			String qry ="select financial_year_fk from budget b "
+					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year "
+					+ "GROUP BY financial_year_fk ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -187,6 +189,20 @@ public class BudgetDaoImpl implements BudgetDao {
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+
+	@Override
+	public List<Budget> getWorkList() throws Exception {
+		List<Budget> objsList = null;
+		try {
+			String qry ="select work_id_fk from budget b "
+					+ "LEFT JOIN work w  on b.work_id_fk = w.work_id "
+					+ "GROUP BY work_id_fk ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 }

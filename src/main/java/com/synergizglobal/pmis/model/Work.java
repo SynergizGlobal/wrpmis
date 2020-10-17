@@ -7,8 +7,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class Work {
 	private String work_id,work_name,work_short_name,project_id_fk,sanctioned_year,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
-	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,pink_book_item_number,latest_revised_cost,
+	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,pink_book_item_number,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,railway,executed_by,projected_completion;
+
+	public String getFinancial_year_fk() {
+		return financial_year_fk;
+	}
+
+	public void setFinancial_year_fk(String financial_year_fk) {
+		this.financial_year_fk = financial_year_fk;
+	}
 
 	private List<Work> workRevisions;
 	private MultipartFile workFile;

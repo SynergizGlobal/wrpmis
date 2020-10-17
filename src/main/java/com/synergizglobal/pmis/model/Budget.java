@@ -4,8 +4,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Budget {
 	
-	private String budget_id, work_id_fk, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
+	private String budget_id, work_id_fk,work_id, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
 					final_grant, remarks, attachment,project_id_fk,work_name;
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
 
 	private MultipartFile budgetFile;
 	

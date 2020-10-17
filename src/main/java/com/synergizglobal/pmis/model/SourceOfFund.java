@@ -4,8 +4,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SourceOfFund {
 	
-	private String funds_id, work_id_fk,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk,railway_name, funding_date,
-					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account;
+	private String funds_id, work_id_fk,work_id,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk,railway_name, funding_date,
+					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,railway_id;
+
+	public String getRailway_id() {
+		return railway_id;
+	}
+
+	public void setRailway_id(String railway_id) {
+		this.railway_id = railway_id;
+	}
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
 
 	private MultipartFile fundFile;
 

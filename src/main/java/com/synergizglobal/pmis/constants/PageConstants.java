@@ -47,6 +47,8 @@ public class PageConstants {
 	public static final String sourceOfFund = "forms/sourceOfFund";
 	public static final String addEditSourceOfFund = "forms/addEditSourceOfFund";
 
+	public static final String expenditure = "forms/expenditure";
+	public static final String addEditExpenditure = "forms/addEditExpenditure";
 	
 	
 }

@@ -107,8 +107,8 @@
                                     <p class="searchable_label">Sub Category Railway</p>
                                     <select class="searchable validate-dropdown" name="sub_category_railway_id_fk" id="sub_category_railway_id_fk">
                                         <option value="">Select</option>
-                                       		 <c:forEach var="obj" items="${railwayList}">
-	                       						  <option value="${obj.sub_category_railway_id_fk }" <c:if test="${fundDetails.sub_category_railway_id_fk eq obj.sub_category_railway_id_fk }">selected</c:if>>${obj.sub_category_railway_id_fk }<c:if test="${not empty obj.railway_name}"> - </c:if>${obj.railway_name}</option>
+                                       		 <c:forEach var="obj" items="${railwaysList}">
+	                       						  <option value="${obj.railway_id}" <c:if test="${fundDetails.sub_category_railway_id_fk eq obj.railway_id }">selected</c:if>>${obj.railway_id }<c:if test="${not empty obj.railway_name}"> - </c:if>${obj.railway_name}</option>
 	                                         </c:forEach>
                                     </select>
                                     <span id="sub_category_railway_id_fkError" class="error-msg" ></span>
@@ -199,17 +199,17 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                         <c:if test="${action eq 'edit'}">
+                                          <c:if test="${action eq 'edit'}">
 	                                           <button type="button" onclick="updateFunds();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
-	                                         </c:if>
-											 <c:if test="${action eq 'add'}"> 
+	                                      </c:if>
+										  <c:if test="${action eq 'add'}"> 
 						                       <button type="button" onclick="addFunds();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
-											 </c:if>
+										  </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/sourcr-of-funds" class="btn waves-effect waves-light bg-s"
+                                        <a href="<%=request.getContextPath()%>/source-of-funds" class="btn waves-effect waves-light bg-s"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>

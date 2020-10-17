@@ -81,11 +81,11 @@ public class SourceOfFundController {
 	public ModelAndView sourceOfFund(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.sourceOfFund);
 		try {
-			List<Work> workList = workService.getWorkList(null);
+			List<SourceOfFund> workList = sofService.getWorkList();
 			model.addObject("workList", workList);
 			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
 			model.addObject("sourceOfFundList", sourceOfFundList);
-			List<SourceOfFund> railwayList = sofService.getRailwayListList();
+			List<SourceOfFund> railwayList = sofService.getRailwayList();
 			model.addObject("railwayList", railwayList);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -104,8 +104,8 @@ public class SourceOfFundController {
 			model.addObject("projectsList", projectsList);
 			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
 			model.addObject("sourceOfFundList", sourceOfFundList);
-			List<SourceOfFund> railwayList = sofService.getRailwayListList();
-			model.addObject("railwayList", railwayList);
+			List<SourceOfFund> railwaysList = sofService.getRailways();
+			model.addObject("railwaysList", railwaysList);
 		}catch (Exception e) {
 				logger.error("SourceOfFund : " + e.getMessage());
 		}
@@ -126,7 +126,7 @@ public class SourceOfFundController {
 	}
 	
 	@RequestMapping(value = "/get-funds", method = {RequestMethod.POST})
-	public ModelAndView getFundsForm(@ModelAttribute SourceOfFund obj){
+	public ModelAndView getFunds(@ModelAttribute SourceOfFund obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditSourceOfFund);
@@ -135,8 +135,8 @@ public class SourceOfFundController {
 			model.addObject("projectsList", projectsList);
 			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
 			model.addObject("sourceOfFundList", sourceOfFundList);
-			List<SourceOfFund> railwayList = sofService.getRailwayListList();
-			model.addObject("railwayList", railwayList);
+			List<SourceOfFund> railwaysList = sofService.getRailways();
+			model.addObject("railwaysList", railwaysList);
 			SourceOfFund fundDetails = sofService.getFunds(obj);
 			model.addObject("fundDetails", fundDetails);
 		}catch (Exception e) {

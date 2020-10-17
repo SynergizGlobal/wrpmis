@@ -26,6 +26,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FOB;
@@ -372,6 +373,20 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		try {
 			String qry ="select project_id ,project_name from project ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> contractList() throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select contract_id_fk ,c.contract_name from safety_equipment s "
+					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
+					+ "GROUP BY contract_id_fk ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

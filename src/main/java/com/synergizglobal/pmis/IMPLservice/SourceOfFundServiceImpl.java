@@ -9,6 +9,7 @@ import com.synergizglobal.pmis.Idao.SourceOfFundDao;
 import com.synergizglobal.pmis.Iservice.SourceOfFundService;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.SourceOfFund;
+import com.synergizglobal.pmis.model.Work;
 
 @Service
 public class SourceOfFundServiceImpl implements SourceOfFundService{
@@ -22,8 +23,8 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 	}
 
 	@Override
-	public List<SourceOfFund> getRailwayListList() throws Exception {
-		return dao.getRailwayListList();
+	public List<SourceOfFund> getRailwayList() throws Exception {
+		return dao.getRailwayList();
 	}
 
 	@Override
@@ -49,6 +50,16 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 	@Override
 	public boolean deleteFunds(SourceOfFund obj) throws Exception {
 		return dao.deleteFunds(obj);
+	}
+
+	@Override
+	public List<SourceOfFund> getWorkList() throws Exception {
+		return dao.getWorkList();
+	}
+
+	@Override
+	public List<SourceOfFund> getRailways() throws Exception {
+		return dao.getRailways();
 	}
 	
 

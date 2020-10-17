@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
@@ -9,6 +12,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
@@ -27,6 +31,24 @@
           .input-field .searchable_label {
             font-size: 0.8rem;
         }
+        td{
+       		 word-break: break-word;
+    		 word-wrap: break-word;
+   			 white-space: initial;
+    	 }
+    	  td:last-child{
+    	 	word-break:inherit;
+    	 }
+    	 .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -45,26 +67,35 @@
                         </div>
                     </span>
                     <div class="">
-
+ 						<c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                                <div class="m-1 l-align">
+                               <!--  <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="expenditure.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-expenditure-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Expenditure</strong></a>
                                 </div>
                             </div>
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a  href="javascript:void(0);" onclick="exportExpenditure();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
@@ -72,52 +103,52 @@
                         <div class="row no-mar">
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Work</p>
-                                <select class="searchable">
-                                    <option value="" disabled selected>Select Work</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                <select id="work_id_fk" name="work_id_fk" onchange="getExpenditureList();" class="searchable">
+                                     <option value="" >Select Work</option>
+                                      <c:forEach var="obj" items="${workList}">
+                 						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
+                                       </c:forEach>
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Contract </p>
-                                <select class="searchable">
-                                    <option value="" disabled selected>Select Contract</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getExpenditureList();" class="searchable">
+                                     <option value="" >Select Contract</option>
+                                      <c:forEach var="obj" items="${contractsList}">
+                 						  <option value="${obj.contract_id_fk }" <c:if test="${param.contract_id_fk eq obj.contract_id_fk }">selected</c:if>>${obj.contract_id_fk }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+                                       </c:forEach>
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Ledger Account</p>
-                                <select class="searchable">
-                                    <option value="" disabled selected>Select Ledger Account</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                <select id="ledger_account" name="ledger_account" onchange="getExpenditureList();" class="searchable">
+                                     <option value="" >Select Ledger Account</option>
+                                      <c:forEach var="obj" items="${ledgerAccountList}">
+                 						  <option value="${obj.ledger_account }" <c:if test="${param.ledger_account eq obj.ledger_account }">selected</c:if>>${obj.ledger_account }</option>
+                                       </c:forEach>
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Contractor Name</p>
-                                <select class="searchable">
-                                    <option value="" disabled selected>Select Contractor Name</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                <select id="contractor_name" name="contractor_name" onchange="getExpenditureList();" class="searchable">
+                                     <option value="" >Select Contractor Name</option>
+                                      <c:forEach var="obj" items="${contractorNameList}">
+                 						  <option value="${obj.contractor_name }" <c:if test="${param.contractor_name eq obj.contractor_name }">selected</c:if>>${obj.contractor_name }</option>
+                                       </c:forEach>
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Voucher Type</p>
-                                <select class="searchable">
-                                    <option value="" disabled selected>Select Voucher Type</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                <select id="voucher_type" name="voucher_type" onchange="getExpenditureList();" class="searchable">
+                                     <option value="" >Select Voucher Type</option>
+                                      <c:forEach var="obj" items="${voucherTypeList}">
+                 						  <option value="${obj.voucher_type }" <c:if test="${param.voucher_type eq obj.voucher_type }">selected</c:if>>${obj.voucher_type }</option>
+                                       </c:forEach>
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 8px;width: 100%;">Clear Filters</button>
+                                    style="margin-top: 8px;width: 100%;" onclick="clearFilter();" >Clear Filters</button>
                             </div>
                         </div>
                     </div>
@@ -125,7 +156,7 @@
 
                 <div class="row">
                     <div class="col m12 s12">
-                        <table id="example" class="mdl-data-table">
+                        <table id="datatable-expenditure" class="mdl-data-table">
                             <thead>
                                 <tr>
                                     <th>Work</th>
@@ -138,7 +169,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <!-- <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -152,7 +183,7 @@
                                                 class="fa fa-trash"></i></a>
                                     </td>
 
-                                </tr>
+                                </tr> -->
 
                             </tbody>
 
@@ -163,7 +194,19 @@
             </div>
         </div>
     </div>
-
+ <div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -176,29 +219,197 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
+    <form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="expenditure_id" id="expenditure_id" />
+    </form>
+    
+     <form action="<%=request.getContextPath() %>/export-expenditure" name="exportExpenditureForm" id="exportExpenditureForm" target="_blank" method="post">	
+       
+         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
+         <input type="hidden" name="ledger_account" id="exportLedger_account" />
+         <input type="hidden" name="contractor_name" id="exportContractor_name" />
+         <input type="hidden" name="voucher_type" id="exportVoucher_type" />
+	</form>
+    
     <script>
-        $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-            $('#example').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "20px", "targets": [6] },
-                ],
-                fixedHeader: true,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-        });
+    $(document).ready(function () {
+  	   $('select:not(.searchable)').formSelect();
+         $('.searchable').select2();
+     	var table = $('#datatable-expenditure').DataTable({
+  		"bStateSave": true,
+  		fixedHeader: true,
+          "fnStateSave": function (oSettings, oData) {
+              localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+          },
+          "fnStateLoad": function (oSettings) {
+              return JSON.parse(localStorage.getItem('MRVCDataTables'));
+          },
+          columnDefs: [
+              {
+                  targets: [0, 1, 2],
+                  className: 'mdl-data-table__cell--non-numeric'
+              },
+              { orderable: false, 'aTargets': ['nosort'] }
+          ],
+          // "ScrollX": true,
+          "scrollCollapse": true,
+          //"sScrollY": 400,
+          "sScrollX": "100%",
+              "sScrollXInner": "100%",
+              "bScrollCollapse": true,
+          initComplete: function () {
+              $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+          }
+      });
+  	table.state.clear(); 
+ 		
+  	
+  	$('.close-message').delay(3000).fadeOut('slow');
+  	
+  	getExpenditureList();
+  });
+  
 
+    function clearFilter(){
+    	$("#work_id_fk").val("");
+    	$("#contract_id_fk").val("");
+    	$("#ledger_account").val("");
+    	$("#contractor_name").val("");
+    	$("#voucher_type").val("");
+    	$('.searchable').select2();
+    	getExpenditureList();
+    }
+    
+    function getExpenditureList(){
+    	$(".page-loader").show();
+    	var work_id_fk = $("#work_id_fk").val();
+    	var contract_id_fk = $("#contract_id_fk").val();
+    	var ledger_account = $("#ledger_account").val();
+    	var contractor_name = $("#contractor_name").val();
+    	var voucher_type = $("#voucher_type").val();
+    	table = $('#datatable-expenditure').DataTable();
+		 
+		table.destroy();
+		
+		$.fn.dataTable.moment('DD-MMM-YYYY');
+		table = $('#datatable-expenditure').DataTable({
+    		"bStateSave": true,
+    		fixedHeader: true,
+            "fnStateSave": function (oSettings, oData) {
+                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+            },
+            "fnStateLoad": function (oSettings) {
+                return JSON.parse(localStorage.getItem('MRVCDataTables'));
+            },
+            columnDefs: [
+                {
+                    targets: [0, 1, 2],
+                    className: 'mdl-data-table__cell--non-numeric'
+                },
+                { orderable: false, 'aTargets': ['nosort'] }
+            ],
+            // "ScrollX": true,
+            "sScrollX": "100%",
+             "sScrollXInner": "100%",
+             "bScrollCollapse": true,
+            initComplete: function () {
+                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+            }
+        }).rows().remove().draw();
+		
+		table.state.clear();		
+	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
+	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-expenditure",type:"POST",data:myParams,success : function(data){    				
+			if(data != null && data != '' && data.length > 0){    					
+         		$.each(data,function(key,val){
+         			var expenditure_id = "'"+val.expenditure_id+"'";
+                    var actions = '<a href="javascript:void(0);"  onclick="getExpenditure('+expenditure_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+/*                     			  +'<a onclick="deleteExpenditure('+expenditure_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+ */                   	var rowArray = [];    	                 
+                   	
+                	var workName = '';
+                    if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                    
+                   	rowArray.push($.trim(val.work_id_fk) + workName);
+                   	rowArray.push($.trim(val.contract_id_fk));
+                   	rowArray.push($.trim(val.ledger_account));
+                   	rowArray.push($.trim(val.contractor_name));
+                   	rowArray.push($.trim(val.date));
+                   	rowArray.push($.trim(val.voucher_type));
+                   	rowArray.push($.trim(actions));   	                   	
+                   	
+                    table.row.add(rowArray).draw( true );
+                    		                       
+				});
+         		
+         		$(".page-loader").hide();
+			}else{
+				$(".page-loader").hide();
+			}
+			
+		},error: function (jqXHR, exception) {
+			$(".page-loader").hide();
+         	getErrorMessage(jqXHR, exception);
+     }});
+}
+    
+    
+    function exportExpenditure(){
+      	
+        var work_id_fk = $("#work_id_fk").val();
+        var contract_id_fk = $("#contract_id_fk").val();
+    	var ledger_account = $("#ledger_account").val();
+    	var contractor_name = $("#contractor_name").val();
+    	var voucher_type = $("#voucher_type").val();
+    	
+      	
+      	 $("#exportWork_id_fk").val(work_id_fk);
+      	 $("#exportContract_id_fk").val(contract_id_fk);
+    	 $("#exportLedger_account").val(ledger_account);
+    	 $("#exportContractor_name").val(contractor_name);
+    	 $("#exportVoucher_type").val(voucher_type);
+      	 $("#exportExpenditureForm").submit();
+   	}
+    
+    
+    
+    function getExpenditure(expenditure_id){
+    	$("#expenditure_id").val(expenditure_id);
+    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-expenditure');
+    	$('#getForm').submit();
+    }
+    
+    function deleteExpenditure(expenditure_id){
+    	$("#expenditure_id").val(expenditure_id);
+    	showCancelMessage();
+    }
+    function showCancelMessage() {
+    	swal({
+            title: "Are you sure?",
+            text: "You will be able to change the status of record!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel it!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function (isConfirm) {
+            if (isConfirm) {
+               // swal("Deleted!", "Record has been deleted", "success");
+            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-expenditure');
+    	    	$('#getForm').submit();
+           }else {
+                swal("Cancelled", "Record is safe :)", "error");
+            }
+        });
+    }
+    
+    
+    
+    
     </script>
 
 </body>

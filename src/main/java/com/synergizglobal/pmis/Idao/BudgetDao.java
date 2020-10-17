@@ -23,6 +23,8 @@ public interface BudgetDao {
 
 	public boolean deleteBudget(Budget obj)throws Exception;
 
+	public List<Budget> getWorkList()throws Exception;
+
 
 
 

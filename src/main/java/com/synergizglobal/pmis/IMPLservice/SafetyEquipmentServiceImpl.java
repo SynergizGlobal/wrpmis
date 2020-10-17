@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.SafetyEquipmentDao;
 import com.synergizglobal.pmis.Iservice.SafetyEquipmentService;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.SafetyEquipment;
 import com.synergizglobal.pmis.model.Work;
@@ -49,6 +50,10 @@ public class SafetyEquipmentServiceImpl implements SafetyEquipmentService {
 	public List<Project> getProjectsList()throws Exception{
 		return safetyEquipmentDao.getProjectsList();
 
+	}
+	@Override
+	public List<Contract> contractList() throws Exception {
+		return safetyEquipmentDao.contractList();
 	}
 
 }

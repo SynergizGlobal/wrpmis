@@ -57,6 +57,12 @@ public class BudgetServiceImpl implements BudgetService{
 
 	}
 
+	@Override
+	public List<Budget> getWorkList() throws Exception {
+		return budgetDao.getWorkList();
+
+	}
+
 
 	
 

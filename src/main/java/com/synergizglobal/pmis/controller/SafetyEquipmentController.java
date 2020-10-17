@@ -82,7 +82,7 @@ public class SafetyEquipmentController {
 	public ModelAndView safetyEquipment(HttpSession session,@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView(PageConstants.safetyEquipmentGrid);
 		try {
-			List<Contract> contractList = contractservice.contractList(obj);
+			List<Contract> contractList = service.contractList();
 			model.addObject("contractList", contractList);
 		}catch (Exception e) {
 			e.printStackTrace();

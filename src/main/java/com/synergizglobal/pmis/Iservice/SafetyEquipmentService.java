@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.SafetyEquipment;
 import com.synergizglobal.pmis.model.Work;
@@ -21,5 +22,7 @@ public interface SafetyEquipmentService {
 	public List<Work> getworkList()throws Exception;
 
 	public List<Project> getProjectsList()throws Exception;
+
+	public List<Contract> contractList()throws Exception;
 
 }

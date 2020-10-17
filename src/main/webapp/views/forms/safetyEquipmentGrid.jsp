@@ -99,7 +99,7 @@
                                         <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getSafetyEquiptmentList();">
                                             <option value="">Select</option>
 	                                            <c:forEach var="obj" items="${contractList}">
-		                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+		                       						  <option value="${obj.contract_id_fk }" <c:if test="${param.contract_id_fk eq obj.contract_id_fk }">selected</c:if>>${obj.contract_id_fk }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
 		                                        </c:forEach>
                                         </select>
                                     </div>

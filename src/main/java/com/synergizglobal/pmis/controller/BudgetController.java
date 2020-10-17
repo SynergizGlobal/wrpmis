@@ -74,10 +74,10 @@ public class BudgetController {
 	
 	
 	@RequestMapping(value="/budget",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView Budget(HttpSession session,@ModelAttribute Work obj){
+	public ModelAndView Budget(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.budgetGrid);
 		try {
-			List<Work> workList = workService.getWorkList(obj);
+			List<Budget> workList = budgetService.getWorkList();
 			model.addObject("workList", workList);
 			List<Work> financialYearList = budgetService.getFinancialYearList();
 			model.addObject("financialYearList", financialYearList);

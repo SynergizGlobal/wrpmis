@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.P6DataDao;
 import com.synergizglobal.pmis.Iservice.P6DataService;
 import com.synergizglobal.pmis.model.P6Data;
-import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 @Service
 public class P6DataServiceImpl implements P6DataService{
@@ -22,28 +21,22 @@ public class P6DataServiceImpl implements P6DataService{
 		return dao.getFobList(obj);
 	}
 
-
 	@Override
-	public int p6WbsUpload(List<P6Data> p6dataList,String userName) throws Exception {
-		return dao.p6WbsUpload(p6dataList,userName);
-	}
-
-
-	@Override
-	public int p6ActivitiesUpload(List<P6Data> p6dataList,String userName) throws Exception {
-		return dao.p6ActivitiesUpload(p6dataList,userName);
-	}
-
-
-	@Override
-	public int p6ActivitiesUpdate(List<P6Data> p6dataList,String userName) throws Exception {
-		return dao.p6ActivitiesUpdate(p6dataList,userName);
+	public int updateP6Activities(List<P6Data> p6dataList,P6Data p6Data) throws Exception {
+		return dao.updateP6Activities(p6dataList,p6Data);
 	}
 
 
 	@Override
 	public List<P6Data> getActivityDataList() throws Exception {
 		return dao.getActivityDataList();
+	}
+
+
+	@Override
+	public String uploadP6WBSActivities(List<P6Data> wbsList, List<P6Data> activitiesList, P6Data p6data)
+			throws Exception {
+		return dao.uploadP6WBSActivities(wbsList,activitiesList,p6data);
 	}
 
 }

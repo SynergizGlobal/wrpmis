@@ -408,8 +408,7 @@
                 $('#investigation_completed').click();
             });
             
-            $('#investigation_completed').datepicker({                   
-  	    	    
+            $('#investigation_completed').datepicker({
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
@@ -422,8 +421,7 @@
                 $('#payment_date').click();
             });
             
-            $('#payment_date').datepicker({                   
-  	    	    
+            $('#payment_date').datepicker({ 
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {

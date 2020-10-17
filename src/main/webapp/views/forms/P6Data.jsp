@@ -19,12 +19,37 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
-     .text-primary p a:not(.btn) {
+     	.text-primary p a:not(.btn) {
             color: blue;
         }
         #existing p,#baseline p{
         	 margin-bottom: 0;
         }
+        
+        .my-error-class {
+			color: red;
+		}
+		
+		.my-valid-class {
+			color: green;
+		}		
+		 .tabs .tab a:focus, .tabs .tab a:focus.active {
+		 	background-color:transparent;
+		 }
+		 .select2-container--default .select2-selection--single {
+		 	background-color:transparent;
+		 }
+		.page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.error-msg label{color:red!important;}
     </style>
 </head>
 <body>
@@ -52,62 +77,60 @@
 							   ${error}
 							</div>
 						</c:if>     
-                    <ul class="tabs">
-                        <li class="tab col s6"><a class="active" href="#existing">Update Existing</a></li>
-                        <li class="tab col s6"><a href="#baseline">Add Baseline</a></li>
-                    </ul>
-                </div>
-               
-                <div class="" id="existing">
-                    <div class="container">
-                        <form action="<%=request.getContextPath() %>/upload-p6-update" name="p6dataFrom" id="p6dataFrom" method="post" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col m3 hide-on-small-only"></div>
+							<div class="col m6 s12">								
+			                    <ul class="tabs">
+			                        <li class="tab col s6" style="background-color:#f0f8ff"><a class="active" href="#existing">Update Existing</a></li>
+			                        <li class="tab col s6" style="background-color:#fafafa"><a  href="#baseline">Add Baseline</a></li>
+			                    </ul>
+			                      
+                <div class="" id="existing" style="padding:15px; background-color:#f0f8ff">
+                    <div style="margin-top:20px">
+                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p  class="searchable_label">Contract ID</p>
-                                     <select id="contract_id_fk" name="contract_id_fk"  class="searchable" onchange="getFobList(this.value);">
-                                            <option value="" >Select Contarct</option>
+                                <div class="col s12 m6 input-field">
+                                    <p  class="searchable_label">Contract</p>
+                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate');">
+                                            <option value="" >Select</option>
                                             <c:forEach var="obj" items="${contractsList}">
                        						  <option value="${obj.contract_id_fk }" >${obj.contract_id_fk }</option>
                                              </c:forEach>
                                      </select>
-                                     <span id="contract_id_fkError" class="error-msg" ></span>
+                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                   <p  class="searchable_label"> FOB ID</p>
-                                   <select id="fob_id_fk" name="fob_id_fk"  class="searchable">
-                                            <option value="" >Select FOB</option>
+                                <div class="col s12 m6 input-field">
+                                   <p class="searchable_label"> FOB</p>
+                                   <select id="fob_id_fkUpdate" name="fob_id_fk"  class="searchable validate-dropdown">
+                                        <option value="">Select</option>
                                    </select>
+                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
-
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-
-                                <div class="col s12 m4 input-field">
-                                    <input id="data_date2" type="text" name="data_date" class="validate datepicker">
-                                    <label for="data_date2"> Data Date</label>
-                                    <button type="button" id="data_date2_icon"><i class="fa fa-calendar"></i></button>
+                                <div class="col s12 m6 input-field">
+                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
+                                    <label for="data_dateUpdate"> Data Date</label>
+                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="data_dateUpdateError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m6">
                                     <div class="file-field input-field">
                                         <div class="btn btn-outline">
                                             <span>Upload P6 Export File</span>
                                             <input type="file" name="p6dataFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="p6_file_path">
+                                            <input class="file-path validate" type="text">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col s12 center-align">
                                     <div style="display: inline-block;">
-                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="UploadP6Update();">
-                                            Upload Activities
+                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
+                                            Update Activities
                                         </button>
                                     </div>
 
@@ -128,56 +151,52 @@
                     </div>
                 </div>
                 
- 				<div class="" id="baseline">
-                    <div class="container">
-                        <form action="<%=request.getContextPath() %>/upload-p6-baseline" name="p6baselineFrom" id="p6baselineFrom" method="post" enctype="multipart/form-data">
+ 				<div class="" id="baseline" style="padding:15px;background-color:#fafafa">
+                    <div style="margin-top:20px">
+                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p  class="searchable_label"> Contract ID</p>
-                                     <select id="contract_id_fk0" name="contract_id_fk"  class="searchable" onchange="getFobList0(this.value);">
-                                            <option value="" >Select Contarct</option>
+                                <div class="col s12 m6 input-field">
+                                    <p  class="searchable_label"> Contract</p>
+                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload');">
+                                            <option value="" >Select</option>
                                             <c:forEach var="obj" items="${contractsList}">
                        						  <option value="${obj.contract_id_fk }" >${obj.contract_id_fk }</option>
                                              </c:forEach>
                                      </select>
+                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <p  class="searchable_label">FOB ID</p>
-                                     <select id="fob_id_fk0" name="fob_id_fk"  class="searchable">
-                                            <option value="" >Select FOB</option>
-                                            <c:forEach var="obj" items="${fobsList}">
-                       						  <option value="${obj.fob_id_fk }" >${obj.fob_id_fk }</option>
-                                             </c:forEach>
+                                <div class="col s12 m6 input-field">
+                                    <p  class="searchable_label">FOB</p>
+                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="searchable validate-dropdown">
+                                            <option value="" >Select</option>
                                      </select>
+                                     <span id="fob_id_fkUploadError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="data_date1" type="text" name="data_date" class="validate datepicker">
-                                    <label for="data_date1"> Data Date</label>
-                                    <button type="button" id="data_date1_icon"><i class="fa fa-calendar"></i></button>
+                                <div class="col s12 m6 input-field">
+                                    <input id="data_dateUpload" type="text" name="data_date" class="validate datepicker">
+                                    <label for="data_dateUpload"> Data Date</label>
+                                    <button type="button" id="data_dateUpload_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="data_dateUploadError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m6">
                                     <div class="file-field input-field">
                                         <div class="btn btn-outline">
                                             <span>Upload P6 Export File</span>
                                             <input type="file" name="p6dataFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="p6_file_path">
+                                            <input class="file-path validate" type="text">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col s12 center-align">
                                     <div style="display: inline-block;">
                                         <!-- <input type="submit" value="" > -->
-                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="UploadP6Baseline();">
+                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Baseline();">
                                             Upload Activities
                                         </button>
                                     </div>
@@ -198,7 +217,11 @@
                         </div>
                     </div>
                 </div>
-
+			                    
+							</div>
+						</div>
+                </div>
+             
             </div>
         </div>
 </div>
@@ -230,7 +253,7 @@
                                         <tr>
                                            <td>${ obj.contract_id_fk }</td>
                                             <td>${ obj.fob_id_fk }</td>
-                                            <td>${ obj.data_type }</td>
+                                            <td>${ obj.upload_type }</td>
                                             <td>${ obj.data_date }</td>
                                             <td>${ obj.soft_delete_status_fk }</td>
                                             <td>${ obj.p6_file_path }</td>
@@ -260,7 +283,7 @@
          
   
 
-<div class="page-loader" style="display: none;">
+	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">
@@ -279,46 +302,42 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
-	
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	
     <script>
-    function  UploadP6Baseline() {
-		$("#p6dataFile").val('');
-		$(".page-loader").show();	    		
-		document.getElementById("p6baselineFrom").submit();
-	}
-    
-    function  UploadP6Update() {
-		$("#p6dataFile").val('');
-		$(".page-loader").show();	    		
-		document.getElementById("p6dataFrom").submit();
-	}
-    
-    $(document).on('focus', '.datepicker',function(){
-        $(this).datepicker({
-        	format:'dd-mm-yyyy',
-   	    	onSelect: function () {
-   	    	   $('.confirmation-btns .datepicker-done').click();
-   	    	}
-        })
-    });
+	    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-          /*   $('.datepicker,#data_date1,#data_date2').datepicker(); */
+          
             $('.tabs').tabs();
-            $('#data_date1_icon').click(function () {
+            
+            $('#data_dateUpdate').datepicker({
+  	    	    format:'dd-mm-yyyy',
+  	    	    onSelect: function () {
+  	    	       $('.confirmation-btns .datepicker-done').click();
+  	    	    }
+  	        });
+            
+            $('#data_dateUpload').datepicker({
+  	    	    format:'dd-mm-yyyy',
+  	    	    onSelect: function () {
+  	    	       $('.confirmation-btns .datepicker-done').click();
+  	    	    }
+  	        });
+            
+            $('#data_dateUpdate_icon').click(function () {
                 event.stopPropagation();
-                $('#data_date1').click();
+                $('#data_dateUpdate').click();
             });
-            $('#data_date2_icon').click(function () {
+            $('#data_dateUpload_icon').click(function () {
                 event.stopPropagation();
-                $('#data_date2').click();
+                $('#data_dateUpload').click();
             });
             $('#p6datatable').DataTable({
                 columnDefs: [
@@ -337,20 +356,11 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
-            $('#date_icon').click(function () {
-                event.stopPropagation();
-                $('#date').click();
-            });
-            
-            var contract_id_fk = "${val.contract_id_fk}";
-            if ($.trim(contract_id_fk) != '') {
-            	getFobList(contract_id_fk);
-            }
         });
         
-        function getFobList(contract_id_fk) {
+        function getFobList(contract_id_fk,fob_id_attr) {
         	$(".page-loader").show();
-            $("#fob_id_fk option:not(:first)").remove();
+            $("#"+fob_id_attr+" option:not(:first)").remove();
 
             if ($.trim(contract_id_fk) != "") {
                 var myParams = { contract_id_fk: contract_id_fk };
@@ -360,13 +370,7 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                               
-                                var fob_id_fk = "${val.fob_id_fk }";
-                                if ($.trim(fob_id_fk) != '' && val.fob_id_fk == $.trim(fob_id_fk)) {
-                                    $("#fob_id_fk").append('<option value="' + val.fob_id_fk + '" selected>' + $.trim(val.fob_id_fk) + '</option>');
-                                } else {
-                                    $("#fob_id_fk").append('<option value="' + val.fob_id_fk + '">' + $.trim(val.fob_id_fk)  + '</option>');
-                                }
+                               $("#"+fob_id_attr).append('<option value="' + val.fob_id_fk + '">' + $.trim(val.fob_id_fk)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -377,38 +381,130 @@
             	$(".page-loader").hide();
             }
         }
-      
-        function getFobList0(contract_id_fk) {
-        	$(".page-loader").show();
-            $("#fob_id_fk0 option:not(:first)").remove();
-
-            if ($.trim(contract_id_fk) != "") {
-                var myParams = { contract_id_fk: contract_id_fk };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/get-fob-list",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                               
-                                var fob_id_fk = "${val.fob_id_fk }";
-                                if ($.trim(fob_id_fk) != '' && val.fob_id_fk == $.trim(fob_id_fk)) {
-                                    $("#fob_id_fk0").append('<option value="' + val.fob_id_fk + '" selected>' + $.trim(val.fob_id_fk) + '</option>');
-                                } else {
-                                    $("#fob_id_fk0").append('<option value="' + val.fob_id_fk + '">' + $.trim(val.fob_id_fk)  + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
-      
         
+        
+
+	    function uploadP6Baseline() {
+	    	if(validatorUpload.form()){ // validation perform
+				$(".page-loader").show();	    		
+				document.getElementById("p6UploadFrom").submit();
+	    	}
+		}
+	    
+	    function  uploadP6Update() {
+	    	if(validatorUpdate.form()){ // validation perform
+				$(".page-loader").show();	    		
+				document.getElementById("p6UpdateFrom").submit();
+	    	}
+		}
+        
+        var validatorUpload =	$('#p6UploadFrom').validate({
+			 errorClass: "my-error-class",
+			 validClass: "my-valid-class",
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		  "contract_id_fk": {
+	  			 		required: true
+	  			 	  },"fob_id_fk": {
+	  			 		required: true
+	  			 	  },"data_date": {
+	  		 		    required: true
+	  			 	  }	
+	  		 	},
+	  		    messages: {
+	  		 		 "contract_id_fk": {
+	  				 	required: 'This field is required',
+	  			 	  },"fob_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"data_date": {
+	  		 			required: ' This field is required'
+	  		 	  	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if (element.attr("id") == "contract_id_fkUpload" ){
+						document.getElementById("contract_id_fkUploadError").innerHTML="";
+				 		error.appendTo('#contract_id_fkUploadError');
+					} else if(element.attr("id") == "fob_id_fkUpload" ){
+					    document.getElementById("fob_id_fkUploadError").innerHTML="";
+				 	    error.appendTo('#fob_id_fkUploadError');
+					} else if(element.attr("id") == "data_dateUpload" ){
+						document.getElementById("data_dateUploadError").innerHTML="";
+					 	error.appendTo('#data_dateUploadError');
+					} else{
+		 				error.insertAfter(element);
+				    } 
+		   		},invalidHandler: function (form, validator) {
+                    var errors = validator.numberOfInvalids();
+                    if (errors) {
+                        var position = validator.errorList[0].element;
+                        jQuery('html, body').animate({
+                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                        }, 1000);
+                    }
+                },submitHandler:function(form){
+			    	form.submit();
+			    }
+			}); 
+        
+        var validatorUpdate =	$('#p6UpdateFrom').validate({
+			 errorClass: "my-error-class",
+			 validClass: "my-valid-class",
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		  "contract_id_fk": {
+	  			 		required: true
+	  			 	  },"fob_id_fk": {
+	  			 		required: true
+	  			 	  },"data_date": {
+	  		 		    required: true
+	  			 	  }	
+	  		 	},
+	  		    messages: {
+	  		 		 "contract_id_fk": {
+	  				 	required: 'This field is required',
+	  			 	  },"fob_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"data_date": {
+	  		 			required: ' This field is required'
+	  		 	  	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if (element.attr("id") == "contract_id_fkUpdate" ){
+						document.getElementById("contract_id_fkUpdateError").innerHTML="";
+				 		error.appendTo('#contract_id_fkUpdateError');
+					} else if(element.attr("id") == "fob_id_fkUpdate" ){
+					    document.getElementById("fob_id_fkUpdateError").innerHTML="";
+				 	    error.appendTo('#fob_id_fkUpdateError');
+					} else if(element.attr("id") == "data_dateUpdate" ){
+						document.getElementById("data_dateUpdateError").innerHTML="";
+					 	error.appendTo('#data_dateUpdateError');
+					} else{
+		 				error.insertAfter(element);
+				    } 
+		   		},invalidHandler: function (form, validator) {
+                   var errors = validator.numberOfInvalids();
+                   if (errors) {
+                       var position = validator.errorList[0].element;
+                       jQuery('html, body').animate({
+                           scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                       }, 1000);
+                   }
+               },submitHandler:function(form){
+			    	form.submit();
+			    }
+			}); 
+        
+       $('select').change(function(){
+           if ($(this).val() != ""){
+               $(this).valid();
+           }
+       });
+
+       $('input').change(function(){
+           if ($(this).val() != ""){
+               $(this).valid();
+           }
+       });
         
     </script>
 </body>

@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 
@@ -256,7 +257,7 @@
                                             <td>${ obj.upload_type }</td>
                                             <td>${ obj.data_date }</td>
                                             <td>${ obj.soft_delete_status_fk }</td>
-                                            <td>${ obj.p6_file_path }</td>
+                                            <td><c:if test="${not empty obj.p6_file_path }"><a href="<%=CommonConstants2.P6_FILES%>${ obj.p6_file_path }">${ obj.p6_file_path }</a> </c:if></td>
                                             <td>${ obj.uploaded_by_user_id_fk }</td>
                                             <td>${ obj.uploaded_date }</td>
                                         </tr>

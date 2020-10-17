@@ -78,16 +78,16 @@ public class ExpenditureController {
 	public ModelAndView Expenditure(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.expenditure);
 		try {
-			List<Expenditure> workList = expenditureService.getWorkList();
-			model.addObject("workList", workList);
+			List<Expenditure> worksList = expenditureService.getWorksList();
+			model.addObject("worksList", worksList);
 			List<Expenditure> contractsList = expenditureService.getContractsList();
 			model.addObject("contractsList", contractsList);
-			List<Expenditure> ledgerAccountList = expenditureService.getLedgerAccountList();
-			model.addObject("ledgerAccountList", ledgerAccountList);
-			List<Expenditure> contractorNameList = expenditureService.getContractorNameList();
-			model.addObject("contractorNameList", contractorNameList);
-			List<Expenditure> voucherTypeList = expenditureService.getVoucherTypeList();
-			model.addObject("voucherTypeList", voucherTypeList);
+			List<Expenditure> ledgerAccountsList = expenditureService.getLedgerAccountsList();
+			model.addObject("ledgerAccountsList", ledgerAccountsList);
+			List<Expenditure> contractorNamesList = expenditureService.getContractorNamesList();
+			model.addObject("contractorNamesList", contractorNamesList);
+			List<Expenditure> voucherTypesList = expenditureService.getVoucherTypesList();
+			model.addObject("voucherTypesList", voucherTypesList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Expenditure : " + e.getMessage());

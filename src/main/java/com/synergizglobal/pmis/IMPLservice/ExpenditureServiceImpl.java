@@ -17,8 +17,8 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	ExpenditureDao dao;
 	
 	@Override
-	public List<Expenditure> getWorkList() throws Exception {
-		return dao.getWorkList();
+	public List<Expenditure> getWorksList() throws Exception {
+		return dao.getWorksList();
 	}
 
 	@Override
@@ -27,18 +27,18 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	}
 
 	@Override
-	public List<Expenditure> getLedgerAccountList() throws Exception {
-		return dao.getLedgerAccountList();
+	public List<Expenditure> getLedgerAccountsList() throws Exception {
+		return dao.getLedgerAccountsList();
 	}
 
 	@Override
-	public List<Expenditure> getContractorNameList() throws Exception {
-		return dao.getContractorNameList();
+	public List<Expenditure> getContractorNamesList() throws Exception {
+		return dao.getContractorNamesList();
 	}
 
 	@Override
-	public List<Expenditure> getVoucherTypeList() throws Exception {
-		return dao.getVoucherTypeList();
+	public List<Expenditure> getVoucherTypesList() throws Exception {
+		return dao.getVoucherTypesList();
 	}
 
 	@Override

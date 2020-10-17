@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -28,12 +29,12 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<Expenditure> getWorkList() throws Exception {
+	public List<Expenditure> getWorksList() throws Exception {
 		List<Expenditure> objsList = null;
 		try {
 			String qry ="SELECT c.work_id_fk,e.contract_id_fk from expenditure e "+
 					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id "+
-					"LEFT JOIN work w on c.work_id_fk = w.work_id ";
+					"LEFT JOIN work w on c.work_id_fk = w.work_id GROUP BY c.work_id_fk ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -56,11 +57,11 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	}
 
 	@Override
-	public List<Expenditure> getLedgerAccountList() throws Exception {
+	public List<Expenditure> getLedgerAccountsList() throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry =" SELECT ledger_account from expenditure e  "
-					+ "GROUP BY ledger_account ";
+			String qry =" SELECT ledger_account from expenditure "
+					+ "GROUP BY ledger_account";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -69,11 +70,11 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	}
 
 	@Override
-	public List<Expenditure> getContractorNameList() throws Exception {
+	public List<Expenditure> getContractorNamesList() throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry =" SELECT contractor_name from expenditure e  "
-					+ "GROUP BY contractor_name ";
+			String qry =" SELECT contractor_name from expenditure "
+					+ "GROUP BY contractor_name";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -82,7 +83,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	}
 
 	@Override
-	public List<Expenditure> getVoucherTypeList() throws Exception {
+	public List<Expenditure> getVoucherTypesList() throws Exception {
 		List<Expenditure> objsList = null;
 		try {
 			String qry =" SELECT voucher_type from expenditure e  "
@@ -164,26 +165,50 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 
 	@Override
 	public Expenditure getExpenditure(Expenditure obj) throws Exception {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
 		Expenditure expenditure = null;
 		try {
-			String qry = "SELECT expenditure_id,w.project_id_fk,c.work_id_fk,w.work_name,e.contract_id_fk,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type , " + 
-					"voucher_no,narration,net_paid,gross_work_done,sd_payable,contractor_income_tax,cgst_tds,sgst_tds,vat_wct,mob_advance,`interest on_mob_adv` " + 
-					",amount_withheld,e.remarks from expenditure e " + 
+			connection = dataSource.getConnection();
+			String qry = "SELECT expenditure_id,w.project_id_fk,p.project_name,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type , " + 
+					"voucher_no,narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"+
+					"cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,cast(`interest on_mob_adv` as CHAR) as `interest on_mob_adv`," + 
+					"cast(amount_withheld as CHAR) as amount_withheld,e.remarks from expenditure e " + 
 					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id  " + 
-					"LEFT JOIN work w on c.work_id_fk = w.work_id \r\n" + 
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " + 
-					"LEFT JOIN contractor cr on e.contractor_name = cr.contractor_name where expenditure_id is not null";
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getExpenditure_id())) {
-				qry = qry + " and expenditure_id = ?";
-				arrSize++;
+					"LEFT JOIN contractor cr on e.contractor_name = cr.contractor_name where expenditure_id is not null and expenditure_id = ?";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getExpenditure_id());
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				expenditure = new Expenditure();
+				expenditure.setExpenditure_id(resultSet.getString("expenditure_id"));
+				expenditure.setProject_id_fk(resultSet.getString("w.project_id_fk"));
+				expenditure.setWork_id_fk(resultSet.getString("c.work_id_fk"));
+				expenditure.setProject_name(resultSet.getString("p.project_name"));
+				expenditure.setWork_name(resultSet.getString("w.work_name"));
+				expenditure.setContract_id_fk(resultSet.getString("e.contract_id_fk"));
+				expenditure.setContract_name(resultSet.getString("c.contract_name"));
+				expenditure.setContractor_name(resultSet.getString("e.contractor_name"));
+				expenditure.setLedger_account(resultSet.getString("ledger_account"));
+				expenditure.setDate(resultSet.getString("date"));
+				expenditure.setVoucher_type(resultSet.getString("voucher_type"));
+				expenditure.setVoucher_no(resultSet.getString("voucher_no"));
+				expenditure.setNarration(resultSet.getString("narration"));
+				expenditure.setNet_paid(resultSet.getString("net_paid"));
+				expenditure.setGross_work_done(resultSet.getString("gross_work_done"));
+				expenditure.setSd_payable(resultSet.getString("sd_payable"));
+				expenditure.setContractor_income_tax(resultSet.getString("contractor_income_tax"));
+				expenditure.setCgst_tds(resultSet.getString("cgst_tds"));
+				expenditure.setSgst_tds(resultSet.getString("sgst_tds"));
+				expenditure.setVat_wct(resultSet.getString("vat_wct"));
+				expenditure.setMob_advance(resultSet.getString("mob_advance"));
+				expenditure.setInterest_on_mob_adv(resultSet.getString("interest on_mob_adv"));
+				expenditure.setAmount_withheld(resultSet.getString("amount_withheld"));
+				expenditure.setRemarks(resultSet.getString("e.remarks"));
 			}
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getExpenditure_id())) {
-				pValues[i++] = obj.getExpenditure_id();
-			}
-			expenditure = (Expenditure)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
 				
 		}catch(Exception e) {
 			e.printStackTrace();

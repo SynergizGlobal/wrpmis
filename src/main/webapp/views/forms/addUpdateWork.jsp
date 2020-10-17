@@ -195,7 +195,7 @@
                                
                                 <div class="col s12 m4 input-field">
                                     <input id="projected_completion" name="projected_completion" type="text" class="validate datepicker" value="${workDeatils.projected_completion }">
-                                    <label for="date">Target date</label>
+                                    <label for="projected_completion">Target date</label>
                                     <button type="button" id="projected_completion_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="projected_completionError" class="error-msg" ></span>
                                 </div>

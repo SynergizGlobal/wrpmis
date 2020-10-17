@@ -1,9 +1,30 @@
 package com.synergizglobal.pmis.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class SourceOfFund {
 	
-	private String funds_id, work_id_fk,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk, funding_date,
+	private String funds_id, work_id_fk,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk,railway_name, funding_date,
 					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account;
+
+	private MultipartFile fundFile;
+
+	
+	public MultipartFile getFundFile() {
+		return fundFile;
+	}
+
+	public void setFundFile(MultipartFile fundFile) {
+		this.fundFile = fundFile;
+	}
+
+	public String getRailway_name() {
+		return railway_name;
+	}
+
+	public void setRailway_name(String railway_name) {
+		this.railway_name = railway_name;
+	}
 
 	public String getFunds_id() {
 		return funds_id;

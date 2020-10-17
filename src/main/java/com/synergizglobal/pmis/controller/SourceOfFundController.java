@@ -32,23 +32,29 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.BudgetService;
+import com.synergizglobal.pmis.Iservice.SourceOfFundService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Work;
 
 @Controller
-public class BudgetController {
-	
+public class SourceOfFundController {
+
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(BudgetController.class);
+	Logger logger = Logger.getLogger(SourceOfFundController.class);
+	
+	@Autowired
+	SourceOfFundService sofService;
 	
 	@Autowired
 	WorkService workService;
@@ -56,7 +62,6 @@ public class BudgetController {
 	@Autowired
 	BudgetService budgetService;
 	
-
 	@Value("${common.error.message}")
 	public String commonError;
 	
@@ -72,71 +77,68 @@ public class BudgetController {
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
 	
-	
-	@RequestMapping(value="/budget",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView Budget(HttpSession session,@ModelAttribute Work obj){
-		ModelAndView model = new ModelAndView(PageConstants.budgetGrid);
+	@RequestMapping(value="/source-of-funds",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sourceOfFund(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.sourceOfFund);
 		try {
-			List<Work> workList = workService.getWorkList(obj);
+			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
-			List<Work> financialYearList = budgetService.getFinancialYearList();
-			model.addObject("financialYearList", financialYearList);
-			List<Project> projectsList = budgetService.getProjectsList();
-			model.addObject("projectsList", projectsList);
+			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
+			model.addObject("sourceOfFundList", sourceOfFundList);
+			List<SourceOfFund> railwayList = sofService.getRailwayListList();
+			model.addObject("railwayList", railwayList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Contract : " + e.getMessage());
+			logger.error("SourceOfFund : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getBudget", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Budget> getBudgetList(@ModelAttribute Budget obj) {
-		List<Budget> budgetList = null;
-		try {
-			budgetList = budgetService.budgetList(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("budgetList : " + e.getMessage());
-		}
-		return budgetList;
-	}
-	
-	
-	@RequestMapping(value = "/add-budget-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addBudgetForm(@ModelAttribute Work obj){
+	@RequestMapping(value = "/add-fund-form", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addFundForm(){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.addEditBudget);
+			model.setViewName(PageConstants.addEditSourceOfFund);
 			model.addObject("action", "add");
-			List<Work> workList = workService.getWorkList(obj);
-			model.addObject("workList", workList);
-			List<Work> financialYearList = budgetService.getFinancialYearList();
-			model.addObject("financialYearList", financialYearList);
 			List<Project> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			
+			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
+			model.addObject("sourceOfFundList", sourceOfFundList);
+			List<SourceOfFund> railwayList = sofService.getRailwayListList();
+			model.addObject("railwayList", railwayList);
 		}catch (Exception e) {
-				logger.error("Contractor : " + e.getMessage());
+				logger.error("SourceOfFund : " + e.getMessage());
 		}
 		return model;
 	 }
 	
-	@RequestMapping(value = "/get-budget", method = {RequestMethod.POST})
-	public ModelAndView getBudgetForm(@ModelAttribute Budget budget,Work obj ){
+	@RequestMapping(value = "/ajax/get-funds", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SourceOfFund> getFundsList(@ModelAttribute SourceOfFund obj) {
+		List<SourceOfFund> fundsList = null;
+		try {
+			fundsList = sofService.fundsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("fundsList : " + e.getMessage());
+		}
+		return fundsList;
+	}
+	
+	@RequestMapping(value = "/get-funds", method = {RequestMethod.POST})
+	public ModelAndView getFundsForm(@ModelAttribute SourceOfFund obj){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.addEditBudget);
+			model.setViewName(PageConstants.addEditSourceOfFund);
 			model.addObject("action", "edit");
-			List<Work> workList = workService.getWorkList(obj);
-			model.addObject("workList", workList);
-			List<Work> financialYearList = budgetService.getFinancialYearList();
-			model.addObject("financialYearList", financialYearList);
 			List<Project> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			Budget budgetDetails = budgetService.getBudget(budget);
-			model.addObject("budgetDetails", budgetDetails);
+			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
+			model.addObject("sourceOfFundList", sourceOfFundList);
+			List<SourceOfFund> railwayList = sofService.getRailwayListList();
+			model.addObject("railwayList", railwayList);
+			SourceOfFund fundDetails = sofService.getFunds(obj);
+			model.addObject("fundDetails", fundDetails);
 		}catch (Exception e) {
 				e.printStackTrace();
 				logger.error("getBudget : " + e.getMessage());
@@ -144,105 +146,104 @@ public class BudgetController {
 		return model;
 	 }
 	
-	@RequestMapping(value = "/add-budget", method = {RequestMethod.POST})
+	@RequestMapping(value = "/add-funds", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addBudget(@ModelAttribute Budget budget,RedirectAttributes attributes){
+	public ModelAndView addFunds(@ModelAttribute SourceOfFund obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName("redirect:/budget");
-			 MultipartFile file = budget.getBudgetFile(); 
+			model.setViewName("redirect:/source-of-funds");
+			 MultipartFile file = obj.getFundFile(); 
 				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
+					String saveDirectory = CommonConstants.FUND_FILE_SAVING_PATH ;
 					String fileName = file.getOriginalFilename();
 					FileUploads.singleFileSaving(file, saveDirectory, fileName);
 				}
-			boolean flag =  budgetService.addBudget(budget);
+			obj.setFunding_date(DateParser.parse(obj.getFunding_date()));
+			boolean flag =  sofService.addFunds(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Budget Added Succesfully.");
+				attributes.addFlashAttribute("success", "Funds Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding Budget is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding Funds is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Budget is failed. Try again.");
-			logger.error("addBudget : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value = "/update-budget", method = {RequestMethod.POST})
-	public ModelAndView updateBudget(@ModelAttribute Budget budget,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView();
-		try{
-			model.setViewName("redirect:/budget");
-			  MultipartFile file = budget.getBudgetFile(); 
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
-			boolean flag =  budgetService.updateBudget(budget);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Budget Updated Succesfully.");
-			}
-			else {
-				attributes.addFlashAttribute("error","Updating Budget is failed. Try again.");
-			}
-		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Updating Budget is failed. Try again.");
-			logger.error("updateBudget : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value = "/delete-budget", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView deleteBudget(@ModelAttribute Budget obj){
-		ModelAndView model = new ModelAndView();
-		try{
-			model.setViewName("redirect:/budget");
-			boolean flag =  budgetService.deleteBudget(obj);
-		}catch (Exception e) {
-			logger.error("deleteBudget : " + e.getMessage());
+			attributes.addFlashAttribute("error","Adding Funds is failed. Try again.");
+			logger.error("addFunds : " + e.getMessage());
 		}
 		return model;
 	}
 	
 
-	@RequestMapping(value = "/export-budget", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportBudget(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Budget budget,RedirectAttributes attributes){
-		ModelAndView view = new ModelAndView(PageConstants.budgetGrid);
-		List<Budget> dataList = new ArrayList<Budget>();
+	@RequestMapping(value = "/update-funds", method = {RequestMethod.POST})
+	public ModelAndView updateFunds(@ModelAttribute SourceOfFund obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/source-of-funds");
+			  MultipartFile file = obj.getFundFile(); 
+				if (null != file && !file.isEmpty()){
+					String saveDirectory = CommonConstants.FUND_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				}
+			obj.setFunding_date(DateParser.parse(obj.getFunding_date()));
+			boolean flag =  sofService.updateFunds(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Funds Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Funds is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Funds is failed. Try again.");
+			logger.error("updateFunds : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-funds", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView deleteFunds(@ModelAttribute SourceOfFund obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/source-of-funds");
+			boolean flag =  sofService.deleteFunds(obj);
+		}catch (Exception e) {
+			logger.error("deleteFunds : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/export-funds", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportFunds(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute SourceOfFund sObj,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants.sourceOfFund);
+		List<SourceOfFund> dataList = new ArrayList<SourceOfFund>();
 		try {
-			view.setViewName("redirect:/budget");
-			dataList =   budgetService.budgetList(budget);
+			view.setViewName("redirect:/source-of-funds");
+			dataList =   sofService.fundsList(sObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet sheet = workBook.createSheet();
 		        XSSFRow headingRow = sheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("Work");
-	            headingRow.createCell((short)1).setCellValue("Financial Year");
-	         	headingRow.createCell((short)2).setCellValue("Budget Estimate");
-	            headingRow.createCell((short)3).setCellValue("Budget Grant");
-	            headingRow.createCell((short)4).setCellValue("Reivised Estimate");
-	            headingRow.createCell((short)5).setCellValue("Reivised Grant");
-	            headingRow.createCell((short)6).setCellValue("Final Estimate");
-	            headingRow.createCell((short)7).setCellValue("Final Grant");
+	            headingRow.createCell((short)1).setCellValue("Source of Fund");
+	         	headingRow.createCell((short)2).setCellValue("Railway");
+	            headingRow.createCell((short)3).setCellValue("Funding Date");
+	            headingRow.createCell((short)4).setCellValue("Fund Amount ");
+	            headingRow.createCell((short)5).setCellValue("Ledger Account");
+	          
 
 	            short rowNo = 1;
-	            for (Budget obj : dataList) {
+	            for (SourceOfFund obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getWork_id_fk());
-	                row.createCell((short)1).setCellValue(obj.getFinancial_year_fk());
-	                row.createCell((short)2).setCellValue(obj.getBudget_estimate());
-	                row.createCell((short)3).setCellValue(obj.getBudget_grant());
-	                row.createCell((short)4).setCellValue(obj.getRevised_estimate());
-	                row.createCell((short)5).setCellValue(obj.getRevised_grant());
-	                row.createCell((short)6).setCellValue(obj.getBudget_estimate());
-	                row.createCell((short)7).setCellValue(obj.getFinal_grant());
+	                row.createCell((short)1).setCellValue(obj.getSource_of_funds_fk());
+	                row.createCell((short)2).setCellValue(obj.getSub_category_railway_id_fk());
+	                row.createCell((short)3).setCellValue(obj.getFunding_date());
+	                row.createCell((short)4).setCellValue(obj.getFund_amount());
+	                row.createCell((short)5).setCellValue(obj.getLedger_account());
 	                rowNo++;
 	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
-                String fileName = "Budget_"+dateFormat.format(date);
+                String fileName = "Funds_"+dateFormat.format(date);
                 
                 try{
 	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

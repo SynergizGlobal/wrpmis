@@ -44,6 +44,9 @@ public class PageConstants {
 
 	public static final String P6Data = "forms/P6Data";
 
+	public static final String sourceOfFund = "forms/sourceOfFund";
+	public static final String addEditSourceOfFund = "forms/addEditSourceOfFund";
 
+	
 	
 }

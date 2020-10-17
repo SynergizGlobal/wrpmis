@@ -437,12 +437,10 @@ public class P6DataController {
 		return model;
 	}
 
-	private int p6WbsUpdateUpload(P6Data uObj, String userId, String userName,
-			XSSFWorkbook workbook) throws Exception {
+	private int p6WbsUpdateUpload(P6Data uObj, String userId, String userName,XSSFWorkbook workbook) throws Exception {
 		P6Data p6data = null;
 		List<P6Data> p6dataList1 = new ArrayList<P6Data>();
 		
-		//XSSFWorkbook workbook = null;
 		XSSFSheet uploadFilesSheet = null;
 		Writer w = null;
 		int count = 0;
@@ -463,7 +461,7 @@ public class P6DataController {
 				 
 					if(workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
-						 List<P6Data> pObjList = new ArrayList<P6Data>();
+						List<P6Data> pObjList = new ArrayList<P6Data>();
 						if(sheetsCount > 0) {
 							uploadFilesSheet = workbook.getSheetAt(1);
 							//System.out.println(uploadFilesSheet.getSheetName());
@@ -494,7 +492,6 @@ public class P6DataController {
 									p6data.setFinish(formatter.formatCellValue(row.getCell(5)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
 									p6data.setP6_float(formatter.formatCellValue(row.getCell(6)).trim());
-								
 								
 								/*
 								 * p6data.setStart(DateParser.parse(p6data.getStart()));

@@ -7,6 +7,8 @@ public class Budget {
 	private String budget_id, work_id_fk, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
 					final_grant, remarks, attachment,project_id_fk,work_name;
 
+	private MultipartFile budgetFile;
+	
 	public String getWork_name() {
 		return work_name;
 	}
@@ -15,7 +17,6 @@ public class Budget {
 		this.work_name = work_name;
 	}
 
-	private MultipartFile budgetFile;
 	
 	public MultipartFile getBudgetFile() {
 		return budgetFile;

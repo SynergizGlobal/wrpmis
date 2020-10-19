@@ -182,7 +182,7 @@ public class P6DataDaoImpl implements P6DataDao {
 					+ " VALUES (?,?,?,?,?,?)";*/
 			
 			String wbsQry = "INSERT INTO p6_wbs (contract_id_fk,fob_id_fk,p6_wbs_code,p6_wbs_name,p6_wbs_parent_code,p6_wbs_category_fk)" + 
-					"SELECT * FROM (SELECT ?,?,?,?,?,?) AS tmp" + 
+					"SELECT * FROM (SELECT ?,?,?,?,?,?) AS tmp " + 
 					"WHERE NOT EXISTS (" + 
 					"    SELECT contract_id_fk,fob_id_fk,p6_wbs_code FROM p6_wbs WHERE contract_id_fk = ? and fob_id_fk = ? and p6_wbs_code = ?" + 
 					") LIMIT 1;";
@@ -214,7 +214,7 @@ public class P6DataDaoImpl implements P6DataDao {
 					+ "VALUES(?,?,?,?,?,?,?,?,?)";*/
 			
 			String activitiesQry = "INSERT INTO p6_activity (p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,`start`,finish,`float`)" + 
-					"SELECT * FROM (SELECT ?,?,?,?,?,?,?,?,?) AS tmp" + 
+					"SELECT * FROM (SELECT ?,?,?,?,?,?,?,?,?) AS tmp " + 
 					"WHERE NOT EXISTS (" + 
 					"    SELECT p6_task_code,p6_wbs_code_fk FROM p6_activity WHERE p6_task_code = ? and p6_wbs_code_fk = ?" + 
 					") LIMIT 1;";

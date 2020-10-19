@@ -32,7 +32,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	public List<Expenditure> getWorksList() throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry ="SELECT c.work_id_fk,e.contract_id_fk from expenditure e "+
+			String qry ="SELECT c.work_id_fk,w.work_name,e.contract_id_fk from expenditure e "+
 					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id GROUP BY c.work_id_fk ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	

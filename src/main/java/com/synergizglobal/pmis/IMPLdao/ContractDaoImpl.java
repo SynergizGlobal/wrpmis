@@ -1277,13 +1277,41 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getContractorsList() throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "select contractor_id_fk,contractor_name from contractor";			
+			String qry = "select contractor_id as contractor_id_fk,contractor_name from contractor";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<Contract> contractorsList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			
+			String qry = "select contractor_id_fk,c.work_id_fk,cr.contractor_name from contract c "
+					+ "LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id "
+					+ "where contractor_id_fk is not null ";		
+		int arrSize = 0;
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+			qry = qry + " and c.work_id_fk = ?";
+			arrSize++;
+		}	
+		
+		Object[] pValues = new Object[arrSize];
+		int i = 0;
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+			pValues[i++] = obj.getWork_id_fk();
+		}
+		
+	 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
 
 
 }

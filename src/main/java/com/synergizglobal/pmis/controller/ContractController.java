@@ -119,6 +119,21 @@ public class ContractController {
 		return contractList;
 	}
 	
+	@RequestMapping(value = "/ajax/getContractorsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getContractorsList(@ModelAttribute Contract obj) {
+		ModelAndView model = new ModelAndView();
+		List<Contract> contractorsList = null;
+		try {
+		 contractorsList = contractservice.contractorsList(obj);
+		 model.addObject("contractorsList", contractorsList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("contractorsList : " + e.getMessage());
+		}
+		return contractorsList;
+	}
+	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContractForm(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();

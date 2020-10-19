@@ -111,7 +111,7 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
                                       <p><label>Work</label></p>
-                                        <select id="work_id_fk" name="work_id_fk" onchange="getContractList();" class="searchable">
+                                        <select id="work_id_fk" name="work_id_fk" onchange="getContractList(); getFilterList();" class="searchable">
                                             <option value="">Select</option>
 	                                            <c:forEach var="obj" items="${workList}">
 	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
@@ -131,7 +131,7 @@
                                     <p><label>Contractor</label></p>
                                         <select id="contractor_id_fk" name="contractor_id_fk" onchange="getContractList();" class="searchable">
                                             <option value="">Select</option>
-		                                          <c:forEach var="obj" items="${contractor}">
+		                                          <c:forEach var="obj" items="${contractorsList}">
 		                       						 <option value="${obj.contractor_id_fk }" <c:if test="${param.contractor_id_fk eq obj.contractor_id_fk }">selected</c:if>>${obj.contractor_id_fk }<c:if test="${not empty obj.contractor_name}"> - </c:if>${obj.contractor_name}</option>
 		                                           </c:forEach>
                                         </select>
@@ -265,6 +265,7 @@
     	$('.close-message').delay(3000).fadeOut('slow');
     	
     	getContractList();
+    	
     });
     
     
@@ -274,6 +275,7 @@
     	$("#work_id_fk").val("");
     	$('.searchable').select2();
     	getContractList();
+    	
     }
     function getContractList(){
     	$(".page-loader").show();
@@ -352,6 +354,24 @@
 	     }});
     }
 
+    function getFilterList(){
+    	
+    	$(".page-loader").show();
+    	var department_fk = $("#department_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+            var myParams = { work_id_fk: work_id_fk };
+            $.ajax({url: "<%=request.getContextPath()%>/ajax/getContractorsList",type:"POST",data:myParams,success : function(data){   
+                  
+                        $.each(data, function (key, val) {
+                            var contractor_name = '';
+                            if ($.trim(val.contractor_name) != '') { contractor_name = ' - ' + $.trim(val.contractor_name) }
+                            $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '">' + $.trim(val.contractor_id_fk) + $.trim(contractor_name) + '</option>');
+                        });
+                     
+                }
+            });
+       
+    }
   	//This function is used to get error message for all ajax calls
     function getErrorMessage(jqXHR, exception) {
     	    var msg = '';

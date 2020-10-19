@@ -122,7 +122,7 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Ledger Account</p>
                                 <select id="ledger_account" name="ledger_account" onchange="getExpenditureList();" class="searchable">
-                                    <option value="" >Selectt</option>
+                                    <option value="" >Select</option>
                                        <c:forEach var="obj" items="${ledgerAccountsList}">
                  						  <option value="${obj.ledger_account }" <c:if test="${param.ledger_account eq obj.ledger_account }"></c:if>>${obj.ledger_account }</option>
                                       </c:forEach>

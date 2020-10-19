@@ -37,5 +37,7 @@ public interface ContractService {
 
 	public List<Contract> getContractorsList()throws Exception;
 
+	public List<Contract> contractorsList(Contract obj)throws Exception;
+
 
 }

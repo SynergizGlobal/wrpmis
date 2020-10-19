@@ -539,7 +539,7 @@
 				 	  },"work_status_fk": {
 				 		required: true
 				 	  },"target_date": {
-				 		required: false
+				 		required: true
 				 	  },"estimated_cost": {
 				 		required: false
 				 	  },"construction_start_date": {
@@ -551,9 +551,9 @@
 			 	   	  },"completion_cost": {
 				 		required: false
 				 	  },"latitude": {
-				 		required: false
+				 		required: true
 				 	  },"longitude": {
-				 		required: false
+				 		required: true
 				 	  },"remarks":{
 				 		 required: false
 				 	  }

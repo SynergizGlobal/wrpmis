@@ -272,12 +272,14 @@
                                     <label for="planned_start">Planned Start </label>
                                     <button type="button" id="planned_start_icon"><i
                                             class="fa fa-calendar"></i></button>
+                                    <span id="planned_startError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="planned_finish" name="planned_finish" type="text" class="validate datepicker" value="${designDetails.planned_finish }">
                                     <label for="planned_finish">Planned Finish </label>
                                     <button type="button" id="planned_finish_icon"><i
                                             class="fa fa-calendar"></i></button>
+                                    <span id="planned_finishError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -292,6 +294,7 @@
                                     <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker" value="${designDetails.consultant_submission }">
                                     <label for="consultant_submission">Consultant Submission </label>
                                     <button type="button" id="consultant_submission_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="consultant_submissionError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -309,6 +312,7 @@
                                     <label for="mrvc_reviewed">MRVC Reviewed </label>
                                     <button type="button" id="mrvc_reviewed_icon"><i
                                             class="fa fa-calendar"></i></button>
+                                    <span id="mrvc_reviewedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -342,6 +346,7 @@
                                     <label for="divisional_approval">Divisional Approval </label>
                                     <button type="button" id="divisional_approval_icon"><i
                                             class="fa fa-calendar"></i></button>
+                                    <span id="divisional_approvalError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -375,6 +380,7 @@
                                     <label for="hq_approval">HQ Approval </label>
                                     <button type="button" id="hq_approval_icon"><i
                                             class="fa fa-calendar"></i></button>
+                                    <span id="hq_approvalError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -389,6 +395,7 @@
                                     <input id="gfc_released" name="gfc_released" type="text" class="validate datepicker" value="${designDetails.gfc_released }">
                                     <label for="gfc_released">GFC Released </label>
                                     <button type="button" id="gfc_released_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="gfc_releasedError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -409,6 +416,7 @@
                                     <label for="as_built_date">As Built Drawing Date </label>
                                     <button type="button" id="as_built_date_icon"><i
                                             class="fa fa-calendar"></i></button>
+                                    <span id="as_built_dateError" class="error-msg" ></span>
                                 </div>
                             </div>
 </div>
@@ -880,6 +888,25 @@
     				 	  },"proof_consultant_contract_id_fk": {
     				 		required: false
     				 	  }
+    				 	  
+    				 	  ,"consultant_submission": {
+       				 		required: false
+       				 	  },"mrvc_reviewed": {
+    				 		required: false,
+       				 		dateBefore1:"#consultant_submission"
+    				 	  },"divisional_approval": {
+    				 		required: false,
+       				 		dateBefore2:"#mrvc_reviewed"
+    				 	  },"hq_approval": {
+    				 		required: false,
+       				 		dateBefore3:"#divisional_approval"
+    				 	  },"gfc_released": {
+    				 		required: false,
+       				 		dateBefore4:"#hq_approval"
+    				 	  },"as_built_date": {
+    				 		required: false,
+       				 		dateBefore5:"#gfc_released"
+    				 	  }
     				 				
     			 	},
     			   messages: {
@@ -918,6 +945,27 @@
     			 		     document.getElementById("proof_consultant_contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#proof_consultant_contract_id_fkError');
     			 	    }
+    			 	    
+    			 	    
+    			 	    else if (element.attr("id") == "consultant_submission" ){
+     			 		     document.getElementById("consultant_submissionError").innerHTML="";
+     			 			 error.appendTo('#consultant_submissionError');
+     			 	    }else if (element.attr("id") == "mrvc_reviewed" ){
+    			 		     document.getElementById("mrvc_reviewedError").innerHTML="";
+    			 			 error.appendTo('#mrvc_reviewedError');
+    			 	    }else if (element.attr("id") == "divisional_approval" ){
+    			 	    	 document.getElementById("divisional_approvalError").innerHTML="";
+    			 			 error.appendTo('#divisional_approvalError');
+    			 	    }else if (element.attr("id") == "hq_approval" ){
+    			 		     document.getElementById("hq_approvalError").innerHTML="";
+    			 			 error.appendTo('#hq_approvalError');
+    			 	    }else if (element.attr("id") == "gfc_released" ){
+    			 		     document.getElementById("gfc_releasedError").innerHTML="";
+    			 			 error.appendTo('#gfc_releasedError');
+    			 	    }else if (element.attr("id") == "as_built_date" ){
+    			 		     document.getElementById("as_built_dateError").innerHTML="";
+    			 			 error.appendTo('#as_built_dateError');
+    			 	    }
     			 },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
                      if (errors) {
@@ -932,6 +980,103 @@
     			    //return true;
     			  }
     		});
+    	
+    	
+	    	$.validator.addMethod("dateBefore1", function(value, element) {
+	            var fromDateString = $('#consultant_submission').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	            
+	        }, "MRVC reviewed date must be after Consultant submission date");
+	    	
+	    	$.validator.addMethod("dateBefore2", function(value, element) {
+	            var fromDateString = $('#mrvc_reviewed').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "Divisional approval date must be after MRVC reviewed date");
+	    	
+	    	$.validator.addMethod("dateBefore3", function(value, element) {
+	            var fromDateString = $('#divisional_approval').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "HQ approval date must be after Divisional approval date");
+	    	
+	    	$.validator.addMethod("dateBefore4", function(value, element) {
+	            var fromDateString = $('#hq_approval').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "GFC released date must be after HQ approval date");
+	    	
+	    	$.validator.addMethod("dateBefore5", function(value, element) {
+	            var fromDateString = $('#gfc_released').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "As built date date must be after GFC released date");
+	    	
     	
     	    $.validator.addMethod("dateFormat",
         	    function(value, element) {

@@ -180,7 +180,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE funds set "
-					+ "work_id_fk= :work_id_fk, source_of_funds_fk= :source_of_funds_fk, sub_category_railway_id_fk= :sub_category_railway_id_fk, "
+					+ "source_of_funds_fk= :source_of_funds_fk, sub_category_railway_id_fk= :sub_category_railway_id_fk, "
 					+ "funding_date= :funding_date, fund_amount= :fund_amount, remarks= :remarks,bank_account= :bank_account, "
 					+ "voucher_type= :voucher_type, voucher_no= :voucher_no, narration = :narration, ledger_account= :ledger_account,attachment= :attachment  "
 					+ "where funds_id= :funds_id";

@@ -272,7 +272,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		try {
 			con = dataSource.getConnection();		
 			String updateQry = "UPDATE expenditure set "
-					+ "contract_id_fk=? , ledger_account= ?, date= ?, "
+					+ "ledger_account= ?, date= ?, "
 					+ "contractor_name= ?, voucher_type= ?, voucher_no= ?,narration= ?, "
 					+ "net_paid= ?, gross_work_done= ?, sd_payable = ?, contractor_income_tax= ?, "
 					+ "cgst_tds= ?, sgst_tds= ?, vat_wct = ?, mob_advance= ?, "
@@ -280,7 +280,6 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "where expenditure_id= ?";
 			int p = 1;
 			stmt = con.prepareStatement(updateQry); 
-			stmt.setString(p++,obj.getContract_id_fk());
 			stmt.setString(p++,obj.getLedger_account());
 			stmt.setString(p++,obj.getDate());
 			stmt.setString(p++,obj.getContractor_name());

@@ -172,7 +172,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE budget set "
-					+ "work_id_fk= :work_id_fk, financial_year_fk= :financial_year_fk, budget_estimate= :budget_estimate, "
+					+ "financial_year_fk= :financial_year_fk, budget_estimate= :budget_estimate, "
 					+ "august_review_estimate= :august_review_estimate, revised_estimate= :revised_estimate, final_estimate= :final_estimate,budget_grant= :budget_grant, "
 					+ "revised_grant= :revised_grant, final_grant= :final_grant, attachment = :attachment, remarks= :remarks "
 					+ "where budget_id= :budget_id";

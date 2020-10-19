@@ -197,10 +197,11 @@
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text" name="attachment"  value="${fundDetails.attachment }" >
                                         </div>
-                                         <c:if test="${not empty fundDetails.attachment }">
-                                      <a  class="filevalue" href="<%=CommonConstants.FUND_FILES %>${fundDetails.attachment }" download>${fundDetails.attachment }</a>
-                                    </c:if>
                                     </div>
+                                    
+                                    <c:if test="${not empty fundDetails.attachment }">
+                                  		<a  class="filevalue" href="<%=CommonConstants.FUND_FILES %>${fundDetails.attachment }" download>${fundDetails.attachment }</a>
+                                	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>

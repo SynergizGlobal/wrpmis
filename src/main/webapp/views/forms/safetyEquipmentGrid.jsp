@@ -273,7 +273,7 @@
 		table.state.clear();		
 	 
 	 	var myParams = {contract_id_fk : contract_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-safety-equipment",type:"POST",data:myParams,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-safety-equipments",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	         			var safety_equipment_id = "'"+val.safety_equipment_id+"'";

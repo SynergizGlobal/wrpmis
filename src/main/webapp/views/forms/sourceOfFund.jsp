@@ -104,7 +104,7 @@
                                     <div class="col s12 m3 input-field">
                                         <p><label>Work</label></p>
                                          <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
-                                            <option value="" >Select Work ID</option>
+                                            <option value="" >Select</option>
 	                                            <c:forEach var="obj" items="${workList}">
 	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }</option>
 	                                            </c:forEach>
@@ -113,7 +113,7 @@
                                     <div class="col s12 m3 input-field">
                                         <p><label>Source of Fund</label></p>
                                          <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList();" class="searchable">
-                                            <option value="" >Select Source OF Fund</option>
+                                            <option value="" >Select</option>
 	                                            <c:forEach var="obj" items="${sourceOfFundList}">
 	                       						  <option value="${obj.source_of_funds_fk }" <c:if test="${param.source_of_funds_fk eq obj.source_of_funds_fk }">selected</c:if>>${obj.source_of_funds_fk }</option>
 	                                            </c:forEach>
@@ -122,7 +122,7 @@
                                     <div class="col s12 m3 input-field">
                                         <p><label> Railway</label></p>
                                         <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList();" class="searchable">
-                                            <option value="" >Select Railway</option>
+                                            <option value="" >Select</option>
 	                                            <c:forEach var="obj" items="${railwayList}">
 	                       						  <option value="${obj.sub_category_railway_id_fk }" <c:if test="${param.sub_category_railway_id_fk eq obj.sub_category_railway_id_fk }">selected</c:if>>${obj.sub_category_railway_id_fk }<c:if test="${not empty obj.railway_name}"> - </c:if>${obj.railway_name}</option>
 	                                             </c:forEach>

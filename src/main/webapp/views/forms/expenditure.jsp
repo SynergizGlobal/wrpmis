@@ -104,7 +104,7 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Work</p>
                                 <select id="work_id_fk" name="work_id_fk" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select Work</option>
+                                     <option value="" >Select</option>
                                       <c:forEach var="obj" items="${worksList}">
                  						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
                                       </c:forEach>
@@ -113,7 +113,7 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Contract </p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select Contract</option>
+                                     <option value="" >Select</option>
                                       <c:forEach var="obj" items="${contractsList}">
                  						  <option value="${obj.contract_id_fk }" <c:if test="${param.contract_id_fk eq obj.contract_id_fk }">selected</c:if>>${obj.contract_id_fk }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
                                       </c:forEach>
@@ -122,7 +122,7 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Ledger Account</p>
                                 <select id="ledger_account" name="ledger_account" onchange="getExpenditureList();" class="searchable">
-                                    <option value="" >Select Ledger Account</option>
+                                    <option value="" >Selectt</option>
                                        <c:forEach var="obj" items="${ledgerAccountsList}">
                  						  <option value="${obj.ledger_account }" <c:if test="${param.ledger_account eq obj.ledger_account }"></c:if>>${obj.ledger_account }</option>
                                       </c:forEach>
@@ -131,7 +131,7 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Contractor Name</p>
                                 <select id="contractor_name" name="contractor_name" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select Contractor Name</option>
+                                     <option value="" >Select</option>
                                       <c:forEach var="obj" items="${contractorNamesList}">
                  						  <option value="${obj.contractor_name }" <c:if test="${param.contractor_name eq obj.contractor_name }">selected</c:if>>${obj.contractor_name }</option>
                                       </c:forEach>
@@ -140,7 +140,7 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Voucher Type</p>
                                 <select id="voucher_type" name="voucher_type" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select Voucher Type</option>
+                                     <option value="" >Select</option>
                                       <c:forEach var="obj" items="${voucherTypesList}">
                  						  <option value="${obj.voucher_type }" <c:if test="${param.voucher_type eq obj.voucher_type }">selected</c:if>>${obj.voucher_type }</option>
                                       </c:forEach>

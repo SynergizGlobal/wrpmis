@@ -75,7 +75,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	}
 
 	@Override
-	public SafetyEquipment getSafetyDetails(SafetyEquipment obj)throws Exception{
+	public SafetyEquipment getSafetyEquipmentDetails(SafetyEquipment obj)throws Exception{
 	SafetyEquipment sObj =null;
 		
 		try {
@@ -368,11 +368,11 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		return objsList;
 	}
 	@Override
-	public List<Project> getProjectsList()throws Exception{
-		List<Project> objsList = null;
+	public List<SafetyEquipment> getProjectsList()throws Exception{
+		List<SafetyEquipment> objsList = null;
 		try {
 			String qry ="select project_id ,project_name from project ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

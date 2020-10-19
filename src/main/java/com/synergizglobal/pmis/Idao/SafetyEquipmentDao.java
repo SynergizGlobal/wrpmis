@@ -11,7 +11,7 @@ public interface SafetyEquipmentDao {
 
 	public List<SafetyEquipment> getSafetyEquipment(SafetyEquipment obj)throws Exception;
 
-	public SafetyEquipment getSafetyDetails(SafetyEquipment obj)throws Exception;
+	public SafetyEquipment getSafetyEquipmentDetails(SafetyEquipment obj)throws Exception;
 
 	public boolean addSafetyEquipment(SafetyEquipment obj)throws Exception;
 
@@ -21,7 +21,7 @@ public interface SafetyEquipmentDao {
 
 	public List<Work> getworkList()throws Exception;
 
-	public List<Project> getProjectsList()throws Exception;
+	public List<SafetyEquipment> getProjectsList()throws Exception;
 
 	public List<Contract> contractList()throws Exception;
 

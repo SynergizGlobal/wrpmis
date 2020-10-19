@@ -9,9 +9,9 @@ import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 public interface BudgetDao {
 
-	public List<Work> getFinancialYearList()throws Exception;
+	public List<Budget> getFinancialYearsList()throws Exception;
 
-	public List<Project> getProjectsList()throws Exception;
+	public List<Budget> getProjectsList()throws Exception;
 
 	public List<Budget> budgetList(Budget obj)throws Exception;
 
@@ -23,7 +23,11 @@ public interface BudgetDao {
 
 	public boolean deleteBudget(Budget obj)throws Exception;
 
-	public List<Budget> getWorkList()throws Exception;
+	public List<Budget> getWorksList()throws Exception;
+
+	public List<Budget> getFinancialYearList()throws Exception;
+
+	public List<Budget> getProjectList()throws Exception;
 
 
 

@@ -94,6 +94,7 @@
 			              <c:if test="${action eq 'add'}">				                
 			                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post"  enctype="multipart/form-data">
 						  </c:if>
+						   <c:if test="${action eq 'add'}">	
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -116,7 +117,21 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                           
+                             </c:if>
+                             <c:if test="${action eq 'edit'}">	
+                              <div class="row" id="center" style="text-align:center;">
+	                              <div class="col m2 hide-on-small-only">
+	                              </div>
+	                       		  <div class="col s12 m4 input-field">
+										<p><label> Project </label></p>
+	                                         	 	<input type="text" name="project_id_fk" id="project_id_fk" value="${budgetDetails.project_id_fk}- ${budgetDetails.project_name}" readonly />
+								  </div> 
+								  <div class="col s12 m4 input-field"> 
+									    <p><label> Work </label></p>
+	                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}- ${budgetDetails.work_name}" readonly />
+	                              </div>
+                              </div> 
+                             </c:if>
                             <div class="row">
                                 <div class="col m4 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">

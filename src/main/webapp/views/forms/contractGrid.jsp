@@ -114,7 +114,7 @@
                                         <select id="work_id_fk" name="work_id_fk" onchange="getContractList();" class="searchable">
                                             <option value="">Select</option>
 	                                            <c:forEach var="obj" items="${workList}">
-	                       						  <option value="${obj.work_id }" <c:if test="${param.work_id eq obj.work_id }">selected</c:if>>${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
+	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
 	                                             </c:forEach>
                                         </select>
                                     </div>

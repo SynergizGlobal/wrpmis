@@ -106,7 +106,7 @@
                                         <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getBudgetList();">
                                             <option value="" selected>Select</option>
                                             	<c:forEach var="obj" items="${projectsList}">
-	                       						  <option value="${obj.project_id }" <c:if test="${param.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id }<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name}</option>
+	                       						  <option value="${obj.project_id_fk }" <c:if test="${param.project_id_fk eq obj.project_id_fk }">selected</c:if>>${obj.project_id_fk }<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name}</option>
 	                                             </c:forEach>
                                         </select>
                                     </div>
@@ -114,7 +114,7 @@
                                         <p><label>Work</label></p>
                                         <select id="work_id_fk" name="work_id_fk" onchange="getBudgetList();" class="searchable">
                                             <option value="" >Select</option>
-	                                            <c:forEach var="obj" items="${workList}">
+	                                            <c:forEach var="obj" items="${worksList}">
 	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
 	                                             </c:forEach>
                                         </select>
@@ -123,7 +123,7 @@
                                         <p><label>Financial Year</label></p>
                                         <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList();">
                                             <option value="" >Select</option>
-                                            	 <c:forEach var="obj" items="${financialYearList}">
+                                            	 <c:forEach var="obj" items="${financialYearsList}">
 	                       						  <option value="${obj.financial_year_fk }" <c:if test="${param.financial_year_fk eq obj.financial_year_fk }">selected</c:if>>${obj.financial_year_fk }</option>
 	                                             </c:forEach>
                                         </select>
@@ -302,7 +302,7 @@
 		
 		table.state.clear();		
 	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, financial_year_fk : financial_year_fk};
-	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/getBudget",type:"POST",data:myParams,success : function(data){    				
+	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-budget",type:"POST",data:myParams,success : function(data){    				
 			if(data != null && data != '' && data.length > 0){    					
          		$.each(data,function(key,val){
          			var budget_id = "'"+val.budget_id+"'";

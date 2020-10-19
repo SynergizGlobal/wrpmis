@@ -5,7 +5,31 @@ import org.springframework.web.multipart.MultipartFile;
 public class Budget {
 	
 	private String budget_id, work_id_fk,work_id, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
-					final_grant, remarks, attachment,project_id_fk,work_name;
+					final_grant, remarks, attachment,project_id_fk,work_name,project_name,project_id,financial_year;
+
+	public String getFinancial_year() {
+		return financial_year;
+	}
+
+	public void setFinancial_year(String financial_year) {
+		this.financial_year = financial_year;
+	}
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;  
+	}
+
+	public String getProject_name() {
+		return project_name;
+	}
+
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
+	}
 
 	public String getWork_id() {
 		return work_id;

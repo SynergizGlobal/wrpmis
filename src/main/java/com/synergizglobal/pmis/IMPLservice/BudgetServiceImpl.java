@@ -19,12 +19,12 @@ public class BudgetServiceImpl implements BudgetService{
 	BudgetDao budgetDao;
 	
 	@Override
-	public List<Work> getFinancialYearList() throws Exception {
-		return budgetDao.getFinancialYearList();
+	public List<Budget> getFinancialYearsList() throws Exception {
+		return budgetDao.getFinancialYearsList();
 	}
 
 	@Override
-	public List<Project> getProjectsList() throws Exception {
+	public List<Budget> getProjectsList() throws Exception {
 		return budgetDao.getProjectsList();
 
 	}
@@ -58,9 +58,19 @@ public class BudgetServiceImpl implements BudgetService{
 	}
 
 	@Override
-	public List<Budget> getWorkList() throws Exception {
-		return budgetDao.getWorkList();
+	public List<Budget> getWorksList() throws Exception {
+		return budgetDao.getWorksList();
 
+	}
+
+	@Override
+	public List<Budget> getFinancialYearList() throws Exception {
+		return budgetDao.getFinancialYearList();
+	}
+
+	@Override
+	public List<Budget> getProjectList() throws Exception {
+		return budgetDao.getProjectList();
 	}
 
 

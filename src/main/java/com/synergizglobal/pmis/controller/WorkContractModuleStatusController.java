@@ -58,7 +58,7 @@ public class WorkContractModuleStatusController {
 		try {
 			List<Work> workList = workService.getWorkList(null);
 			model.addObject("workList", workList);
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			List<WorkContractModuleStatus> contractsList = service.getContractsList();
 			model.addObject("contractsList", contractsList);
@@ -89,7 +89,7 @@ public class WorkContractModuleStatusController {
 		try{
 			model.setViewName(PageConstants.addEditWorkContractModuleStatus);
 			model.addObject("action", "add");
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			List<WorkContractModuleStatus> modulesList = service.getModulesList();
 			model.addObject("modulesList", modulesList);
@@ -106,7 +106,7 @@ public class WorkContractModuleStatusController {
 		try{
 			model.setViewName(PageConstants.addEditWorkContractModuleStatus);
 			model.addObject("action", "edit");
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			WorkContractModuleStatus workStatusDetails = service.getWorkStatus(wObj);
 			model.addObject("workStatusDetails", workStatusDetails);

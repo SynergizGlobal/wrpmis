@@ -92,7 +92,7 @@ public class ContractController {
 	public ModelAndView Contract(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractGrid);
 		try {
-			List<Work> workList = workService.getWorkList(null);
+			List<Contract> workList = contractservice.getWorkList();
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -132,7 +132,7 @@ public class ContractController {
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contractors = contractservice.getContractorList();
+			List<Contract> contractors = contractservice.getContractorsList();
 			model.addObject("contractors", contractors);
 			List<Contract> contract_type = contractservice.getContractTypeList();
 			model.addObject("contract_type", contract_type);
@@ -192,7 +192,7 @@ public class ContractController {
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contractor = contractservice.getContractorList();
+			List<Contract> contractor = contractservice.getContractorsList();
 			model.addObject("contractor", contractor);
 			List<Contract> contract_type = contractservice.getContractTypeList();
 			model.addObject("contract_type", contract_type);

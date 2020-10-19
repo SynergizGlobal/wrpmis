@@ -86,20 +86,20 @@ public class SafetyEquipmentController {
 			model.addObject("contractList", contractList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("SafetyEquipment : " + e.getMessage());
+			logger.error("safetyEquipment : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/get-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/get-safety-equipments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<SafetyEquipment> getSafetyEquipment(@ModelAttribute SafetyEquipment obj) {
+	public List<SafetyEquipment> getSafetyEquipments(@ModelAttribute SafetyEquipment obj) {
 		List<SafetyEquipment> safetyEquipment = null;
 		try {
 			safetyEquipment = service.getSafetyEquipment(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getSafetyEquipment : " + e.getMessage());
+			logger.error("getSafetyEquipments : " + e.getMessage());
 		}
 		return safetyEquipment;
 	}
@@ -110,7 +110,7 @@ public class SafetyEquipmentController {
 		try{
 			model.setViewName(PageConstants.addEditSafetyEquipment);
 			model.addObject("action", "add");
-			List<Project> projectsList = service.getProjectsList();
+			List<SafetyEquipment> projectsList = service.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
@@ -121,20 +121,20 @@ public class SafetyEquipmentController {
      }
 
 	@RequestMapping(value = "/get-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getSafetyEquipmentForm(@ModelAttribute SafetyEquipment obj){
+	public ModelAndView getSafetyEquipment(@ModelAttribute SafetyEquipment obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditSafetyEquipment);
 			model.addObject("action", "edit");
-			List<Project> projectsList = service.getProjectsList();
+			List<SafetyEquipment> projectsList = service.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			List<Design> contractList = designService.getContractList();
 			model.addObject("contractList", contractList);
-			SafetyEquipment safetyDetails = service.getSafetyDetails(obj);
-			model.addObject("safetyDetails", safetyDetails);
+			SafetyEquipment safetyEquipmentDetails = service.getSafetyEquipmentDetails(obj);
+			model.addObject("safetyEquipmentDetails", safetyEquipmentDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getSafetyEquipmentForm : " + e.getMessage());
+			logger.error("getSafetyEquipment : " + e.getMessage());
 		}
 		return model;
      }

@@ -56,6 +56,32 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	}
 
 	@Override
+	public List<SourceOfFund> getWorkList() throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry ="select work_id_fk,w.work_name  from funds f "
+					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
+					+ "GROUP BY work_id_fk";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<SourceOfFund> getRailwaysList() throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry ="select railway_id,railway_name  from railway ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
 	public List<SourceOfFund> fundsList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		
@@ -101,10 +127,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO funds"
 					+ "(work_id_fk, source_of_funds_fk, sub_category_railway_id_fk, funding_date, fund_amount, "
-					+ "remarks, bank_account, voucher_type, voucher_no, narration, ledger_account)"
+					+ "remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,attachment)"
 					+ "VALUES"
 					+ "(:work_id_fk,:source_of_funds_fk,:sub_category_railway_id_fk,:funding_date,:fund_amount,"
-					+ ":remarks,:bank_account,:voucher_type,:voucher_no,:narration,:ledger_account)";
+					+ ":remarks,:bank_account,:voucher_type,:voucher_no,:narration,:ledger_account,:attachment)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -123,8 +149,8 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public SourceOfFund getFunds(SourceOfFund obj) throws Exception {
 		SourceOfFund funds = null;
 		try {
-			String qry = "SELECT funds_id, f.work_id_fk,w.work_name,w.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
-					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account from funds f " + 
+			String qry = "SELECT funds_id, f.work_id_fk,w.work_name,p.project_id,w.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
+					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account, f.attachment from funds f " + 
 					"LEFT JOIN work w on f.work_id_fk = w.work_id  " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " + 
 					"LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds " + 
@@ -156,7 +182,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			String updateQry = "UPDATE funds set "
 					+ "work_id_fk= :work_id_fk, source_of_funds_fk= :source_of_funds_fk, sub_category_railway_id_fk= :sub_category_railway_id_fk, "
 					+ "funding_date= :funding_date, fund_amount= :fund_amount, remarks= :remarks,bank_account= :bank_account, "
-					+ "voucher_type= :voucher_type, voucher_no= :voucher_no, narration = :narration, ledger_account= :ledger_account "
+					+ "voucher_type= :voucher_type, voucher_no= :voucher_no, narration = :narration, ledger_account= :ledger_account,attachment= :attachment  "
 					+ "where funds_id= :funds_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
@@ -188,32 +214,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		return flag;
 	}
 
-	@Override
-	public List<SourceOfFund> getWorkList() throws Exception {
-		List<SourceOfFund> objsList = null;
-		try {
-			String qry ="select work_id_fk,w.work_name  from funds f "
-					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
-					+ "GROUP BY work_id_fk";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
 
-	@Override
-	public List<SourceOfFund> getRailways() throws Exception {
-		List<SourceOfFund> objsList = null;
-		try {
-			String qry ="select railway_id,railway_name  from railway ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-	
 	
 	
 

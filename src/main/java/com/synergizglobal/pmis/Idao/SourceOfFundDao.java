@@ -24,7 +24,7 @@ public interface SourceOfFundDao {
 
 	public List<SourceOfFund> getWorkList()throws Exception;
 
-	public List<SourceOfFund> getRailways()throws Exception;
+	public List<SourceOfFund> getRailwaysList()throws Exception;
 
 
 

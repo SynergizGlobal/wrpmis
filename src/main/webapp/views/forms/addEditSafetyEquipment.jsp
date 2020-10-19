@@ -120,7 +120,7 @@
 		                                 	  		 onchange="getWorksList(this.value);">
 		                                      		  <option value="" >Select</option>
 		                                        		 <c:forEach var="obj" items="${projectsList }">
-		                                           			 <option value="${obj.project_id }" <c:if test="${safetyDetails.project_id eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+		                                           			 <option value="${obj.project_id }" <c:if test="${safetyEquipmentDetails.project_id eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
 		                                        		 </c:forEach>
 		                                          </select>
                                    			 <span id="project_idError" class="error-msg" ></span>
@@ -150,22 +150,24 @@
                             </div>
                             <div>
                        		 <c:if test="${action eq 'edit'}">	
-                       		 <div class="row">
+                       	 <div class="row">
+                       	      <div class="col m2 hide-on-small-only">
+                       	      </div>
                        		  <div class="col s12 m4 input-field">
 									<p><label> Project </label></p>
-                                         	 	<input type="text" name="project_id" id="project_id" value="${safetyDetails.project_id}- ${safetyDetails.project_name}" readonly />
-								 </div> 
-								  <div class="col s12 m4 input-field"> 
+                                         	 	<input type="text" name="project_id" id="project_id" value="${safetyEquipmentDetails.project_id}- ${safetyEquipmentDetails.project_name}" readonly />
+							  </div> 
+							  <div class="col s12 m4 input-field"> 
 								    <p><label> Work </label></p>
-                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${safetyDetails.work_id}- ${safetyDetails.work_name}" readonly />
-                                  </div>
-                                    </div> 
+                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${safetyEquipmentDetails.work_id}- ${safetyEquipmentDetails.work_name}" readonly />
+                              </div>
+                          </div> 
                      				<p><label>Contract </label></p>        
-                              				   <input type="text" name="contract_id_fk" id="contract_id_fk" value="${safetyDetails.contract_id_fk}- ${safetyDetails.contract_name}" readonly />
+                              				   <input type="text" name="contract_id_fk" id="contract_id_fk" value="${safetyEquipmentDetails.contract_id_fk}- ${safetyEquipmentDetails.contract_name}" readonly />
                             
                              </c:if>
                             </div>
-<%--                             <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyDetails.safety_equipment_id}" />
+<%--                             <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyEquipmentDetails.safety_equipment_id}" />
  --%>                            <div class="row fixed-width" style="margin-bottom: 40px;">
                                 <h5 class="center-align">Equipment Details</h5>
                                 <div class="table-inside">
@@ -183,8 +185,8 @@
                                       <tbody id="safetyTableBody">
                                      
                                                       <c:choose>
-                                      	 <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
-                                       	 <c:forEach var="sObj" items="${safetyDetails.safetyEquipments }" varStatus="index"> 
+                                      	 <c:when test="${not empty safetyEquipmentDetails.safetyEquipments && fn:length(safetyEquipmentDetails.safetyEquipments) gt 0 }">
+                                       	 <c:forEach var="sObj" items="${safetyEquipmentDetails.safetyEquipments }" varStatus="index"> 
                                        	 
                                             <tr id="safetyRow${index.count }">
                                                 <td>
@@ -295,8 +297,8 @@
                                         </tbody>
                                     </table>
   									<c:choose>
-                                        <c:when test="${not empty safetyDetails.safetyEquipments && fn:length(safetyDetails.safetyEquipments) gt 0 }">
-                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(safetyDetails.safetyEquipments) }" />
+                                        <c:when test="${not empty safetyEquipmentDetails.safetyEquipments && fn:length(safetyEquipmentDetails.safetyEquipments) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(safetyEquipmentDetails.safetyEquipments) }" />
                                     	</c:when>
                                      	<c:otherwise>
                                      		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
@@ -379,11 +381,11 @@
             });
             
            
-            var projectId = "${safetyDetails.project_id}";
+            var projectId = "${safetyEquipmentDetails.project_id}";
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
             }
-            var work_id_fk = "${safetyDetails.work_id}";
+            var work_id_fk = "${safetyEquipmentDetails.work_id}";
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
             }
@@ -402,7 +404,7 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                var workId = "${safetyDetails.work_id}";
+                                var workId = "${safetyEquipmentDetails.work_id}";
                                 if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
                                 
                                 if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
@@ -432,9 +434,9 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
-                            	var contract_id_fk = "${safetyDetails.contract_id_fk }";
+                            	var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
                                 if ($.trim(val.contract_name) != '') { contract_name = val.contract_id+' - ' + $.trim(val.contract_name) }
-                                var contract_id_fk = "${safetyDetails.contract_id_fk }";
+                                var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
                                 	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 }else {

@@ -74,23 +74,23 @@ public class BudgetController {
 	
 	
 	@RequestMapping(value="/budget",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView Budget(HttpSession session){
+	public ModelAndView budget(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.budgetGrid);
 		try {
-			List<Budget> workList = budgetService.getWorkList();
-			model.addObject("workList", workList);
-			List<Work> financialYearList = budgetService.getFinancialYearList();
-			model.addObject("financialYearList", financialYearList);
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> worksList = budgetService.getWorksList();
+			model.addObject("worksList", worksList);
+			List<Budget> financialYearsList = budgetService.getFinancialYearsList();
+			model.addObject("financialYearsList", financialYearsList);
+			List<Budget> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Contract : " + e.getMessage());
+			logger.error("budget : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getBudget", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/get-budget", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Budget> getBudgetList(@ModelAttribute Budget obj) {
 		List<Budget> budgetList = null;
@@ -105,38 +105,39 @@ public class BudgetController {
 	
 	
 	@RequestMapping(value = "/add-budget-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addBudgetForm(@ModelAttribute Work obj){
+	public ModelAndView addBudgetForm(){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditBudget);
 			model.addObject("action", "add");
-			List<Work> workList = workService.getWorkList(obj);
-			model.addObject("workList", workList);
-			List<Work> financialYearList = budgetService.getFinancialYearList();
+			List<Budget> worksList = budgetService.getWorksList();
+			model.addObject("worksList", worksList);
+			List<Budget> financialYearList = budgetService.getFinancialYearList();
 			model.addObject("financialYearList", financialYearList);
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> projectsList = budgetService.getProjectList();
 			model.addObject("projectsList", projectsList);
 			
 		}catch (Exception e) {
-				logger.error("Contractor : " + e.getMessage());
+				logger.error("addBudgetForm : " + e.getMessage());
 		}
 		return model;
 	 }
 	
 	@RequestMapping(value = "/get-budget", method = {RequestMethod.POST})
-	public ModelAndView getBudgetForm(@ModelAttribute Budget budget,Work obj ){
+	public ModelAndView getBudgetForm(@ModelAttribute Budget budget ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditBudget);
 			model.addObject("action", "edit");
-			List<Work> workList = workService.getWorkList(obj);
-			model.addObject("workList", workList);
-			List<Work> financialYearList = budgetService.getFinancialYearList();
+			List<Budget> worksList = budgetService.getWorksList();
+			model.addObject("worksList", worksList);
+			List<Budget> financialYearList = budgetService.getFinancialYearList();
 			model.addObject("financialYearList", financialYearList);
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> projectsList = budgetService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			Budget budgetDetails = budgetService.getBudget(budget);
 			model.addObject("budgetDetails", budgetDetails);
+		
 		}catch (Exception e) {
 				e.printStackTrace();
 				logger.error("getBudget : " + e.getMessage());

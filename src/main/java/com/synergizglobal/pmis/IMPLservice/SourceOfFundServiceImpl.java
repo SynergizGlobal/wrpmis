@@ -58,8 +58,8 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 	}
 
 	@Override
-	public List<SourceOfFund> getRailways() throws Exception {
-		return dao.getRailways();
+	public List<SourceOfFund> getRailwaysList() throws Exception {
+		return dao.getRailwaysList();
 	}
 	
 

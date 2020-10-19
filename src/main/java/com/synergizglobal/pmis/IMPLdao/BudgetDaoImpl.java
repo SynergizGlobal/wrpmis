@@ -30,13 +30,11 @@ public class BudgetDaoImpl implements BudgetDao {
 	JdbcTemplate jdbcTemplate ;
 	
 	@Override
-	public List<Work> getFinancialYearList() throws Exception {
-		List<Work> objsList = null;
+	public List<Budget> getFinancialYearsList() throws Exception {
+		List<Budget> objsList = null;
 		try {
-			String qry ="select financial_year_fk from budget b "
-					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year "
-					+ "GROUP BY financial_year_fk ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Work>(Work.class));	
+			String qry ="select financial_year_fk from budget b GROUP BY financial_year_fk ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
@@ -44,17 +42,34 @@ public class BudgetDaoImpl implements BudgetDao {
 	}
 
 	@Override
-	public List<Project> getProjectsList() throws Exception {
-		List<Project> objsList = null;
+	public List<Budget> getProjectsList() throws Exception {
+		List<Budget> objsList = null;
 		try {
-			String qry ="select project_id,project_name from project ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
+			String qry ="select project_id_fk,work_id_fk,p.project_name from budget b " + 
+					"LEFT JOIN work w on w.work_id = b.work_id_fk " + 
+					"Left JOIN project p on w.project_id_fk = p.project_id "+
+					 "GROUP BY project_id_fk ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
 
+	@Override
+	public List<Budget> getWorksList() throws Exception {
+		List<Budget> objsList = null;
+		try {
+			String qry ="select work_id_fk,w.work_name from budget b "
+					+ "LEFT JOIN work w  on b.work_id_fk = w.work_id "
+					+ "GROUP BY work_id_fk ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@Override
 	public List<Budget> budgetList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
@@ -103,7 +118,7 @@ public class BudgetDaoImpl implements BudgetDao {
 	public Budget getBudget(Budget obj)throws Exception{
 		Budget budget = null;
 		try {
-			String qry = "select budget_id, work_id_fk, b.financial_year_fk,w.project_id_fk, cast(budget_estimate as CHAR) as budget_estimate, cast(august_review_estimate as CHAR) as august_review_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate," + 
+			String qry = "select budget_id, work_id_fk,w.work_name,p.project_name, b.financial_year_fk,w.project_id_fk, cast(budget_estimate as CHAR) as budget_estimate, cast(august_review_estimate as CHAR) as august_review_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate," + 
 					"cast(budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant, b.remarks, b.attachment from budget b " + 
 					"left join work w on b.work_id_fk = w.work_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
@@ -192,17 +207,28 @@ public class BudgetDaoImpl implements BudgetDao {
 	}
 
 	@Override
-	public List<Budget> getWorkList() throws Exception {
+	public List<Budget> getFinancialYearList() throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="select work_id_fk from budget b "
-					+ "LEFT JOIN work w  on b.work_id_fk = w.work_id "
-					+ "GROUP BY work_id_fk ";
+			String qry ="select financial_year from financial_year ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<Budget> getProjectList() throws Exception {
+		List<Budget> objsList = null;
+		try {
+			String qry ="select project_id,project_name from project ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
 	
 }

@@ -55,10 +55,7 @@ public class SourceOfFundController {
 	
 	@Autowired
 	SourceOfFundService sofService;
-	
-	@Autowired
-	WorkService workService;
-	
+
 	@Autowired
 	BudgetService budgetService;
 	
@@ -89,7 +86,7 @@ public class SourceOfFundController {
 			model.addObject("railwayList", railwayList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("SourceOfFund : " + e.getMessage());
+			logger.error("sourceOfFund : " + e.getMessage());
 		}
 		return model;
 	}
@@ -100,14 +97,14 @@ public class SourceOfFundController {
 		try{
 			model.setViewName(PageConstants.addEditSourceOfFund);
 			model.addObject("action", "add");
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> projectsList = budgetService.getProjectList();
 			model.addObject("projectsList", projectsList);
 			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
 			model.addObject("sourceOfFundList", sourceOfFundList);
-			List<SourceOfFund> railwaysList = sofService.getRailways();
+			List<SourceOfFund> railwaysList = sofService.getRailwaysList();
 			model.addObject("railwaysList", railwaysList);
 		}catch (Exception e) {
-				logger.error("SourceOfFund : " + e.getMessage());
+				logger.error("addFundForm : " + e.getMessage());
 		}
 		return model;
 	 }
@@ -120,7 +117,7 @@ public class SourceOfFundController {
 			fundsList = sofService.fundsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("fundsList : " + e.getMessage());
+			logger.error("getFundsList : " + e.getMessage());
 		}
 		return fundsList;
 	}
@@ -131,17 +128,17 @@ public class SourceOfFundController {
 		try{
 			model.setViewName(PageConstants.addEditSourceOfFund);
 			model.addObject("action", "edit");
-			List<Project> projectsList = budgetService.getProjectsList();
+			List<Budget> projectsList = budgetService.getProjectList();
 			model.addObject("projectsList", projectsList);
 			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
 			model.addObject("sourceOfFundList", sourceOfFundList);
-			List<SourceOfFund> railwaysList = sofService.getRailways();
+			List<SourceOfFund> railwaysList = sofService.getRailwaysList();
 			model.addObject("railwaysList", railwaysList);
 			SourceOfFund fundDetails = sofService.getFunds(obj);
 			model.addObject("fundDetails", fundDetails);
 		}catch (Exception e) {
 				e.printStackTrace();
-				logger.error("getBudget : " + e.getMessage());
+				logger.error("getFunds : " + e.getMessage());
 		}
 		return model;
 	 }

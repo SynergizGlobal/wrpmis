@@ -23,8 +23,8 @@ public class SafetyEquipmentServiceImpl implements SafetyEquipmentService {
 		return safetyEquipmentDao.getSafetyEquipment(obj);
 	}
 	@Override
-	public SafetyEquipment getSafetyDetails(SafetyEquipment obj)throws Exception{
-		return safetyEquipmentDao.getSafetyDetails(obj);
+	public SafetyEquipment getSafetyEquipmentDetails(SafetyEquipment obj)throws Exception{
+		return safetyEquipmentDao.getSafetyEquipmentDetails(obj);
 	}
 	@Override
 	public boolean addSafetyEquipment(SafetyEquipment obj)throws Exception{
@@ -47,7 +47,7 @@ public class SafetyEquipmentServiceImpl implements SafetyEquipmentService {
 
 	}
 	@Override
-	public List<Project> getProjectsList()throws Exception{
+	public List<SafetyEquipment> getProjectsList()throws Exception{
 		return safetyEquipmentDao.getProjectsList();
 
 	}

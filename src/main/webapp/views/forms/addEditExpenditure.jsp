@@ -65,6 +65,7 @@
 				              <c:if test="${action eq 'add'}">				                
 				                	<form action="<%=request.getContextPath() %>/add-expenditure" id="expenditureForm" name="expenditureForm" method="post" >
 							  </c:if>
+							<c:if test="${action eq 'add'}">	
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -99,6 +100,24 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                             </c:if>
+                           <c:if test="${action eq 'edit'}">	
+	                       	 	<div class="row">
+		                       	 	<div class="col m2 hide-on-small-only">
+		                       	 	</div>
+	                       		  <div class="col s12 m4 input-field">
+										<p><label> Project </label></p>
+	                                         	 	<input type="text" name="project_id" id="project_id" value="${expenditureDetails.project_id_fk}- ${expenditureDetails.project_name}" readonly />
+								  </div> 
+								  <div class="col s12 m4 input-field"> 
+									    <p><label> Work </label></p>
+	                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${expenditureDetails.work_id_fk}- ${expenditureDetails.work_name}" readonly />
+	                              </div>
+	                             </div> 
+	                     				<p><label>Contract </label></p>        
+	                              				   <input type="text" name="contract_id_fk" id="contract_id_fk" value="${expenditureDetails.contract_id_fk}- ${expenditureDetails.contract_name}" readonly /><br><br>
+	                            
+                             </c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">

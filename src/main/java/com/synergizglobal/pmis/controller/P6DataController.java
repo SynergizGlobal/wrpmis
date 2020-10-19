@@ -164,7 +164,7 @@ public class P6DataController {
 					workbook.close();
 					
 					
-					String saveDirectory = CommonConstants2.P6_FILES ;
+					String saveDirectory = CommonConstants2.P6_FILE_SAVING_PATH ;
 					FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 				}
 				
@@ -347,7 +347,7 @@ public class P6DataController {
 						
 						workbook.close();
 						
-						String saveDirectory = CommonConstants2.P6_FILES ;
+						String saveDirectory = CommonConstants2.P6_FILE_SAVING_PATH ;
 						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 					}
 					

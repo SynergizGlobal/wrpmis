@@ -178,30 +178,31 @@ public class P6DataDaoImpl implements P6DataDao {
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			/*String wbsQry = "INSERT INTO p6_wbs (contract_id_fk,fob_id_fk,p6_wbs_code,p6_wbs_name,p6_wbs_parent_code,p6_wbs_category_fk)"
-					+ " VALUES (?,?,?,?,?,?)";*/
-			
-			String wbsQry = "INSERT INTO p6_wbs (contract_id_fk,fob_id_fk,p6_wbs_code,p6_wbs_name,p6_wbs_parent_code,p6_wbs_category_fk)" + 
-					"SELECT * FROM (SELECT ?,?,?,?,?,?) AS tmp " + 
-					"WHERE NOT EXISTS (" + 
-					"    SELECT contract_id_fk,fob_id_fk,p6_wbs_code FROM p6_wbs WHERE contract_id_fk = ? and fob_id_fk = ? and p6_wbs_code = ?" + 
-					") LIMIT 1;";
+			String wbsQry = "INSERT INTO p6_wbs (contract_id_fk,fob_id_fk,p6_wbs_code,p6_wbs_name,p6_wbs_parent_code,p6_wbs_category_fk)"
+					+ " VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE p6_wbs_code = p6_wbs_code";
 			stmt = con.prepareStatement(wbsQry);
 			for (P6Data obj : wbsList) {
+				
+				PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(*) as total FROM p6_wbs WHERE p6_wbs_code = ?");
 				p = 1;
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getContract_id_fk()))?obj.getContract_id_fk():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getFob_id_fk()))?obj.getFob_id_fk():null);
-				stmt.setString(p++,obj.getP6_wbs_code());
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_name()))?obj.getP6_wbs_name():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_parent_code()))?obj.getP6_wbs_parent_code():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_category_fk()))?obj.getP6_wbs_category_fk():null);
-				
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getContract_id_fk()))?obj.getContract_id_fk():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getFob_id_fk()))?obj.getFob_id_fk():null);
-				stmt.setString(p++,obj.getP6_wbs_code());
-				
-				stmt.addBatch();
-				
+				pstmt.setString(p++,obj.getP6_wbs_code());
+				rs = pstmt.executeQuery();		
+				int count = 0;
+				if(rs.next()) {
+					count = rs.getInt("total");
+				}
+				DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
+				if(count == 0) {
+					p = 1;
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getContract_id_fk()))?obj.getContract_id_fk():null);
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getFob_id_fk()))?obj.getFob_id_fk():null);
+					stmt.setString(p++,obj.getP6_wbs_code());
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_name()))?obj.getP6_wbs_name():null);
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_parent_code()))?obj.getP6_wbs_parent_code():null);
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_category_fk()))?obj.getP6_wbs_category_fk():null);
+					
+					stmt.addBatch();
+				}				
 			}
 			int[] c = stmt.executeBatch();		
 			for (int i = 0; i < c.length; i++) {
@@ -210,32 +211,36 @@ public class P6DataDaoImpl implements P6DataDao {
 			
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 			
-			/*String activitiesQry ="INSERT INTO p6_activity(p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,`start`,finish,`float`)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?)";*/
-			
-			String activitiesQry = "INSERT INTO p6_activity (p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,`start`,finish,`float`)" + 
-					"SELECT * FROM (SELECT ?,?,?,?,?,?,?,?,?) AS tmp " + 
-					"WHERE NOT EXISTS (" + 
-					"    SELECT p6_task_code,p6_wbs_code_fk FROM p6_activity WHERE p6_task_code = ? and p6_wbs_code_fk = ?" + 
-					") LIMIT 1;";
+			String activitiesQry ="INSERT INTO p6_activity(p6_task_code,p6_wbs_code_fk,p6_activity_name,status_fk,baseline_start,baseline_finish,`start`,finish,`float`)"
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			
 			stmt = con.prepareStatement(activitiesQry);
 			for (P6Data obj : activitiesList) {
-				p = 1;
-			    stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
-			    stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
-			    stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
-			    stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
-			    stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
-			    stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);
-			    stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);
-			    
-			    stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
-				stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
 				
-			    stmt.addBatch();			
+				PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(*) as total FROM p6_activity WHERE p6_task_code = ? and p6_wbs_code_fk = ?");
+				p = 1;
+				pstmt.setString(p++,obj.getP6_task_code());
+				pstmt.setString(p++,obj.getP6_wbs_code_fk());
+				rs = pstmt.executeQuery();		
+				int count = 0;
+				if(rs.next()) {
+					count = rs.getInt("total");
+				}
+				DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
+				if(count == 0) {
+					p = 1;
+				    stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_wbs_code_fk()))?obj.getP6_wbs_code_fk():null);
+					stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
+				    stmt.setString(p++,!StringUtils.isEmpty((obj.getStatus_fk()))?obj.getStatus_fk():null);
+				    stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_start())?obj.getBaseline_start():null);
+				    stmt.setString(p++,!StringUtils.isEmpty(obj.getBaseline_finish())?obj.getBaseline_finish():null);
+				    stmt.setString(p++,!StringUtils.isEmpty(obj.getStart())?obj.getStart():null);
+				    stmt.setString(p++,!StringUtils.isEmpty(obj.getFinish())?obj.getFinish():null);
+				    stmt.setString(p++,!StringUtils.isEmpty((obj.getP6_float()))?obj.getP6_float():null);
+					
+				    stmt.addBatch();
+				}
 			}
 			c = stmt.executeBatch();		
 			for (int i = 0; i < c.length; i++) {

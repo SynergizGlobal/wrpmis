@@ -52,6 +52,7 @@
 
         .fixed-width {
             width: 100%;
+			margin: auto !important;            
         }
 
         .fixed-width .table-inside {
@@ -77,6 +78,12 @@
         [type="radio"].with-gap:checked+span::before,
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #2E58AD !important;
+        }
+          .input-field .searchable_label {
+            font-size: 0.9rem;
+        }
+        p.prio{
+        	    margin-top: -10px !important;
         }
         #revTable .select2-container{
 	        max-width:80px;
@@ -112,7 +119,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <div class="container container-no-margin">
+                   
                         <c:if test="${action eq 'edit'}">				                
 			                	<form action="<%=request.getContextPath() %>/update-design" id="designForm" name="designForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                           </c:if>
@@ -121,11 +128,11 @@
 						  </c:if>
 						  
 						   <input type="hidden" id="design_id" name="design_id" value="${designDetails.design_id }">
-						   
+						    <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Project </label></p>
+                                    <p class="searchable_label"> Project </p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
                                          <option value="" >Select</option>
@@ -136,7 +143,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Work </label></p>
+                                    <p class="searchable_label"> Work </p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" >Select</option>
@@ -149,14 +156,14 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label>Contract </label></p>
+                                    <p class="searchable_label">Contract </p>
                                      <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Department </label></p>
+                                    <p class="searchable_label"> Department </p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
@@ -171,7 +178,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label>Consultant Contract </label></p>
+                                    <p class="searchable_label">Consultant Contract </p>
                                     <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${contractList }">
@@ -181,7 +188,7 @@
                                      <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label>Proof Consultant Contract </label></p>
+                                    <p class="searchable_label">Proof Consultant Contract </p>
                                     <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
                                           <option value="" selected>Select</option>
@@ -211,7 +218,7 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label>Prepared By </label></p>
+                                    <p class="searchable_label">Prepared By </p>
                                     <select class="searchable" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${preparedBy }">
@@ -220,7 +227,7 @@
                                     </select>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                                <p> <label>Structure </label></p>
+                                                <p class="searchable_label">Structure </p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable">
                                         <option value="" selected>Select</option>
                                        			<c:forEach var="obj" items="${structureTypeList}">
@@ -239,7 +246,7 @@
                                     <label for="dy_hod">Component </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label>Drawing Type </label></p>
+                                    <p class="searchable_label" style="margin-top:-4px !important">Drawing Type </p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable">
                                         <option value="" selected>Select</option>
                                			<c:forEach var="obj" items="${drawingTypeList}">
@@ -340,8 +347,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                
+                                <div class="col m2 hide-on-small-only"></div>                                
                                 <div class="col s12 m3 input-field">
                                     <p class="prio">HQ submission ?</p>
                                     <p class="radiogroup">
@@ -390,7 +396,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p> <label for="rivision_no">As Built Drawing Status</label></p>
+                                    <p> <label for="rivision_no">As Built Drawing Status</p>
                                     <select name="as_built_status" id="as_built_status" class="searchable">
                                         <option value="" selected>Select</option>
                                         	 <c:forEach var="obj" items="${revisionStatuses }">
@@ -405,7 +411,7 @@
                                             class="fa fa-calendar"></i></button>
                                 </div>
                             </div>
-
+</div>
                             <!-- insurance show hide div  -->
                             <div class="row fixed-width">
                                 <h5 class="center-align">Revision Details</h5>
@@ -424,9 +430,6 @@
                                             </tr>
                                         </thead>
                                         <tbody id="revisionsTableBody">
-                                        
-	                                        	
-	                                        
                                         
                                         <c:choose>
 	                                        <c:when test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
@@ -548,8 +551,9 @@
                                         </c:otherwise>
                                     </c:choose> 
                                 </div>
-                            </div>                       
-
+                            </div>   
+                                                
+ 						<div class="container container-no-margin">
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
@@ -573,7 +577,7 @@
                                         <div class="col m6 s12">
                                             <div class="row">
                                                 <div class="col s6 m6 input-field center-align">
-                                                    <p style="margin-top: 8px;">Any Issue ?</p>
+                                                    <p style="margin-top: 10px;">Any Issue ?</p>
                                                 </div>
                                                 <div class="col s6 m6 input-field">
                                                     <p class="radiogroup"
@@ -602,7 +606,7 @@
                                     <div class="col m8 s12">
                                         <div class="row">
                                             <div class="col s12 m6 input-field" style="margin-top: 40px;">
-                                                <p> <label>Issue Category</label></p>
+                                                <p class="searchable_label">Issue Category</p>
                                                 <select id="issue_category_id" name="issue_category_id" class="searchable">
                                                     <option value="">Select</option>
                                                     <c:forEach var="obj" items="${issueCategoryList }">
@@ -672,8 +676,9 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            </div>
                         </form>
-                    </div>
+                    
                     <!-- form ends  -->
                 </div>
 

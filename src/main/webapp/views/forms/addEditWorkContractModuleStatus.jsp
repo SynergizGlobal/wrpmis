@@ -32,6 +32,7 @@
 
         .fixed-width {
             width: 100%;
+            margin: auto !important;
         }
 
         .fixed-width .table-inside {
@@ -50,6 +51,20 @@
         #header{
         position: relative;
         left: 150px;
+        }
+          .table-inside thead th:nth-child(1),
+        .table-inside tbody td:nth-child(1) {
+            width: 15%;
+        }
+
+        @media only screen and (max-width: 600px) {
+
+            .table-inside thead th:nth-child(1),
+            .table-inside tbody td:nth-child(1) {
+                width: 30%;
+                padding-left: 6px;
+                vertical-align: middle;
+            }
         }
         .page-loader {
 		    background: #332e2ec2!important;
@@ -159,61 +174,58 @@
                              </c:if>
                             </div>
 <%-- 							<input type="hidden" name="work_status_id" value="${workStatusDetails.work_status_id }" />
- --%>                            <div class="container" style="margin-bottom: 30px;">
-                                <div class="row">
-                                    <div class="col m1 hide-on-small-only"></div>
-                                    <div class="col m10 s12">
-                                        <div class="row fixed-width">
-                                            <h5 class="center-align">Module Status</h5>
-                                            <div class="table-inside">
-                                                <table class="mdl-data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Module </th>
-                                                            <th>Status </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    
-                                                    <c:choose>
-                                      				 <c:when test="${not empty workStatusDetails.workContractStatus && fn:length(workStatusDetails.workContractStatus) gt 0 }">
-                                                      <c:forEach var="sObj" items="${workStatusDetails.workContractStatus }" varStatus="index"> 
-                                                        <tr>
-                                                            <td>
-                                                                <input type="hidden" name= "work_status_ids" id="work_status_ids${index.count }" value="${sObj.work_status_id}" />
-                                                                <span class="primary-text" >${sObj.module_name_fk }</span>
-                                                                 <input type = "hidden" id="module_name_fks${index.count }"  name ="module_name_fks" value="${sObj.module_name_fk }">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status_as_on_months${index.count }" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000">${sObj.status_as_on_month }</textarea>
-                                                            </td>
-                                                          </tr>
-                                                         </c:forEach>
-                                                       </c:when>
-                                     			  	   <c:otherwise>
-                                     			  	    <c:forEach var="sObj" items="${modulesList }"> 
-                                     			  		 <tr>
-                                                            <td>
-                                                                <span class="primary-text" 
-                                                                    id="table_contract">${sObj.module_name_fk }</span>
-                                                                     <input type = "hidden" id="table_work"  name ="module_name_fks" value="${sObj.module_name_fk }">
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="status11" class="materialize-textarea" name="status_as_on_months"
-                                                                    data-length="1000"></textarea>
-                                                            </td>
-                                                         </tr>
-                                                           </c:forEach>
-                                                        </c:otherwise>
-                                     				</c:choose>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+ --%>                            
+                                <div class="row">                                    
+                                    <div class="row fixed-width">
+                                        <h5 class="center-align">Module Status</h5>
+                                        <div class="table-inside" style="margin-bottom: 30px;">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Module </th>
+                                                        <th>Status </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                <c:choose>
+                                  				 <c:when test="${not empty workStatusDetails.workContractStatus && fn:length(workStatusDetails.workContractStatus) gt 0 }">
+                                                  <c:forEach var="sObj" items="${workStatusDetails.workContractStatus }" varStatus="index"> 
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name= "work_status_ids" id="work_status_ids${index.count }" value="${sObj.work_status_id}" />
+                                                            <span class="primary-text" >${sObj.module_name_fk }</span>
+                                                             <input type = "hidden" id="module_name_fks${index.count }"  name ="module_name_fks" value="${sObj.module_name_fk }">
+                                                        </td>
+                                                        <td>
+                                                            <textarea id="status_as_on_months${index.count }" class="materialize-textarea" name="status_as_on_months"
+                                                                data-length="1000">${sObj.status_as_on_month }</textarea>
+                                                        </td>
+                                                      </tr>
+                                                     </c:forEach>
+                                                   </c:when>
+                                 			  	   <c:otherwise>
+                                 			  	    <c:forEach var="sObj" items="${modulesList }"> 
+                                 			  		 <tr>
+                                                        <td>
+                                                            <span class="primary-text" 
+                                                                id="table_contract">${sObj.module_name_fk }</span>
+                                                                 <input type = "hidden" id="table_work"  name ="module_name_fks" value="${sObj.module_name_fk }">
+                                                        </td>
+                                                        <td>
+                                                            <textarea id="status11" class="materialize-textarea" name="status_as_on_months"
+                                                                data-length="1000"></textarea>
+                                                        </td>
+                                                     </tr>
+                                                       </c:forEach>
+                                                    </c:otherwise>
+                                 				</c:choose>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                  </div>
+                             
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>

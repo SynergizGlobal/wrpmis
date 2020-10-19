@@ -42,6 +42,9 @@
         .earching.empty::placeholder{
         	color:#fff;
         }
+        .sub-menu>a::after{
+        	padding-left:6px;
+        }
         
    </style>
    <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -120,11 +123,11 @@
 	          	<a href="#" class='head-img'>
 	               <span class="material-icons-outlined">post_add</span>
 	          		Update Forms</a>
-	          	  <ul class="second-level-menu">
+	          	  <%-- <ul class="second-level-menu">
 	                  <c:forEach var="form" items="${forms }">
 	                  	<li><a href="${form.webFormUrl }">${form.formName }</a></li>
 	               	  </c:forEach>
-	              </ul>
+	              </ul> --%>
 	              
 	              
 	              <ul class="second-level-menu">

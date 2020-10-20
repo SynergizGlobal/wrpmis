@@ -963,237 +963,336 @@
     	 	}
     	}
         var validator = $('#contractForm').validate({
-        	
-   		 errorClass: "my-error-class",
-   		   validClass: "my-valid-class",
-   	ignore: ":hidden:not(.validate-dropdown)",
-   	   rules: {
-   			  "project_id_fk": {
-   			 	required: true
-   			  },"work_id_fk": {
-   		 		required: true
-   		 	  },"department_fk": {
-   		 		required: true
-   		 	  },"contract_name": {
-   		 		required: true
-   		 	  },"contract_type_fk": {
-   		 		required: true
-   		 	  },"contractor_id_fk": {
-   	 		    required: true,
-   	 	   	  },"scope_of_contract": {
-   	 		    required: false,
-   	 	   	  },"hod_user_id_fk": {
-   		 		required: false
-   		 	  },"dy_hod_user_id_fk": {
-   	 		    required: false
-   	 	   	  },"doc": {
-   		 		required: false
-   		 	  },"awarded_cost": {
-   		 		required: false
-   		 	  },"date_of_start": {
-   		 		required: false
-   		 	  },"estimated_cost": {
-   		 		required: false
-   		 	  },"loa_letter_number": {
-   		 		required: false
-   		 	  },"loa_date":{
-   		 		 required: false
-   		 	  },"ca_no": {
-   	 		    required: false,
-   	 	   	  },"ca_date": {
-   		 		required: false
-   		 	  },"actual_completion_date": {
-   	 		    required: false
-   	 	   	  },"completed_cost": {
-   		 		required: false
-   		 	  },"contract_closure_date": {
-   		 		required: false
-   		 	  },"completion_certificate_release":{
-   		 		 required: false
-   		 	  },"final_takeover": {
-   	 		    required: false,
-   	 	   	  },"final_bill_release": {
-   		 		required: false
-   		 	  },"defect_liability_period": {
-   	 		    required: false
-   	 	   	  },"retention_money_release": {
-   		 		required: false
-   		 	  },"pbg_release":{
-   		 		 required: false
-   		 	  },"contract_closure":{
-   		 		 required: false
-   		 	  },"contract_status_fk":{
-   		 		 required: false
-   		 	  },"remarks":{
- 		 		 required: false
-		 	  }
-   		 				
-   	 	},
-   	   messages: {
-   			 "project_id_fk": {
-   		 			required: 'Required'
-   		 	  	 },"work_id_fk": {
-   	 			required: 'Required'
-   	 	  	 },"department_fk": {
-   	 			required: 'Required'
-   	 	  	 },"contract_name": {
-   	 			required: 'Required'
-   	 	  	 },"contract_type_fk": {
-   	 			required: 'Required'
-   	 	  	 },"contractor_id_fk": {
-   	 			required: 'Required'
-   	 	  	 },"scope_of_contract": {
-   	 	  		required: 'Required'
-   	 	   	  	 },"hod_user_id_fk": {
-   	 			required: 'Required'
-   	 	  	 },"dy_hod_user_id_fk": {
-   	 			required: 'Required'
-   	 	  	 },"doc": {
-   	 			required: 'Required'
-   	 	  	 },"awarded_cost": {
-		 		required: 'Required'
-		 	  },"date_of_start": {
-		 		required: 'Required'
-		 	  },"estimated_cost": {
-		 		required: 'Required'
-		 	  },"loa_letter_number": {
-		 		required: 'Required'
-		 	  },"loa_date":{
-		 		 required: 'Required'
-		 	  },"ca_no": {
-	 		    required: 'Required',
-	 	   	  },"ca_date": {
-		 		required: 'Required'
-		 	  },"actual_completion_date": {
-	 		    required: 'Required'
-	 	   	  },"completed_cost": {
-		 		required: 'Required'
-		 	  },"contract_closure_date": {
-		 		required: 'Required'
-   		 	  },"completion_certificate_release":{
-   		 		 required: 'Required'
-   		 	  },"final_takeover": {
-   		 		 required: 'Required'
-   	 	   	  },"final_bill_release": {
-   	 	   		required: 'Required'
-   		 	  },"defect_liability_period": {
-   		 		 required: 'Required'
-   	 	   	  },"retention_money_release": {
-   	 	   		required: 'Required'
-   		 	  },"pbg_release":{
-   		 		 required: 'Required'
-   		 	  },"contract_closure":{
-   	 	  		required: 'Required'
-   		 	  },"contract_status_fk":{
-   	 	  		required: 'Required'
-   		 	  },"remarks":{
-  	 	  		required: 'Required'
-		 	  }
-   	 				      
-       },
-   	  errorPlacement:
-   	 	function(error, element){
-   			if (element.attr("id") == "project_id_fk" ){
-   		 		     document.getElementById("project_id_fkError").innerHTML="";
-   		 			 error.appendTo('#project_id_fkError');
-   		 	    }else if (element.attr("id") == "work_id_fk" ){
-   	 		     document.getElementById("work_id_fkError").innerHTML="";
-   	 			 error.appendTo('#work_id_fkError');  			 	
-   	 	    }else if (element.attr("id") == "department_fk" ){
-   	 		     document.getElementById("department_fkError").innerHTML="";
-   	 			 error.appendTo('#department_fkError');
-   	 	    }else if (element.attr("id") == "contract_name" ){
-   	 		     document.getElementById("contract_nameError").innerHTML="";
-   	 			 error.appendTo('#contract_nameError');
-   	 	    }else if (element.attr("id") == "contract_type_fk" ){
-   	 		     document.getElementById("contract_type_fkError").innerHTML="";
-   	 			 error.appendTo('#contract_type_fkError');
-   	 	    }else if (element.attr("id") == "contractor_id_fk" ){
-   	 		     document.getElementById("contractor_id_fkError").innerHTML="";
-   	 			 error.appendTo('#contractor_id_fkError');
-   	 	    }else if (element.attr("id") == "scope_of_contract" ){
-   	 		     document.getElementById("scope_of_contractError").innerHTML="";
-   	 			 error.appendTo('#scope_of_contractError');
-   	 	    }else if (element.attr("id") == "hod_user_id_fk" ){
-   	 		     document.getElementById("hod_user_id_fkError").innerHTML="";
-   	 			 error.appendTo('#hod_user_id_fkError');
-   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
-   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
-   	 			 error.appendTo('#dy_hod_user_id_fkError');
-   	 	    }else if (element.attr("name") == "doc" ){
-   	 		     document.getElementById("docError").innerHTML="";
-   	 			 error.appendTo('#docError');
-   	 	    }else if (element.attr("id") == "awarded_cost" ){
-   	 		     document.getElementById("awarded_costError").innerHTML="";
-   	 			 error.appendTo('#awarded_costError');
-   	 	    }else if (element.attr("id") == "start_date" ){
-   	 	    	     document.getElementById("date_of_startError").innerHTML="";
-   	 			     error.appendTo('#date_of_startError');
-	 	    }else if (element.attr("id") == "estimated_cost" ){
-	 		     document.getElementById("estimated_costError").innerHTML="";
-	 			 error.appendTo('#estimated_costError');
-	 	    }else if (element.attr("id") == "loa_letter_number" ){
-	 		     document.getElementById("loa_letter_numberError").innerHTML="";
-	 			 error.appendTo('#loa_letter_numberError');
-	 	    }else if (element.attr("id") == "loa_date" ){
-	 		     document.getElementById("loa_dateError").innerHTML="";
-	 			 error.appendTo('#loa_dateError');
-	 	    }else if (element.attr("id") == "ca_no" ){
-	 		     document.getElementById("ca_noError").innerHTML="";
-	 			 error.appendTo('#ca_noError');
-	 	    }else if (element.attr("id") == "ca_date" ){
-	 		     document.getElementById("ca_dateError").innerHTML="";
-	 			 error.appendTo('#ca_dateError');
-	 	    }else if (element.attr("id") == "actual_completion_date" ){
-	 		     document.getElementById("actual_completion_dateError").innerHTML="";
-	 			 error.appendTo('#actual_completion_dateError');
-	 	    }else if (element.attr("id") == "completed_cost" ){
-	 		     document.getElementById("completed_costError").innerHTML="";
-	 			 error.appendTo('#completed_costError');
-	 	    }else if (element.attr("id") == "contract_closure_date" ){
-	 		     document.getElementById("contract_closure_dateError").innerHTML="";
-	 			 error.appendTo('#contract_closure_dateError');
-	 	    }else if (element.attr("id") == "completion_certificate_date" ){
-	 		     document.getElementById("completion_certificate_dateError").innerHTML="";
-	 			 error.appendTo('#completion_certificate_dateError');
-	 	    }else if (element.attr("id") == "final_takeover_client" ){
-	 		     document.getElementById("final_takeover_clientError").innerHTML="";
-	 			 error.appendTo('#final_takeover_clientError');
-	 	    }else if (element.attr("id") == "final_bill_release" ){
-	 		     document.getElementById("final_bill_releaseError").innerHTML="";
-	 			 error.appendTo('#final_bill_releaseError');
-	 	    }else if (element.attr("id") == "defect_liability_period" ){
-	 		     document.getElementById("defect_liability_periodError").innerHTML="";
-	 			 error.appendTo('#defect_liability_periodError');
-	 	    }else if (element.attr("id") == "final_retention_release" ){
-	 		     document.getElementById("final_retention_releaseError").innerHTML="";
-	 			 error.appendTo('#final_retention_releaseError');
-	 	    }else if (element.attr("name") == "pbg_release" ){
-	 		     document.getElementById("release_of_pbgError").innerHTML="";
-	 			 error.appendTo('#release_of_pbgError');
-	 	    }else if (element.attr("id") == "contract_closure" ){
-	 		     document.getElementById("ontract_closureError").innerHTML="";
-	 			 error.appendTo('#ontract_closureError');
-	 	    }else if (element.attr("id") == "contract_status_fk" ){
- 		     document.getElementById("contract_status_fkError").innerHTML="";
- 			 error.appendTo('#contract_status_fkError');
-   	 	    }else if (element.attr("id") == "remarks" ){
-  	 		     document.getElementById("remarksError").innerHTML="";
-	 			 error.appendTo('#remarksError');}
-   	 },invalidHandler: function (form, validator) {
-         var errors = validator.numberOfInvalids();
-         if (errors) {
-             var position = validator.errorList[0].element;
-             jQuery('html, body').animate({
-                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-             }, 1000);
-         }
-     },submitHandler: function(form) {
-   	    // do other things for a valid form
-   	    //form.submit();
-   	    //return true;
-   	  }
-   });
+	   		 	errorClass: "my-error-class",
+	   		   	validClass: "my-valid-class",
+			   	ignore: ":hidden:not(.validate-dropdown)",
+		   	   	rules: {
+		   			  "project_id_fk": {
+		   			 	required: true
+		   			  },"work_id_fk": {
+		   		 		required: true
+		   		 	  },"department_fk": {
+		   		 		required: true
+		   		 	  },"contract_name": {
+		   		 		required: true
+		   		 	  },"contract_type_fk": {
+		   		 		required: true
+		   		 	  },"contractor_id_fk": {
+		   	 		    required: true,
+		   	 	   	  },"scope_of_contract": {
+		   	 		    required: false,
+		   	 	   	  },"hod_user_id_fk": {
+		   		 		required: false
+		   		 	  },"dy_hod_user_id_fk": {
+		   	 		    required: false
+		   	 	   	  },"doc": {
+		   		 		required: false,
+   				 		dateBefore1:"#date_of_start"
+		   		 	  },"awarded_cost": {
+		   		 		required: false
+		   		 	  },"date_of_start": {
+		   		 		required: false
+		   		 	  },"estimated_cost": {
+		   		 		required: false
+		   		 	  },"loa_letter_number": {
+		   		 		required: false
+		   		 	  },"loa_date":{
+		   		 		 required: false
+		   		 	  },"ca_no": {
+		   	 		    required: false,
+		   	 	   	  },"ca_date": {
+		   		 		required: false
+		   		 	  },"actual_completion_date": {
+		   	 		    required: false
+		   	 	   	  },"completed_cost": {
+		   		 		required: false
+		   		 	  },"contract_closure_date": {
+		   		 		required: false
+		   		 	  },"completion_certificate_release":{
+		   		 		 required: false
+		   		 	  },"final_takeover": {
+		   	 		    required: false,
+		   	 	   	  },"final_bill_release": {
+		   		 		required: false
+		   		 	  },"defect_liability_period": {
+		   	 		    required: false
+		   	 	   	  },"retention_money_release": {
+		   		 		required: false
+		   		 	  },"pbg_release":{
+		   		 		 required: false
+		   		 	  },"contract_closure":{
+		   		 		 required: false
+		   		 	  },"contract_status_fk":{
+		   		 		 required: false
+		   		 	  },"remarks":{
+		 		 		 required: false
+				 	  }
+		   		 				
+		   	 	},
+		   	   messages: {
+		   			 "project_id_fk": {
+	   		 			required: 'Required'
+	   		 	  	 },"work_id_fk": {
+		   	 			required: 'Required'
+		   	 	  	 },"department_fk": {
+		   	 			required: 'Required'
+		   	 	  	 },"contract_name": {
+		   	 			required: 'Required'
+		   	 	  	 },"contract_type_fk": {
+		   	 			required: 'Required'
+		   	 	  	 },"contractor_id_fk": {
+		   	 			required: 'Required'
+		   	 	  	 },"scope_of_contract": {
+		   	 	  		required: 'Required'
+		   	 	   	 },"hod_user_id_fk": {
+		   	 			required: 'Required'
+		   	 	  	 },"dy_hod_user_id_fk": {
+		   	 			required: 'Required'
+		   	 	  	 },"doc": {
+		   	 			required: 'Required'
+		   	 	  	 },"awarded_cost": {
+				 		required: 'Required'
+				 	  },"date_of_start": {
+				 		required: 'Required'
+				 	  },"estimated_cost": {
+				 		required: 'Required'
+				 	  },"loa_letter_number": {
+				 		required: 'Required'
+				 	  },"loa_date":{
+				 		 required: 'Required'
+				 	  },"ca_no": {
+			 		    required: 'Required',
+			 	   	  },"ca_date": {
+				 		required: 'Required'
+				 	  },"actual_completion_date": {
+			 		    required: 'Required'
+			 	   	  },"completed_cost": {
+				 		required: 'Required'
+				 	  },"contract_closure_date": {
+				 		required: 'Required'
+		   		 	  },"completion_certificate_release":{
+		   		 		 required: 'Required'
+		   		 	  },"final_takeover": {
+		   		 		 required: 'Required'
+		   	 	   	  },"final_bill_release": {
+		   	 	   		required: 'Required'
+		   		 	  },"defect_liability_period": {
+		   		 		 required: 'Required'
+		   	 	   	  },"retention_money_release": {
+		   	 	   		required: 'Required'
+		   		 	  },"pbg_release":{
+		   		 		 required: 'Required'
+		   		 	  },"contract_closure":{
+		   	 	  		required: 'Required'
+		   		 	  },"contract_status_fk":{
+		   	 	  		required: 'Required'
+		   		 	  },"remarks":{
+		  	 	  		required: 'Required'
+				 	  }
+		   	 				      
+		       },
+		   	  errorPlacement:
+		   	 	function(error, element){
+		   			if (element.attr("id") == "project_id_fk" ){
+		   		 		     document.getElementById("project_id_fkError").innerHTML="";
+		   		 			 error.appendTo('#project_id_fkError');
+		   		 	    }else if (element.attr("id") == "work_id_fk" ){
+		   	 		     document.getElementById("work_id_fkError").innerHTML="";
+		   	 			 error.appendTo('#work_id_fkError');  			 	
+		   	 	    }else if (element.attr("id") == "department_fk" ){
+		   	 		     document.getElementById("department_fkError").innerHTML="";
+		   	 			 error.appendTo('#department_fkError');
+		   	 	    }else if (element.attr("id") == "contract_name" ){
+		   	 		     document.getElementById("contract_nameError").innerHTML="";
+		   	 			 error.appendTo('#contract_nameError');
+		   	 	    }else if (element.attr("id") == "contract_type_fk" ){
+		   	 		     document.getElementById("contract_type_fkError").innerHTML="";
+		   	 			 error.appendTo('#contract_type_fkError');
+		   	 	    }else if (element.attr("id") == "contractor_id_fk" ){
+		   	 		     document.getElementById("contractor_id_fkError").innerHTML="";
+		   	 			 error.appendTo('#contractor_id_fkError');
+		   	 	    }else if (element.attr("id") == "scope_of_contract" ){
+		   	 		     document.getElementById("scope_of_contractError").innerHTML="";
+		   	 			 error.appendTo('#scope_of_contractError');
+		   	 	    }else if (element.attr("id") == "hod_user_id_fk" ){
+		   	 		     document.getElementById("hod_user_id_fkError").innerHTML="";
+		   	 			 error.appendTo('#hod_user_id_fkError');
+		   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
+		   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
+		   	 			 error.appendTo('#dy_hod_user_id_fkError');
+		   	 	    }else if (element.attr("name") == "doc" ){
+		   	 		     document.getElementById("docError").innerHTML="";
+		   	 			 error.appendTo('#docError');
+		   	 	    }else if (element.attr("id") == "awarded_cost" ){
+		   	 		     document.getElementById("awarded_costError").innerHTML="";
+		   	 			 error.appendTo('#awarded_costError');
+		   	 	    }else if (element.attr("id") == "start_date" ){
+		   	 	    	     document.getElementById("date_of_startError").innerHTML="";
+		   	 			     error.appendTo('#date_of_startError');
+			 	    }else if (element.attr("id") == "estimated_cost" ){
+			 		     document.getElementById("estimated_costError").innerHTML="";
+			 			 error.appendTo('#estimated_costError');
+			 	    }else if (element.attr("id") == "loa_letter_number" ){
+			 		     document.getElementById("loa_letter_numberError").innerHTML="";
+			 			 error.appendTo('#loa_letter_numberError');
+			 	    }else if (element.attr("id") == "loa_date" ){
+			 		     document.getElementById("loa_dateError").innerHTML="";
+			 			 error.appendTo('#loa_dateError');
+			 	    }else if (element.attr("id") == "ca_no" ){
+			 		     document.getElementById("ca_noError").innerHTML="";
+			 			 error.appendTo('#ca_noError');
+			 	    }else if (element.attr("id") == "ca_date" ){
+			 		     document.getElementById("ca_dateError").innerHTML="";
+			 			 error.appendTo('#ca_dateError');
+			 	    }else if (element.attr("id") == "actual_completion_date" ){
+			 		     document.getElementById("actual_completion_dateError").innerHTML="";
+			 			 error.appendTo('#actual_completion_dateError');
+			 	    }else if (element.attr("id") == "completed_cost" ){
+			 		     document.getElementById("completed_costError").innerHTML="";
+			 			 error.appendTo('#completed_costError');
+			 	    }else if (element.attr("id") == "contract_closure_date" ){
+			 		     document.getElementById("contract_closure_dateError").innerHTML="";
+			 			 error.appendTo('#contract_closure_dateError');
+			 	    }else if (element.attr("id") == "completion_certificate_date" ){
+			 		     document.getElementById("completion_certificate_dateError").innerHTML="";
+			 			 error.appendTo('#completion_certificate_dateError');
+			 	    }else if (element.attr("id") == "final_takeover_client" ){
+			 		     document.getElementById("final_takeover_clientError").innerHTML="";
+			 			 error.appendTo('#final_takeover_clientError');
+			 	    }else if (element.attr("id") == "final_bill_release" ){
+			 		     document.getElementById("final_bill_releaseError").innerHTML="";
+			 			 error.appendTo('#final_bill_releaseError');
+			 	    }else if (element.attr("id") == "defect_liability_period" ){
+			 		     document.getElementById("defect_liability_periodError").innerHTML="";
+			 			 error.appendTo('#defect_liability_periodError');
+			 	    }else if (element.attr("id") == "final_retention_release" ){
+			 		     document.getElementById("final_retention_releaseError").innerHTML="";
+			 			 error.appendTo('#final_retention_releaseError');
+			 	    }else if (element.attr("name") == "pbg_release" ){
+			 		     document.getElementById("release_of_pbgError").innerHTML="";
+			 			 error.appendTo('#release_of_pbgError');
+			 	    }else if (element.attr("id") == "contract_closure" ){
+			 		     document.getElementById("ontract_closureError").innerHTML="";
+			 			 error.appendTo('#ontract_closureError');
+			 	    }else if (element.attr("id") == "contract_status_fk" ){
+		 		     document.getElementById("contract_status_fkError").innerHTML="";
+		 			 error.appendTo('#contract_status_fkError');
+		   	 	    }else if (element.attr("id") == "remarks" ){
+		  	 		     document.getElementById("remarksError").innerHTML="";
+			 			 error.appendTo('#remarksError');}
+		   	 },invalidHandler: function (form, validator) {
+		         var errors = validator.numberOfInvalids();
+		         if (errors) {
+		             var position = validator.errorList[0].element;
+		             jQuery('html, body').animate({
+		                 scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+		             }, 1000);
+		         }
+		     },submitHandler: function(form) {
+		   	    // do other things for a valid form
+		   	    //form.submit();
+		   	    //return true;
+		   	  }
+		});
+        
+        
+        $.validator.addMethod("dateBefore1", function(value, element) {
+            var fromDateString = $('#date_of_start').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Planned Doc date must be after Date of start");
+    	
+    	$.validator.addMethod("dateBefore2", function(value, element) {
+            var fromDateString = $('#mrvc_reviewed').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+         
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+        }, "Divisional approval date must be after MRVC reviewed date");
+    	
+    	$.validator.addMethod("dateBefore3", function(value, element) {
+            var fromDateString = $('#divisional_approval').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+         
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+        }, "HQ approval date must be after Divisional approval date");
+    	
+    	$.validator.addMethod("dateBefore4", function(value, element) {
+            var fromDateString = $('#hq_approval').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+         
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+        }, "GFC released date must be after HQ approval date");
+    	
+    	$.validator.addMethod("dateBefore5", function(value, element) {
+            var fromDateString = $('#gfc_released').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+         
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+        }, "As built date date must be after GFC released date");
+        
+        
+        
         $.validator.addMethod("dateFormat",
         	    function(value, element) {
         	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);

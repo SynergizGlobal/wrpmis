@@ -1257,7 +1257,7 @@ public class ContractDaoImpl implements ContractDao {
 		return flag;	
 	
 	}
-
+ 
 	@Override
 	public List<Contract> getWorkList() throws Exception {
 		List<Contract> objsList = null;

@@ -355,7 +355,7 @@
 				$(".page-loader").hide();
 	         	getErrorMessage(jqXHR, exception);
 	     }});
-    }
+    } 
 
     function getContractorsList(){
     	$(".page-loader").show();

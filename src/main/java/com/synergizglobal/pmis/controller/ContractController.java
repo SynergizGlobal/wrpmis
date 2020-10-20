@@ -124,7 +124,7 @@ public class ContractController {
 	@ResponseBody
 	public List<Contract> getContractorsList(@ModelAttribute Contract obj) {
 		ModelAndView model = new ModelAndView();
-		List<Contract> contractorsList = null;
+		List<Contract> contractorsList = null;  
 		try {
 			 contractorsList = contractservice.contractorsList(obj);
 			 model.addObject("contractorsList", contractorsList);

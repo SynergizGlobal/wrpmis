@@ -533,6 +533,7 @@
     				 		 required: false
     				 	  },"closure_date": {
     			 		    required: false,
+    				 		statusCheck1: true
     			 	   	  },"committee_formed_fk": {
     				 		required: false
     				 	  },"lti_hours": {
@@ -546,9 +547,11 @@
     				 	  },"compensation": {
     			 		    required: false,
     			 	   	  },"investigation_completed": {
-    				 		required: false
+    				 		required: false,
+    				 		statusCheck2: true
     				 	  },"payment_date": {
-    			 		    required: false
+    			 		    required: false,
+    				 		statusCheck3: true
     			 	   	  },"corrective_measure_short_term": {
     				 		required: false
     				 	  },"corrective_measure_long_term":{
@@ -716,6 +719,38 @@
     			    //return true;
     			  }
     		});
+    	
+    	    $.validator.addMethod("statusCheck1", function(value, element) {
+    	    	var status = $("#status_fk").val();
+	            if(($.trim(status) == '' || status == 'Open') && $.trim(value) != ''){
+	            	$("#closure_date").val('').focus();
+	            	return false;
+	            }else{
+	            	return true;
+	            }	            
+	        }, "Status is opened or empty, So you cannot select this field");
+    	    
+    	    $.validator.addMethod("statusCheck2", function(value, element) {
+    	    	var status = $("#status_fk").val();
+	            if(($.trim(status) == '' || status == 'Open') && $.trim(value) != ''){
+	            	$("#investigation_completed").val('').focus();
+	            	return false;
+	            }else{
+	            	return true;
+	            }	            
+	        }, "Status is opened or empty, So you cannot select this field");
+    	    
+    	    $.validator.addMethod("statusCheck3", function(value, element) {
+    	    	var status = $("#status_fk").val();
+	            if(($.trim(status) == '' || status == 'Open') && $.trim(value) != ''){
+	            	$("#payment_date").val('').focus();
+	            	return false;
+	            }else{
+	            	return true;
+	            }	            
+	        }, "Status is opened or empty, So you cannot select this field");
+    	    
+    		
     	    $.validator.addMethod("dateFormat",
         	    function(value, element) {
         	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);

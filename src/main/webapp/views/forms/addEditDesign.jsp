@@ -1042,8 +1042,33 @@
 	            }
 	        }, "HQ approval date must be after Divisional approval date");
 	    	
+	    	var field = "";
+	    	var messager = function() {
+                return field;
+            };
+	            
 	    	$.validator.addMethod("dateBefore4", function(value, element) {
-	            var fromDateString = $('#hq_approval').val(); //
+	    		var fromDateString = "";
+	    		var hq_approval = $('#hq_approval').val(); //
+	            var mrvc_reviewed = $('#mrvc_reviewed').val();
+	            var divisional_approval = $('#divisional_approval').val();
+	            
+	            if($.trim(mrvc_reviewed) != ''){
+	            	field = "GFC released date must be after MRVC reviewed date";
+	            	fromDateString = mrvc_reviewed;
+	            }
+	            
+	            if($.trim(divisional_approval) != ''){
+	            	field = "GFC released date must be after Divisional approval date";
+	            	fromDateString = divisional_approval;
+	            }
+	            
+	            if($.trim(hq_approval) != ''){
+	            	field = "GFC released date must be after HQ approval date ";
+	            	fromDateString = hq_approval;
+	            }
+				
+				
 	            var fromDateParts = fromDateString.split("-");
 	            // month is 0-based, that's why we need dataParts[1] - 1
 	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
@@ -1060,7 +1085,27 @@
 	            }else{
 	            	return true;
 	            }
-	        }, "GFC released date must be after HQ approval date");
+	        },  messager); 
+	            
+	    	/* $.validator.addMethod("dateBefore4", function(value, element) {
+	    		var fromDateString = $('#hq_approval').val();				
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) < Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        },  "GFC released date must be after HQ approval date"); */
 	    	
 	    	$.validator.addMethod("dateBefore5", function(value, element) {
 	            var fromDateString = $('#gfc_released').val(); //

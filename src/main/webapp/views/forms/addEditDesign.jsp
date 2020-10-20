@@ -992,7 +992,8 @@
 	            // month is 0-based, that's why we need dataParts[1] - 1
 	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
 	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) < Date.parse(toDate);
 	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
 	            	return false;
 	            }else{
@@ -1012,7 +1013,8 @@
 	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
 	         
 	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) < Date.parse(toDate);
 	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
 	            	return false;
 	            }else{
@@ -1031,7 +1033,8 @@
 	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
 	         
 	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) < Date.parse(toDate);
 	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
 	            	return false;
 	            }else{
@@ -1050,7 +1053,8 @@
 	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
 	         
 	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) < Date.parse(toDate);
 	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
 	            	return false;
 	            }else{
@@ -1069,7 +1073,8 @@
 	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
 	         
 	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) < Date.parse(toDate);
 	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
 	            	return false;
 	            }else{

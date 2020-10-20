@@ -6,9 +6,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>   
+
    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+   
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />
 
@@ -188,7 +190,7 @@
                     
                     
           <li class="blueblue lighten-1 dropdown"><a href="#" class='head-img'>
-          <img src="<%=CommonConstants2.USER_IMAGES %>${user.user_image}" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
+          <img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image}" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"/> 
 <!--           <span class="material-icons">person</span> -->
           ${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a>
           <!-- change password and logout here -->
@@ -313,9 +315,9 @@
               
     </li>   
     <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
-    <img src="<%=CommonConstants2.USER_IMAGES %>${user_image }" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
+    <img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
 <!--     <span class="material-icons">person</span>  -->
-    MRVC</a>
+   ${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a>
     	<ul class="dropdown-data collapsible-body second-lvl">
             <li><a href="<%=request.getContextPath()%>/reset-password">Reset password</a></li>
             <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>

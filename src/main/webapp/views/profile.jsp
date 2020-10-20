@@ -135,11 +135,11 @@
 											        </tr>
 											        <tr>
 											            <td>Department</td>
-											            <td>: &nbsp; ${ userDetails.department_fk }</td>
+											            <td>: &nbsp; ${ userDetails.department_name }</td>
 											        </tr>
 											        <tr>
 											            <td>Reporting To</td>
-											            <td>: &nbsp; ${ userDetails.reporting_to_id_srfk }</td>
+											            <td>: &nbsp; <c:if test="${not empty userDetails.designation }">${ userDetails.designation } - </c:if> ${ userDetails.reporting_to_name }</td>
 											        </tr>
 											        <tr>
 											            <td>Mobile No</td>

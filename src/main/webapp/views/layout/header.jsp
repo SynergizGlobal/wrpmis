@@ -6,56 +6,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>   
-
    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
    
-   <style type="text/css">
-   		.noti:after {
-            position: absolute;
-            right: 30%;
-            bottom: -10px;
-            width: 0;
-            height: 0;
-            content: '';
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 10px solid #f56661;
-        }  
-        .notification .material-icons-outlined{
-        line-height:inherit;}
-       
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-            position: relative;
-        }
-        /* notification count styling */
-        #notificationCountMobile{
-        	background-color: red;
-    		color: #fff;
-    		font-size: 0.85rem;
-    		border-radius: 3px;
-    		-webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-    		box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-        }
-        .earching.empty::placeholder{
-        	color:#fff;
-        }
-        .sub-menu>a::after{
-        	padding-left:6px;
-        }
-        .profile-img{
-        	width: 26px;
-		    height: 26px;
-		    background-color: #fff;
-		    padding: 2px;
-		    border-radius: 3px;
-		    margin-left:4px;
-        }
-        
-   </style>
    <link id="theme" rel="stylesheet" type="text/css" href="" />
 
 </head>

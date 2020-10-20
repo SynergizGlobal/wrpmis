@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
-    <!-- <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"> -->
+<!--     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
+ -->    <!-- <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -111,29 +111,29 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
                                       <p><label>Work</label></p>
-                                        <select id="work_id_fk" name="work_id_fk" onchange="getContractList(); getFilterList();" class="searchable">
+                                        <select id="work_id_fk" name="work_id_fk" onchange="getContractList(); getContractorsList(); getDeptList();" class="searchable">
                                             <option value="">Select</option>
-	                                            <c:forEach var="obj" items="${workList}">
+	                                            <c:forEach var="obj" items="${worksList}">
 	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
 	                                             </c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                       <p><label>Department</label></p>
-                                        <select id="department_fk" name="department_fk" onchange="getContractList();" class="searchable">
+                                        <select id="department_fk" name="department_fk" onchange="getContractList(); getContractorsList(); getWorkList();" class="searchable">
                                             <option value="">Select</option>
 	                                             <c:forEach var="obj" items="${departmentList}">
 	                       						  <option value="${obj.department_fk }" <c:if test="${param.department_fk eq obj.department_fk }">selected</c:if>>${obj.department_fk}</option>
 	                                             </c:forEach>
-                                        </select>
+                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                     <p><label>Contractor</label></p>
-                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getContractList();" class="searchable">
+                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getContractList(); getWorkList(); getDeptList();" class="searchable">
                                             <option value="">Select</option>
 		                                          <c:forEach var="obj" items="${contractorsList}">
 		                       						 <option value="${obj.contractor_id_fk }" <c:if test="${param.contractor_id_fk eq obj.contractor_id_fk }">selected</c:if>>${obj.contractor_id_fk }<c:if test="${not empty obj.contractor_name}"> - </c:if>${obj.contractor_name}</option>
-		                                           </c:forEach>
+		                                           </c:forEach> 
                                         </select>
                                     </div>
                                     
@@ -265,7 +265,9 @@
     	$('.close-message').delay(3000).fadeOut('slow');
     	
     	getContractList();
-    	
+    	getContractorsList();
+    	getDeptList();
+    	getWorkList();
     });
     
     
@@ -275,6 +277,9 @@
     	$("#work_id_fk").val("");
     	$('.searchable').select2();
     	getContractList();
+    	getContractorsList();
+    	getDeptList();
+    	getWorkList();
     	
     }
     function getContractList(){
@@ -283,8 +288,6 @@
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
 
-
-     	
      	table = $('#datatable-contract').DataTable();
 		 
 		table.destroy();
@@ -354,24 +357,89 @@
 	     }});
     }
 
-    function getFilterList(){
-    	
+    function getContractorsList(){
     	$(".page-loader").show();
+    	$("#contractor_id_fk option:not(:first)").remove();
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
-            var myParams = { work_id_fk: work_id_fk };
-            $.ajax({url: "<%=request.getContextPath()%>/ajax/getContractorsList",type:"POST",data:myParams,success : function(data){   
-                  
-                        $.each(data, function (key, val) {
-                            var contractor_name = '';
-                            if ($.trim(val.contractor_name) != '') { contractor_name = ' - ' + $.trim(val.contractor_name) }
-                            $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '">' + $.trim(val.contractor_id_fk) + $.trim(contractor_name) + '</option>');
+        var myParams = { work_id_fk: work_id_fk,department_fk : department_fk};
+        $.ajax({url: "<%=request.getContextPath()%>/ajax/getContractorsList", 
+        	data: myParams, cache: false,
+            success: function (data) {
+           	if(data != null && data != '' && data.length > 0){   
+                       $.each(data, function (i, val) {
+                           var contractor_name = '';
+                           if ($.trim(val.contractor_name) != '') { contractor_name = ' - ' + $.trim(val.contractor_name) }
+                           if ($.trim(contractor_id_fk) != ''  && val.contractor_id_fk == $.trim(contractor_id_fk)) {
+                           $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk +  '" selected>' + $.trim(val.contractor_id_fk) + $.trim(contractor_name) + '</option>');
+                           } else {
+                            	$("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '">' + $.trim(val.contractor_id_fk) + $.trim(contractor_name) +  '</option>');
+                            }
+                           });
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+           	  }else{
+				$(".page-loader").hide();
+			  }
+           }
+       });
+     }
+    
+	 function getDeptList(){
+	    	$(".page-loader").show();
+	    	$("#department_fk option:not(:first)").remove();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var contractor_id_fk = $("#contractor_id_fk").val();
+	        var myParams = { work_id_fk: work_id_fk, contractor_id_fk : contractor_id_fk};
+	        $.ajax({url: "<%=request.getContextPath()%>/ajax/getDepartmentsList", 
+	        	data: myParams, cache: false,
+                success: function (data) {
+            	if(data != null && data != '' && data.length > 0){   
+                        $.each(data, function (i, val) {
+                        	 if ($.trim(department_fk) != ''  && val.department_fk == $.trim(department_fk)) {
+                           $("#department_fk").append('<option value="' + val.department_fk +  '" selected>' + $.trim(val.department_fk) +'</option>');
+                        	 } else {
+                             	$("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_fk) + '</option>');
+                             }
                         });
-                     
-                }
-            });
-       
-    }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+            	  }else{
+					$(".page-loader").hide();
+				  }
+             }
+        });
+	 }
+	 
+	 function getWorkList(){
+	 	$(".page-loader").show();
+	 	$("#work_id_fk option:not(:first)").remove();
+	 	var department_fk = $("#department_fk").val();
+	 	var contractor_id_fk = $("#contractor_id_fk").val();
+	    var myParams = { department_fk: department_fk,contractor_id_fk : contractor_id_fk};
+	    $.ajax({url: "<%=request.getContextPath()%>/ajax/getWorkLists", 
+	    	data: myParams, cache: false,
+            success: function (data) {
+         	if(data != null && data != '' && data.length > 0){   
+                     $.each(data, function (i, val) {
+                    	 var workName = '';
+                         if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                         if ($.trim(work_id_fk) != ''  && val.work_id_fk == $.trim(work_id_fk)) {
+                        $("#work_id_fk").append('<option value="' + val.work_id_fk +  '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) +'</option>');
+                         } else {
+                          	$("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                          }
+                     });
+                     $('.searchable').select2();
+                     $(".page-loader").hide();
+         	  }else{
+					$(".page-loader").hide();
+			   }
+           }
+       });
+	 }
+		 
+	 
   	//This function is used to get error message for all ajax calls
     function getErrorMessage(jqXHR, exception) {
     	    var msg = '';

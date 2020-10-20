@@ -39,6 +39,10 @@ public interface ContractDao {
 
 	public List<Contract> contractorsList(Contract obj)throws Exception;
 
+	public List<Contract> departmentList(Contract obj)throws Exception;
+
+	public List<Contract> worksList(Contract obj)throws Exception;
+
 
 
 }

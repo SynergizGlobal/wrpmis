@@ -92,26 +92,27 @@ public class ContractController {
 	public ModelAndView Contract(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractGrid);
 		try {
-			List<Contract> workList = contractservice.getWorkList();
+			/*List<Contract> workList = contractservice.getWorkList();
 			model.addObject("workList", workList);
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			List<Contract> contractor = contractservice.getContractorList();
+			model.addObject("contractor", contractor);*/
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contractor = contractservice.getContractorList();
-			model.addObject("contractor", contractor);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
 	}
+	
 	@RequestMapping(value = "/ajax/getContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getContractList(@ModelAttribute Contract obj) {
 		List<Contract> contractList = null;
 		try {
-		 contractList = contractservice.contractList(obj);
+			contractList = contractservice.contractList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("contractList : " + e.getMessage());
@@ -125,13 +126,43 @@ public class ContractController {
 		ModelAndView model = new ModelAndView();
 		List<Contract> contractorsList = null;
 		try {
-		 contractorsList = contractservice.contractorsList(obj);
-		 model.addObject("contractorsList", contractorsList);
+			 contractorsList = contractservice.contractorsList(obj);
+			 model.addObject("contractorsList", contractorsList);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("contractorsList : " + e.getMessage());
+			logger.error("getContractorsList : " + e.getMessage());
 		}
 		return contractorsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDepartmentsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDepartmentsList(@ModelAttribute Contract obj) {
+		ModelAndView model = new ModelAndView();
+		List<Contract> departmentList = null;
+		try {
+			 departmentList = contractservice.departmentList(obj);
+			 model.addObject("departmentList", departmentList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDepartmentsList : " + e.getMessage());
+		}
+		return departmentList;
+	}
+
+	@RequestMapping(value = "/ajax/getWorkLists", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getWorksList(@ModelAttribute Contract obj) {
+		ModelAndView model = new ModelAndView();
+		List<Contract> worksList = null;
+		try {
+			worksList = contractservice.worksList(obj);
+			model.addObject("worksList", worksList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksList : " + e.getMessage());
+		}
+		return worksList;
 	}
 	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})

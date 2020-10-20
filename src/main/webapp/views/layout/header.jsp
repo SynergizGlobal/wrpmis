@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -44,6 +45,14 @@
         }
         .sub-menu>a::after{
         	padding-left:6px;
+        }
+        .profile-img{
+        	width: 26px;
+		    height: 26px;
+		    background-color: #fff;
+		    padding: 2px;
+		    border-radius: 3px;
+		    margin-left:4px;
         }
         
    </style>
@@ -225,8 +234,9 @@
                     
                     
           <li class="blueblue lighten-1 dropdown"><a href="#" class='head-img'>
-          <!--img src="/pmis/resources/images/user-white.png"--> 
-          <span class="material-icons">person</span>${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a>
+          <img src="<%=CommonConstants2.USER_IMAGES %>${user.user_image}" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
+<!--           <span class="material-icons">person</span> -->
+          ${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a>
           <!-- change password and logout here -->
               <ul class="second-level-menu rs">
               	  <li><a href="<%=request.getContextPath()%>/profile">Profile</a></li>	
@@ -348,7 +358,10 @@
          </a>
               
     </li>   
-    <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons">person</span> MRVC</a>
+    <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
+    <img src="<%=CommonConstants2.USER_IMAGES %>${user_image }" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
+<!--     <span class="material-icons">person</span>  -->
+    MRVC</a>
     	<ul class="dropdown-data collapsible-body second-lvl">
             <li><a href="<%=request.getContextPath()%>/reset-password">Reset password</a></li>
             <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>

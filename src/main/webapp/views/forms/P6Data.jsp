@@ -30,6 +30,9 @@
         .my-error-class {
 			color: red;
 		}
+		.input-field .searchable_label{
+			font-size:.85rem !important;
+		}
 		
 		.my-valid-class {
 			color: green;
@@ -51,6 +54,30 @@
 		}		
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
 		.error-msg label{color:red!important;}
+		
+		.card-content #existing p,
+		.card-content #baseline p{
+			color:#004346;
+		}
+		.card-content #existing .file-field .btn,
+		.card-content #baseline .file-field .btn{
+			background-color:transparent;
+		}
+		.card-content #existing .input-field input[type=text]:not(.browser-default),
+		.card-content #existing input[type=text]:not(.browser-default).validate+label,
+		.card-content #existing .datepicker~button .fa,
+		.card-content #baseline .input-field input[type=text]:not(.browser-default),
+		.card-content #baseline input[type=text]:not(.browser-default).validate+label,
+		.card-content #baseline .datepicker~button .fa{
+			color:#004346 !important;
+		}
+		.card-content #existing .select2-container--default .select2-selection--single .select2-selection__rendered,
+		.card-content #existing .input-field>.datepicker ~ label:not(.label-icon).active ,
+		.card-content #baseline .select2-container--default .select2-selection--single .select2-selection__rendered,
+		.card-content #baseline .input-field>.datepicker ~ label:not(.label-icon).active{
+			color:#004346;
+			background-color:transparent;
+		}
     </style>
 </head>
 <body>
@@ -234,6 +261,45 @@
                         <span class="card-title">
                             <h6 class="mar-top center-align">P6 DATA HISTORY</h6>
                         </span>
+                        
+                        <div class="row" style="margin-bottom: 0;">
+                            <div class="col m12 s12 ">
+                                <div class="row" style="margin-bottom: 0;">
+                                 <div class="col m1 hide-on-small-only"></div>
+                                    <div class="col s12 m2 input-field">
+                                      <p class="searchable_label">Contract</p>
+                                        <select id="contract_id" name="contract_id" onchange="" class="searchable">
+                                            <option value="">Select Contract ID</option>	                                           
+                                        </select>
+                                    </div>
+                                    <div class="col s12 m2 input-field">
+                                      <p class="searchable_label">FOB </p>
+                                        <select id="fob_id" name="fob_id" onchange="" class="searchable">
+                                            <option value="">Select FOB ID</option>	                                            
+                                        </select>
+                                    </div>
+                                    <div class="col s12 m2 input-field">
+                                    <p class="searchable_label">Data Type</p>
+                                        <select id="data_type" name="data_type" onchange="" class="searchable">
+                                            <option value="">Select Data Type</option>		                                        
+                                        </select>
+                                    </div>              
+                                     <div class="col s12 m2 input-field">
+                                    <p class="searchable_label">Status</p>
+                                        <select id="status" name="status" onchange="" class="searchable">
+                                            <option value="">Select Contractor</option>		                                        
+                                        </select>
+                                    </div>                       
+                                    <div class="col s12 m2">
+                                        <button class="btn bg-m waves-effect waves-light t-c"
+                                            style="margin-top: 20px; width:100%" onclick="clearFilter();">Clear Filters</button>
+                                    </div>
+									<div class="col m1 hide-on-small-only"></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col m12 s12">
                                 <table id="p6datatable" class="mdl-data-table">
@@ -243,7 +309,7 @@
                                             <th>FOB ID</th>
                                             <th>Data Type</th>
                                             <th>Data Date </th>
-                                            <th>Is Active</th>
+                                            <th>Status</th>
                                             <th>P6 File</th>
                                             <th>Created By</th>
                                             <th>Created Date</th>

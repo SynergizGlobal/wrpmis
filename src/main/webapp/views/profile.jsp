@@ -157,11 +157,7 @@
 											            <td>PMIS Key</td>
 											            <td>: &nbsp; ${ userDetails.pmis_key_fk }</td>
 											        </tr>
-											         <tr>
-											            <td>Remarks</td>
-											            <td>: &nbsp; ${ userDetails.remarks }</td>
-											        </tr>
-											        
+											     											        
 											    </tbody>
 											</table>
                                         </div>

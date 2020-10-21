@@ -115,7 +115,7 @@
                                  	   onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}" <c:if test="${workStatusDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                      	    <option value="${obj.project_id_fk }" <c:if test="${workStatusDetails.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk }<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name}</option>
                                          </c:forEach>
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>

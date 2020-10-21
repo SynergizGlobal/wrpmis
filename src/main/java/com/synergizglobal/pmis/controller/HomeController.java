@@ -118,6 +118,19 @@ public class HomeController {
 		return works;
 	}
 	
+	@RequestMapping(value = "/ajax/getWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Work> getWorksList(@ModelAttribute Work obj){
+		List<Work> works = null;
+		try{
+			works = homeService.getWorksList(obj);			
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getWorksList() : "+e.getMessage());
+		}
+		return works;
+	}
+	
 	/**
 	 * This method setGlobalVariables() is used for setting the global variables.
 	 * 

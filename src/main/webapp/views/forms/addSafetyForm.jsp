@@ -537,6 +537,7 @@
     				 		 required: false
     				 	  },"closure_date": {
     			 		    required: false,
+    			 		    dateBefore1: "#date",
     				 		statusCheck1: true
     			 	   	  },"committee_formed_fk": {
     				 		required: false
@@ -552,9 +553,11 @@
     			 		    required: false,
     			 	   	  },"investigation_completed": {
     				 		required: false,
+    			 		    dateBefore3: "#date",
     				 		statusCheck2: true
     				 	  },"payment_date": {
     			 		    required: false,
+    			 		    dateBefore2: "#date",
     				 		statusCheck3: true
     			 	   	  },"corrective_measure_short_term": {
     				 		required: false
@@ -723,6 +726,67 @@
     			    //return true;
     			  }
     		});
+    	
+    	    $.validator.addMethod("dateBefore1", function(value, element) {
+	            var fromDateString = $('#date').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	            
+	        }, "Closure date must be after Date");
+	    	
+	    	$.validator.addMethod("dateBefore2", function(value, element) {
+	            var fromDateString = $('#date').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "Payment Date must be after Date");
+	    	
+	    	$.validator.addMethod("dateBefore3", function(value, element) {
+	            var fromDateString = $('#date').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "Investigation Completion date must be after Date");
+	    	
     	
     	    $.validator.addMethod("statusCheck1", function(value, element) {
     	    	var status = $("#status_fk").val();

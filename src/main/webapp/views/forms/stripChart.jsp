@@ -201,7 +201,7 @@
                                         <div class="col m4 s12 input-field">
                                             <p>Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id"
-                                                onchange="getWorksList(this.value);">
+                                                onchange="getStripChartWorksList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
                                                     <option value="${obj.project_id }" >${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
@@ -212,8 +212,11 @@
                                         <div class="col m8 s12 input-field">
                                             <p>Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                                onchange="getContractsList(this.value);">
+                                                onchange="getStripChartContractsList(this.value);">
                                                 <option value="" selected>Select</option>
+                                                <c:forEach var="obj" items="${worksList }">
+                                                    <option value="${obj.work_id }" >${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                                </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
@@ -224,9 +227,9 @@
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
                                                 onchange="getStripChartStructures(); getStripChartLines(); getStripChartSections();">
                                                 <option value="">Select</option>
-                                                <%-- <c:forEach var="obj" items="${contractsList }">
-                                                	<option value="${obj.contract_id }" <c:if test="${obj.contract_id eq ''}">selected</c:if>>${obj.contract_name}</option>
-                                                </c:forEach> --%>
+                                                <c:forEach var="obj" items="${contractsList }">
+                                                	<option value="${obj.contract_id }">${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+                                                </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
@@ -628,22 +631,22 @@
 	        });
   	      
 
-            var globalProjectId = "${sessionScope.globalProjectId}";
+            /* var globalProjectId = "${sessionScope.globalProjectId}";
             if ($.trim(globalProjectId) != '') {
                 getWorksList(globalProjectId);
-            }
+            } */
            
         });
 
 
         //geting works list from database    
-        function getWorksList(projectId) {
+        function getStripChartWorksList(projectId) {
             $("#work_id_fk option:not(:first)").remove();
 
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/ajax/getStripChartWorksList",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -665,7 +668,7 @@
         }
 
         //geting contracts list    
-        function getContractsList(work_id_fk) {
+        function getStripChartContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
             if ($.trim(work_id_fk) != "") {
@@ -807,7 +810,11 @@
                                 }
                                 html = html + '</div>';
                                 
-                                $("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                                if(val.component_id_color == "completed"){
+                                	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                                }else{
+                                	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                                }
                                 
                             });
                             

@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.StripChartDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Repository
@@ -38,6 +39,48 @@ public class StripChartDaoImpl implements StripChartDao {
 	@Autowired
 	DataSourceTransactionManager transactionManager;
 	
+
+
+	@Override
+	public List<StripChart> getStripChartProjectsList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select wr.project_id_fk ,p.project_id,p.project_name "
+					+ "from work wr "
+					+ "left outer join project p on wr.project_id_fk = p.project_id "					
+					+ "where wr.project_id_fk is not null "
+					+ "AND wr.work_id IN ("
+					+"select c.work_id_fk "
+					+ "from contract c "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) "
+					+ "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk";			
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+			//objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getStripChartWorksList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select c.work_id_fk,w.work_id,w.work_name "
+					+ "from contract c "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) "
+					+ "GROUP BY c.work_id_fk";
+			
+			objsList = jdbcTemplate.query( qry,  new BeanPropertyRowMapper<StripChart>(StripChart.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@Override
 	public List<StripChart> getStripChartContractsList(StripChart obj) throws Exception {
@@ -70,57 +113,6 @@ public class StripChartDaoImpl implements StripChartDao {
 		}
 		return objsList;
 	}
-	
-	@Override
-	public List<StripChart> getStripChartLines(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select line as strip_chart_line_id_fk from strip_chart_general "
-					+ "where line is not null and line <> '' ";
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ? ";
-				arrSize++;
-			}
-			qry = qry + "group by line ";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}
-			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<StripChart> getStripChartSections(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select section_id as strip_chart_section_id_fk,section as strip_chart_section_name from strip_chart_general ";
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "where contract_id_fk = ? ";
-				arrSize++;
-			}
-			qry = qry + "group by section_id ";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}
-			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));	
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
 
 	@Override
 	public List<StripChart> getStripChartStructures(StripChart obj) throws Exception {
@@ -142,6 +134,83 @@ public class StripChartDaoImpl implements StripChartDao {
 				pValues[i++] = obj.getContract_id_fk();
 			}
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<StripChart> getStripChartLines(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select line as strip_chart_line_id_fk from strip_chart_general "
+					+ "where line is not null and line <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and contract_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				qry = qry + "and fob_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + "group by line ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getStripChartSections(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select section_id as strip_chart_section_id_fk,section as strip_chart_section_name "
+					+ "from strip_chart_general "
+					+ "where section_id is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				qry = qry + "and fob_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				qry = qry + "and line = ? ";
+				arrSize++;
+			}
+			
+			qry = qry + "group by section_id ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_line_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -255,7 +324,7 @@ public class StripChartDaoImpl implements StripChartDao {
 		ResultSet rs = null;
 		String color = "";
 		try {			
-			String updateQry = " select (case "  
+			/*String updateQry = " select (case "  
 					+" when ((select count(*) from strip_chart_general where actual_finish is null and component_id = ?) = 0) then 'completed' "  
 					+" when ((select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') < CURDATE() from strip_chart_general where component_id = ?) <> 0) then 'delayed' "  
 					+" when ((select count(*) from strip_chart_general where actual_start is not null and component_id = ?) = 0) then 'not-started'  "  
@@ -263,12 +332,26 @@ public class StripChartDaoImpl implements StripChartDao {
 					+" end ) as color " 
 					+" from strip_chart_general "
 					+ "where component_id = ? "
+					+ "group by component_id";*/
+			
+			String updateQry = " select (case "  
+					+" when ((select count(*) from strip_chart_general where status = ? and component_id = ?) = 0) then 'completed' "  
+					+" when ((select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') < CURDATE() from strip_chart_general where component_id = ?) <> 0) then 'delayed' "  
+					+" when ((select count(*) from strip_chart_general where status = ? and component_id = ?) = 0) then 'not-started'  "  
+					+" else 'in-progress' "  
+					+" end ) as color " 
+					+" from strip_chart_general "
+					+ "where component_id = ? "
 					+ "group by component_id";
-			stmt = connection.prepareStatement(updateQry);	
-			stmt.setString(1,sobj.getStrip_chart_component_id() );
-			stmt.setString(2,sobj.getStrip_chart_component_id() );
-			stmt.setString(3,sobj.getStrip_chart_component_id() );
-			stmt.setString(4,sobj.getStrip_chart_component_id() );
+			
+			stmt = connection.prepareStatement(updateQry);
+			int p = 1;
+			stmt.setString(p++,CommonConstants2.STATUS_COMPLETED );
+			stmt.setString(p++,sobj.getStrip_chart_component_id() );
+			stmt.setString(p++,sobj.getStrip_chart_component_id() );
+			stmt.setString(p++,CommonConstants2.STATUS_NOT_STARTED );
+			stmt.setString(p++,sobj.getStrip_chart_component_id() );
+			stmt.setString(p++,sobj.getStrip_chart_component_id() );
 			
 			rs = stmt.executeQuery();
 			if (rs.next()) {

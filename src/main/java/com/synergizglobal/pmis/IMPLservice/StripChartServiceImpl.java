@@ -16,6 +16,21 @@ public class StripChartServiceImpl implements StripChartService{
 	StripChartDao stripChartDao;
 
 	@Override
+	public List<StripChart> getStripChartProjectsList(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartProjectsList(obj);
+	}
+
+	@Override
+	public List<StripChart> getStripChartWorksList(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartWorksList(obj);
+	}
+
+	@Override
+	public List<StripChart> getStripChartContractsList(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartContractsList(obj);
+	}
+
+	@Override
 	public List<StripChart> getStripChartActivities(StripChart obj) throws Exception {
 		return stripChartDao.getStripChartActivities(obj);
 	}
@@ -53,11 +68,6 @@ public class StripChartServiceImpl implements StripChartService{
 	@Override
 	public List<StripChart> getStripChartStructureTypes() throws Exception {
 		return stripChartDao.getStripChartStructureTypes();
-	}
-
-	@Override
-	public List<StripChart> getStripChartContractsList(StripChart obj) throws Exception {
-		return stripChartDao.getStripChartContractsList(obj);
 	}
 
 	@Override

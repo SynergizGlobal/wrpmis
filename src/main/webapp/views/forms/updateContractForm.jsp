@@ -306,10 +306,10 @@
 	                                <!-- //row 7 -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
-	                                    <label for="doc">Planned DOC</label>
-	                                     <span id="docError" class="error-msg" ></span>
-	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker" value="${contractDeatils.date_of_start }">
+	                                    <label for="date_of_start">Date of Start</label>
+	                                     <span id="date_of_startError" class="error-msg" ></span>
+	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                	<i class="material-icons prefix center-align">₹</i>
@@ -322,15 +322,15 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="start_date" name="date_of_start" type="text" class="validate datepicker" value="${contractDeatils.date_of_start }">
-	                                    <label for="start_date">Date of Start</label>
-	                                     <span id="date_of_startError" class="error-msg" ></span>
-	                                    <button type="button" id="start_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker" value="${contractDeatils.doc }" >
+	                                    <label for="doc">Planned DOC</label>
+	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                     <span id="docError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <i class="material-icons prefix center-align">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="text" class="validate" value="${contractDeatils.estimated_cost }">
-	                                    <label for="estimated_cost">estimated cost</label>
+	                                    <label for="estimated_cost">Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -380,21 +380,18 @@
 	                                </div>                              
 	                            </div> 
 	      						<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col m2 hide-on-small-only"></div>	                                
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }">
-	                                    <label for="contract_closure_date">Contract Closure</label>
-	                                    <button type="button" id="contract_closure_date_icon"><i
-	                                            class="fa fa-calendar"></i></button>
-	                                    <span id="contract_closure_dateError" class="error-msg" ></span>
-	                                    
+	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }">
+	                                    <label for="final_takeover">Final Taking over by Client</label>
+	                                    <span id="final_takeoverError" class="error-msg" ></span>
+	                                    <button type="button" id="final_takeover_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="completion_certificate_date" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }">
-	                                    <label for="completion_certificate_date">Release of Completion Certificate</label>
-	                                     <span id="completion_certificate_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="completion_certificate_date_icon"><i
-	                                            class="fa fa-calendar"></i></button>
+	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }">
+	                                    <label for="completion_certificate_release">Release of Completion Certificate</label>
+	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="completion_certificate_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
@@ -402,15 +399,15 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_takeover_client" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }">
-	                                    <label for="final_takeover_client">Final Taking over by Client</label>
-	                                    <span id="final_takeover_clientError" class="error-msg" ></span>
-	                                    <button type="button" id="final_takeover_client_icon"><i
-	                                            class="fa fa-calendar"></i></button>
+	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker" value="${contractDeatils.contract_closure_date }">
+	                                    <label for="contract_closure_date">Contract Closure</label>
+	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="contract_closure_dateError" class="error-msg" ></span>	                                    
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate" value="${contractDeatils.final_bill_release }">
+	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker" value="${contractDeatils.final_bill_release }">
 	                                    <label for="final_bill_release">Release of Final bill</label>
+	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -418,13 +415,15 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate" value="${contractDeatils.defect_liability_period }">
+	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker" value="${contractDeatils.defect_liability_period }">
 	                                    <label for="defect_liability_period">Defect Liability Period</label>
+	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate" value="${contractDeatils.retention_money_release }">
+	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate datepicker" value="${contractDeatils.retention_money_release }">
 	                                    <label for="final_retention_release"> Release of Final Retention amount/BG</label>
+	                                    <button type="button" id="retention_money_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_retention_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -432,19 +431,16 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="release_of_pbg" name="pbg_release" type="text" class="validate" value="${contractDeatils.pbg_release }">
-	                                    <label for="release_of_pbg">Release of PBG</label>
-	                                    <span id="release_of_pbgError" class="error-msg" ></span>
+	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker" value="${contractDeatils.pbg_release }">
+	                                    <label for="pbg_release">Release of PBG</label>
+	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="pbg_releaseError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
+	                                <%-- <div class="col s12 m4 input-field">
 	                                    <input id="contract_closure" name="contract_closure" type="text" class="validate" value="${contractDeatils.contract_closure }">
 	                                    <label for="contract_closure"> Contract Closure Comment</label>
 	                                     <span id="contract_closureError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
+	                                </div> --%>
 	                                <div class="col s12 m4 input-field">
 	                                   <p>   <label>Status of Contract</label></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
@@ -457,6 +453,20 @@
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
+	                            <%-- <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                   <p>   <label>Status of Contract</label></p>
+	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
+	                                        <option value="" selected>Select</option>
+	                                           <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	<option value="${obj.contract_status_fk }" <c:if test="${contractDeatils.contract_status_fk eq obj.contract_status_fk}">selected</c:if>>${obj.contract_status_fk }</option>
+			                                    </c:forEach>
+	                                    </select>
+	                                     <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div> --%>
 	                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 input-field center-align no-float-small">
@@ -1343,7 +1353,8 @@
         		 	  },"dy_hod_user_id_fk": {
         	 		    required: false
         	 	   	  },"doc": {
-        		 		required: false
+        		 		required: false,
+   				 		dateBefore1:"#date_of_start"
         		 	  },"awarded_cost": {
         		 		required: false
         		 	  },"date_of_start": {
@@ -1363,9 +1374,11 @@
         	 	   	  },"completed_cost": {
         		 		required: false
         		 	  },"contract_closure_date": {
-        		 		required: false
+        		 		required: false,
+	   				 	dateBefore3:"#completion_certificate_release"
         		 	  },"completion_certificate_release":{
-        		 		 required: false
+        		 		 required: false,
+	   				 	 dateBefore2:"#final_takeover"
         		 	  },"final_takeover": {
         	 		    required: false
         	 	   	  },"final_bill_release": {
@@ -1481,13 +1494,13 @@
 	           	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
 	           	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
 	           	 			 error.appendTo('#dy_hod_user_id_fkError');
-	           	 	    }else if (element.attr("name") == "doc" ){
+	           	 	    }else if (element.attr("id") == "doc" ){
 	        	 		     document.getElementById("docError").innerHTML="";
-	        	 			 error.appendTo("docError");
+	        	 			 error.appendTo("#docError");
 	        	 	    }else if (element.attr("id") == "awarded_cost" ){
 	        	 		     document.getElementById("awarded_costError").innerHTML="";
 	        	 			 error.appendTo('#awarded_costError');
-	        	 	    }else if (element.attr("id") == "start_date" ){
+	        	 	    }else if (element.attr("id") == "date_of_start" ){
 	        	 	    	     document.getElementById("date_of_startError").innerHTML="";
 	        	 			     error.appendTo('#date_of_startError');
         		 	    }else if (element.attr("id") == "estimated_cost" ){
@@ -1514,12 +1527,12 @@
         		 	    }else if (element.attr("id") == "contract_closure_date" ){
         		 		     document.getElementById("contract_closure_dateError").innerHTML="";
         		 			 error.appendTo('#contract_closure_dateError');
-        		 	    }else if (element.attr("id") == "completion_certificate_date" ){
-        		 		     document.getElementById("completion_certificate_dateError").innerHTML="";
-        		 			 error.appendTo('#completion_certificate_dateError');
-        		 	    }else if (element.attr("id") == "final_takeover_client" ){
-        		 		     document.getElementById("final_takeover_clientError").innerHTML="";
-        		 			 error.appendTo('#final_takeover_clientError');
+        		 	    }else if (element.attr("id") == "completion_certificate_release" ){
+        		 		     document.getElementById("completion_certificate_releaseError").innerHTML="";
+        		 			 error.appendTo('#completion_certificate_releaseError');
+        		 	    }else if (element.attr("id") == "final_takeover" ){
+        		 		     document.getElementById("final_takeoverError").innerHTML="";
+        		 			 error.appendTo('#final_takeoverError');
         		 	    }else if (element.attr("id") == "final_bill_release" ){
         		 		     document.getElementById("final_bill_releaseError").innerHTML="";
         		 			 error.appendTo('#final_bill_releaseError');
@@ -1530,8 +1543,8 @@
         		 		     document.getElementById("final_retention_releaseError").innerHTML="";
         		 			 error.appendTo('#final_retention_releaseError');
         		 	    }else if (element.attr("name") == "pbg_release" ){
-        		 		     document.getElementById("release_of_pbgError").innerHTML="";
-        		 			 error.appendTo('#release_of_pbgError');
+        		 		     document.getElementById("pbg_releaseError").innerHTML="";
+        		 			 error.appendTo('#pbg_releaseError');
         		 	    }else if (element.attr("id") == "contract_closure" ){
         		 		     document.getElementById("ontract_closureError").innerHTML="";
         		 			 error.appendTo('#ontract_closureError');
@@ -1555,6 +1568,64 @@
         	    //return true;
         	  }
         });
+        
+        
+        $.validator.addMethod("dateBefore1", function(value, element) {
+            var fromDateString = $('#date_of_start').val();
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Planned Doc date must be after Date of start");
+    	
+    	$.validator.addMethod("dateBefore2", function(value, element) {
+            var fromDateString = $('#final_takeover').val();
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+         
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+        }, "Release of Completion Certificate date must be after Final takeover by client date");
+    	
+    	$.validator.addMethod("dateBefore3", function(value, element) {
+            var fromDateString = $('#completion_certificate_release').val(); 
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+         
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+        }, "Contract closure date date must be after Release of Completion Certificate date");
 
         $('select').change(function(){
             if ($(this).val() != ""){

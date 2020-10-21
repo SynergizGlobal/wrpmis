@@ -300,12 +300,12 @@
 	                            </div>
 	                            <div class="row">
 	                                <!-- //row 7 -->
-	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col m2 hide-on-small-only"></div>	                               
 	                                <div class="col s12 m4 input-field">
-	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
-	                                    <label for="doc">Planned DOC</label>
-	                                    <span id="docError" class="error-msg" ></span>
-	                                     <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker">
+	                                    <label for="date_of_start">Date of Start</label>
+	                                     <span id="date_of_startError" class="error-msg" ></span>
+	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                	<i class="material-icons prefix center-align">₹</i>
@@ -318,15 +318,15 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="start_date" name="date_of_start" type="text" class="validate datepicker">
-	                                    <label for="start_date">Date of Start</label>
-	                                     <span id="date_of_startError" class="error-msg" ></span>
-	                                    <button type="button" id="start_date_icon"><i class="fa fa-calendar"></i></button>
-	                                </div>
+	                                    <input name="doc" id="doc" type="text" class="validate datepicker">
+	                                    <label for="doc">Planned DOC</label>
+	                                    <button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="docError" class="error-msg" ></span>
+	                                </div>	                                
 	                                <div class="col s12 m4 input-field">
 	                                    <i class="material-icons prefix center-align">₹</i>
 	                                    <input id="estimated_cost" name="estimated_cost" type="text" class="validate">
-	                                    <label for="estimated_cost">estimated cost</label>
+	                                    <label for="estimated_cost">Estimated cost</label>
 	                                     <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -376,35 +376,33 @@
 	                            </div> 
 	      						<div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field"> 
-	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker">
-	                                    <label for="contract_closure_date">Contract Closure</label>
-	                                    <span id="contract_closure_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="contract_closure_date_icon"><i
-	                                            class="fa fa-calendar"></i></button>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker">
+	                                    <label for="final_takeover">Final Taking over by Client</label>
+	                                    <button type="button" id="final_takeover_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="final_takeoverError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="completion_certificate_date" name="completion_certificate_release" type="text" class="validate datepicker">
-	                                    <label for="completion_certificate_date">Release of Completion Certificate</label>
-	                                     <span id="completion_certificate_dateError" class="error-msg" ></span>
-	                                    <button type="button" id="completion_certificate_date_icon"><i
-	                                            class="fa fa-calendar"></i></button>
+	                                    <input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker">
+	                                    <label for="completion_certificate_release">Release of Completion Certificate</label>
+	                                     <span id="completion_certificate_releaseError" class="error-msg" ></span>
+	                                    <button type="button" id="completion_certificate_release_icon"><i class="fa fa-calendar"></i></button>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	
 	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_takeover_client" name="final_takeover" type="text" class="validate datepicker">
-	                                    <label for="final_takeover_client">Final Taking over by Client</label>
-	                                    <span id="final_takeover_clientError" class="error-msg" ></span>
-	                                    <button type="button" id="final_takeover_client_icon"><i
-	                                            class="fa fa-calendar"></i></button>
+	                                <div class="col m2 hide-on-small-only"></div>	                                
+	                                <div class="col s12 m4 input-field"> 
+	                                    <input id="contract_closure_date" name="contract_closure_date" type="text" class="validate datepicker">
+	                                    <label for="contract_closure_date">Contract Closure</label>
+	                                    <button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="contract_closure_dateError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate">
+	                                    <input id="final_bill_release" name="final_bill_release" type="text" class="validate datepicker">
 	                                    <label for="final_bill_release">Release of Final bill</label>
+	                                    <button type="button" id="final_bill_release_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="final_bill_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -412,33 +410,32 @@
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate">
+	                                    <input id="defect_liability_period" name="defect_liability_period" type="text" class="validate datepicker">
 	                                    <label for="defect_liability_period">Defect Liability Period</label>
+	                                    <button type="button" id="defect_liability_period_icon"><i class="fa fa-calendar"></i></button>
 	                                    <span id="defect_liability_periodError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate">
+	                                    <input id="final_retention_release" name="retention_money_release" type="text" class="validate datepicker">
 	                                    <label for="final_retention_release"> Release of Final Retention amount/BG</label>
-	                                     <span id="final_retention_releaseError" class="error-msg" ></span>
+	                                    <button type="button" id="final_retention_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="final_retention_releaseError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="release_of_pbg" name="pbg_release" type="text" class="validate">
-	                                    <label for="release_of_pbg">Release of PBG</label>
-	                                    <span id="release_of_pbgError" class="error-msg" ></span>
+	                                    <input id="pbg_release" name="pbg_release" type="text" class="validate datepicker">
+	                                    <label for="pbg_release">Release of PBG</label>
+	                                    <button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
+	                                    <span id="pbg_releaseError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
+	                                <!-- <div class="col s12 m4 input-field">
 	                                    <input id="contract_closure" name="contract_closure" type="text" class="validate">
 	                                    <label for="contract_closure"> Contract Closure Comment</label>
 	                                    <span id="ontract_closureError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
+	                                </div> -->
 	                                <div class="col s12 m4 input-field">
 	                                 <p>   <label>Status of Contract</label></p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
@@ -451,6 +448,20 @@
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
+	                            <%-- <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                 <p>   <label>Status of Contract</label></p>
+	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
+	                                        <option value="" selected>Select</option>
+	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
+			                                      </c:forEach>
+	                                    </select>
+	                                    <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div> --%>
 	                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 input-field center-align no-float-small">
@@ -1007,9 +1018,11 @@
 		   	 	   	  },"completed_cost": {
 		   		 		required: false
 		   		 	  },"contract_closure_date": {
-		   		 		required: false
+		   		 		required: false,
+	   				 	dateBefore3:"#completion_certificate_release"
 		   		 	  },"completion_certificate_release":{
-		   		 		 required: false
+		   		 		 required: false,
+	   				 	 dateBefore2:"#final_takeover"
 		   		 	  },"final_takeover": {
 		   	 		    required: false,
 		   	 	   	  },"final_bill_release": {
@@ -1120,13 +1133,13 @@
 		   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
 		   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
 		   	 			 error.appendTo('#dy_hod_user_id_fkError');
-		   	 	    }else if (element.attr("name") == "doc" ){
+		   	 	    }else if (element.attr("id") == "doc" ){
 		   	 		     document.getElementById("docError").innerHTML="";
 		   	 			 error.appendTo('#docError');
 		   	 	    }else if (element.attr("id") == "awarded_cost" ){
 		   	 		     document.getElementById("awarded_costError").innerHTML="";
 		   	 			 error.appendTo('#awarded_costError');
-		   	 	    }else if (element.attr("id") == "start_date" ){
+		   	 	    }else if (element.attr("id") == "date_of_start" ){
 		   	 	    	     document.getElementById("date_of_startError").innerHTML="";
 		   	 			     error.appendTo('#date_of_startError');
 			 	    }else if (element.attr("id") == "estimated_cost" ){
@@ -1153,9 +1166,9 @@
 			 	    }else if (element.attr("id") == "contract_closure_date" ){
 			 		     document.getElementById("contract_closure_dateError").innerHTML="";
 			 			 error.appendTo('#contract_closure_dateError');
-			 	    }else if (element.attr("id") == "completion_certificate_date" ){
-			 		     document.getElementById("completion_certificate_dateError").innerHTML="";
-			 			 error.appendTo('#completion_certificate_dateError');
+			 	    }else if (element.attr("id") == "completion_certificate_release" ){
+			 		     document.getElementById("completion_certificate_releaseError").innerHTML="";
+			 			 error.appendTo('#completion_certificate_releaseError');
 			 	    }else if (element.attr("id") == "final_takeover_client" ){
 			 		     document.getElementById("final_takeover_clientError").innerHTML="";
 			 			 error.appendTo('#final_takeover_clientError');
@@ -1169,8 +1182,8 @@
 			 		     document.getElementById("final_retention_releaseError").innerHTML="";
 			 			 error.appendTo('#final_retention_releaseError');
 			 	    }else if (element.attr("name") == "pbg_release" ){
-			 		     document.getElementById("release_of_pbgError").innerHTML="";
-			 			 error.appendTo('#release_of_pbgError');
+			 		     document.getElementById("pbg_releaseError").innerHTML="";
+			 			 error.appendTo('#pbg_releaseError');
 			 	    }else if (element.attr("id") == "contract_closure" ){
 			 		     document.getElementById("ontract_closureError").innerHTML="";
 			 			 error.appendTo('#ontract_closureError');
@@ -1197,7 +1210,7 @@
         
         
         $.validator.addMethod("dateBefore1", function(value, element) {
-            var fromDateString = $('#date_of_start').val(); //
+            var fromDateString = $('#date_of_start').val();
             var fromDateParts = fromDateString.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
             var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
@@ -1216,7 +1229,7 @@
         }, "Planned Doc date must be after Date of start");
     	
     	$.validator.addMethod("dateBefore2", function(value, element) {
-            var fromDateString = $('#mrvc_reviewed').val(); //
+            var fromDateString = $('#final_takeover').val();
             var fromDateParts = fromDateString.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
             var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
@@ -1232,10 +1245,10 @@
             }else{
             	return true;
             }
-        }, "Divisional approval date must be after MRVC reviewed date");
+        }, "Release of Completion Certificate date must be after Final takeover by client date");
     	
     	$.validator.addMethod("dateBefore3", function(value, element) {
-            var fromDateString = $('#divisional_approval').val(); //
+            var fromDateString = $('#completion_certificate_release').val(); 
             var fromDateParts = fromDateString.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
             var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
@@ -1251,46 +1264,7 @@
             }else{
             	return true;
             }
-        }, "HQ approval date must be after Divisional approval date");
-    	
-    	$.validator.addMethod("dateBefore4", function(value, element) {
-            var fromDateString = $('#hq_approval').val(); //
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-         
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-        }, "GFC released date must be after HQ approval date");
-    	
-    	$.validator.addMethod("dateBefore5", function(value, element) {
-            var fromDateString = $('#gfc_released').val(); //
-            var fromDateParts = fromDateString.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
-
-            var toDateParts = value.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
-         
-            if($.trim(fromDateString) != '' && $.trim(value) != ''){
-            	return Date.parse(fromDate) <= Date.parse(toDate);
-            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
-            	return false;
-            }else{
-            	return true;
-            }
-        }, "As built date date must be after GFC released date");
-        
+        }, "Contract closure date date must be after Release of Completion Certificate date");
         
         
         $.validator.addMethod("dateFormat",

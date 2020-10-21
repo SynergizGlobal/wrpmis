@@ -2,7 +2,13 @@ package com.synergizglobal.pmis.constants;
 
 import java.io.File;
 
-public class CommonConstants2 {
+public class CommonConstants2 {	
+	
+	public final static String  STATUS_COMPLETED = "Completed";
+	public final static String  STATUS_DROPPED = "Dropped";	
+	public final static String  STATUS_IN_PROGRESS = "In Progress";
+	public final static String  STATUS_NOT_STARTED = "Not Started";
+	public final static String  STATUS_ON_HOLD = "On Hold";
 	
 	public static final String USER_IMAGES = "/pmis/USER_IMAGES/";
 	public static final String CONTRACT_FILES = "/pmis/CONTRACT_FILES/";

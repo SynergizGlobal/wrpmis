@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
@@ -28,9 +27,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Issue;
-import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.StripChart;
-import com.synergizglobal.pmis.model.Work;
 
 @Controller
 public class StripChartController {
@@ -45,9 +42,6 @@ public class StripChartController {
 	StripChartService stripChartService;
 	
 	@Autowired
-	HomeService homeService;
-	
-	@Autowired
 	IssueService issueService;
 	
 	
@@ -55,8 +49,16 @@ public class StripChartController {
 	public ModelAndView stripChart(HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.stripChart);
 		try {
-			List<Project> projectsList = homeService.getProjectsList();
+			StripChart obj = new StripChart();
+			
+			List<StripChart> projectsList = stripChartService.getStripChartProjectsList(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<StripChart> worksList = stripChartService.getStripChartWorksList(obj);
+			model.addObject("worksList", worksList);
+			
+			List<StripChart> contractsList = stripChartService.getStripChartContractsList(obj);
+			model.addObject("contractsList", contractsList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,15 +67,26 @@ public class StripChartController {
 		return model;
 	}
 	
-	
-	@RequestMapping(value = "/ajax/getWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getStripChartProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Work> getWorksList(@ModelAttribute Work obj){
-		List<Work> works = null;
+	public List<StripChart> getStripChartProjectsList(@ModelAttribute StripChart obj){
+		List<StripChart> projects = null;
 		try{
-			works = homeService.getWorksList(obj);			
+			projects = stripChartService.getStripChartProjectsList(obj);			
 		}catch(Exception e){
-			logger.error("getWorksList() : "+e.getMessage());
+			logger.error("getStripChartProjectsList() : "+e.getMessage());
+		}
+		return projects;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartWorksList(@ModelAttribute StripChart obj){
+		List<StripChart> works = null;
+		try{
+			works = stripChartService.getStripChartWorksList(obj);			
+		}catch(Exception e){
+			logger.error("geStripCharttWorksList() : "+e.getMessage());
 		}
 		return works;
 	}

@@ -202,8 +202,8 @@ public class ContractDaoImpl implements ContractDao {
 							+"(contract_id,work_id_fk,department_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
-							+ "retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,remarks)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,remarks)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 			stmt.setString(q++,contract_id); 
@@ -233,7 +233,6 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getDefect_liability_period()); 
 			stmt.setString(q++,contract.getRetention_money_release()); 
 			stmt.setString(q++,contract.getPbg_release()); 
-			stmt.setString(q++,contract.getContract_closure()); 
 			stmt.setString(q++,contract.getContract_status_fk()); 
 			stmt.setString(q++,contract.getBg_required()); 
 			stmt.setString(q++,contract.getBg_required()); 
@@ -610,8 +609,8 @@ public class ContractDaoImpl implements ContractDao {
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 									",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
-									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,final_bill_release,defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-									+"retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required " + 
+									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -655,7 +654,6 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setDefect_liability_period(resultSet.getString("defect_liability_period"));
 				contract.setRetention_money_release(resultSet.getString("retention_money_release"));
 				contract.setPbg_release(resultSet.getString("pbg_release"));
-				contract.setContract_closure(resultSet.getString("contract_closure"));
 				contract.setContract_status_fk(resultSet.getString("contract_status_fk"));
 				contract.setBg_required(resultSet.getString("bg_required"));
 				contract.setInsurance_required(resultSet.getString("insurance_required"));
@@ -868,7 +866,7 @@ public class ContractDaoImpl implements ContractDao {
 								+"scope_of_contract = ?,hod_user_id_fk = ?,dy_hod_user_id_fk = ?,doc = ?,awarded_cost = ?,loa_letter_number = ?,loa_date = ?,ca_no = ?,ca_date = ?"
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
-								"retention_money_release = ?,pbg_release = ?,contract_closure = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ? "
+								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,remarks = ? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -897,8 +895,7 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getFinal_bill_release()); 
 				stmt.setString(p++,contract.getDefect_liability_period()); 
 				stmt.setString(p++,contract.getRetention_money_release()); 
-				stmt.setString(p++,contract.getPbg_release()); 
-				stmt.setString(p++,contract.getContract_closure()); 
+				stmt.setString(p++,contract.getPbg_release());  
 				stmt.setString(p++,contract.getContract_status_fk()); 
 				stmt.setString(p++,contract.getBg_required()); 
 				stmt.setString(p++,contract.getInsurance_required()); 

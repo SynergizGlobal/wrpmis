@@ -211,6 +211,10 @@ public class ContractController {
 			contract.setContract_closure_date(DateParser.parse(contract.getContract_closure_date()));
 			contract.setCompletion_certificate_release(DateParser.parse(contract.getCompletion_certificate_release()));		
 			contract.setFinal_takeover(DateParser.parse(contract.getFinal_takeover()));
+			contract.setFinal_bill_release(DateParser.parse(contract.getFinal_bill_release()));
+			contract.setDefect_liability_period(DateParser.parse(contract.getDefect_liability_period()));
+			contract.setRetention_money_release(DateParser.parse(contract.getRetention_money_release()));
+			contract.setPbg_release(DateParser.parse(contract.getPbg_release()));
 		
 			boolean flag =  contractservice.addContract(contract);			
 			if(flag) {
@@ -309,6 +313,10 @@ public class ContractController {
 			contract.setContract_closure_date(DateParser.parse(contract.getContract_closure_date()));
 			contract.setCompletion_certificate_release(DateParser.parse(contract.getCompletion_certificate_release()));		
 			contract.setFinal_takeover(DateParser.parse(contract.getFinal_takeover()));
+			contract.setFinal_bill_release(DateParser.parse(contract.getFinal_bill_release()));
+			contract.setDefect_liability_period(DateParser.parse(contract.getDefect_liability_period()));
+			contract.setRetention_money_release(DateParser.parse(contract.getRetention_money_release()));
+			contract.setPbg_release(DateParser.parse(contract.getPbg_release()));
 		
 			boolean flag =  contractservice.updateContract(contract);
 			if(flag) {

@@ -240,8 +240,13 @@ public class StripChartDaoImpl implements StripChartDao {
 		StripChart sobj = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry = "select actual_finish as actual_finish,actual_start as actual_start,planned_start as planned_start,planned_finish as planned_finish,"
+			/*String qry = "select actual_finish as actual_finish,actual_start as actual_start,planned_start as planned_start,planned_finish as planned_finish,"
 					+ "component_id as strip_chart_component_id,component_id_name as strip_chart_component_id_name,"
+					+ "component as strip_chart_component "
+					+ "from strip_chart_general "
+					+ "where component_id is not null and contract_id_fk = ? and fob_id_fk = ?";*/
+			
+			String qry = "select component_id as strip_chart_component_id,component_id_name as strip_chart_component_id_name,"
 					+ "component as strip_chart_component "
 					+ "from strip_chart_general "
 					+ "where component_id is not null and contract_id_fk = ? and fob_id_fk = ?";
@@ -270,10 +275,10 @@ public class StripChartDaoImpl implements StripChartDao {
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				sobj = new StripChart();
-				sobj.setActual_start(resultSet.getString("actual_start"));
+				/*sobj.setActual_start(resultSet.getString("actual_start"));
 				sobj.setActual_finish(resultSet.getString("actual_finish"));
 				sobj.setPlanned_start(resultSet.getString("planned_start"));
-				sobj.setPlanned_finish(resultSet.getString("planned_finish"));
+				sobj.setPlanned_finish(resultSet.getString("planned_finish"));*/
 				sobj.setStrip_chart_component_id(resultSet.getString("strip_chart_component_id"));
 				sobj.setStrip_chart_component_id_name(resultSet.getString("strip_chart_component_id_name"));
 				sobj.setStrip_chart_component(resultSet.getString("strip_chart_component"));

@@ -103,29 +103,23 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
                                         <p><label>Project</label></p>
-                                        <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getBudgetList();">
+                                        <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getBudgetList(); getWorksList();  getFinancialYearsList();">
                                             <option value="" selected>Select</option>
-                                            	<c:forEach var="obj" items="${projectsList}">
-	                       						  <option value="${obj.project_id_fk }" <c:if test="${param.project_id_fk eq obj.project_id_fk }">selected</c:if>>${obj.project_id_fk }<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name}</option>
-	                                             </c:forEach>
+                                            	
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p><label>Work</label></p>
-                                        <select id="work_id_fk" name="work_id_fk" onchange="getBudgetList();" class="searchable">
+                                        <select id="work_id_fk" name="work_id_fk" onchange="getBudgetList(); getProjectsList(); getFinancialYearsList();" class="searchable">
                                             <option value="" >Select</option>
-	                                            <c:forEach var="obj" items="${worksList}">
-	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
-	                                             </c:forEach>
+	                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p><label>Financial Year</label></p>
-                                        <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList();">
+                                        <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList(); getProjectsList(); getWorksList();">
                                             <option value="" >Select</option>
-                                            	 <c:forEach var="obj" items="${financialYearsList}">
-	                       						  <option value="${obj.financial_year_fk }" <c:if test="${param.financial_year_fk eq obj.financial_year_fk }">selected</c:if>>${obj.financial_year_fk }</option>
-	                                             </c:forEach>
+                                            	 
                                         </select>
                                     </div>
                                     <div class="col s12 m3">
@@ -255,7 +249,10 @@
  	$('.close-message').delay(3000).fadeOut('slow');
  	
  	getBudgetList();
- });
+ 	getWorksList();
+ 	getProjectsList();
+ 	getFinancialYearsList();
+  });
  
     function clearFilter(){
     	$("#project_id_fk").val("");
@@ -263,6 +260,9 @@
     	$("#financial_year_fk").val("");
     	$('.searchable').select2();
     	getBudgetList();
+    	getWorksList();
+     	getProjectsList();
+     	getFinancialYearsList();
     }
     
     function getBudgetList(){
@@ -336,7 +336,90 @@
 			$(".page-loader").hide();
          	getErrorMessage(jqXHR, exception);
      }});
-}
+   }
+    
+    function getWorksList() {
+    	$(".page-loader").show();
+        $("#work_id_fk option:not(:first)").remove();
+        var project_id_fk = $("#project_id_fk").val();
+        var financial_year_fk = $("#financial_year_fk").val();
+        var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk };
+        $.ajax({
+              url: "<%=request.getContextPath()%>/ajax/getBudgetWorksList",
+              data: myParams, cache: false,
+              success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var workName = '';
+                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                            var workId = $("#work_id_fk").val();
+                            if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                            }else {
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                            }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+               }
+         });
+    }
+    
+    function getProjectsList() {
+    	$(".page-loader").show();
+        $("#project_id_fk option:not(:first)").remove();
+        var work_id_fk = $("#work_id_fk").val();
+        var financial_year_fk = $("#financial_year_fk").val();
+        var myParams = { work_id_fk: work_id_fk ,financial_year_fk : financial_year_fk};
+        $.ajax({
+              url: "<%=request.getContextPath()%>/ajax/getBudgetProjectsList",
+              data: myParams, cache: false,
+              success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var projectName = '';
+                            if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+                            var projectId = $("#project_id_fk").val();
+                            if ($.trim(projectId) != '' && val.work_id_fk == $.trim(projectId)) {
+                                $("#project_id_fk").append('<option value="' + val.project_id_fk + '" selected>' + $.trim(val.project_id_fk) + $.trim(projectName) + '</option>');
+                            }else {
+                                $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk) + $.trim(projectName) + '</option>');
+                            }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+         });
+    }
+    
+    function getFinancialYearsList() {
+    	$(".page-loader").show();
+        $("#financial_year_fk option:not(:first)").remove();
+        var work_id_fk = $("#work_id_fk").val();
+        var project_id_fk = $("#project_id_fk").val();
+        var myParams = { work_id_fk: work_id_fk ,project_id_fk : project_id_fk};
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getFinancialYearsList",
+            data: myParams, cache: false,
+            success: function (data) {
+                   if (data.length > 0) {
+                       $.each(data, function (i, val) {
+                           var financialYearId = $("#financial_year_fk").val();
+                           if ($.trim(financialYearId) != '' && val.financial_year_fk == $.trim(financialYearId)) {
+                               $("#financial_year_fk").append('<option value="' + val.financial_year_fk + '" selected>' + $.trim(val.financial_year_fk) + '</option>');
+                           }else {
+                               $("#financial_year_fk").append('<option value="' + val.financial_year_fk + '">' + $.trim(val.financial_year_fk) + '</option>');
+                           }
+                       });
+                   }
+                   $('.searchable').select2();
+                   $(".page-loader").hide();
+               }
+          });
+    } 
+    
     function getBudget(budget_id){
     	$("#budget_id").val(budget_id);
     	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-budget');

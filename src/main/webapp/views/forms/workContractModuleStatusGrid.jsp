@@ -90,29 +90,23 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Project</p>
-                                        <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getWorkContractList();">
+                                        <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getWorkContractList(); getWorksList(); getContractsList();">
                                             <option value="">Select</option>
-                                           	<c:forEach var="obj" items="${projectsList}">
-                       						  <option value="${obj.project_id_fk }">${obj.project_id_fk }<c:if test="${not empty obj.project_name}"> - </c:if>${obj.project_name}</option>
-                                             </c:forEach>
+                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Work</p>
-                                       <select id="work_id_fk" name="work_id_fk" onchange="getWorkContractList();" class="searchable">
+                                       <select id="work_id_fk" name="work_id_fk" onchange="getWorkContractList(); getProjectsList(); getContractsList(); " class="searchable">
                                             <option value="" >Select</option>
-                                            <c:forEach var="obj" items="${workList}">
-                       						  <option value="${obj.work_id }">${obj.work_id }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
-                                             </c:forEach>
+                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Contract</p>
-                                         <select id="contract_id_fk" name="contract_id_fk" onchange="getWorkContractList();" class="searchable">
+                                         <select id="contract_id_fk" name="contract_id_fk" onchange="getWorkContractList(); getProjectsList(); getWorksList();" class="searchable">
                                             <option value="" >Select</option>
-                                            <c:forEach var="obj" items="${contractsList}">
-                       						  <option value="${obj.contract_id_fk }">${obj.contract_id_fk }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
-                                             </c:forEach>
+                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3">
@@ -228,6 +222,9 @@
 	$('.close-message').delay(3000).fadeOut('slow');
 	
 	getWorkContractList();
+	getWorksList();
+	getContractsList();
+	getProjectsList();
 });
 
    function clearFilter(){
@@ -236,6 +233,9 @@
    	$("#contract_id_fk").val("");
    	$('.searchable').select2();
    	getWorkContractList();
+   	getWorksList();
+   	getContractsList();
+   	getProjectsList();
    }
    
    function getWorkContractList(){
@@ -311,9 +311,96 @@
 		},error: function (jqXHR, exception) {
 			$(".page-loader").hide();
         	getErrorMessage(jqXHR, exception);
-    }});
-}
+     }});
+   } 
 
+   function getWorksList(){
+	 	$(".page-loader").show();
+	 	$("#work_id_fk option:not(:first)").remove();
+	 	var contract_id_fk = $("#contract_id_fk").val();
+	 	var project_id_fk = $("#project_id_fk").val();
+	    var myParams = { contract_id_fk: contract_id_fk,project_id_fk : project_id_fk};
+	    $.ajax({
+	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusWorksList", 
+	    	data: myParams, cache: false,
+            success: function (data) {
+            	if(data != null && data != '' && data.length > 0){   
+                      $.each(data, function (i, val) {
+                   	    var workName = '';
+                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                        if ($.trim(work_id_fk) != ''  && val.work_id_fk == $.trim(work_id_fk)) {
+                     	    $("#work_id_fk").append('<option value="' + val.work_id_fk +  '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) +'</option>');
+                        } else {
+                         	$("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                        }
+                    });
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+        	    }else{
+					$(".page-loader").hide();
+			    }
+           }
+      });
+    }
+   
+    function getContractsList(){
+	 	$(".page-loader").show();
+	 	$("#contract_id_fk option:not(:first)").remove();
+	 	var work_id_fk = $("#work_id_fk").val();
+	 	var project_id_fk = $("#project_id_fk").val();
+	    var myParams = { work_id_fk: work_id_fk,project_id_fk : project_id_fk};
+	    $.ajax({
+	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusContractsList", 
+	    	data: myParams, cache: false,
+            success: function (data) {
+       			if(data != null && data != '' && data.length > 0){   
+                  	 $.each(data, function (i, val) {
+                  	   var contractName = '';
+                       if ($.trim(val.contract_name) != '') { contractName = ' - ' + $.trim(val.contract_name) }
+                       if ($.trim(contract_id_fk) != ''  && val.contract_id_fk == $.trim(contract_id_fk)) {
+                    	   $("#contract_id_fk").append('<option value="' + val.contract_id_fk +  '" selected>' + $.trim(val.contract_id_fk) + $.trim(contractName) +'</option>');
+                       } else {
+                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contractName) + '</option>');
+                       }
+                   });
+                   $('.searchable').select2();
+                   $(".page-loader").hide();
+       	  	 	}else{
+					$(".page-loader").hide();
+			    }
+         }
+      });
+	}
+   
+    function getProjectsList(){
+	 	$(".page-loader").show();
+	 	$("#project_id_fk option:not(:first)").remove();
+	 	var contract_id_fk = $("#contract_id_fk").val();
+	 	var work_id_fk = $("#work_id_fk").val();
+	    var myParams = { work_id_fk: work_id_fk,contract_id_fk : contract_id_fk};
+	    $.ajax({
+	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusProjectsList", 
+	    	data: myParams, cache: false,
+            success: function (data) {
+      			if(data != null && data != '' && data.length > 0){   
+                   $.each(data, function (i, val) {
+                 	  var projectName = '';
+                      if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+                      if ($.trim(project_id_fk) != ''  && val.project_id_fk == $.trim(project_id_fk)) {
+                    	  $("#project_id_fk").append('<option value="' + val.project_id_fk +  '" selected>' + $.trim(val.project_id_fk) + $.trim(projectName) +'</option>');
+                      } else {
+                       	  $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk) + $.trim(projectName) + '</option>');
+                      }
+                  });
+                  $('.searchable').select2();
+                  $(".page-loader").hide();
+      	 	  }else{
+					$(".page-loader").hide();
+			  }
+          }
+     });
+   }
+   
    function getWorkStatus(project_id_fk,work_id_fk,contract_id_fk){
    	$("#tempProject_id_fk").val(project_id_fk);
  	$("#tempWork_id_fk").val(work_id_fk);

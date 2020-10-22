@@ -61,6 +61,21 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 	public List<SourceOfFund> getRailwaysList() throws Exception {
 		return dao.getRailwaysList();
 	}
+
+	@Override
+	public List<SourceOfFund> getSOFList(SourceOfFund obj) throws Exception {
+		return dao.getSOFList(obj);
+	}
+
+	@Override
+	public List<SourceOfFund> getRailwayList(SourceOfFund obj) throws Exception {
+		return dao.getRailwayList(obj);
+	}
+
+	@Override
+	public List<SourceOfFund> getFundWorksList(SourceOfFund obj) throws Exception {
+		return dao.getFundWorksList(obj);
+	}
 	
 
 }

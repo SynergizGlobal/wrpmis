@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.SourceOfFundDao;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Work;
 
@@ -214,10 +215,108 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		return flag;
 	}
 
+	@Override
+	public List<SourceOfFund> getSOFList(SourceOfFund obj) throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry = "select source_of_funds_fk,sub_category_railway_id_fk,work_id_fk  from funds f  "+
+					"where source_of_funds_fk is not null ";	
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				qry = qry + " and sub_category_railway_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY source_of_funds_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				pValues[i++] = obj.getSub_category_railway_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 
-	
-	
+	@Override
+	public List<SourceOfFund> getRailwayList(SourceOfFund obj) throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry = "select source_of_funds_fk,sub_category_railway_id_fk,work_id_fk  from funds f  "+
+					"where sub_category_railway_id_fk is not null ";	
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				qry = qry + " and source_of_funds_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY sub_category_railway_id_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				pValues[i++] = obj.getSource_of_funds_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 
-	
+	@Override
+	public List<SourceOfFund> getFundWorksList(SourceOfFund obj) throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry = "select work_id_fk,w.work_name,source_of_funds_fk,sub_category_railway_id_fk from funds f  "+ 
+					"LEFT JOIN work w on f.work_id_fk = w.work_id "+
+					"where work_id_fk is not null ";	
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				qry = qry + " and source_of_funds_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				qry = qry + " and sub_category_railway_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY work_id_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				pValues[i++] = obj.getSource_of_funds_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				pValues[i++] = obj.getSub_category_railway_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 	
 }

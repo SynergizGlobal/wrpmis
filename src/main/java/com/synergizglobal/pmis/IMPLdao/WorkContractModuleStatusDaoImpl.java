@@ -25,6 +25,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 @Repository
@@ -222,6 +223,127 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 		throw new Exception(e.getMessage());
 		}
 		return objList;
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getProjectsList() throws Exception {
+		List<WorkContractModuleStatus> objList = null;
+		try {
+			String qry ="select project_id as project_id_fk,project_name from project";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objList;
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getWorkStatusWorksList(WorkContractModuleStatus obj) throws Exception {
+		List<WorkContractModuleStatus> objsList = null;
+		try {
+			String qry = "SELECT p.project_id as project_id_fk,ws.work_id_fk,contract_id_fk,w.work_name from work_status ws "+
+					 "LEFT JOIN work w on ws.work_id_fk = w.work_id " + 
+					 "LEFT JOIN project p on w.project_id_fk = p.project_id "+ 
+					 "where ws.work_id_fk is not null ";
+						
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY ws.work_id_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getWorkStatusContractsList(WorkContractModuleStatus obj) throws Exception {
+		List<WorkContractModuleStatus> objsList = null;
+		try {
+			String qry = "SELECT p.project_id as project_id_fk,p.project_name,ws.work_id_fk,contract_id_fk,c.contract_name from work_status ws "+
+					 "LEFT JOIN work w on ws.work_id_fk = w.work_id " + 
+					 "LEFT JOIN project p on w.project_id_fk = p.project_id "+ 
+					 "LEFT JOIN contract c on ws.contract_id_fk = c.contract_id " + 
+					 "where contract_id_fk is not null ";
+						
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and ws.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY contract_id_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getWorkStatusProjectsList(WorkContractModuleStatus obj) throws Exception {
+		List<WorkContractModuleStatus> objsList = null;
+		try {
+			String qry = "SELECT p.project_id as project_id_fk,p.project_name,ws.work_id_fk,contract_id_fk,w.work_name from work_status ws "+
+					 "LEFT JOIN work w on ws.work_id_fk = w.work_id " + 
+					 "LEFT JOIN project p on w.project_id_fk = p.project_id "+ 
+					 "where project_id_fk is not null ";
+						
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and ws.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY project_id_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 }

@@ -86,12 +86,13 @@ public class FOBController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.fobGrid);
-			List<FOB> contracts = fobService.contractListFromFOB();
-			model.addObject("contracts", contracts);
-			
-			List<String> generalStatusList = homeService.getGeneralStatusList();
-			model.addObject("generalStatusList", generalStatusList);
-			
+			/*
+			 * List<FOB> contracts = fobService.contractListFromFOB();
+			 * model.addObject("contracts", contracts);
+			 * 
+			 * List<String> generalStatusList = homeService.getGeneralStatusList();
+			 * model.addObject("generalStatusList", generalStatusList);
+			 */
 		} catch (Exception e) {
 			logger.error("fob : " + e.getMessage());
 		}
@@ -109,6 +110,32 @@ public class FOBController {
 			logger.error("getFOBList : " + e.getMessage());
 		}
 		return fobs;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkStatusList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getWorkStatusList(@ModelAttribute FOB obj) {
+		List<FOB> workStatusList = null;
+		try {
+			workStatusList = fobService.getWorkStatusList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkStatusList : " + e.getMessage());
+		}
+		return workStatusList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getContractsList(@ModelAttribute FOB obj) {
+		List<FOB> contractsList = null;
+		try {
+			contractsList = fobService.getContractsList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsList : " + e.getMessage());
+		}
+		return contractsList;
 	}
 	
 	@RequestMapping(value="/add-fob-form",method=RequestMethod.GET)

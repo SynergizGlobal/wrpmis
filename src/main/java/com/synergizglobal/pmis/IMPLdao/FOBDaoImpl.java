@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.FOBDao;
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FOB;
 
 @Repository
@@ -266,15 +267,64 @@ public class FOBDaoImpl implements FOBDao {
 		return false;
 	}
 
+	/*
+	 * @Override public List<FOB> contractListFromFOB() throws Exception { List<FOB>
+	 * objsList = null; try { String qry =
+	 * "select f.contract_id_fk,contract_id,contract_name " + "from fob f " +
+	 * "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id ";
+	 * 
+	 * objsList = jdbcTemplate.query( qry, new
+	 * BeanPropertyRowMapper<FOB>(FOB.class)); }catch(Exception e){ throw new
+	 * Exception(e.getMessage()); } return objsList; }
+	 */
+
 	@Override
-	public List<FOB> contractListFromFOB() throws Exception {
+	public List<FOB> getWorkStatusList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "select f.contract_id_fk,contract_id,contract_name "
-					+ "from fob f "
-					+ "LEFT OUTER JOIN contract c ON f.contract_id_fk = c.contract_id ";
+			String qry = "SELECT work_status_fk,contract_id_fk from fob  " + 
+					"where work_status_fk is not null ";
+			int arrSize = 0;
+		
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY work_status_fk ";
+			Object[] pValues = new Object[arrSize];
 			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));	
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
+				pValues[i++] = obj.getContract_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FOB> getContractsList(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "SELECT work_status_fk,contract_id_fk,c.contract_name from fob f " + 
+					"LEFT JOIN contract c on f.contract_id_fk = c.contract_id "+
+					"where contract_id_fk is not null ";
+			int arrSize = 0;
+		
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				qry = qry + " and work_status_fk = ?";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY contract_id_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_status_fk())){
+				pValues[i++] = obj.getWork_status_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

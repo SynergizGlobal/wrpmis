@@ -40,9 +40,18 @@ public class FOBServiceImpl implements FOBService {
 		return fobDao.deleteFOB(obj);
 	}
 
+	/*
+	 * @Override public List<FOB> contractListFromFOB() throws Exception { return
+	 * fobDao.contractListFromFOB(); }
+	 */
 	@Override
-	public List<FOB> contractListFromFOB() throws Exception {
-		return fobDao.contractListFromFOB();
+	public List<FOB> getWorkStatusList(FOB obj) throws Exception {
+		return fobDao.getWorkStatusList(obj);
+	}
+
+	@Override
+	public List<FOB> getContractsList(FOB obj) throws Exception {
+		return fobDao.getContractsList(obj);
 	}
 
 }

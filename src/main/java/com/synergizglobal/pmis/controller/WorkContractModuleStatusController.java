@@ -56,12 +56,12 @@ public class WorkContractModuleStatusController {
 	public ModelAndView workContractModuleStatus(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.workContractModuleStatusGrid);
 		try {
-			List<Work> workList = workService.getWorkList(null);
-			model.addObject("workList", workList);
-			List<Budget> projectsList = budgetService.getProjectsList();
-			model.addObject("projectsList", projectsList);
-			List<WorkContractModuleStatus> contractsList = service.getContractsList();
-			model.addObject("contractsList", contractsList);
+			/*
+			 * List<Work> workList = workService.getWorkList(null);
+			 * model.addObject("workList", workList); List<WorkContractModuleStatus>
+			 * contractsList = service.getContractsList(); model.addObject("contractsList",
+			 * contractsList);
+			 */
 				
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -73,14 +73,53 @@ public class WorkContractModuleStatusController {
 	@RequestMapping(value = "/ajax/get-work-contract-modules", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<WorkContractModuleStatus> getWorkStatusList(@ModelAttribute WorkContractModuleStatus obj) {
-		List<WorkContractModuleStatus> budgetList = null;
+		List<WorkContractModuleStatus> workStatusList = null;
 		try {
-			budgetList = service.workStatusList(obj);
+			workStatusList = service.workStatusList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("workStatusList : " + e.getMessage());
 		}
-		return budgetList;
+		return workStatusList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkStatusWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkContractModuleStatus> getWorkStatusWorksList(@ModelAttribute WorkContractModuleStatus obj) {
+		List<WorkContractModuleStatus> worksList = null;
+		try {
+			worksList = service.getWorkStatusWorksList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkStatusWorksList : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkStatusContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkContractModuleStatus> getWorkStatusContractsList(@ModelAttribute WorkContractModuleStatus obj) {
+		List<WorkContractModuleStatus> contractsList = null;
+		try {
+			contractsList = service.getWorkStatusContractsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkStatusContractsList : " + e.getMessage());
+		}
+		return contractsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkStatusProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkContractModuleStatus> getWorkStatusProjectsList(@ModelAttribute WorkContractModuleStatus obj) {
+		List<WorkContractModuleStatus> projectsList = null;
+		try {
+			projectsList = service.getWorkStatusProjectsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkStatusProjectsList : " + e.getMessage());
+		}
+		return projectsList;
 	}
 	
 	@RequestMapping(value = "/add-work-status-form", method = {RequestMethod.GET,RequestMethod.POST})
@@ -89,11 +128,10 @@ public class WorkContractModuleStatusController {
 		try{
 			model.setViewName(PageConstants.addEditWorkContractModuleStatus);
 			model.addObject("action", "add");
-			List<Budget> projectsList = budgetService.getProjectsList();
-			model.addObject("projectsList", projectsList);
 			List<WorkContractModuleStatus> modulesList = service.getModulesList();
 			model.addObject("modulesList", modulesList);
-			
+			List<WorkContractModuleStatus> projectsList = service.getProjectsList();
+			model.addObject("projectsList", projectsList);
 		}catch (Exception e) {
 				logger.error("addWorkStatusForm : " + e.getMessage());
 		}
@@ -106,7 +144,7 @@ public class WorkContractModuleStatusController {
 		try{
 			model.setViewName(PageConstants.addEditWorkContractModuleStatus);
 			model.addObject("action", "edit");
-			List<Budget> projectsList = budgetService.getProjectsList();
+			List<WorkContractModuleStatus> projectsList = service.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			WorkContractModuleStatus workStatusDetails = service.getWorkStatus(wObj);
 			model.addObject("workStatusDetails", workStatusDetails);

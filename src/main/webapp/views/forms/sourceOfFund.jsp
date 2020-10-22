@@ -103,29 +103,23 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
                                         <p><label>Work</label></p>
-                                         <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
+                                         <select id="work_id_fk" name="work_id_fk" onchange="getFundList(); getSOFList(); getRailwaysList();" class="searchable">
                                             <option value="" >Select</option>
-	                                            <c:forEach var="obj" items="${workList}">
-	                       						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
-	                                            </c:forEach>
+	                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p><label>Source of Fund</label></p>
-                                         <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList();" class="searchable">
+                                         <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList(); getWorksList(); getRailwaysList();" class="searchable">
                                             <option value="" >Select</option>
-	                                            <c:forEach var="obj" items="${sourceOfFundList}">
-	                       						  <option value="${obj.source_of_funds_fk }" <c:if test="${param.source_of_funds_fk eq obj.source_of_funds_fk }">selected</c:if>>${obj.source_of_funds_fk }</option>
-	                                            </c:forEach>
+	                                            
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p><label> Railway</label></p>
-                                        <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList();" class="searchable">
+                                        <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList(); getSOFList(); getWorksList();" class="searchable">
                                             <option value="" >Select</option>
-	                                            <c:forEach var="obj" items="${railwayList}">
-	                       						  <option value="${obj.sub_category_railway_id_fk }" <c:if test="${param.sub_category_railway_id_fk eq obj.sub_category_railway_id_fk }">selected</c:if>>${obj.sub_category_railway_id_fk }<c:if test="${not empty obj.railway_name}"> - </c:if>${obj.railway_name}</option>
-	                                             </c:forEach>
+	                                            
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
@@ -257,6 +251,9 @@
   	$('.close-message').delay(3000).fadeOut('slow');
   	
   	getFundList();
+  	getSOFList();
+  	getRailwaysList();
+  	getWorksList();
   });
   
     function clearFilter(){
@@ -266,6 +263,9 @@
     	$("#sub_category_railway_id_fk").val("");
     	$('.searchable').select2();
     	getFundList();
+    	getSOFList();
+    	getRailwaysList();
+    	getWorksList();
     }
     
     function getFundList(){
@@ -338,6 +338,91 @@
          	getErrorMessage(jqXHR, exception);
      }});
     }
+    
+    function getSOFList(){
+    	$(".page-loader").show();
+    	$("#source_of_funds_fk option:not(:first)").remove();
+    	var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+        var myParams = { work_id_fk: work_id_fk,sub_category_railway_id_fk : sub_category_railway_id_fk};
+        $.ajax({
+        	url: "<%=request.getContextPath()%>/ajax/getSOFList", 
+        	data: myParams, cache: false,
+            success: function (data) {
+           		if(data != null && data != '' && data.length > 0){   
+                       $.each(data, function (i, val) {
+                         
+                           if ($.trim(source_of_funds_fk) != ''  && val.source_of_funds_fk == $.trim(source_of_funds_fk)) {
+                          	    $("#source_of_funds_fk").append('<option value="' + val.source_of_funds_fk +  '" selected>' + $.trim(val.source_of_funds_fk) + '</option>');
+                           } else {
+                            	$("#source_of_funds_fk").append('<option value="' + val.source_of_funds_fk + '">' + $.trim(val.source_of_funds_fk) + '</option>');
+                           }
+                        });
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+           	     }else{
+				   $(".page-loader").hide();
+			     }
+            }
+       });
+    }
+    
+    function getRailwaysList(){
+    	$(".page-loader").show();
+    	$("#sub_category_railway_id_fk option:not(:first)").remove();
+    	var source_of_funds_fk = $("#source_of_funds_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+        var myParams = { work_id_fk: work_id_fk,source_of_funds_fk : source_of_funds_fk};
+        $.ajax({
+        	url: "<%=request.getContextPath()%>/ajax/getRailwayList", 
+        	data: myParams, cache: false,
+            success: function (data) {
+          	 	if(data != null && data != '' && data.length > 0){   
+                       $.each(data, function (i, val) {
+                           if ($.trim(sub_category_railway_id_fk) != ''  && val.sub_category_railway_id_fk == $.trim(sub_category_railway_id_fk)) {
+                          		$("#sub_category_railway_id_fk").append('<option value="' + val.sub_category_railway_id_fk +  '" selected>' + $.trim(val.sub_category_railway_id_fk) + '</option>');
+                           } else {
+                            	$("#sub_category_railway_id_fk").append('<option value="' + val.sub_category_railway_id_fk + '">' + $.trim(val.sub_category_railway_id_fk) + '</option>');
+                           }
+                          });
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+           	     }else{
+			    	$(".page-loader").hide();
+			     }
+            }
+       });
+    }
+    	
+    function getWorksList(){
+	 	$(".page-loader").show();
+	 	$("#work_id_fk option:not(:first)").remove();
+	 	var source_of_funds_fk = $("#source_of_funds_fk").val();
+		var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
+	    var myParams = { source_of_funds_fk: source_of_funds_fk,sub_category_railway_id_fk : sub_category_railway_id_fk};
+	    $.ajax({
+	    	url: "<%=request.getContextPath()%>/ajax/getFundWorksList", 
+	    	data: myParams, cache: false,
+            success: function (data) {
+         		if(data != null && data != '' && data.length > 0){   
+                     $.each(data, function (i, val) {
+                    	 var workName = '';
+                         if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                         if ($.trim(work_id_fk) != ''  && val.work_id_fk == $.trim(work_id_fk)) {
+                       		 $("#work_id_fk").append('<option value="' + val.work_id_fk +  '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) +'</option>');
+                         } else {
+                          	 $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                          }
+                       });
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+         	     }else{
+				     $(".page-loader").hide();
+			     }
+             }
+       });
+	 }
+    
     function getFunds(funds_id){
     	$("#funds_id").val(funds_id);
     	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-funds');

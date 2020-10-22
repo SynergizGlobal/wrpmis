@@ -1285,7 +1285,6 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractorsList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			
 			String qry = "SELECT contractor_id_fk,c.department_fk,c.work_id_fk,cr.contractor_name from contract c "
 					+ "LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id "
 					+ "where contractor_id_fk is not null ";	
@@ -1321,18 +1320,18 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> departmentList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			
-			String qry = "SELECT department_fk ,c.work_id_fk from contract c  " + 
+			String qry = "SELECT department_fk,d.department_name ,c.work_id_fk from contract c "+
+					 "LEFT JOIN department d on c.department_fk = d.department " + 
 					"where department_fk is not null ";
 						
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c. work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
 	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-				qry = qry + " and c. contractor_id_fk = ? ";
+				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
 			}
 			qry = qry + " GROUP BY department_fk ";
@@ -1357,7 +1356,6 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> worksList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			
 			String qry = "SELECT work_id_fk,w.work_name ,c.department_fk,c.contractor_id_fk from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"where work_id_fk is not null ";

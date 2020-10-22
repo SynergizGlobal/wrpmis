@@ -78,17 +78,76 @@ public class SourceOfFundController {
 	public ModelAndView sourceOfFund(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.sourceOfFund);
 		try {
-			List<SourceOfFund> workList = sofService.getWorkList();
-			model.addObject("workList", workList);
-			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
-			model.addObject("sourceOfFundList", sourceOfFundList);
-			List<SourceOfFund> railwayList = sofService.getRailwayList();
-			model.addObject("railwayList", railwayList);
+			/*
+			 * List<SourceOfFund> workList = sofService.getWorkList();
+			 * model.addObject("workList", workList); List<SourceOfFund> sourceOfFundList =
+			 * sofService.getSourceOfFundList(); model.addObject("sourceOfFundList",
+			 * sourceOfFundList); List<SourceOfFund> railwayList =
+			 * sofService.getRailwayList(); model.addObject("railwayList", railwayList);
+			 */
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("sourceOfFund : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/get-funds", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SourceOfFund> getFundsList(@ModelAttribute SourceOfFund obj) {
+		List<SourceOfFund> fundsList = null;
+		try {
+			fundsList = sofService.fundsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFundsList : " + e.getMessage());
+		}
+		return fundsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getSOFList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SourceOfFund> getSOFList(@ModelAttribute SourceOfFund obj) {
+		ModelAndView model = new ModelAndView();
+		List<SourceOfFund> sourceOfFundsList = null;
+		try {
+			sourceOfFundsList = sofService.getSOFList(obj);
+			model.addObject("sourceOfFundsList", sourceOfFundsList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSOFList : " + e.getMessage());
+		}
+		return sourceOfFundsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getRailwayList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SourceOfFund> getRailwayList(@ModelAttribute SourceOfFund obj) {
+		ModelAndView model = new ModelAndView();
+		List<SourceOfFund> railwaysList = null;
+		try {
+			railwaysList = sofService.getRailwayList(obj);
+			model.addObject("railwaysList", railwaysList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getRailwayList : " + e.getMessage());
+		}
+		return railwaysList;
+	}
+	
+	@RequestMapping(value = "/ajax/getFundWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SourceOfFund> getFundWorksList(@ModelAttribute SourceOfFund obj) {
+		ModelAndView model = new ModelAndView();
+		List<SourceOfFund> worksList = null;
+		try {
+			worksList = sofService.getFundWorksList(obj);
+			model.addObject("worksList", worksList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFundWorksList : " + e.getMessage());
+		}
+		return worksList;
 	}
 	
 	@RequestMapping(value = "/add-fund-form", method = {RequestMethod.GET,RequestMethod.POST})
@@ -109,18 +168,6 @@ public class SourceOfFundController {
 		return model;
 	 }
 	
-	@RequestMapping(value = "/ajax/get-funds", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<SourceOfFund> getFundsList(@ModelAttribute SourceOfFund obj) {
-		List<SourceOfFund> fundsList = null;
-		try {
-			fundsList = sofService.fundsList(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getFundsList : " + e.getMessage());
-		}
-		return fundsList;
-	}
 	
 	@RequestMapping(value = "/get-funds", method = {RequestMethod.POST})
 	public ModelAndView getFunds(@ModelAttribute SourceOfFund obj){

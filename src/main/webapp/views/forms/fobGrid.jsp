@@ -87,20 +87,16 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m4 input-field">
                                     <p><label>Contract</label></p>
-                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();" class="searchable">
+                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList(); getWorkStatusList();" class="searchable">
                                             <option value="" >Select</option>
-                                            <c:forEach var="obj" items="${contracts }">
-		                                    	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
-		                                    </c:forEach>
+                                           
                                         </select>                                        
                                     </div>
                                     <div class="col s12 m4 input-field">
                                     <p><label>Work Status</label></p>
-                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();" class="searchable">
+                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList(); getContractsList();" class="searchable">
                                             <option value="" >Select</option>     
-                                            <c:forEach var="obj" items="${generalStatusList }">
-	                                            <option value="${obj }" <c:if test="${obj eq fob.work_status_fk}">selected</c:if> >${obj}</option>
-	                                        </c:forEach>                                      
+                                                                                 
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
@@ -219,12 +215,16 @@
         	$('.close-message').delay(3000).fadeOut('slow');
         	
         	getFOBList();
+        	getWorkStatusList();
+        	getContractsList();
         });
         
         function clearFilter(){
         	$("#contract_id_fk").val('');
         	$("#work_status_fk").val('');
         	getFOBList();
+        	getWorkStatusList();
+        	getContractsList();
         }
         
         function getFOBList(){
@@ -263,8 +263,6 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             }).rows().remove().draw();
-    		
-    		
     		table.state.clear();		
     	 
     	 	var myParams = {contract_id_fk : contract_id_fk, work_status_fk : work_status_fk};
@@ -274,19 +272,16 @@
     	         			var fob_id = "'"+val.fob_id+"'";
     	                    var actions = '<a href="javascript:void(0);"  onclick="getFOB('+fob_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                  
-    	                   	
     	                   	var workName = '';
                             if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
                             var contract_name = '';
                             if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
-    	                   	
     	                   	
     	                   	rowArray.push($.trim(val.work_id_fk) + workName);
     	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
     	                   	rowArray.push($.trim(val.fob_id));
     	                   	rowArray.push($.trim(val.fob_name));
     	                   	rowArray.push($.trim(val.work_status_fk));
-    	                   	
     	                   	rowArray.push($.trim(actions));   	                   	
     	                   	
     	                    table.row.add(rowArray).draw( true );
@@ -303,6 +298,60 @@
     	         	getErrorMessage(jqXHR, exception);
     	     }});
         }
+        
+        function getWorkStatusList(){
+        	$(".page-loader").show();
+    	 	$("#work_status_fk option:not(:first)").remove();
+    	 	var contract_id_fk = $("#contract_id_fk").val();
+    	    var myParams = {contract_id_fk : contract_id_fk};
+    	    $.ajax({
+    	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusList", 
+    	    	data: myParams, cache: false,
+                success: function (data) {
+             	   if(data != null && data != '' && data.length > 0){   
+                         $.each(data, function (i, val) {
+                             if ($.trim(work_status_fk) != ''  && val.work_status_fk == $.trim(work_status_fk)) {
+                            	 $("#work_status_fk").append('<option value="' + val.work_status_fk +  '" selected>' + $.trim(val.work_status_fk) + '</option>');
+                             } else {
+                              	 $("#work_status_fk").append('<option value="' + val.work_status_fk + '">' + $.trim(val.work_status_fk) + '</option>');
+                              }
+                         });
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+             	   }else{
+    				  $(".page-loader").hide();
+    			   }
+                }
+           });
+    	 }
+        
+         function getContractsList(){
+    	 	$(".page-loader").show();
+    	 	$("#contract_id_fk option:not(:first)").remove();
+    	 	var work_status_fk = $("#work_status_fk").val();
+    	    var myParams = {work_status_fk : work_status_fk};
+    	    $.ajax({
+    	    	url: "<%=request.getContextPath()%>/ajax/getContractsList", 
+    	    	data: myParams, cache: false,
+                success: function (data) {
+             	   if(data != null && data != '' && data.length > 0){   
+                         $.each(data, function (i, val) {
+                        	 var contract_name = '';
+                             if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+                             if ($.trim(contract_id_fk) != ''  && val.contract_id_fk == $.trim(contract_id_fk)) {
+                           		 $("#contract_id_fk").append('<option value="' + val.contract_id_fk +  '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                             } else {
+                              	 $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                              }
+                         });
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+             	    }else{
+    				  $(".page-loader").hide();
+    			    }
+                }
+           });
+    	 }
         
       	//This function is used to get error message for all ajax calls
         function getErrorMessage(jqXHR, exception) {

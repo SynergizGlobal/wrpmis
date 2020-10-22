@@ -25,6 +25,12 @@ public interface SourceOfFundService {
 	public List<SourceOfFund> getWorkList()throws Exception;
 
 	public List<SourceOfFund> getRailwaysList()throws Exception;
+
+	public List<SourceOfFund> getSOFList(SourceOfFund obj)throws Exception;
+
+	public List<SourceOfFund> getRailwayList(SourceOfFund obj)throws Exception;
+
+	public List<SourceOfFund> getFundWorksList(SourceOfFund obj)throws Exception;
 	
 
 }

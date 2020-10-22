@@ -46,4 +46,24 @@ public class WorkContractModuleStatusServiceImpl implements WorkContractModuleSt
 		return dao.getModulesList();
 	}
 
+	@Override
+	public List<WorkContractModuleStatus> getProjectsList() throws Exception {
+		return dao.getProjectsList();
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getWorkStatusWorksList(WorkContractModuleStatus obj) throws Exception {
+		return dao.getWorkStatusWorksList(obj);
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getWorkStatusContractsList(WorkContractModuleStatus obj) throws Exception {
+		return dao.getWorkStatusContractsList(obj);
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getWorkStatusProjectsList(WorkContractModuleStatus obj) throws Exception {
+		return dao.getWorkStatusProjectsList(obj);
+	}
+
 }

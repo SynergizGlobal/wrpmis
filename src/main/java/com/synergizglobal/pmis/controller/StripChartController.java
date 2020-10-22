@@ -160,6 +160,7 @@ public class StripChartController {
 		try{
 			activities = stripChartService.getStripChartActivities(obj);	
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error("getStripChartActivitiesList() : "+e.getMessage());
 		}
 		return activities;

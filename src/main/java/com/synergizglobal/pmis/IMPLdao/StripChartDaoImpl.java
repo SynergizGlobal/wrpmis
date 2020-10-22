@@ -72,10 +72,24 @@ public class StripChartDaoImpl implements StripChartDao {
 			String qry = "select c.work_id_fk,w.work_id,w.work_name "
 					+ "from contract c "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) "
-					+ "GROUP BY c.work_id_fk";
+					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) ";
+					
 			
-			objsList = jdbcTemplate.query( qry,  new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY c.work_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -230,37 +244,28 @@ public class StripChartDaoImpl implements StripChartDao {
 					+ "component_id as strip_chart_component_id,component_id_name as strip_chart_component_id_name,"
 					+ "component as strip_chart_component "
 					+ "from strip_chart_general "
-					+ "where component_id is not null ";
+					+ "where component_id is not null and contract_id_fk = ? and fob_id_fk = ?";
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
-			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_id_fk())) {
 				qry = qry + " and section_id = ?";
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + " and fob_id_fk = ?";
-			}
+			}	
 			
 			qry = qry + " group by component_id";
 			
 			statement = connection.prepareStatement(qry);
 			int i = 1;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				statement.setString(i++,obj.getContract_id_fk());
-			}				
+			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
+						
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				statement.setString(i++,obj.getStrip_chart_line_id_fk());
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_id_fk())) {
 				statement.setString(i++,obj.getStrip_chart_section_id_fk());
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				statement.setString(i++,obj.getStrip_chart_structure_id_fk());
-			}			
+			}		
 			
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
@@ -272,7 +277,9 @@ public class StripChartDaoImpl implements StripChartDao {
 				sobj.setStrip_chart_component_id(resultSet.getString("strip_chart_component_id"));
 				sobj.setStrip_chart_component_id_name(resultSet.getString("strip_chart_component_id_name"));
 				sobj.setStrip_chart_component(resultSet.getString("strip_chart_component"));
-				sobj.setComponent_id_color(getComponentIdColor(sobj,connection));
+				
+				obj.setStrip_chart_component_id(sobj.getStrip_chart_component_id());
+				sobj.setComponent_id_color(getComponentIdColor(obj,connection));
 				objsList.add(sobj);
 			}
 			
@@ -323,35 +330,74 @@ public class StripChartDaoImpl implements StripChartDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String color = "";
-		try {			
-			/*String updateQry = " select (case "  
-					+" when ((select count(*) from strip_chart_general where actual_finish is null and component_id = ?) = 0) then 'completed' "  
-					+" when ((select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') < CURDATE() from strip_chart_general where component_id = ?) <> 0) then 'delayed' "  
-					+" when ((select count(*) from strip_chart_general where actual_start is not null and component_id = ?) = 0) then 'not-started'  "  
+		try {	
+			
+			String qry = " select (case "  
+					+" when ((select count(*) from strip_chart_general s1 where s1.status <> ? "
+					+ " and s1.contract_id_fk = ? and s1.fob_id_fk = ? and s1.component_id = ? ";
+					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+						qry = qry + " and s1.line = ?";
+					}			
+					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_id_fk())) {
+						qry = qry + " and s1.section_id = ?";
+					}	
+					qry = qry + ") = 0) then 'completed' "  
+					+" when ((select count(*) from strip_chart_general where (select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') from strip_chart_general s2 where "
+					+ " s2.status <> ? and s2.contract_id_fk = ? and s2.fob_id_fk = ? and s2.component_id = ? ";
+					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+						qry = qry + " and s2.line = ?";
+					}			
+					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_id_fk())) {
+						qry = qry + " and s2.section_id = ?";
+					}	
+					qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
+					+" when ((select count(*) from strip_chart_general s3 where s3.status = ?  "
+					+ "and s3.contract_id_fk = ? and s3.fob_id_fk = ? and s3.component_id = ? ";
+					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+						qry = qry + " and s3.line = ?";
+					}			
+					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_id_fk())) {
+						qry = qry + " and s3.section_id = ?";
+					}	
+					qry = qry + ") > 0) then 'not-started'  "  
 					+" else 'in-progress' "  
 					+" end ) as color " 
-					+" from strip_chart_general "
-					+ "where component_id = ? "
-					+ "group by component_id";*/
+					+" from strip_chart_general ";				
 			
-			String updateQry = " select (case "  
-					+" when ((select count(*) from strip_chart_general where status = ? and component_id = ?) = 0) then 'completed' "  
-					+" when ((select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') < CURDATE() from strip_chart_general where component_id = ?) <> 0) then 'delayed' "  
-					+" when ((select count(*) from strip_chart_general where status = ? and component_id = ?) = 0) then 'not-started'  "  
-					+" else 'in-progress' "  
-					+" end ) as color " 
-					+" from strip_chart_general "
-					+ "where component_id = ? "
-					+ "group by component_id";
-			
-			stmt = connection.prepareStatement(updateQry);
+			stmt = connection.prepareStatement(qry);
 			int p = 1;
 			stmt.setString(p++,CommonConstants2.STATUS_COMPLETED );
-			stmt.setString(p++,sobj.getStrip_chart_component_id() );
-			stmt.setString(p++,sobj.getStrip_chart_component_id() );
+			stmt.setString(p++,sobj.getContract_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_component_id());
+			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+				stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
+			}			
+			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_id_fk())) {
+				stmt.setString(p++,sobj.getStrip_chart_section_id_fk());
+			}	
+			
 			stmt.setString(p++,CommonConstants2.STATUS_NOT_STARTED );
-			stmt.setString(p++,sobj.getStrip_chart_component_id() );
-			stmt.setString(p++,sobj.getStrip_chart_component_id() );
+			stmt.setString(p++,sobj.getContract_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_component_id());
+			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+				stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
+			}			
+			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_id_fk())) {
+				stmt.setString(p++,sobj.getStrip_chart_section_id_fk());
+			}
+			
+			stmt.setString(p++,CommonConstants2.STATUS_NOT_STARTED );
+			stmt.setString(p++,sobj.getContract_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
+			stmt.setString(p++,sobj.getStrip_chart_component_id());
+			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+				stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
+			}			
+			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_id_fk())) {
+				stmt.setString(p++,sobj.getStrip_chart_section_id_fk());
+			}
 			
 			rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -372,18 +418,32 @@ public class StripChartDaoImpl implements StripChartDao {
 		try {
 			String qry = "select activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name "
 					+ "from strip_chart_general "
-					+ "where actual_finish is null ";
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + " and component_id = ?";
+					+ "where activity_id is not null and status <> ? "
+					+ "and component_id = ? and fob_id_fk = ? ";
+			int arrSize = 3;			
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				qry = qry + " and line = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_id_fk())) {
+				qry = qry + " and section_id = ?";
 				arrSize++;
 			}
 			
-			Object[] pValues = new Object[arrSize];
+			Object[] pValues = new Object[arrSize];			
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
+			//pValues[i++] = CommonConstants2.STATUS_COMPLETED + "," + CommonConstants2.STATUS_DROPPED;
+			pValues[i++] = CommonConstants2.STATUS_COMPLETED;
+			pValues[i++] = obj.getStrip_chart_component_id();
+			pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_line_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_section_id_fk();
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
@@ -419,33 +479,6 @@ public class StripChartDaoImpl implements StripChartDao {
 	}
 
 	
-	
-
-	@Override
-	public List<StripChart> getStripChartTypes() throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select strip_chart_type from strip_chart_type";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<StripChart> getStripChartStructureTypes() throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select structure_type from structure_type";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	
 
 	@Override
 	public StripChart getStripChartDetails(StripChart obj) throws Exception {
@@ -455,48 +488,32 @@ public class StripChartDaoImpl implements StripChartDao {
 					+ "planned_finish as planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,remaining as remaining, units as unit_fk "
 					+ "from strip_chart_general "
-					+ "where activity_id is not null ";
+					+ "where activity_id is not null and component_id = ? and fob_id_fk = ? and activity_id = ? ";
 			
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + " and component_id = ?";
-				arrSize++;
-			}
+			int arrSize = 3;
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
-				arrSize++;
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + " and fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_id_fk())) {
 				qry = qry + " and section_id = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
-				qry = qry + " and activity_id = ?";
-				arrSize++;
-			}
 			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}	
+			pValues[i++] = obj.getStrip_chart_component_id();
+			pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			pValues[i++] = obj.getStrip_chart_activity_id();		
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				pValues[i++] = obj.getStrip_chart_line_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_section_id_fk())) {
 				pValues[i++] = obj.getStrip_chart_section_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
-				pValues[i++] = obj.getStrip_chart_activity_id();
-			}	
 			
 			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
@@ -647,6 +664,31 @@ public class StripChartDaoImpl implements StripChartDao {
 			throw new Exception(e.getMessage());
 		}
 		return department_id;
+	}
+	
+
+	@Override
+	public List<StripChart> getStripChartTypes() throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select strip_chart_type from strip_chart_type";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getStripChartStructureTypes() throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select structure_type from structure_type";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 }

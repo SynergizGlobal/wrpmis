@@ -132,21 +132,20 @@ public class StripChartDaoImpl implements StripChartDao {
 	public List<StripChart> getStripChartStructures(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select fob_id_fk as strip_chart_structure_id_fk from strip_chart_general "
-					+ "where fob_id_fk is not null and fob_id_fk <> '' ";
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ? ";
-				arrSize++;
-			}
-			qry = qry + "group by fob_id_fk ";
+			String qry = "select s.fob_id_fk as strip_chart_structure_id_fk from strip_chart_general s "
+					+ "where s.fob_id_fk is not null and s.fob_id_fk <> '' and s.contract_id_fk = ? "
+					+ "and (select count(*) from strip_chart_general s1 where s1.status <> ? and s1.contract_id_fk = ? and s1.fob_id_fk = s.fob_id_fk) > 0 ";
+			qry = qry + "group by s.fob_id_fk ";
 			
+			
+			int arrSize = 3;			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}
+			pValues[i++] = obj.getContract_id_fk();
+			pValues[i++] = CommonConstants2.STATUS_COMPLETED;
+			pValues[i++] = obj.getContract_id_fk();
+			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

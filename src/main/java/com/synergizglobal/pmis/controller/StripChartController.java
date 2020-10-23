@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,11 +49,9 @@ public class StripChartController {
 	
 	
 	@RequestMapping(value="/strip-chart",method=RequestMethod.GET)
-	public ModelAndView stripChart(HttpSession session) throws IOException {
+	public ModelAndView stripChart(@ModelAttribute StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.stripChart);
 		try {
-			StripChart obj = new StripChart();
-			
 			List<StripChart> projectsList = stripChartService.getStripChartProjectsList(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -60,9 +61,41 @@ public class StripChartController {
 			List<StripChart> contractsList = stripChartService.getStripChartContractsList(obj);
 			model.addObject("contractsList", contractsList);
 			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_id())) {
+				StripChart stripChartData = stripChartService.getStripChartData(obj);
+				model.addObject("stripChartData", stripChartData);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("StripChart : " + e.getMessage());
+		}
+		return model;
+	}
+	
+
+	
+	@RequestMapping(value="/strip-chart/{stripChartId}",method=RequestMethod.GET)
+	public ModelAndView getStripChartData(@PathVariable("stripChartId")String stripChartId,@ModelAttribute StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.stripChart);
+		try {
+			
+			List<StripChart> projectsList = stripChartService.getStripChartProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			/*List<StripChart> worksList = stripChartService.getStripChartWorksList(obj);
+			model.addObject("worksList", worksList);
+			
+			List<StripChart> contractsList = stripChartService.getStripChartContractsList(obj);
+			model.addObject("contractsList", contractsList);*/
+			
+			obj.setStrip_chart_id(stripChartId);
+			StripChart stripChartData = stripChartService.getStripChartData(obj);
+			model.addObject("stripChartData", stripChartData);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStripChartData : " + e.getMessage());
 		}
 		return model;
 	}
@@ -226,11 +259,10 @@ public class StripChartController {
 			
 			MultipartFile file = obj.getStripChartFile();
 			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.STRIPCHART_FILE_SAVING_PATH ;
+				String saveDirectory = CommonConstants.STRIPCHART_FILE_SAVING_PATH + "STRIPCHART_"+obj.getStrip_chart_id() + File.separator;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				saveDirectory = saveDirectory + fileName;
-				obj.setAttachment_url(saveDirectory);
+				obj.setAttachment_url(fileName);
 			}
 			
 			obj.setCreated_by_user_id_fk(user_Id);
@@ -249,5 +281,6 @@ public class StripChartController {
 		}
 		return model;
 	}
+	
 
 }

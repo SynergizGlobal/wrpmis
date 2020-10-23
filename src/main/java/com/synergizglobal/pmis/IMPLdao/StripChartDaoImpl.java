@@ -489,8 +489,9 @@ public class StripChartDaoImpl implements StripChartDao {
 	public StripChart getStripChartDetails(StripChart obj) throws Exception {
 		StripChart sObj = null;
 		try {
-			String qry = "select strip_chart_id as strip_chart_id,actual_finish as actual_finish,actual_start as actual_start,planned_start as planned_start,"
-					+ "planned_finish as planned_finish,"
+			String qry = "select strip_chart_id as strip_chart_id,"
+					+ "DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(planned_start,'%d-%m-%Y') AS planned_start,"
+					+ "DATE_FORMAT(planned_finish,'%d-%m-%Y') AS planned_finish,"
 					+ "component_id as strip_chart_component_id_name,completed as completed,scope as scope,remaining as remaining, units as unit_fk "
 					+ "from strip_chart_general "
 					+ "where activity_id is not null and component_id = ? and fob_id_fk = ? and activity_id = ? ";
@@ -694,6 +695,28 @@ public class StripChartDaoImpl implements StripChartDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public StripChart getStripChartData(StripChart obj) throws Exception {
+		StripChart sObj = null;
+		try {
+			String qry = "select scv.strip_chart_id,scv.contract_id_fk AS contract_id,scv.fob_id_fk AS strip_chart_structure_id,scv.component_id AS strip_chart_component_id,scv.component_id_name AS strip_chart_component_id_name,"
+					+ "scv.component AS strip_chart_component,scv.activity_id AS strip_chart_activity_id,scv.activity_name AS strip_chart_activity_name,"
+					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section_id AS strip_chart_section_id,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.`status` AS status_name,scv.remarks,"
+					+ "DATE_FORMAT(scv.actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(scv.actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(scv.planned_start,'%d-%m-%Y') AS planned_start,"
+					+ "DATE_FORMAT(scv.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,w.project_id_fk as project_id "
+					+ "from strip_chart_general scv "
+					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "where strip_chart_id = ? ";
+			
+			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, new Object[] {obj.getStrip_chart_id()}, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return sObj;
 	}
 	
 }

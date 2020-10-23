@@ -79,5 +79,10 @@ public class StripChartServiceImpl implements StripChartService{
 	public boolean updateStripChart(StripChart obj) throws Exception {
 		return stripChartDao.updateStripChart(obj);
 	}
+
+	@Override
+	public StripChart getStripChartData(StripChart obj) throws Exception {
+		return stripChartDao.getStripChartData(obj);
+	}
 	
 }

@@ -8,7 +8,7 @@ public class StripChart {
 	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longtitude,
 	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
-	project_id_fk,project_name,work_id,work_name,contract_id,contract_name;
+	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name;
 	
 	private MultipartFile stripChartFile;
 
@@ -418,6 +418,30 @@ public class StripChart {
 
 	public void setProject_id_fk(String project_id_fk) {
 		this.project_id_fk = project_id_fk;
+	}
+
+	public String getStrip_chart_structure_id() {
+		return strip_chart_structure_id;
+	}
+
+	public void setStrip_chart_structure_id(String strip_chart_structure_id) {
+		this.strip_chart_structure_id = strip_chart_structure_id;
+	}
+
+	public String getStructure_type() {
+		return structure_type;
+	}
+
+	public void setStructure_type(String structure_type) {
+		this.structure_type = structure_type;
+	}
+
+	public String getStatus_name() {
+		return status_name;
+	}
+
+	public void setStatus_name(String status_name) {
+		this.status_name = status_name;
 	}
 	
 }

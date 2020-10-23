@@ -18,4 +18,5 @@ public interface StripChartService{
 	public List<StripChart> getStripChartStructureTypes() throws Exception;
 	public StripChart getStripChartDetails(StripChart obj) throws Exception;
 	public boolean updateStripChart(StripChart obj) throws Exception;
+	public StripChart getStripChartData(StripChart obj) throws Exception;
 }

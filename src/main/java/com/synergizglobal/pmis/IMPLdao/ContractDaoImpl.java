@@ -1254,7 +1254,7 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	@Override
-	public List<Contract> contractorsList(Contract obj) throws Exception {
+	public List<Contract> contractorsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
 			String qry = "SELECT contractor_id_fk,cr.contractor_name from contract c "+
@@ -1293,7 +1293,7 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	@Override
-	public List<Contract> departmentList(Contract obj) throws Exception {
+	public List<Contract> departmentsFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
 			String qry = "SELECT department_fk,d.department_name from contract c "+
@@ -1332,7 +1332,7 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	@Override
-	public List<Contract> worksList(Contract obj) throws Exception {
+	public List<Contract> worksFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
 			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from contract c " + 

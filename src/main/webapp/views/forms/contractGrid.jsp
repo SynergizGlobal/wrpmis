@@ -281,9 +281,9 @@
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
-    	getContractorsList();
-    	getDeptList();
-    	getWorkList();
+    	getContractorsFilterList();
+    	getDeptFilterList();
+    	getWorkFilterList();
 
      	table = $('#datatable-contract').DataTable();
 		 
@@ -292,7 +292,7 @@
 		$.fn.dataTable.moment('DD-MMM-YYYY');
 		table = $('#datatable-contract').DataTable({
     		"bStateSave": true,
-    		fixedHeader: true,
+    		fixedHeader: true, 
             "fnStateSave": function (oSettings, oData) {
                 localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
             },
@@ -354,7 +354,7 @@
 	     }});
     } 
 
-    function getContractorsList(){
+    function getContractorsFilterList(){
     	$(".page-loader").show();
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
@@ -363,7 +363,7 @@
         	$("#contractor_id_fk option:not(:first)").remove();
             var myParams = { work_id_fk: work_id_fk,department_fk : department_fk,contractor_id_fk : contractor_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getContractorsListInContract",
+                url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInContract",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -385,7 +385,7 @@
         }
      }
    
-	 function getDeptList(){
+	 function getDeptFilterList(){
 	    	$(".page-loader").show();
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var department_fk = $("#department_fk").val();
@@ -394,7 +394,7 @@
 	        	$("#department_fk option:not(:first)").remove();
 	        	var myParams = { work_id_fk: work_id_fk, contractor_id_fk : contractor_id_fk,department_fk : department_fk};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsListInContract",
+	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsFilterListInContract",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -414,7 +414,7 @@
 	        }
 	 }
 	 
-	 function getWorkList(){
+	 function getWorkFilterList(){
 	 	$(".page-loader").show();
 	 	var work_id_fk = $("#work_id_fk").val();
 	 	var department_fk = $("#department_fk").val();
@@ -423,7 +423,7 @@
 	    	$("#work_id_fk option:not(:first)").remove();
         	  var myParams = { work_id_fk: work_id_fk, contractor_id_fk : contractor_id_fk,department_fk : department_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksListInContract",
+                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -443,7 +443,7 @@
         }else{
         	  $(".page-loader").hide();
         }
-	 }
+    }
 	
   	//This function is used to get error message for all ajax calls
     function getErrorMessage(jqXHR, exception) {

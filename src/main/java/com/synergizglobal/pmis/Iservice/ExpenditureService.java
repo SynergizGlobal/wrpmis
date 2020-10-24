@@ -7,15 +7,6 @@ import com.synergizglobal.pmis.model.SourceOfFund;
 
 public interface ExpenditureService {
 
-	public List<Expenditure> getWorksList()throws Exception;
-
-	public List<Expenditure> getContractsList()throws Exception;
-
-	public List<Expenditure> getLedgerAccountsList()throws Exception;
-
-	public List<Expenditure> getContractorNamesList()throws Exception;
-
-	public List<Expenditure> getVoucherTypesList()throws Exception;
 
 	public List<Expenditure> expendituresList(Expenditure obj)throws Exception;
 
@@ -28,6 +19,17 @@ public interface ExpenditureService {
 	public boolean updateExpenditure(Expenditure obj)throws Exception;
 
 	public boolean deleteExpenditure(Expenditure obj)throws Exception;
+
+	public List<Expenditure> getWorksFilterList(Expenditure obj)throws Exception;
+
+	public List<Expenditure> getContractsFilterList(Expenditure obj)throws Exception;
+
+	public List<Expenditure> getledgerAccountsList(Expenditure obj)throws Exception;
+
+	public List<Expenditure> getContractorNamesFilterList(Expenditure obj)throws Exception;
+
+	public List<Expenditure> getVoucherTypesFilterList(Expenditure obj)throws Exception;
+
 
 	
 

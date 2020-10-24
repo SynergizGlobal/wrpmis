@@ -56,13 +56,6 @@ public class WorkContractModuleStatusController {
 	public ModelAndView workContractModuleStatus(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.workContractModuleStatusGrid);
 		try {
-			/*
-			 * List<Work> workList = workService.getWorkList(null);
-			 * model.addObject("workList", workList); List<WorkContractModuleStatus>
-			 * contractsList = service.getContractsList(); model.addObject("contractsList",
-			 * contractsList);
-			 */
-				
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("WorkContractModuleStatus : " + e.getMessage());
@@ -83,7 +76,7 @@ public class WorkContractModuleStatusController {
 		return workStatusList;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorkStatusWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksFilterListInWorkstatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<WorkContractModuleStatus> getWorkStatusWorksList(@ModelAttribute WorkContractModuleStatus obj) {
 		List<WorkContractModuleStatus> worksList = null;
@@ -96,7 +89,7 @@ public class WorkContractModuleStatusController {
 		return worksList;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorkStatusContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsFilterListInWorkstatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<WorkContractModuleStatus> getWorkStatusContractsList(@ModelAttribute WorkContractModuleStatus obj) {
 		List<WorkContractModuleStatus> contractsList = null;
@@ -109,7 +102,7 @@ public class WorkContractModuleStatusController {
 		return contractsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorkStatusProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectsFilterListInWorkstatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<WorkContractModuleStatus> getWorkStatusProjectsList(@ModelAttribute WorkContractModuleStatus obj) {
 		List<WorkContractModuleStatus> projectsList = null;

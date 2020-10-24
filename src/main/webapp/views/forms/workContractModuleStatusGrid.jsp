@@ -89,24 +89,21 @@
                             <div class="col m8 s12">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Project</p>
-                                        <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getWorkContractList(); getWorksList(); getContractsList();">
+                                       <p class="searchable_label">Project</p>
+                                       <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getWorkContractList();">
                                             <option value="">Select</option>
-                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Work</p>
-                                       <select id="work_id_fk" name="work_id_fk" onchange="getWorkContractList(); getProjectsList(); getContractsList(); " class="searchable">
+                                       <p class="searchable_label">Work</p>
+                                       <select id="work_id_fk" name="work_id_fk" onchange="getWorkContractList(); " class="searchable">
                                             <option value="" >Select</option>
-                                           
-                                        </select>
+                                       </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Contract</p>
-                                         <select id="contract_id_fk" name="contract_id_fk" onchange="getWorkContractList(); getProjectsList(); getWorksList();" class="searchable">
+                                        <select id="contract_id_fk" name="contract_id_fk" onchange="getWorkContractList();" class="searchable">
                                             <option value="" >Select</option>
-                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3">
@@ -222,9 +219,6 @@
 	$('.close-message').delay(3000).fadeOut('slow');
 	
 	getWorkContractList();
-	getWorksList();
-	getContractsList();
-	getProjectsList();
 });
 
    function clearFilter(){
@@ -233,9 +227,6 @@
    	$("#contract_id_fk").val("");
    	$('.searchable').select2();
    	getWorkContractList();
-   	getWorksList();
-   	getContractsList();
-   	getProjectsList();
    }
    
    function getWorkContractList(){
@@ -243,6 +234,10 @@
    	var project_id_fk = $("#project_id_fk").val();
    	var work_id_fk = $("#work_id_fk").val();
    	var contract_id_fk = $("#contract_id_fk").val();
+ 	getWorksFilterList();
+   	getContractsFilterList();
+   	getProjectsFilterList();
+   	
    	table = $('#datatable-workcontract').DataTable();
 		 
 		table.destroy();
@@ -314,91 +309,97 @@
      }});
    } 
 
-   function getWorksList(){
+   function getWorksFilterList(){
 	 	$(".page-loader").show();
-	 	$("#work_id_fk option:not(:first)").remove();
+	 	var work_id_fk = $("#work_id_fk").val();
 	 	var contract_id_fk = $("#contract_id_fk").val();
 	 	var project_id_fk = $("#project_id_fk").val();
-	    var myParams = { contract_id_fk: contract_id_fk,project_id_fk : project_id_fk};
-	    $.ajax({
-	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusWorksList", 
-	    	data: myParams, cache: false,
-            success: function (data) {
-            	if(data != null && data != '' && data.length > 0){   
-                      $.each(data, function (i, val) {
-                   	    var workName = '';
-                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                        if ($.trim(work_id_fk) != ''  && val.work_id_fk == $.trim(work_id_fk)) {
-                     	    $("#work_id_fk").append('<option value="' + val.work_id_fk +  '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) +'</option>');
-                        } else {
-                         	$("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                        }
-                    });
+	    if ($.trim(work_id_fk) == "") {
+	    	$("#work_id_fk option:not(:first)").remove();
+	    	var myParams = { contract_id_fk: contract_id_fk,project_id_fk : project_id_fk, work_id_fk: work_id_fk};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInWorkstatus",
+                data: myParams, cache: false,
+                success: function (data) {
+                	 if(data != null && data != '' && data.length > 0){  
+                        $.each(data, function (i, val) {
+                        	  var workShortName = '';
+                              if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	                          $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + workShortName + '</option>');
+                        });
+                    }
                     $('.searchable').select2();
                     $(".page-loader").hide();
-        	    }else{
-					$(".page-loader").hide();
-			    }
-           }
-      });
+                },error: function (jqXHR, exception) {
+ 	   			      $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	     	  }
+            });
+        }else{
+        	  $(".page-loader").hide();
+        }
     }
    
-    function getContractsList(){
+    function getContractsFilterList(){
 	 	$(".page-loader").show();
-	 	$("#contract_id_fk option:not(:first)").remove();
 	 	var work_id_fk = $("#work_id_fk").val();
+	 	var contract_id_fk = $("#contract_id_fk").val();
 	 	var project_id_fk = $("#project_id_fk").val();
-	    var myParams = { work_id_fk: work_id_fk,project_id_fk : project_id_fk};
-	    $.ajax({
-	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusContractsList", 
-	    	data: myParams, cache: false,
-            success: function (data) {
-       			if(data != null && data != '' && data.length > 0){   
-                  	 $.each(data, function (i, val) {
-                  	   var contractName = '';
-                       if ($.trim(val.contract_name) != '') { contractName = ' - ' + $.trim(val.contract_name) }
-                       if ($.trim(contract_id_fk) != ''  && val.contract_id_fk == $.trim(contract_id_fk)) {
-                    	   $("#contract_id_fk").append('<option value="' + val.contract_id_fk +  '" selected>' + $.trim(val.contract_id_fk) + $.trim(contractName) +'</option>');
-                       } else {
-                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contractName) + '</option>');
-                       }
-                   });
-                   $('.searchable').select2();
-                   $(".page-loader").hide();
-       	  	 	}else{
-					$(".page-loader").hide();
-			    }
-         }
-      });
+	 	if ($.trim(contract_id_fk) == "") {
+	   	    $("#contract_id_fk option:not(:first)").remove();
+	    	var myParams = { contract_id_fk: contract_id_fk,project_id_fk : project_id_fk, work_id_fk: work_id_fk};
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInWorkstatus",
+	            data: myParams, cache: false,
+	            success: function (data) {
+	            	 if(data != null && data != '' && data.length > 0){  
+	                    $.each(data, function (i, val) {
+	                    	  var contractShortName = '';
+	                          if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
+	                          $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + contractShortName + '</option>');
+	                    });
+	                }
+	                $('.searchable').select2();
+	                $(".page-loader").hide();
+	            },error: function (jqXHR, exception) { 
+		   			  $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	       }
+          });
+	    }else{
+	    	  $(".page-loader").hide();
+	    }
 	}
    
-    function getProjectsList(){
+    function getProjectsFilterList(){
 	 	$(".page-loader").show();
-	 	$("#project_id_fk option:not(:first)").remove();
-	 	var contract_id_fk = $("#contract_id_fk").val();
 	 	var work_id_fk = $("#work_id_fk").val();
-	    var myParams = { work_id_fk: work_id_fk,contract_id_fk : contract_id_fk};
-	    $.ajax({
-	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusProjectsList", 
-	    	data: myParams, cache: false,
-            success: function (data) {
-      			if(data != null && data != '' && data.length > 0){   
-                   $.each(data, function (i, val) {
-                 	  var projectName = '';
-                      if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-                      if ($.trim(project_id_fk) != ''  && val.project_id_fk == $.trim(project_id_fk)) {
-                    	  $("#project_id_fk").append('<option value="' + val.project_id_fk +  '" selected>' + $.trim(val.project_id_fk) + $.trim(projectName) +'</option>');
-                      } else {
-                       	  $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk) + $.trim(projectName) + '</option>');
-                      }
-                  });
-                  $('.searchable').select2();
-                  $(".page-loader").hide();
-      	 	  }else{
-					$(".page-loader").hide();
-			  }
-          }
-     });
+	 	var contract_id_fk = $("#contract_id_fk").val();
+	 	var project_id_fk = $("#project_id_fk").val();
+	    if ($.trim(project_id_fk) == "") {
+	    	$("#project_id_fk option:not(:first)").remove();
+	    	var myParams = { contract_id_fk: contract_id_fk,project_id_fk : project_id_fk, work_id_fk: work_id_fk};
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInWorkstatus",
+	            data: myParams, cache: false,
+	            success: function (data) {
+	            	 if(data != null && data != '' && data.length > 0){  
+	                    $.each(data, function (i, val) {
+	                    	 var projectName = '';
+	                         if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+	                         $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk) + projectName + '</option>');
+	                    });
+	                }
+	                $('.searchable').select2();
+	                $(".page-loader").hide();
+	            },error: function (jqXHR, exception) { 
+		   			  $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	       }
+          });
+	    }else{
+	    	  $(".page-loader").hide();
+	    }
    }
    
    function getWorkStatus(project_id_fk,work_id_fk,contract_id_fk){

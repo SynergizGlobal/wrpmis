@@ -8,10 +8,6 @@ import com.synergizglobal.pmis.model.Work;
 
 public interface SourceOfFundDao {
 
-	public List<SourceOfFund> getSourceOfFundList()throws Exception;
-
-	public List<SourceOfFund> getRailwayList()throws Exception;
-
 	public List<SourceOfFund> fundsList(SourceOfFund obj)throws Exception;
 
 	public boolean addFunds(SourceOfFund obj)throws Exception;
@@ -22,8 +18,6 @@ public interface SourceOfFundDao {
 
 	public boolean deleteFunds(SourceOfFund obj)throws Exception;
 
-	public List<SourceOfFund> getWorkList()throws Exception;
-
 	public List<SourceOfFund> getRailwaysList()throws Exception;
 
 	public List<SourceOfFund> getSOFList(SourceOfFund obj)throws Exception;
@@ -31,6 +25,10 @@ public interface SourceOfFundDao {
 	public List<SourceOfFund> getRailwayList(SourceOfFund obj)throws Exception;
 
 	public List<SourceOfFund> getFundWorksList(SourceOfFund obj)throws Exception;
+
+	public List<SourceOfFund> getSourceOfFundList()throws Exception;
+
+	public List<SourceOfFund> getProjectList()throws Exception;
 
 
 

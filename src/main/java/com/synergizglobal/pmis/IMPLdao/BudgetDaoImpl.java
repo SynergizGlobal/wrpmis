@@ -29,37 +29,6 @@ public class BudgetDaoImpl implements BudgetDao {
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 	
-	/*
-	 * @Override public List<Budget> getFinancialYearsList() throws Exception {
-	 * List<Budget> objsList = null; try { String qry
-	 * ="select financial_year_fk from budget b GROUP BY financial_year_fk ";
-	 * objsList = jdbcTemplate.query( qry, new
-	 * BeanPropertyRowMapper<Budget>(Budget.class)); }catch(Exception e){ throw new
-	 * Exception(e.getMessage()); } return objsList; }
-	 */
-
-	/*
-	 * @Override public List<Budget> getProjectsList() throws Exception {
-	 * List<Budget> objsList = null; try { String qry
-	 * ="select project_id_fk,work_id_fk,p.project_name from budget b " +
-	 * "LEFT JOIN work w on w.work_id = b.work_id_fk " +
-	 * "Left JOIN project p on w.project_id_fk = p.project_id "+
-	 * "GROUP BY project_id_fk "; objsList = jdbcTemplate.query( qry, new
-	 * BeanPropertyRowMapper<Budget>(Budget.class)); }catch(Exception e){ throw new
-	 * Exception(e.getMessage()); } return objsList; }
-	 */
-
-	
-	  @Override public List<Budget> getWorksList() throws Exception {
-		  List<Budget> objsList = null; 
-		  try { 
-			  String qry ="select work_id_fk,w.work_name from budget b " +
-					  "LEFT JOIN work w  on b.work_id_fk = w.work_id " + "GROUP BY work_id_fk ";
-			  objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class)); 
-		 }catch(Exception e){
-			 throw new Exception(e.getMessage());
-		 } return objsList; }
-	 
 	
 	@Override
 	public List<Budget> budgetList(Budget obj) throws Exception {
@@ -223,13 +192,11 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> getBudgetWorksList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			
-			String qry = "SELECT work_id_fk,w.work_name ,b.financial_year_fk,p.project_id as project_id_fk from budget b " + 
+			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where work_id_fk is not null ";
+					"where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
-		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";
 				arrSize++;
@@ -238,16 +205,21 @@ public class BudgetDaoImpl implements BudgetDao {
 				qry = qry + " and b.financial_year_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY work_id_fk ";
-			
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
 				pValues[i++] = obj.getFinancial_year_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 		}catch(Exception e){ 
@@ -260,13 +232,11 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> getBudgetProjectsList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			
-			String qry = "SELECT p.project_id as project_id_fk,p.project_name ,b.financial_year_fk,b.work_id_fk  from budget b " + 
+			String qry = "SELECT p.project_id as project_id_fk,p.project_name from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where work_id_fk is not null ";
+					"where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
-		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
@@ -275,16 +245,21 @@ public class BudgetDaoImpl implements BudgetDao {
 				qry = qry + " and b.financial_year_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY project_id_fk ";
-			
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
 				pValues[i++] = obj.getFinancial_year_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 		}catch(Exception e){ 
@@ -297,13 +272,11 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> getFinancialYearsList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			
-			String qry = "SELECT p.project_id as project_id_fk,p.project_name ,b.financial_year_fk,b.work_id_fk  from budget b " + 
+			String qry = "SELECT b.financial_year_fk  from budget b " + 
 					"LEFT JOIN work w on b.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where financial_year_fk is not null ";
+					"where financial_year_fk is not null and financial_year_fk <> '' ";
 			int arrSize = 0;
-		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
@@ -312,16 +285,21 @@ public class BudgetDaoImpl implements BudgetDao {
 				qry = qry + " and project_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
+				qry = qry + " and b.financial_year_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY b.financial_year_fk ";
-			
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
+				pValues[i++] = obj.getFinancial_year_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 		}catch(Exception e){ 

@@ -16,30 +16,6 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	@Autowired
 	ExpenditureDao dao;
 	
-	@Override
-	public List<Expenditure> getWorksList() throws Exception {
-		return dao.getWorksList();
-	}
-
-	@Override
-	public List<Expenditure> getContractsList() throws Exception {
-		return dao.getContractsList();
-	}
-
-	@Override
-	public List<Expenditure> getLedgerAccountsList() throws Exception {
-		return dao.getLedgerAccountsList();
-	}
-
-	@Override
-	public List<Expenditure> getContractorNamesList() throws Exception {
-		return dao.getContractorNamesList();
-	}
-
-	@Override
-	public List<Expenditure> getVoucherTypesList() throws Exception {
-		return dao.getVoucherTypesList();
-	}
 
 	@Override
 	public List<Expenditure> expendituresList(Expenditure obj) throws Exception {
@@ -69,6 +45,31 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	@Override
 	public boolean deleteExpenditure(Expenditure obj) throws Exception {
 		return dao.deleteExpenditure(obj);
+	}
+
+	@Override
+	public List<Expenditure> getWorksFilterList(Expenditure obj) throws Exception {
+		return dao.getWorksFilterList(obj);
+	}
+
+	@Override
+	public List<Expenditure> getContractsFilterList(Expenditure obj) throws Exception {
+		return dao.getContractsFilterList(obj);
+	}
+
+	@Override
+	public List<Expenditure> getledgerAccountsList(Expenditure obj) throws Exception {
+		return dao.getledgerAccountsList(obj);
+	}
+
+	@Override
+	public List<Expenditure> getContractorNamesFilterList(Expenditure obj) throws Exception {
+		return dao.getContractorNamesFilterList(obj);
+	}
+
+	@Override
+	public List<Expenditure> getVoucherTypesFilterList(Expenditure obj) throws Exception {
+		return dao.getVoucherTypesFilterList(obj);
 	}
 	
 	

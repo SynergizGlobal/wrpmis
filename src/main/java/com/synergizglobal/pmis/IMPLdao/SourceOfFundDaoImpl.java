@@ -29,48 +29,6 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<SourceOfFund> getSourceOfFundList() throws Exception {
-		List<SourceOfFund> objsList = null;
-		try {
-			String qry ="select source_of_funds_fk  from funds f "
-					+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
-					+ "GROUP BY source_of_funds_fk";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<SourceOfFund> getRailwayList() throws Exception {
-		List<SourceOfFund> objsList = null;
-		try {
-			String qry ="select sub_category_railway_id_fk, r.railway_name  from funds "
-					+ "LEFT JOIN railway r on sub_category_railway_id_fk = railway_id "
-					+ "GROUP BY sub_category_railway_id_fk";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<SourceOfFund> getWorkList() throws Exception {
-		List<SourceOfFund> objsList = null;
-		try {
-			String qry ="select work_id_fk,w.work_name  from funds f "
-					+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
-					+ "GROUP BY work_id_fk";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
 	public List<SourceOfFund> getRailwaysList() throws Exception {
 		List<SourceOfFund> objsList = null;
 		try {
@@ -86,7 +44,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> fundsList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		
-		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account from funds f "
+		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account from funds f "
 				+ "LEFT JOIN work w on f.work_id_fk = w.work_id  "
 				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
 				+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
@@ -219,9 +177,8 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> getSOFList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		try {
-			String qry = "select source_of_funds_fk,sub_category_railway_id_fk,work_id_fk  from funds f  "+
+			String qry = "select source_of_funds_fk from funds f  "+
 					"where source_of_funds_fk is not null ";	
-			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -231,16 +188,21 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				qry = qry + " and sub_category_railway_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				qry = qry + " and source_of_funds_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + " GROUP BY source_of_funds_fk ";
-			
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
 				pValues[i++] = obj.getSub_category_railway_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
+				pValues[i++] = obj.getSource_of_funds_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
 		}catch(Exception e){ 
@@ -253,9 +215,9 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> getRailwayList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		try {
-			String qry = "select source_of_funds_fk,sub_category_railway_id_fk,work_id_fk  from funds f  "+
+			String qry = "select sub_category_railway_id_fk,r.railway_name from funds f  "+
+					"LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id "+
 					"where sub_category_railway_id_fk is not null ";	
-			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -263,6 +225,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
 				qry = qry + " and source_of_funds_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				qry = qry + " and sub_category_railway_id_fk = ? ";
 				arrSize++;
 			}
 			qry = qry + " GROUP BY sub_category_railway_id_fk ";
@@ -276,6 +242,9 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
 				pValues[i++] = obj.getSource_of_funds_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
+				pValues[i++] = obj.getSub_category_railway_id_fk();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -287,10 +256,9 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> getFundWorksList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		try {
-			String qry = "select work_id_fk,w.work_name,source_of_funds_fk,sub_category_railway_id_fk from funds f  "+ 
+			String qry = "select work_id_fk,w.work_name,w.work_short_name from funds f  "+ 
 					"LEFT JOIN work w on f.work_id_fk = w.work_id "+
 					"where work_id_fk is not null ";	
-			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
 				qry = qry + " and source_of_funds_fk = ?";
@@ -300,10 +268,12 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				qry = qry + " and sub_category_railway_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
 			qry = qry + " GROUP BY work_id_fk ";
-			
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds_fk())) {
 				pValues[i++] = obj.getSource_of_funds_fk();
@@ -311,9 +281,36 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_railway_id_fk())) {
 				pValues[i++] = obj.getSub_category_railway_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<SourceOfFund> getSourceOfFundList() throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry ="select source_of_funds as source_of_funds_fk  from source_of_funds ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<SourceOfFund> getProjectList() throws Exception {
+		List<SourceOfFund> objsList = null;
+		try {
+			String qry ="select project_id as project_id_fk,project_name from project ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SourceOfFund>(SourceOfFund.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}

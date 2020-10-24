@@ -241,11 +241,10 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 	public List<WorkContractModuleStatus> getWorkStatusWorksList(WorkContractModuleStatus obj) throws Exception {
 		List<WorkContractModuleStatus> objsList = null;
 		try {
-			String qry = "SELECT p.project_id as project_id_fk,ws.work_id_fk,contract_id_fk,w.work_name from work_status ws "+
-					 "LEFT JOIN work w on ws.work_id_fk = w.work_id " + 
+			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from work_status ws "+
+					 "LEFT JOIN work w on work_id_fk = w.work_id " + 
 					 "LEFT JOIN project p on w.project_id_fk = p.project_id "+ 
-					 "where ws.work_id_fk is not null ";
-						
+					 "where work_id_fk is not null and work_id_fk <> ''  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";
@@ -255,16 +254,21 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY ws.work_id_fk ";
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY work_id_fk ";
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 		}catch(Exception e){ 
@@ -277,12 +281,11 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 	public List<WorkContractModuleStatus> getWorkStatusContractsList(WorkContractModuleStatus obj) throws Exception {
 		List<WorkContractModuleStatus> objsList = null;
 		try {
-			String qry = "SELECT p.project_id as project_id_fk,p.project_name,ws.work_id_fk,contract_id_fk,c.contract_name from work_status ws "+
-					 "LEFT JOIN work w on ws.work_id_fk = w.work_id " + 
-					 "LEFT JOIN project p on w.project_id_fk = p.project_id "+ 
+			String qry = "SELECT contract_id_fk,c.contract_name,c.contract_short_name from work_status ws "+
 					 "LEFT JOIN contract c on ws.contract_id_fk = c.contract_id " + 
-					 "where contract_id_fk is not null ";
-						
+					 "LEFT JOIN work w on w.work_id = c.work_id_fk "+
+					 "LEFT JOIN project p on w.project_id_fk = p.project_id "+ 
+					 "where contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and ws.work_id_fk = ?";
@@ -292,16 +295,21 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 				qry = qry + " and project_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + " GROUP BY contract_id_fk ";
-			
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 		}catch(Exception e){ 
@@ -314,11 +322,10 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 	public List<WorkContractModuleStatus> getWorkStatusProjectsList(WorkContractModuleStatus obj) throws Exception {
 		List<WorkContractModuleStatus> objsList = null;
 		try {
-			String qry = "SELECT p.project_id as project_id_fk,p.project_name,ws.work_id_fk,contract_id_fk,w.work_name from work_status ws "+
-					 "LEFT JOIN work w on ws.work_id_fk = w.work_id " + 
+			String qry = "SELECT p.project_id as project_id_fk,p.project_name from work_status ws "+
+					 "LEFT JOIN work w on w.work_id = ws.work_id_fk "+
 					 "LEFT JOIN project p on w.project_id_fk = p.project_id "+ 
-					 "where project_id_fk is not null ";
-						
+					 "where project_id_fk is not null and project_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and ws.work_id_fk = ?";
@@ -328,16 +335,22 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + " GROUP BY project_id_fk ";
 			
 			Object[] pValues = new Object[arrSize];
-			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
 		}catch(Exception e){ 

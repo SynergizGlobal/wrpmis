@@ -103,23 +103,20 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
                                         <p><label>Work</label></p>
-                                         <select id="work_id_fk" name="work_id_fk" onchange="getFundList(); getSOFList(); getRailwaysList();" class="searchable">
+                                         <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
-	                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p><label>Source of Fund</label></p>
-                                         <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList(); getWorksList(); getRailwaysList();" class="searchable">
+                                         <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
-	                                            
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p><label> Railway</label></p>
-                                        <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList(); getSOFList(); getWorksList();" class="searchable">
+                                        <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
-	                                            
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
@@ -251,9 +248,6 @@
   	$('.close-message').delay(3000).fadeOut('slow');
   	
   	getFundList();
-  	getSOFList();
-  	getRailwaysList();
-  	getWorksList();
   });
   
     function clearFilter(){
@@ -263,9 +257,6 @@
     	$("#sub_category_railway_id_fk").val("");
     	$('.searchable').select2();
     	getFundList();
-    	getSOFList();
-    	getRailwaysList();
-    	getWorksList();
     }
     
     function getFundList(){
@@ -273,8 +264,11 @@
     	var work_id_fk = $("#work_id_fk").val();
     	var source_of_funds_fk = $("#source_of_funds_fk").val();
     	var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
+    	getSOFFilterList();
+    	getRailwaysFilterList();
+    	getWorksFilterList();
+    	
     	table = $('#datatable-fund').DataTable();
-		 
 		table.destroy();
 		
 		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -315,10 +309,12 @@
                    	
                 	var workName = '';
                     if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                    var railwayName = '';
+                    if ($.trim(val.railway_name) != '') { railwayName = ' - ' + $.trim(val.railway_name) }
                     
                    	rowArray.push($.trim(val.work_id_fk) + workName);
                    	rowArray.push($.trim(val.source_of_funds_fk));
-                   	rowArray.push($.trim(val.sub_category_railway_id_fk));
+                   	rowArray.push($.trim(val.sub_category_railway_id_fk) + railwayName);
                    	rowArray.push($.trim(val.funding_date));
                    	rowArray.push($.trim(val.fund_amount));
                    	rowArray.push($.trim(val.ledger_account));
@@ -339,88 +335,95 @@
      }});
     }
     
-    function getSOFList(){
+    function getSOFFilterList(){
     	$(".page-loader").show();
-    	$("#source_of_funds_fk option:not(:first)").remove();
     	var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
-        var myParams = { work_id_fk: work_id_fk,sub_category_railway_id_fk : sub_category_railway_id_fk};
-        $.ajax({
-        	url: "<%=request.getContextPath()%>/ajax/getSOFList", 
-        	data: myParams, cache: false,
-            success: function (data) {
-           		if(data != null && data != '' && data.length > 0){   
-                       $.each(data, function (i, val) {
-                         
-                           if ($.trim(source_of_funds_fk) != ''  && val.source_of_funds_fk == $.trim(source_of_funds_fk)) {
-                          	    $("#source_of_funds_fk").append('<option value="' + val.source_of_funds_fk +  '" selected>' + $.trim(val.source_of_funds_fk) + '</option>');
-                           } else {
-                            	$("#source_of_funds_fk").append('<option value="' + val.source_of_funds_fk + '">' + $.trim(val.source_of_funds_fk) + '</option>');
-                           }
-                        });
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-           	     }else{
-				   $(".page-loader").hide();
-			     }
-            }
-       });
-    }
-    
-    function getRailwaysList(){
-    	$(".page-loader").show();
-    	$("#sub_category_railway_id_fk option:not(:first)").remove();
     	var source_of_funds_fk = $("#source_of_funds_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
-        var myParams = { work_id_fk: work_id_fk,source_of_funds_fk : source_of_funds_fk};
-        $.ajax({
-        	url: "<%=request.getContextPath()%>/ajax/getRailwayList", 
-        	data: myParams, cache: false,
-            success: function (data) {
-          	 	if(data != null && data != '' && data.length > 0){   
-                       $.each(data, function (i, val) {
-                           if ($.trim(sub_category_railway_id_fk) != ''  && val.sub_category_railway_id_fk == $.trim(sub_category_railway_id_fk)) {
-                          		$("#sub_category_railway_id_fk").append('<option value="' + val.sub_category_railway_id_fk +  '" selected>' + $.trim(val.sub_category_railway_id_fk) + '</option>');
-                           } else {
-                            	$("#sub_category_railway_id_fk").append('<option value="' + val.sub_category_railway_id_fk + '">' + $.trim(val.sub_category_railway_id_fk) + '</option>');
-                           }
-                          });
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-           	     }else{
-			    	$(".page-loader").hide();
-			     }
-            }
-       });
+        if ($.trim(source_of_funds_fk) == "") {
+        	$("#source_of_funds_fk option:not(:first)").remove();
+        	var myParams = { work_id_fk: work_id_fk,sub_category_railway_id_fk : sub_category_railway_id_fk,source_of_funds_fk : source_of_funds_fk};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getSOFFilterListInFunds",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	$("#source_of_funds_fk").append('<option value="' + val.source_of_funds_fk + '">' + $.trim(val.source_of_funds_fk) +'</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                },error: function (jqXHR, exception) {
+ 	   			      $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	     	  }
+            });
+        }else{
+        	  $(".page-loader").hide();
+        }
+    }
+    
+    function getRailwaysFilterList(){
+    	$(".page-loader").show();
+    	var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
+    	var source_of_funds_fk = $("#source_of_funds_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+    	if ($.trim(sub_category_railway_id_fk) == "") {
+        	$("#sub_category_railway_id_fk option:not(:first)").remove();
+        	var myParams = { work_id_fk: work_id_fk,sub_category_railway_id_fk : sub_category_railway_id_fk,source_of_funds_fk : source_of_funds_fk};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getRailwaysFilterListInFunds",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var railwayName = '';
+                            if ($.trim(val.railway_name) != '') { railwayName = ' - ' + $.trim(val.railway_name) }
+                        	$("#sub_category_railway_id_fk").append('<option value="' + val.sub_category_railway_id_fk + '">' + $.trim(val.sub_category_railway_id_fk) + railwayName +'</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                },error: function (jqXHR, exception) {
+ 	   			      $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	     	  }
+            });
+        }else{
+        	  $(".page-loader").hide();
+        }
     }
     	
-    function getWorksList(){
+    function getWorksFilterList(){
 	 	$(".page-loader").show();
-	 	$("#work_id_fk option:not(:first)").remove();
-	 	var source_of_funds_fk = $("#source_of_funds_fk").val();
-		var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
-	    var myParams = { source_of_funds_fk: source_of_funds_fk,sub_category_railway_id_fk : sub_category_railway_id_fk};
-	    $.ajax({
-	    	url: "<%=request.getContextPath()%>/ajax/getFundWorksList", 
-	    	data: myParams, cache: false,
-            success: function (data) {
-         		if(data != null && data != '' && data.length > 0){   
-                     $.each(data, function (i, val) {
-                    	 var workName = '';
-                         if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                         if ($.trim(work_id_fk) != ''  && val.work_id_fk == $.trim(work_id_fk)) {
-                       		 $("#work_id_fk").append('<option value="' + val.work_id_fk +  '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) +'</option>');
-                         } else {
-                          	 $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                          }
-                       });
-                       $('.searchable').select2();
-                       $(".page-loader").hide();
-         	     }else{
-				     $(".page-loader").hide();
-			     }
-             }
-       });
+	 	var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
+    	var source_of_funds_fk = $("#source_of_funds_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+	    if ($.trim(work_id_fk) == "") {
+	    	$("#work_id_fk option:not(:first)").remove();
+        	var myParams = { work_id_fk: work_id_fk,sub_category_railway_id_fk : sub_category_railway_id_fk,source_of_funds_fk : source_of_funds_fk};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInFunds",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	 var workShortName = '';
+                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                },error: function (jqXHR, exception) {
+ 	   			      $(".page-loader").hide();
+	   	          	  getErrorMessage(jqXHR, exception);
+	   	     	  }
+            });
+        }else{
+        	  $(".page-loader").hide();
+        }
 	 }
     
     function getFunds(funds_id){

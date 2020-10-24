@@ -78,16 +78,6 @@ public class ExpenditureController {
 	public ModelAndView Expenditure(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.expenditure);
 		try {
-			List<Expenditure> worksList = expenditureService.getWorksList();
-			model.addObject("worksList", worksList);
-			List<Expenditure> contractsList = expenditureService.getContractsList();
-			model.addObject("contractsList", contractsList);
-			List<Expenditure> ledgerAccountsList = expenditureService.getLedgerAccountsList();
-			model.addObject("ledgerAccountsList", ledgerAccountsList);
-			List<Expenditure> contractorNamesList = expenditureService.getContractorNamesList();
-			model.addObject("contractorNamesList", contractorNamesList);
-			List<Expenditure> voucherTypesList = expenditureService.getVoucherTypesList();
-			model.addObject("voucherTypesList", voucherTypesList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Expenditure : " + e.getMessage());
@@ -106,6 +96,71 @@ public class ExpenditureController {
 			logger.error("expenditure : " + e.getMessage());
 		}
 		return expenditureList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksFilterListInExpenditure", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getWorksFilterList(@ModelAttribute Expenditure obj) {
+		List<Expenditure> worksFilterList = null;
+		try {
+			worksFilterList = expenditureService.getWorksFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksFilterList : " + e.getMessage());
+		}
+		return worksFilterList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsFilterListInExpenditure", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getContractsFilterList(@ModelAttribute Expenditure obj) {
+		List<Expenditure> contractsFilterList = null;
+		try {
+			contractsFilterList = expenditureService.getContractsFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsFilterList : " + e.getMessage());
+		}
+		return contractsFilterList;
+	}
+	
+	@RequestMapping(value = "/ajax/getLedgerAccountsFilterListInExpenditure", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getledgerAccountsFilterList(@ModelAttribute Expenditure obj) {
+		List<Expenditure> ledgerAccountsFilterList = null;
+		try {
+			ledgerAccountsFilterList = expenditureService.getledgerAccountsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getledgerAccountsFilterList : " + e.getMessage());
+		}
+		return ledgerAccountsFilterList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractorNamesFilterListInExpenditure", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getContractorNamesFilterList(@ModelAttribute Expenditure obj) {
+		List<Expenditure> contractorNamesFilterList = null;
+		try {
+			contractorNamesFilterList = expenditureService.getContractorNamesFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractorNamesFilterList : " + e.getMessage());
+		}
+		return contractorNamesFilterList;
+	}
+
+	@RequestMapping(value = "/ajax/getVoucherTypesFilterListInExpenditure", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getVoucherTypesFilterList(@ModelAttribute Expenditure obj) {
+		List<Expenditure> voucherTypesFilterList = null;
+		try {
+			voucherTypesFilterList = expenditureService.getVoucherTypesFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getVoucherTypesFilterList : " + e.getMessage());
+		}
+		return voucherTypesFilterList;
 	}
 
 	@RequestMapping(value = "/add-expenditure-form", method = {RequestMethod.GET,RequestMethod.POST})

@@ -23,11 +23,6 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 	}
 
 	@Override
-	public List<SourceOfFund> getRailwayList() throws Exception {
-		return dao.getRailwayList();
-	}
-
-	@Override
 	public List<SourceOfFund> fundsList(SourceOfFund obj) throws Exception {
 		return dao.fundsList(obj);
 	}
@@ -52,10 +47,6 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 		return dao.deleteFunds(obj);
 	}
 
-	@Override
-	public List<SourceOfFund> getWorkList() throws Exception {
-		return dao.getWorkList();
-	}
 
 	@Override
 	public List<SourceOfFund> getRailwaysList() throws Exception {
@@ -76,6 +67,12 @@ public class SourceOfFundServiceImpl implements SourceOfFundService{
 	public List<SourceOfFund> getFundWorksList(SourceOfFund obj) throws Exception {
 		return dao.getFundWorksList(obj);
 	}
+
+	@Override
+	public List<SourceOfFund> getProjectList() throws Exception {
+		return dao.getProjectList();
+	}
+
 	
 
 }

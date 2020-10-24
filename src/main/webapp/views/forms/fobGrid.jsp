@@ -227,8 +227,8 @@
         	$(".page-loader").show();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var work_status_fk = $("#work_status_fk").val();
-        	getWorkStatusList();
-        	getContractsList();
+        	getWorkStatusFilterList();
+        	getContractsFilterList();
         	
          	table = $('#datatable-fob').DataTable();
     		 
@@ -297,7 +297,7 @@
     	     }});
         }
         
-        function getWorkStatusList(){
+        function getWorkStatusFilterList(){
         	$(".page-loader").show();
     	 	var contract_id_fk = $("#contract_id_fk").val();
     	 	var work_status_fk = $("#work_status_fk").val();
@@ -305,10 +305,10 @@
     	    	$("#work_status_fk option:not(:first)").remove();
     	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusListInFOB",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusFilterListInFOB",
                     data: myParams, cache: false,
                     success: function (data) {
-                    	 if(data != null && data != '' && data.length > 0){  
+                       if(data != null && data != '' && data.length > 0){  
                             $.each(data, function (i, val) {
     	                           $("#work_status_fk").append('<option value="' + val.work_status_fk + '">' + $.trim(val.work_status_fk) + '</option>');
                             });
@@ -325,7 +325,7 @@
             }
     	 }
         
-         function getContractsList(){
+         function getContractsFilterList(){
     	 	$(".page-loader").show();
     	 	var work_status_fk = $("#work_status_fk").val();
     	 	var contract_id_fk = $("#contract_id_fk").val();
@@ -333,10 +333,10 @@
     	    	$("#contract_id_fk option:not(:first)").remove();
     	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsListInFOB",
+                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInFOB",
                     data: myParams, cache: false,
                     success: function (data) {
-                    	 if(data != null && data != '' && data.length > 0){  
+                    	if(data != null && data != '' && data.length > 0){  
                             $.each(data, function (i, val) {
                             	 var contract_short_name = '';
                                  if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }

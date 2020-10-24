@@ -114,43 +114,43 @@ public class ContractController {
 		return contractList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractorsListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractorsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getContractorsList(@ModelAttribute Contract obj) {
-		List<Contract> contractorsList = null;  
+	public List<Contract> getContractorsFilterList(@ModelAttribute Contract obj) {
+		List<Contract> contractorsFilterList = null;  
 		try {
-			 contractorsList = contractservice.contractorsList(obj);
+			 contractorsFilterList = contractservice.contractorsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractorsList : " + e.getMessage());
+			logger.error("getContractorsFilterList : " + e.getMessage());
 		}
-		return contractorsList;
+		return contractorsFilterList;
 	}
 	
-	@RequestMapping(value = "/ajax/getDepartmentsListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getDepartmentsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getDepartmentsList(@ModelAttribute Contract obj) {
-		List<Contract> departmentList = null;
+	public List<Contract> getDepartmentsFilterList(@ModelAttribute Contract obj) {
+		List<Contract> departmentFilterList = null;
 		try {
-			 departmentList = contractservice.departmentList(obj);
+			 departmentFilterList = contractservice.departmentsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getDepartmentsList : " + e.getMessage());
+			logger.error("getDepartmentsFilterList : " + e.getMessage());
 		}
-		return departmentList;
+		return departmentFilterList;
 	}
 
-	@RequestMapping(value = "/ajax/getWorksListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getWorksList(@ModelAttribute Contract obj) {
-		List<Contract> worksList = null;
+	public List<Contract> getWorksFilterList(@ModelAttribute Contract obj) {
+		List<Contract> worksFilterList = null;
 		try {
-			worksList = contractservice.worksList(obj);
+			worksFilterList = contractservice.worksFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getWorksList : " + e.getMessage());
 		}
-		return worksList;
+		return worksFilterList;
 	}
 	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})

@@ -105,7 +105,7 @@ public class FOBController {
 		return fobs;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorkStatusListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorkStatusFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<FOB> getWorkStatusList(@ModelAttribute FOB obj) {
 		List<FOB> workStatusList = null;
@@ -118,7 +118,7 @@ public class FOBController {
 		return workStatusList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsFilterListInFOB", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<FOB> getContractsList(@ModelAttribute FOB obj) {
 		List<FOB> contractsList = null;

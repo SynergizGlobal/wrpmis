@@ -270,7 +270,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getWorkStatusList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "SELECT work_status_fk from fob where work_status_fk is not null ";
+			String qry = "SELECT work_status_fk from fob where work_status_fk is not null and work_status_fk <> ''  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())){
 				qry = qry + " and contract_id_fk = ?";
@@ -300,7 +300,7 @@ public class FOBDaoImpl implements FOBDao {
 	public List<FOB> getContractsList(FOB obj) throws Exception {
 		List<FOB> objsList = null;
 		try {
-			String qry = "SELECT work_status_fk,contract_id_fk,c.contract_name,c.contract_short_name from fob f " + 
+			String qry = "SELECT contract_id_fk,c.contract_name,c.contract_short_name from fob f " + 
 					"LEFT JOIN contract c on f.contract_id_fk = c.contract_id "+
 					"where contract_id_fk is not null ";
 			int arrSize = 0;

@@ -57,14 +57,7 @@ public class BudgetServiceImpl implements BudgetService{
 		return budgetDao.deleteBudget(obj);
 
 	}
-
-	
-	  @Override public List<Budget> getWorksList() throws Exception { 
-		  return budgetDao.getWorksList();
-	  
-	  }
 	 
-
 	@Override
 	public List<Budget> getFinancialYearList() throws Exception {
 		return budgetDao.getFinancialYearList();

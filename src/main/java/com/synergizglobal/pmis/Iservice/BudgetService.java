@@ -9,12 +9,6 @@ import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 public interface BudgetService {
 
-	/*
-	 * public List<Budget> getFinancialYearsList()throws Exception;
-	 */
-	/*
-	 * public List<Budget> getProjectsList()throws Exception;
-	 */
 	public List<Budget> budgetList(Budget obj)throws Exception;
 
 	public Budget getBudget(Budget obj)throws Exception;
@@ -24,8 +18,6 @@ public interface BudgetService {
 	public boolean updateBudget(Budget budget)throws Exception;
 
 	public boolean deleteBudget(Budget obj)throws Exception;
-
-	public List<Budget> getWorksList()throws Exception;
 
 	public List<Budget> getFinancialYearList()throws Exception;
 

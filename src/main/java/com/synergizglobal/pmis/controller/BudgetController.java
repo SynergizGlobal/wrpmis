@@ -103,14 +103,12 @@ public class BudgetController {
 		return budgetList;
 	}
 	
-	@RequestMapping(value = "/ajax/getBudgetWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksFilterListInBudget", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Budget> getWorksList(@ModelAttribute Budget obj) {
-		ModelAndView model = new ModelAndView();
 		List<Budget> worksList = null;
 		try {
 			worksList = budgetService.getBudgetWorksList(obj);
-			model.addObject("worksList", worksList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getWorksList : " + e.getMessage());
@@ -118,14 +116,12 @@ public class BudgetController {
 		return worksList;
 	}
 	
-	@RequestMapping(value = "/ajax/getBudgetProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectsFilterListInBudget", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Budget> getProjectsList(@ModelAttribute Budget obj) {
-		ModelAndView model = new ModelAndView();
 		List<Budget> projectsList = null;
 		try {
 			projectsList = budgetService.getBudgetProjectsList(obj);
-			model.addObject("projectsList", projectsList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getProjectsList : " + e.getMessage());
@@ -133,14 +129,12 @@ public class BudgetController {
 		return projectsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getFinancialYearsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getFinancialYearsFilterListInBudget", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Budget> getFinancialYearsList(@ModelAttribute Budget obj) {
-		ModelAndView model = new ModelAndView();
 		List<Budget> financialYearsList = null;
 		try {
 			financialYearsList = budgetService.getFinancialYearsList(obj);
-			model.addObject("financialYearsList", financialYearsList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getFinancialYearsList : " + e.getMessage());
@@ -154,8 +148,6 @@ public class BudgetController {
 		try{
 			model.setViewName(PageConstants.addEditBudget);
 			model.addObject("action", "add");
-			List<Budget> worksList = budgetService.getWorksList();
-			model.addObject("worksList", worksList);
 			List<Budget> financialYearList = budgetService.getFinancialYearList();
 			model.addObject("financialYearList", financialYearList);
 			List<Budget> projectsList = budgetService.getProjectList();
@@ -173,8 +165,6 @@ public class BudgetController {
 		try{
 			model.setViewName(PageConstants.addEditBudget);
 			model.addObject("action", "edit");
-			List<Budget> worksList = budgetService.getWorksList();
-			model.addObject("worksList", worksList);
 			List<Budget> financialYearList = budgetService.getFinancialYearList();
 			model.addObject("financialYearList", financialYearList);
 			List<Budget> projectsList = budgetService.getProjectList();

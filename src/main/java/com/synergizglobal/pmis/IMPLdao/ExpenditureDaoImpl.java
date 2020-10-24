@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ExpenditureDao;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Work;
@@ -28,78 +29,12 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 
-	@Override
-	public List<Expenditure> getWorksList() throws Exception {
-		List<Expenditure> objsList = null;
-		try {
-			String qry ="SELECT c.work_id_fk,w.work_name,e.contract_id_fk from expenditure e "+
-					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id "+
-					"LEFT JOIN work w on c.work_id_fk = w.work_id GROUP BY c.work_id_fk ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Expenditure> getContractsList() throws Exception {
-		List<Expenditure> objsList = null;
-		try {
-			String qry =" SELECT contract_id_fk,c.contract_name from expenditure e  "
-					+ "LEFT JOIN  contract c on e.contract_id_fk = c.contract_id "
-					+ "GROUP BY contract_id_fk ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Expenditure> getLedgerAccountsList() throws Exception {
-		List<Expenditure> objsList = null;
-		try {
-			String qry =" SELECT ledger_account from expenditure "
-					+ "GROUP BY ledger_account";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Expenditure> getContractorNamesList() throws Exception {
-		List<Expenditure> objsList = null;
-		try {
-			String qry =" SELECT contractor_name from expenditure "
-					+ "GROUP BY contractor_name";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Expenditure> getVoucherTypesList() throws Exception {
-		List<Expenditure> objsList = null;
-		try {
-			String qry =" SELECT voucher_type from expenditure e  "
-					+ "GROUP BY voucher_type ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
 
 	@Override
 	public List<Expenditure> expendituresList(Expenditure obj) throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry  ="SELECT expenditure_id,c.work_id_fk,w.work_name,e.contract_id_fk,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type "
+			String qry  ="SELECT expenditure_id,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type "
 					+ "from expenditure e "
 					+ "LEFT JOIN contract c on e.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -326,6 +261,277 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+
+	@Override
+	public List<Expenditure> getWorksFilterList(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = null;
+		try {
+			String qry = "SELECT w.work_id as work_id_fk,w.work_name,w.work_short_name from expenditure e " + 
+					"LEFT JOIN contract c on c.contract_id = e.contract_id_fk " +
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"where work_id_fk is not null and work_id_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and e.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				qry = qry + " and e.ledger_account = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				qry = qry + " and e.contractor_name = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				qry = qry + " and e.voucher_type = ? ";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY work_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				pValues[i++] = obj.getLedger_account();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				pValues[i++] = obj.getContractor_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				pValues[i++] = obj.getVoucher_type();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+
+	@Override
+	public List<Expenditure> getContractsFilterList(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = null;
+		try {
+			String qry = "SELECT contract_id_fk,c.contract_short_name from expenditure e " + 
+					"LEFT JOIN contract c on c.contract_id = e.contract_id_fk " +
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"where contract_id_fk is not null and contract_id_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and e.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				qry = qry + " and e.ledger_account = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				qry = qry + " and e.contractor_name = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				qry = qry + " and e.voucher_type = ? ";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY contract_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				pValues[i++] = obj.getLedger_account();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				pValues[i++] = obj.getContractor_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				pValues[i++] = obj.getVoucher_type();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Expenditure> getledgerAccountsList(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = null;
+		try {
+			String qry = "SELECT ledger_account from expenditure e " + 
+					"LEFT JOIN contract c on c.contract_id = e.contract_id_fk " +
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"where ledger_account is not null and ledger_account <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and e.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				qry = qry + " and e.ledger_account = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				qry = qry + " and e.contractor_name = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				qry = qry + " and e.voucher_type = ? ";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY ledger_account ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				pValues[i++] = obj.getLedger_account();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				pValues[i++] = obj.getContractor_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				pValues[i++] = obj.getVoucher_type();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Expenditure> getContractorNamesFilterList(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = null;
+		try {
+			String qry = "SELECT contractor_name from expenditure e " + 
+					"LEFT JOIN contract c on c.contract_id = e.contract_id_fk " +
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"where ledger_account is not null and ledger_account <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and e.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				qry = qry + " and e.ledger_account = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				qry = qry + " and e.contractor_name = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				qry = qry + " and e.voucher_type = ? ";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY contractor_name ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				pValues[i++] = obj.getLedger_account();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				pValues[i++] = obj.getContractor_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				pValues[i++] = obj.getVoucher_type();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Expenditure> getVoucherTypesFilterList(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = null;
+		try {
+			String qry = "SELECT voucher_type from expenditure e " + 
+					"LEFT JOIN contract c on c.contract_id = e.contract_id_fk " +
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"where voucher_type is not null and voucher_type <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and e.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				qry = qry + " and e.ledger_account = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				qry = qry + " and e.contractor_name = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				qry = qry + " and e.voucher_type = ? ";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY voucher_type ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				pValues[i++] = obj.getLedger_account();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				pValues[i++] = obj.getContractor_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				pValues[i++] = obj.getVoucher_type();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 	

@@ -5,7 +5,23 @@ public class Expenditure {
 
 	private String expenditure_id, contract_id_fk,contract_name,contract_id,work_id_fk,work_name,work_id, ledger_account, date, contractor_name, voucher_type, voucher_no, 
 	narration, net_paid, gross_work_done, sd_payable, contractor_income_tax, cgst_tds, sgst_tds, vat_wct, mob_advance 
-	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name;
+	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name,work_short_name,contract_short_name;
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
 
 	public String getProject_id_fk() {
 		return project_id_fk;

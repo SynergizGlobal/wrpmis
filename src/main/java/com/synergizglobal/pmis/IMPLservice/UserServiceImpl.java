@@ -93,4 +93,19 @@ public class UserServiceImpl implements UserService{
 		return userDao.checkPMISKeyAvailability(obj);
 	}
 
+	@Override
+	public List<User> getUserRolesFilter(User obj) throws Exception {
+		return userDao.getUserRolesFilter(obj);
+	}
+
+	@Override
+	public List<User> getUserDepartmentsFilter(User obj) throws Exception {
+		return userDao.getUserDepartmentsFilter(obj);
+	}
+
+	@Override
+	public List<User> getUserReportingToListFilter(User obj) throws Exception {
+		return userDao.getUserReportingToListFilter(obj);
+	}
+
 }

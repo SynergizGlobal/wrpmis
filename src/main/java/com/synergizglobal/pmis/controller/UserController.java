@@ -81,20 +81,59 @@ public class UserController {
 		try {
 			model.setViewName(PageConstants2.usersGrid);
 			
-			List<User> roles = userService.getUserRoles();
+			/*List<User> roles = userService.getUserRoles();
 			model.addObject("roles", roles);
 			
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
 			List<User> reportingToList = userService.getUserReportingToList();
-			model.addObject("reportingToList", reportingToList);
+			model.addObject("reportingToList", reportingToList);*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("users : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getUserRolesFilterInUser", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getUserRolesFilterInUser(@ModelAttribute User obj) {
+		List<User> users = null;
+		try {
+			users = userService.getUserRolesFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUserRolesFilterInUser : " + e.getMessage());
+		}
+		return users;
+	}
+	
+	@RequestMapping(value = "/ajax/getUserDepartmentsFilterInUser", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getUserDepartmentsFilterInUser(@ModelAttribute User obj) {
+		List<User> users = null;
+		try {
+			users = userService.getUserDepartmentsFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUserDepartmentsFilterInUser : " + e.getMessage());
+		}
+		return users;
+	}
+	
+	@RequestMapping(value = "/ajax/getUserReportingToListFilterInUser", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getUserReportingToListFilterInUser(@ModelAttribute User obj) {
+		List<User> users = null;
+		try {
+			users = userService.getUserReportingToListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUserReportingToListFilterInUser : " + e.getMessage());
+		}
+		return users;
 	}
 	
 	@RequestMapping(value = "/ajax/getUsersList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

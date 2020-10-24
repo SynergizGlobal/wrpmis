@@ -37,5 +37,11 @@ public interface UserService {
 	List<User> getPmisKeys() throws Exception;
 
 	String checkPMISKeyAvailability(User obj) throws Exception;
+
+	List<User> getUserRolesFilter(User obj) throws Exception;
+
+	List<User> getUserDepartmentsFilter(User obj) throws Exception;
+
+	List<User> getUserReportingToListFilter(User obj) throws Exception;
 	
 }

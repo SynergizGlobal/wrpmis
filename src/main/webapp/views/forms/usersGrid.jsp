@@ -95,27 +95,27 @@
                                     	 <p>User Role</p>
                                         <select id="user_role_name_fk" name="user_role_name_fk" class="searchable" onchange="getUsersList();">
                                             <option value="">Select</option>
-                                            <c:forEach var="obj" items="${roles }">
+                                            <%-- <c:forEach var="obj" items="${roles }">
                                             	<option value="${obj.user_role_name }">${obj.user_role_name }</option>
-                                            </c:forEach>
+                                            </c:forEach> --%>
                                         </select>                                       
                                     </div>
                                     <div class="col s12 m3 input-field">
                                     	<p>Department</p>
                                         <select id="department_fk" name="department_fk" class="searchable" onchange="getUsersList();">
                                             <option value="">Select</option>
-                                            <c:forEach var="obj" items="${departments }">
+                                            <%-- <c:forEach var="obj" items="${departments }">
                                             	<option value="${obj.department }">${obj.department_name }</option>
-                                            </c:forEach>
+                                            </c:forEach> --%>
                                         </select>                                        
                                     </div>
                                     <div class="col s12 m3 input-field">
                                     	<p>Reporting To</p>
                                         <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable" onchange="getUsersList();">
                                             <option value="">Select</option>
-                                            <c:forEach var="obj" items="${reportingToList }">
+                                            <%-- <c:forEach var="obj" items="${reportingToList }">
                                             	<option value="${obj.user_id }"><c:if test="${not empty obj.designation}">${obj.designation } - </c:if>${obj.user_name }</option>
-                                            </c:forEach>
+                                            </c:forEach> --%>
                                         </select>                                        
                                     </div>
                                     <div class="col s12 m3">
@@ -318,9 +318,13 @@
         
         function getUsersList(){
         	$(".page-loader").show();
-        	 var user_role_name_fk = $("#user_role_name_fk").val();
-          	 var department_fk = $("#department_fk").val();
-          	 var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+        	var user_role_name_fk = $("#user_role_name_fk").val();
+          	var department_fk = $("#department_fk").val();
+          	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+          	
+          	getUserRolesFilter();
+          	getUserDepartmentsFilter();
+          	getUserReportingToListFilter();
          	
          	table = $('#datatable-users').DataTable();
     		 
@@ -409,7 +413,103 @@
         	    }
         	    console.log(msg);
          }
+      	
+        function getUserRolesFilter() {
+        	var user_role_name_fk = $("#user_role_name_fk").val();
+          	var department_fk = $("#department_fk").val();
+          	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+ 	      
+        	$(".page-loader").show();
+
+            if ($.trim(user_role_name_fk) == "") {
+                $("#user_role_name_fk option:not(:first)").remove();
+                var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getUserRolesFilterInUser",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+ 	                           $("#user_role_name_fk").append('<option value="' + val.user_role_name_fk + '">' + $.trim(val.user_role_name_fk) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+      	
+       
         
+        function getUserDepartmentsFilter() {
+        	var user_role_name_fk = $("#user_role_name_fk").val();
+          	var department_fk = $("#department_fk").val();
+          	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+            $(".page-loader").show();
+
+            if ($.trim(department_fk) == "") {
+                $("#department_fk option:not(:first)").remove();
+                var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getUserDepartmentsFilterInUser",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	$("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_name) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+ 	      	   		   $(".page-loader").hide();
+ 	    	   	       getErrorMessage(jqXHR, exception);
+     	   	       }
+                });
+            }else{
+            	   $(".page-loader").hide();
+            }
+        }
+        
+        function getUserReportingToListFilter() {
+        	var user_role_name_fk = $("#user_role_name_fk").val();
+          	var department_fk = $("#department_fk").val();
+          	var reporting_to_id_srfk = $("#reporting_to_id_srfk").val();
+  	        var status_fk = $("#status_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(reporting_to_id_srfk) == "") {
+                 $("#reporting_to_id_srfk option:not(:first)").remove();
+                 var myParams = {user_role_name_fk : user_role_name_fk,department_fk :department_fk, reporting_to_id_srfk : reporting_to_id_srfk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getUserReportingToListFilterInUser",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                           	 	var designation = '';
+                            	if ($.trim(val.designation) != '') { designation = ' - ' + $.trim(val.designation) }  	                           	
+                               	$("#reporting_to_id_srfk").append('<option value="' + val.user_id + '">' + $.trim(val.reporting_to_name)  + designation +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+         }
         
         function getUser(user_id) {
     		$("#user_id").val(user_id);

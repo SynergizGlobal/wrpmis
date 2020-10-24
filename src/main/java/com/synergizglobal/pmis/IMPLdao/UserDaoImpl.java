@@ -509,4 +509,128 @@ public class UserDaoImpl implements UserDao{
 		return pmis_key;
 	}
 
+	@Override
+	public List<User> getUserRolesFilter(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select user_role_name_fk from user "
+					+ "where user_role_name_fk is not null and user_role_name_fk <> '' " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				qry = qry + " and user_role_name_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				qry = qry + " and reporting_to_id_srfk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY user_role_name_fk";
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				pValues[i++] = obj.getUser_role_name_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				pValues[i++] = obj.getReporting_to_id_srfk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<User> getUserDepartmentsFilter(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select u.department_fk,department_name "
+					+ "from user u "
+					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
+					+ "where u.department_fk is not null and u.department_fk <> '' " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				qry = qry + " and u.user_role_name_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				qry = qry + " and u.reporting_to_id_srfk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY u.department_fk";
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				pValues[i++] = obj.getUser_role_name_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				pValues[i++] = obj.getReporting_to_id_srfk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<User> getUserReportingToListFilter(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select u.designation,u.reporting_to_id_srfk AS user_id,usr.user_name as reporting_to_name "
+					+ "from user u "
+					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "where u.reporting_to_id_srfk is not null and u.reporting_to_id_srfk <> '' " ;
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				qry = qry + " and u.user_role_name_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and u.department_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				qry = qry + " and u.reporting_to_id_srfk = ?";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY u.reporting_to_id_srfk";
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
+				pValues[i++] = obj.getUser_role_name_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
+				pValues[i++] = obj.getReporting_to_id_srfk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
 }

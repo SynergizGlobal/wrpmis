@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.Iservice.DesignService;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.Safety;
-import com.synergizglobal.pmis.model.User;
 
 @Service
 public class DesignServiceImpl implements DesignService{
@@ -69,6 +66,31 @@ public class DesignServiceImpl implements DesignService{
 	@Override
 	public int uploadDesigns(List<Design> designsList) throws Exception {
 		return designDao.uploadDesigns(designsList);
+	}
+
+	@Override
+	public List<Design> getHodListFilter(Design obj) throws Exception {
+		return designDao.getHodListFilter(obj);
+	}
+
+	@Override
+	public List<Design> getDepartmentListFilter(Design obj) throws Exception {
+		return designDao.getDepartmentListFilter(obj);
+	}
+
+	@Override
+	public List<Design> getContractListFilter(Design obj) throws Exception {
+		return designDao.getContractListFilter(obj);
+	}
+
+	@Override
+	public List<Design> getStructureListFilter(Design obj) throws Exception {
+		return designDao.getStructureListFilter(obj);
+	}
+
+	@Override
+	public List<Design> getDrawingTypeListFilter(Design obj) throws Exception {
+		return designDao.getDrawingTypeListFilter(obj);
 	}
 
 }

@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.User;
 
 public interface DesignService {
 
@@ -29,7 +28,15 @@ public interface DesignService {
 
 	public int uploadDesigns(List<Design> designsList) throws Exception;
 
-	
+	public List<Design> getHodListFilter(Design obj) throws Exception;
+
+	public List<Design> getDepartmentListFilter(Design obj) throws Exception;
+
+	public List<Design> getContractListFilter(Design obj) throws Exception;
+
+	public List<Design> getStructureListFilter(Design obj) throws Exception;
+
+	public List<Design> getDrawingTypeListFilter(Design obj) throws Exception;
 	
 
 }

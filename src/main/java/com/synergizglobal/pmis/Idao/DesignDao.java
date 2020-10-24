@@ -3,8 +3,6 @@ package com.synergizglobal.pmis.Idao;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.Safety;
-import com.synergizglobal.pmis.model.User;
 
 public interface DesignDao {
 
@@ -29,5 +27,15 @@ public interface DesignDao {
 	public boolean updateDesign(Design obj) throws Exception;
 
 	public int uploadDesigns(List<Design> designsList) throws Exception;
+	
+	public List<Design> getHodListFilter(Design obj) throws Exception;
+
+	public List<Design> getDepartmentListFilter(Design obj) throws Exception;
+
+	public List<Design> getContractListFilter(Design obj) throws Exception;
+
+	public List<Design> getStructureListFilter(Design obj) throws Exception;
+
+	public List<Design> getDrawingTypeListFilter(Design obj) throws Exception;
 
 }

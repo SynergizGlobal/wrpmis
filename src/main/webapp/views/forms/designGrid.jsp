@@ -39,6 +39,17 @@
 		    z-index: 1000;
 		}		
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		
+		.page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		
     </style>
 </head>
 <body>
@@ -241,7 +252,21 @@
          
   
 
-<div class="page-loader" style="display: none;">
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+	
+	<div class="page-loader-2" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">
@@ -336,14 +361,18 @@
      }
 
 	 function getDesignList(){
-	    	$(".page-loader").show();
+	    	$(".page-loader-2").show();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
 	    	var hod = $("#hod").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
 	    	var drawing_type_fk = $("#drawing_type_fk").val();
 
-
+	    	getHodListFilter();
+	    	getDepartmentListFilter();
+	    	getContractListFilter();
+	    	getStructureListFilter();
+	    	getDrawingTypeListFilter();
 	     	
 	     	table = $('#datatable-design').DataTable();
 			 
@@ -403,13 +432,13 @@
 		                    		                       
 						});
 		         		
-		         		$(".page-loader").hide();
+		         		$(".page-loader-2").hide();
 					}else{
-						$(".page-loader").hide();
+						$(".page-loader-2").hide();
 					}
 					
 				},error: function (jqXHR, exception) {
-					$(".page-loader").hide();
+					$(".page-loader-2").hide();
 		         	getErrorMessage(jqXHR, exception);
 		     }});
 	    }
@@ -434,6 +463,178 @@
 	    	    }
 	    	    console.log(msg);
 	     }
+	  	
+	  	
+	    function getContractListFilter() {
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(contract_id_fk) == "") {
+                 $("#contract_id_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractListFilterInDesign",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_short_name = '';
+                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+      	
+       
+        
+        function getHodListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(hod) == "") {
+                 $("#hod option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getHodListFilterInDesign",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	$("#hod").append('<option value="' + val.hod + '">' + $.trim(val.hod) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+ 	      	   		   $(".page-loader").hide();
+ 	    	   	       getErrorMessage(jqXHR, exception);
+     	   	       }
+                });
+            }else{
+            	   $(".page-loader").hide();
+            }
+        }
+        
+        function getDepartmentListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(department_id_fk) == "") {
+                 $("#department_id_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getDepartmentListFilterInDesign",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                           	 	$("#department_id_fk").append('<option value="' + val.department_id_fk + '">' + $.trim(val.department_name) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }
+        
+        function getStructureListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(structure_type_fk) == "") {
+                 $("#structure_type_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getStructureListFilterInDesign",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                           	 	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '">' + $.trim(val.structure_type_fk) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }
+        
+        function getDrawingTypeListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(drawing_type_fk) == "") {
+                 $("#drawing_type_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getDrawingTypeListFilterInDesign",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                           	 	$("#drawing_type_fk").append('<option value="' + val.drawing_type_fk + '">' + $.trim(val.drawing_type_fk) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }
+        
+        
 	    function getDesign(design_id) {
 			$("#design_id").val(design_id);
 			$("#getForm").submit();

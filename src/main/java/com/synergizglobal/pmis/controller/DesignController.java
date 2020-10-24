@@ -50,7 +50,6 @@ import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class DesignController {
@@ -97,26 +96,91 @@ public class DesignController {
 	public String uploadformatError;
 	
 	@RequestMapping(value="/design",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView design(@ModelAttribute Design design,HttpSession session){
+	public ModelAndView design(@ModelAttribute Design obj,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.designGrid);
 		
 		try {
-			List<User> hodList = contractservice.setHodList();
+			/*List<Design> hodList = designService.getHodListFilter(obj);
 			model.addObject("hodList", hodList);
-			List<Design> departmentList = designService.getDepartmentList();
+			List<Design> departmentList = designService.getDepartmentListFilter(obj);
 			model.addObject("departmentList", departmentList);
-			List<Contract> contractList = contractservice.contractList(null);
+			List<Design> contractList = designService.getContractListFilter(obj);
 			model.addObject("contractList", contractList);
-			List<Design> structureTypeList = designService.structureList();
+			List<Design> structureTypeList = designService.getStructureListFilter(obj);
 			model.addObject("structureTypeList", structureTypeList);
-			List<Design> drawingTypeList = designService.drawingTypeList();
-			model.addObject("drawingTypeList", drawingTypeList);
+			List<Design> drawingTypeList = designService.getDrawingTypeListFilter(obj);
+			model.addObject("drawingTypeList", drawingTypeList);*/
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("design : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getHodListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getHodListFilter(@ModelAttribute Design obj) {
+		List<Design> design = null;
+		try {
+			design = designService.getHodListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHodListFilterInDesign : " + e.getMessage());
+		}
+		return design;
+	}
+	
+	@RequestMapping(value = "/ajax/getDepartmentListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getDepartmentListFilter(@ModelAttribute Design obj) {
+		List<Design> design = null;
+		try {
+			design = designService.getDepartmentListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDepartmentListFilterInDesign : " + e.getMessage());
+		}
+		return design;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getContractListFilter(@ModelAttribute Design obj) {
+		List<Design> design = null;
+		try {
+			design = designService.getContractListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractListFilterInDesign : " + e.getMessage());
+		}
+		return design;
+	}
+	
+	@RequestMapping(value = "/ajax/getStructureListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getStructureListFilter(@ModelAttribute Design obj) {
+		List<Design> design = null;
+		try {
+			design = designService.getStructureListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureListFilterInDesign : " + e.getMessage());
+		}
+		return design;
+	}
+	
+	@RequestMapping(value = "/ajax/getDrawingTypeListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getDrawingTypeListFilter(@ModelAttribute Design obj) {
+		List<Design> design = null;
+		try {
+			design = designService.getDrawingTypeListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDrawingTypeListFilterInDesign : " + e.getMessage());
+		}
+		return design;
 	}
 	
 	@RequestMapping(value = "/ajax/getDesigns", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

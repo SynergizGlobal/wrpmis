@@ -10,7 +10,7 @@ public class Design {
 	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,
-	 revision_status_fk,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,issue_category_id,created_by_user_id_fk;
+	 revision_status_fk,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,issue_category_id,created_by_user_id_fk,contract_short_name;
 
 	private MultipartFile designFile;
 	
@@ -437,6 +437,14 @@ public class Design {
 
 	public void setIs_there_issue(String is_there_issue) {
 		this.is_there_issue = is_there_issue;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
 	}
 
 }

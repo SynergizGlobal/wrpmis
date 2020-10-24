@@ -360,7 +360,7 @@
                             }
                         });
                     }
-                    $('.searchable').select2();
+                  
                     $(".page-loader").hide();
                }
          });
@@ -388,7 +388,7 @@
                             }
                         });
                     }
-                    $('.searchable').select2();
+                   
                     $(".page-loader").hide();
                 }
          });
@@ -414,7 +414,7 @@
                            }
                        });
                    }
-                   $('.searchable').select2();
+                  
                    $(".page-loader").hide();
                }
           });

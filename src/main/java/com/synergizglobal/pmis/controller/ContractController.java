@@ -120,14 +120,12 @@ public class ContractController {
 		return contractList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractorsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractorsListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getContractorsList(@ModelAttribute Contract obj) {
-		
 		List<Contract> contractorsList = null;  
 		try {
 			 contractorsList = contractservice.contractorsList(obj);
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractorsList : " + e.getMessage());
@@ -135,14 +133,12 @@ public class ContractController {
 		return contractorsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getDepartmentsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getDepartmentsListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getDepartmentsList(@ModelAttribute Contract obj) {
-		
 		List<Contract> departmentList = null;
 		try {
 			 departmentList = contractservice.departmentList(obj);
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getDepartmentsList : " + e.getMessage());
@@ -150,14 +146,12 @@ public class ContractController {
 		return departmentList;
 	}
 
-	@RequestMapping(value = "/ajax/getWorkLists", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getWorksList(@ModelAttribute Contract obj) {
-		
 		List<Contract> worksList = null;
 		try {
 			worksList = contractservice.worksList(obj);
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getWorksList : " + e.getMessage());

@@ -11,7 +11,7 @@ public class Contract {
 	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk,
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,
-	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark;
+	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
@@ -951,6 +951,14 @@ public class Contract {
 
 	public void setContract_short_name(String contract_short_name) {
 		this.contract_short_name = contract_short_name;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
 	}
 	
 }

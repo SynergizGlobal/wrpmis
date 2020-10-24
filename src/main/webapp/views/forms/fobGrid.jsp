@@ -87,14 +87,14 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m4 input-field">
                                     <p><label>Contract</label></p>
-                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList(); getWorkStatusList();" class="searchable">
+                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();" class="searchable">
                                             <option value="" >Select</option>
                                            
                                         </select>                                        
                                     </div>
                                     <div class="col s12 m4 input-field">
                                     <p><label>Work Status</label></p>
-                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList(); getContractsList();" class="searchable">
+                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();" class="searchable">
                                             <option value="" >Select</option>     
                                                                                  
                                         </select>
@@ -215,23 +215,21 @@
         	$('.close-message').delay(3000).fadeOut('slow');
         	
         	getFOBList();
-        	getWorkStatusList();
-        	getContractsList();
         });
         
         function clearFilter(){
         	$("#contract_id_fk").val('');
         	$("#work_status_fk").val('');
         	getFOBList();
-        	getWorkStatusList();
-        	getContractsList();
         }
         
         function getFOBList(){
         	$(".page-loader").show();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var work_status_fk = $("#work_status_fk").val();
-         	
+        	getWorkStatusList();
+        	getContractsList();
+        	
          	table = $('#datatable-fob').DataTable();
     		 
     		table.destroy();
@@ -301,56 +299,60 @@
         
         function getWorkStatusList(){
         	$(".page-loader").show();
-    	 	$("#work_status_fk option:not(:first)").remove();
     	 	var contract_id_fk = $("#contract_id_fk").val();
-    	    var myParams = {contract_id_fk : contract_id_fk};
-    	    $.ajax({
-    	    	url: "<%=request.getContextPath()%>/ajax/getWorkStatusList", 
-    	    	data: myParams, cache: false,
-                success: function (data) {
-             	   if(data != null && data != '' && data.length > 0){   
-                         $.each(data, function (i, val) {
-                             if ($.trim(work_status_fk) != ''  && val.work_status_fk == $.trim(work_status_fk)) {
-                            	 $("#work_status_fk").append('<option value="' + val.work_status_fk +  '" selected>' + $.trim(val.work_status_fk) + '</option>');
-                             } else {
-                              	 $("#work_status_fk").append('<option value="' + val.work_status_fk + '">' + $.trim(val.work_status_fk) + '</option>');
-                              }
-                         });
-                         $('.searchable').select2();
-                         $(".page-loader").hide();
-             	   }else{
-    				  $(".page-loader").hide();
-    			   }
-                }
-           });
+    	 	var work_status_fk = $("#work_status_fk").val();
+    	    if ($.trim(work_status_fk) == "") {
+    	    	$("#work_status_fk option:not(:first)").remove();
+    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkStatusListInFOB",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                    	 if(data != null && data != '' && data.length > 0){  
+                            $.each(data, function (i, val) {
+    	                           $("#work_status_fk").append('<option value="' + val.work_status_fk + '">' + $.trim(val.work_status_fk) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
     	 }
         
          function getContractsList(){
     	 	$(".page-loader").show();
-    	 	$("#contract_id_fk option:not(:first)").remove();
     	 	var work_status_fk = $("#work_status_fk").val();
-    	    var myParams = {work_status_fk : work_status_fk};
-    	    $.ajax({
-    	    	url: "<%=request.getContextPath()%>/ajax/getContractsList", 
-    	    	data: myParams, cache: false,
-                success: function (data) {
-             	   if(data != null && data != '' && data.length > 0){   
-                         $.each(data, function (i, val) {
-                        	 var contract_name = '';
-                             if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
-                             if ($.trim(contract_id_fk) != ''  && val.contract_id_fk == $.trim(contract_id_fk)) {
-                           		 $("#contract_id_fk").append('<option value="' + val.contract_id_fk +  '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                             } else {
-                              	 $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                              }
-                         });
-                         $('.searchable').select2();
-                         $(".page-loader").hide();
-             	    }else{
-    				  $(".page-loader").hide();
-    			    }
-                }
-           });
+    	 	var contract_id_fk = $("#contract_id_fk").val();
+    	    if ($.trim(contract_id_fk) == "") {
+    	    	$("#contract_id_fk option:not(:first)").remove();
+    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractsListInFOB",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                    	 if(data != null && data != '' && data.length > 0){  
+                            $.each(data, function (i, val) {
+                            	 var contract_short_name = '';
+                                 if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+    	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + contract_short_name + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
     	 }
         
       	//This function is used to get error message for all ajax calls

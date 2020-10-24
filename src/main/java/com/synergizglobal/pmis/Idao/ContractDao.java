@@ -13,8 +13,6 @@ public interface ContractDao {
 
 	public List<User> setHodList()throws Exception;
 
-	public List<Contract> getContractorList()throws Exception;
-
 	public List<Contract> getContractTypeList()throws Exception;
 
 	public List<Contract> getInsurenceTypeList()throws Exception;
@@ -32,9 +30,7 @@ public interface ContractDao {
 	public boolean updateContract(Contract contract)throws Exception;
 
 	public List<Contract> getDepartmentList()throws Exception;
-
-	public List<Contract> getWorkList()throws Exception;
-
+	
 	public List<Contract> getContractorsList()throws Exception; 
 
 	public List<Contract> contractorsList(Contract obj)throws Exception;

@@ -26,11 +26,7 @@ public class ContractServiceImpl implements ContractService{
 	public List<User> setHodList()throws Exception{
 		return contractDao.setHodList();
 	}
-	@Override
-	public List<Contract> getContractorList()throws Exception{
-		return contractDao.getContractorList();
-	}
-	
+
 	@Override
 	public List<Contract> getContractTypeList()throws Exception{
 		return contractDao.getContractTypeList();
@@ -68,10 +64,6 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getDepartmentList()throws Exception{
 		return contractDao.getDepartmentList();
 
-	}
-	@Override
-	public List<Contract> getWorkList() throws Exception {
-		return contractDao.getWorkList();
 	}
 	@Override
 	public List<Contract> getContractorsList() throws Exception {

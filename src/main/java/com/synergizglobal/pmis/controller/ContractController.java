@@ -92,12 +92,6 @@ public class ContractController {
 	public ModelAndView Contract(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractGrid);
 		try {
-			/*List<Contract> workList = contractservice.getWorkList();
-			model.addObject("workList", workList);
-			List<Contract> departmentList = contractservice.getDepartmentList();
-			model.addObject("departmentList", departmentList);
-			List<Contract> contractor = contractservice.getContractorList();
-			model.addObject("contractor", contractor);*/
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
 		}catch (Exception e) {
@@ -270,7 +264,7 @@ public class ContractController {
 			model.addObject("departmentList", departmentList);
 			List<User> hodList = contractservice.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contractor = contractservice.getContractorList();
+			List<Contract> contractor = contractservice.getContractorsList();
 			model.addObject("contractor", contractor);
 			List<Contract> contract_type = contractservice.getContractTypeList();
 			model.addObject("contract_type", contract_type);

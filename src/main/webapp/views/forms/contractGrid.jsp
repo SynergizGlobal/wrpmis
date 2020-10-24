@@ -428,9 +428,9 @@
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                        	 var workName = '';
-                             if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workName +'</option>');
+                        	 var workShortName = '';
+                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                         });
                     }
                     $('.searchable').select2();

@@ -52,6 +52,14 @@ public class Contract {
 		return attachment;
 	}
 
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
 	}
@@ -951,14 +959,6 @@ public class Contract {
 
 	public void setContract_short_name(String contract_short_name) {
 		this.contract_short_name = contract_short_name;
-	}
-
-	public String getWork_short_name() {
-		return work_short_name;
-	}
-
-	public void setWork_short_name(String work_short_name) {
-		this.work_short_name = work_short_name;
 	}
 	
 }

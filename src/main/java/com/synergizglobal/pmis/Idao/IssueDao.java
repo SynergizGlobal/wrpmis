@@ -23,15 +23,15 @@ public interface IssueDao {
 	boolean deleteIssue(Issue obj) throws Exception;
 
 	List<Issue> getDepartmentList() throws Exception;
-	
-	List<Issue> getContractsListFromIssue() throws Exception;
-
-	List<Issue> getDepartmentsListFromIssue() throws Exception;
-
-	List<Issue> getCategoryListFromIssue() throws Exception;
-
-	List<Issue> getStatusListFromIssue() throws Exception;
 
 	List<Issue> getRailwayList() throws Exception;
+	
+	List<Issue> getContractsListFilter(Issue obj) throws Exception;
+
+	List<Issue> getDepartmentsListFilter(Issue obj) throws Exception;
+
+	List<Issue> getCategoryListFilter(Issue obj) throws Exception;
+
+	List<Issue> getStatusListFilter(Issue obj) throws Exception;
 
 }

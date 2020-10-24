@@ -80,23 +80,75 @@ public class SafetyController {
 			model.setViewName(PageConstants.safetyGrid);
 			/*List<Safety> safety = safetyService.getSafetyList(obj);
 			model.addObject("safety", safety);*/
-			List<Safety> contracts = safetyService.getContractsListFromSafety();
+			/*List<Safety> contracts = safetyService.getContractsListFilter(obj);
 			model.addObject("contracts", contracts);
 			
-			List<Safety> departments = safetyService.getDepartmentsListFromSafety();
+			List<Safety> departments = safetyService.getDepartmentsListFilter(obj);
 			model.addObject("departments", departments);
 			
-			List<Safety> categorys = safetyService.getCategoryListFromSafety();
+			List<Safety> categorys = safetyService.getCategoryListFilter(obj);
 			model.addObject("categorys", categorys);
 			
-			List<Safety> statuses = safetyService.getStatusListFromSafety();
-			model.addObject("statuses", statuses);
+			List<Safety> statuses = safetyService.getStatusListFilter(obj);
+			model.addObject("statuses", statuses);*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("safety : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getContractsListFilterInSafety(@ModelAttribute Safety obj) {
+		List<Safety> objList = null;
+		try {
+			objList = safetyService.getContractsListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListFilterInSafety : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDepartmentsListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getDepartmentsListFilterInSafety(@ModelAttribute Safety obj) {
+		List<Safety> objList = null;
+		try {
+			objList = safetyService.getDepartmentsListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDepartmentsListFilterInSafety : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getCategoryListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getCategoryListFilterInSafety(@ModelAttribute Safety obj) {
+		List<Safety> objList = null;
+		try {
+			objList = safetyService.getCategoryListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getCategoryListFilterInSafety : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStatusListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getStatusListFilterInSafety(@ModelAttribute Safety obj) {
+		List<Safety> objList = null;
+		try {
+			objList = safetyService.getStatusListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusListFilterInSafety : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	@RequestMapping(value = "/ajax/getSafetyList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

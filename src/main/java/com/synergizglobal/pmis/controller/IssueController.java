@@ -81,26 +81,64 @@ public class IssueController {
 	public ModelAndView issues(@ModelAttribute Issue obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-			model.setViewName(PageConstants.issuesGrid);
-			/*List<Issue> issues = issueService.getIssuesList(obj);
-			model.addObject("issues", issues);*/
-			List<Issue> contracts = issueService.getContractsListFromIssue();
-			model.addObject("contracts", contracts);
-			
-			List<Issue> departments = issueService.getDepartmentsListFromIssue();
-			model.addObject("departments", departments);
-			
-			List<Issue> categorys = issueService.getCategoryListFromIssue();
-			model.addObject("categorys", categorys);
-			
-			List<Issue> statuses = issueService.getStatusListFromIssue();
-			model.addObject("statuses", statuses);
-			
+			model.setViewName(PageConstants.issuesGrid);			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("issues : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getContractsListFilterInIssue(@ModelAttribute Issue obj) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getContractsListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListFilterInIssue : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDepartmentsListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getDepartmentsListFilterInIssue(@ModelAttribute Issue obj) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getDepartmentsListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDepartmentsListFilterInIssue : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getCategoryListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getCategoryListFilterInIssue(@ModelAttribute Issue obj) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getCategoryListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getCategoryListFilterInIssue : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStatusListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getStatusListFilterInIssue(@ModelAttribute Issue obj) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getStatusListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusListFilterInIssue : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	@RequestMapping(value = "/ajax/getIssuesList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

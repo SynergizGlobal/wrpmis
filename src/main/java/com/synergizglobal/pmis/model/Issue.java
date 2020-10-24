@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Issue {
 	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
 	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,
-	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk;
+	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name;
 
 	private MultipartFile issueFile;
 	
@@ -305,6 +305,14 @@ public class Issue {
 
 	public void setZonal_railway_fk(String zonal_railway_fk) {
 		this.zonal_railway_fk = zonal_railway_fk;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
 	}
 	
 }

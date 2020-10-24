@@ -2,19 +2,15 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -25,14 +21,7 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.Contractor;
-import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.FOB;
-import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.SafetyEquipment;
-import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
 
 @Repository
@@ -380,13 +369,13 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	}
 
 	@Override
-	public List<Contract> contractList() throws Exception {
-		List<Contract> objsList = null;
+	public List<SafetyEquipment> contractListFilterInSafetyEquipment() throws Exception {
+		List<SafetyEquipment> objsList = null;
 		try {
-			String qry ="select contract_id_fk ,c.contract_name from safety_equipment s "
+			String qry ="select contract_id_fk ,c.contract_name,c.contract_short_name from safety_equipment s "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
 					+ "GROUP BY contract_id_fk ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

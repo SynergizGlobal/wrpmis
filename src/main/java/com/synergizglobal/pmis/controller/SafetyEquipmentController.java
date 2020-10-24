@@ -57,8 +57,6 @@ public class SafetyEquipmentController {
 	@Autowired
 	SafetyEquipmentService service;
 	
-	@Autowired
-	ContractService contractservice;
 	
 	@Autowired
 	DesignService designService;
@@ -82,7 +80,7 @@ public class SafetyEquipmentController {
 	public ModelAndView safetyEquipment(HttpSession session,@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView(PageConstants.safetyEquipmentGrid);
 		try {
-			List<Contract> contractList = service.contractList();
+			List<SafetyEquipment> contractList = service.contractListFilterInSafetyEquipment();
 			model.addObject("contractList", contractList);
 		}catch (Exception e) {
 			e.printStackTrace();

@@ -25,11 +25,11 @@ public interface SafetyDao {
 
 	List<Safety> getDepartmentList() throws Exception;
 	
-	List<Safety> getContractsListFromSafety() throws Exception;
+	List<Safety> getContractsListFilter(Safety obj) throws Exception;
 
-	List<Safety> getDepartmentsListFromSafety() throws Exception;
+	List<Safety> getDepartmentsListFilter(Safety obj) throws Exception;
 
-	List<Safety> getCategoryListFromSafety() throws Exception;
+	List<Safety> getCategoryListFilter(Safety obj) throws Exception;
 
-	List<Safety> getStatusListFromSafety() throws Exception;
+	List<Safety> getStatusListFilter(Safety obj) throws Exception;
 }

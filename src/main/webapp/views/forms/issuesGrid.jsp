@@ -99,9 +99,9 @@
                              <p> <label>Contract</label></p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
-                                     <c:forEach var="obj" items="${contracts }">
+                                     <%-- <c:forEach var="obj" items="${contracts }">
 		                               	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
-		                             </c:forEach>
+		                             </c:forEach> --%>
                                  </select>
                                                                
                             </div>
@@ -109,27 +109,27 @@
                                 <p><label>Department</label></p>
                                 <select id="department_fk" name="department_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
-                                     <c:forEach var="obj" items="${departments }">
+                                     <%-- <c:forEach var="obj" items="${departments }">
 		                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
-		                             </c:forEach>
+		                             </c:forEach> --%>
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
                              <p><label>Category</label></p>
                                  <select id="category_fk" name="category_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
-                                     <c:forEach var="obj" items="${categorys }">
+                                     <%-- <c:forEach var="obj" items="${categorys }">
 		                               	<option value="${obj.category_fk }" <c:if test="${param.category_fk eq obj.category_fk }">selected</c:if>>${obj.category_fk }</option>
-		                             </c:forEach>
+		                             </c:forEach> --%>
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
 								 <p><label>Status</label></p>                            
                                  <select id="status_fk" name="status_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
-                                     <c:forEach var="obj" items="${statuses }">
+                                     <%-- <c:forEach var="obj" items="${statuses }">
 		                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
-		                             </c:forEach>
+		                             </c:forEach> --%>
                                  </select>
                             </div>
                             <div class="col s12 m2">
@@ -289,6 +289,11 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	
+        	getContractsListFilter();
+        	getDepartmentsListFilter();
+        	getCategoryListFilter();
+        	getStatusListFilter();
          	
          	table = $('#datatable-issues').DataTable();
     		 
@@ -390,6 +395,137 @@
         	    console.log(msg);
          }
         
+        function getContractsListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(contract_id_fk) == "") {
+                 $("#contract_id_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInIssue",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_short_name = '';
+                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+      	
+       
+        
+        function getDepartmentsListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(department_fk) == "") {
+                 $("#department_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInIssue",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	$("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_name) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+ 	      	   		   $(".page-loader").hide();
+ 	    	   	       getErrorMessage(jqXHR, exception);
+     	   	       }
+                });
+            }else{
+            	   $(".page-loader").hide();
+            }
+        }
+        
+        function getCategoryListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(category_fk) == "") {
+                 $("#category_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInIssue",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                           	 	$("#category_fk").append('<option value="' + val.category_fk + '">' + $.trim(val.category_fk) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }
+        
+        function getStatusListFilter() {
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(status_fk) == "") {
+                 $("#status_fk option:not(:first)").remove();
+                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInIssue",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                           	 	$("#status_fk").append('<option value="' + val.status_fk + '">' + $.trim(val.status_fk) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }
         
         function getIssue(issue_id) {
     		$("#issue_id").val(issue_id);

@@ -6,7 +6,7 @@ public class Safety {
 	private String safety_id,contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
 	category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,
 	investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,payment_date,remarks,
-	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,department,department_name,attachment;
+	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,department,department_name,attachment,contract_short_name;
 
 	private MultipartFile safetyFile;
 	public String getContract_name() {
@@ -335,6 +335,14 @@ public class Safety {
 
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
 	}
 	
 }

@@ -60,28 +60,28 @@ public class IssueServiceImpl implements IssueService {
 	}
 
 	@Override
-	public List<Issue> getContractsListFromIssue() throws Exception {
-		return issueDao.getContractsListFromIssue();
-	}
-
-	@Override
-	public List<Issue> getDepartmentsListFromIssue() throws Exception {
-		return issueDao.getDepartmentsListFromIssue();
-	}
-
-	@Override
-	public List<Issue> getCategoryListFromIssue() throws Exception {
-		return issueDao.getCategoryListFromIssue();
-	}
-
-	@Override
-	public List<Issue> getStatusListFromIssue() throws Exception {
-		return issueDao.getStatusListFromIssue();
-	}
-
-	@Override
 	public List<Issue> getRailwayList() throws Exception {
 		return issueDao.getRailwayList();
+	}
+	
+	@Override
+	public List<Issue> getContractsListFilter(Issue obj) throws Exception {
+		return issueDao.getContractsListFilter(obj);
+	}
+
+	@Override
+	public List<Issue> getDepartmentsListFilter(Issue obj) throws Exception {
+		return issueDao.getDepartmentsListFilter(obj);
+	}
+
+	@Override
+	public List<Issue> getCategoryListFilter(Issue obj) throws Exception {
+		return issueDao.getCategoryListFilter(obj);
+	}
+
+	@Override
+	public List<Issue> getStatusListFilter(Issue obj) throws Exception {
+		return issueDao.getStatusListFilter(obj);
 	}
 	
 }

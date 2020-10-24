@@ -113,138 +113,138 @@
 			                        <li class="tab col s6" style="background-color:#fafafa"><a  href="#baseline">Add Baseline</a></li>
 			                    </ul>
 			                      
-                <div class="" id="existing" style="padding:15px; background-color:#f0f8ff">
-                    <div style="margin-top:20px">
-                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
-                            <div class="row">
-                                <div class="col s12 m6 input-field">
-                                    <p  class="searchable_label">Contract</p>
-                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate');">
-                                            <option value="" >Select</option>
-                                            <c:forEach var="obj" items="${contractsList}">
-                       						  <option value="${obj.contract_id_fk }" >${obj.contract_id_fk }</option>
-                                             </c:forEach>
-                                     </select>
-                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m6 input-field">
-                                   <p class="searchable_label"> FOB</p>
-                                   <select id="fob_id_fkUpdate" name="fob_id_fk"  class="searchable validate-dropdown">
-                                        <option value="">Select</option>
-                                   </select>
-                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m6 input-field">
-                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
-                                    <label for="data_dateUpdate"> Data Date</label>
-                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="data_dateUpdateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m6">
-                                    <div class="file-field input-field">
-                                        <div class="btn btn-outline">
-                                            <span>Upload P6 Export File</span>
-                                            <input type="file" name="p6dataFile">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 center-align">
-                                    <div style="display: inline-block;">
-                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
-                                            Update Activities
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="container-no-margin">
-                        <div class="row center-align">
-                            <div class="col m12 text-primary">
-                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
-                                    P6 data file will be in
-                                    the given format. Click <a href="/pmis/P6UpdateFile.xlsx" download>here</a> for
-                                    the file format</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                
- 				<div class="" id="baseline" style="padding:15px;background-color:#fafafa">
-                    <div style="margin-top:20px">
-                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
-                            <div class="row">
-                                <div class="col s12 m6 input-field">
-                                    <p  class="searchable_label"> Contract</p>
-                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload');">
-                                            <option value="" >Select</option>
-                                            <c:forEach var="obj" items="${contractsList}">
-                       						  <option value="${obj.contract_id_fk }" >${obj.contract_id_fk }</option>
-                                             </c:forEach>
-                                     </select>
-                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m6 input-field">
-                                    <p  class="searchable_label">FOB</p>
-                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="searchable validate-dropdown">
-                                            <option value="" >Select</option>
-                                     </select>
-                                     <span id="fob_id_fkUploadError" class="error-msg" ></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m6 input-field">
-                                    <input id="data_dateUpload" type="text" name="data_date" class="validate datepicker">
-                                    <label for="data_dateUpload"> Data Date</label>
-                                    <button type="button" id="data_dateUpload_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="data_dateUploadError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m6">
-                                    <div class="file-field input-field">
-                                        <div class="btn btn-outline">
-                                            <span>Upload P6 Export File</span>
-                                            <input type="file" name="p6dataFile">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 center-align">
-                                    <div style="display: inline-block;">
-                                        <!-- <input type="submit" value="" > -->
-                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Baseline();">
-                                            Upload Activities
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="container-no-margin">
-                        <div class="row center-align">
-                            <div class="col m12 text-primary">
-                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
-                                    P6 data file will be in
-                                    the given format. Click <a href="/pmis/P6BaselineFile.xlsx" download>here</a> for
-                                    the file format</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+				                <div class="" id="existing" style="padding:15px; background-color:#f0f8ff">
+				                    <div style="margin-top:20px">
+				                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
+				                            <div class="row">
+				                                <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label">Contract</p>
+				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate');">
+				                                            <option value="" >Select</option>
+				                                            <c:forEach var="obj" items="${contractsList}">
+				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
+				                                             </c:forEach>				                                             
+				                                     </select>
+				                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6 input-field">
+				                                   <p class="searchable_label"> FOB</p>
+				                                   <select id="fob_id_fkUpdate" name="fob_id_fk"  class="searchable validate-dropdown">
+				                                        <option value="">Select</option>
+				                                   </select>
+				                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 m6 input-field">
+				                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
+				                                    <label for="data_dateUpdate"> Data Date</label>
+				                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
+				                                    <span id="data_dateUpdateError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6">
+				                                    <div class="file-field input-field">
+				                                        <div class="btn btn-outline">
+				                                            <span>Upload P6 Export File</span>
+				                                            <input type="file" name="p6dataFile">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>
+				                                    </div>
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 center-align">
+				                                    <div style="display: inline-block;">
+				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Update();">
+				                                            Update Activities
+				                                        </button>
+				                                    </div>
+				
+				                                </div>
+				                            </div>
+				                        </form>
+				                    </div>
+				                    <div class="container-no-margin">
+				                        <div class="row center-align">
+				                            <div class="col m12 text-primary">
+				                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
+				                                    P6 data file will be in
+				                                    the given format. Click <a href="/pmis/P6UpdateFile.xlsx" download>here</a> for
+				                                    the file format</p>
+				                            </div>
+				
+				                        </div>
+				                    </div>
+				                </div>
+				                
+				 				<div class="" id="baseline" style="padding:15px;background-color:#fafafa">
+				                    <div style="margin-top:20px">
+				                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
+				                            <div class="row">
+				                                <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label"> Contract</p>
+				                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload');">
+				                                            <option value="" >Select</option>
+				                                            <c:forEach var="obj" items="${contractsList}">
+				                       						  <option value="${obj.contract_id }" >${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
+				                                             </c:forEach>
+				                                     </select>
+				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6 input-field">
+				                                    <p  class="searchable_label">FOB</p>
+				                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="searchable validate-dropdown">
+				                                            <option value="" >Select</option>
+				                                     </select>
+				                                     <span id="fob_id_fkUploadError" class="error-msg" ></span>
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 m6 input-field">
+				                                    <input id="data_dateUpload" type="text" name="data_date" class="validate datepicker">
+				                                    <label for="data_dateUpload"> Data Date</label>
+				                                    <button type="button" id="data_dateUpload_icon"><i class="fa fa-calendar"></i></button>
+				                                    <span id="data_dateUploadError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s12 m6">
+				                                    <div class="file-field input-field">
+				                                        <div class="btn btn-outline">
+				                                            <span>Upload P6 Export File</span>
+				                                            <input type="file" name="p6dataFile">
+				                                        </div>
+				                                        <div class="file-path-wrapper">
+				                                            <input class="file-path validate" type="text">
+				                                        </div>
+				                                    </div>
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="col s12 center-align">
+				                                    <div style="display: inline-block;">
+				                                        <!-- <input type="submit" value="" > -->
+				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadP6Baseline();">
+				                                            Upload Activities
+				                                        </button>
+				                                    </div>
+				
+				                                </div>
+				                            </div>
+				                        </form>
+				                    </div>
+				                    <div class="container-no-margin">
+				                        <div class="row center-align">
+				                            <div class="col m12 text-primary">
+				                                <p style="margin-bottom: 20px;"><strong>Note :</strong> Please make sure the uploading
+				                                    P6 data file will be in
+				                                    the given format. Click <a href="/pmis/P6BaselineFile.xlsx" download>here</a> for
+				                                    the file format</p>
+				                            </div>
+				
+				                        </div>
+				                    </div>
+				                </div>
 			                    
 							</div>
 						</div>
@@ -268,26 +268,38 @@
                                  <div class="col m1 hide-on-small-only"></div>
                                     <div class="col s12 m2 input-field">
                                       <p class="searchable_label">Contract</p>
-                                        <select id="contract_id" name="contract_id" onchange="" class="searchable">
-                                            <option value="">Select Contract ID</option>	                                           
+                                        <select id="contract_id" name="contract_id" onchange="getP6ActivityDataList();" class="searchable">
+                                            <option value="">Select</option>
+                                            <%-- <c:forEach var="obj" items="${contractsListFilter }">
+                                            	<option value="${obj.contract_id }">${obj.contract_name }</option>
+                                            </c:forEach> --%>	                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
                                       <p class="searchable_label">FOB </p>
-                                        <select id="fob_id" name="fob_id" onchange="" class="searchable">
-                                            <option value="">Select FOB ID</option>	                                            
+                                        <select id="fob_id" name="fob_id" onchange="getP6ActivityDataList();" class="searchable">
+                                            <option value="">Select</option>	
+                                            <%-- <c:forEach var="obj" items="${fobListFilter }">
+                                            	<option value="${obj.fob_id }">${obj.fob_name }</option>
+                                            </c:forEach>  --%>                                           
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Data Type</p>
-                                        <select id="data_type" name="data_type" onchange="" class="searchable">
-                                            <option value="">Select Data Type</option>		                                        
+                                    	<p class="searchable_label">Data Type</p>
+                                        <select id="upload_type" name="upload_type" onchange="getP6ActivityDataList();" class="searchable">
+                                            <option value="">Select</option>	
+                                            <%-- <c:forEach var="obj" items="${uploadTypes }">
+                                            	<option value="${obj.upload_type }">${obj.upload_type }</option>
+                                            </c:forEach> --%> 	                                        
                                         </select>
                                     </div>              
-                                     <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Status</p>
-                                        <select id="status" name="status" onchange="" class="searchable">
-                                            <option value="">Select Contractor</option>		                                        
+                                    <div class="col s12 m2 input-field">
+                                    	<p class="searchable_label">Status</p>
+                                        <select id="status_fk" name="status_fk" onchange="getP6ActivityDataList();" class="searchable">
+                                            <option value="">Select</option>	
+                                            <%-- <c:forEach var="obj" items="${statusList }">
+                                            	<option value="${obj.soft_delete_status_fk }">${obj.soft_delete_status_fk }</option>
+                                            </c:forEach> --%>	                                        
                                         </select>
                                     </div>                       
                                     <div class="col s12 m2">
@@ -302,7 +314,7 @@
                         
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="p6datatable" class="mdl-data-table">
+                                <table id="datatable-p6-data" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Contract ID</th>
@@ -316,7 +328,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                     <c:forEach var="obj" items="${activityDataList }">
+                                      <%-- <c:forEach var="obj" items="${activityDataList }">
                                         <tr>
                                            <td>${ obj.contract_id_fk }</td>
                                             <td>${ obj.fob_id_fk }</td>
@@ -327,17 +339,7 @@
                                             <td>${ obj.uploaded_by_user_id_fk }</td>
                                             <td>${ obj.uploaded_date }</td>
                                         </tr>
-                                        </c:forEach>
-                                       <!--  <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>Update</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr> -->
+                                       </c:forEach> --%>
                                     </tbody>
                                 </table>
                             </div>
@@ -368,12 +370,14 @@
 
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
- 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	
+	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	
     <script>
@@ -406,7 +410,7 @@
                 event.stopPropagation();
                 $('#data_dateUpload').click();
             });
-            $('#p6datatable').DataTable({
+            $('#datatable-p6-data').DataTable({
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
@@ -423,6 +427,8 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+            
+            getP6ActivityDataList();
         });
         
         function getFobList(contract_id_fk,fob_id_attr) {
@@ -432,17 +438,22 @@
             if ($.trim(contract_id_fk) != "") {
                 var myParams = { contract_id_fk: contract_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/get-fob-list",
+                    url: "<%=request.getContextPath()%>/ajax/getFobListInP6",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                               $("#"+fob_id_attr).append('<option value="' + val.fob_id_fk + '">' + $.trim(val.fob_id_fk)  + '</option>');
+                            	var fobName = '';
+                                if ($.trim(val.fob_name) != '') { fobName = ' - ' + $.trim(val.fob_name) }
+                               $("#"+fob_id_attr).append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + fobName +'</option>');
                             });
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
-                    }
+                    },error: function (jqXHR, exception) {
+      	   				$(".page-loader").hide();
+    	   	         	getErrorMessage(jqXHR, exception);
+    	   	     	}
                 });
             }else{
             	$(".page-loader").hide();
@@ -500,15 +511,7 @@
 					} else{
 		 				error.insertAfter(element);
 				    } 
-		   		},invalidHandler: function (form, validator) {
-                    var errors = validator.numberOfInvalids();
-                    if (errors) {
-                        var position = validator.errorList[0].element;
-                        jQuery('html, body').animate({
-                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-                        }, 1000);
-                    }
-                },submitHandler:function(form){
+		   		},submitHandler:function(form){
 			    	form.submit();
 			    }
 			}); 
@@ -548,20 +551,12 @@
 					} else{
 		 				error.insertAfter(element);
 				    } 
-		   		},invalidHandler: function (form, validator) {
-                   var errors = validator.numberOfInvalids();
-                   if (errors) {
-                       var position = validator.errorList[0].element;
-                       jQuery('html, body').animate({
-                           scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-                       }, 1000);
-                   }
-               },submitHandler:function(form){
+		   		},submitHandler:function(form){
 			    	form.submit();
 			    }
 			}); 
         
-       $('select').change(function(){
+       $('.validate-dropdown').change(function(){
            if ($(this).val() != ""){
                $(this).valid();
            }
@@ -572,6 +567,254 @@
                $(this).valid();
            }
        });
+       
+       
+       function clearFilter(){
+	       	$("#contract_id").val("");
+	       	$("#fob_id").val("");
+	       	$("#upload_type").val("");
+	       	$("#status_fk").val("");        	
+	       	$(".searchable").select2();
+	       	getP6ActivityDataList();
+       }
+           
+       function getP6ActivityDataList(){
+	       	$(".page-loader").show();
+	       	var contract_id_fk = $("#contract_id").val();
+	       	var fob_id_fk = $("#fob_id").val();
+	       	var upload_type = $("#upload_type").val();
+	       	var status_fk = $("#status_fk").val();
+	       	
+	       	getContractsListFilter();
+	       	getFobListFilter();
+	       	getUploadTypesFilter();
+	       	getStatusListFilter();
+	        	
+	        table = $('#datatable-p6-data').DataTable();	   		 
+	   		table.destroy();	   		
+	   		$.fn.dataTable.moment('DD-MMM-YYYY');
+	   		table = $('#datatable-p6-data').DataTable({
+	       		"bStateSave": true,
+	       		fixedHeader: true,
+	               "fnStateSave": function (oSettings, oData) {
+	                   localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	               },
+	               "fnStateLoad": function (oSettings) {
+	                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	               },
+	               columnDefs: [
+	                   {
+	                       targets: [0, 1, 2],
+	                       className: 'mdl-data-table__cell--non-numeric'
+	                   },
+	                   { orderable: false, 'aTargets': ['nosort'] }
+	               ],
+	               // "ScrollX": true,
+	               //"scrollCollapse": true,
+	               //"sScrollY": 400,
+	               "sScrollX": "100%",
+	               "sScrollXInner": "100%",
+	               "bScrollCollapse": true,
+	               initComplete: function () {
+	                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	               }
+	           }).rows().remove().draw();
+	   		
+	   		
+	   		table.state.clear();		
+	   	 
+	   	 	var myParams = {contract_id_fk : contract_id_fk, fob_id_fk : fob_id_fk, upload_type : upload_type, status_fk : status_fk };
+	   		$.ajax({url : "<%=request.getContextPath()%>/ajax/getP6ActivityData",type:"POST",data:myParams,success : function(data){    				
+	   				if(data != null && data != '' && data.length > 0){    					
+	   	         		$.each(data,function(key,val){
+	   	         			var rowArray = [];    	                  
+	   	                   	
+	   	                   	var contract_name = '';
+	                        if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                        
+	                        var filePath = "";
+	                        
+	                        if($.trim(val.p6_file_path) != ''){
+	                        	filePath = '<a href="<%=CommonConstants2.P6_FILES%>'+ val.p6_file_path +'">'+val.p6_file_path + '</a>';
+	                        }
+	   	                   	
+	   	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
+	   	                    rowArray.push($.trim(val.fob_id_fk));
+	   	                   	rowArray.push($.trim(val.upload_type));
+	   	                   	rowArray.push($.trim(val.data_date));
+	   	                   	rowArray.push($.trim(val.soft_delete_status_fk));
+	   	                    rowArray.push(filePath);	   	                   	
+	   	                   	rowArray.push($.trim(val.uploaded_by_user_id_fk));
+	   	                   	rowArray.push($.trim(val.uploaded_date));
+	   	                   	
+	   	                    table.row.add(rowArray).draw( true );
+	   	                    		                       
+	   					});
+	   	         		
+	   	         		$(".page-loader").hide();
+	   				}else{
+	   					$(".page-loader").hide();
+	   				}
+	   				
+	   			},error: function (jqXHR, exception) {
+	   				$(".page-loader").hide();
+	   	         	getErrorMessage(jqXHR, exception);
+	   	     }});
+       }
+       
+     	//This function is used to get error message for all ajax calls
+       function getErrorMessage(jqXHR, exception) {
+       	    var msg = '';
+       	    if (jqXHR.status === 0) {
+       	        msg = 'Not connect.\n Verify Network.';
+       	    } else if (jqXHR.status == 404) {
+       	        msg = 'Requested page not found. [404]';
+       	    } else if (jqXHR.status == 500) {
+       	        msg = 'Internal Server Error [500].';
+       	    } else if (exception === 'parsererror') {
+       	        msg = 'Requested JSON parse failed.';
+       	    } else if (exception === 'timeout') {
+       	        msg = 'Time out error.';
+       	    } else if (exception === 'abort') {
+       	        msg = 'Ajax request aborted.';
+       	    } else {
+       	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+       	    }
+       	    console.log(msg);
+       }
+     	
+       function getContractsListFilter() {
+    	   var contract_id_fk = $("#contract_id").val();
+	       var fob_id_fk = $("#fob_id").val();
+	       var upload_type = $("#upload_type").val();
+	       var status_fk = $("#status_fk").val();
+	      
+       	   $(".page-loader").show();
+
+           if ($.trim(contract_id_fk) == "") {
+               $("#contract_id option:not(:first)").remove();
+               var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInP6",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+	                           var contract_name = '';
+	                           if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                           $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id)  + contract_name +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+  	   	          	  getErrorMessage(jqXHR, exception);
+ 	   	     	  }
+               });
+           }else{
+           	  $(".page-loader").hide();
+           }
+       }
+     	
+       function getFobListFilter() {
+    	   var contract_id_fk = $("#contract_id").val();
+	       var fob_id_fk = $("#fob_id").val();
+	       var upload_type = $("#upload_type").val();
+	       var status_fk = $("#status_fk").val();
+	       
+       	   $(".page-loader").show();
+
+           if ($.trim(fob_id_fk) == "") {
+               $("#fob_id option:not(:first)").remove();
+               var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getFobListFilterInP6",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                           		var fobName = '';
+                               	if ($.trim(val.fob_name) != '') { fobName = ' - ' + $.trim(val.fob_name) }
+                              	$("#fob_id").append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + fobName +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+	      	   		   $(".page-loader").hide();
+	    	   	       getErrorMessage(jqXHR, exception);
+    	   	       }
+               });
+           }else{
+           	   $(".page-loader").hide();
+           }
+       }
+       
+       function getUploadTypesFilter() {
+    	   var contract_id_fk = $("#contract_id").val();
+	       var fob_id_fk = $("#fob_id").val();
+	       var upload_type = $("#upload_type").val();
+	       var status_fk = $("#status_fk").val();
+	       
+       	   $(".page-loader").show();
+
+           if ($.trim(upload_type) == "") {
+               $("#upload_type option:not(:first)").remove();
+               var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getUploadTypesFilterInP6",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+	                           	$("#upload_type").append('<option value="' + val.upload_type + '">' + $.trim(val.upload_type) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+	      	   		   $(".page-loader").hide();
+	    	   	       getErrorMessage(jqXHR, exception);
+    	   	       }
+               });
+           }else{
+           	   $(".page-loader").hide();
+           }
+       }
+       
+       function getStatusListFilter() {
+    	   var contract_id_fk = $("#contract_id").val();
+	       var fob_id_fk = $("#fob_id").val();
+	       var upload_type = $("#upload_type").val();
+	       var status_fk = $("#status_fk").val();
+	       
+       	   $(".page-loader").show();
+
+           if ($.trim(status_fk) == "") {
+               $("#status_fk option:not(:first)").remove();
+               var myParams = { contract_id: contract_id_fk,fob_id : fob_id_fk,upload_type : upload_type,status_fk : status_fk };
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInP6",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                           		$("#status_fk").append('<option value="' + val.soft_delete_status_fk + '">' + $.trim(val.soft_delete_status_fk) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+	      	   		   $(".page-loader").hide();
+	    	   	       getErrorMessage(jqXHR, exception);
+    	   	       }
+               });
+           }else{
+           	   $(".page-loader").hide();
+           }
+       }
+       
         
     </script>
 </body>

@@ -27,14 +27,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.P6DataService;
-import com.synergizglobal.pmis.Iservice.WorkContractModuleStatusService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.P6Data;
-import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 @Controller
 public class P6DataController {
@@ -45,8 +43,6 @@ public class P6DataController {
 	
 	Logger logger = Logger.getLogger(P6DataController.class);
 
-	@Autowired
-	WorkContractModuleStatusService service;
 	
 	@Autowired
 	P6DataService p6dataService;
@@ -59,13 +55,27 @@ public class P6DataController {
 	public String uploadformatError;
 	
 	@RequestMapping(value="/p6-data",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView P6Data(HttpSession session){
+	public ModelAndView P6Data(@ModelAttribute P6Data obj,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.P6Data);
 		try {
-			List<WorkContractModuleStatus> contractsList = service.getContractsList();
+			List<P6Data> contractsList = p6dataService.getContractsList(obj);
 			model.addObject("contractsList", contractsList);
-			List<P6Data> activityDataList = p6dataService.getActivityDataList();
-			model.addObject("activityDataList", activityDataList);
+			
+			List<P6Data> fobList = p6dataService.getFobList(obj);
+			model.addObject("fobList", fobList);
+			
+			/*List<P6Data> contractsListFilter = p6dataService.getContractsListFilter(obj);
+			model.addObject("contractsListFilter", contractsListFilter);
+			
+			List<P6Data> fobListFilter = p6dataService.getFobListFilter(obj);
+			model.addObject("fobListFilter", fobListFilter);
+			
+			List<P6Data> uploadTypes = p6dataService.getUploadTypesFilter(obj);
+			model.addObject("uploadTypes", uploadTypes);
+			
+			List<P6Data> statusList = p6dataService.getStatusListFilter(obj);
+			model.addObject("statusList", statusList);*/
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("P6Data : " + e.getMessage());
@@ -73,17 +83,84 @@ public class P6DataController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/get-fob-list", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsListFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<P6Data> getFobList(@ModelAttribute P6Data obj) {
-		List<P6Data> safetyEquipment = null;
+	public List<P6Data> getContractsListFilterInP6(@ModelAttribute P6Data obj) {
+		List<P6Data> objList = null;
 		try {
-			safetyEquipment = p6dataService.getFobList(obj);
+			objList = p6dataService.getContractsListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("SafetyEquipment : " + e.getMessage());
+			logger.error("getContractsListFilterInP6 : " + e.getMessage());
 		}
-		return safetyEquipment;
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getFobListFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<P6Data> getFobListFilterInP6(@ModelAttribute P6Data obj) {
+		List<P6Data> objList = null;
+		try {
+			objList = p6dataService.getFobListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFobListFilterInP6 : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getUploadTypesFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<P6Data> getUploadTypesFilterInP6(@ModelAttribute P6Data obj) {
+		List<P6Data> objList = null;
+		try {
+			objList = p6dataService.getUploadTypesFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUploadTypesFilterInP6 : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+
+	
+	@RequestMapping(value = "/ajax/getStatusListFilterInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<P6Data> getStatusListFilterInP6(@ModelAttribute P6Data obj) {
+		List<P6Data> objList = null;
+		try {
+			objList = p6dataService.getStatusListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusListFilterInP6 : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getP6ActivityData", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<P6Data> getP6ActivityData(@ModelAttribute P6Data obj) {
+		List<P6Data> objList = null;
+		try {
+			objList = p6dataService.getActivityDataList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getP6ActivityData : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getFobListInP6", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<P6Data> getFobListInP6(@ModelAttribute P6Data obj) {
+		List<P6Data> objList = null;
+		try {
+			objList = p6dataService.getFobList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFobListInP6 : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	@RequestMapping(value = "/upload-p6-data", method = {RequestMethod.POST})

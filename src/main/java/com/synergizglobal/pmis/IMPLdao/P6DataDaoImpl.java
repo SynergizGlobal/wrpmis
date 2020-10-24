@@ -28,23 +28,212 @@ public class P6DataDaoImpl implements P6DataDao {
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
+	public List<P6Data> getContractsList(P6Data obj) throws Exception {
+		List<P6Data> objsList = null;
+		try {
+			String qry ="SELECT contract_id,contract_name FROM contract ";
+			objsList = jdbcTemplate.query( qry,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
 	public List<P6Data> getFobList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="SELECT fob_id as fob_id_fk,contract_id_fk FROM fob f "
-					+"left join contract c on  f.contract_id_fk = c.contract_id  where fob_id is not null";
+			String qry ="SELECT fob_id,fob_name FROM fob where contract_id_fk = ?";
+			
+			objsList = jdbcTemplate.query( qry,new Object[]{obj.getContract_id_fk()}, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<P6Data> getContractsListFilter(P6Data obj) throws Exception {
+		List<P6Data> objsList = null;
+		try {
+			String qry ="SELECT contract_id_fk as contract_id,contract_name FROM p6_activity_data "
+					+ "LEFT OUTER JOIN contract ON contract_id_fk = contract_id "
+					+ "WHERE contract_id_fk is not null and contract_id_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + "and contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+				qry = qry + "and fob_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				qry = qry + "and upload_type = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + "and soft_delete_status_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize]; 
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+				pValues[i++] = obj.getFob_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				pValues[i++] = obj.getUpload_type();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			qry = qry + "GROUP BY contract_id_fk";
+			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<P6Data> getFobListFilter(P6Data obj) throws Exception {
+		List<P6Data> objsList = null;
+		try {
+			String qry ="SELECT fob_id_fk as fob_id,fob_name FROM p6_activity_data p "
+					+ "LEFT OUTER JOIN fob f ON fob_id_fk = fob_id "
+					+ "where fob_id_fk is not null and fob_id <> '' ";
 			
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + "and p.contract_id_fk = ? ";
 				arrSize++;
-			}	
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+				qry = qry + "and fob_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				qry = qry + "and upload_type = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + "and soft_delete_status_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize]; 
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+				pValues[i++] = obj.getFob_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				pValues[i++] = obj.getUpload_type();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			qry = qry + "GROUP BY fob_id_fk";
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<P6Data> getUploadTypesFilter(P6Data obj) throws Exception {
+		List<P6Data> objsList = null;
+		try {
+			String qry ="SELECT upload_type FROM p6_activity_data "
+					+ "where upload_type is not null and upload_type <> '' ";
+					
+					int arrSize = 0;
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+						qry = qry + "and contract_id_fk = ? ";
+						arrSize++;
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+						qry = qry + "and fob_id_fk = ? ";
+						arrSize++;
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+						qry = qry + "and upload_type = ? ";
+						arrSize++;
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+						qry = qry + "and soft_delete_status_fk = ? ";
+						arrSize++;
+					}
+					Object[] pValues = new Object[arrSize]; 
+					int i = 0;
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+						pValues[i++] = obj.getContract_id();
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+						pValues[i++] = obj.getFob_id();
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+						pValues[i++] = obj.getUpload_type();
+					}
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+						pValues[i++] = obj.getStatus_fk();
+					}
+					qry = qry + "GROUP BY upload_type";
+			
+			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<P6Data> getStatusListFilter(P6Data obj) throws Exception {
+		List<P6Data> objsList = null;
+		try {
+			String qry ="SELECT soft_delete_status_fk FROM p6_activity_data "
+					+ "where soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
+					int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + "and contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+				qry = qry + "and fob_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				qry = qry + "and upload_type = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + "and soft_delete_status_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize]; 
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id())) {
+				pValues[i++] = obj.getFob_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				pValues[i++] = obj.getUpload_type();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			qry = qry + "GROUP BY soft_delete_status_fk";
+			
+			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
@@ -123,11 +312,46 @@ public class P6DataDaoImpl implements P6DataDao {
 	}
 
 	@Override
-	public List<P6Data> getActivityDataList() throws Exception {
+	public List<P6Data> getActivityDataList(P6Data obj) throws Exception {
 		List<P6Data> objsList = null;
 		try {
-			String qry ="select contract_id_fk, fob_id_fk,upload_type, DATE_FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_date,'%d-%m-%Y') as uploaded_date  from p6_activity_data ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
+			String qry ="select contract_id_fk, fob_id_fk,upload_type, DATE_FORMAT(data_date,'%d-%m-%Y') as data_date, soft_delete_status_fk,"
+					+ " p6_file_path, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_date,'%d-%m-%Y') as uploaded_date  "
+					+ "from p6_activity_data "
+					+ "WHERE p6_activity_data_id is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + "and fob_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				qry = qry + "and upload_type = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + "and soft_delete_status_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize]; 
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpload_type())) {
+				pValues[i++] = obj.getUpload_type();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<P6Data>(P6Data.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}finally {

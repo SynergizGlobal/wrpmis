@@ -6,11 +6,27 @@ public class P6Data {
 	
 	private String p6_activity_id, p6_task_code,p6_wbs_code_fk, p6_activity_name, status_fk, baseline_start, baseline_finish, 
 	start, finish, p6_float,p6_wbs_code, contract_id_fk, fob_id_fk, p6_wbs_name, p6_wbs_parent_code, p6_wbs_category_fk,
-	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date,upload_type;
+	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk, uploaded_date,upload_type,contract_id,contract_name,fob_id,fob_name;
 
 	
 	private MultipartFile p6dataFile;
 	
+
+	public String getFob_id() {
+		return fob_id;
+	}
+
+	public void setFob_id(String fob_id) {
+		this.fob_id = fob_id;
+	}
+
+	public String getFob_name() {
+		return fob_name;
+	}
+
+	public void setFob_name(String fob_name) {
+		this.fob_name = fob_name;
+	}
 
 	public MultipartFile getP6dataFile() {
 		return p6dataFile;
@@ -202,6 +218,22 @@ public class P6Data {
 
 	public void setUpload_type(String upload_type) {
 		this.upload_type = upload_type;
+	}
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
 	}
 
 }

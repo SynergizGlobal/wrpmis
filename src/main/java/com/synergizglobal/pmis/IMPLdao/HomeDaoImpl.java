@@ -151,7 +151,7 @@ public class HomeDaoImpl implements HomeDao {
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new Forms();
-				obj.setFormId(resultSet.getString("soft_delete_status_fk"));
+				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
 				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
@@ -206,7 +206,7 @@ public class HomeDaoImpl implements HomeDao {
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new Forms();
-				obj.setFormId(resultSet.getString("soft_delete_status_fk"));
+				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
 				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));

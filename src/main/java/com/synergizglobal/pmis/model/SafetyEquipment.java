@@ -10,6 +10,11 @@ public class SafetyEquipment {
 	
 	private String[] safety_equipment_ids,safety_equipment_numbers, safety_equipment_details, validity_dates,contract_id_fks,attachments,remarkss,safetyEquipmentFileNames;
 	
+
+	private List<SafetyEquipment> safetyEquipments;
+
+
+	private MultipartFile[] safetyEquipmentFile;
 	
 	public String[] getSafetyEquipmentFileNames() {
 		return safetyEquipmentFileNames;
@@ -19,10 +24,6 @@ public class SafetyEquipment {
 		this.safetyEquipmentFileNames = safetyEquipmentFileNames;
 	}
 
-	private List<SafetyEquipment> safetyEquipments;
-
-
-	private MultipartFile[] safetyEquipmentFile;
 	
 	public List<SafetyEquipment> getSafetyEquipments() {
 		return safetyEquipments;

@@ -432,8 +432,6 @@
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                        	var projectName = '';
-                            if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
 	                           $("#financial_year_fk").append('<option value="' + val.financial_year_fk + '">' + $.trim(val.financial_year_fk) +'</option>');
                         });
                     }
@@ -460,6 +458,29 @@
     }
     	
     
+  	//This function is used to get error message for all ajax calls
+    function getErrorMessage(jqXHR, exception) {
+    	    var msg = '';
+    	    if (jqXHR.status === 0) {
+    	        msg = 'Not connect.\n Verify Network.';
+    	    } else if (jqXHR.status == 404) {
+    	        msg = 'Requested page not found. [404]';
+    	    } else if (jqXHR.status == 500) {
+    	        msg = 'Internal Server Error [500].';
+    	    } else if (exception === 'parsererror') {
+    	        msg = 'Requested JSON parse failed.';
+    	    } else if (exception === 'timeout') {
+    	        msg = 'Time out error.';
+    	    } else if (exception === 'abort') {
+    	        msg = 'Ajax request aborted.';
+    	    } else {
+    	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+    	    }
+    	    console.log(msg);
+     }
+    
+    
+  	
     function showCancelMessage() {
     	swal({
             title: "Are you sure?",

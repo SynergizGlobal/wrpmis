@@ -206,15 +206,6 @@ public class SafetyController {
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
 			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
 			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
-			
-			MultipartFile file = obj.getSafetyFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}
-			
 			boolean flag = safetyService.addSafety(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Safety added successfully");
@@ -306,15 +297,6 @@ public class SafetyController {
 			obj.setClosure_date(DateParser.parse(obj.getClosure_date()));
 			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
 			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
-			
-			MultipartFile file = obj.getSafetyFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}
-			
 			boolean flag = safetyService.updateSafety(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Safety updated successfully");

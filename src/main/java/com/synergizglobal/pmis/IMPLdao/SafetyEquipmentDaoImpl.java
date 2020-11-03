@@ -2,6 +2,11 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -107,6 +112,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	public boolean addSafetyEquipment(SafetyEquipment obj)throws Exception{
 		Connection con = null;
 		PreparedStatement insertStmt = null;
+		ResultSet rs = null;
+		
 		boolean flag = false;		
 		try {
 			con = dataSource.getConnection();
@@ -114,7 +121,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?)";
-			insertStmt = con.prepareStatement(insertQry);
+			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			
 			int	arraySize = 0;
 			
 			if( !StringUtils.isEmpty(obj.getSafety_equipment_numbers()) && obj.getSafety_equipment_numbers().length > 0) {
@@ -152,28 +160,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					arraySize = obj.getSafetyEquipmentFileNames().length;
 				}
 			}
-			
-			
 			String[] documentNames = new String[arraySize];
-			if(!StringUtils.isEmpty(obj.getSafetyEquipmentFile()) && obj.getSafetyEquipmentFile().length > 0) {
-				if(arraySize < obj.getSafetyEquipmentFile().length) {
-					arraySize = obj.getSafetyEquipmentFile().length;
-				}
-				String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
-				documentNames = new String[arraySize];
-				for (int i = 0; i < documentNames.length; i++) {
-					MultipartFile file = obj.getSafetyEquipmentFile()[i];
-					if (null != file && !file.isEmpty()){
-						String fileName = file.getOriginalFilename();
-						documentNames[i] = fileName;
-						FileUploads.singleFileSaving(file, saveDirectory, fileName);
-					} else if (!StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()[i])){
-						documentNames[i] = obj.getSafetyEquipmentFileNames()[i];
-					} else {
-						documentNames[i] = null;
-					}
-				}
-			}
 			
 			for (int i = 0; i < arraySize; i++) {
 			    int p = 1;
@@ -185,12 +172,41 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			    insertStmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
 			    insertStmt.addBatch();
 			}
-			
-			
 			int[] insertCount = insertStmt.executeBatch();		
-				
+			rs = insertStmt.getGeneratedKeys();
+			
 			if(insertCount.length > 0) {
 				flag = true;
+				if(!StringUtils.isEmpty(obj.getSafetyEquipmentFile()) && obj.getSafetyEquipmentFile().length > 0) {
+					if(arraySize < obj.getSafetyEquipmentFile().length) {
+						arraySize = obj.getSafetyEquipmentFile().length;
+					}
+					String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
+					documentNames = new String[arraySize];
+					for (int i = 0; i < documentNames.length; i++) {
+						if (rs.next()) {
+							String id = rs.getString(1);
+							obj.setSafety_equipment_id(id);
+						}
+						MultipartFile file = obj.getSafetyEquipmentFile()[i];
+						if (null != file && !file.isEmpty()){
+							String fileName = file.getOriginalFilename();
+							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+							String fileName_new = "Safety_Equipment-"+obj.getSafety_equipment_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+							documentNames[i] = fileName_new;
+							FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+							obj.setAttachment(fileName_new);
+						} else if (!StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()[i])){
+							documentNames[i] = obj.getSafetyEquipmentFileNames()[i];
+						} else {
+							documentNames[i] = null;
+						}
+						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);		
+						String updateQry = "UPDATE safety_equipment set attachment= :attachment where safety_equipment_id= :safety_equipment_id ";
+						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+						template.update(updateQry, paramSource1);
+					}
+				}
 			}
 		 
 		}catch(Exception e){ 
@@ -275,7 +291,10 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 						MultipartFile file = obj.getSafetyEquipmentFile()[i];
 						if (null != file && !file.isEmpty()){
 							String fileName = file.getOriginalFilename();
-							documentNames[i] = fileName;
+							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+							String fileName_new = "Safety_Equipment-"+obj.getSafety_equipment_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+							documentNames[i] = fileName_new;
+							obj.setAttachment(fileName_new);
 							FileUploads.singleFileSaving(file, saveDirectory, fileName);
 						} else if (!StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()[i])){
 							documentNames[i] = obj.getSafetyEquipmentFileNames()[i];

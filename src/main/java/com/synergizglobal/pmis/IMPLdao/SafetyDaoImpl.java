@@ -1,5 +1,11 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -10,13 +16,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.SafetyDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Safety;
 
 @Repository
@@ -154,6 +166,7 @@ public class SafetyDaoImpl implements SafetyDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		String safety_id = null;		
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO safety"
@@ -163,11 +176,28 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "VALUES "
 					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:category_fk,:impact_fk,:root_cause_fk,:status_fk,:"
 					+ "closure_date,:lti_hours,:equipment_impact,:people_impact,:work_impact,:committee_formed_fk,:investigation_completed,:corrective_measure_short_term,:"
-					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:attachment)";		 
+					+ "corrective_measure_long_term,:compensation,:payment_date,:remarks,:attachment)";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = template.update(qry, paramSource);			
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = template.update(qry, paramSource, keyHolder);
 			if(count > 0) {
+				safety_id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setSafety_id(safety_id);
 				flag = true;
+				
+				MultipartFile file = obj.getSafetyFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+					String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+					FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+					obj.setAttachment(fileName_new);
+					
+					String updateQry = "UPDATE safety set attachment= :attachment where safety_id= :safety_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -245,6 +275,15 @@ public class SafetyDaoImpl implements SafetyDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		MultipartFile file = obj.getSafetyFile();
+		if (null != file && !file.isEmpty()){
+			String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
+			String fileName = file.getOriginalFilename();
+			DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
+			String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+			FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+			obj.setAttachment(fileName_new);	
+		}
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE safety SET contract_id_fk=:contract_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,category_fk=:category_fk,impact_fk=:impact_fk,root_cause_fk=:root_cause_fk,status_fk=:status_fk,"

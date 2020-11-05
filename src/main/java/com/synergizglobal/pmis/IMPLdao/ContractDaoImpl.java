@@ -3,7 +3,11 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -11,6 +15,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -176,6 +182,7 @@ public class ContractDaoImpl implements ContractDao {
 	public boolean addContract(Contract contract)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int count = 0;
 		boolean flag = false;
 		int[] c = {};
@@ -487,7 +494,7 @@ public class ContractDaoImpl implements ContractDao {
 				
 				String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk) "
 						  +"VALUES (?,?,?)";
-				stmt = con.prepareStatement(documents_qry); 
+				stmt = con.prepareStatement(documents_qry,Statement.RETURN_GENERATED_KEYS); 
 				
 				arraySize = 0;
 				if(!StringUtils.isEmpty(contract.getContractDocumentNames()) && contract.getContractDocumentNames().length > 0) {
@@ -497,32 +504,54 @@ public class ContractDaoImpl implements ContractDao {
 					}
 				}
 				String[] documentNames = new String[arraySize];
-				if(!StringUtils.isEmpty(contract.getContractDocumentFiles()) && contract.getContractDocumentFiles().length > 0) {
-					if(arraySize < contract.getContractDocumentFiles().length) {
-						arraySize = contract.getContractDocumentFiles().length;
-					}
-					String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
-					documentNames = new String[arraySize];
-					for (int i = 0; i < documentNames.length; i++) {
-						MultipartFile file = contract.getContractDocumentFiles()[i];
-						if (null != file && !file.isEmpty()){
-							String fileName = file.getOriginalFilename();
-							documentNames[i] = fileName;
-							FileUploads.singleFileSaving(file, saveDirectory, fileName);
-						}else {
-							documentNames[i] = null;
-						}
-					}
-				}
 				
 				for (int i = 0; i < arraySize; i++) {
 					int k = 1;
 					stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
 					stmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);					
-					stmt.setString(k++,contract.getContract_id());
+					stmt.setString(k++,contract_id);
 					stmt.addBatch();
 				}
 				c = stmt.executeBatch();
+				rs = stmt.getGeneratedKeys();
+				if(c.length > 0) {
+					flag = true;
+					if(!StringUtils.isEmpty(contract.getContractDocumentFiles()) && contract.getContractDocumentFiles().length > 0) {
+						if(arraySize < contract.getContractDocumentFiles().length) {
+							arraySize = contract.getContractDocumentFiles().length;
+						}
+						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+						documentNames = new String[arraySize];
+						for (int i = 0; i < documentNames.length; i++) {
+							if (rs.next()) {
+								String id = rs.getString(1);
+								contract.setContract_documents_id(id);
+							}
+							MultipartFile file = contract.getContractDocumentFiles()[i];
+							if (null != file && !file.isEmpty()){
+								String fileName = file.getOriginalFilename();
+								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
+								String fileName_new = "Contract-"+contract_id +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+								documentNames[i] = fileName_new;
+								FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+							}else {
+								documentNames[i] = null;
+							}
+							
+							String updateQry = "UPDATE contract_documents set attachment = ? where contract_documents_id = ? ";
+							stmt = con.prepareStatement(updateQry); 
+							for (int j = 0; j < arraySize; j++) {
+								int p = 1;
+								stmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);					
+								stmt.setString(p++,contract.getContract_documents_id());
+								stmt.addBatch();
+							}
+							c = stmt.executeBatch();
+						}
+					}
+					
+					
+				}
 				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 			}
 			
@@ -843,6 +872,7 @@ public class ContractDaoImpl implements ContractDao {
 	public boolean updateContract(Contract contract)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int count = 0;
 		boolean flag = false;
 		try{
@@ -1186,7 +1216,7 @@ public class ContractDaoImpl implements ContractDao {
 					
 					String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk) "
 							  +"VALUES (?,?,?)";
-					stmt = con.prepareStatement(documents_qry); 
+					stmt = con.prepareStatement(documents_qry,Statement.RETURN_GENERATED_KEYS); 
 					
 					arraySize = 0;
 					if(!StringUtils.isEmpty(contract.getContractDocumentNames()) && contract.getContractDocumentNames().length > 0) {
@@ -1195,38 +1225,39 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getContractDocumentNames().length;
 						}
 					}
-					String[] documentNames = new String[arraySize];
-					if(!StringUtils.isEmpty(contract.getContractDocumentFiles()) && contract.getContractDocumentFiles().length > 0) {
-						if(arraySize < contract.getContractDocumentFiles().length) {
-							arraySize = contract.getContractDocumentFiles().length;
-						}
-						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
-						documentNames = new String[arraySize];
-						for (int i = 0; i < documentNames.length; i++) {
-							MultipartFile file = contract.getContractDocumentFiles()[i];
-							if (null != file && !file.isEmpty()){
-								String fileName = file.getOriginalFilename();
-								documentNames[i] = fileName;
-								FileUploads.singleFileSaving(file, saveDirectory, fileName);
-							} else if (!StringUtils.isEmpty(contract.getContractDocumentFileNames()) && contract.getContractDocumentFileNames().length > 0 && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i])){
-								documentNames[i] = contract.getContractDocumentFileNames()[i];
-							} else {
-								documentNames[i] = null;
-							}
+					if(!StringUtils.isEmpty(contract.getContractDocumentFileNames()) && contract.getContractDocumentFileNames().length > 0) {
+						contract.setContractDocumentFileNames(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractDocumentFileNames()));
+						if(arraySize < contract.getContractDocumentFileNames().length) {
+							arraySize = contract.getContractDocumentFileNames().length;
 						}
 					}
-					
+										
 					for (int i = 0; i < arraySize; i++) {
+						String docFileName = null;
 						int k = 1;
+						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+						MultipartFile file = contract.getContractDocumentFiles()[i];
+						if (null != file && !file.isEmpty()){
+							String fileName = file.getOriginalFilename();
+							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
+							String fileName_new = "Contract-"+contract.getContract_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+							docFileName = fileName_new;
+							FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+						}else {
+							docFileName = (contract.getContractDocumentFileNames().length > 0)?contract.getContractDocumentFileNames()[i]:null;
+						}
+						
 						stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
-						stmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);					
+						stmt.setString(k++,docFileName);					
 						stmt.setString(k++,contract.getContract_id());
 						stmt.addBatch();
 					}
 					c = stmt.executeBatch();
-					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					if(c.length > 0) {
+						flag = true;
+					}
 				}
-			
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 				con.commit();
 		
 		}catch(Exception e){ 

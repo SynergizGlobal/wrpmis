@@ -1,5 +1,8 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -10,13 +13,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.IssueDao;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
 
 @Repository
@@ -132,6 +140,7 @@ public class IssueDaoImpl implements IssueDao {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		String issue_id = null;	
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
@@ -140,10 +149,27 @@ public class IssueDaoImpl implements IssueDao {
 					+ "VALUES "
 					+ "(:contract_id_fk,:activity,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
 					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment,:zonal_railway_fk)";		 
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = template.update(qry, paramSource);			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+			int count = template.update(qry, paramSource, keyHolder);			
 			if(count > 0) {
+				issue_id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setIssue_id(issue_id);
 				flag = true;
+				
+				MultipartFile file = obj.getIssueFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+					String fileName_new = "Issue-"+obj.getIssue_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+					FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+					obj.setAttachment(fileName_new);
+					
+					String updateQry = "UPDATE issue set attachment= :attachment where issue_id= :issue_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -222,6 +248,19 @@ public class IssueDaoImpl implements IssueDao {
 			int count = template.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				MultipartFile file = obj.getIssueFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+					String fileName_new = "Issue-"+obj.getIssue_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+					FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+					obj.setAttachment(fileName_new);
+					
+					String updateQry = "UPDATE issue set attachment= :attachment where issue_id= :issue_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 

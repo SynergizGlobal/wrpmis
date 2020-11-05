@@ -1175,7 +1175,7 @@
 		                                        </tbody>
 		                                     </table>
 		                                   	 <c:choose>
-		                                        <c:when test="${not empty contractDeatils.contract_revision && fn:length(contractDeatils.contractDocuments) gt 0 }">
+		                                        <c:when test="${not empty contractDeatils.contractDocuments && fn:length(contractDeatils.contractDocuments) gt 0 }">
 		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
 		                                    	</c:when>
 		                                     	<c:otherwise>

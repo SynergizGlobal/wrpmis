@@ -195,14 +195,6 @@ public class IssueController {
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
 			
-			MultipartFile file = obj.getIssueFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}
-			
 			boolean flag = issueService.addIssue(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Issue added successfully");
@@ -289,14 +281,6 @@ public class IssueController {
 			
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
-			
-			MultipartFile file = obj.getIssueFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}
 			
 			boolean flag = issueService.updateIssue(obj);
 			if(flag) {

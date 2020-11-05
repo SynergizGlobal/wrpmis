@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -24,10 +27,14 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Design;
 
 @Repository
@@ -234,9 +241,23 @@ public class DesignDaoImpl implements DesignDao{
 		    String designId = null;
 			if(count > 0) {
 				 designId = String.valueOf(keyHolder.getKey().intValue());
+				 obj.setDesign_id(designId);
 				 flag = true;
+
+					MultipartFile file = obj.getDesignFile();
+					if (null != file && !file.isEmpty() && file.getSize() > 0){
+						String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
+						String fileName = file.getOriginalFilename();
+						DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+						String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+						FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+						obj.setAttachment(fileName_new);
+						
+						String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
+						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+						namedParamJdbcTemplate.update(updateQry, paramSource1);
+					}
 			}
-			obj.setDesign_id(designId);
 			
 			if(flag) {
 				
@@ -364,6 +385,19 @@ public class DesignDaoImpl implements DesignDao{
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				MultipartFile file = obj.getDesignFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants2.DESIGN_FILE_SAVING_PATH ;
+					String fileName = file.getOriginalFilename();
+					DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+					String fileName_new = "Design-"+obj.getDesign_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+					FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
+					obj.setAttachment(fileName_new);
+					
+					String updateQry = "UPDATE design set attachment= :attachment where design_id= :design_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					namedParamJdbcTemplate.update(updateQry, paramSource1);
+				}
 			}
 			if(flag) {
 				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id";		 

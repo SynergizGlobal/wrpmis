@@ -187,7 +187,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				
 				MultipartFile file = obj.getSafetyFile();
 				if (null != file && !file.isEmpty() && file.getSize() > 0){
-					String saveDirectory = CommonConstants2.SAFETY_FILE_SAVING_PATH ;
+					String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
 					String fileName = file.getOriginalFilename();
 					DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
 					String fileName_new = "Safety-"+obj.getSafety_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];

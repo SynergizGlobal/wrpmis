@@ -163,8 +163,9 @@
                               </div>
                           </div> 
                      				<p><label>Contract </label></p>        
-                              				   <input type="text" name="contract_id_fk" id="contract_id_fk" value="${safetyEquipmentDetails.contract_id_fk}- ${safetyEquipmentDetails.contract_name}" readonly />
+                              	    <span>${safetyEquipmentDetails.contract_id_fk}- ${safetyEquipmentDetails.contract_name}"</span>
                             
+                             		<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${safetyEquipmentDetails.contract_id_fk}" readonly />
                              </c:if>
                             </div>
 <%--                             <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyEquipmentDetails.safety_equipment_id}" />

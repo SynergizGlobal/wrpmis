@@ -35,6 +35,6 @@ public class CommonConstants2 {
 	public final static String SAFETY_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/SAFETY_FILES/";
 	public final static String FOB_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/FOB_FILES/";
 	public final static String USER_IMAGE_SAVING_PATH = "usr/share/nginx/html/pmis/USER_IMAGES/";
-	public final static String DESIGN_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/USER_IMAGES/";
+	public final static String DESIGN_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/DESIGN_FILES/";
 	public final static String P6_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/P6_FILES/";*/
 }

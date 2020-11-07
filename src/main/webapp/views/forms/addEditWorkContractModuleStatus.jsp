@@ -381,14 +381,20 @@
         function addWorkContractStatus(){
         	 if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
-	   			document.getElementById("workStatusForm").submit();	
+	        	$('form input[name=status_as_on_months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=module_name_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=work_status_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("workStatusForm").submit();	
         	 }
         }
         
         function updateWorkContractStatus(){
         	 if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
-	   			document.getElementById("workStatusForm").submit();	
+	        	$('form input[name=status_as_on_months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=module_name_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=work_status_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("workStatusForm").submit();	
         	 }
         }
         

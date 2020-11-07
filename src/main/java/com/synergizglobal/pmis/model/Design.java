@@ -11,7 +11,9 @@ public class Design {
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,
 	 revision_status_fk,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,issue_category_id,created_by_user_id_fk,contract_short_name;
-
+	
+	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
+	
 	private MultipartFile designFile;
 	
 	private List<Design> designRevisions;
@@ -176,12 +178,6 @@ public class Design {
 	public void setRemarkss(String[] remarkss) {
 		this.remarkss = remarkss;
 	}
-
-	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
-	
-	
-	
-	
 	
 	public String getWork_id_fk() {
 		return work_id_fk;

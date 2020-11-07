@@ -10,6 +10,17 @@ public class Work {
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,pink_book_item_number,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,railway,executed_by,projected_completion;
 
+
+	private String[] financial_years,pink_book_item_numbers,latest_revised_costs,
+	year_of_revisions,revision_numbers,remarkss;
+
+	private List<Work> workRevisions;
+	private MultipartFile workFile;
+
+	private List<Work> railwayAgencyList;
+	private List<Work> executedByList;
+
+	
 	public String getFinancial_year_fk() {
 		return financial_year_fk;
 	}
@@ -17,13 +28,6 @@ public class Work {
 	public void setFinancial_year_fk(String financial_year_fk) {
 		this.financial_year_fk = financial_year_fk;
 	}
-
-	private List<Work> workRevisions;
-	private MultipartFile workFile;
-
-	private List<Work> railwayAgencyList;
-	private List<Work> executedByList;
-	
 	public List<Work> getRailwayAgencyList() {
 		return railwayAgencyList;
 	}
@@ -55,9 +59,6 @@ public class Work {
 	public void setWys_renarks(String wys_renarks) {
 		this.wys_renarks = wys_renarks;
 	}
-
-	private String[] financial_years,pink_book_item_numbers,latest_revised_costs,
-	year_of_revisions,revision_numbers,remarkss;
 
 
 	public String[] getFinancial_years() {

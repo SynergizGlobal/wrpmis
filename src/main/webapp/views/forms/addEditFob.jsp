@@ -508,14 +508,18 @@
     function addFOB(){
 		if(validator.form()){ // validation perform
 			$(".page-loader").show();
-			document.getElementById("fobForm").submit();			
+			$('form input[name=fob_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=fob_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			document.getElementById("fobForm").submit();			
 	 	}
 	}
 	
     function updateFOB(){
   		if(validator.form()){ // validation perform
   			$(".page-loader").show();	    		
-			document.getElementById("fobForm").submit();			
+  			$('form input[name=fob_detail_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=fob_detail_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			document.getElementById("fobForm").submit();			
 	 	}
 	}
 	

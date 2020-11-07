@@ -121,7 +121,9 @@
                                             <th>Equipment No</th>
                                             <th>Equipment Details</th>
                                             <th> Validity of Equipment</th>
-                                            <th class="no-sort">Remarks </th>
+                                            <th>Inspecting <br> Official</th>
+                                            <th>Last Inspection</th>
+                                            <th>Next Inspection Due</th>
                                             <th class="no-sort">Action</th>
 
                                         </tr>
@@ -286,7 +288,10 @@
 	                   	rowArray.push($.trim(val.safety_equipment_number));
 	                   	rowArray.push($.trim(val.safety_equipment_detail));
 	                   	rowArray.push($.trim(val.validity_date));
-	                   	rowArray.push($.trim(val.remarks));
+// 	                   	rowArray.push($.trim(val.remarks));
+	                   	rowArray.push(' ');
+	                	rowArray.push(' ');
+	                	rowArray.push(' ');
 	                   	rowArray.push($.trim(actions));   	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );

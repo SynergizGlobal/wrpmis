@@ -210,19 +210,19 @@
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                  <td>
-                                                    <input id="inspecting_official${index.count }" type="text" class="validate"
-                                                        placeholder="Inspecting Official">                                                  
+                                                    <input id="inspecting_officials${index.count }" name="inspecting_officials" type="text" class="validate"
+                                                        placeholder="Inspecting Official" value="${sObj.inspecting_official }">                                                  
                                                 </td>
                                                 <td>
-                                                    <input id="last_inspection${index.count }" type="text" class="validate datepicker"
-                                                        placeholder="Last Inspection">
-                                                    <button type="button" id="last_inspection${index.count }_icon" class="white"><i
+                                                    <input id="last_inspection_dates${index.count }" name="last_inspection_dates" type="text" class="validate datepicker"
+                                                        placeholder="Last Inspection" value="${sObj.last_inspection_date }">
+                                                    <button type="button" id="last_inspection_dates${index.count }_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="next_inspection_due${index.count }" type="text" class="validate datepicker"
-                                                        placeholder="Next Inspection Due">
-                                                    <button type="button" id="next_inspection_due${index.count }_icon" class="white"><i
+                                                    <input id="next_inspection_dues${index.count }" name="next_inspection_dues" type="text" class="validate datepicker"
+                                                        placeholder="Next Inspection Due" value="${sObj.next_inspection_due }">
+                                                    <button type="button" id="next_inspection_dues${index.count }_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
@@ -244,14 +244,6 @@
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                            <script>
-		                                           /*  $("#SafetyEquipmentFile${index.count }").change(function () {
-		                                                filename1 = $('#SafetyEquipmentFile${index.count }')[0].value;
-		                                                $('#fileVal${index.count }').html(filename1);
-		                                                console.log(filename1)
-		                                            }); */
-		                                           
-                                            </script>
                                           </c:forEach>
                                        </c:when>
                                        	<c:otherwise>
@@ -273,19 +265,19 @@
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                  <td>
-                                                    <input id="inspecting_official0" type="text" class="validate"
+                                                    <input id="inspecting_officials0" name="inspecting_officials" type="text" class="validate"
                                                         placeholder="Inspecting Official">                                                  
                                                 </td>
                                                 <td>
-                                                    <input id="last_inspection0" type="text" class="validate datepicker"
+                                                    <input id="last_inspection_dates0" name="last_inspection_dates" type="text" class="validate datepicker"
                                                         placeholder="Last Inspection">
-                                                    <button type="button" id="last_inspection0_icon" class="white"><i
+                                                    <button type="button" id="last_inspection_dates0_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="next_inspection_due0" type="text" class="validate datepicker"
+                                                    <input id="next_inspection_dues0" name="next_inspection_dues" type="text" class="validate datepicker"
                                                         placeholder="Next Inspection Due">
-                                                    <button type="button" id="next_inspection_due0_icon" class="white"><i
+                                                    <button type="button" id="next_inspection_dues0_icon" class="white"><i
                                                             class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
@@ -501,9 +493,9 @@
              		   +'<input id="safety_equipment_numbers'+rNo+'" name="safety_equipment_numbers" type="text" class="validate" placeholder="Equipment No"></td>'
     				   +'<td> <input id="safety_equipment_details'+rNo+'" name="safety_equipment_details" type="text" class="validate" placeholder="Equipment Details"></td>'
     				   +'<td><input id="validity_dates'+rNo+'" name="validity_dates" type="text" class="validate datepicker" placeholder="Validity of Equipment"><button type="button" id="validity_1_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
-    				   +'<td><input id="inspecting_official'+rNo+'" type="text" class="validate" placeholder="Inspecting Official"></td>'
-    				   +'<td><input id="last_inspection'+rNo+'" type="text" class="validate datepicker" placeholder="Last Inspection"><button type="button" id="last_inspection'+rNo+'_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
-    				   +'<td><input id="next_inspection_due'+rNo+'" type="text" class="validate datepicker" placeholder="Next Inspection Due"><button type="button" id="next_inspection_due'+rNo+'_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
+    				   +'<td><input id="inspecting_officials'+rNo+'" name="inspecting_officials" type="text" class="validate" placeholder="Inspecting Official"></td>'
+    				   +'<td><input id="last_inspection_dates'+rNo+'" name="last_inspection_dates" type="text" class="validate datepicker" placeholder="Last Inspection"><button type="button" id="last_inspection_dates'+rNo+'_icon" class="white"><i class="fa fa-calendar"></i></button></td>'
+    				   +'<td><input id="next_inspection_dues'+rNo+'" name="next_inspection_dues" type="text" class="validate datepicker" placeholder="Next Inspection Due"><button type="button" id="next_inspection_dues'+rNo+'_icon" class="white"><i class="fa fa-calendar"></i></button> </td>'
     				   +'<td><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
     			   	   +'<td><div class=""> <input type="file" name="SafetyEquipmentFile" id="SafetyEquipmentFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')" /> '
     			   	   +'<label for="SafetyEquipmentFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'

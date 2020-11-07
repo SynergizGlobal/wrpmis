@@ -47,7 +47,10 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	public List<SafetyEquipment> getSafetyEquipment(SafetyEquipment obj)throws Exception{
 		List<SafetyEquipment> objsList = null;
 		try {
-			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name, safety_equipment_number,safety_equipment_detail, validity_date,s.remarks from safety_equipment s " + 
+			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name, safety_equipment_number,safety_equipment_detail, "
+					+ "DATE_FORMAT(validity_date,'%d-%m-%Y') AS validity_date,s.remarks "
+					+ "inspecting_official,DATE_FORMAT(last_inspection_date,'%d-%m-%Y') AS last_inspection_date,DATE_FORMAT(next_inspection_due,'%d-%m-%Y') AS next_inspection_due "
+					+ "from safety_equipment s " + 
 						 "left join contract c on  s.contract_id_fk = c.contract_id  where safety_equipment_id is not null";
 			
 			int arrSize = 0;
@@ -75,7 +78,8 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	SafetyEquipment sObj =null;
 		
 		try {
-			String qry = "select w.work_id,safety_equipment_id,c.contract_name,p.project_id,p.project_name,w.work_name,contract_id_fk from safety_equipment s "
+			String qry = "select w.work_id,safety_equipment_id,c.contract_name,p.project_id,p.project_name,w.work_name,contract_id_fk "
+					+ "from safety_equipment s "
 					+"LEFT OUTER join contract c on contract_id_fk =c.contract_id " 
 					+"LEFT OUTER join work w on c.work_id_fk = w.work_id "  
 					+"LEFT OUTER join project p on w.project_id_fk = p.project_id "
@@ -96,7 +100,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			
 				List<SafetyEquipment> objsList = null;
 			String qryDetails = "select safety_equipment_id,contract_id_fk, safety_equipment_number,"
-					+"safety_equipment_detail, DATE_FORMAT(validity_date,'%d-%m-%Y') AS validity_date,remarks,attachment from safety_equipment "
+					+"safety_equipment_detail, DATE_FORMAT(validity_date,'%d-%m-%Y') AS validity_date,remarks,attachment, "
+					+ "inspecting_official,DATE_FORMAT(last_inspection_date,'%d-%m-%Y') AS last_inspection_date,DATE_FORMAT(next_inspection_due,'%d-%m-%Y') AS next_inspection_due "
+					+ "from safety_equipment "
 					+"where safety_equipment_id is not null and contract_id_fk = ? ";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getContract_id_fk()}, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
@@ -120,9 +126,10 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO safety_equipment"
-					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment)"
+					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment,"
+					+ "inspecting_official,last_inspection_date,next_inspection_due)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			
 			int	arraySize = 0;
@@ -138,12 +145,14 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 				if(arraySize < obj.getSafety_equipment_details().length) {
 					arraySize = obj.getSafety_equipment_details().length;
 				}
-			}if( !StringUtils.isEmpty(obj.getValidity_dates()) && obj.getValidity_dates().length > 0) {
+			}
+			if( !StringUtils.isEmpty(obj.getValidity_dates()) && obj.getValidity_dates().length > 0) {
 				obj.setValidity_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getValidity_dates()));
 				if(arraySize < obj.getValidity_dates().length) {
 					arraySize = obj.getValidity_dates().length;
 				}
-			}if( !StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+			}
+			if( !StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
 				obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
 				if(arraySize < obj.getRemarkss().length) {
 					arraySize = obj.getRemarkss().length;
@@ -162,6 +171,27 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					arraySize = obj.getSafetyEquipmentFileNames().length;
 				}
 			}
+			
+			if( !StringUtils.isEmpty(obj.getInspecting_officials()) && obj.getInspecting_officials().length > 0) {
+				obj.setInspecting_officials(CommonMethods.replaceEmptyByNullInSringArray(obj.getInspecting_officials()));
+				if(arraySize < obj.getInspecting_officials().length) {
+					arraySize = obj.getInspecting_officials().length;
+				}
+			}
+			
+			if( !StringUtils.isEmpty(obj.getLast_inspection_dates()) && obj.getLast_inspection_dates().length > 0) {
+				obj.setLast_inspection_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getLast_inspection_dates()));
+				if(arraySize < obj.getLast_inspection_dates().length) {
+					arraySize = obj.getLast_inspection_dates().length;
+				}
+			}
+			if( !StringUtils.isEmpty(obj.getNext_inspection_dues()) && obj.getNext_inspection_dues().length > 0) {
+				obj.setNext_inspection_dues(CommonMethods.replaceEmptyByNullInSringArray(obj.getNext_inspection_dues()));
+				if(arraySize < obj.getNext_inspection_dues().length) {
+					arraySize = obj.getNext_inspection_dues().length;
+				}
+			}
+			
 			String[] documentNames = new String[arraySize];
 			
 			for (int i = 0; i < arraySize; i++) {
@@ -172,6 +202,11 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			    insertStmt.setString(p++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
 			    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 			    insertStmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
+			    
+			    insertStmt.setString(p++,(obj.getInspecting_officials().length > 0)?obj.getInspecting_officials()[i]:null);
+			    insertStmt.setString(p++,DateParser.parse((obj.getLast_inspection_dates().length > 0)?obj.getLast_inspection_dates()[i]:null));
+			    insertStmt.setString(p++,DateParser.parse((obj.getNext_inspection_dues().length > 0)?obj.getNext_inspection_dues()[i]:null));
+			    
 			    insertStmt.addBatch();
 			}
 			int[] insertCount = insertStmt.executeBatch();		
@@ -230,15 +265,16 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			con.setAutoCommit(false);
 			String updateQry = "UPDATE safety_equipment set "
 					+ "safety_equipment_number= ?, safety_equipment_detail=? ,"
-					+ "validity_date= ?, remarks= ?, attachment= ? "
+					+ "validity_date= ?, remarks= ?, attachment= ?,inspecting_official = ?,last_inspection_date = ?,next_inspection_due = ? "
 					+ "where safety_equipment_id= ?";
 			
 			updateStmt = con.prepareStatement(updateQry);
 			
 			String insertQry = "INSERT INTO safety_equipment"
-					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment)"
+					+ "(contract_id_fk, safety_equipment_number, safety_equipment_detail, validity_date, remarks, attachment,"
+					+ "inspecting_official,last_inspection_date,next_inspection_due)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			
 			
@@ -281,6 +317,27 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 						arraySize = obj.getSafetyEquipmentFileNames().length;
 					}
 				}
+				
+				if( !StringUtils.isEmpty(obj.getInspecting_officials()) && obj.getInspecting_officials().length > 0) {
+					obj.setInspecting_officials(CommonMethods.replaceEmptyByNullInSringArray(obj.getInspecting_officials()));
+					if(arraySize < obj.getInspecting_officials().length) {
+						arraySize = obj.getInspecting_officials().length;
+					}
+				}
+				
+				if( !StringUtils.isEmpty(obj.getLast_inspection_dates()) && obj.getLast_inspection_dates().length > 0) {
+					obj.setLast_inspection_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getLast_inspection_dates()));
+					if(arraySize < obj.getLast_inspection_dates().length) {
+						arraySize = obj.getLast_inspection_dates().length;
+					}
+				}
+				if( !StringUtils.isEmpty(obj.getNext_inspection_dues()) && obj.getNext_inspection_dues().length > 0) {
+					obj.setNext_inspection_dues(CommonMethods.replaceEmptyByNullInSringArray(obj.getNext_inspection_dues()));
+					if(arraySize < obj.getNext_inspection_dues().length) {
+						arraySize = obj.getNext_inspection_dues().length;
+					}
+				}
+				
 				String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
 				List<MultipartFile> files = new ArrayList<MultipartFile>();
 				for (int i = 0; i < arraySize; i++) {
@@ -303,6 +360,11 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					    updateStmt.setString(k++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
 					    updateStmt.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 					    updateStmt.setString(k++,docFileName);	
+					    
+					    updateStmt.setString(k++,(obj.getInspecting_officials().length > 0)?obj.getInspecting_officials()[i]:null);
+					    updateStmt.setString(k++,DateParser.parse((obj.getLast_inspection_dates().length > 0)?obj.getLast_inspection_dates()[i]:null));
+					    updateStmt.setString(k++,DateParser.parse((obj.getNext_inspection_dues().length > 0)?obj.getNext_inspection_dues()[i]:null));
+					    
 					    updateStmt.setString(k++,(obj.getSafety_equipment_ids()[i]));
 					    updateStmt.addBatch();
 					} else {
@@ -315,6 +377,11 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 					    insertStmt.setString(p++,DateParser.parse((obj.getValidity_dates().length > 0)?obj.getValidity_dates()[i]:null));
 					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
 					    insertStmt.setString(p++,null);	
+					    
+					    insertStmt.setString(p++,(obj.getInspecting_officials().length > 0)?obj.getInspecting_officials()[i]:null);
+					    insertStmt.setString(p++,DateParser.parse((obj.getLast_inspection_dates().length > 0)?obj.getLast_inspection_dates()[i]:null));
+					    insertStmt.setString(p++,DateParser.parse((obj.getNext_inspection_dues().length > 0)?obj.getNext_inspection_dues()[i]:null));
+					    					    
 					    insertStmt.addBatch();
 					}
 				}

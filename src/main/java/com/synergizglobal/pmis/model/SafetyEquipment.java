@@ -6,9 +6,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SafetyEquipment {
 	private String safety_equipment_id, safety_equipment_number, safety_equipment_detail, validity_date,contract_id_fk,
-	project_id_fk,work_id_fk,project_name,work_name,contract_name,attachment,remarks,work_id,project_id,contract_id,contract_short_name;
+	project_id_fk,work_id_fk,project_name,work_name,contract_name,attachment,remarks,work_id,project_id,contract_id,
+	contract_short_name,inspecting_official,last_inspection_date,next_inspection_due;
 	
-	private String[] safety_equipment_ids,safety_equipment_numbers, safety_equipment_details, validity_dates,contract_id_fks,attachments,remarkss,safetyEquipmentFileNames;
+	private String[] safety_equipment_ids,safety_equipment_numbers, safety_equipment_details, validity_dates,contract_id_fks,
+	attachments,remarkss,safetyEquipmentFileNames,inspecting_officials,last_inspection_dates,next_inspection_dues;
 	
 
 	private List<SafetyEquipment> safetyEquipments;
@@ -16,6 +18,56 @@ public class SafetyEquipment {
 
 	private MultipartFile[] safetyEquipmentFile;
 	
+	
+	
+	public String[] getInspecting_officials() {
+		return inspecting_officials;
+	}
+
+	public void setInspecting_officials(String[] inspecting_officials) {
+		this.inspecting_officials = inspecting_officials;
+	}
+
+	public String[] getLast_inspection_dates() {
+		return last_inspection_dates;
+	}
+
+	public void setLast_inspection_dates(String[] last_inspection_dates) {
+		this.last_inspection_dates = last_inspection_dates;
+	}
+
+	public String[] getNext_inspection_dues() {
+		return next_inspection_dues;
+	}
+
+	public void setNext_inspection_dues(String[] next_inspection_dues) {
+		this.next_inspection_dues = next_inspection_dues;
+	}
+
+	public String getInspecting_official() {
+		return inspecting_official;
+	}
+
+	public void setInspecting_official(String inspecting_official) {
+		this.inspecting_official = inspecting_official;
+	}
+
+	public String getLast_inspection_date() {
+		return last_inspection_date;
+	}
+
+	public void setLast_inspection_date(String last_inspection_date) {
+		this.last_inspection_date = last_inspection_date;
+	}
+
+	public String getNext_inspection_due() {
+		return next_inspection_due;
+	}
+
+	public void setNext_inspection_due(String next_inspection_due) {
+		this.next_inspection_due = next_inspection_due;
+	}
+
 	public String[] getSafetyEquipmentFileNames() {
 		return safetyEquipmentFileNames;
 	}

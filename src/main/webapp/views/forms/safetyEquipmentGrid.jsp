@@ -288,10 +288,9 @@
 	                   	rowArray.push($.trim(val.safety_equipment_number));
 	                   	rowArray.push($.trim(val.safety_equipment_detail));
 	                   	rowArray.push($.trim(val.validity_date));
-// 	                   	rowArray.push($.trim(val.remarks));
-	                   	rowArray.push(' ');
-	                	rowArray.push(' ');
-	                	rowArray.push(' ');
+	                   	rowArray.push($.trim(val.inspecting_official));
+	                	rowArray.push($.trim(val.last_inspection_date));
+	                	rowArray.push($.trim(val.next_inspection_due));
 	                   	rowArray.push($.trim(actions));   	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );

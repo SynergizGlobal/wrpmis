@@ -10,6 +10,9 @@ public class CommonMethods {
 		for (int i = 0; i < _array.length; i++){
 		    if (StringUtils.isEmpty(_array[i])) {
 		        _array[i] = null;
+		    }else if(!StringUtils.isEmpty(_array[i]) && _array[i].contains("~$~")) {
+		    	String temp = _array[i].replaceAll("[~$~]+" , ",");
+		    	_array[i] = temp;
 		    }
 		}
 		return _array;

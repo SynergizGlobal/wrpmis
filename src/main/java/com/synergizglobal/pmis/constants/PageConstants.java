@@ -50,5 +50,7 @@ public class PageConstants {
 	public static final String expenditure = "forms/expenditure";
 	public static final String addEditExpenditure = "forms/addEditExpenditure";
 	
+	public static final String progressBulkUpload = "forms/progressBulkUpload";
+	
 	
 }

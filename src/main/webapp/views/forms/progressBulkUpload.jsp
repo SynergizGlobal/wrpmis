@@ -202,67 +202,77 @@
                         </span>
                     </div>
                     <!-- form start-->
-                            <form id="stripChartForm" name="stripChartForm" method="post" enctype="multipart/form-data">
+                    <c:if test="${not empty success}">
+				        <div class="center-align m-1 close-message">	
+						   ${success}
+						</div>
+				    </c:if>
+				    <c:if test="${not empty error }">
+						<div class="center-align m-1 close-message">
+						   ${error}
+						</div>
+				    </c:if>
+                    <form id="ProgressBulkUpdateForm" name="ProgressBulkUpdateForm" method="post" enctype="multipart/form-data">
                     <div class="container container-no-margin">
                         <div class="row">                          
                                 <div class="col m1 hide-on-small-only"></div>
                                 <div class="col m10 s12">
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
-                                            <p class="searchable_label">Project</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <p>Project</p>
+                                            <select class="searchable validate-dropdown" id="project_id" name="project_id"
+                                                onchange="getProgressBulkUpdateWorksList(this.value);">
+                                                <option value="">Select</option>
+                                                <c:forEach var="obj" items="${projectsList }">
+                                                    <option value="${obj.project_id }" <c:if test="${obj.project_id eq ProgressBulkData.project_id }">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                                </c:forEach>
                                             </select>
+                                            <span id="project_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m8 s12 input-field">
-                                            <p class="searchable_label">Work</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <p>Work</p>
+                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                                onchange="getProgressBulkUpdateContractsList(this.value);">
+                                                <option value="">Select</option>
+                                                <c:forEach var="obj" items="${worksList }">
+                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq ProgressBulkData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                                </c:forEach>
                                             </select>
+                                            <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m12 s12 input-field">
-                                            <p class="searchable_label">Contract</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                       <div class="col m12 s12 input-field">
+                                            <p>Contract</p>
+                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
+                                                onchange="resetWorksAndProjectsDropdowns();getProgressBulkUpdateStructures(); getProgressBulkUpdateLines(); getProgressBulkUpdateSections();">
+                                                <option value="">Select</option>
+                                                <c:forEach var="obj" items="${contractsList }">
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq ProgressBulkData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+                                                </c:forEach>
                                             </select>
-
+                                            <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
                                     </div>
                                     <div class="row" id="toggle-selects">
-                                        <div class="col m4 s12 input-field">
+                                        <div class="col m4 s12 input-field" >
                                             <p class="searchable_label">Structure</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                           <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
+                                                class="searchable validate-dropdown" onchange="getComponentIdsList();">
+                                                <option value="">Select</option>
                                             </select>
+                                            <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m4 s12 input-field">
+                                        <div class="col m4 s12 input-field" id="strip_chart_line_id_fkDiv" style="display: none;">
                                             <p class="searchable_label">Line</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk"
+                                                class="searchable validate-dropdown" onchange="getComponentIdsList();">
+                                                <option value="">Select</option>
                                             </select>
                                         </div>
-                                        <div class="col m4 s12 input-field">
+                                        <div class="col m4 s12 input-field" id="strip_chart_section_id_fkDiv" style="display: none;">
                                             <p class="searchable_label">Section</p>
-                                            <select class="searchable">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                            <select id="strip_chart_section_id_fk" name="strip_chart_section_id_fk"
+                                                class="searchable validate-dropdown" onchange="getComponentIdsList();">
+                                                <option value="">Select</option>
                                             </select>
                                         </div>
                                     </div>
@@ -366,25 +376,20 @@
                                     <div class="row">                                     
                                         <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Component ID</p>
-                                            <select class="searchable validate-dropdown" id="strip_chart_component_id"
-                                                name="strip_chart_component_id">
+                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
                                                 <option value="">Select</option>
                                             </select>
-                                            <span id="strip_chart_component_idError" class="error-msg"></span>
+                                            <span id="strip_chart_component_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Component</p>
-                                            <select class="searchable validate-dropdown" id="strip_chart_component"
-                                                name="strip_chart_component">
-                                                <option value="">Select</option>
-                                            </select>
-                                            <span id="strip_chart_componentError" class="error-msg"></span>
+                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2rem;" readonly="readonly">
                                         </div>
                                         <div class="col m4 s12 input-field">
                                             <p class="searchable_label">Activity</p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
                                                 class="searchable validate-dropdown"
-                                                onchange="getStripChartDetails(this.value);">
+                                                onchange="getProgressBulkUpdateDetails(this.value);">
                                                 <option value="">Select</option>
                                             </select>
                                             <span id="strip_chart_activity_idError" class="error-msg"></span>
@@ -603,17 +608,555 @@
             })           
         }
      
-// select or deselect all checkboxes 
-$('#select-all').change(function() {
-    var _this = this;
-    $('input[name="activity_check"]').each(function() { 
-    if ($(_this).is(':checked')) {
-        $(this).prop('checked', true);
-    } else {
-        $(this).prop('checked', false);
-    }
-    });
-});
+	// select or deselect all checkboxes 
+	$('#select-all').change(function() {
+	    var _this = this;
+	    $('input[name="activity_check"]').each(function() { 
+	    if ($(_this).is(':checked')) {
+	        $(this).prop('checked', true);
+	    } else {
+	        $(this).prop('checked', false);
+	    }
+	    });
+	    
+	    var project_id = "${ProgressBulkData.project_id}";
+	    if ($.trim(project_id) != '') {
+	    	$("#project_id").val(project_id);
+	    	$("#project_id").select2();
+	    	getProgressBulkUpdateWorksList(project_id);
+	    }
+	});
+	
+	function getProgressBulkUpdateWorksList(projectId) { 
+		$(".page-loader").show();
+		$("#contract_id_fk option:not(:first)").remove();    	
+	    $("#work_id_fk option:not(:first)").remove();
+	    
+	    $("#strip_chart_structure_id_fk option:not(:first)").remove();
+	    $("#strip_chart_line_id_fk option:not(:first)").remove();
+	    $("#strip_chart_section_id_fk option:not(:first)").remove();
+		
+		$('.searchable').select2();
+		clearComponentCircle();
+		
+	
+	    if ($.trim(projectId) != "") {
+	        var myParams = { project_id_fk: projectId };
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateWorksList",
+	            data: myParams, cache: false,
+	            success: function (data) {
+	            	var id1 = "";
+	                var id2 = "${ProgressBulkData.work_id}";
+	                if (data.length > 0) {
+	                    $.each(data, function (i, val) {
+	                        var workName = '';
+	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                        if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
+	                        	id1 = val.work_id;
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                        } else {
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                        }
+	                    });
+	                }
+	                $('.searchable').select2();
+	                $(".page-loader").hide();
+	                
+	                if ($.trim(id1) != '' && $.trim(id2) != '') {
+	                	getProgressBulkUpdateContractsList(id2);
+	                }
+	            }
+	        });
+	    }else{
+	    	$(".page-loader").hide();
+	    }
+	}
+	
+	//geting contracts list    
+	function getProgressBulkUpdateContractsList(work_id_fk) {
+		$(".page-loader").show();
+	    $("#contract_id_fk option:not(:first)").remove();
+	    
+	    $("#strip_chart_structure_id_fk option:not(:first)").remove();
+	    $("#strip_chart_line_id_fk option:not(:first)").remove();
+	    $("#strip_chart_section_id_fk option:not(:first)").remove();
+		$('.searchable').select2();
+		clearComponentCircle();
+		
+	    if ($.trim(work_id_fk) != "") {
+	        var myParams = { work_id_fk: work_id_fk };
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateContractsList",
+	            data: myParams, cache: false,
+	            success: function (data) {
+	            	var id1 = "";
+	            	var id2 = "${ProgressBulkData.contract_id}";                        
+	                if (data.length > 0) {
+	                    $.each(data, function (i, val) {
+	                        var contract_name = '';
+	                        if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                        if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
+	                        	id1 = val.contract_id;
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+	                        } else {
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+	                        }
+	                    });
+	                }
+	                $('.searchable').select2();
+	                $(".page-loader").hide();
+	                
+	                if ($.trim(id1) != '' && $.trim(id2) != '') {
+	                	getProgressBulkUpdateStructures(id2);
+	                }
+	            }
+	        });
+	    }else{
+	    	$(".page-loader").hide();
+	    }
+	}
+	
+	function resetWorksAndProjectsDropdowns(){
+		$(".page-loader").show();
+		clearComponentCircle();
+		
+		
+		var projectId = '';
+		var workId = ''
+			var contract_id_fk = $("#contract_id_fk").val();
+			if($.trim(contract_id_fk) != ''){        			
+				workId = $("#contract_id_fk").find('option:selected').attr("name");
+				projectId = workId.substring(0, 3);    
+				//workId = workId.substring(3, work_id.length);
+				$("#project_id").val(projectId);
+				$("#project_id").select2();
+			}
+			
+			if ($.trim(projectId) != "") {
+				$("#work_id_fk option:not(:first)").remove();
+	        var myParams = { project_id_fk: projectId };
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateWorksList",
+	            data: myParams, cache: false,
+	            success: function (data) {
+	                if (data.length > 0) {
+	                    $.each(data, function (i, val) {
+	                        var workName = '';
+	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                        } else {
+	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                        }
+	                    });
+	                }
+	                $('.searchable').select2();
+	                $(".page-loader").hide();
+	            }
+	        });
+	        $('.searchable').select2();
+	    }
+			
+	}
+	
+    function clearComponentCircle(){        	
+     	$("#strip_chart_component").attr("readonly", false); 
+     	$("#strip_chart_component").val('');
+     	$("#strip_chart_component").attr("readonly", true);
+     	
+     	$("#strip_chart_component_id option:not(:first)").remove();
+     	$("#strip_chart_activity_id option:not(:first)").remove();
+     	
+     	$('.searchable').select2();
+     	
+         $("#component_circles").html('');
+         $("#component_circles_row").hide();
+         
+         $("#plannedStart").html("");
+     	$("#plannedFinish").html("");
+     	$("#totalScope").val('');
+     	$("#completed").val('');
+     	$("#remaining").val('');
+     	$(".unit_fk").html("");
+     	$("#strip_chart_id").val("");        	
+     } 
+	
+	  function getProgressBulkUpdateStructures() {
+      	$(".page-loader").show();
+      	var contract_id_fk = $("#contract_id_fk").val();
+          $("#strip_chart_structure_id_fk option:not(:first)").remove();
+          if ($.trim(contract_id_fk) != "") {
+          	var myParams = { contract_id_fk: contract_id_fk };
+              $.ajax({
+                  url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateStructures",
+                  data: myParams, cache: false,
+                  success: function (data) {
+                  	var id1 = "";
+                  	var id2 = "${ProgressBulkData.strip_chart_structure_id}";
+                      if (data.length > 0) {
+                          $.each(data, function (i, val) {
+	                            if ($.trim(id2) != '' && val.strip_chart_structure_id_fk == $.trim(id2)) {
+	                            	id1 = val.strip_chart_structure_id_fk;
+	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '" selected>' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                            } else {
+	                                $("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure_id_fk + '">' + $.trim(val.strip_chart_structure_id_fk) + '</option>');
+	                            }
+                          });
+                      }
+                      $('.searchable').select2();
+                      $(".page-loader").hide();
+                      
+                      
+                      if ($.trim(id1) != '' && $.trim(id2) != '') {
+                      	getComponentIdsList(id2);
+                      }
+                  }
+              });
+          }else{
+          	$(".page-loader").hide();
+          }
+      }
+	  
+	  
+	function getProgressBulkUpdateLines() {
+		var contract_id_fk = $("#contract_id_fk").val();
+	    $("#strip_chart_line_id_fk option:not(:first)").remove();
+	    if ($.trim(contract_id_fk) != "") {
+	    	var myParams = { contract_id_fk: contract_id_fk};
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateLines",
+	            data: myParams, cache: false,
+	            success: function (data) {
+	                if (data.length > 0) {
+	                	$("#strip_chart_line_id_fkDiv").show();
+	                    $.each(data, function (i, val) {
+	                        $("#strip_chart_line_id_fk").append('<option value="' + val.strip_chart_line_id_fk + '">' + $.trim(val.strip_chart_line_id_fk) + '</option>');
+	                    });
+	                }else{
+	                	$("#strip_chart_line_id_fkDiv").hide();
+	                }
+	                $('.searchable').select2();
+	            }
+	        });
+	    }
+	}
+	
+	function getProgressBulkUpdateSections() {
+		var contract_id_fk = $("#contract_id_fk").val();
+	    $("#strip_chart_section_id_fk option:not(:first)").remove();
+	    if ($.trim(contract_id_fk) != "") {
+	    	var myParams = { contract_id_fk: contract_id_fk};
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateSections",
+	            data: myParams, cache: false,
+	            success: function (data) {
+	                if (data.length > 0) {
+	                	$("#strip_chart_section_id_fkDiv").show();
+	                    $.each(data, function (i, val) {
+	                        $("#strip_chart_section_id_fk").append('<option value="' + val.strip_chart_section_id_fk + '">' + $.trim(val.strip_chart_section_name) + '</option>');
+	                    });
+	                }else{
+	                	$("#strip_chart_section_id_fkDiv").hide();
+	                }
+	                $('.searchable').select2();
+	            }
+	        });
+	    }
+	}
+
+	 function getComponentIdsList() {   
+     	$(".page-loader").show();
+     	
+     	clearComponentCircle();
+         
+         var contract_id_fk = $("#contract_id_fk").val();
+         var structureId = $("#strip_chart_structure_id_fk").val();
+         var laneId = $("#strip_chart_line_id_fk").val();
+         var sectionId = $("#strip_chart_section_id_fk").val();
+         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_id_fk: sectionId };
+         var html = '';
+
+         if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" ) {                
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateComponentIdsList",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                 	var id1 = "";
+                 	var id2 = "${ProgressBulkData.strip_chart_component_id}";
+                     var strip_chart_component = "${ProgressBulkData.strip_chart_component}";
+                     
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                         	var componentIdAndName = "'" + val.strip_chart_component_id + "','" +val.strip_chart_component+ "'";
+                             var className = "odd";
+                             if(i%2 == 0){
+                             	className = "even";
+                             }
+                             
+                             var pointerEvent = "";
+                             if(val.component_id_color == "completed"){
+                             	pointerEvent = "pointer-events: none;";
+                             	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
+                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                 + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
+                                 if(i != 0){
+                                 	html = html + '<span class="dot-line"></span>';
+                                 }
+                                 html = html + '</div>';
+                             	
+                             	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                             } else {                
+                             	
+                             	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
+                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                 + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
+                                 if(i != 0){
+                                 	html = html + '<span class="dot-line"></span>';
+                                 }
+                                 html = html + '</div>';
+                             	
+                             	if ($.trim(id2) != '' && val.strip_chart_component_id == $.trim(id2)) {
+                             		id1 = val.strip_chart_component_id;
+ 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+ 	                            } else {
+ 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
+ 	                            }
+                             }                                
+                         });
+                         
+                         $('.searchable').select2();
+                     }
+                     $("#component_circles").html(html);
+                     $("#component_circles_row").show();
+                     $(".page-loader").hide();
+                     
+                     
+                     if ($.trim(id1) != '' && $.trim(id2) != '') {
+                     	getStripChartActivitiesList(id2,strip_chart_component);
+                     }
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         	$("#component_circles").html(html);
+             $("#component_circles_row").hide();
+         }
+         
+         $("#plannedStart").html("");
+     	$("#plannedFinish").html("");
+     	var scope = "";
+     	var completed = "";
+     	var remaining = "";
+     	$("#totalScope").val(scope);
+     	$("#completed").val(completed);
+     	$("#remaining").val(remaining);
+     	$(".unit_fk").html("");
+     	$("#strip_chart_id").val("");
+     }
+	 
+	 function getStripChartActivitiesList(componentId,componentName) {
+     	
+     	$( ".dot" ).removeClass( "active" );
+     	$( "#"+componentId ).addClass( "active" );
+     	
+     	/* $("#strip_chart_component option:not(:first)").remove();
+     	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
+     	$('.searchable').select2(); */
+     	
+     	$("#strip_chart_component").attr("readonly", false); 
+     	$("#strip_chart_component").val(componentName);
+     	$("#strip_chart_component").attr("readonly", true); 
+     	
+     	$("#strip_chart_component_id").val(componentId);
+     	$(".page-loader").show();
+         $("#strip_chart_activity_id option:not(:first)").remove();
+         
+         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
+         var strip_chart_section_id_fk = $("#strip_chart_section_id_fk").val();
+         
+         if ($.trim(componentId) != "") {
+             var myParams = { strip_chart_component_id: componentId,strip_chart_component : componentName,
+             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
+             		strip_chart_section_id_fk : strip_chart_section_id_fk };
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateActivitiesList",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                 	var id1 = "";
+                 	var id2 = "${ProgressBulkData.strip_chart_activity_id}";
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+	                            if ($.trim(id2) != '' && val.strip_chart_activity_id == $.trim(id2)) {
+	                            	id1 = val.strip_chart_activity_id;
+	                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '" selected>' + $.trim(val.strip_chart_activity_name) + '</option>');
+	                            } else {
+	                                $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
+	                            }
+                         });
+                     }
+                     $('.searchable').select2();
+                     $(".page-loader").hide();                        
+                     
+                     if ($.trim(id1) != '' && $.trim(id2) != '') {
+                    	 getProgressBulkUpdateDetails(id2);
+                     }
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         }
+         
+         $("#plannedStart").html("");
+     	$("#plannedFinish").html("");
+     	var scope = "";
+     	var completed = "";
+     	var remaining = "";
+     	$("#totalScope").val(scope);
+     	$("#completed").val(completed);
+     	$("#remaining").val(remaining);
+     	$(".unit_fk").html("");
+     	$("#strip_chart_id").val("");
+     }
+	 
+	 function getComponentAndActivitiesList(componentId){
+     	$( ".dot" ).removeClass( "active" );
+     	$( "#"+componentId ).addClass( "active" );
+     	
+     	var $scroller = $('.dotgroup-scroll');
+         var childs=$scroller.children().children().length;
+         var indexing=$(".dot-container").index($("#dd"+componentId));
+        	var scrollTo=Math.round((indexing*($scroller[0].scrollWidth/childs))-childs);           
+         $scroller.animate({'scrollLeft': scrollTo}, 1000);  
+                     
+     	var componentName = $("#strip_chart_component_id").find('option:selected').attr("name");
+     	
+     	/* $("#strip_chart_component option:not(:first)").remove();
+     	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
+     	$('.searchable').select2(); */
+     	$("#strip_chart_component").attr("readonly", false); 
+     	$("#strip_chart_component").val(componentName);
+     	$("#strip_chart_component").attr("readonly", true);
+     	
+     	$(".page-loader").show();
+         $("#strip_chart_activity_id option:not(:first)").remove();
+         
+         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
+         var strip_chart_section_id_fk = $("#strip_chart_section_id_fk").val();
+         
+         if ($.trim(componentId) != "") {
+             var myParams = { strip_chart_component_id: componentId,strip_chart_component : componentName,
+             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
+             		strip_chart_section_id_fk : strip_chart_section_id_fk };
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateActivitiesList",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                             $("#strip_chart_activity_id").append('<option value="' + val.strip_chart_activity_id + '">' + $.trim(val.strip_chart_activity_name) + '</option>');
+                         });
+                     }
+                     $('.searchable').select2();
+                     $(".page-loader").hide();
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         }
+         
+         $("#plannedStart").html("");
+     	$("#plannedFinish").html("");
+     	var scope = "";
+     	var completed = "";
+     	var remaining = "";
+     	$("#totalScope").val(scope);
+     	$("#completed").val(completed);
+     	$("#remaining").val(remaining);
+     	$(".unit_fk").html("");
+     	$("#strip_chart_id").val("");
+     }
+     
+	 function getProgressBulkUpdateDetails(activitiId) {
+     	$(".page-loader").show();
+     	
+     	$("#plannedStart").html("");
+     	$("#plannedFinish").html("");
+     	var scope = "";
+     	var completed = "";
+     	var remaining = "";
+     	$("#totalScope").val(scope);
+     	$("#completed").val(completed);
+     	$("#remaining").val(remaining);
+     	$(".unit_fk").html("");
+     	$("#strip_chart_id").val("");
+     	
+         var componentId = $("#strip_chart_component_id").val();
+         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
+         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+         var strip_chart_section_id_fk = $("#strip_chart_section_id_fk").val();
+         
+         var component_name = "";
+         if($.trim(componentId) != ''){
+         	component_name = $("#strip_chart_component_id option:selected").text();
+         }
+         var line_name = "";
+         if($.trim(strip_chart_line_id_fk) != ''){
+         	line_name = $("#strip_chart_line_id_fk option:selected").text();
+         }
+         var section_name = "";
+         if($.trim(strip_chart_section_id_fk) != ''){
+         	section_name = $("#strip_chart_section_id_fk option:selected").text();
+         }
+         var activity_name = "";
+         if($.trim(activitiId) != ''){
+         	activity_name = $("#strip_chart_activity_id option:selected").text();
+         }
+         
+         $("#strip_chart_component_id_name").val(component_name);
+         $("#strip_chart_line").val(line_name);
+         $("#strip_chart_section_name").val(section_name);
+         $("#strip_chart_activity_name").val(activity_name);
+         
+         if ($.trim(strip_chart_activity_id) != "") {
+             var myParams = { strip_chart_component_id: componentId, strip_chart_activity_id: activitiId , 
+             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
+             		strip_chart_section_id_fk : strip_chart_section_id_fk};
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateDetails",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                 	$("#plannedStart").html(data.planned_start);
+                 	$("#plannedFinish").html(data.planned_finish);
+                 	var scope = 0;
+                 	if($.trim(data.scope) != ''){
+                 		scope = $.trim(data.scope);
+                 	}
+                 	var completed = 0;
+                 	if($.trim(data.completed) != ''){
+                 		completed = $.trim(data.completed);
+                 	}
+                 	var remaining = 0;
+                 	if($.trim(data.remaining) != ''){
+                 		remaining = $.trim(data.remaining);
+                 	}
+                 	$("#totalScope").val(scope);
+                 	$("#completed").val(completed);
+                 	$("#remaining").val(remaining);
+                 	
+                 	$(".unit_fk").html(data.unit_fk);
+                 	
+                 	$("#strip_chart_id").val(data.strip_chart_id);
+                 	
+                 	$(".page-loader").hide();
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         }
+     }
 
     </script>
 </body>

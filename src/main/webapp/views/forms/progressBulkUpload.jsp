@@ -277,12 +277,11 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="row" style="margin-bottom: 20px;"
-                                        id="component_circles_row">
+                                    <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
                                                 <div id="component_circles" style="padding: 10px;">
-                                                    <div class="dot-container">
+                                                    <!-- <div class="dot-container">
                                                         <a href="javascript:void(0);" class="dot"
                                                             style="margin-left: 0;">
                                                             <span class="project odd">P2P4P2P4</span></a>
@@ -366,7 +365,7 @@
                                                         <a href="#" class="dot not-started"><span
                                                                 class="project odd">P3A4P3A4</span></a>
                                                         <span class="dot-line"></span>
-                                                    </div>
+                                                    </div> -->
 
                                                 </div>
                                             </div>

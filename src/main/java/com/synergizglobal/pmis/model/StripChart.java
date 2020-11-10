@@ -11,6 +11,24 @@ public class StripChart {
 	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name;
 	
 	private MultipartFile stripChartFile;
+	
+	private String [] actualScopes,strip_chart_ids;
+
+	public String[] getStrip_chart_ids() {
+		return strip_chart_ids;
+	}
+
+	public void setStrip_chart_ids(String[] strip_chart_ids) {
+		this.strip_chart_ids = strip_chart_ids;
+	}
+
+	public String[] getActualScopes() {
+		return actualScopes;
+	}
+
+	public void setActualScopes(String[] actualScopes) {
+		this.actualScopes = actualScopes;
+	}
 
 	public String getProject_name() {
 		return project_name;

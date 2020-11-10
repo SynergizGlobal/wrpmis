@@ -26,4 +26,8 @@ public interface ProgressBulkUpdateDao {
 
 	public StripChart getProgressBulkUpdateDetails(StripChart obj)throws Exception;
 
+	public List<StripChart> getstripChartfilterList(StripChart obj)throws Exception;
+
+	public boolean updateProgressBulk(StripChart obj)throws Exception;
+
 }

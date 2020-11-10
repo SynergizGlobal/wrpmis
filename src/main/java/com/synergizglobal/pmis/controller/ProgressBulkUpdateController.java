@@ -17,11 +17,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ProgressBulkUpdateService;
+import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.Iservice.ProgressBulkUpdateService;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Controller
@@ -39,7 +44,7 @@ public class ProgressBulkUpdateController {
 	ProgressBulkUpdateService progressBulkUpdateervice;
 	
 	
-	@RequestMapping(value="/progressBulkUpload",method=RequestMethod.GET)
+	@RequestMapping(value="/progressBulkUpdate",method=RequestMethod.GET)
 	public ModelAndView progressBulkUpload(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.progressBulkUpload);
 		try {
@@ -51,7 +56,10 @@ public class ProgressBulkUpdateController {
 			
 			List<StripChart> contractsList = progressBulkUpdateervice.getProgressBulkUpdateContractsList(obj);
 			model.addObject("contractsList", contractsList);
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
+				List<StripChart> fileterData = progressBulkUpdateervice.getstripChartfilterList(obj);
+				model.addObject("fileterData", fileterData);
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_id())) {
 				StripChart  ProgressBulkData = progressBulkUpdateervice.getProgressBulkData(obj);
 				model.addObject(" ProgressBulkData",  ProgressBulkData);
@@ -174,5 +182,41 @@ public class ProgressBulkUpdateController {
 			logger.error("getProgressBulkUpdateDetails() : "+e.getMessage());
 		}
 		return data;
+	}
+	
+	@RequestMapping(value = "/ajax/getstripChartfilterList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getstripChartfilterList(@ModelAttribute StripChart obj){
+		List<StripChart> fileterData = null;
+		try{
+			fileterData = progressBulkUpdateervice.getstripChartfilterList(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getstripChartfilterList() : "+e.getMessage());
+		}
+		return fileterData;
+	}
+	
+
+	@RequestMapping(value = "/update-progressBulk", method = {RequestMethod.POST})
+	public ModelAndView updateProgressBulk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String userId = null;
+		try{
+			model.setViewName("redirect:/progressBulkUpdate");
+			userId = (String) session.getAttribute("USER_ID");
+			obj.setCreated_by_user_id_fk(userId);
+			boolean flag =  progressBulkUpdateervice.updateProgressBulk(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "ProgressBulk Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating ProgressBulk is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating ProgressBulk is failed. Try again.");
+			logger.error("updateProgressBulk : " + e.getMessage());
+		}
+		return model;
 	}
 }

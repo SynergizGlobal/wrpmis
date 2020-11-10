@@ -212,7 +212,7 @@
 						   ${error}
 						</div>
 				    </c:if>
-                    <form id="ProgressBulkUpdateForm" name="ProgressBulkUpdateForm" method="post" enctype="multipart/form-data">
+                    <form action="<%=request.getContextPath() %>/update-progressBulk" id="ProgressBulkUpdateForm" name="ProgressBulkUpdateForm" method="post" >
                     <div class="container container-no-margin">
                         <div class="row">                          
                                 <div class="col m1 hide-on-small-only"></div>
@@ -402,10 +402,10 @@
                                         </div>
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
-</div>
-                                    <div class="row fixed-width">
+									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
+                                    <div class="row fixed-width" id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
                                         <div class="table-inside">
-                                            <table class="mdl-data-table">
+                                            <table class="mdl-data-table" id="table">
                                                 <thead>
                                                     <tr>
                                                         <th>
@@ -428,8 +428,9 @@
                                                         <th>Actual</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
+                                                <tbody id="filerList">
+                                                <!-- 
+                                                    <tr >
                                                         <td>
                                                             <p>
                                                                 <label>
@@ -441,60 +442,15 @@
                                                         <td>1</td>
                                                         <td>2</td>
                                                         <td>3</td>
-                                                        <td>3</td>
-                                                        <!-- <td>4</td>
-                                                        <td>5</td> -->
+                                                        <td>4</td>
+                                                        <td>5</td>
                                                         <td>6</td>
                                                         <td><span id="scope1">10</span></td>
                                                         <td><span id="completed1">7</span></td>                                                       
                                                         <td class="input-field">
                                                             <input type="text" id="actual1" readonly>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <p>
-                                                                <label>
-                                                                  <input type="checkbox" name="activity_check" id="check_2"/>
-                                                                  <span></span>
-                                                                </label>
-                                                              </p>
-                                                        </td>
-                                                        <td>1</td>
-                                                        <td>2</td>
-                                                        <td>3</td>
-                                                        <td>3</td>
-                                                        <!-- <td>4</td>
-                                                        <td>5</td> -->
-                                                        <td>6</td>
-                                                        <td><span id="scope2">70</span></td>
-                                                        <td><span id="completed2">27</span></td>                                                       
-                                                        <td class="input-field">
-                                                            <input type="text" id="actual2" readonly>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <p>
-                                                                <label>
-                                                                  <input type="checkbox" name="activity_check" id="check_3"/>
-                                                                  <span></span>
-                                                                </label>
-                                                              </p>
-                                                        </td>
-                                                        <td>1</td>
-                                                        <td>2</td>
-                                                        <td>3</td>
-                                                        <td>3</td>
-                                                        <!-- <td>4</td>
-                                                        <td>5</td> -->
-                                                        <td>6</td>
-                                                        <td><span id="scope3">12</span></td>
-                                                        <td><span id="completed3">3</span></td>                                                       
-                                                        <td class="input-field">
-                                                            <input type="text" id="actual3" readonly>
-                                                        </td>
-                                                    </tr>
+                                                        </td> 
+                                                    </tr> -->
                                                   
                                                 </tbody>
                                             </table>
@@ -512,7 +468,7 @@
                                     <div class="row">
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="button" class="btn waves-effect waves-light bg-m"
+                                                <button type="button" onclick="updateProgress();" class="btn waves-effect waves-light bg-m"
                                                     style="width: 100%;" >Update</button>
                                             </div>
                                         </div>
@@ -596,17 +552,7 @@
             })           
         } */
 
-        // update actual function for single value with ids
-        function updateActual(){
-            $('input[name="activity_check"]').each(function(){
-                if($(this).prop('checked')){    
-                    let no=$(this).attr('id').split("_")[1];
-                    let remaining=parseInt($('#scope'+no).text())- parseInt($('#completed'+no).text());
-                    $('#actual'+no).val(remaining);
-                }
-            })           
-        }
-     
+       
 	// select or deselect all checkboxes 
 	$('#select-all').change(function() {
 	    var _this = this;
@@ -772,6 +718,8 @@
          $("#component_circles").html('');
          $("#component_circles_row").hide();
          
+         $("#table_show").hide();
+         
          $("#plannedStart").html("");
      	$("#plannedFinish").html("");
      	$("#totalScope").val('');
@@ -897,8 +845,8 @@
                              if(val.component_id_color == "completed"){
                              	pointerEvent = "pointer-events: none;";
                              	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
-                                 + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
+                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getProgressBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
+                                 + '<span class="project '+className+'" >'+val.strip_chart_component_id_name+'</span></a>';
                                  if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
                                  }
@@ -908,7 +856,7 @@
                              } else {                
                              	
                              	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getProgressBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
                                  + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
                                  if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
@@ -932,7 +880,7 @@
                      
                      
                      if ($.trim(id1) != '' && $.trim(id2) != '') {
-                     	getStripChartActivitiesList(id2,strip_chart_component);
+                     	getProgressBulkUpdateActivitiesList(id2,strip_chart_component);
                      }
                  }
              });
@@ -954,8 +902,7 @@
      	$("#strip_chart_id").val("");
      }
 	 
-	 function getStripChartActivitiesList(componentId,componentName) {
-     	
+	 function getProgressBulkUpdateActivitiesList(componentId,componentName) {
      	$( ".dot" ).removeClass( "active" );
      	$( "#"+componentId ).addClass( "active" );
      	
@@ -996,7 +943,8 @@
                          });
                      }
                      $('.searchable').select2();
-                     $(".page-loader").hide();                        
+                     $(".page-loader").hide(); 
+                     stripChartfilterList();
                      
                      if ($.trim(id1) != '' && $.trim(id2) != '') {
                     	 getProgressBulkUpdateDetails(id2);
@@ -1020,6 +968,7 @@
      }
 	 
 	 function getComponentAndActivitiesList(componentId){
+		stripChartfilterList();
      	$( ".dot" ).removeClass( "active" );
      	$( "#"+componentId ).addClass( "active" );
      	
@@ -1080,7 +1029,7 @@
      
 	 function getProgressBulkUpdateDetails(activitiId) {
      	$(".page-loader").show();
-     	
+     	stripChartfilterList();
      	$("#plannedStart").html("");
      	$("#plannedFinish").html("");
      	var scope = "";
@@ -1156,7 +1105,99 @@
          	$(".page-loader").hide();
          }
      }
-
+	
+     function  stripChartfilterList(){
+    	 $(".page-loader").show();
+    	 $("#table_show").show();
+    	 var html = '';
+    	 var strip_chart_component_id = $("#strip_chart_component_id").val();
+    	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
+    	 var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+    	 if ($.trim(strip_chart_component_id) != "") {
+ 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk };
+ 	        $.ajax({
+ 	            url: "<%=request.getContextPath()%>/ajax/getstripChartfilterList",
+ 	            data: myParams, cache: false,
+ 	            success: function (data) {
+ 	            	
+ 	                if (data.length > 0) {
+ 	                    $.each(data, function (i, val) {
+ 	                    	
+ 	                    	 var num = $('#table tbody tr').length;
+ 	                    	 html = '<tr id="row'+num+'"><td><p><label><input type="checkbox" name="activity_check" id="check_'+num+'"/><span></span></label></p></td>'
+ 	                    		+'<input type="hidden" name="strip_chart_ids"  id="strip_chart_id'+num+'"  value="' + $.trim(val.strip_chart_id) + '" /></td>'
+ 	            	 			+'<td>' + $.trim(val.strip_chart_component_id) + '</td>'
+ 	            	 			+'<td>' + $.trim(val.strip_chart_component_id_name) + '</td>'
+ 	            	 			+'<td>' + $.trim(val.strip_chart_activity_name) + '</td>'
+ 	            	 			+'<td>' + $.trim(val.planned_start) + '</td>'
+ 	            	 			+'<td>' + $.trim(val.planned_finish) + '</td>'
+ 	            	 			+'<td><span>' + $.trim(val.scope) + '</span>'
+ 	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
+ 	            	 			+'<td><span>' + $.trim(val.completed) + '</span>'
+ 	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
+ 	            	 			+' <td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly></td></tr>';
+ 	                    		$("#filerList").append(html);	  
+ 	                    	 	
+ 	                    	 	$(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
+ 	                    	 	$(document).on('click', '.clearData', function() {  $('#filerList').empty(html); });
+ 	                   });
+ 	                }
+ 	                
+ 	                $(".page-loader").hide();
+ 	                
+ 	            }
+ 	        });
+ 	    }else{
+ 	    	$(".page-loader").hide();
+ 	    }
+      
+    }
+    
+    	
+     // update actual function for single value with ids
+     function updateActual(){
+         $('input[name="activity_check"]').each(function(){
+             if($(this).prop('checked')){    
+                 let no = $(this).attr('id').split("_")[1];
+                 //alert($('#totalScopes'+no).val())
+                 var scope = $('#totalScopes'+no).val();
+                 var completed = $('#completedScopes'+no).val();
+                 if($.trim(scope) != '' && $.trim(completed) != '' ){
+                	 let remaining = parseInt(scope)- parseInt(completed);
+                     $('#actualScopes'+no).val(remaining);
+                 }
+                 
+             }
+         })           
+     }
+  
+     //update button functionality
+     function updateProgress(){
+    	 if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	   			document.getElementById("ProgressBulkUpdateForm").submit();	
+     	}
+     }
+  
+     var validator =	$('#ProgressBulkUpdateForm').validate({
+    	 rules: {
+    		"activity_check" :{
+    			 required: true
+    		}
+    	 },
+            messages: {
+                'activity_check': {
+                    required: "You must check at least 1 box"
+                }
+    	 },errorPlacement:function(error, element){
+  		 	  if(element.attr("name") == "activity_check" ){
+				     document.getElementById("checkBoxError").innerHTML="";
+			 	     error.appendTo('#checkBoxError');
+				 }
+    	 },submitHandler:function(form){
+		    	form.submit();
+		    }
+     });
     </script>
 </body>
 </html>

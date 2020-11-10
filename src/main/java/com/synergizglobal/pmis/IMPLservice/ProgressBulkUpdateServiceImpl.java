@@ -65,4 +65,14 @@ public class ProgressBulkUpdateServiceImpl implements ProgressBulkUpdateService{
 		return dao.getProgressBulkUpdateDetails(obj);
 	}
 
+	@Override
+	public List<StripChart> getstripChartfilterList(StripChart obj) throws Exception {
+		return dao.getstripChartfilterList(obj);
+	}
+
+	@Override
+	public boolean updateProgressBulk(StripChart obj) throws Exception {
+		return dao.updateProgressBulk(obj);
+	}
+
 }

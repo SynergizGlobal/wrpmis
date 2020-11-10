@@ -3,18 +3,22 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.Idao.ProgressBulkUpdateDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants2;
@@ -109,8 +113,6 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
-			
-			//objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -509,6 +511,92 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			throw new Exception(e.getMessage());
 		}
 		return sObj;
+	}
+
+	@Override
+	public List<StripChart> getstripChartfilterList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select strip_chart_id,component_id as strip_chart_component_id,sc.strip_chart_component_id_name,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,planned_start "  
+					+",planned_finish,scope,completed from strip_chart_general scg " 
+					+"left join strip_chart_component_id sc on scg.component_id = sc.strip_chart_component_id where strip_chart_id is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
+				qry = qry + "and component_id = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
+				qry = qry + "and activity_id = ? ";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				qry = qry + "and fob_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " group by activity_id ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
+				pValues[i++] = obj.getStrip_chart_component_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_activity_id())) {
+				pValues[i++] = obj.getStrip_chart_activity_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
+				pValues[i++] = obj.getStrip_chart_structure_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+
+	@Override
+	public boolean updateProgressBulk(StripChart obj) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
+		boolean flag = false;
+		try {
+			con = dataSource.getConnection();
+			String insertQry = "INSERT INTO scope_progress"
+					+ "(created_by_user_id_fk, remarks, completed_scope, strip_chart_id_fk)"
+					+ "VALUES"
+					+ "(?,?,?,?)";
+			insertStmt = con.prepareStatement(insertQry);
+			int	arraySize = 0;
+			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
+				obj.setActualScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getActualScopes()));
+				if(arraySize < obj.getActualScopes().length) {
+					arraySize = obj.getActualScopes().length;
+				}
+			}
+			for (int i = 0; i < arraySize; i++) {
+				
+			    int k = 1;
+			    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
+			    insertStmt.setString(k++, obj.getRemarks());
+			    insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
+			    insertStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
+			    insertStmt.addBatch();
+			}
+			int[] insertCount = insertStmt.executeBatch();
+			
+			if(insertCount.length > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
 	}
 
 }

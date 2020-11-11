@@ -1179,25 +1179,81 @@
      	}
      }
   
-     var validator =	$('#ProgressBulkUpdateForm').validate({
+     var validator = $('#ProgressBulkUpdateForm').validate({
+    	 ignore: ":hidden:not(.validate-dropdown)",
     	 rules: {
-    		"activity_check" :{
+    		  "activity_check" :{
     			 required: true
-    		}
+    		  },"project_id": {
+			 	required: true
+			  },"work_id_fk": {
+		 		required: true
+		 	  },"contract_id_fk": {
+		 		required: true
+		 	  },"strip_chart_structure_id_fk": {
+		 		required: true
+		 	  },"strip_chart_component": {
+		 		required: false
+		 	  },"strip_chart_component_id": {
+		 		required: true
+		 	  },"strip_chart_activity_id": {
+		 		required: true
+		 	  }
     	 },
             messages: {
-                'activity_check': {
+                 "activity_check": {
                     required: "You must check at least 1 box"
-                }
+                 },"project_id": {
+			 		required: 'Select project'
+			 	 },"work_id_fk": {
+		 			required: 'Select work'
+		 	  	 },"contract_id_fk": {
+		 			required: 'Select contract'
+		 	  	 },"strip_chart_structure_id_fk": {
+		 	  		required: 'Select Structure'
+			 	 },"strip_chart_component": {
+		 			required: 'Select component'
+		 	  	 },"strip_chart_component_id": {
+		 			required: 'Select component id'
+		 	  	 },"strip_chart_activity_id": {
+		 			required: 'Select Activity'
+		 	  	 }
     	 },errorPlacement:function(error, element){
-  		 	  if(element.attr("name") == "activity_check" ){
-				     document.getElementById("checkBoxError").innerHTML="";
-			 	     error.appendTo('#checkBoxError');
-				 }
+  		 	        if(element.attr("name") == "activity_check" ){
+					     document.getElementById("checkBoxError").innerHTML="";
+				 	     error.appendTo('#checkBoxError');
+				    }else if (element.attr("id") == "project_id" ){
+			 		     document.getElementById("project_idError").innerHTML="";
+ 			 			 error.appendTo('#project_idError');
+ 			 	    }else if (element.attr("id") == "work_id_fk" ){
+			 		     document.getElementById("work_id_fkError").innerHTML="";
+			 			 error.appendTo('#work_id_fkError');
+			 	    }else if (element.attr("id") == "contract_id_fk" ){
+			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
+			 			 error.appendTo('#contract_id_fkError');
+			 	    }else if (element.attr("id") == "strip_chart_structure_id_fk" ){
+   			 	    	 document.getElementById("strip_chart_structure_id_fkError").innerHTML="";
+			 			 error.appendTo('#strip_chart_structure_id_fkError');
+		 	    	}else if (element.attr("id") == "strip_chart_component" ){
+			 		     document.getElementById("strip_chart_componentError").innerHTML="";
+			 			 error.appendTo('#strip_chart_componentError');
+			 	    }else if (element.attr("id") == "strip_chart_component_id" ){
+			 		     document.getElementById("strip_chart_component_idError").innerHTML="";
+			 			 error.appendTo('#strip_chart_component_idError');
+			 	    }else if (element.attr("id") == "strip_chart_activity_id" ){
+			 		     document.getElementById("strip_chart_activity_idError").innerHTML="";
+			 			 error.appendTo('#strip_chart_activity_idError');
+			 	    }
     	 },submitHandler:function(form){
-		    	form.submit();
+		    	//form.submit();
 		    }
      });
+     
+     $('select').change(function(){
+ 	    if ($(this).val() != ""){
+ 	        $(this).valid();
+ 	    }
+ 	});
     </script>
 </body>
 </html>

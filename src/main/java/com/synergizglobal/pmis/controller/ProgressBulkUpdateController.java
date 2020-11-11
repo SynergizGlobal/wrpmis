@@ -44,7 +44,7 @@ public class ProgressBulkUpdateController {
 	ProgressBulkUpdateService progressBulkUpdateervice;
 	
 	
-	@RequestMapping(value="/progressBulkUpdate",method=RequestMethod.GET)
+	@RequestMapping(value="/progress-bulk-update",method=RequestMethod.GET)
 	public ModelAndView progressBulkUpload(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.progressBulkUpload);
 		try {
@@ -203,7 +203,7 @@ public class ProgressBulkUpdateController {
 		ModelAndView model = new ModelAndView();
 		String userId = null;
 		try{
-			model.setViewName("redirect:/progressBulkUpdate");
+			model.setViewName("redirect:/progress-bulk-update");
 			userId = (String) session.getAttribute("USER_ID");
 			obj.setCreated_by_user_id_fk(userId);
 			boolean flag =  progressBulkUpdateervice.updateProgressBulk(obj);

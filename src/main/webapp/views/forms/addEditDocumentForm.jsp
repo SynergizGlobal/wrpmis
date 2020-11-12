@@ -8,7 +8,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Form</title>
+    <title>
+    	 <c:if test="${action eq 'edit'}">Update Document </c:if>
+		 <c:if test="${action eq 'add'}"> Add Document </c:if>
+    </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
@@ -66,32 +69,42 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Document</h6>
+                                <h6>
+                                 	 <c:if test="${action eq 'edit'}">Update Document </c:if>
+									 <c:if test="${action eq 'add'}"> Add Document </c:if>
+                                </h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                   		    <c:if test="${action eq 'edit'}">				                
+				                 	<form action="<%=request.getContextPath() %>/update-document" id="documentForm" name="documentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+	                         </c:if>
+				             <c:if test="${action eq 'add'}">				                
+				                	<form action="<%=request.getContextPath() %>/add-document" id="documentForm" name="documentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+							 </c:if>
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Project </p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
+                               	  		 onchange="getWorksList(this.value);">
+                                    		 <option value="" >Select</option>
+                                      		 <c:forEach var="obj" items="${projectsList }">
+                                         			 <option value="${obj.project_id_fk }" <c:if test="${documentDetails.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                      		 </c:forEach>
+		                             </select>
+                               		 <span id="project_idError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Work </p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
+                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                   		  onchange="getContractsList(this.value);">
+                                   		  <option value="">Select</option>
+	                                  </select>
+                                   		   
+                                  <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -99,12 +112,10 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract </p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
+                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                       	<option value="">Select</option>
+                                  	</select>
+                                   	<span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Document Type </p>
@@ -171,7 +182,7 @@
                                             </td>
                                             <td>
                                                 <select id="status1">
-                                                    <option value="0" selected>Select</option>
+                                                    <option value="" selected>Select</option>
                                                     <option value="1">Revised</option>
                                                     <option value="2">Approved</option>
                                                     <option value="3">Submitted</option>

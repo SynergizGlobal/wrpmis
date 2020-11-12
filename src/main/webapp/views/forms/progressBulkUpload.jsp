@@ -388,7 +388,7 @@
                                             <p class="searchable_label">Activity</p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
                                                 class="searchable validate-dropdown"
-                                                onchange="getProgressBulkUpdateDetails(this.value);">
+                                                onchange="getStripChartfilterList();">
                                                 <option value="">Select</option>
                                             </select>
                                             <span id="strip_chart_activity_idError" class="error-msg"></span>
@@ -557,19 +557,12 @@
 	$('#select-all').change(function() {
 	    var _this = this;
 	    $('input[name="activity_check"]').each(function() { 
-	    if ($(_this).is(':checked')) {
-	        $(this).prop('checked', true);
-	    } else {
-	        $(this).prop('checked', false);
-	    }
+		    if ($(_this).is(':checked')) {
+		        $(this).prop('checked', true);
+		    } else {
+		        $(this).prop('checked', false);
+		    }
 	    });
-	    
-	    var project_id = "${ProgressBulkData.project_id}";
-	    if ($.trim(project_id) != '') {
-	    	$("#project_id").val(project_id);
-	    	$("#project_id").select2();
-	    	getProgressBulkUpdateWorksList(project_id);
-	    }
 	});
 	
 	function getProgressBulkUpdateWorksList(projectId) { 
@@ -718,15 +711,7 @@
          $("#component_circles").html('');
          $("#component_circles_row").hide();
          
-         $("#table_show").hide();
-         
-         $("#plannedStart").html("");
-     	$("#plannedFinish").html("");
-     	$("#totalScope").val('');
-     	$("#completed").val('');
-     	$("#remaining").val('');
-     	$(".unit_fk").html("");
-     	$("#strip_chart_id").val("");        	
+         $("#table_show").hide();    	
      } 
 	
 	  function getProgressBulkUpdateStructures() {
@@ -889,17 +874,6 @@
          	$("#component_circles").html(html);
              $("#component_circles_row").hide();
          }
-         
-         $("#plannedStart").html("");
-     	$("#plannedFinish").html("");
-     	var scope = "";
-     	var completed = "";
-     	var remaining = "";
-     	$("#totalScope").val(scope);
-     	$("#completed").val(completed);
-     	$("#remaining").val(remaining);
-     	$(".unit_fk").html("");
-     	$("#strip_chart_id").val("");
      }
 	 
 	 function getProgressBulkUpdateActivitiesList(componentId,componentName) {
@@ -944,31 +918,16 @@
                      }
                      $('.searchable').select2();
                      $(".page-loader").hide(); 
-                     stripChartfilterList();
-                     
-                     if ($.trim(id1) != '' && $.trim(id2) != '') {
-                    	 getProgressBulkUpdateDetails(id2);
-                     }
+                     getStripChartfilterList();
                  }
              });
          }else{
          	$(".page-loader").hide();
          }
-         
-         $("#plannedStart").html("");
-     	$("#plannedFinish").html("");
-     	var scope = "";
-     	var completed = "";
-     	var remaining = "";
-     	$("#totalScope").val(scope);
-     	$("#completed").val(completed);
-     	$("#remaining").val(remaining);
-     	$(".unit_fk").html("");
-     	$("#strip_chart_id").val("");
      }
 	 
 	 function getComponentAndActivitiesList(componentId){
-		stripChartfilterList();
+		getStripChartfilterList();
      	$( ".dot" ).removeClass( "active" );
      	$( "#"+componentId ).addClass( "active" );
      	
@@ -1015,108 +974,26 @@
          	$(".page-loader").hide();
          }
          
-         $("#plannedStart").html("");
-     	$("#plannedFinish").html("");
-     	var scope = "";
-     	var completed = "";
-     	var remaining = "";
-     	$("#totalScope").val(scope);
-     	$("#completed").val(completed);
-     	$("#remaining").val(remaining);
-     	$(".unit_fk").html("");
-     	$("#strip_chart_id").val("");
+        
      }
      
-	 function getProgressBulkUpdateDetails(activitiId) {
-     	$(".page-loader").show();
-     	stripChartfilterList();
-     	$("#plannedStart").html("");
-     	$("#plannedFinish").html("");
-     	var scope = "";
-     	var completed = "";
-     	var remaining = "";
-     	$("#totalScope").val(scope);
-     	$("#completed").val(completed);
-     	$("#remaining").val(remaining);
-     	$(".unit_fk").html("");
-     	$("#strip_chart_id").val("");
-     	
-         var componentId = $("#strip_chart_component_id").val();
-         var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
-         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-         var strip_chart_section_id_fk = $("#strip_chart_section_id_fk").val();
-         
-         var component_name = "";
-         if($.trim(componentId) != ''){
-         	component_name = $("#strip_chart_component_id option:selected").text();
-         }
-         var line_name = "";
-         if($.trim(strip_chart_line_id_fk) != ''){
-         	line_name = $("#strip_chart_line_id_fk option:selected").text();
-         }
-         var section_name = "";
-         if($.trim(strip_chart_section_id_fk) != ''){
-         	section_name = $("#strip_chart_section_id_fk option:selected").text();
-         }
-         var activity_name = "";
-         if($.trim(activitiId) != ''){
-         	activity_name = $("#strip_chart_activity_id option:selected").text();
-         }
-         
-         $("#strip_chart_component_id_name").val(component_name);
-         $("#strip_chart_line").val(line_name);
-         $("#strip_chart_section_name").val(section_name);
-         $("#strip_chart_activity_name").val(activity_name);
-         
-         if ($.trim(strip_chart_activity_id) != "") {
-             var myParams = { strip_chart_component_id: componentId, strip_chart_activity_id: activitiId , 
-             		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
-             		strip_chart_section_id_fk : strip_chart_section_id_fk};
-             $.ajax({
-                 url: "<%=request.getContextPath()%>/ajax/getProgressBulkUpdateDetails",
-                 data: myParams, cache: false,
-                 success: function (data) {
-                 	$("#plannedStart").html(data.planned_start);
-                 	$("#plannedFinish").html(data.planned_finish);
-                 	var scope = 0;
-                 	if($.trim(data.scope) != ''){
-                 		scope = $.trim(data.scope);
-                 	}
-                 	var completed = 0;
-                 	if($.trim(data.completed) != ''){
-                 		completed = $.trim(data.completed);
-                 	}
-                 	var remaining = 0;
-                 	if($.trim(data.remaining) != ''){
-                 		remaining = $.trim(data.remaining);
-                 	}
-                 	$("#totalScope").val(scope);
-                 	$("#completed").val(completed);
-                 	$("#remaining").val(remaining);
-                 	
-                 	$(".unit_fk").html(data.unit_fk);
-                 	
-                 	$("#strip_chart_id").val(data.strip_chart_id);
-                 	
-                 	$(".page-loader").hide();
-                 }
-             });
-         }else{
-         	$(".page-loader").hide();
-         }
-     }
 	
-     function  stripChartfilterList(){
+     function getStripChartfilterList(){
     	 $(".page-loader").show();
     	 $("#table_show").show();
     	 var html = '';
+    	 $("#filerList").html('');
+    	 
+    	 $("#select-all").prop('checked', false);
+    	 
     	 var strip_chart_component_id = $("#strip_chart_component_id").val();
     	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
     	 var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+    	 var contract_id = $("#contract_id").val();
     	 if ($.trim(strip_chart_component_id) != "") {
- 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk };
+ 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id : contract_id };
  	        $.ajax({
- 	            url: "<%=request.getContextPath()%>/ajax/getstripChartfilterList",
+ 	            url: "<%=request.getContextPath()%>/ajax/getStripChartfilterList",
  	            data: myParams, cache: false,
  	            success: function (data) {
  	            	
@@ -1138,8 +1015,8 @@
  	            	 			+' <td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly></td></tr>';
  	                    		$("#filerList").append(html);	  
  	                    	 	
- 	                    	 	$(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
- 	                    	 	$(document).on('click', '.clearData', function() {  $('#filerList').empty(html); });
+ 	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
+ 	                    	 	$(document).on('click', '.clearData', function() {  $('#filerList').empty(html); }); */
  	                   });
  	                }
  	                
@@ -1162,6 +1039,9 @@
                  //alert($('#totalScopes'+no).val())
                  var scope = $('#totalScopes'+no).val();
                  var completed = $('#completedScopes'+no).val();
+                 if($.trim(completed) == null || completed == ''){
+                	 completed = 0;
+                 }
                  if($.trim(scope) != '' && $.trim(completed) != '' ){
                 	 let remaining = parseInt(scope)- parseInt(completed);
                      $('#actualScopes'+no).val(remaining);
@@ -1185,9 +1065,9 @@
     		  "activity_check" :{
     			 required: true
     		  },"project_id": {
-			 	required: true
+			 	required: false
 			  },"work_id_fk": {
-		 		required: true
+		 		required: false
 		 	  },"contract_id_fk": {
 		 		required: true
 		 	  },"strip_chart_structure_id_fk": {
@@ -1197,7 +1077,7 @@
 		 	  },"strip_chart_component_id": {
 		 		required: true
 		 	  },"strip_chart_activity_id": {
-		 		required: true
+		 		required: false
 		 	  }
     	 },
             messages: {
@@ -1250,6 +1130,12 @@
      });
      
      $('select').change(function(){
+ 	    if ($(this).val() != ""){
+ 	        $(this).valid();
+ 	    }
+ 	});
+     
+     $('input').change(function(){
  	    if ($(this).val() != ""){
  	        $(this).valid();
  	    }

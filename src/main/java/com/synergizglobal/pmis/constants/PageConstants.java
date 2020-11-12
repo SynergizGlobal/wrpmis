@@ -52,5 +52,6 @@ public class PageConstants {
 	
 	public static final String progressBulkUpload = "forms/progressBulkUpload";
 	
-	
+	public static final String documentGrid = "forms/documentGrid";
+	public static final String addEditDocumentForm = "forms/addEditDocumentForm";
 }

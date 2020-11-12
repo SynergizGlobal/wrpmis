@@ -53,17 +53,8 @@ public class ProgressBulkUpdateController {
 			
 			List<StripChart> worksList = progressBulkUpdateervice.getProgressBulkUpdateWorksList(obj);
 			model.addObject("worksList", worksList);
-			
 			List<StripChart> contractsList = progressBulkUpdateervice.getProgressBulkUpdateContractsList(obj);
 			model.addObject("contractsList", contractsList);
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				List<StripChart> fileterData = progressBulkUpdateervice.getstripChartfilterList(obj);
-				model.addObject("fileterData", fileterData);
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_id())) {
-				StripChart  ProgressBulkData = progressBulkUpdateervice.getProgressBulkData(obj);
-				model.addObject(" ProgressBulkData",  ProgressBulkData);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("progressBulkUpload : " + e.getMessage());
@@ -184,15 +175,15 @@ public class ProgressBulkUpdateController {
 		return data;
 	}
 	
-	@RequestMapping(value = "/ajax/getstripChartfilterList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getStripChartfilterList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getstripChartfilterList(@ModelAttribute StripChart obj){
+	public List<StripChart> getStripChartfilterList(@ModelAttribute StripChart obj){
 		List<StripChart> fileterData = null;
 		try{
 			fileterData = progressBulkUpdateervice.getstripChartfilterList(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
-			logger.error("getstripChartfilterList() : "+e.getMessage());
+			logger.error("getStripChartfilterList() : "+e.getMessage());
 		}
 		return fileterData;
 	}

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -519,7 +520,8 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 		try {
 			String qry = "select strip_chart_id,component_id as strip_chart_component_id,sc.strip_chart_component_id_name,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,planned_start "  
 					+",planned_finish,scope,completed from strip_chart_general scg " 
-					+"left join strip_chart_component_id sc on scg.component_id = sc.strip_chart_component_id where strip_chart_id is not null ";
+					+"left join strip_chart_component_id sc on scg.component_id = sc.strip_chart_component_id "
+					+ " where strip_chart_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
 				qry = qry + "and component_id = ? ";
@@ -532,6 +534,10 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 				qry = qry + "and fob_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and contract_id_fk = ?";
 				arrSize++;
 			}
 			qry = qry + " group by activity_id ";
@@ -549,6 +555,9 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
 				pValues[i++] = obj.getStrip_chart_structure_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 
@@ -563,6 +572,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 	public boolean updateProgressBulk(StripChart obj) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt = null;
+		PreparedStatement updateStmt = null;
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
@@ -578,8 +588,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 					arraySize = obj.getActualScopes().length;
 				}
 			}
-			for (int i = 0; i < arraySize; i++) {
-				
+			for (int i = 0; i < arraySize; i++) {				
 			    int k = 1;
 			    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
 			    insertStmt.setString(k++, obj.getRemarks());
@@ -592,10 +601,44 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			if(insertCount.length > 0) {
 				flag = true;
 			}
+
+			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+			
+			if(flag) {
+				int i = 0;
+				
+				String updateQry = "UPDATE  strip_chart set completed = ?  where strip_chart_id = ?";	
+				updateStmt = con.prepareStatement(updateQry);
+				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
+					obj.setCompletedScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getCompletedScopes()));
+					if(arraySize < obj.getCompletedScopes().length) {
+						arraySize = obj.getCompletedScopes().length;
+					}
+				}
+				
+				for ( i = 0; i < arraySize; i++) {				
+					int k = 1;
+					double completed = 0;double actual = 0;
+					if( obj.getCompletedScopes().length > 0 && !StringUtils.isEmpty(obj.getCompletedScopes()[i])) {
+						completed = Double.parseDouble(obj.getCompletedScopes()[i]);
+					}
+					
+					if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) {
+						actual = Double.parseDouble(obj.getActualScopes()[i]);
+					}
+					updateStmt.setString(k++, String.valueOf(completed + actual) );					
+					updateStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
+					updateStmt.addBatch();
+				}
+				 int[] c = updateStmt.executeBatch();
+			}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
+		}	
 		return flag;
 	}
 

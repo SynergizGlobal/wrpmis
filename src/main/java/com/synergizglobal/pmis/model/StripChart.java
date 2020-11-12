@@ -12,7 +12,23 @@ public class StripChart {
 	
 	private MultipartFile stripChartFile;
 	
-	private String [] actualScopes,strip_chart_ids;
+	private String [] actualScopes,strip_chart_ids,completedScopes,totalScopes;
+
+	public String[] getTotalScopes() {
+		return totalScopes;
+	}
+
+	public void setTotalScopes(String[] totalScopes) {
+		this.totalScopes = totalScopes;
+	}
+
+	public String[] getCompletedScopes() {
+		return completedScopes;
+	}
+
+	public void setCompletedScopes(String[] completedScopes) {
+		this.completedScopes = completedScopes;
+	}
 
 	public String[] getStrip_chart_ids() {
 		return strip_chart_ids;

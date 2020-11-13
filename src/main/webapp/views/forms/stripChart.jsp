@@ -162,7 +162,50 @@
 		
 		.error-msg label{color:red!important;}
     </style>
+  <style>
+       
+        .legends {
+            padding: 2px;
+        }
 
+        .box,
+        .description {
+            display: inline-block;
+            margin-left: 3px;
+            margin-right: 3px;
+            vertical-align: middle;
+        }
+
+        .box {
+            width: 20px;
+            height: 20px;
+            border-radius:50%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .box.not-started {
+            background-color: #fff;
+        }
+
+        .box.in-progress {
+            background-color: #f60;
+        }
+
+        .box.completed {
+            background-color: #05a705;
+        }
+
+        .box.delayed {
+            background-color: #f00;
+        }
+
+        @media only screen and (max-width: 700px) {
+            .legends .col {
+                text-align: left;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -355,7 +398,24 @@
                                         </div>
                                     </div>
 
-
+ 									<div class="row legends" id="legends" style="display:none;">
+                                        <div class="col m3 s6 center-align">
+                                            <span class="box not-started"></span>
+                                            <span class="description">Not Started</span>
+                                        </div>
+                                        <div class="col m3 s6 center-align">
+                                            <span class="box in-progress"></span>
+                                            <span class="description">In Progress</span>
+                                        </div>
+                                        <div class="col m3 s6 center-align">
+                                            <span class="box completed"></span>
+                                            <span class="description">Completed</span>
+                                        </div>
+                                        <div class="col m3 s6 center-align">
+                                            <span class="box delayed"></span>
+                                            <span class="description">Delayed</span>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                     	
                                     	<div class="col m4 s12 input-field">
@@ -788,7 +848,7 @@
         	
             $("#component_circles").html('');
             $("#component_circles_row").hide();
-            
+            $("#legends").hide();            
             $("#plannedStart").html("");
         	$("#plannedFinish").html("");
         	$("#totalScope").val('');
@@ -945,6 +1005,7 @@
                         }
                         $("#component_circles").html(html);
                         $("#component_circles_row").show();
+                        $('#legends').show();
                         $(".page-loader").hide();
                         
                         
@@ -957,6 +1018,7 @@
             	$(".page-loader").hide();
             	$("#component_circles").html(html);
                 $("#component_circles_row").hide();
+                $('#legends').hide();
             }
             
             $("#plannedStart").html("");

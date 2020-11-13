@@ -30,10 +30,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.Iservice.DocumentService;
+import com.synergizglobal.pmis.Iservice.SafetyEquipmentService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.SafetyEquipment;
 
 @Controller
 public class DocumentController {
@@ -46,6 +50,12 @@ public class DocumentController {
 	
 	@Autowired
 	DocumentService documentService;
+	
+	@Autowired
+	SafetyEquipmentService service;
+
+	@Autowired
+	DesignService designService;
 
 	@Value("${common.error.message}")
 	public String commonError;
@@ -146,9 +156,18 @@ public class DocumentController {
 		try{
 			model.setViewName(PageConstants.addEditDocumentForm);
 			model.addObject("action", "add");
-		//	List<Document> financialYearList = documentService.getFinancialYearList();
-			//model.addObject("financialYearList", financialYearList);
-			
+			List<Document> statusList = documentService.getStatusList();
+			model.addObject("statusList", statusList);
+			List<Document> documentTypeList = documentService.getDocumentTypeList();
+			model.addObject("documentTypeList", documentTypeList);
+			List<Document> priorityList = documentService.getPriorityList();
+			model.addObject("priorityList", priorityList);
+			List<Document> userList = documentService.getUserList();
+			model.addObject("userList", userList);
+			List<Document> projectsList = documentService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<Document> contractList = documentService.getContractList();
+			model.addObject("contractList", contractList);
 		}catch (Exception e) {
 				logger.error("addDocumentForm : " + e.getMessage());
 		}
@@ -161,9 +180,20 @@ public class DocumentController {
 		try{
 			model.setViewName(PageConstants.addEditDocumentForm);
 			model.addObject("action", "edit");
-			
-			//Document documentDetails = documentService.getDocument(obj);
-			//model.addObject("documentDetails", documentDetails);
+			List<Document> projectsList = documentService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			List<Document> contractList = documentService.getContractList();
+			model.addObject("contractList", contractList);
+			List<Document> statusList = documentService.getStatusList();
+			model.addObject("statusList", statusList);
+			List<Document> documentTypeList = documentService.getDocumentTypeList();
+			model.addObject("documentTypeList", documentTypeList);
+			List<Document> priorityList = documentService.getPriorityList();
+			model.addObject("priorityList", priorityList);
+			List<Document> userList = documentService.getUserList();
+			model.addObject("userList", userList);
+			Document documentDetails = documentService.getDocument(obj);
+			model.addObject("documentDetails", documentDetails);
 		
 		}catch (Exception e) {
 				e.printStackTrace();

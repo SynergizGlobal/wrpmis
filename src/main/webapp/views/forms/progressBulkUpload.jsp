@@ -921,6 +921,7 @@
                          });
                          
                          $('.searchable').select2();
+                         getStripChartfilterList();
                      }
                      $("#component_circles").html(html);
                      $("#component_circles_row").show();
@@ -1054,9 +1055,9 @@
     	 var strip_chart_component_id = $("#strip_chart_component_id").val();
     	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
     	 var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-    	 var contract_id = $("#contract_id").val();
-    	 if ($.trim(strip_chart_component_id) != "") {
- 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id : contract_id };
+    	 var contract_id_fk = $("#contract_id_fk").val();
+    	 if ($.trim(strip_chart_structure_id_fk) != "") {
+ 	        var myParams = { strip_chart_component_id: strip_chart_component_id, strip_chart_activity_id: strip_chart_activity_id,strip_chart_structure_id_fk : strip_chart_structure_id_fk, contract_id_fk : contract_id_fk };
  	        $.ajax({
  	            url: "<%=request.getContextPath()%>/ajax/getStripChartfilterList",
  	            data: myParams, cache: false,
@@ -1066,10 +1067,10 @@
  	                    $.each(data, function (i, val) {
  	                    	
  	                    	 var num = $('#table tbody tr').length;
- 	                    	 html = '<tr id="row'+num+'"><td><p><label><input type="checkbox" name="activity_check" id="check_'+num+'"/><span></span></label></p></td>'
+ 	                    	 html = '<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></p></td>'
  	                    		+'<input type="hidden" name="strip_chart_ids"  id="strip_chart_id'+num+'"  value="' + $.trim(val.strip_chart_id) + '" /></td>'
- 	            	 			+'<td>' + $.trim(val.strip_chart_component_id) + '</td>'
  	            	 			+'<td>' + $.trim(val.strip_chart_component_id_name) + '</td>'
+ 	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>'
  	            	 			+'<td>' + $.trim(val.strip_chart_activity_name) + '</td>'
  	            	 			+'<td>' + $.trim(val.planned_start) + '</td>'
  	            	 			+'<td>' + $.trim(val.planned_finish) + '</td>'
@@ -1082,6 +1083,44 @@
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
  	                    	 	$(document).on('click', '.clearData', function() {  $('#filerList').empty(html); }); */
+ 	                    	 	
+ 	                    	 	$("#check_"+num).change(function() {
+ 	                    	 		//alert("#actualScopes"+num)
+ 	                    	 		$("#actualScopes"+num).val('');
+ 	                    	 	})
+ 	                    	 	
+ 	                    	 	var noOfBoxes = document.getElementsByClassName("check")
+ 	                    	 	$("#check_0").change(function() {
+ 	                    	 		if(noOfBoxes.length == 2){
+	 	                    	 		if ($("#check_0").is(':checked')) {
+	 	                    	 			$("#select-all").prop('checked', true);
+	 	                    	 		}else {
+	 	                   		       	    $("#select-all").prop('checked', false);
+	 	                   		    }
+ 	                    	 	  }
+ 	                    	   })
+ 	                    	  
+	 	                    	  /* 	 $("#check_"+num).change(function() {
+		 	                   		   $("#select-all").prop('checked', false);
+			 	                   		
+			 	                   		 for(var i = 0; i<=noOfBoxes.length-1; i++ ){
+				 	                   		if ($("#check_"+i).is(':checked') ) {
+		 	                    	 			$("#select-all").prop('checked', true);
+		 	                    	 		}else {
+		 	                   		       	    $("#select-all").prop('checked', false);
+		 	                   		   		 }
+			 	                   		 }
+			 	                   		
+	 	                    	   }) */
+ 	                    	  $("#check_"+num).change(function() {
+ 	                   		  	    $("#select-all").prop('checked', false);
+		 	                   		if ($("#check_"+num).is(':checked') ) {
+ 	                    	 			$("#select-all").prop('checked', true);
+ 	                    	 		}else {
+ 	                   		       	    $("#select-all").prop('checked', false);
+ 	                   		   		 }
+	                    	   }) 
+ 	                    	  
  	                   });
  	                }
  	                

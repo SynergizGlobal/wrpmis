@@ -518,11 +518,10 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 	public List<StripChart> getstripChartfilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select strip_chart_id,component_id as strip_chart_component_id,sc.strip_chart_component_id_name,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,planned_start "  
+			String qry = "select strip_chart_id,component_id as strip_chart_component_id,component as strip_chart_component,component_id_name as strip_chart_component_id_name,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,planned_start "  
 					+",planned_finish,scope,completed from strip_chart_general scg " 
-					+"left join strip_chart_component_id sc on scg.component_id = sc.strip_chart_component_id "
-					+ " where strip_chart_id is not null ";
-			int arrSize = 0;
+					+ " where strip_chart_id is not null and status <> ? ";
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
 				qry = qry + "and component_id = ? ";
 				arrSize++;
@@ -533,7 +532,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ?";
+				qry = qry + "and fob_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -545,7 +544,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			
+			pValues[i++] = CommonConstants2.STATUS_COMPLETED;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
 				pValues[i++] = obj.getStrip_chart_component_id();
 			}

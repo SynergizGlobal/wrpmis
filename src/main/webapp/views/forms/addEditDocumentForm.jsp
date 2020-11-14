@@ -158,7 +158,7 @@
                                 </div>
                             </div>
                         </div>
-               <input type="hidden" name="document_no" id="document_no" value="${documentDetails.document_no}"  />
+              			 <input type="hidden" name="document_no" id="document_no" value="${documentDetails.document_no}"  />
 
                         <div class="row fixed-width" style="margin-bottom: 40px;">
                             <h5 class="center-align">Revision Details</h5>
@@ -185,7 +185,7 @@
                                                     <input id="revision_nos${index.count }" name="revision_nos" type="text" class="validate"  placeholder="Revision No" value="${dObj.revision_no }">
                                                 </td>
                                             <td>
-                                                <select id="status_fks${index.count }" name="status_fks">
+                                                <select id="status_fks${index.count }" name="status_fks" class="validate-dropdown searchable">
                                                     <option value="" >Select</option>
                                                     <c:forEach var="obj" items="${statusList }">
 		                                           			 <option value="${obj.status_fk }" <c:if test="${dObj.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
@@ -234,10 +234,10 @@
                                                         placeholder="Revision No">
                                                 </td>
                                             <td>
-                                                  <select id="status_fks0" name="status_fks">
+                                                  <select id="status_fks0" name="status_fks" class="validate-dropdown searchable">
                                                     <option value="" >Select</option>
                                                     <c:forEach var="obj" items="${statusList }">
-		                                           			 <option value="${obj.status_fk }" <c:if test="${dObj.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
+		                                           			 <option value="${obj.status_fk }">${obj.status_fk}</option>
 		                                            </c:forEach>
                                                 </select>
                                             </td>
@@ -259,7 +259,7 @@
                                             </td>
                                             <td>
                                                 <div class="">
-                                                   <input type="file" name="documentsFiles" id="documentsFiles0" style="display:none"   />
+                                                   <input type="file" name="documentsFile" id="documentsFile0" style="display:none"   />
                                                     <label for="myFile" class="btn bg-m"><i
                                                             class="fa fa-paperclip"></i></label>
                                                             <input name="documentsFiles" id="documentsFiles0" type="hidden"  onchange="getFileName('0')"/>
@@ -348,6 +348,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    
         <script>
         $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
@@ -458,23 +459,21 @@ function addDocumentRow(){
             var rNo = Number(rowNo)+1;
           
              var html = '<tr id="documentRow'+rNo+'">'
-    				   +'<td>'
-    				   +' <input type="hidden" name= "revision_nos" id="revision_nos'+rNo+'" />'
-             		   +' <input id="revision_nos'+rNo+'" name="revision_nos" type="text" class="validate" placeholder="Revision No"></td>'
-    				   +'<td><select id="status_fks'+rNo+'" name="status_fks" class="searchable" >'
+    				   +'<td><input type="hidden" name= "document_no_fks" id="document_no_fks'+rNo+'" />'
+             		   +'<input id="revision_nos'+rNo+'" name="revision_nos" type="text" class="validate" placeholder="Revision No"></td>'
+    				   +'<td><select id="status_fks'+rNo+'" name="status_fks" class="validate-dropdown searchable" >'
                        +'<option value="" >Select</option>'
-                       <c:forEach var="obj" items="${statusList }">
-                      			 +'<option value="${obj.status_fk }">${obj.status_fk}</option>'
-                       </c:forEach>
+                         <c:forEach var="obj" items="${statusList}">
+                      	   +'<option value="${obj.status_fk }">${obj.status_fk}</option>'
+                         </c:forEach>
                   	   +'</select></td>'
-    				   +'<td> <input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission Date"><button type="button" id="submission_1_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
+    				   +'<td><input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission Date"><button type="button" id="submission_1_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
     				   +'<td><input id="approval_dates'+rNo+'" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval Date"><button type="button" id="approval_1_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
     				   +'<td><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
     			   	   +'<td><div class=""> <input type="file" name="documentFile" id="documentFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')" /> '
     			   	   +'<label for="documentFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
     			   	   +'<input type="hidden" id="documentFileNames'+rNo+'" name="documentFileNames">'
-                       +'<span id="fileVal'+rNo+'" class="filevalue" ></span> </div>'
-                       +'</td>'
+                       +'<span id="fileVal'+rNo+'" class="filevalue" ></span> </div></td>'
     				   +'<td> <a onclick="removeDocumentRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
 
     				 $('#documentTableBody').append(html);

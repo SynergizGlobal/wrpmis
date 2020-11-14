@@ -1089,37 +1089,18 @@
  	                    	 		$("#actualScopes"+num).val('');
  	                    	 	})
  	                    	 	
- 	                    	 	var noOfBoxes = document.getElementsByClassName("check")
- 	                    	 	$("#check_0").change(function() {
- 	                    	 		if(noOfBoxes.length == 2){
-	 	                    	 		if ($("#check_0").is(':checked')) {
-	 	                    	 			$("#select-all").prop('checked', true);
-	 	                    	 		}else {
+ 	                    	 //	var noOfBoxes = document.getElementsByClassName("check")
+	 	                    	   
+	 	                    	  $("input[type='checkbox'].check").change(function(){
+	 	                    		    var a = $("input[type='checkbox'].check");
+	 	                    		    if(a.length == a.filter(":checked").length){
+	 	                    		    	$("#select-all").prop('checked', true);
+	 	                    		    }
+	 	                    		    else {
 	 	                   		       	    $("#select-all").prop('checked', false);
-	 	                   		    }
- 	                    	 	  }
- 	                    	   })
- 	                    	  
-	 	                    	  /* 	 $("#check_"+num).change(function() {
-		 	                   		   $("#select-all").prop('checked', false);
-			 	                   		
-			 	                   		 for(var i = 0; i<=noOfBoxes.length-1; i++ ){
-				 	                   		if ($("#check_"+i).is(':checked') ) {
-		 	                    	 			$("#select-all").prop('checked', true);
-		 	                    	 		}else {
-		 	                   		       	    $("#select-all").prop('checked', false);
-		 	                   		   		 }
-			 	                   		 }
-			 	                   		
-	 	                    	   }) */
- 	                    	  $("#check_"+num).change(function() {
- 	                   		  	    $("#select-all").prop('checked', false);
-		 	                   		if ($("#check_"+num).is(':checked') ) {
- 	                    	 			$("#select-all").prop('checked', true);
- 	                    	 		}else {
- 	                   		       	    $("#select-all").prop('checked', false);
- 	                   		   		 }
-	                    	   }) 
+	 	                   		   		 }
+	 	                    		});
+ 	                    	
  	                    	  
  	                   });
  	                }

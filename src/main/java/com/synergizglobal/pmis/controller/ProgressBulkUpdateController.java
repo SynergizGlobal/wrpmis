@@ -189,7 +189,7 @@ public class ProgressBulkUpdateController {
 	}
 	
 
-	@RequestMapping(value = "/update-progressBulk", method = {RequestMethod.POST})
+	@RequestMapping(value = "/update-progress-bulk", method = {RequestMethod.POST})
 	public ModelAndView updateProgressBulk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String userId = null;

@@ -256,7 +256,7 @@
 						   ${error}
 						</div>
 				    </c:if>
-                    <form action="<%=request.getContextPath() %>/update-progressBulk" id="ProgressBulkUpdateForm" name="ProgressBulkUpdateForm" method="post" >
+                    <form action="<%=request.getContextPath() %>/update-progress-bulk" id="ProgressBulkUpdateForm" name="ProgressBulkUpdateForm" method="post" >
                     <div class="container container-no-margin">
                         <div class="row">                          
                                 <div class="col m1 hide-on-small-only"></div>

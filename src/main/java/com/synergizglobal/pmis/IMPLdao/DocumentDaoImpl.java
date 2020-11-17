@@ -359,7 +359,7 @@ public class DocumentDaoImpl implements DocumentDao{
 	public List<Document> getUserList() throws Exception {
 		List<Document> objsList = null;
 		try {
-			String qry ="select user_id as responsible_for_approval,user_name from user ";
+			String qry ="select user_id,user_name,designation  as responsible_for_approval from user where designation  is not null and designation <>'' ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

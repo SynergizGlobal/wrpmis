@@ -7,7 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class Document {
 	
 	private String document_no, project_priority_fk,work_id,project_id, project_id_fk, work_id_fk,project_name, contract_id_fk, document_type_fk, document_name, responsible_for_approval,
-	id, document_no_fk, revision_no, status_fk, submission_date, approval_date,status,document_type,project_priority,user_id,user_name, remarks, document_attachment,contract_short_name,work_short_name,work_name,contract_name;
+	id, document_no_fk,designation, revision_no, status_fk, submission_date, approval_date,status,document_type,project_priority,user_id,user_name, remarks, document_attachment,contract_short_name,work_short_name,work_name,contract_name;
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public String[] getIds() {
 		return ids;

@@ -166,7 +166,7 @@
                                     <select class="searchable" name="responsible_for_approval" id="responsible_for_approval">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${userList }">
-		                                     <option value="${obj.responsible_for_approval }" <c:if test="${documentDetails.responsible_for_approval eq obj.responsible_for_approval}">selected</c:if>>${obj.responsible_for_approval}</option>
+		                                     <option value="${obj.responsible_for_approval }" <c:if test="${documentDetails.responsible_for_approval eq obj.responsible_for_approval}">selected</c:if>>${obj.responsible_for_approval} - ${obj.user_name}</option>
 		                                </c:forEach>
                                     </select>
                                 </div>

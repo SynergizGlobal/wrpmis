@@ -56,6 +56,27 @@
             padding: 0;
             border: 0
         }
+        #revision_details .select2-container{
+        	min-width:167px;
+        	max-width:167px;
+        }
+        #revision_details .select2-container--default .select2-selection--single {
+        	background-color:transparent;
+        }
+         .fixed-width {
+            width: 100%;
+        }
+
+        .fixed-width .table-inside {
+            width: 100%;
+            overflow: auto;
+        }
+         @media only screen and (max-width: 600px) {
+            #revision_details .select2-container {
+                min-width: 147px;
+                max-width: 147px;
+            }
+        }
     </style>
 </head>
 <body>

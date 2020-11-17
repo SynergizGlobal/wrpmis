@@ -84,6 +84,7 @@
 				                	<form action="<%=request.getContextPath() %>/add-document" id="documentForm" name="documentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							 </c:if>
                         <div class="container container-no-margin">
+                        <input type="hidden" name= "document_no" id="document_no" value="${documentDetails.document_no}" />
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -119,7 +120,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Document Type </p>
-                                    <select class="searchable">
+                                    <select class="searchable" name="document_type_fk" id="document_type_fk">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${documentTypeList }">
 		                                     <option value="${obj.document_type_fk }" <c:if test="${documentDetails.document_type_fk eq obj.document_type_fk}">selected</c:if>>${obj.document_type_fk}</option>
@@ -132,7 +133,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Priority </p>
-                                    <select class="searchable">
+                                    <select class="searchable" name="project_priority_fk" id="project_priority_fk">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${priorityList }">
 		                                     <option value="${obj.project_priority_fk }" <c:if test="${documentDetails.project_priority_fk eq obj.project_priority_fk}">selected</c:if>>${obj.project_priority_fk}</option>
@@ -141,7 +142,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Responsible for Approval </p>
-                                    <select class="searchable">
+                                    <select class="searchable" name="responsible_for_approval" id="responsible_for_approval">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${userList }">
 		                                     <option value="${obj.responsible_for_approval }" <c:if test="${documentDetails.responsible_for_approval eq obj.responsible_for_approval}">selected</c:if>>${obj.responsible_for_approval}</option>
@@ -158,8 +159,6 @@
                                 </div>
                             </div>
                         </div>
-              			 <input type="hidden" name="document_no" id="document_no" value="${documentDetails.document_no}"  />
-
                         <div class="row fixed-width" style="margin-bottom: 40px;">
                             <h5 class="center-align">Revision Details</h5>
                             <div class="table-inside">
@@ -181,7 +180,7 @@
                                        	 <c:forEach var="dObj" items="${documentDetails.documents }" varStatus="index"> 
                                         <tr id="documentRow${index.count }">
                                            <td>
-                                                	<input type="hidden" name= "document_no_fk" id="document_no_fks${index.count }" value="${dObj.document_no_fks}" />
+                                                    <input type="hidden" name= "ids" id="ids" value="${dObj.id}" />
                                                     <input id="revision_nos${index.count }" name="revision_nos" type="text" class="validate"  placeholder="Revision No" value="${dObj.revision_no }">
                                                 </td>
                                             <td>
@@ -211,11 +210,8 @@
                                             <td>
                                                 <div class="">
                                                     <input type="file" name="documentsFile" id="documentsFile${index.count }" style="display:none" onchange="getFileName('${index.count }')"  />
-                                                    <label for="myFile" class="btn bg-m"><i
-                                                            class="fa fa-paperclip"></i></label>
+                                                    <label for="documentsFile${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
                                                     <a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.DOCUMENT_FILES %>${dObj.document_attachment }" download>${dObj.document_attachment }</a>
-                                                            
-                                                    <span id="fileVal" class="filevalue">fileName</span>
                                                 </div>
                                                 <input type="hidden" id="documentsFileNames${index.count }" name="documentsFileNames" value="${dObj.document_attachment }">
                                             </td>
@@ -228,9 +224,8 @@
                                        </c:when>
                                        	<c:otherwise>
                                        <tr id="documentRow0">
-                                           <td>
-                                                	<input type="hidden" name= "document_no_fks" id="document_no_fks0" value="${dObj.document_no_fks}" />
-                                                    <input id="revision_nos0" name="revision_nos" type="text" class="validate" value="${dObj.revision_nos }"
+                                           <td> <input type="hidden" name= "ids" id="ids0"  />
+                                                    <input id="revision_nos0" name="revision_nos" type="text" class="validate"
                                                         placeholder="Revision No">
                                                 </td>
                                             <td>
@@ -258,14 +253,14 @@
                                                     placeholder="Remarks"></textarea>
                                             </td>
                                             <td>
-                                                <div class="">
-                                                   <input type="file" name="documentsFile" id="documentsFile0" style="display:none"   />
-                                                    <label for="myFile" class="btn bg-m"><i
-                                                            class="fa fa-paperclip"></i></label>
-                                                            <input name="documentsFiles" id="documentsFiles0" type="hidden"  onchange="getFileName('0')"/>
-                                                    <span id="fileVal" class="filevalue">fileName</span>
-                                                </div>
-                                                 <input type="hidden" id="documentFileNames0" name="documentFileNames">
+                                              <div class="">
+                                                   <input type="file" name="documentsFile" id="documentsFile0"   
+                                                            style="display:none" />
+                                                   <input name="documentsFile" id="documentsFile0" type="hidden"  onchange="getFileName('0')"/>
+                                                   <label for="documentsFile0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+                                                   <span id="fileVal0" class="filevalue" ></span>
+                                              </div>
+                                              <input type="hidden" id="documentFileNames0" name="documentFileNames">
                                             </td>
                                             <td>
                                                 <a  onclick="removeDocumentRow('0');" class="btn waves-effect waves-light red t-c "> <i
@@ -279,11 +274,11 @@
 			                                          	    	     $('.confirmation-btns .datepicker-done').click();
 			                                          	    	  }
 			                                                 });
-			                                               /*  $("#SafetyEquipmentFile0").change(function () {
-				                                                filename1 = $('#SafetyEquipmentFile0')[0].files[0].name;
+			                                               $("#documentsFile0").change(function () {
+				                                                filename1 = $('#documentsFile0')[0].files[0].name;
 				                                                $('#fileVal0').html(filename1);
 				                                                console.log(filename1)
-				                                            }); */
+				                                            }); 
 			                                                
 		                                      </script>
                                     	  </c:otherwise>
@@ -453,14 +448,40 @@
             }
         }
         
-function addDocumentRow(){
+        function addDocument(){
+        	//if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	        	$('form input[name=document_no_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=revision_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submission_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=approval_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=document_attachments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("documentForm").submit();	
+        	//}
+        }
+        function updateDocument(){
+        //	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	        	$('form input[name=revision_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=submission_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=approval_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=document_attachments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("documentForm").submit();	
+        	//}
+        }
+     
+    function addDocumentRow(){
       		
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
           
              var html = '<tr id="documentRow'+rNo+'">'
-    				   +'<td><input type="hidden" name= "document_no_fks" id="document_no_fks'+rNo+'" />'
-             		   +'<input id="revision_nos'+rNo+'" name="revision_nos" type="text" class="validate" placeholder="Revision No"></td>'
+    				   +'<td><input type="hidden" name= "ids" id="ids'+rNo+'"  />'
+    				   +'<input id="revision_nos'+rNo+'" name="revision_nos" type="text" class="validate" placeholder="Revision No"></td>'
     				   +'<td><select id="status_fks'+rNo+'" name="status_fks" class="validate-dropdown searchable" >'
                        +'<option value="" >Select</option>'
                          <c:forEach var="obj" items="${statusList}">
@@ -470,10 +491,9 @@ function addDocumentRow(){
     				   +'<td><input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission Date"><button type="button" id="submission_1_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
     				   +'<td><input id="approval_dates'+rNo+'" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval Date"><button type="button" id="approval_1_icon'+rNo+'" class="white"><i class="fa fa-calendar"></i></button></td>'
     				   +'<td><input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'
-    			   	   +'<td><div class=""> <input type="file" name="documentFile" id="documentFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')" /> '
-    			   	   +'<label for="documentFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
-    			   	   +'<input type="hidden" id="documentFileNames'+rNo+'" name="documentFileNames">'
-                       +'<span id="fileVal'+rNo+'" class="filevalue" ></span> </div></td>'
+    			   	   +'<td><div class=""><input type="file" name="documentsFile" id="documentsFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')"/>'
+                	   +' <label for="documentsFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label><span id="fileVal'+rNo+'" class="filevalue" ></span> </div>'
+                	   +'<input type="hidden" id="documentFileNames'+rNo+'" name="documentFileNames"></td>'
     				   +'<td> <a onclick="removeDocumentRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
 
     				 $('#documentTableBody').append(html);
@@ -501,7 +521,7 @@ function addDocumentRow(){
 			}
 			
 			function getFileName(rowNo){
-				var filename = $('#documentFile'+rowNo)[0].files[0].name;
+				var filename = $('#documentsFile'+rowNo)[0].files[0].name;
 			    $('#fileVal'+rowNo).html(filename);
 			}
 

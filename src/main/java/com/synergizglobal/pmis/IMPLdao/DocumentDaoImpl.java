@@ -1,5 +1,13 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -7,10 +15,18 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.DocumentDao;
+import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Document;
@@ -287,7 +303,7 @@ public class DocumentDaoImpl implements DocumentDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getDocument_no())) {
 			
 			List<Document> objsList = null;
-			String qryDetails = "select document_no_fk,revision_no, status_fk,document_attachment,"
+			String qryDetails = "select id,document_no_fk,revision_no, status_fk,document_attachment,"
 					+" DATE_FORMAT(submission_date,'%d-%m-%Y') AS submission_date,remarks, DATE_FORMAT(approval_date,'%d-%m-%Y') AS approval_date "
 					+ "from documents_revisions "
 					+"where document_no_fk is not null and document_no_fk = ? ";
@@ -373,6 +389,305 @@ public class DocumentDaoImpl implements DocumentDao{
 		throw new Exception(e.getMessage());
 		}
 		return objList;
+	}
+
+	@Override
+	public boolean addDocument(Document obj) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
+		ResultSet rs = null;
+		int  count = 0;
+		boolean flag = false;		
+		try {
+			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			String insertQry = "INSERT INTO documents"
+					+ "(contract_id_fk, project_id_fk, work_id_fk, project_priority_fk, document_type_fk, document_name,responsible_for_approval)"
+					+ "VALUES"
+					+ "(?,?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			
+			
+			int q = 1;
+			insertStmt.setString(q++,obj.getContract_id_fk()); 
+			insertStmt.setString(q++,obj.getProject_id_fk()); 
+			insertStmt.setString(q++,obj.getWork_id_fk()); 
+			insertStmt.setString(q++,obj.getProject_priority_fk()); 
+			insertStmt.setString(q++,obj.getDocument_type_fk()); 
+			insertStmt.setString(q++,obj.getDocument_name()); 
+			insertStmt.setString(q++,obj.getResponsible_for_approval()); 
+			
+			count = insertStmt.executeUpdate();
+			rs = insertStmt.getGeneratedKeys();
+			if(count > 0) {
+				 flag = true;
+				 if (rs.next()) {
+					 String id = rs.getString(1);
+					 obj.setDocument_no(id);
+				 }
+			}
+			if(flag) {
+				
+				String insertQry1 = "INSERT into  documents_revisions (document_no_fk,revision_no,status_fk,"
+						+"submission_date,approval_date,remarks,document_attachment) "
+						+"VALUES (?,?,?,?,?,?,?)";
+				insertStmt = con.prepareStatement(insertQry1);
+				int arraySize = 0;
+				
+				if(!StringUtils.isEmpty(obj.getRevision_nos()) && obj.getRevision_nos().length > 0) {
+					obj.setRevision_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_nos()));
+					if(arraySize < obj.getRevision_nos().length) {
+						arraySize = obj.getRevision_nos().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getStatus_fks()) && obj.getStatus_fks().length > 0) {
+					obj.setStatus_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getStatus_fks()));
+					if(arraySize < obj.getStatus_fks().length) {
+						arraySize = obj.getStatus_fks().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+					obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+					if(arraySize < obj.getRemarkss().length) {
+						arraySize = obj.getRemarkss().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getDocument_no_fks()) && obj.getDocument_no_fks().length > 0) {
+					obj.setDocument_no_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocument_no_fks()));
+					if(arraySize < obj.getDocument_no_fks().length) {
+						arraySize = obj.getDocument_no_fks().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getSubmission_dates()) && obj.getSubmission_dates().length > 0) {
+					obj.setSubmission_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmission_dates()));
+					if(arraySize < obj.getSubmission_dates().length) {
+						arraySize = obj.getSubmission_dates().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getApproval_dates()) && obj.getApproval_dates().length > 0) {
+					obj.setApproval_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getApproval_dates()));
+					if(arraySize < obj.getApproval_dates().length) {
+						arraySize = obj.getApproval_dates().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getDocumentsFileNames()) && obj.getDocumentsFileNames().length > 0) {
+					obj.setDocumentsFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocumentsFileNames()));
+					if(arraySize < obj.getDocumentsFileNames().length) {
+						arraySize = obj.getDocumentsFileNames().length;
+					}
+				}
+				String[] documentNames = new String[arraySize];
+				if(!StringUtils.isEmpty(obj.getDocumentsFile()) && obj.getDocumentsFile().length > 0) {
+					if(arraySize < obj.getDocumentsFile().length) {
+							arraySize = obj.getDocumentsFile().length;
+					}
+					String saveDirectory = CommonConstants.DOCUMENT_FILES_SAVING_PATH ;
+					documentNames = new String[arraySize];
+					for (int k = 0; k < documentNames.length; k++) {
+						/*if (rs.next()) {
+							String id = rs.getString(1);
+							obj.setDocument_no(id);
+						}*/
+						MultipartFile file = obj.getDocumentsFile()[k];
+						if (null != file && !file.isEmpty()){
+							String fileName = file.getOriginalFilename();
+							//DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+							//String fileName_new = "Document-"+obj.getSafety_equipment_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+							documentNames[k] = fileName;
+							FileUploads.singleFileSaving(file, saveDirectory, fileName);
+							obj.setDocument_attachment(fileName);
+						}else {
+							documentNames[k] = null;
+						}
+				    }
+				}
+				for (int i = 0; i < arraySize; i++) {
+			    int p = 1;
+			   
+			    insertStmt.setString(p++,(obj.getDocument_no()));
+			    insertStmt.setString(p++,(obj.getRevision_nos().length > 0)?obj.getRevision_nos()[i]:null);
+			    insertStmt.setString(p++,(obj.getStatus_fks().length > 0)?obj.getStatus_fks()[i]:null);
+			    insertStmt.setString(p++,DateParser.parse((obj.getSubmission_dates().length > 0)?obj.getSubmission_dates()[i]:null));
+			    insertStmt.setString(p++,DateParser.parse((obj.getApproval_dates().length > 0)?obj.getApproval_dates()[i]:null));
+			    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+			    insertStmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
+			   
+			    insertStmt.addBatch();
+			}
+			int[] insertCount = insertStmt.executeBatch();		
+		  }
+		  con.commit();
+		}catch(Exception e){ 
+			con.rollback();
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean updateDocument(Document obj) throws Exception {
+		Connection con = null;
+		PreparedStatement updateStmt = null;
+		PreparedStatement insertStmt = null;
+		PreparedStatement stmt = null;
+		boolean flag = false;
+		try {
+			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			String updateQry = "UPDATE documents set "
+					+ "project_priority_fk= ?, document_type_fk=? ,"
+					+ "document_name= ?, responsible_for_approval= ? where document_no = ?";
+			
+			updateStmt = con.prepareStatement(updateQry);
+			int q = 1;
+			updateStmt.setString(q++,obj.getProject_priority_fk()); 
+			updateStmt.setString(q++,obj.getDocument_type_fk()); 
+			updateStmt.setString(q++,obj.getDocument_name()); 
+			updateStmt.setString(q++,obj.getResponsible_for_approval()); 
+			updateStmt.setString(q++,obj.getDocument_no()); 
+			
+			int count = updateStmt.executeUpdate();
+			DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
+			
+			String updateQry1 = "UPDATE documents_revisions set "
+					+ "revision_no=? ,"
+					+ "status_fk= ?, submission_date= ?, approval_date= ?,remarks = ?,document_attachment = ? "
+					+ "where id= ?";
+			
+			updateStmt = con.prepareStatement(updateQry1);
+			
+			String insertQry = "INSERT into  documents_revisions (document_no_fk,revision_no,status_fk,"
+					+"submission_date,approval_date,remarks,document_attachment) "
+					+"VALUES (?,?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+		
+			int	arraySize = 0;
+			if(!StringUtils.isEmpty(obj.getRevision_nos()) && obj.getRevision_nos().length > 0) {
+				obj.setRevision_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_nos()));
+				if(arraySize < obj.getRevision_nos().length) {
+					arraySize = obj.getRevision_nos().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getStatus_fks()) && obj.getStatus_fks().length > 0) {
+				obj.setStatus_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getStatus_fks()));
+				if(arraySize < obj.getStatus_fks().length) {
+					arraySize = obj.getStatus_fks().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+				obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+				if(arraySize < obj.getRemarkss().length) {
+					arraySize = obj.getRemarkss().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getDocument_no_fks()) && obj.getDocument_no_fks().length > 0) {
+				obj.setDocument_no_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocument_no_fks()));
+				if(arraySize < obj.getDocument_no_fks().length) {
+					arraySize = obj.getDocument_no_fks().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getSubmission_dates()) && obj.getSubmission_dates().length > 0) {
+				obj.setSubmission_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmission_dates()));
+				if(arraySize < obj.getSubmission_dates().length) {
+					arraySize = obj.getSubmission_dates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getApproval_dates()) && obj.getApproval_dates().length > 0) {
+				obj.setApproval_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getApproval_dates()));
+				if(arraySize < obj.getApproval_dates().length) {
+					arraySize = obj.getApproval_dates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(obj.getDocumentsFileNames()) && obj.getDocumentsFileNames().length > 0) {
+				obj.setDocumentsFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocumentsFileNames()));
+				if(arraySize < obj.getDocumentsFileNames().length) {
+					arraySize = obj.getDocumentsFileNames().length;
+				}
+			}
+				
+				String saveDirectory = CommonConstants.DOCUMENT_FILES_SAVING_PATH ;
+				List<MultipartFile> files = new ArrayList<MultipartFile>();
+				for (int i = 0; i < arraySize; i++) {
+					String dId = obj.getIds()[i];
+					if(!StringUtils.isEmpty(dId)) {
+					    int p = 1;
+					    String docFileName = null;
+					    MultipartFile file = obj.getDocumentsFile()[i];
+						if (null != file && !file.isEmpty()){
+							String fileName = file.getOriginalFilename();
+							docFileName = fileName;
+							FileUploads.singleFileSaving(file, saveDirectory, docFileName);
+						} else {
+							docFileName  = (obj.getDocumentsFileNames().length > 0)?obj.getDocumentsFileNames()[i]:null;
+						} 
+						updateStmt.setString(p++,(obj.getRevision_nos().length > 0)?obj.getRevision_nos()[i]:null);
+					    updateStmt.setString(p++,(obj.getStatus_fks().length > 0)?obj.getStatus_fks()[i]:null);
+					    updateStmt.setString(p++,DateParser.parse((obj.getSubmission_dates().length > 0)?obj.getSubmission_dates()[i]:null));
+					    updateStmt.setString(p++,DateParser.parse((obj.getApproval_dates().length > 0)?obj.getApproval_dates()[i]:null));
+					    updateStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+					    updateStmt.setString(p++,docFileName);	
+					    updateStmt.setString(p++,(obj.getIds()[i]));
+					    updateStmt.addBatch();
+					} else {
+						String[] documentNames = new String[arraySize];
+						if(!StringUtils.isEmpty(obj.getDocumentsFile()) && obj.getDocumentsFile().length > 0) {
+							if(arraySize < obj.getDocumentsFile().length) {
+									arraySize = obj.getDocumentsFile().length;
+							}
+							String saveDirectory1 = CommonConstants.DOCUMENT_FILES_SAVING_PATH ;
+							documentNames = new String[arraySize];
+							for (int k = 0; k < documentNames.length; k++) {
+								MultipartFile file = obj.getDocumentsFile()[k];
+								if (null != file && !file.isEmpty()){
+									String fileName = file.getOriginalFilename();
+									documentNames[k] = fileName;
+									FileUploads.singleFileSaving(file, saveDirectory1, fileName);
+									obj.setDocument_attachment(fileName);
+								}else {
+									documentNames[k] = null;
+								}
+						    }
+						}
+					    int p = 1;
+					    MultipartFile file = obj.getDocumentsFile()[i];
+						files.add(file);
+						insertStmt.setString(p++,(obj.getDocument_no()));
+						insertStmt.setString(p++,(obj.getRevision_nos().length > 0)?obj.getRevision_nos()[i]:null);
+						insertStmt.setString(p++,(obj.getStatus_fks().length > 0)?obj.getStatus_fks()[i]:null);
+					    insertStmt.setString(p++,DateParser.parse((obj.getSubmission_dates().length > 0)?obj.getSubmission_dates()[i]:null));
+					    insertStmt.setString(p++,DateParser.parse((obj.getApproval_dates().length > 0)?obj.getApproval_dates()[i]:null));
+					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+					    insertStmt.setString(p++,documentNames[i]);
+					    					    
+					    insertStmt.addBatch();
+					}
+				}
+				
+				
+				int[] updateCount = updateStmt.executeBatch();
+				
+				
+				int[] insertCount = insertStmt.executeBatch();
+			
+				if(updateCount.length > 0 || insertCount.length > 0) {
+					flag = true;
+				}
+
+				DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+				DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
+				
+				con.commit();
+		}catch(Exception e){ 
+			con.rollback();
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
+		}
+		return flag;
 	}
 
 }

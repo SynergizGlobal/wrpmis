@@ -9,6 +9,14 @@ public class Document {
 	private String document_no, project_priority_fk,work_id,project_id, project_id_fk, work_id_fk,project_name, contract_id_fk, document_type_fk, document_name, responsible_for_approval,
 	id, document_no_fk, revision_no, status_fk, submission_date, approval_date,status,document_type,project_priority,user_id,user_name, remarks, document_attachment,contract_short_name,work_short_name,work_name,contract_name;
 
+	public String[] getIds() {
+		return ids;
+	}
+
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -49,8 +57,16 @@ public class Document {
 		this.user_name = user_name;
 	}
 
-	private String[] document_no_fks, revision_nos, status_fks, submission_dates, approval_dates, remarkss, document_attachments,documentsFileNames;
+	private String[] document_no_fks,document_nos, revision_nos, status_fks, submission_dates, approval_dates, remarkss, document_attachments,documentsFileNames,ids;
 	
+
+	public String[] getDocument_nos() {
+		return document_nos;
+	}
+
+	public void setDocument_nos(String[] document_nos) {
+		this.document_nos = document_nos;
+	}
 
 	private List<Document> documents;
 

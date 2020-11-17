@@ -71,6 +71,16 @@
                         </div>
                     </span>
                     <div class="">
+                    <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>   
                         <div class="row plr-1">
                             <div class="col s12 m4">
                                 <!-- <div class="m-1 l-align">

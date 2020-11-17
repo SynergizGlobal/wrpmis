@@ -268,7 +268,7 @@
                                                 onchange="getProgressBulkUpdateWorksList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                    <option value="${obj.project_id }" <c:if test="${obj.project_id eq ProgressBulkData.project_id }">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                                    <option value="${obj.project_id }">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
@@ -279,7 +279,7 @@
                                                 onchange="getProgressBulkUpdateContractsList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq ProgressBulkData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                                    <option value="${obj.work_id }">${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
@@ -290,7 +290,7 @@
                                                 onchange="resetWorksAndProjectsDropdowns();getProgressBulkUpdateStructures(); getProgressBulkUpdateLines(); getProgressBulkUpdateSections();">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq ProgressBulkData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -648,7 +648,7 @@
 	            data: myParams, cache: false,
 	            success: function (data) {
 	            	var id1 = "";
-	                var id2 = "${ProgressBulkData.work_id}";
+	                var id2 = "";
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
@@ -692,7 +692,7 @@
 	            data: myParams, cache: false,
 	            success: function (data) {
 	            	var id1 = "";
-	            	var id2 = "${ProgressBulkData.contract_id}";                        
+	            	var id2 = "";                        
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var contract_name = '';
@@ -788,7 +788,7 @@
                   data: myParams, cache: false,
                   success: function (data) {
                   	var id1 = "";
-                  	var id2 = "${ProgressBulkData.strip_chart_structure_id}";
+                  	var id2 = "";
                       if (data.length > 0) {
                           $.each(data, function (i, val) {
 	                            if ($.trim(id2) != '' && val.strip_chart_structure_id_fk == $.trim(id2)) {
@@ -878,8 +878,8 @@
                  data: myParams, cache: false,
                  success: function (data) {
                  	var id1 = "";
-                 	var id2 = "${ProgressBulkData.strip_chart_component_id}";
-                     var strip_chart_component = "${ProgressBulkData.strip_chart_component}";
+                 	var id2 = "";
+                     var strip_chart_component = "";
                      
                      if (data.length > 0) {
                          $.each(data, function (i, val) {
@@ -971,7 +971,7 @@
                  data: myParams, cache: false,
                  success: function (data) {
                  	var id1 = "";
-                 	var id2 = "${ProgressBulkData.strip_chart_activity_id}";
+                 	var id2 = "";
                      if (data.length > 0) {
                          $.each(data, function (i, val) {
 	                            if ($.trim(id2) != '' && val.strip_chart_activity_id == $.trim(id2)) {
@@ -1088,25 +1088,25 @@
  	                    	 		//alert("#actualScopes"+num)
  	                    	 		$("#actualScopes"+num).val('');
  	                    	 	})
- 	                    	 	
+ 	                    	 	$("#select-all").change(function() { 
+ 	                    	 		if($("#check_"+num).is(':unchecked')){
+ 	                    	 			$("#actualScopes"+num).val('');
+ 	                    	 		}
+ 	                    	 	})
  	                    	 //	var noOfBoxes = document.getElementsByClassName("check")
 	 	                    	   
-	 	                    	  $("input[type='checkbox'].check").change(function(){
-	 	                    		    var a = $("input[type='checkbox'].check");
-	 	                    		    if(a.length == a.filter(":checked").length){
-	 	                    		    	$("#select-all").prop('checked', true);
-	 	                    		    }
-	 	                    		    else {
-	 	                   		       	    $("#select-all").prop('checked', false);
-	 	                   		   		 }
-	 	                    		});
- 	                    	
- 	                    	  
+	 	                    	$("input[type='checkbox'].check").change(function(){
+	                    		    var a = $("input[type='checkbox'].check");
+	                    		    if(a.length == a.filter(":checked").length){
+	                    		    	$("#select-all").prop('checked', true);
+	                    		    }
+	                    		    else {
+	                   		       	    $("#select-all").prop('checked', false);
+	                   		   		 }
+	                    		});
  	                   });
  	                }
- 	                
  	                $(".page-loader").hide();
- 	                
  	            }
  	        });
  	    }else{

@@ -77,4 +77,14 @@ public class DocumentServiceImpl implements DocumentService{
 		return dao.getContractList();
 	}
 
+	@Override
+	public boolean addDocument(Document obj) throws Exception {
+		return dao.addDocument(obj);
+	}
+
+	@Override
+	public boolean updateDocument(Document obj) throws Exception {
+		return dao.updateDocument(obj);
+	}
+
 }

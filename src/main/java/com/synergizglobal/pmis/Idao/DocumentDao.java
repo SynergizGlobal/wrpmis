@@ -32,6 +32,11 @@ public interface DocumentDao {
 
 	public List<Document> getContractList() throws Exception;
 
+	public boolean addDocument(Document obj) throws Exception;
+
+	public boolean updateDocument(Document obj) throws Exception;
+
+
 
 
 }

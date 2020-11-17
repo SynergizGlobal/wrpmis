@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.Iservice.DocumentService;
 import com.synergizglobal.pmis.Iservice.SafetyEquipmentService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
@@ -202,6 +203,47 @@ public class DocumentController {
 		return model;
 	 }
 	
+	@RequestMapping(value = "/add-document", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addDocument(@ModelAttribute Document obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/document");
+			obj.setSubmission_date(DateParser.parse(obj.getSubmission_date()));
+			obj.setApproval_date(DateParser.parse(obj.getApproval_date()));
+			boolean flag =  documentService.addDocument(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Document Added Succesfully.");
+			}else {
+				attributes.addFlashAttribute("error","Adding Document is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Adding Document is failed. Try again.");
+			logger.error("addDocument : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-document", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView updateDocument(@ModelAttribute Document obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/document");
+			obj.setSubmission_date(DateParser.parse(obj.getSubmission_date()));
+			obj.setApproval_date(DateParser.parse(obj.getApproval_date()));
+			boolean flag =  documentService.updateDocument(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Document Updated Succesfully.");
+			}else {
+				attributes.addFlashAttribute("error","Updating Document is failed. Try again.");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error","Updating Document is failed. Try again.");
+			logger.error("updateDocument : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	
 	@RequestMapping(value = "/export-document", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportDocument(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Document dObj,RedirectAttributes attributes){
@@ -224,8 +266,8 @@ public class DocumentController {
 	            short rowNo = 1;
 	            for (Document obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_short_name());
-	                row.createCell((short)1).setCellValue(obj.getContract_id_fk()+"-"+ obj.getContract_short_name());
+	                row.createCell((short)0).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_name());
+	                row.createCell((short)1).setCellValue(obj.getContract_id_fk()+"-"+ obj.getContract_name());
 	                row.createCell((short)2).setCellValue(obj.getProject_priority_fk());
 	                row.createCell((short)3).setCellValue(obj.getDocument_type_fk());
 	                row.createCell((short)4).setCellValue(obj.getDocument_name());

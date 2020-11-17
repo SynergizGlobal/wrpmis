@@ -54,6 +54,7 @@ public class TableauDashboardController {
 			HttpSession session,HttpServletRequest request){
 		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
 		String user_Id = null;String userName = null;
+		String title = "";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.addObject("active", param);
@@ -65,7 +66,18 @@ public class TableauDashboardController {
 			if(!StringUtils.isEmpty(param)){
 				activityWork = param.replaceAll("_", " - ").toLowerCase();
 				activityWork = activityWork.replaceAll("-", " ").toLowerCase();
+				title = title + capitalize(activityWork).toUpperCase() + " - ";
 			}
+			
+			String line = null;
+			if(!StringUtils.isEmpty(param1)){
+				line = param1.replaceAll("-", " ").toLowerCase();
+				line = line.replaceAll("_", " - ").toLowerCase();
+				title = title + capitalize(line).toUpperCase() + " - ";
+			}
+			
+			view.addObject("title", title+"PMIS - Syntrack.");
+			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
 				String[] url = vo.getTableauUrl().split(".com/");
@@ -96,7 +108,7 @@ public class TableauDashboardController {
 			HttpSession session,HttpServletRequest request){
 		ModelAndView view = new ModelAndView(PageConstants.tableauDashboard);
 		String user_Id = null;String userName = null;
-		
+		String title = "";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.addObject("active", param);
@@ -107,7 +119,10 @@ public class TableauDashboardController {
 			if(!StringUtils.isEmpty(param)){
 				activityWork = param.replaceAll("_", " - ").toLowerCase();
 				activityWork = activityWork.replaceAll("-", " ").toLowerCase();
+				title = title + capitalize(activityWork).toUpperCase() + " - ";
 			}
+			view.addObject("title", title+"PMIS - Syntrack.");
+			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
 				
@@ -123,5 +138,9 @@ public class TableauDashboardController {
 			logger.error("tableauView() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
 		}
 		return view;
+	}
+	
+	private String capitalize(final String line) {
+	   return Character.toUpperCase(line.charAt(0)) + line.substring(1);
 	}
 }

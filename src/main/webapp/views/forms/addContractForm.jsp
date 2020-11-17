@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
      <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
     <style>
 
@@ -437,7 +437,7 @@
 	                                    <span id="ontract_closureError" class="error-msg" ></span>
 	                                </div> -->
 	                                <div class="col s12 m4 input-field">
-	                                 <p>   <label>Status of Contract</label></p>
+	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
 	                                        <option value="" selected>Select</option>
 	                                       		 <c:forEach var="obj" items="${contract_Statustype }">

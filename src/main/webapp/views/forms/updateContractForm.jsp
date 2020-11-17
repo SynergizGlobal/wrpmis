@@ -442,7 +442,7 @@
 	                                     <span id="contract_closureError" class="error-msg" ></span>
 	                                </div> --%>
 	                                <div class="col s12 m4 input-field">
-	                                   <p>   <label>Status of Contract</label></p>
+	                                   <p class="searchable_label">   <label>Status of Contract</label></p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">

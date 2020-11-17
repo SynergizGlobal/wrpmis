@@ -18,8 +18,8 @@ public class DocumentServiceImpl implements DocumentService{
 	DocumentDao dao;
 
 	@Override
-	public List<Document> documentList(Document obj) throws Exception {
-		return dao.documentList(obj);
+	public List<Document> getDocumentsList(Document obj) throws Exception {
+		return dao.getDocumentsList(obj);
 	}
 
 	@Override
@@ -72,10 +72,6 @@ public class DocumentServiceImpl implements DocumentService{
 		return dao.getProjectsList();
 	}
 
-	@Override
-	public List<Document> getContractList() throws Exception {
-		return dao.getContractList();
-	}
 
 	@Override
 	public boolean addDocument(Document obj) throws Exception {
@@ -85,6 +81,11 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public boolean updateDocument(Document obj) throws Exception {
 		return dao.updateDocument(obj);
+	}
+
+	@Override
+	public boolean deleteDocument(Document obj) throws Exception {
+		return dao.deleteDocument(obj);
 	}
 
 }

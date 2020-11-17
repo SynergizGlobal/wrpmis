@@ -8,7 +8,7 @@ import com.synergizglobal.pmis.model.SafetyEquipment;
 
 public interface DocumentService {
 
-	public List<Document> documentList(Document obj) throws Exception;
+	public List<Document> getDocumentsList(Document obj) throws Exception;
 
 	public List<Document> getDocumentContractsList(Document obj) throws Exception;
 
@@ -30,11 +30,11 @@ public interface DocumentService {
 
 	public List<Document> getProjectsList() throws Exception;
 
-	public List<Document> getContractList() throws Exception;
-
 	public boolean addDocument(Document obj) throws Exception;
 
 	public boolean updateDocument(Document obj) throws Exception;
+
+	public boolean deleteDocument(Document obj) throws Exception;
 
 
 

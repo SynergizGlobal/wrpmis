@@ -598,7 +598,31 @@
                 },submitHandler:function(form){
 			    	form.submit();
 			    }
-			});   
+			}); 
+        
+        $.validator.addMethod("dateFormat",
+        	    function(value, element) {
+        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+        	    	//return dtRegex.test(value);
+        	    },
+        	    //"Date format (Aug 02,2020)"
+        	    "Date format (DD-MM-YYYY)"
+        	);
+            
+            
+            $('select').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            $('input').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
     </script>
 
 </body>

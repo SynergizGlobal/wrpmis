@@ -1172,6 +1172,10 @@
 		 		required: true
 		 	  },"strip_chart_activity_id": {
 		 		required: false
+		 	  },"actualScopes": {
+		 		 required: function(element){
+		             return $(".check").is(':checked');
+		         }
 		 	  }
     	 },
             messages: {

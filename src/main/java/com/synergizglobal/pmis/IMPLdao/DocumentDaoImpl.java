@@ -43,7 +43,7 @@ public class DocumentDaoImpl implements DocumentDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<Document> documentList(Document obj) throws Exception {
+	public List<Document> getDocumentsList(Document obj) throws Exception {
 		List<Document> objsList = null;
 		try {
 			String qry ="select document_no,d.work_id_fk,w.work_name,contract_id_fk,c.contract_name,project_priority_fk,document_type_fk,document_name,responsible_for_approval from documents d "
@@ -380,18 +380,6 @@ public class DocumentDaoImpl implements DocumentDao{
 	}
 
 	@Override
-	public List<Document> getContractList() throws Exception {
-		List<Document> objList = null;
-		try {
-			String qry ="select contract_id as contract_id_fk,contract_name from contract";
-				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objList;
-	}
-
-	@Override
 	public boolean addDocument(Document obj) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt = null;
@@ -452,12 +440,6 @@ public class DocumentDaoImpl implements DocumentDao{
 						arraySize = obj.getRemarkss().length;
 					}
 				}
-				if(!StringUtils.isEmpty(obj.getDocument_no_fks()) && obj.getDocument_no_fks().length > 0) {
-					obj.setDocument_no_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocument_no_fks()));
-					if(arraySize < obj.getDocument_no_fks().length) {
-						arraySize = obj.getDocument_no_fks().length;
-					}
-				}
 				if(!StringUtils.isEmpty(obj.getSubmission_dates()) && obj.getSubmission_dates().length > 0) {
 					obj.setSubmission_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmission_dates()));
 					if(arraySize < obj.getSubmission_dates().length) {
@@ -468,12 +450,6 @@ public class DocumentDaoImpl implements DocumentDao{
 					obj.setApproval_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getApproval_dates()));
 					if(arraySize < obj.getApproval_dates().length) {
 						arraySize = obj.getApproval_dates().length;
-					}
-				}
-				if(!StringUtils.isEmpty(obj.getDocumentsFileNames()) && obj.getDocumentsFileNames().length > 0) {
-					obj.setDocumentsFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocumentsFileNames()));
-					if(arraySize < obj.getDocumentsFileNames().length) {
-						arraySize = obj.getDocumentsFileNames().length;
 					}
 				}
 				String[] documentNames = new String[arraySize];
@@ -583,12 +559,6 @@ public class DocumentDaoImpl implements DocumentDao{
 					arraySize = obj.getRemarkss().length;
 				}
 			}
-			if(!StringUtils.isEmpty(obj.getDocument_no_fks()) && obj.getDocument_no_fks().length > 0) {
-				obj.setDocument_no_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDocument_no_fks()));
-				if(arraySize < obj.getDocument_no_fks().length) {
-					arraySize = obj.getDocument_no_fks().length;
-				}
-			}
 			if(!StringUtils.isEmpty(obj.getSubmission_dates()) && obj.getSubmission_dates().length > 0) {
 				obj.setSubmission_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getSubmission_dates()));
 				if(arraySize < obj.getSubmission_dates().length) {
@@ -688,6 +658,12 @@ public class DocumentDaoImpl implements DocumentDao{
 			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}
 		return flag;
+	}
+
+	@Override
+	public boolean deleteDocument(Document obj) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

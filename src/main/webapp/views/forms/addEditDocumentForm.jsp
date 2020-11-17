@@ -16,13 +16,12 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
-     <style>
+    <style>
         .filevalue {
             display: block;
             margin-top: 10px;
@@ -77,6 +76,22 @@
                 max-width: 147px;
             }
         }
+         .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.my-error-class {
+   			 color:red;
+		}
+		.my-valid-class {
+   			 color:green;
+		}
     </style>
 </head>
 <body>
@@ -106,6 +121,7 @@
 							 </c:if>
                         <div class="container container-no-margin">
                         <input type="hidden" name= "document_no" id="document_no" value="${documentDetails.document_no}" />
+                        <c:if test="${action eq 'add'}">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -129,9 +145,32 @@
                                   <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                             </div>
+                             </c:if>
+                             <c:if test="${action eq 'edit'}">	
+                             <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                               
+                                <div class="col s12 m4 input-field">
+									<p class="searchable_label">Project</p>
+                                         	 	<input type="text" name="project_id_fk" id="project_id_fk" value="${documentDetails.project_id_fk}- ${documentDetails.project_name}" readonly />
+							    </div> 
+                                <div class="col s12 m4 input-field"> 
+								    <p class="searchable_label"> Work </p>
+                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_name}" readonly />
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
                             </div>
+                             </c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
+                                <c:if test="${action eq 'edit'}">	
+                                 <div class="col s12 m4 input-field"> 
+                                 	<p class="searchable_label">Contract</p>        
+                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_name}" readonly />
+                              	    </div>
+                                 </c:if>
+                                <c:if test="${action eq 'add'}">	
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract </p>
                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
@@ -139,6 +178,8 @@
                                   	</select>
                                    	<span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
+                                 </c:if>
+                                 
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Document Type </p>
                                     <select class="searchable" name="document_type_fk" id="document_type_fk">
@@ -309,7 +350,7 @@
                                     <table class="mdl-data-table">
                                         <tbody id="documentBody">                                          
 			                                    <tr>
-			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addDocumentRow()"> <i
+			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addDocumentRow()"> <i
 			                                                            class="fa fa-plus"></i></a>
 			                                    </tr>
                                         </tbody>
@@ -338,10 +379,10 @@
 											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                               <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s "
-                                            style="width:100%">Cancel</button>
+                                          <a href="<%=request.getContextPath()%>/document" class="btn waves-effect waves-light bg-s white-text"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -354,6 +395,20 @@
             </div>
         </div>
     </div>
+ <!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
   <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -470,9 +525,8 @@
         }
         
         function addDocument(){
-        	//if(validator.form()){ // validation perform
+        	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
-	        	$('form input[name=document_no_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revision_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submission_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -480,10 +534,10 @@
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=document_attachments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			document.getElementById("documentForm").submit();	
-        	//}
+        	}
         }
         function updateDocument(){
-        //	if(validator.form()){ // validation perform
+        	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
 	        	$('form input[name=revision_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -492,7 +546,7 @@
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=document_attachments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			document.getElementById("documentForm").submit();	
-        	//}
+        	}
         }
      
     function addDocumentRow(){
@@ -545,7 +599,77 @@
 				var filename = $('#documentsFile'+rowNo)[0].files[0].name;
 			    $('#fileVal'+rowNo).html(filename);
 			}
-
+			 var validator =	$('#documentForm').validate({
+				 errorClass: "my-error-class",
+				 validClass: "my-valid-class",
+				 ignore: ":hidden:not(.validate-dropdown)",
+		  		    rules: {
+		  		 		  "project_id_fk": {
+		  			 		required: true
+		  			 	  },"work_id_fk": {
+		  			 		required: true
+		  			 	  },"contract_id_fk": {
+		  		 		    required: true
+		  			 	  }
+		  		 	},
+		  		    messages: {
+		  		 		 "project_id_fk": {
+		  				 	required: 'This field is required',
+		  			 	  },"work_id_fk": {
+		  			 		required: ' This field is required'
+		  			 	  },"contract_id_fk": {
+		  		 			required: ' This field is required'
+		  		 	  	  }
+			   		},
+			   		errorPlacement:function(error, element){
+			   		 	if (element.attr("id") == "project_id_fk" ){
+							 document.getElementById("project_idError").innerHTML="";
+					 		 error.appendTo('#project_idError');
+						}else if(element.attr("id") == "work_id_fk" ){
+						   document.getElementById("work_id_fkError").innerHTML="";
+					 	   error.appendTo('#work_id_fkError');
+						}else if(element.attr("id") == "contract_id_fk" ){
+							document.getElementById("contract_id_fkError").innerHTML="";
+						 	error.appendTo('#contract_id_fkError');
+						}else{
+		 					error.insertAfter(element);
+				        } 
+			   		},invalidHandler: function (form, validator) {
+	                    var errors = validator.numberOfInvalids();
+	                    if (errors) {
+	                        var position = validator.errorList[0].element;
+	                        jQuery('html, body').animate({
+	                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+	                        }, 1000);
+	                    }
+	                },submitHandler:function(form){
+				    	form.submit();
+				    }
+				});   
+			 
+			 $.validator.addMethod("dateFormat",
+		        	    function(value, element) {
+		        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+		        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+		        	    	//return dtRegex.test(value);
+		        	    },
+		        	    //"Date format (Aug 02,2020)"
+		        	    "Date format (DD-MM-YYYY)"
+		        	);
+		            
+		            
+		            $('select').change(function(){
+		        	    if ($(this).val() != ""){
+		        	        $(this).valid();
+		        	    }
+		        	});
+		            
+		            $('input').change(function(){
+		        	    if ($(this).val() != ""){
+		        	        $(this).valid();
+		        	    }
+		        	});
+		            
     </script>
 </body>
 </html>

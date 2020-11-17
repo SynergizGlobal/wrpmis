@@ -519,7 +519,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select strip_chart_id,component_id as strip_chart_component_id,component as strip_chart_component,component_id_name as strip_chart_component_id_name,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,planned_start "  
-					+",planned_finish,scope,completed from strip_chart_general scg " 
+					+",planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed from strip_chart_general scg " 
 					+ " where strip_chart_id is not null and status <> ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
@@ -606,7 +606,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			if(flag) {
 				int i = 0;
 				
-				String updateQry = "UPDATE  strip_chart set completed = ?  where strip_chart_id = ?";	
+				String updateQry = "UPDATE  strip_chart set completed = IFNULL(NULLIF(completed, '' ), 0) + ?   where strip_chart_id = ?";	
 				updateStmt = con.prepareStatement(updateQry);
 				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
 					obj.setCompletedScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getCompletedScopes()));
@@ -615,19 +615,18 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 					}
 				}
 				
-				for ( i = 0; i < arraySize; i++) {				
+				for ( i = 0; i < arraySize; i++) {		
+				
 					int k = 1;
-					double completed = 0;double actual = 0;
-					if( obj.getCompletedScopes().length > 0 && !StringUtils.isEmpty(obj.getCompletedScopes()[i])) {
-						completed = Double.parseDouble(obj.getCompletedScopes()[i]);
-					}
+					 String actual = "0";
 					
 					if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) {
-						actual = Double.parseDouble(obj.getActualScopes()[i]);
+						actual = obj.getActualScopes()[i];
+						updateStmt.setString(k++, actual );					
+						updateStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
+						updateStmt.addBatch();
 					}
-					updateStmt.setString(k++, String.valueOf(completed + actual) );					
-					updateStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
-					updateStmt.addBatch();
+				
 				}
 				 int[] c = updateStmt.executeBatch();
 			}

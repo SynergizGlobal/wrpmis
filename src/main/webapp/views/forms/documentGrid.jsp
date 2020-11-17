@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Form</title>
+    <title>Document</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
@@ -324,7 +324,7 @@
     		
     		table.state.clear();		
     	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
-    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-document",type:"POST",data:myParams,success : function(data){    				
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-documents-list",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var document_no = "'"+val.document_no+"'";
@@ -370,7 +370,7 @@
             	$("#contract_id_fk option:not(:first)").remove();
         	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInDocument",
+                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInDocuments",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -402,7 +402,7 @@
             	$("#document_type_fk option:not(:first)").remove();
         	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDocumentTypesFilterListInDocument",
+                    url: "<%=request.getContextPath()%>/ajax/getDocumentTypesFilterListInDocuments",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -432,7 +432,7 @@
             	$("#project_priority_fk option:not(:first)").remove();
         	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getProjectPriorityFilterListInDocument",
+                    url: "<%=request.getContextPath()%>/ajax/getProjectPriorityFilterListInDocuments",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -462,7 +462,7 @@
             	$("#responsible_for_approval option:not(:first)").remove();
         	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getResponsibleForApprovalFilterListInDocument",
+                    url: "<%=request.getContextPath()%>/ajax/getResponsibleForApprovalFilterListInDocuments",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {

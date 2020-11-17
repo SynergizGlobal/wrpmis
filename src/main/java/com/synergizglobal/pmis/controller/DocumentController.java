@@ -35,10 +35,7 @@ import com.synergizglobal.pmis.Iservice.DocumentService;
 import com.synergizglobal.pmis.Iservice.SafetyEquipmentService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Document;
-import com.synergizglobal.pmis.model.SafetyEquipment;
 
 @Controller
 public class DocumentController {
@@ -86,20 +83,20 @@ public class DocumentController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/get-document", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/get-documents-list", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Document> getDocumentList(@ModelAttribute Document obj) {
+	public List<Document> getDocumentsList(@ModelAttribute Document obj) {
 		List<Document> documentList = null;
 		try {
-			documentList = documentService.documentList(obj);
+			documentList = documentService.getDocumentsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("documentList : " + e.getMessage());
+			logger.error("getDocumentsList : " + e.getMessage());
 		}
 		return documentList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsFilterListInDocument", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsFilterListInDocuments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Document> getContractsList(@ModelAttribute Document obj) {
 		List<Document> contractsList = null;
@@ -112,7 +109,7 @@ public class DocumentController {
 		return contractsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getProjectPriorityFilterListInDocument", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectPriorityFilterListInDocuments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Document>getProjectPriorityList(@ModelAttribute Document obj) {
 		List<Document> projectPriorityList = null;
@@ -125,7 +122,7 @@ public class DocumentController {
 		return projectPriorityList;
 	}
 	
-	@RequestMapping(value = "/ajax/getDocumentTypesFilterListInDocument", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getDocumentTypesFilterListInDocuments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Document> getDocumentTypesList(@ModelAttribute Document obj) {
 		List<Document> documentTypesList = null;
@@ -138,7 +135,7 @@ public class DocumentController {
 		return documentTypesList;
 	}
 	
-	@RequestMapping(value = "/ajax/getResponsibleForApprovalFilterListInDocument", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getResponsibleForApprovalFilterListInDocuments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Document> getResponsibleForApprovalList(@ModelAttribute Document obj) {
 		List<Document> responsibleForApprovalList = null;
@@ -167,8 +164,7 @@ public class DocumentController {
 			model.addObject("userList", userList);
 			List<Document> projectsList = documentService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Document> contractList = documentService.getContractList();
-			model.addObject("contractList", contractList);
+			
 		}catch (Exception e) {
 				logger.error("addDocumentForm : " + e.getMessage());
 		}
@@ -183,8 +179,6 @@ public class DocumentController {
 			model.addObject("action", "edit");
 			List<Document> projectsList = documentService.getProjectsList();
 			model.addObject("projectsList", projectsList);
-			List<Document> contractList = documentService.getContractList();
-			model.addObject("contractList", contractList);
 			List<Document> statusList = documentService.getStatusList();
 			model.addObject("statusList", statusList);
 			List<Document> documentTypeList = documentService.getDocumentTypeList();
@@ -243,6 +237,18 @@ public class DocumentController {
 		}
 		return model;
 	}
+
+	@RequestMapping(value = "/delete-document", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView deleteDocument(@ModelAttribute Document obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/document");
+			boolean flag =  documentService.deleteDocument(obj);
+		}catch (Exception e) {
+			logger.error("deleteDocument : " + e.getMessage());
+		}
+		return model;
+	}
 	
 	
 	@RequestMapping(value = "/export-document", method = {RequestMethod.GET,RequestMethod.POST})
@@ -251,7 +257,7 @@ public class DocumentController {
 		List<Document> dataList = new ArrayList<Document>();
 		try {
 			view.setViewName("redirect:/document");
-			dataList =   documentService.documentList(dObj);
+			dataList =   documentService.getDocumentsList(dObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet sheet = workBook.createSheet();

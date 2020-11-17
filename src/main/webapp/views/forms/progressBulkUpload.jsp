@@ -466,7 +466,10 @@
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
-                                    <div class="row fixed-width" id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
+								</div>
+								<div class="col m1 hide-on-small-only"></div>
+								
+                                <div class="row fixed-width" id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
                                         <div class="table-inside">
                                             <table class="mdl-data-table" id="table">
                                                 <thead>
@@ -519,7 +522,12 @@
                                             </table>
                                         </div>
                                     </div>
+						</div>
+						</div>
 								<div class="container container-no-margin" >
+								<div class="row">
+								 <div class="col m1 hide-on-small-only"></div>
+                                <div class="col m10 s12">
                                     <div class="row">
                                         <div class="col m12 s12 input-field">
                                             <textarea id="remarks" name="remarks" class="materialize-textarea"
@@ -544,7 +552,8 @@
                                     </div>
 
                                 </div>
-                        </div>
+                                </div>
+                        </div>	
                             </form>
                     </div>
                     <!-- form ends  -->

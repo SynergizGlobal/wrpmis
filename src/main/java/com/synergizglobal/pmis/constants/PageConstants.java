@@ -54,4 +54,10 @@ public class PageConstants {
 	
 	public static final String documentGrid = "forms/documentGrid";
 	public static final String addEditDocumentForm = "forms/addEditDocumentForm";
+	
+	public static final String dataGatheringGrid = "forms/dataGatheringGrid";
+	public static final String addEditDataGatheringForm = "forms/addEditDataGatheringForm";
+	
+	public static final String deliverablesGrid = "forms/deliverablesGrid";
+	public static final String addEditDeliverablesForm = "forms/addEditDeliverablesForm";
 }

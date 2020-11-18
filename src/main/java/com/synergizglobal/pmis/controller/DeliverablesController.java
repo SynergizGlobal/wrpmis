@@ -1,0 +1,324 @@
+package com.synergizglobal.pmis.controller;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.synergizglobal.pmis.Iservice.DeliverablesService;
+import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.DataGathering;
+import com.synergizglobal.pmis.model.Document;
+
+
+@Controller
+public class DeliverablesController {
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+	
+	Logger logger = Logger.getLogger(DeliverablesController.class);
+	
+	@Autowired
+	DeliverablesService deliverablesService;
+
+	@Value("${common.error.message}")
+	public String commonError;
+	
+	@Value("${record.dataexport.success}")
+	public String dataExportSucess;
+	
+	@Value("${record.dataexport.invalid.directory}")
+	public String dataExportInvalid;
+	
+	@Value("${record.dataexport.error}")
+	public String dataExportError;
+	
+	@Value("${record.dataexport.nodata}")
+	public String dataExportNoData;
+	
+	@RequestMapping(value="/deliverables",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView  deliverables(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.deliverablesGrid);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("deliverables : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/get-deliverables-list", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getDataGatherings(@ModelAttribute DataGathering obj) {
+		List<DataGathering> dataGatheringsList = null;
+		try {
+			dataGatheringsList = deliverablesService.getDeliverablesList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDeliverablesList : " + e.getMessage());
+		}
+		return dataGatheringsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStatusFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getStatusList(@ModelAttribute DataGathering obj) {
+		List<DataGathering> statusList = null;
+		try {
+			statusList = deliverablesService.getDeliverablesStatusList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDeliverablesStatusList : " + e.getMessage());
+		}
+		return statusList;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getProjectsList(@ModelAttribute DataGathering obj) {
+		List<DataGathering> projectsList = null;
+		try {
+			projectsList = deliverablesService.getDeliverablesProjectsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDeliverablesProjectsList : " + e.getMessage());
+		}
+		return projectsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getWorksList(@ModelAttribute DataGathering obj) {
+		List<DataGathering> worksList = null;
+		try {
+			worksList = deliverablesService.getDeliverablesWorksList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDeliverablesWorksList : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContarctFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getContarctsList(@ModelAttribute DataGathering obj) {
+		List<DataGathering> contractsList = null;
+		try {
+			contractsList = deliverablesService.getDeliverablesContarctsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDeliverablesContarctsList : " + e.getMessage());
+		}
+		return contractsList;
+	}
+	
+	@RequestMapping(value = "/add-deliverables-form", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addDeliverablesForm(){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditDeliverablesForm);
+			model.addObject("action", "add");
+			List<DataGathering> statusList = deliverablesService.getStatusList();
+			model.addObject("statusList", statusList);
+			List<DataGathering> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
+			model.addObject("deliverablesTypeList", deliverablesTypeList);
+			List<DataGathering> priorityList = deliverablesService.getPriorityList();
+			model.addObject("priorityList", priorityList);
+			List<DataGathering> projectsList = deliverablesService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			
+		}catch (Exception e) {
+				logger.error("addDeliverablesForm : " + e.getMessage());
+		}
+		return model;
+	 }
+	@RequestMapping(value = "/get-deliverables", method = {RequestMethod.POST})
+	public ModelAndView getDeliverablesForm(@ModelAttribute DataGathering obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditDeliverablesForm);
+			model.addObject("action", "edit");
+			List<DataGathering> statusList = deliverablesService.getStatusList();
+			model.addObject("statusList", statusList);
+			List<DataGathering> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
+			model.addObject("deliverablesTypeList", deliverablesTypeList);
+			List<DataGathering> priorityList = deliverablesService.getPriorityList();
+			model.addObject("priorityList", priorityList);
+			List<DataGathering> projectsList = deliverablesService.getProjectsList();
+			model.addObject("projectsList", projectsList);
+			DataGathering deliverablesDetails = deliverablesService.getDeliverables(obj);
+			model.addObject("deliverablesDetails", deliverablesDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getDeliverables : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/add-deliverables", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView addDeliverables(@ModelAttribute DataGathering obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/deliverables");
+			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
+			obj.setStart_date(DateParser.parse(obj.getStart_date()));
+			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
+
+			boolean flag =  deliverablesService.addDeliverables(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Deliverables Added Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Adding Deliverables is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Adding Deliverables is failed. Try again.");
+			logger.error("addDeliverables : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-deliverables", method = {RequestMethod.POST})
+	public ModelAndView updateDeliverables(@ModelAttribute DataGathering obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/deliverables");
+			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
+			obj.setStart_date(DateParser.parse(obj.getStart_date()));
+			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
+
+			boolean flag =  deliverablesService.updateDeliverables(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Deliverables Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Deliverables is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Deliverables is failed. Try again.");
+			logger.error("updateDeliverables : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView deleteDeliverables(@ModelAttribute DataGathering obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/deliverables");
+			boolean flag =  deliverablesService.deleteDeliverables(obj);
+		}catch (Exception e) {
+			logger.error("deleteDeliverables : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/export-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportDeliverables(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute DataGathering dObj,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants.deliverablesGrid);
+		List<DataGathering> dataList = new ArrayList<DataGathering>();
+		try {
+			view.setViewName("redirect:/deliverables");
+			dataList =  deliverablesService.getDeliverablesList(dObj);
+			if(dataList != null && dataList.size() > 0){
+				XSSFWorkbook  workBook = new XSSFWorkbook ();
+		        XSSFSheet sheet = workBook.createSheet();
+		        XSSFRow headingRow = sheet.createRow(0);
+		        headingRow.createCell((short)0).setCellValue("Project");
+	            headingRow.createCell((short)1).setCellValue("Work");
+	            headingRow.createCell((short)2).setCellValue("Contarct");
+	            headingRow.createCell((short)3).setCellValue("Deliverable Type");
+	            headingRow.createCell((short)4).setCellValue("Description");
+	            headingRow.createCell((short)5).setCellValue("Status");
+
+	            short rowNo = 1;
+	            for (DataGathering obj : dataList) {
+	                XSSFRow row = sheet.createRow(rowNo);
+	                row.createCell((short)0).setCellValue(obj.getProject_id_fk() +" - "+ obj.getProject_name());
+	                row.createCell((short)1).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
+	                row.createCell((short)2).setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_name());
+	                row.createCell((short)3).setCellValue(obj.getDeliverable_type_fk());
+	                row.createCell((short)4).setCellValue(obj.getDeliverable_description());
+	                row.createCell((short)5).setCellValue(obj.getStatus_fk());
+	          
+	                rowNo++;
+	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+                Date date = new Date();
+                String fileName = "Deliverables_"+dateFormat.format(date);
+                
+                try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+			}else{
+				attributes.addFlashAttribute("error",dataExportNoData);
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	
+}

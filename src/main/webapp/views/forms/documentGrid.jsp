@@ -270,7 +270,7 @@
 		
 	
 		$('.close-message').delay(3000).fadeOut('slow');
-            getDocumentList()
+            getDocumentList();
         });
         
         function clearFilters(){
@@ -329,8 +329,8 @@
              		$.each(data,function(key,val){
              			var document_no = "'"+val.document_no+"'";
                         var actions = '<a href="javascript:void(0);"  onclick="getDocument('+document_no+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-    /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
-     */                   	var rowArray = [];    	                 
+    /*                     			  +'<a onclick="deleteDocument('+document_no+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+     */                 var rowArray = [];    	                 
                        	
                     	var workName = '';
                         if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }

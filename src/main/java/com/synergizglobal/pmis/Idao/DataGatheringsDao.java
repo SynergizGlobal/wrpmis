@@ -1,0 +1,29 @@
+package com.synergizglobal.pmis.Idao;
+
+import java.util.List;
+
+import com.synergizglobal.pmis.model.DataGathering;
+
+public interface DataGatheringsDao {
+
+	public List<DataGathering> getDataGatheringsList(DataGathering obj) throws Exception;
+
+	public List<DataGathering> getDataGatherigsStatusList(DataGathering obj) throws Exception;
+
+	public List<DataGathering> getDataGatherigsProjectPriorityList(DataGathering obj) throws Exception;
+
+	public List<DataGathering> getStatusList() throws Exception;
+
+	public List<DataGathering> getPriorityList() throws Exception;
+
+	public DataGathering getDataGathering(DataGathering obj) throws Exception;
+
+	public List<DataGathering> getWorksList() throws Exception;
+
+	public boolean addDataGathering(DataGathering obj) throws Exception;
+
+	public boolean updateDataGathering(DataGathering obj) throws Exception;
+
+	public boolean deleteDataGathering(DataGathering obj) throws Exception;
+
+}

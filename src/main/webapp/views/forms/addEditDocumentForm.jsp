@@ -599,7 +599,7 @@
 				var filename = $('#documentsFile'+rowNo)[0].files[0].name;
 			    $('#fileVal'+rowNo).html(filename);
 			}
-			 var validator =	$('#documentForm').validate({
+		    var validator =	$('#documentForm').validate({
 				 errorClass: "my-error-class",
 				 validClass: "my-valid-class",
 				 ignore: ":hidden:not(.validate-dropdown)",

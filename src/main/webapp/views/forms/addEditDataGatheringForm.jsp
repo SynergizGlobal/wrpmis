@@ -1,11 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add / Edit Data Gathering</title>
+    <title>
+    	 <c:if test="${action eq 'edit'}">Update Data Gathering </c:if>
+		 <c:if test="${action eq 'add'}"> Add Data Gathering </c:if>
+	</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -20,6 +26,22 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
+         .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.my-error-class {
+   			 color:red;
+		}
+		.my-valid-class {
+   			 color:green;
+		}
     </style>
 </head>
 
@@ -34,33 +56,44 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Data Gathering</h6>
+                                <h6>
+                               		 <c:if test="${action eq 'edit'}">Update Data Gathering </c:if>
+		 							 <c:if test="${action eq 'add'}"> Add Data Gathering </c:if>
+                               </h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <form action="#">
-                            <div class="row">
+	                            <c:if test="${action eq 'edit'}">				                
+				                 	<form action="<%=request.getContextPath() %>/update-data-gathering" id="dataGatherigForm" name="dataGatherigForm" method="post" class="form-horizontal" role="form" >
+	                            </c:if>
+				                <c:if test="${action eq 'add'}">				                
+				                	<form action="<%=request.getContextPath() %>/add-data-gathering" id="dataGatherigForm" name="dataGatherigForm" method="post" class="form-horizontal" role="form" >
+							    </c:if>
+	                            <div class="row">
+	                            <input type="hidden" name="id" id="id" value="${dataGatheringDetails.id }" />
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Project Priority</p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <select class="searchable validate-dropdown" name="project_priority_fk" id="project_priority_fk">
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${priorityList }">
+		                                     <option value="${obj.project_priority_fk }" <c:if test="${dataGatheringDetails.project_priority_fk eq obj.project_priority_fk}">selected</c:if>>${obj.project_priority_fk}</option>
+		                                </c:forEach>
                                     </select>
+                                    <span id="project_priority_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Status</p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${statusList }">
+		                                     <option value="${obj.status_fk }" <c:if test="${dataGatheringDetails.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
+		                                </c:forEach>
                                     </select>
+                                    <span id="status_fkError" class="error-msg" ></span>
                                 </div>
                                 <!-- <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Work Name</p>
@@ -73,26 +106,43 @@
                                 </div> -->
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							<c:if test="${action eq 'add'}">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <input id="work_name" type="text" class="validate">
-                                    <label for="work_name">Work Name</label>
+                                   <p class="searchable_label">Work Name</p>
+                                   <select class="searchable validate-dropdown" name="work_id_fk" id="work_id_fk">
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${worksList }">
+		                                     <option value="${obj.work_id_fk }" <c:if test="${dataGatheringDetails.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_id_fk} - ${obj.work_name}</option>
+		                                </c:forEach>
+                                    </select>
+                                    <span id="work_id_fkError" class="error-msg" ></span>
+                                   
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+                            </c:if>
+							<c:if test="${action eq 'edit'}">
+							  <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+								<div class="col s12 m8 input-field"> 
+									    <p class="searchable_label"> Work </p>
+	                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${dataGatheringDetails.work_id_fk}- ${dataGatheringDetails.work_name}" readonly />
+	                            </div>
+	                            <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							</c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="target_date" type="text" class="validate datepicker">
+                                    <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${dataGatheringDetails.target_date }">
                                     <label for="target_date">Target Date</label>
                                     <button type="button" id="target_date_icon" class="white"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="start_date" type="text" class="validate datepicker">
+                                    <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${dataGatheringDetails.start_date }">
                                     <label for="start_date">Start Date</label>
                                     <button type="button" id="start_date_icon" class="white"><i
                                             class="fa fa-calendar"></i></button>
@@ -102,7 +152,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="finish_date" type="text" class="validate datepicker">
+                                    <input id="finish_date" name="finish_date" type="text" class="validate datepicker" value="${dataGatheringDetails.finish_date }">
                                     <label for="finish_date">Finish Date</label>
                                     <button type="button" id="finish_date_icon" class="white"><i
                                             class="fa fa-calendar"></i></button>
@@ -130,8 +180,8 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="textarea1">Remarks</label>
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${dataGatheringDetails.remarks }</textarea>
+                                    <label for="remarks">Remarks</label>
                                 </div>
                             </div>
 
@@ -140,14 +190,18 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button style="width: 100%;" class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateDataGatherigForm();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addDataGatherigForm();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                               <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                          <a href="<%=request.getContextPath()%>/data-gathering" class="btn waves-effect waves-light bg-s white-text"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -161,6 +215,20 @@
         </div>
     </div>
 
+ <!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
 
         <!-- footer included -->
@@ -177,11 +245,19 @@
     
 
      <script>
+     $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
      $(document).ready(function () {
          $('select:not(.searchable)').formSelect();
          $('.searchable').select2();
-         $('#textarea1,#textarea2,#textarea3').characterCounter();
-         $("#target_date,#start_date,#finish_date").datepicker();
+         $('#remarks').characterCounter();
+        // $("#target_date,#start_date,#finish_date").datepicker();
          $('#target_date_icon').click(function () {
              event.stopPropagation();
              $('#target_date').click();
@@ -196,6 +272,91 @@
          });
 
      });
+     
+     function addDataGatherigForm(){
+     	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	  			document.getElementById("dataGatherigForm").submit();	
+     	}
+     }
+     
+     function updateDataGatherigForm(){
+      	if(validator.form()){ // validation perform
+ 	        	$(".page-loader").show();	    		
+ 	  			document.getElementById("dataGatherigForm").submit();	
+      	}
+      }
+     
+     var validator =	$('#dataGatherigForm').validate({
+		 errorClass: "my-error-class",
+		 validClass: "my-valid-class",
+		 ignore: ":hidden:not(.validate-dropdown)",
+  		    rules: {
+  		 		  "project_priority_fk": {
+  			 		required: false
+  			 	  },"work_id_fk": {
+  			 		required: true
+  			 	  },"status_fk": {
+  		 		    required: false
+  			 	  }
+  		 	},
+  		    messages: {
+  		 		 "project_priority_fk": {
+  				 	required: 'This field is required',
+  			 	  },"work_id_fk": {
+  			 		required: ' This field is required'
+  			 	  },"status_fk": {
+  		 			required: ' This field is required'
+  		 	  	  }
+	   		},
+	   		errorPlacement:function(error, element){
+	   		 	if (element.attr("id") == "project_priority_fk" ){
+					 document.getElementById("project_priority_fkError").innerHTML="";
+			 		 error.appendTo('#project_priority_fkError');
+				}else if(element.attr("id") == "work_id_fk" ){
+				   document.getElementById("work_id_fkError").innerHTML="";
+			 	   error.appendTo('#work_id_fkError');
+				}else if(element.attr("id") == "status_fk" ){
+					document.getElementById("status_fkError").innerHTML="";
+				 	error.appendTo('#status_fkError');
+				}else{
+ 					error.insertAfter(element);
+		        } 
+	   		},invalidHandler: function (form, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                    var position = validator.errorList[0].element;
+                    jQuery('html, body').animate({
+                        scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                    }, 1000);
+                }
+            },submitHandler:function(form){
+		    	form.submit();
+		    }
+		});   
+	 
+	 $.validator.addMethod("dateFormat",
+        	    function(value, element) {
+        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+        	    	//return dtRegex.test(value);
+        	    },
+        	    //"Date format (Aug 02,2020)"
+        	    "Date format (DD-MM-YYYY)"
+        	);
+            
+            
+            $('select').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            $('input').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
  </script>
 
 

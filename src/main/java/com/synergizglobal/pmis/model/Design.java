@@ -9,8 +9,9 @@ public class Design {
 	private String design_id, contract_id_fk, department_id_fk,department_name, hod, dy_hod,designation, prepared_by_id_fk, consultant_contract_id_fk,
 	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,
-	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,
-	 revision_status_fk,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,issue_category_id,created_by_user_id_fk,contract_short_name;
+	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
+	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,issue_category_id,created_by_user_id_fk,contract_short_name;
+	
 	
 	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
 	
@@ -18,7 +19,32 @@ public class Design {
 	
 	private List<Design> designRevisions;
 	
+
+	public String getRevision_date() {
+		return revision_date;
+	}
+
+	public void setRevision_date(String revision_date) {
+		this.revision_date = revision_date;
+	}
+
 	
+	public String getSubmited_to_proof_consultant_fk() {
+		return submited_to_proof_consultant_fk;
+	}
+
+	public void setSubmited_to_proof_consultant_fk(String submited_to_proof_consultant_fk) {
+		this.submited_to_proof_consultant_fk = submited_to_proof_consultant_fk;
+	}
+
+	public String getApproval_by_proof_consultant_fk() {
+		return approval_by_proof_consultant_fk;
+	}
+
+	public void setApproval_by_proof_consultant_fk(String approval_by_proof_consultant_fk) {
+		this.approval_by_proof_consultant_fk = approval_by_proof_consultant_fk;
+	}
+
 	public String getIssue_description() {
 		return issue_description;
 	}
@@ -442,5 +468,7 @@ public class Design {
 	public void setContract_short_name(String contract_short_name) {
 		this.contract_short_name = contract_short_name;
 	}
+
+	
 
 }

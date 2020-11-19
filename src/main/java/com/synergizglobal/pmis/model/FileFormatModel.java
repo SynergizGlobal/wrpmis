@@ -21,7 +21,7 @@ public class FileFormatModel {
 	
 	public static List<String> getDesignFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Contract ID,	Department,	HOD,	Dy HOD,	Prepared By,	Consultant Contract ID,	Proof Consultant Contract ID,	Structure,	Component,	Drawing Type,	Contractor Drawing No,	MRVC Drawing No,	Division Drawing No,	HQ Drawing No,	Drawing Title,	Planned Start,	Planned Finish,	Revision,	Consultant Submission,	MRVC Reviewed,	Divisional Submission,	Divisional Approval,	HQ Submission,	HQ Approval,	GFC Released,	As Built Status,	As Built Date,	Remarks";
+		String columns = "Work ID, Contract ID,	Department,	HOD,	Dy HOD,	Prepared By,	Consultant,	Proof Consultant ID ,Submitted to Proof Consultant,	approval by  Proof Consultant,	Structure,	Structure ID,	Drawing Type,	Contractor Drawing No,	MRVC Drawing No,	Division Drawing No,	HQ Drawing No,	Drawing Title,	Planned Start,	Planned Finish, 	Consultant Submission,	MRVC Reviewed/ approval,	Submission to Division,	Divisional Approval,	Submission to HQ,	HQ Approval,	GFC Released,	As Built Drawing Status,	As Built Drawing Date,	Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

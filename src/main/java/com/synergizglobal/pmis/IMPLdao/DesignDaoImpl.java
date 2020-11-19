@@ -521,21 +521,24 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			for (Design obj : designsList) {
 				String department = null;
-				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) {
-					String deptqry ="SELECT department from department where department_name = ?";
-					department = (String)jdbcTemplate.queryForObject( deptqry,new Object[] {obj.getDepartment_id_fk()} ,String.class);
-				}
-				
-				obj.setDepartment_id_fk(department);
+				/*
+				 * if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { String deptqry
+				 * ="SELECT department from department where department_name = ?"; department
+				 * =(String)jdbcTemplate.queryForObject( deptqry,new
+				 * Object[]{obj.getDepartment_id_fk()} ,String.class); }
+				 * 
+				 * obj.setDepartment_id_fk(department);
+				 */
 
 				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 				String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 						+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 						+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-						+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk) "
+						+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk) "
 						+ "VALUES(:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 						+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
-						+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,:divisional_submission_fk,:hq_submission_fk)";
+						+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,"
+						+ ":divisional_submission_fk,:hq_submission_fk,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk)";
 				
 
 				
@@ -555,15 +558,16 @@ public class DesignDaoImpl implements DesignDao{
 				
 				
 				if(flag && !StringUtils.isEmpty(obj.getDesignRevisions())) {
-					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,consultant_submission,mrvc_reviewed,divisional_approval,"
-							+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?)";
+					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,consultant_submission,mrvc_reviewed,divisional_approval,"
+							+ "hq_approval,revision_status_fk,remarks) VALUES(?,?,?,?,?,?,?,?,?)";
 					
 					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 				            new BatchPreparedStatementSetter() {
 								@Override
 								public void setValues(PreparedStatement ps, int i) throws SQLException {
 									try {
-										String revision = obj.getDesignRevisions().get(i).getRevision();										
+										String revision = obj.getDesignRevisions().get(i).getRevision();
+										String revision_date = obj.getDesignRevisions().get(i).getRevision_date();
 										String consultant_submission = obj.getDesignRevisions().get(i).getConsultant_submission();
 										String mrvc_reviewed = obj.getDesignRevisions().get(i).getMrvc_reviewed();
 										String divisional_approval = obj.getDesignRevisions().get(i).getDivisional_approval();
@@ -573,7 +577,8 @@ public class DesignDaoImpl implements DesignDao{
 										
 										int k = 1;
 										ps.setString(k++, obj.getDesign_id());
-										ps.setString(k++,!StringUtils.isEmpty(revision)?revision:null);									
+										ps.setString(k++,!StringUtils.isEmpty(revision)?revision:null);
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(revision_date)?revision_date:null));
 										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(consultant_submission)?consultant_submission:null));
 										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(mrvc_reviewed)?mrvc_reviewed:null));
 										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(divisional_approval)?divisional_approval:null));

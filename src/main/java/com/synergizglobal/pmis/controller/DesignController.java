@@ -452,7 +452,7 @@ public class DesignController {
 					if(workbook != null) {
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(2);
+							uploadFilesSheet = workbook.getSheetAt(1);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
 							XSSFRow headerRow = uploadFilesSheet.getRow(1);
@@ -532,7 +532,7 @@ public class DesignController {
 					if(workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(2);
+							uploadFilesSheet = workbook.getSheetAt(1);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
 							//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
@@ -547,67 +547,81 @@ public class DesignController {
 								design = new Design();
 								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
-									design.setContract_id_fk(formatter.formatCellValue(row.getCell(0)).trim());
+									design.setWork_id_fk(formatter.formatCellValue(row.getCell(0)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
-									design.setDepartment_id_fk(formatter.formatCellValue(row.getCell(1)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
-									design.setHod(formatter.formatCellValue(row.getCell(2)).trim());								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-									design.setDy_hod(formatter.formatCellValue(row.getCell(3)).trim());											
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
-									design.setPrepared_by_id_fk(formatter.formatCellValue(row.getCell(4)).trim());								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
-									design.setConsultant_contract_id_fk(formatter.formatCellValue(row.getCell(5)).trim());										
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
-									design.setProof_consultant_contract_id_fk(formatter.formatCellValue(row.getCell(6)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
-									design.setStructure_type_fk(formatter.formatCellValue(row.getCell(7)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
-									design.setComponent(formatter.formatCellValue(row.getCell(8)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(9)).trim()))
-									design.setDrawing_type_fk(formatter.formatCellValue(row.getCell(9)).trim());
+									design.setContract_id_fk(formatter.formatCellValue(row.getCell(1)).trim());
 								
+								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
+									design.setDepartment_id_fk(formatter.formatCellValue(row.getCell(2)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
+									design.setHod(formatter.formatCellValue(row.getCell(3)).trim());								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
+									design.setDy_hod(formatter.formatCellValue(row.getCell(4)).trim());											
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
+									design.setPrepared_by_id_fk(formatter.formatCellValue(row.getCell(5)).trim());								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
+									design.setConsultant_contract_id_fk(formatter.formatCellValue(row.getCell(6)).trim());										
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
+									design.setProof_consultant_contract_id_fk(formatter.formatCellValue(row.getCell(7)).trim());
+								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
+									design.setSubmited_to_proof_consultant_fk(formatter.formatCellValue(row.getCell(8)).trim());
+								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(9)).trim()))
+									design.setApproval_by_proof_consultant_fk(formatter.formatCellValue(row.getCell(9)).trim());
 								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(10)).trim()))
-									design.setContractor_drawing_no(formatter.formatCellValue(row.getCell(10)).trim());
+									design.setStructure_type_fk(formatter.formatCellValue(row.getCell(10)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(11)).trim()))
-									design.setMrvc_drawing_no(formatter.formatCellValue(row.getCell(11)).trim());
+									design.setComponent(formatter.formatCellValue(row.getCell(11)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(12)).trim()))
-									design.setDivision_drawing_no(formatter.formatCellValue(row.getCell(12)).trim());								
+									design.setDrawing_type_fk(formatter.formatCellValue(row.getCell(12)).trim());
+								
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(13)).trim()))
-									design.setHq_drawing_no(formatter.formatCellValue(row.getCell(13)).trim());											
+									design.setContractor_drawing_no(formatter.formatCellValue(row.getCell(13)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(14)).trim()))
-									design.setDrawing_title(formatter.formatCellValue(row.getCell(14)).trim());								
+									design.setMrvc_drawing_no(formatter.formatCellValue(row.getCell(14)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(15)).trim()))
-									design.setPlanned_start(formatter.formatCellValue(row.getCell(15)).trim());										
+									design.setDivision_drawing_no(formatter.formatCellValue(row.getCell(15)).trim());								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(16)).trim()))
-									design.setPlanned_finish(formatter.formatCellValue(row.getCell(16)).trim());
+									design.setHq_drawing_no(formatter.formatCellValue(row.getCell(16)).trim());											
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(17)).trim()))
-									design.setRevision(formatter.formatCellValue(row.getCell(17)).trim());
-								
+									design.setDrawing_title(formatter.formatCellValue(row.getCell(17)).trim());								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(18)).trim()))
-									design.setConsultant_submission(formatter.formatCellValue(row.getCell(18)).trim());
-								
-								
+									design.setPlanned_start(formatter.formatCellValue(row.getCell(18)).trim());										
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(19)).trim()))
-									design.setMrvc_reviewed(formatter.formatCellValue(row.getCell(19)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(20)).trim()))
-									design.setDivisional_submission_fk(formatter.formatCellValue(row.getCell(20)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(21)).trim()))
-									design.setDivisional_approval(formatter.formatCellValue(row.getCell(21)).trim());
+									design.setPlanned_finish(formatter.formatCellValue(row.getCell(19)).trim());
 								
+								/*
+								 * if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(20)).trim()))
+								 * design.setRevision(formatter.formatCellValue(row.getCell(20)).trim());
+								 */
+								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(20)).trim()))
+									design.setConsultant_submission(formatter.formatCellValue(row.getCell(20)).trim());
+								
+								
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(21)).trim()))
+									design.setMrvc_reviewed(formatter.formatCellValue(row.getCell(21)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(22)).trim()))
-									design.setHq_submission_fk(formatter.formatCellValue(row.getCell(22)).trim());										
+									design.setDivisional_submission_fk(formatter.formatCellValue(row.getCell(22)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(23)).trim()))
-									design.setHq_approval(formatter.formatCellValue(row.getCell(23)).trim());
+									design.setDivisional_approval(formatter.formatCellValue(row.getCell(23)).trim());
+								
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(24)).trim()))
-									design.setGfc_released(formatter.formatCellValue(row.getCell(24)).trim());
+									design.setHq_submission_fk(formatter.formatCellValue(row.getCell(24)).trim());										
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(25)).trim()))
-									design.setAs_built_status(formatter.formatCellValue(row.getCell(25)).trim());
+									design.setHq_approval(formatter.formatCellValue(row.getCell(25)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(26)).trim()))
-									design.setAs_built_date(formatter.formatCellValue(row.getCell(26)).trim());
+									design.setGfc_released(formatter.formatCellValue(row.getCell(26)).trim());
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(27)).trim()))
-									design.setRemarks(formatter.formatCellValue(row.getCell(27)).trim());
+									design.setAs_built_status(formatter.formatCellValue(row.getCell(27)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(28)).trim()))
+									design.setAs_built_date(formatter.formatCellValue(row.getCell(28)).trim());
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(29)).trim()))
+									design.setRemarks(formatter.formatCellValue(row.getCell(29)).trim());
 								
 								design.setPlanned_start(DateParser.parse(design.getPlanned_start()));
 								design.setPlanned_finish(DateParser.parse(design.getPlanned_finish()));
@@ -620,7 +634,7 @@ public class DesignController {
 
 								List<Design> pObjList = new ArrayList<Design>();
 								if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) {
-									XSSFSheet uploadFilesSheet2 = workbook.getSheetAt(3);
+									XSSFSheet uploadFilesSheet2 = workbook.getSheetAt(2);
 									for(int j = 2; j<= uploadFilesSheet2.getLastRowNum();j++){
 										XSSFRow row2 = uploadFilesSheet2.getRow(j);
 										// Sets the Read data to the model class
@@ -628,7 +642,7 @@ public class DesignController {
 										
 										Design pObj = new Design();
 										
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
+										/*if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
 											pObj.setMrvc_drawing_no(formatter2.formatCellValue(row2.getCell(0)).trim());
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(1)).trim()))
 											pObj.setRevision(formatter2.formatCellValue(row2.getCell(1)).trim());
@@ -643,8 +657,20 @@ public class DesignController {
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(6)).trim()))
 											pObj.setRevision_status_fk(formatter2.formatCellValue(row2.getCell(6)).trim());	
 										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(7)).trim()))
-											pObj.setRemarks(formatter2.formatCellValue(row2.getCell(7)).trim());	
+											pObj.setRemarks(formatter2.formatCellValue(row2.getCell(7)).trim());*/	
 										
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
+											pObj.setMrvc_drawing_no(formatter2.formatCellValue(row2.getCell(0)).trim());
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(1)).trim()))
+											pObj.setRevision(formatter2.formatCellValue(row2.getCell(1)).trim());
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(2)).trim()))
+											pObj.setRevision_date(formatter2.formatCellValue(row2.getCell(2)).trim());
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(3)).trim()))
+											pObj.setRevision_status_fk(formatter2.formatCellValue(row2.getCell(3)).trim());
+										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(4)).trim()))
+											pObj.setRemarks(formatter2.formatCellValue(row2.getCell(4)).trim());
+										
+										pObj.setRevision_date(DateParser.parse(pObj.getRevision_date()));
 										pObj.setConsultant_submission(DateParser.parse(pObj.getConsultant_submission()));
 										pObj.setMrvc_reviewed(DateParser.parse(pObj.getMrvc_reviewed()));
 										pObj.setDivisional_approval(DateParser.parse(pObj.getDivisional_approval()));

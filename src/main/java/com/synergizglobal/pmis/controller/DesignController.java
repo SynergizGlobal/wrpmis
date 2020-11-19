@@ -346,7 +346,7 @@ public class DesignController {
 	}
 	
 	@RequestMapping(value = "/export-design", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportSafety(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Design design,RedirectAttributes attributes){
+	public void exportDesign(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Design design,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.designGrid);
 		List<Design> dataList = new ArrayList<Design>();
 		String userId = null;String userName = null;

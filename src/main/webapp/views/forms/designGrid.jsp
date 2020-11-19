@@ -640,20 +640,20 @@
 			$("#getForm").submit();
 		}
 	
-	     function exportDesign(){
-     	 var contract_id_fk  = $("#contract_id_fk ").val();
-     	 var department_id_fk  = $("#department_id_fk ").val();
-     	 var hod  = $("#hod ").val();
-     	 var structure_type_fk  = $("#structure_type_fk ").val();
-     	 var drawing_type_fk  = $("#drawing_type_fk ").val();
-     	 
-     	 $("#exportContract_id_fk").val(contract_id_fk);
-     	 $("#exportDepartment_id_fk").val(department_id_fk);
-     	 $("#exportHod").val(hod);
-     	 $("#exportStructure_type_fk").val(structure_type_fk);
-     	 $("#exportDrawing_type_fk").val(drawing_type_fk);
-     	 $("#exportDesignForm ").submit();
-  	}
+	    function exportDesign(){
+	     	 var contract_id_fk  = $("#contract_id_fk ").val();
+	     	 var department_id_fk  = $("#department_id_fk ").val();
+	     	 var hod  = $("#hod ").val();
+	     	 var structure_type_fk  = $("#structure_type_fk ").val();
+	     	 var drawing_type_fk  = $("#drawing_type_fk ").val();
+	     	 
+	     	 $("#exportContract_id_fk").val(contract_id_fk);
+	     	 $("#exportDepartment_id_fk").val(department_id_fk);
+	     	 $("#exportHod").val(hod);
+	     	 $("#exportStructure_type_fk").val(structure_type_fk);
+	     	 $("#exportDrawing_type_fk").val(drawing_type_fk);
+	     	 $("#exportDesignForm ").submit();
+	  	}
     
     </script>
 </body>

@@ -623,6 +623,8 @@ public class DesignController {
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(29)).trim()))
 									design.setRemarks(formatter.formatCellValue(row.getCell(29)).trim());
 								
+								design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getPlanned_start()));
+								design.setApproval_by_proof_consultant_fk(DateParser.parse(design.getPlanned_start()));
 								design.setPlanned_start(DateParser.parse(design.getPlanned_start()));
 								design.setPlanned_finish(DateParser.parse(design.getPlanned_finish()));
 								design.setConsultant_submission(DateParser.parse(design.getConsultant_submission()));
@@ -684,7 +686,7 @@ public class DesignController {
 								}
 								
 								
-								if(!StringUtils.isEmpty(design) && !StringUtils.isEmpty(design.getContract_id_fk()) && !StringUtils.isEmpty(design.getDepartment_id_fk())) {
+								if(!StringUtils.isEmpty(design)) {
 									designsList.add(design);
 								}
 							}

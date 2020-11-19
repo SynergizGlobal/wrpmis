@@ -21,44 +21,60 @@ public class FileFormatModel {
 	
 	public static List<String> getDesignFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work ID, Contract ID,	Department,	HOD,	Dy HOD,	Prepared By,	Consultant,	Proof Consultant ID ,Submitted to Proof Consultant,	approval by  Proof Consultant,	Structure,	Structure ID,	Drawing Type,	Contractor Drawing No,	MRVC Drawing No,	Division Drawing No,	HQ Drawing No,	Drawing Title,	Planned Start,	Planned Finish, 	Consultant Submission,	MRVC Reviewed/ approval,	Submission to Division,	Divisional Approval,	Submission to HQ,	HQ Approval,	GFC Released,	As Built Drawing Status,	As Built Drawing Date,	Remarks";
+		String columns = "Work ID, Contract ID,Department,HOD,Dy HOD,Prepared By,Consultant,Proof Consultant ID ,Submitted to Proof Consultant,approval byProof Consultant,Structure,Structure ID,Drawing Type,Contractor Drawing No,MRVC Drawing No,Division Drawing No,HQ Drawing No,Drawing Title,Planned Start,Planned Finish, Consultant Submission,MRVC Reviewed/ approval,Submission to Division,Divisional Approval,Submission to HQ,HQ Approval,GFC Released,As Built Drawing Status,As Built Drawing Date,Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}
-
 		return fileFormat;
 	}
 	
 	public static List<String> getP6WbsFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Contract ID,	FOB ID,	  WBS Code,	 WBS Name,	 Parent WBS Code,	 WBS Category";
+		String columns = "Contract ID,FOB ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}
-
 		return fileFormat;
 	}
 	public static List<String> getP6ActivitiesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "	WBS Code,	Task Code,	Activity Name,	Activity Status,	Baseline Start,	Baseline Finish,    Start,	 Finish,	Float	";
+		String columns = "WBS Code,Task Code,Activity Name,Activity Status,Baseline Start,Baseline Finish,Start, Finish,Float";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}
-
 		return fileFormat;
 	}
 	
 	public static List<String> getP6UpdateFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "	WBS Code,	Task Code,	Activity Name,	Activity Status,  Start,	 Finish,	Float	";
+		String columns = "WBS Code,Task Code,Activity Name,Activity Status,Start, Finish,Float";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}
-
+		return fileFormat;
+	}
+	
+	public static List<String> getStripChartActivitiesSheet_3_FileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Strip Chart Type,Contract ID,Structure,Component,Activity,Units,Line,Section,Component ID,Order,Latitude,Longitude";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}		
+		return fileFormat;
+	}
+	
+	public static List<String> getStripChartActivitiesSheet_4_FileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Contract ID,Structure,Component,Component ID,Activity,Line,Planned Start Date,Planned Finish Date,Actual Start Date,Actual Finish Date,Unit,Total Scope,Completed,Weightage Point,Components Detail,Section,Remarks,Strip Chart ID";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}		
 		return fileFormat;
 	}
 }

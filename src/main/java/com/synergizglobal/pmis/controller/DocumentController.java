@@ -71,14 +71,14 @@ public class DocumentController {
 	public String dataExportNoData;
 	
 	
-	@RequestMapping(value="/document",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView document(HttpSession session){
+	@RequestMapping(value="/documents",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView documents(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.documentGrid);
 		try {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("document : " + e.getMessage());
+			logger.error("documents : " + e.getMessage());
 		}
 		return model;
 	}
@@ -201,7 +201,7 @@ public class DocumentController {
 	public ModelAndView addDocument(@ModelAttribute Document obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName("redirect:/document");
+			model.setViewName("redirect:/documents");
 			obj.setSubmission_date(DateParser.parse(obj.getSubmission_date()));
 			obj.setApproval_date(DateParser.parse(obj.getApproval_date()));
 			boolean flag =  documentService.addDocument(obj);
@@ -221,7 +221,7 @@ public class DocumentController {
 	public ModelAndView updateDocument(@ModelAttribute Document obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName("redirect:/document");
+			model.setViewName("redirect:/documents");
 			obj.setSubmission_date(DateParser.parse(obj.getSubmission_date()));
 			obj.setApproval_date(DateParser.parse(obj.getApproval_date()));
 			boolean flag =  documentService.updateDocument(obj);
@@ -242,7 +242,7 @@ public class DocumentController {
 	public ModelAndView deleteDocument(@ModelAttribute Document obj){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName("redirect:/document");
+			model.setViewName("redirect:/documents");
 			boolean flag =  documentService.deleteDocument(obj);
 		}catch (Exception e) {
 			logger.error("deleteDocument : " + e.getMessage());
@@ -256,7 +256,7 @@ public class DocumentController {
 		ModelAndView view = new ModelAndView(PageConstants.documentGrid);
 		List<Document> dataList = new ArrayList<Document>();
 		try {
-			view.setViewName("redirect:/document");
+			view.setViewName("redirect:/documents");
 			dataList =   documentService.getDocumentsList(dObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();

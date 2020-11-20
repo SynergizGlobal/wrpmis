@@ -83,7 +83,7 @@
                                 <div class="m-1 ">
                                    <a href="javascript:void(0);" onclick="openUploadDesignsModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="/pmis/Designs.xlsx" download>here</a> for the template</p>
+                                    <p style="padding-top:1rem"> Click <a href="/pmis/Designs_Drawings.xlsx" download>here</a> for the template</p>
                                 </div>
                             </div>
 

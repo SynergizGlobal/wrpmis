@@ -61,6 +61,13 @@
 		    right: 15px;
 		    font: normal normal normal 14px/1 FontAwesome;
 		}
+		.dataTables_filter label::after {
+    position: relative;
+    content: '\f002';
+    color: #2E58AD;
+    right: 15px;
+    font: normal normal normal 14px/1 FontAwesome;
+}
     </style>
 </head>
 
@@ -302,11 +309,11 @@
                 // paging: false,
                 initComplete: function () {
                 	$('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '100%!important', 'display': 'inline-block' });
-	                    $('select[name="datatable-activities_length"]').addClass('browser-default table-length');
+	                   /*  $('select[name="datatable-activities_length"]').addClass('browser-default table-length');
 	                	$('select[name="datatable-activities_length"]').parent().after($('select[name="datatable-activities_length"]'));
-	                	$('.dataTables_length .select-wrapper').remove();
+	                	$('.dataTables_length .select-wrapper').remove(); */
    	    	        
-	   	    	    var input = $('.dataTables_filter input').unbind(),
+	   	    	  /*   var input = $('.dataTables_filter input').unbind(),
 	   	            self = this.api(),
 	   	            $searchButton = $('<button class="btn-small bg-m t-c">')
 	   	                       .text('Go')
@@ -320,7 +327,7 @@
 	   	                          $searchButton.click(); 
 	   	                       }) 
 	   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
-		   	          $('.dataTables_filter div').append($searchButton, $clearButton);
+		   	          $('.dataTables_filter div').append($searchButton, $clearButton); */
                 }
             });
             
@@ -381,12 +388,12 @@
    				        },   				        
    				        //"sDom": 'l<"toolbar">frtip',
 	   	                "initComplete": function () {
-	   	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '100%!important', 'display': 'inline-block' });
-	   	                    $('select[name="datatable-activities_length"]').addClass('browser-default table-length');
+	   	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px ', 'display': 'inline-block' });
+	   	                   /*  $('select[name="datatable-activities_length"]').addClass('browser-default table-length');
 	   	                	$('select[name="datatable-activities_length"]').parent().after($('select[name="datatable-activities_length"]'));
-	   	                	$('.dataTables_length .select-wrapper').remove();
+	   	                	$('.dataTables_length .select-wrapper').remove(); */
 		   	    	        
-			   	    	    var input = $('.dataTables_filter input').unbind(),
+			   	    	   /*  var input = $('.dataTables_filter input').unbind(),
 			   	            self = this.api(),
 			   	            $searchButton = $('<button class="btn-small bg-m t-c">')
 			   	                       .text('Go')
@@ -400,7 +407,7 @@
 			   	                          $searchButton.click(); 
 			   	                       }) 
 			   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
-				   	          $('.dataTables_filter div').append($searchButton, $clearButton);
+				   	          $('.dataTables_filter div').append($searchButton, $clearButton); */
 	   	                },
 	   	             columnDefs: [
 	                     {

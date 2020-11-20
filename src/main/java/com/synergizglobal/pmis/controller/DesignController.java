@@ -623,8 +623,8 @@ public class DesignController {
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(29)).trim()))
 									design.setRemarks(formatter.formatCellValue(row.getCell(29)).trim());
 								
-								design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getPlanned_start()));
-								design.setApproval_by_proof_consultant_fk(DateParser.parse(design.getPlanned_start()));
+								design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getSubmited_to_proof_consultant_fk()));
+								design.setApproval_by_proof_consultant_fk(DateParser.parse(design.getApproval_by_proof_consultant_fk()));
 								design.setPlanned_start(DateParser.parse(design.getPlanned_start()));
 								design.setPlanned_finish(DateParser.parse(design.getPlanned_finish()));
 								design.setConsultant_submission(DateParser.parse(design.getConsultant_submission()));

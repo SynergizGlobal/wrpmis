@@ -22,11 +22,15 @@
         p a {
             color: blue;
         }
+        .mdl-data-table td{
+        	white-space:pre-line;
+        	word-break:break-word;
+        }
           td:last-child,
         td:last-of-type {
             white-space: inherit;
         }
-         /* font size increase  */
+       
          .input-field .searchable_label{
             font-size: 0.9rem;
         }

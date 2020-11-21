@@ -79,6 +79,25 @@
                 width: 90% !important;
             }
         }
+        .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		 .page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}			
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 <body>
@@ -99,7 +118,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form id="stripChartForm" name="stripChartForm" method="post" enctype="multipart/form-data">
+                    <form action="<%=request.getContextPath() %>/update=pmis-progrss-form" id="progressForm" name="progressForm" method="post" >
                         <div class="row">
                             <div class="col m1 hide-on-small-only"></div>
                             <div class="col m10 s12">
@@ -111,15 +130,13 @@
                                             <div class="col m2 hide-on-small-only"></div>
                                             <div class="col s12 m4 input-field">
                                                 <p class="searchable_label">Milestone</p>
-                                                <select class="searchable">
-                                                    <option value="" disabled selected>Select</option>
-                                                    <option value="1">Option 1</option>
-                                                    <option value="2">Option 2</option>
-                                                    <option value="3">Option 3</option>
+                                                <select id="contract_id_fk" name="contract_id_fk" onchange="getMileStoneFilterList();" class="searchable">
+                                                    <option value="">Select</option>
+                                                    
                                                 </select>
                                             </div>
                                             <div class="col s12 m4 input-field">
-                                                <button class="btn bg-m waves-effect waves-light t-c clear-filters "
+                                                <button class="btn bg-m waves-effect waves-light t-c clear-filters "  onclick="clearFilter();"
                                                     style="margin-top: 8px;width: 100%;">Clear Filters</button>
                                             </div>
                                         </div>
@@ -137,7 +154,7 @@
 
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
-                                        <table class="mdl-data-table" id="example">
+                                        <table class="mdl-data-table" id="datatable-table">
                                             <thead>
                                                 <tr>
                                                     <th>
@@ -160,8 +177,8 @@
                                                     <th class="no-sort">Actual</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
+                                            <tbody id="filerList">
+                                                <!-- <tr>
                                                     <td>
                                                         <p>
                                                             <label>
@@ -198,81 +215,8 @@
                                     <td class="input-field">
                                         <input type="text" id="actual1" readonly>
                                     </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>
-                                                <label>
-                                                    <input type="checkbox" name="activity_check" id="check_2" />
-                                                    <span></span>
-                                                </label>
-                                            </p>
-                                        </td>
-                                        <td>SRS</td>
-                                        <td>Approval of Project Charter </td>
-                                        <td>13/10/2018</td>
-                                        <td>23/10/2020</td>
-                                        <td>
-                                            <div class="date-holder">
-                                                <input id="start_date" type="text" class="validate datepicker"
-                                                    placeholder="Start Date" value="11/12/2019">
-                                                <button type="button" id="start_date_icon" class="white"><i
-                                                        class="fa fa-calendar"></i></button>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="date-holder">
-                                                <input id="finish_date" type="text" class="validate datepicker"
-                                                    placeholder="Finish Date" value="13/10/2020">
-                                                <button type="button" id="finish_date_icon" class="white"><i
-                                                        class="fa fa-calendar"></i></button>
-
-                                            </div>
-                                        </td>
-                                        <td><span id="scope2">70</span></td>
-                                        <td><span id="completed2">27</span></td>
-                                        <td class="input-field">
-                                            <input type="text" id="actual2" readonly>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>
-                                                <label>
-                                                    <input type="checkbox" name="activity_check" id="check_3" />
-                                                    <span></span>
-                                                </label>
-                                            </p>
-                                        </td>
-                                        <td>Project-1</td>
-                                        <td>PMIS Installation in MRVC Server </td>
-                                        <td>13/08/2019</td>
-                                        <td>12/10/2020</td>
-                                        <td>
-                                            <div class="date-holder">
-
-                                                <input id="start_date" type="text" class="validate datepicker"
-                                                    placeholder="Start Date" value="11/12/2019">
-                                                <button type="button" id="start_date_icon" class="white"><i
-                                                        class="fa fa-calendar"></i></button>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="date-holder">
-
-                                                <input id="finish_date" type="text" class="validate datepicker"
-                                                    placeholder="Finish Date" value="13/10/2020">
-                                                <button type="button" id="finish_date_icon" class="white"><i
-                                                        class="fa fa-calendar"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><span id="scope3">12</span></td>
-                                        <td><span id="completed3">3</span></td>
-                                        <td class="input-field">
-                                            <input type="text" id="actual3" readonly>
-                                        </td>
-                                    </tr>
-
+                                    </tr> -->
+                                    
                                     </tbody>
                                     </table>
                                 </div>
@@ -292,7 +236,7 @@
                                             </div> -->
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="button" class="btn waves-effect waves-light bg-m"
+                                                <button type="button" onclick="updateProgress();" class="btn waves-effect waves-light bg-m"
                                                     style="width: 100%;">Update</button>
                                             </div>
                                         </div>
@@ -330,6 +274,21 @@
             </div>
         </div>
     </div>
+    
+     <div class="page-loader-2" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+    
     <!-- Page Loader ends-->
     
  <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -344,9 +303,17 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 
     <script>
+	    $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
         $(document).ready(function () {
             $('.searchable').select2();
-            $('#start_date,#finish_date').datepicker();
+           // $('#start_date,#finish_date').datepicker();
             $('#start_date_icon').click(function () {
                 event.stopPropagation();
                 $('#start_date').click();
@@ -356,7 +323,7 @@
                 $('#finish_date').click();
             });
 
-            $('#example').DataTable({
+            $('#datatable-table').DataTable({
                 columnDefs: [
                     {
                         // targets: [0, 1, 2],
@@ -368,34 +335,174 @@
                 "ScrollX": true,
                 "scrollCollapse": true,
                 "sScrollY": 400,
-                // paging: false,
+                 paging: true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+            getMileStoneFilterList();
         });
-        // update actual function for single value with out ids
-        /*  function updateActual(){
-             $('input[name="activity_check"]').each(function(){
-                 if($(this).prop('checked')){  
-                     var scope_val=parseInt($(this).parent().closest('tr').find('td:last-of-type').prev().prev().children().text());
-                     var completed_val=parseInt($(this).parent().closest('tr').find('td:last-of-type').prev().children().text());
-                     var remaining=scope_val-completed_val;
-                     var actual_val=$(this).parent().closest('tr').find('td:last-of-type').children().val(remaining);
-                 }
-             })           
-         } */
-
-        // update actual function for single value with ids
-        function updateActual() {
-            $('input[name="activity_check"]').each(function () {
-                if ($(this).prop('checked')) {
-                    let no = $(this).attr('id').split("_")[1];
-                    let remaining = parseInt($('#scope' + no).text()) - parseInt($('#completed' + no).text());
-                    $('#actual' + no).val(remaining);
-                }
-            })
+        function clearFilter(){
+        	$(".page-loader").show();
+            $("#contract_id_fk").val("");
+        	$('.searchable').select2();
+        	getMileStoneFilterList();
         }
+
+        function getMileStoneList() {
+        	$(".page-loader").show();
+        	 var contract_id_fk = $("#contract_id_fk").val();
+    		if ($.trim(contract_id_fk) == "") {
+            	$("#contract_id_fk option:not(:first)").remove();
+            	var myParams = { contract_id_fk: contract_id_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractMileStonesFilterList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.milestone_name)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        
+        function getMileStoneFilterList(){
+       	 $(".page-loader-2").show();
+       	 var html = '';
+       	 getMileStoneList();
+       	 $("#filerList").html('');
+       	 $("#select-all").prop('checked', false);
+       	 var contract_id_fk = $("#contract_id_fk").val();
+       	table = $('#datatable-table').DataTable();
+		 
+		table.destroy();
+		
+		$.fn.dataTable.moment('DD-MMM-YYYY');
+		table = $('#datatable-table').DataTable({
+    		"bStateSave": true,
+    		fixedHeader: true,
+            "fnStateSave": function (oSettings, oData) {
+                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+            },
+            "fnStateLoad": function (oSettings) {
+                return JSON.parse(localStorage.getItem('MRVCDataTables'));
+            },
+            columnDefs: [
+                {
+                    targets: [0, 1, 2],
+                    className: 'mdl-data-table__cell--non-numeric'
+                },
+                { orderable: false, 'aTargets': ['nosort'] }
+            ],
+            // "ScrollX": true,
+            "sScrollX": "100%",
+             "sScrollXInner": "100%",
+             "bScrollCollapse": true,
+            initComplete: function () {
+                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+            }
+        }).rows().remove().draw();
+		
+		table.state.clear();		
+  	     var myParams = {contract_id_fk : contract_id_fk };
+  	     $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getMileStoneList",
+            data: myParams, cache: false,
+            success: function (data) {
+  	            	
+  	                if (data.length > 0) {
+  	                    $.each(data, function (i, val) {
+	  	                    var num = i;
+	  	                  	var rowArray = []; 
+	  	                    var checkBox = 	'<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></p></td>';
+		  	                    			'<input type="hidden" name="ids"  id="ids'+num+'"  value="' + $.trim(val.id) + '" /></td>';
+	                    	var milestone_name =  '<td>' + $.trim(val.milestone_name) + '</td>';
+	                    	var activity_description =	'<td>' + $.trim(val.activity_description) + '</td>';
+	                    	var planned_start =	'<td>' + $.trim(val.planned_start) + '</td>';
+	                    	var planned_finish = '<td>' + $.trim(val.planned_finish) + '</td>';
+	                    	var actual_starts =	'<td> <div class="date-holder"><input id="actual_starts'+num+'" name="actual_starts" type="text" class="validate datepicker" placeholder="Start Date" value="' + $.trim(val.actual_start) + '">'
+                            					+'<button type="button" id="start_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
+                           	var actual_finishs =  '<td> <div class="date-holder"><input id="actual_finishs'+num+'" name="actual_finishs" type="text" class="validate datepicker" placeholder="Finish Date" value="' + $.trim(val.actual_finish) + '">'
+                          						+'<button type="button" id="finish_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
+                          	var totalScope =	'<td><span>' + $.trim(val.total_scope) + '</span>'
+          	 								+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" /></td>';
+          	 				var completed = '<td><span>' + $.trim(val.completed) + '</span>'
+          	 								+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>';
+          	 				var actual = '<td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly></td></tr>';
+                   			rowArray.push(checkBox);
+                   			rowArray.push(milestone_name);
+                   			rowArray.push(activity_description);
+                   			rowArray.push(planned_start);
+                   			rowArray.push(planned_finish);
+                   			rowArray.push(actual_starts);
+                   			rowArray.push(actual_finishs);
+                   			rowArray.push(totalScope);
+                   			rowArray.push(completed);
+                   			rowArray.push(actual);
+  	                    			 
+                    			 
+                    		//$("#filerList").append(html);
+                    		 table.row.add(rowArray).draw( true );
+                    	 	
+                    	 	$("#check_"+num).change(function() {
+                    	 		//alert("#actualScopes"+num)
+                    	 		$("#actualScopes"+num).val('');
+                    	 	})
+                    	 	$("#select-all").change(function() { 
+                    	 		if($("#check_"+num).is(':unchecked')){
+                    	 			$("#actualScopes"+num).val('');
+                    	 		}
+                    	 	})
+                    	 //	var noOfBoxes = document.getElementsByClassName("check")
+	                    	   
+	                    	$("input[type='checkbox'].check").change(function(){
+                   		    var a = $("input[type='checkbox'].check");
+                   		    if(a.length == a.filter(":checked").length){
+                   		    	$("#select-all").prop('checked', true);
+                   		    }
+                   		    else {
+                  		       	    $("#select-all").prop('checked', false);
+                  		   		 }
+                   		});
+  	                 });
+  	               }
+  	               $(".page-loader-2").hide();
+  	            }
+  	        });
+  	    
+       
+       }
+     
+        
+        // update actual function for single value with ids
+        function updateActual(){
+         $('input[name="activity_check"]').each(function(){
+             if($(this).prop('checked')){    
+                 let no = $(this).attr('id').split("_")[1];
+                 //alert($('#totalScopes'+no).val())
+                 var scope = $('#totalScopes'+no).val();
+                 var completed = $('#completedScopes'+no).val();
+                 
+                 if($.trim(scope) != '' && $.trim(completed) != '' ){
+                	 let remaining = parseFloat(scope)- parseFloat(completed);
+                     $('#actualScopes'+no).val(remaining);
+                 }
+                 
+             }
+         })           
+     }
+  
 
         // select or deselect all checkboxes 
         $('#select-all').change(function () {
@@ -409,6 +516,82 @@
             });
         });
 
+      //This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+      
+        //update button functionality
+        function updateProgress(){
+       	 if(validator.form()){ // validation perform
+   	        	$(".page-loader").show();	    		
+   	   			document.getElementById("progressForm").submit();	
+        	}
+        }
+        
+        
+        var validator = $('#progressForm').validate({
+       	 ignore: ":hidden:not(.validate-dropdown)",
+       	 rules: {
+       		  "activity_check" :{
+       			 required: true
+       		  },"contract_id_fk": {
+   		 		required: true
+   		 	  },"actualScopes": {
+   		 		 required: function(element){
+   		             return $(".check").is(':checked');
+   		         }
+   		 	  }
+       	 },
+               messages: {
+                    "activity_check": {
+                       required: "You must check at least 1 box"
+                    },"project_id": {
+   			 		required: 'Select project'
+   			 	 },"contract_id_fk": {
+   		 			required: 'Select contract'
+   		 	  	 }
+       	 },errorPlacement:function(error, element){
+     		 	        if(element.attr("name") == "activity_check" ){
+   					     document.getElementById("checkBoxError").innerHTML="";
+   				 	     error.appendTo('#checkBoxError');
+     		 	        }else if (element.attr("id") == "contract_id_fk" ){
+   			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
+   			 			 error.appendTo('#contract_id_fkError');
+	   			 	    }
+       	 },submitHandler:function(form){
+   		    	//form.submit();
+   		    }
+        });
+        
+        $('select').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        
+        $('input').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
     </script>
 
 </body>

@@ -1,17 +1,27 @@
 package com.synergizglobal.pmis.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.PMISProgressService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.StripChart;
 
 @Controller
 public class PMISProgressController {
@@ -21,9 +31,11 @@ public class PMISProgressController {
     }
 	
 	Logger logger = Logger.getLogger(PMISProgressController.class);
-
 	
-	@RequestMapping(value="/progress-form",method={RequestMethod.GET,RequestMethod.POST})
+	@Autowired
+	PMISProgressService service;
+	
+	@RequestMapping(value="/pmis-progress-form",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView progressForm(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.PMISprogressForm);
 		try {
@@ -35,11 +47,55 @@ public class PMISProgressController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getMileStoneList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getMileStoneList(@ModelAttribute StripChart obj){
+		List<StripChart> fileterData = null;
+		try{
+			fileterData = service.getMileStoneFilterList(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getMileStoneFilterList() : "+e.getMessage());
+		}
+		return fileterData;
+	}
 	
 	
+	@RequestMapping(value = "/ajax/getContractMileStonesFilterList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getContractMileStonesFilterList(@ModelAttribute StripChart obj){
+		List<StripChart> ContractFileterData = null;
+		try{
+			ContractFileterData = service.getContractMileStonesFilterList(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getContractMileStonesFilterList() : "+e.getMessage());
+		}
+		return ContractFileterData;
+	}
 	
-	
-	
-	
+	@RequestMapping(value = "/update=pmis-progrss-form", method = {RequestMethod.POST})
+	public ModelAndView updateProgressForm(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String userId = null;
+		try{
+			model.setViewName("redirect:/pmis-progress-form");
+			//userId = (String) session.getAttribute("USER_ID");
+			//obj.setCreated_by_user_id_fk(userId);
+			obj.setActual_start(DateParser.parse(obj.getActual_start()));
+			obj.setActual_finish(DateParser.parse(obj.getActual_finish()));
+			boolean flag =  service.updateProgressForm(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "ProgressForm Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating ProgressForm is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating ProgressForm is failed. Try again.");
+			logger.error("updateProgressForm : " + e.getMessage());
+		}
+		return model;
+	}
 	
 }

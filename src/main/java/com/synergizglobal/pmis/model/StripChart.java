@@ -5,14 +5,72 @@ import org.springframework.web.multipart.MultipartFile;
 public class StripChart {
 	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
 	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
-	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longtitude,
-	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,
+	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longtitude,activity_description,milestone_name,
+	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,id,total_scope,
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
 	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name;
 	
+	
 	private MultipartFile stripChartFile,uploadFile;
 	
-	private String [] actualScopes,strip_chart_ids,completedScopes,totalScopes;
+	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs;
+	
+	
+	public String[] getActual_starts() {
+		return actual_starts;
+	}
+
+	public void setActual_starts(String[] actual_starts) {
+		this.actual_starts = actual_starts;
+	}
+
+	public String[] getActual_finishs() {
+		return actual_finishs;
+	}
+
+	public void setActual_finishs(String[] actual_finishs) {
+		this.actual_finishs = actual_finishs;
+	}
+
+	public String[] getIds() {
+		return ids;
+	}
+
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getTotal_scope() {
+		return total_scope;
+	}
+
+	public void setTotal_scope(String total_scope) {
+		this.total_scope = total_scope;
+	}
+
+	public String getMilestone_name() {
+		return milestone_name;
+	}
+
+	public void setMilestone_name(String milestone_name) {
+		this.milestone_name = milestone_name;
+	}
+
+	public String getActivity_description() {
+		return activity_description;
+	}
+
+	public void setActivity_description(String activity_description) {
+		this.activity_description = activity_description;
+	}
 
 	public String[] getTotalScopes() {
 		return totalScopes;

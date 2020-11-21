@@ -62,4 +62,7 @@ public class PageConstants {
 	public static final String addEditDeliverablesForm = "forms/addEditDeliverablesForm";
 	
 	public static final String PMISprogressForm = "forms/PMISprogressForm";
+	
+	public static final String trainingGrid = "forms/trainingGrid";
+	public static final String addEditTrainingForm = "forms/addEditTrainingForm";
 }

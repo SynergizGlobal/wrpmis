@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,6 +82,9 @@
                 width: 90% !important;
             }
         }
+         .error-msg label {
+            color: red !important;
+        }
         .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -130,7 +136,7 @@
                                             <div class="col m2 hide-on-small-only"></div>
                                             <div class="col s12 m4 input-field">
                                                 <p class="searchable_label">Milestone</p>
-                                                <select id="contract_id_fk" name="contract_id_fk" onchange="getMileStoneFilterList();" class="searchable">
+                                                <select id="contract_id_fk" name="contract_id_fk" onchange="getMileStoneFilterList();" class="searchable validate-dropdown">
                                                     <option value="">Select</option>
                                                     
                                                 </select>
@@ -141,17 +147,19 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="col m3 hide-on-small-only"></div>
                                 </div>
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col m8 s12 center-align" style="margin-top: 10px;">
-                                        <a class="btn waves-effect bg-m" onclick="updateActual()">Finish
+                                        <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()">Finish
                                             Activities</a>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
-
+								<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
+								<span id="actualScopesError" class="error-msg" style="text-align:center"></span>
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
                                         <table class="mdl-data-table" id="datatable-table">
@@ -160,7 +168,7 @@
                                                     <th>
                                                         <p>
                                                             <label>
-                                                                <input type="checkbox" name="select-all"
+                                                                <input type="checkbox" name="select-all" 
                                                                     id="select-all" />
                                                                 <span></span>
                                                             </label>
@@ -178,45 +186,51 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="filerList">
-                                                <!-- <tr>
+                                           <%--  <c:forEach items="${mileStoneList}" var="obj" varStatus="index">
+                                                <tr>
                                                     <td>
                                                         <p>
                                                             <label>
-                                                                <input type="checkbox" name="activity_check"
-                                                                    id="check_1" />
+                                                                <input type="checkbox" name="activity_check" class="check"
+                                                                    id="check_${index.count }" />
                                                                 <span></span>
                                                             </label>
                                                         </p>
                                                     </td>
-                                                    <td>Submission of Project Charter </td>
-                                                    <td>Software Requirements Specifications (Submission)</td>
-                                                    <td>11/12/2019</td>
-                                                    <td>13/10/2020</td>
+                                                    <td>${obj.milestone_name}</td>
+                                                    <td>${obj.activity_description}</td>
+                                                    <td>${obj.planned_start}</td>
+                                                    <td>${obj.planned_finish}</td>
                                                     <td>
                                                         <div class="date-holder">
-                                                            <input id="start_date" type="text"
+                                                            <input id="start_date${index.count }" type="text"
                                                                 class="validate datepicker" placeholder="Start Date"
-                                                                value="11/12/2019">
-                                                            <button type="button" id="start_date_icon" class="white"><i
+                                                                value="${obj.actual_start}">
+                                                            <button type="button" id="start_date_icon${index.count }" class="white"><i
                                                                     class="fa fa-calendar"></i></button>
                                                     </td>
                                     </div>
                                     <td>
 
                                         <div class="date-holder">
-                                            <input id="finish_date" type="text" class="validate datepicker"
-                                                placeholder="Finish Date" value="13/10/2020">
-                                            <button type="button" id="finish_date_icon" class="white"><i
+                                            <input type="text" class="validate datepicker" 
+                                                placeholder="Finish Date" value="${obj.actual_finish}">
+                                            <button type="button" id="finish_date_icon${index.count }" class="white"><i
                                                     class="fa fa-calendar"></i></button>
                                         </div>
                                     </td>
-                                    <td><span id="scope1">10</span></td>
-                                    <td><span id="completed1">7</span></td>
-                                    <td class="input-field">
-                                        <input type="text" id="actual1" readonly>
-                                    </td>
-                                    </tr> -->
+                                    <td><span id="scope1">${obj.total_scope}
+                                    <input type="hidden"  name="totalScopes"  id="totalScopes${index.count }" value="${obj.total_scope}" >
+                                    <input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(mileStoneList) }" /></span></td>
                                     
+                                    <td><span id="completed1">${obj.completed}
+                                    <input type="hidden"  name="completedScopes"  id="completedScopes${index.count }" value="${obj.completed}" ></span></td>
+                                    <td class="input-field">
+                                        <input type="text"  name="actualScopes"  id="actualScopes${index.count }"  readonly >
+                                        
+                                    </td>
+                                    </tr>  
+                                    </c:forEach>--%>
                                     </tbody>
                                     </table>
                                 </div>
@@ -225,7 +239,7 @@
                                 <div class="col m1 hide-on-small-only"></div>
                                 <div class="col m10 s12">
 
-                                    <input type="hidden" id="strip_chart_id" name="strip_chart_id" />
+                                    
                                     <div class="row">
                                         <!-- <div class="col s12 m4">
                                                 <div class="center-align m-1">
@@ -322,20 +336,28 @@
                 event.stopPropagation();
                 $('#finish_date').click();
             });
-
-            $('#datatable-table').DataTable({
+         
+             $('#datatable-table').DataTable({
+            	"sPaginationType": "full_numbers",
                 columnDefs: [
                     {
+                    	'targets': [0, 1, 2],
+                        'searchable':false,
+                        'orderable':false,
+                        'className': 'mdl-data-table__cell--non-numeric',
+                       
                         // targets: [0, 1, 2],
                         // className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
+                       
                     },
                     { "width": "10px", "targets": [6] },
                 ],
+                'order': [1, 'asc'],
                 "ScrollX": true,
                 "scrollCollapse": true,
                 "sScrollY": 400,
-                 paging: true,
+                
+                 //paging: true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
@@ -398,13 +420,21 @@
             "fnStateLoad": function (oSettings) {
                 return JSON.parse(localStorage.getItem('MRVCDataTables'));
             },
-            columnDefs: [
+            "sPaginationType": "full_numbers",
+            ccolumnDefs: [
                 {
-                    targets: [0, 1, 2],
-                    className: 'mdl-data-table__cell--non-numeric'
+                	'targets': [0, 1, 2],
+                    'searchable':false,
+                    'orderable':false,
+                    'className': 'mdl-data-table__cell--non-numeric',
+                    
+                    // targets: [0, 1, 2],
+                    // className: 'mdl-data-table__cell--non-numeric',
+                   
                 },
-                { orderable: false, 'aTargets': ['nosort'] }
+                { "width": "10px", "targets": [6] },
             ],
+            'order': [1, 'asc'],
             // "ScrollX": true,
             "sScrollX": "100%",
              "sScrollXInner": "100%",
@@ -417,7 +447,7 @@
 		table.state.clear();		
   	     var myParams = {contract_id_fk : contract_id_fk };
   	     $.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getMileStoneList",
+            url: "<%=request.getContextPath()%>/ajax/getMileStoneFilterList",
             data: myParams, cache: false,
             success: function (data) {
   	            	
@@ -425,8 +455,8 @@
   	                    $.each(data, function (i, val) {
 	  	                    var num = i;
 	  	                  	var rowArray = []; 
-	  	                    var checkBox = 	'<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></p></td>';
-		  	                    			'<input type="hidden" name="ids"  id="ids'+num+'"  value="' + $.trim(val.id) + '" /></td>';
+	  	                    var checkBox = 	'<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span><input type="hidden" name="ids"  id="ids'+num+'"  value="' + $.trim(val.id) + '" /></span></label></p></td>';
+		  	                    			
 	                    	var milestone_name =  '<td>' + $.trim(val.milestone_name) + '</td>';
 	                    	var activity_description =	'<td>' + $.trim(val.activity_description) + '</td>';
 	                    	var planned_start =	'<td>' + $.trim(val.planned_start) + '</td>';
@@ -436,9 +466,9 @@
                            	var actual_finishs =  '<td> <div class="date-holder"><input id="actual_finishs'+num+'" name="actual_finishs" type="text" class="validate datepicker" placeholder="Finish Date" value="' + $.trim(val.actual_finish) + '">'
                           						+'<button type="button" id="finish_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
                           	var totalScope =	'<td><span>' + $.trim(val.total_scope) + '</span>'
-          	 								+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" /></td>';
+          	 								+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
           	 				var completed = '<td><span>' + $.trim(val.completed) + '</span>'
-          	 								+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>';
+          	 								+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" />';
           	 				var actual = '<td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly></td></tr>';
                    			rowArray.push(checkBox);
                    			rowArray.push(milestone_name);
@@ -459,22 +489,21 @@
                     	 		//alert("#actualScopes"+num)
                     	 		$("#actualScopes"+num).val('');
                     	 	})
-                    	 	$("#select-all").change(function() { 
+                    	 	$("#select-all").change(function() {
                     	 		if($("#check_"+num).is(':unchecked')){
                     	 			$("#actualScopes"+num).val('');
                     	 		}
                     	 	})
-                    	 //	var noOfBoxes = document.getElementsByClassName("check")
-	                    	   
-	                    	$("input[type='checkbox'].check").change(function(){
-                   		    var a = $("input[type='checkbox'].check");
-                   		    if(a.length == a.filter(":checked").length){
-                   		    	$("#select-all").prop('checked', true);
-                   		    }
-                   		    else {
-                  		       	    $("#select-all").prop('checked', false);
-                  		   		 }
-                   		});
+                    	 	//var noOfBoxes = document.getElementsByClassName("check")
+                    	 	
+                    	 
+
+                    	 	    $('#datatable-table').on('click', function () {
+                    	 	    	$("#check_"+num).change(function() {
+                            	 		$("#actualScopes"+num).val('');
+                            	 	})
+                    	 	    });
+                    	 	
   	                 });
   	               }
   	               $(".page-loader-2").hide();
@@ -482,12 +511,26 @@
   	        });
   	    
        
-       }
-     
+       } 
+        $('#datatable-table').on('click', function () {
+        $("input[type='checkbox'].check").change(function(){
+   		    var a = $("input[type='checkbox'].check");
+   		    if(a.length == a.filter(":checked").length){
+   		    	$("#select-all").prop('checked', true);
+   		    }
+   		    else {
+  		       	    $("#select-all").prop('checked', false);
+  		   		 }
+   			});
+        });
+    	 	 $('#select-all').on('click', function(){
+    	 	   var rows = table.rows({ 'search': 'applied' }).nodes();
+    	 	   $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    	 	}); 
         
         // update actual function for single value with ids
-        function updateActual(){
-         $('input[name="activity_check"]').each(function(){
+       function updateActual(){
+          $('input[name="activity_check"]').each(function(){
              if($(this).prop('checked')){    
                  let no = $(this).attr('id').split("_")[1];
                  //alert($('#totalScopes'+no).val())
@@ -501,9 +544,9 @@
                  
              }
          })           
-     }
-  
-
+     } 
+    	 	
+    
         // select or deselect all checkboxes 
         $('#select-all').change(function () {
             var _this = this;
@@ -553,7 +596,7 @@
        		  "activity_check" :{
        			 required: true
        		  },"contract_id_fk": {
-   		 		required: true
+   		 		required: false
    		 	  },"actualScopes": {
    		 		 required: function(element){
    		             return $(".check").is(':checked');
@@ -563,19 +606,22 @@
                messages: {
                     "activity_check": {
                        required: "You must check at least 1 box"
-                    },"project_id": {
-   			 		required: 'Select project'
-   			 	 },"contract_id_fk": {
+                    },"contract_id_fk": {
    		 			required: 'Select contract'
-   		 	  	 }
+   		 	  	 },"actualScopes": {
+   		 	  			required: 'click on Fisnish Activities'
+   	   		 	  }
        	 },errorPlacement:function(error, element){
      		 	        if(element.attr("name") == "activity_check" ){
-   					     document.getElementById("checkBoxError").innerHTML="";
-   				 	     error.appendTo('#checkBoxError');
+	   					     document.getElementById("checkBoxError").innerHTML="";
+	   				 	     error.appendTo('#checkBoxError');
      		 	        }else if (element.attr("id") == "contract_id_fk" ){
-   			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
-   			 			 error.appendTo('#contract_id_fkError');
-	   			 	    }
+	   			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
+	   			 			 error.appendTo('#contract_id_fkError');
+	   			 	    }else if (element.attr("name") == "actualScopes" ){
+	   			 	    	 document.getElementById("actualScopesError").innerHTML="";
+	   			 			 error.appendTo('#actualScopesError');
+		   			 	    }
        	 },submitHandler:function(form){
    		    	//form.submit();
    		    }

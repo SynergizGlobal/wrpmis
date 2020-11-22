@@ -14,5 +14,15 @@ public interface TrainingDao {
 
 	public List<Training> getStatusList(Training obj) throws Exception;
 
+	public List<Training> getStatusList() throws Exception;
+
+	public List<Training> getCategoriesList() throws Exception;
+
+	public List<Training> getTrainingTypesList() throws Exception;
+
+	public Training getTraining(Training obj) throws Exception;
+
+	public List<Training> getDepartmentsList() throws Exception;
+
 
 }

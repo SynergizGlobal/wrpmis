@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.PMISProgressService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Controller
@@ -37,8 +38,11 @@ public class PMISProgressController {
 	
 	@RequestMapping(value="/pmis-progress-form",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView progressForm(HttpSession session){
+		StripChart obj = null;
 		ModelAndView model = new ModelAndView(PageConstants.PMISprogressForm);
 		try {
+			List<StripChart> mileStoneList = service.getMileStoneList(obj);
+			model.addObject("mileStoneList", mileStoneList);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -47,7 +51,7 @@ public class PMISProgressController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getMileStoneList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getMileStoneFilterList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getMileStoneList(@ModelAttribute StripChart obj){
 		List<StripChart> fileterData = null;

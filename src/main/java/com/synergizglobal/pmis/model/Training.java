@@ -1,10 +1,140 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 public class Training {
 
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours ;
+
+	private List<Training> training;
+	private List<Training> trainingAttendees;
+	
+	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
+	training_session_ids, session_nos, start_times, end_times, remarkss;
+
+	
+
+	public List<Training> getTrainingAttendees() {
+		return trainingAttendees;
+	}
+
+	public void setTrainingAttendees(List<Training> trainingAttendees) {
+		this.trainingAttendees = trainingAttendees;
+	}
+
+	public List<Training> getTraining() {
+		return training;
+	}
+
+	public void setTraining(List<Training> training) {
+		this.training = training;
+	}
+
+	public String[] getTraining_attendees_ids() {
+		return training_attendees_ids;
+	}
+
+	public void setTraining_attendees_ids(String[] training_attendees_ids) {
+		this.training_attendees_ids = training_attendees_ids;
+	}
+
+	public String[] getTraining_id_fks() {
+		return training_id_fks;
+	}
+
+	public void setTraining_id_fks(String[] training_id_fks) {
+		this.training_id_fks = training_id_fks;
+	}
+
+	public String[] getTraining_session_id_fks() {
+		return training_session_id_fks;
+	}
+
+	public void setTraining_session_id_fks(String[] training_session_id_fks) {
+		this.training_session_id_fks = training_session_id_fks;
+	}
+
+	public String[] getDepartment_fks() {
+		return department_fks;
+	}
+
+	public void setDepartment_fks(String[] department_fks) {
+		this.department_fks = department_fks;
+	}
+
+	public String[] getAttendees() {
+		return attendees;
+	}
+
+	public void setAttendees(String[] attendees) {
+		this.attendees = attendees;
+	}
+
+	public String[] getMobile_nos() {
+		return mobile_nos;
+	}
+
+	public void setMobile_nos(String[] mobile_nos) {
+		this.mobile_nos = mobile_nos;
+	}
+
+	public String[] getRequired_fks() {
+		return required_fks;
+	}
+
+	public void setRequired_fks(String[] required_fks) {
+		this.required_fks = required_fks;
+	}
+
+	public String[] getParticipated_fks() {
+		return participated_fks;
+	}
+
+	public void setParticipated_fks(String[] participated_fks) {
+		this.participated_fks = participated_fks;
+	}
+
+	public String[] getTraining_session_ids() {
+		return training_session_ids;
+	}
+
+	public void setTraining_session_ids(String[] training_session_ids) {
+		this.training_session_ids = training_session_ids;
+	}
+
+	public String[] getSession_nos() {
+		return session_nos;
+	}
+
+	public void setSession_nos(String[] session_nos) {
+		this.session_nos = session_nos;
+	}
+
+	public String[] getStart_times() {
+		return start_times;
+	}
+
+	public void setStart_times(String[] start_times) {
+		this.start_times = start_times;
+	}
+
+	public String[] getEnd_times() {
+		return end_times;
+	}
+
+	public void setEnd_times(String[] end_times) {
+		this.end_times = end_times;
+	}
+
+	public String[] getRemarkss() {
+		return remarkss;
+	}
+
+	public void setRemarkss(String[] remarkss) {
+		this.remarkss = remarkss;
+	}
 
 	public String getHours() {
 		return hours;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.PMISProgressDao;
 import com.synergizglobal.pmis.Iservice.PMISProgressService;
+import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Service
@@ -28,5 +29,10 @@ public class PMISProgressServiceImpl implements PMISProgressService{
 	@Override
 	public boolean updateProgressForm(StripChart obj) throws Exception {
 		return dao.updateProgressForm(obj);
+	}
+
+	@Override
+	public List<StripChart> getMileStoneList(StripChart obj) throws Exception {
+		return dao.getMileStoneList(obj);
 	}
 }

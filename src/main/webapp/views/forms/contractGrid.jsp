@@ -10,18 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-<!--     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
- -->    <!-- <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-<!--     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css"> -->
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/update_page.css"> -->
+
     <style>
         .row.no-mar {
             margin-bottom: 0;
@@ -30,7 +26,6 @@
         p a {
             color: blue;
         }
-
          td{
        		 word-break: break-word;
     		 word-wrap: break-word;

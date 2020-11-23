@@ -10,10 +10,10 @@
 	<title>Safety</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+	 
 	<link rel="stylesheet" href="/mrvc/resources/css/material-design-lite-v.1.0.css">
 	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+	 
 	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	

@@ -11,8 +11,6 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -338,7 +336,8 @@
             });
          
              $('#datatable-table').DataTable({
-            	"sPaginationType": "full_numbers",
+            	//"sPaginationType": "full_numbers",
+            	 "paging": false,
                 columnDefs: [
                     {
                     	'targets': [0, 1, 2],
@@ -420,7 +419,8 @@
             "fnStateLoad": function (oSettings) {
                 return JSON.parse(localStorage.getItem('MRVCDataTables'));
             },
-            "sPaginationType": "full_numbers",
+            //"sPaginationType": "full_numbers",
+             "paging": false,
             ccolumnDefs: [
                 {
                 	'targets': [0, 1, 2],

@@ -130,6 +130,12 @@
         .materialize-textarea::placeholder {
             color: #777;
         }
+        .select2-container {
+        	z-index:1034;
+        }
+        .select2-container--default .select2-selection--single{
+        	background-color:transparent;
+        }
     </style>
 </head>
 
@@ -603,8 +609,8 @@
             $('.searchable').select2();
             $('.modal').modal();
             $('#textarea1,#textarea2,#textarea3').characterCounter();
-            MaterialDateTimePicker.create($("#start_time"));
-            MaterialDateTimePicker.create($("#end_time"));
+            MaterialDateTimePicker.create($("#start_times0"));
+            MaterialDateTimePicker.create($("#end_times0"));
 
             $('#start_time_icon').click(function () {
                 // event.stopPropagation();

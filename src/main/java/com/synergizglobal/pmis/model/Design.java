@@ -10,7 +10,8 @@ public class Design {
 	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
-	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,issue_category_id,created_by_user_id_fk,contract_short_name;
+	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
+	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq;
 	
 	
 	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
@@ -467,6 +468,22 @@ public class Design {
 
 	public void setContract_short_name(String contract_short_name) {
 		this.contract_short_name = contract_short_name;
+	}
+
+	public String getSubmitted_to_division() {
+		return submitted_to_division;
+	}
+
+	public void setSubmitted_to_division(String submitted_to_division) {
+		this.submitted_to_division = submitted_to_division;
+	}
+
+	public String getSubmitted_to_hq() {
+		return submitted_to_hq;
+	}
+
+	public void setSubmitted_to_hq(String submitted_to_hq) {
+		this.submitted_to_hq = submitted_to_hq;
 	}
 
 	

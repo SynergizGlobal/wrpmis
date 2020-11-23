@@ -8,7 +8,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,10 +42,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.ActivitiesUploadService;
 import com.synergizglobal.pmis.common.DateParser;
-import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.ActivityObject;
-import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.StripChart;
 
@@ -471,11 +471,6 @@ public class ActivitiesUploadController {
 
 	public int uploadActivities(StripChart obj, String userId, String userName, XSSFWorkbook workbook)
 			throws Exception {
-		StripChart activity = null;
-		List<StripChart> activitiesList = new ArrayList<StripChart>();
-
-		//XSSFWorkbook workbook = null;
-		XSSFSheet uploadFilesSheet = null;
 		Writer w = null;
 		int count = 0;
 		try {
@@ -493,168 +488,152 @@ public class ActivitiesUploadController {
 					// Creates a worksheet object representing the first sheet
 					if (workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
-						/*if(sheetsCount > 0) {
-							uploadFilesSheet = workbook.getSheetAt(1);
+						if(sheetsCount > 0) {
+							XSSFSheet referenceDataSheet = workbook.getSheetAt(2);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
-							//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+							//XSSFRow headerRow = uploadFilesSheet.getRow(0);
 							
-							for(int i = 2; i<= uploadFilesSheet.getLastRowNum();i++){
-								XSSFRow row = uploadFilesSheet.getRow(i);
-								// Sets the Read data to the model class
-								DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
-								// Cell cell = row.getCell(0);
-								// String j_username = formatter.formatCellValue(row.getCell(0));
+							Set<String> scTypeList = new HashSet<String>(); 
+							Set<String> orderList = new HashSet<String>(); 
+							Set<String> latitudeList = new HashSet<String>(); 
+							Set<String> longitudeList = new HashSet<String>(); 
+							
+							DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+							for(int i = 2; i<= referenceDataSheet.getLastRowNum();i++){
+								XSSFRow row = referenceDataSheet.getRow(i);	
 								
-								activity = new StripChart();
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(0)).trim()))
-									activity.setWork_id_fk(formatter.formatCellValue(row.getCell(0)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(1)).trim()))
-									activity.setContract_id_fk(formatter.formatCellValue(row.getCell(1)).trim());
-								
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(2)).trim()))
-									activity.setDepartment_id_fk(formatter.formatCellValue(row.getCell(2)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(3)).trim()))
-									activity.setHod(formatter.formatCellValue(row.getCell(3)).trim());								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(4)).trim()))
-									activity.setDy_hod(formatter.formatCellValue(row.getCell(4)).trim());											
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(5)).trim()))
-									activity.setPrepared_by_id_fk(formatter.formatCellValue(row.getCell(5)).trim());								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(6)).trim()))
-									activity.setConsultant_contract_id_fk(formatter.formatCellValue(row.getCell(6)).trim());										
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(7)).trim()))
-									activity.setProof_consultant_contract_id_fk(formatter.formatCellValue(row.getCell(7)).trim());
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(8)).trim()))
-									activity.setSubmited_to_proof_consultant_fk(formatter.formatCellValue(row.getCell(8)).trim());
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(9)).trim()))
-									activity.setApproval_by_proof_consultant_fk(formatter.formatCellValue(row.getCell(9)).trim());
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(10)).trim()))
-									activity.setStructure_type_fk(formatter.formatCellValue(row.getCell(10)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(11)).trim()))
-									activity.setComponent(formatter.formatCellValue(row.getCell(11)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(12)).trim()))
-									activity.setDrawing_type_fk(formatter.formatCellValue(row.getCell(12)).trim());
-								
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(13)).trim()))
-									activity.setContractor_drawing_no(formatter.formatCellValue(row.getCell(13)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(14)).trim()))
-									activity.setMrvc_drawing_no(formatter.formatCellValue(row.getCell(14)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(15)).trim()))
-									activity.setDivision_drawing_no(formatter.formatCellValue(row.getCell(15)).trim());								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(16)).trim()))
-									activity.setHq_drawing_no(formatter.formatCellValue(row.getCell(16)).trim());											
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(17)).trim()))
-									activity.setDrawing_title(formatter.formatCellValue(row.getCell(17)).trim());								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(18)).trim()))
-									activity.setPlanned_start(formatter.formatCellValue(row.getCell(18)).trim());										
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(19)).trim()))
-									activity.setPlanned_finish(formatter.formatCellValue(row.getCell(19)).trim());
-								
-								
-								 * if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(20)).trim()))
-								 * activity.setRevision(formatter.formatCellValue(row.getCell(20)).trim());
-								 
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(20)).trim()))
-									activity.setConsultant_submission(formatter.formatCellValue(row.getCell(20)).trim());
-								
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(21)).trim()))
-									activity.setMrvc_reviewed(formatter.formatCellValue(row.getCell(21)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(22)).trim()))
-									activity.setDivisional_submission_fk(formatter.formatCellValue(row.getCell(22)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(23)).trim()))
-									activity.setDivisional_approval(formatter.formatCellValue(row.getCell(23)).trim());
-								
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(24)).trim()))
-									activity.setHq_submission_fk(formatter.formatCellValue(row.getCell(24)).trim());										
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(25)).trim()))
-									activity.setHq_approval(formatter.formatCellValue(row.getCell(25)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(26)).trim()))
-									activity.setGfc_released(formatter.formatCellValue(row.getCell(26)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(27)).trim()))
-									activity.setAs_built_status(formatter.formatCellValue(row.getCell(27)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(28)).trim()))
-									activity.setAs_built_date(formatter.formatCellValue(row.getCell(28)).trim());
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(29)).trim()))
-									activity.setRemarks(formatter.formatCellValue(row.getCell(29)).trim());
-								
-								activity.setPlanned_start(DateParser.parse(activity.getPlanned_start()));
-								activity.setPlanned_finish(DateParser.parse(activity.getPlanned_finish()));
-								activity.setConsultant_submission(DateParser.parse(activity.getConsultant_submission()));
-								activity.setMrvc_reviewed(DateParser.parse(activity.getMrvc_reviewed()));
-								activity.setDivisional_approval(DateParser.parse(activity.getDivisional_approval()));
-								activity.setHq_approval(DateParser.parse(activity.getHq_approval()));
-								activity.setGfc_released(DateParser.parse(activity.getGfc_released()));
-								activity.setAs_built_date(DateParser.parse(activity.getAs_built_date()));
-						
-								List<StripChart> pObjList = new ArrayList<StripChart>();
-								if(!StringUtils.isEmpty(activity.getMrvc_drawing_no())) {
-									XSSFSheet uploadFilesSheet2 = workbook.getSheetAt(2);
-									for(int j = 2; j<= uploadFilesSheet2.getLastRowNum();j++){
-										XSSFRow row2 = uploadFilesSheet2.getRow(j);
-										// Sets the Read data to the model class
-										DataFormatter formatter2 = new DataFormatter(); //creating formatter using the default locale
-										
-										StripChart pObj = new StripChart();
-										
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
-											pObj.setMrvc_drawing_no(formatter2.formatCellValue(row2.getCell(0)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(1)).trim()))
-											pObj.setRevision(formatter2.formatCellValue(row2.getCell(1)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(2)).trim()))
-											pObj.setConsultant_submission(formatter2.formatCellValue(row2.getCell(2)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(3)).trim()))
-											pObj.setMrvc_reviewed(formatter2.formatCellValue(row2.getCell(3)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(4)).trim()))
-											pObj.setDivisional_approval(formatter2.formatCellValue(row2.getCell(4)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(5)).trim()))
-											pObj.setHq_approval(formatter2.formatCellValue(row2.getCell(5)).trim());	
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(6)).trim()))
-											pObj.setRevision_status_fk(formatter2.formatCellValue(row2.getCell(6)).trim());	
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(7)).trim()))
-											pObj.setRemarks(formatter2.formatCellValue(row2.getCell(7)).trim());	
-										
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(0)).trim()))
-											pObj.setMrvc_drawing_no(formatter2.formatCellValue(row2.getCell(0)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(1)).trim()))
-											pObj.setRevision(formatter2.formatCellValue(row2.getCell(1)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(2)).trim()))
-											pObj.setRevision_date(formatter2.formatCellValue(row2.getCell(2)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(3)).trim()))
-											pObj.setRevision_status_fk(formatter2.formatCellValue(row2.getCell(3)).trim());
-										if(!StringUtils.isEmpty(formatter2.formatCellValue(row2.getCell(4)).trim()))
-											pObj.setRemarks(formatter2.formatCellValue(row2.getCell(4)).trim());
-										
-										pObj.setRevision_date(DateParser.parse(pObj.getRevision_date()));
-										pObj.setConsultant_submission(DateParser.parse(pObj.getConsultant_submission()));
-										pObj.setMrvc_reviewed(DateParser.parse(pObj.getMrvc_reviewed()));
-										pObj.setDivisional_approval(DateParser.parse(pObj.getDivisional_approval()));
-										pObj.setHq_approval(DateParser.parse(pObj.getHq_approval()));
-										
-										if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getMrvc_drawing_no())
-												&& pObj.getMrvc_drawing_no().equals(activity.getMrvc_drawing_no()))
-										pObjList.add(pObj);
-									}
-									activity.setStripChartRevisions(pObjList);
+								/**********************************************************************************/
+								int p = 0;
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
+									scTypeList.add(formatter.formatCellValue(row.getCell(p)).trim());
+								}
+								/**********************************************************************************/
+								p = 13;
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
+									orderList.add(formatter.formatCellValue(row.getCell(p)).trim());
+								}
+								/**********************************************************************************/
+								p = 15;
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
+									latitudeList.add(formatter.formatCellValue(row.getCell(p)).trim());
+								}
+								/**********************************************************************************/
+								p = 16;
+								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
+									longitudeList.add(formatter.formatCellValue(row.getCell(p)).trim());
+								}
+								/**********************************************************************************/
+							}
+							
+							StripChart activityObj = null;
+							List<StripChart> activityList = new ArrayList<StripChart>();
+							
+							Set<String> contractList = new HashSet<String>();
+							Set<String> componentList = new HashSet<String>(); 
+							Set<String> structureList = new HashSet<String>();
+							Set<String> lineList = new HashSet<String>();
+							Set<String> sectionList = new HashSet<String>();
+							
+							XSSFSheet stripChartDataSheet = workbook.getSheetAt(3);
+							for(int j = 2; j<= stripChartDataSheet.getLastRowNum();j++){
+								XSSFRow stripChartRow = stripChartDataSheet.getRow(j);
+								activityObj = new StripChart();
+								int p = 0;
+								String contract_id_fk = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(contract_id_fk)) {
+									activityObj.setContract_id_fk(contract_id_fk);
+									contractList.add(contract_id_fk);
+								}p++;
+								String strip_chart_structure = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(strip_chart_structure)) {
+									activityObj.setStrip_chart_structure(strip_chart_structure);
+									structureList.add(strip_chart_structure);
+								}p++;
+								String strip_chart_component = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(strip_chart_component)) {
+									activityObj.setStrip_chart_component(strip_chart_component);
+									componentList.add(strip_chart_component);
+								}p++;
+								String strip_chart_component_id_name = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(strip_chart_component_id_name)) {
+									activityObj.setStrip_chart_component_id_name(strip_chart_component_id_name);									
+								}p++;
+								String strip_chart_activity_name = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(strip_chart_activity_name)) {
+									activityObj.setStrip_chart_activity_name(strip_chart_activity_name);									
+								}p++;
+								String strip_chart_line = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(strip_chart_line)) {
+									activityObj.setStrip_chart_line(strip_chart_line);
+									lineList.add(strip_chart_line);
+								}p++;
+								String planned_start = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(planned_start)) {
+									activityObj.setPlanned_start(planned_start);									
+								}p++;
+								String planned_finish = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(planned_finish)) {
+									activityObj.setPlanned_finish(planned_finish);									
+								}p++;
+								String actual_start = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(actual_start)) {
+									activityObj.setActual_start(actual_start);									
+								}p++;
+								String actual_finish = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(actual_finish)) {
+									activityObj.setActual_finish(actual_finish);									
+								}p++;
+								String unit_fk = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(unit_fk)) {
+									activityObj.setUnit_fk(unit_fk);									
+								}p++;
+								String scope = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(scope)) {
+									activityObj.setScope(scope);									
+								}p++;
+								String completed = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(completed)) {
+									activityObj.setCompleted(completed);									
+								}p++;
+								String weight = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(weight)) {
+									activityObj.setWeight(weight);									
+								}p++;
+								String component_details = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(component_details)) {
+									activityObj.setComponent_details(component_details);									
+								}p++;
+								String strip_chart_section_name = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(strip_chart_section_name)) {
+									activityObj.setStrip_chart_section_name(strip_chart_section_name);
+									sectionList.add(strip_chart_section_name);
+								}p++;
+								String remarks = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(remarks)) {
+									activityObj.setRemarks(remarks);									
+								}p++;
+								String strip_chart_id = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
+								if(!StringUtils.isEmpty(strip_chart_id)) {
+									activityObj.setStrip_chart_id(strip_chart_id);									
 								}
 								
+								activityObj.setPlanned_start(DateParser.parse(activityObj.getPlanned_start()));
+								activityObj.setPlanned_finish(DateParser.parse(activityObj.getPlanned_finish()));
+								activityObj.setActual_start(DateParser.parse(activityObj.getActual_start()));
+								activityObj.setActual_finish(DateParser.parse(activityObj.getActual_finish()));
 								
-								if(!StringUtils.isEmpty(activity) && !StringUtils.isEmpty(activity.getContract_id_fk()) && !StringUtils.isEmpty(activity.getDepartment_id_fk())) {
-									activitiesList.add(activity);
+								if(!StringUtils.isEmpty(activityObj)) {
+									activityList.add(activityObj);
 								}
 							}
 							
-							if(!activitiesList.isEmpty() && activitiesList != null){
-								count  = service.uploadActivities(activitiesList);
+							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0){
+								count  = service.uploadActivities(contractList,componentList,structureList,lineList,sectionList,
+																	scTypeList,orderList,latitudeList,longitudeList,activityList);
 							}
-						}*/
+							
+						}
 						workbook.close();
 					}
 			}

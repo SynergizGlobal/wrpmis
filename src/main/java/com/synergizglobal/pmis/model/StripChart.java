@@ -5,10 +5,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class StripChart {
 	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
 	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
-	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longtitude,activity_description,milestone_name,
+	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longitude,activity_description,milestone_name,
 	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,id,total_scope,
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
-	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name;
+	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date;
 	
 	
 	private MultipartFile stripChartFile,uploadFile;
@@ -360,14 +360,6 @@ public class StripChart {
 		this.latitude = latitude;
 	}
 
-	public String getLongtitude() {
-		return longtitude;
-	}
-
-	public void setLongtitude(String longtitude) {
-		this.longtitude = longtitude;
-	}
-
 	public String getStrip_chart_line() {
 		return strip_chart_line;
 	}
@@ -558,6 +550,22 @@ public class StripChart {
 
 	public void setContract_short_name(String contract_short_name) {
 		this.contract_short_name = contract_short_name;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getData_date() {
+		return data_date;
+	}
+
+	public void setData_date(String data_date) {
+		this.data_date = data_date;
 	}
 	
 }

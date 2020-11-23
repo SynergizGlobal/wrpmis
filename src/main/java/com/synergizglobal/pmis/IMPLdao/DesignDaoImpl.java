@@ -519,6 +519,16 @@ public class DesignDaoImpl implements DesignDao{
 		int count = 0;
 		boolean flag = false;
 		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
+					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
+					+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
+					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,submitted_to_division,hq_submission_fk,submitted_to_hq,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk) "
+					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
+					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
+					+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,"
+					+ ":divisional_submission_fk,:submitted_to_division,:hq_submission_fk,:submitted_to_hq,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk)";
+			
 			for (Design obj : designsList) {
 				String department = null;
 				/*
@@ -529,17 +539,6 @@ public class DesignDaoImpl implements DesignDao{
 				 * 
 				 * obj.setDepartment_id_fk(department);
 				 */
-
-				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-				String qry = "INSERT INTO design (contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
-						+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
-						+ "planned_start,planned_finish,revision,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-						+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,hq_submission_fk,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk) "
-						+ "VALUES(:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
-						+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
-						+ ":revision,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,"
-						+ ":divisional_submission_fk,:hq_submission_fk,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk)";
-				
 
 				
 				SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);

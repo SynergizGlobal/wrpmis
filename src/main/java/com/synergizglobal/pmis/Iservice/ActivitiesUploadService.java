@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
+import java.util.Set;
 
 import com.synergizglobal.pmis.model.StripChart;
 
@@ -19,5 +20,10 @@ public interface ActivitiesUploadService {
 	int getTotalRecords(StripChart obj, String searchParameter) throws Exception;
 
 	List<StripChart> getActivitiesList(StripChart obj, Integer startIndex, Integer offset, String searchParameter) throws Exception;
+
+
+	int uploadActivities(Set<String> contractList, Set<String> componentList, Set<String> structureList,
+			Set<String> lineList, Set<String> sectionList, Set<String> scTypeList, Set<String> orderList,
+			Set<String> latitudeList, Set<String> longitudeList, List<StripChart> activityList) throws Exception;
 
 }

@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,14 @@ public class ActivitiesUploadServiceImpl implements ActivitiesUploadService{
 	public List<StripChart> getActivitiesList(StripChart obj, Integer startIndex, Integer offset, String searchParameter)
 			throws Exception {
 		return dao.getActivitiesList(obj,startIndex,offset,searchParameter);
+	}
+
+	@Override
+	public int uploadActivities(Set<String> contractList, Set<String> componentList, Set<String> structureList,
+			Set<String> lineList, Set<String> sectionList, Set<String> scTypeList, Set<String> orderList,
+			Set<String> latitudeList, Set<String> longitudeList, List<StripChart> activityList) throws Exception {
+		return dao.uploadActivities(contractList,componentList,structureList,lineList,sectionList,
+										scTypeList,orderList,latitudeList,longitudeList,activityList);
 	}
 
 }

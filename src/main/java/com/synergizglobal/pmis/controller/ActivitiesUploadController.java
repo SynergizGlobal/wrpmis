@@ -418,7 +418,7 @@ public class ActivitiesUploadController {
 							//checking given file format
 							if (headerRow2 != null) {
 								List<String> fileFormat = FileFormatModel.getStripChartData_FileFormat();
-								;
+								
 								int noOfColumns = headerRow2.getLastCellNum();
 								if (noOfColumns == fileFormat.size()) {
 									for (int i = 0; i < fileFormat.size(); i++) {

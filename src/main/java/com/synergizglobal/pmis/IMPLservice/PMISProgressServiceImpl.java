@@ -31,10 +31,6 @@ public class PMISProgressServiceImpl implements PMISProgressService{
 		return dao.updateProgressForm(obj);
 	}
 
-	@Override
-	public List<StripChart> getMileStoneList(StripChart obj) throws Exception {
-		return dao.getMileStoneList(obj);
-	}
 
 	@Override
 	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception {

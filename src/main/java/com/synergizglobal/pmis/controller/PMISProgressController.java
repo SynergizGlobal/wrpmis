@@ -41,8 +41,6 @@ public class PMISProgressController {
 		StripChart obj = null;
 		ModelAndView model = new ModelAndView(PageConstants.PMISprogressForm);
 		try {
-			List<StripChart> mileStoneList = service.getMileStoneList(obj);
-			model.addObject("mileStoneList", mileStoneList);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

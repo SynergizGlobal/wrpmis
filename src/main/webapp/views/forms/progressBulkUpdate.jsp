@@ -1088,7 +1088,7 @@
  	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td><span>' + $.trim(val.completed) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
- 	            	 			+' <td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" ></td></tr>';
+ 	            	 			+' <td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
  	                    		$("#filerList").append(html);	  
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });
@@ -1123,6 +1123,31 @@
  	                    	 		}
  	                    	 		
  	                    	 	})
+ 	                    	 	
+ 	                    	 	document.getElementById('check_'+num).onchange = function() {
+ 	                    	 		if($("#check_"+num).prop('checked')){
+ 	                    	 			 $('#actualScopes'+num).prop('readonly', false);
+ 	                    	 		}else{
+ 	                    	 			 $('#actualScopes'+num).prop('readonly', true);
+ 	                    	 		}
+ 	                    	 	  
+ 	                    	 	};
+ 	                    	 	$('#actualScopes'+num).on('blur', function(){
+ 	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
+ 	                    	 		
+ 	                    	 		if(actual < $('#actualScopes'+num).val()){
+ 	                    	 			$("#actualScopes"+num).val('');
+ 	                    	 			$('#actualScopesError'+num).html("< or =  '"+actual+"'");
+ 	                    	 		}
+ 	                    	 		else{
+ 	                    	 			$('#actualScopesError'+num).html("");
+ 	                    	 		}
+ 	                    	 	})
+ 	                    	 	$("#check_"+num).on('change', function(){
+                    	 		if($("#check_"+num).is(':unchecked')){
+                    	 			$('#actualScopesError'+num).html("");
+                    	 		}
+                    	 	})
  	                   });
  	                }
  	                $(".page-loader").hide();
@@ -1185,11 +1210,11 @@
 		 	  },"actualScopes": {
 		 		 required: function(element){
 		             return $(".check").is(':checked');
-		         },
+		         }/* ,
 	   		 		 max: function() {
 	                     return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
 	                 },
-		 				 min:0
+		 				 min:0 */
 	   		 	  }
     	 },
             messages: {

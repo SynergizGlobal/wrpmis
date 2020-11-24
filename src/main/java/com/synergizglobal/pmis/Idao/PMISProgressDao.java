@@ -12,8 +12,6 @@ public interface PMISProgressDao {
 
 	public boolean updateProgressForm(StripChart obj) throws Exception;
 
-	public List<StripChart> getMileStoneList(StripChart obj) throws Exception;
-
 	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception;
 
 }

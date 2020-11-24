@@ -168,8 +168,8 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
 								<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
-								<span id="actualScopesError" class="error-msg" style="text-align:center"></span>
-								<span  class="errMsg" style="text-align:center">Click on Finish Activities</span>
+								
+								<span  class="errMsg" id="errMsg" style="text-align:center">Click on Finish Activities</span>
 								<span  class="errMsgCheck" style="text-align:center">select Check Box first</span>
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
@@ -381,6 +381,7 @@
         function clearFilter(){
         	$(".page-loader").show();
             $("#contract_id_fk").val("");
+            $("#milestone_fk").val("");
         	$('.searchable').select2();
         	getMileStoneList();
         }
@@ -517,7 +518,7 @@
           	 											+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
           	 				var completed = 			'<td><span>' + $.trim(val.completed) + '</span>'
           	 											+'<input type="hidden" name="completedScopes" class="completed" id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" />';
-          	 				var actual = 				'<td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" ></td></tr>';
+          	 				var actual = 				'<td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly  ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
                    			
           	 				rowArray.push(checkBox);
                    			rowArray.push(milestone_name);
@@ -559,13 +560,39 @@
                     	 	        return false;
                     	 		}
                     	 	}) */
+                    	 	
+                    	 		document.getElementById('check_'+num).onchange = function() {
+                    	 		if($("#check_"+num).prop('checked')){
+                    	 			 $('#actualScopes'+num).prop('readonly', false);
+                    	 		}else{
+                    	 			 $('#actualScopes'+num).prop('readonly', true);
+                    	 		}
+                    	 	  
+                    	 	};
+                    	 	
+                    	 	
                     	 	$("#activities").on('click', function(){
                     	 		var ans = $("#actualScopes"+num).val();
                     	 		if($("#check_"+num).is(':checked') && ans != ""){
                     	 			$("#actualScopes"+num).focus();
                     	 	        $(".error-msg").hide();
                     	 		}
+                    	 		/* if ($("#progressForm input:checkbox:checked").length == 0){
+                    	 			alert('check any box ')
+                    	 		} */
                     	 		
+                    	 	})
+                    	 	
+                    	 	$('#actualScopes'+num).on('blur', function(){
+                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
+                    	 		
+                    	 		if(actual < $('#actualScopes'+num).val()){
+                    	 			$("#actualScopes"+num).val('');
+                    	 			$('#actualScopesError'+num).html("< or = '"+actual+"'");
+                    	 		}
+                    	 		else{
+                    	 			$('#actualScopesError'+num).html("");
+                    	 		}
                     	 	})
                     	 	/* $("#activities").on('click', function(){
                     	 		if($(".check").prop('checked') == true){
@@ -575,7 +602,11 @@
                     	 			$(".errMsgCheck").show();
                     	 		}
                     	 	}) */
-                    	 	
+                    	 	$("#check_"+num).on('change', function(){
+                    	 		if($("#check_"+num).is(':unchecked')){
+                    	 			$('#actualScopesError'+num).html("");
+                    	 		}
+                    	 	})
   	                 });
   	               }
   	               $(".page-loader-2").hide();
@@ -614,6 +645,9 @@
                      $('#actualScopes'+no).val(remaining);
                  }
                  
+             }
+            if($(this).prop('unchecked')){
+            	 alert("nsafj")
              }
          })           
      } 
@@ -672,11 +706,11 @@
    		 	  },"actualScopes": {
    		 		required: function(element){
 		             return $(".check").is(':checked');
-		         },
+		         }/* ,
    		 		 max: function() {
                      return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
                  },
-                 min:0
+                 min:0 */
    		 	  }
        	 },
                messages: {
@@ -695,8 +729,8 @@
 	   			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
 	   			 			 error.appendTo('#contract_id_fkError');
 	   			 	    }else if (element.attr("name") == "actualScopes" ){
-	   			 	    	 document.getElementById("actualScopesError").innerHTML="";
-	   			 			 error.appendTo('#actualScopesError');
+	   			 	    	 document.getElementById("errMsg").innerHTML="";
+	   			 			 error.appendTo('#errMsg');
 		   			 	    }
        	 },submitHandler:function(form){
    		    	//form.submit();

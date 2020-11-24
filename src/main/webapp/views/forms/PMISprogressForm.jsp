@@ -168,7 +168,8 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
 								<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
-								<span id="actualScopesError" class="errMsg" style="text-align:center">Click on Finish Activities</span>
+								<span id="actualScopesError" class="error-msg" style="text-align:center"></span>
+								<span  class="errMsg" style="text-align:center">Click on Finish Activities</span>
 								<span  class="errMsgCheck" style="text-align:center">select Check Box first</span>
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
@@ -668,8 +669,11 @@
        			 required: true
        		  },"contract_id_fk": {
    		 		required: false
-   		 	  },"actualScopes": true,
-   		 		maxlength: $('.completed').val().length
+   		 	  },"actualScopes": {
+   		 		 max: function() {
+                     return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
+                 },
+                 min:0
    		 	  }
        	 },
                messages: {
@@ -677,6 +681,8 @@
                        required: "You must check at least 1 box"
                     },"contract_id_fk": {
    		 			required: 'Select contract'
+   		 	  	 },"actualScopes": {
+   		 			required: 'text'
    		 	  	 }
        	 },errorPlacement:function(error, element){
      		 	        if(element.attr("name") == "activity_check" ){
@@ -690,7 +696,7 @@
 	   			 			 error.appendTo('#actualScopesError');
 		   			 	    }
        	 },submitHandler:function(form){
-   		    	form.submit();
+   		    	//form.submit();
    		    }
         });
         

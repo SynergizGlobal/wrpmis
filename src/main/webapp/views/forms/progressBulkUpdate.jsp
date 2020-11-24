@@ -466,6 +466,7 @@
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
+									<span id="actualScopesError" class="error-msg" style="text-align:center"></span>
 								</div>
 								<div class="col m1 hide-on-small-only"></div>
 								
@@ -1173,10 +1174,11 @@
 		 	  },"strip_chart_activity_id": {
 		 		required: false
 		 	  },"actualScopes": {
-		 		 required: function(element){
-		             return $(".check").is(':checked');
-		         }
-		 	  }
+	   		 		 max: function() {
+	                     return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
+	                 },
+		 				 min:0
+	   		 	  }
     	 },
             messages: {
                  "activity_check": {
@@ -1221,7 +1223,10 @@
 			 	    }else if (element.attr("id") == "strip_chart_activity_id" ){
 			 		     document.getElementById("strip_chart_activity_idError").innerHTML="";
 			 			 error.appendTo('#strip_chart_activity_idError');
-			 	    }
+			 	    }else if (element.attr("name") == "actualScopes" ){
+  			 	    	 document.getElementById("actualScopesError").innerHTML="";
+   			 			 error.appendTo('#actualScopesError');
+	   			 	}
     	 },submitHandler:function(form){
 		    	//form.submit();
 		    }

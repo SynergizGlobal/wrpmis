@@ -134,6 +134,7 @@ public class TrainingController {
 		}
 		return statusList;
 	}
+
 	
 	@RequestMapping(value = "/add-training-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addTrainingForm(){

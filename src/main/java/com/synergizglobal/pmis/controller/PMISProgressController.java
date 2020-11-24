@@ -64,13 +64,25 @@ public class PMISProgressController {
 		return fileterData;
 	}
 	
+	@RequestMapping(value = "/ajax/getContractsFilterListInPMISStripChart", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getContarctsList(@ModelAttribute StripChart obj){
+		List<StripChart> fileterData = null;
+		try{
+			fileterData = service.getContractsFilterList(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getContractsFilterList() : "+e.getMessage());
+		}
+		return fileterData;
+	}
 	
-	@RequestMapping(value = "/ajax/getContractMileStonesFilterList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getMileStonesFilterListInMilestone", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getContractMileStonesFilterList(@ModelAttribute StripChart obj){
 		List<StripChart> ContractFileterData = null;
 		try{
-			ContractFileterData = service.getContractMileStonesFilterList(obj);	
+			ContractFileterData = service.getMileStonesFilterList(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getContractMileStonesFilterList() : "+e.getMessage());

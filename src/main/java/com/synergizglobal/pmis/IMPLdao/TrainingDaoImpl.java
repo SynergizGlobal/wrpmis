@@ -248,25 +248,24 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 			
 			List<Training> objsList = null;
-			String qryDetails = "select training_session_id,training_id_fk,session_no,"
+			String qryDetails = "select training_session_id,training_id_fk as training_id,session_no,"
 					+" DATE_FORMAT(start_time,'%d-%m-%Y %H:%i:%s') AS start_time,remarks, DATE_FORMAT(end_time,'%d-%m-%Y %H:%i:%s') AS end_time "
 					+ "from training_session "
 					+"where training_id_fk is not null and training_id_fk = ? ";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
-			sObj.setTraining(objsList);
+			sObj.setTraining(objsList); 
 			}
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 				
 				List<Training> objsList = null;
-				String qryDetails = "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk "
-						+ "from training_attendees "
-						+"where training_id_fk is not null and training_id_fk = ? and training_session_id_fk = ? ";
+				String qryDetails = "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk\r\n" + 
+						"from training_attendees "
+						+"where training_id_fk is not null and training_id_fk = ? ";
 				
-				objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),sObj.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
-				sObj.setTrainingAttendees(objsList);
+				objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
+				sObj.setTrainingAttendees(objsList); 
 				}
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
@@ -282,6 +281,28 @@ public class TrainingDaoImpl implements TrainingDao{
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Training> getTrainings(Training obj) throws Exception {
+		List<Training> objsList = null;
+		try {
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_id() )) {
+			
+			String qryDetails = "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk "
+					+ "from training_attendees "
+					+"where training_id_fk is not null and training_id_fk = ? and training_session_id_fk = ? ";
+			
+			objsList = jdbcTemplate.query(qryDetails, new Object[] {obj.getTraining_id(),obj.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
+			
+			}
+		
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}

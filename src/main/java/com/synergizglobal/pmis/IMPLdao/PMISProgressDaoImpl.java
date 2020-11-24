@@ -43,13 +43,19 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				qry = qry + "and psc.contract_id_fk = ?";
 				arrSize++;
 			}
-			//qry = qry + " group by activity_id ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				qry = qry + " and milestone_fk = ? ";
+				arrSize++;
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				pValues[i++] = obj.getMilestone_fk();
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
@@ -60,25 +66,31 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	}
 
 	@Override
-	public List<StripChart> getContractMileStonesFilterList(StripChart obj) throws Exception {
+	public List<StripChart> getMileStonesFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT psc.contract_id_fk,milestone_name from pmis_strip_chart  psc " + 
-					"LEFT JOIN contract_milestones cm on psc.contract_id_fk = cm.contract_id_fk  " + 
-					"where psc.contract_id_fk is not null and psc.contract_id_fk <> '' and (total_scope - completed) > 0 ";
+			String qry = "SELECT milestone_fk,milestone_name from pmis_strip_chart  psc " + 
+					"LEFT JOIN contract_milestones cm on milestone_fk = contract_milestones_id  " + 
+					"where milestone_fk is not null and milestone_fk <> '' and (total_scope - completed) > 0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and psc.contract_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				qry = qry + " and milestone_fk = ? ";
+				arrSize++;
+			}
 			
-			qry = qry + "GROUP BY psc.contract_id_fk ";
+			qry = qry + "GROUP BY milestone_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				pValues[i++] = obj.getMilestone_fk();
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -148,8 +160,6 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				qry = qry + "and psc.contract_id_fk = ?";
 				arrSize++;
 			}
-			//qry = qry + " group by activity_id ";
-			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -158,6 +168,39 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT contract_id_fk,c.contract_short_name from pmis_strip_chart  psc " + 
+					"LEFT JOIN contract c on contract_id_fk = contract_id  " + 
+					"where contract_id_fk is not null and contract_id_fk <> '' and (total_scope - completed) > 0 ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and psc.contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				qry = qry + " and milestone_fk = ? ";
+				arrSize++;
+			}
+			
+			qry = qry + "GROUP BY contract_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				pValues[i++] = obj.getMilestone_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

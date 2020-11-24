@@ -22,8 +22,8 @@ public class PMISProgressServiceImpl implements PMISProgressService{
 	}
 
 	@Override
-	public List<StripChart> getContractMileStonesFilterList(StripChart obj) throws Exception {
-		return dao.getContractMileStonesFilterList(obj);
+	public List<StripChart> getMileStonesFilterList(StripChart obj) throws Exception {
+		return dao.getMileStonesFilterList(obj);
 	}
 
 	@Override
@@ -34,5 +34,10 @@ public class PMISProgressServiceImpl implements PMISProgressService{
 	@Override
 	public List<StripChart> getMileStoneList(StripChart obj) throws Exception {
 		return dao.getMileStoneList(obj);
+	}
+
+	@Override
+	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception {
+		return dao.getContractsFilterList(obj);
 	}
 }

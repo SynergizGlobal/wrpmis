@@ -217,7 +217,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							<input type="hidden" name="training_id" value="${trainingDetails.training_id }"/>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
@@ -266,7 +266,7 @@
                                        	 <c:forEach var="tObj" items="${trainingDetails.training }" varStatus="index"> 
                                             <tr id="trainingRow${index.count }">
                                                 <td>
-                                                 <input type="hidden" name= "training_session_ids" id="training_session_ids" value="${tObj.training_session_id}" />
+                                                 <input type="hidden" name= "training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
                                                     <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
                                                         placeholder="Session No">
                                                 </td>
@@ -283,7 +283,7 @@
                                                             class="fa fa-clock-o"></i></button>
                                                 </td>
                                                 <td>
-                                                    <a href="#session-update-modal"
+                                                    <a href="#session-update-modal" onclick="getId(${tObj.training_session_id},${tObj.training_id} );"
                                                         class="btn waves-effect waves-light bg-m t-c modal-trigger">
                                                         Update </a>
                                                 </td>
@@ -579,10 +579,10 @@
                                  </tbody>
                                  <c:choose>
                                         <c:when test="${not empty (trainingDetails.trainingAttendees) && fn:length(trainingDetails.trainingAttendees) gt 0 }">
-                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(trainingDetails.trainingAttendees) }" />
+                                    		<input type="hidden" id="trainNo"  name="trainNo" value="${fn:length(trainingDetails.trainingAttendees) }" />
                                     	</c:when>
                                      	<c:otherwise>
-                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     		<input type="hidden" id="trainNo"  name="trainNo" value="0" />
                                      	</c:otherwise>
                                      </c:choose> 
 
@@ -602,7 +602,10 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script src="/pmis/resources/js/datetimepicker.js"></script>
-
+<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="training_session_id" id="training_session_id" />
+    	<input type="hidden" name="training_id" id="training_id" />
+    </form>
  <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -633,34 +636,43 @@
             });
 
         });
-        var trainno = 1;
         function addTrainingUpdateRow() {
-            var text = '<tr>' +
-                '<td><select id="department' + trainno + '"><option selected>Department</option><option value="1">Department 1</option><option value="2">Department 2' +
-                '</option></select> </td>' + '<td><input id="attendee' + trainno + '" type="text" class="validate" placeholder="Attendee"></td>' +
-                '<td><input id="mobile' + trainno + '" type="number" class="validate" placeholder="Mobile"> </td>' +
-                '<td><p><label><input type="checkbox" id="required' + trainno + '"/><span></span></label></p></td>' +
-                '<td><p><label><input type="checkbox" id="participated' + trainno + '"/><span></span></label></p></td>' +
+        	 var trainNo = $("#trainNo").val();
+             var rNo = Number(trainNo)+1;
+            var html = '<tr>' +
+                '<td><select id="department_fks'+ rNo +'" name="department_fks" class="searchable validate-dropdown " >'+
+                '<option value="" >Select Department</option>'+
+	                <c:forEach var="obj" items="${departmentsList}">
+	             	  '<option value="${obj.department_fk }">${obj.department_fk}</option>' +
+	                </c:forEach>
+         	  '</select></td>'+
+                '</option></select> </td>' + '<td><input id="attendees'+ rNo +'" name="attendees" type="text" class="validate" placeholder="Attendee"></td>' +
+                '<td><input id="mobile_nos'+ rNo +'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
+                '<td><p><label><input type="checkbox" id="required_fks'+ rNo +'" name="required_fks"/><span></span></label></p></td>' +
+                '<td><p><label><input type="checkbox" id="participated_fks'+ rNo +'" name="participated_fks"/><span></span></label></p></td>' +
                 '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>' + '</tr>';
-            $('#training-update-table').find('tr:last').prev().after(text);
-            $('#department' + trainno).formSelect();
-            trainno++;
+                $('#attendeesTableBody').append(html);
+                $("#trainNo").val(rNo);
+           	    $('#department_fks' + rNo).formSelect();
+           
+            
         }
        
-        var sessionno = 1;
+       
         function addSessionRow() {
         	 var rowNo = $("#rowNo").val();
              var rNo = Number(rowNo)+1;
             var html = '<tr>' +
                 '<td> <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
                 '<td> <input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
-                '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button> </td>' +
+               		 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button> </td>' +
                 '<td> <input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
-                '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
-                '<td>  <a href="#session-update-modal" class="btn waves-effect waves-light bg-m t-c modal-trigger"> Update </a> </td>' +
+                	 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
+                '<td>  <a href="#session-update-modal" class="btn waves-effect waves-light bg-m t-c modal-trigger" > Update </a> </td>' +
                 '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
                 '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>' + ' </tr>';
                 $('#trainingTableBody').append(html);
+                $("#rowNo").val(rNo);
                 MaterialDateTimePicker.create($("#start_times"+ rNo));
                 MaterialDateTimePicker.create($("#end_times"+ rNo));
 

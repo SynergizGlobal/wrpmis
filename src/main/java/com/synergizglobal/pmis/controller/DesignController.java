@@ -520,7 +520,7 @@ public class DesignController {
 					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					//System.out.println(uploadFilesSheet.getLastRowNum());
-					for(int i = 2; i< designsDrawingsSheet.getLastRowNum();i++){
+					for(int i = 2; i <= designsDrawingsSheet.getLastRowNum();i++){
 						XSSFRow row = designsDrawingsSheet.getRow(i);
 						// Sets the Read data to the model class
 						// Cell cell = row.getCell(0);
@@ -646,7 +646,7 @@ public class DesignController {
 						
 						if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) {
 							XSSFSheet designRevisionsSheet = workbook.getSheetAt(2);
-							for(int j = 2; j < designRevisionsSheet.getLastRowNum();j++){
+							for(int j = 2; j <= designRevisionsSheet.getLastRowNum();j++){
 								XSSFRow row2 = designRevisionsSheet.getRow(j);
 								// Sets the Read data to the model class
 								Design pObj = new Design();

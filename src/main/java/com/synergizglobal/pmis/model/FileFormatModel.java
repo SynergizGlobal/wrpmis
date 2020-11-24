@@ -60,7 +60,7 @@ public class FileFormatModel {
 	
 	public static List<String> getStripChartRefetenceData_FileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Strip Chart Type,Component ID,Order,Latitude,Longitude";
+		String columns = "Strip Chart Type, ,Component ID,Order,Latitude,Longitude";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

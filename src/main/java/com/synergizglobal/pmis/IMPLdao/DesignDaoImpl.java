@@ -36,6 +36,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.StripChart;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -85,7 +86,7 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " limit 10";
+			//qry = qry + " limit 10";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -531,16 +532,31 @@ public class DesignDaoImpl implements DesignDao{
 					+ ":divisional_submission_fk,:submitted_to_division,:hq_submission_fk,:submitted_to_hq,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk)";
 			
 			for (Design obj : designsList) {
-				String department = null;
-				/*
-				 * if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { String deptqry
-				 * ="SELECT department from department where department_name = ?"; department
-				 * =(String)jdbcTemplate.queryForObject( deptqry,new
-				 * Object[]{obj.getDepartment_id_fk()} ,String.class); }
-				 * 
-				 * obj.setDepartment_id_fk(department);
-				 */
-
+				/*String department = null;
+				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { 
+				  String deptqry ="SELECT department from department where department_name = ?"; 
+				  department = (String)jdbcTemplate.queryForObject( deptqry,new Object[]{obj.getDepartment_id_fk()} ,String.class); 
+				}
+				obj.setDepartment_id_fk(department);*/
+				 
+				if(!StringUtils.isEmpty(obj.getPrepared_by_id_fk())) {
+					String preparedByQry = "INSERT INTO design_prepared_by (prepared_by) SELECT * FROM (SELECT ?) AS tmp "
+							+ "WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ? LIMIT 1 )";
+					jdbcTemplate.update( preparedByQry, new Object[] {obj.getPrepared_by_id_fk(),obj.getPrepared_by_id_fk()});
+				}
+				
+				if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+					String stQry = "INSERT INTO structure_type (structure_type) SELECT * FROM (SELECT ?) AS tmp "
+							+ "WHERE NOT EXISTS ( SELECT structure_type FROM structure_type WHERE structure_type = ? LIMIT 1 )";
+					jdbcTemplate.update( stQry, new Object[] {obj.getStructure_type_fk(),obj.getStructure_type_fk()});
+				}
+				
+				if(!StringUtils.isEmpty(obj.getDrawing_type_fk())) {
+					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ?) AS tmp "
+							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? LIMIT 1 )";
+					jdbcTemplate.update( dtQry, new Object[] {obj.getDrawing_type_fk(),obj.getDrawing_type_fk()});
+				}
+				
 				
 				SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 			    KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -565,7 +581,7 @@ public class DesignDaoImpl implements DesignDao{
 				            new BatchPreparedStatementSetter() {
 								@Override
 								public void setValues(PreparedStatement ps, int i) throws SQLException {
-									try {
+									try {										
 										String revision = obj.getDesignRevisions().get(i).getRevision();
 										String revision_date = obj.getDesignRevisions().get(i).getRevision_date();
 										String consultant_submission = obj.getDesignRevisions().get(i).getConsultant_submission();
@@ -574,6 +590,12 @@ public class DesignDaoImpl implements DesignDao{
 										String hq_approval = obj.getDesignRevisions().get(i).getHq_approval();
 										String revision_status_fk = obj.getDesignRevisions().get(i).getRevision_status_fk();
 										String remarks = obj.getDesignRevisions().get(i).getRemarks();
+										
+										if(!StringUtils.isEmpty(revision_status_fk)) {
+											String dtQry = "INSERT INTO revision_status (revision_status) SELECT * FROM (SELECT ?) AS tmp "
+													+ "WHERE NOT EXISTS ( SELECT revision_status FROM revision_status WHERE revision_status = ? LIMIT 1 )";
+											jdbcTemplate.update( dtQry, new Object[] {revision_status_fk,revision_status_fk});
+										}
 										
 										int k = 1;
 										ps.setString(k++, obj.getDesign_id());

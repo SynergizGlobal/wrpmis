@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 public class StripChart {
 	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
 	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
@@ -352,6 +353,7 @@ public class StripChart {
 		this.strip_chart_component_name = strip_chart_component_name;
 	}
 
+	
 	public String getOrder() {
 		return order;
 	}
@@ -395,7 +397,7 @@ public class StripChart {
 	public String getStrip_chart_type() {
 		return strip_chart_type;
 	}
-
+	
 	public void setStrip_chart_type(String strip_chart_type) {
 		this.strip_chart_type = strip_chart_type;
 	}

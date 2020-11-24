@@ -361,12 +361,8 @@ public class ActivitiesUploadController {
 	public ModelAndView uploadActivities(@ModelAttribute StripChart activity, RedirectAttributes attributes,
 			HttpSession session) {
 		ModelAndView model = new ModelAndView();
-		String fileName = null;
 		String userId = null;
 		String userName = null;
-		XSSFWorkbook workbook = null;
-		XSSFSheet uploadFilesSheet3 = null;
-		XSSFSheet uploadFilesSheet4 = null;
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
@@ -376,16 +372,15 @@ public class ActivitiesUploadController {
 				MultipartFile multipartFile = activity.getStripChartFile();
 				// Creates a workbook object from the uploaded excelfile
 				if (null != multipartFile && multipartFile.getSize() > 0) {
-					workbook = new XSSFWorkbook(multipartFile.getInputStream());
-					// Creates a worksheet object representing the first sheet
-					if (workbook != null) {
+					
+					try (XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream())) {					
+						// Creates a worksheet object representing the first sheet
 						int sheetsCount = workbook.getNumberOfSheets();
 						if (sheetsCount > 0) {
-
-							uploadFilesSheet3 = workbook.getSheetAt(2);
+							XSSFSheet referenceDataSheet = workbook.getSheetAt(1);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
-							XSSFRow headerRow = uploadFilesSheet3.getRow(1);
+							XSSFRow headerRow = referenceDataSheet.getRow(1);
 							//checking given file format
 							if (headerRow != null) {
 								List<String> fileFormat = FileFormatModel.getStripChartRefetenceData_FileFormat();
@@ -410,21 +405,21 @@ public class ActivitiesUploadController {
 								attributes.addFlashAttribute("error", uploadformatError);
 								return model;
 							}
-
-							uploadFilesSheet4 = workbook.getSheetAt(3);
+							/********************************************************************************************************************/
+							XSSFSheet contractStructureSheet = workbook.getSheetAt(2);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
-							XSSFRow headerRow2 = uploadFilesSheet4.getRow(1);
+							headerRow = contractStructureSheet.getRow(1);
 							//checking given file format
-							if (headerRow2 != null) {
-								List<String> fileFormat = FileFormatModel.getStripChartData_FileFormat();
+							if (headerRow != null) {
+								List<String> fileFormat = FileFormatModel.getStripChartContractStructure_FileFormat();
 								
-								int noOfColumns = headerRow2.getLastCellNum();
+								int noOfColumns = headerRow.getLastCellNum();
 								if (noOfColumns == fileFormat.size()) {
 									for (int i = 0; i < fileFormat.size(); i++) {
 										//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 										//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-										String columnName = headerRow2.getCell(i).getStringCellValue().trim();
+										String columnName = headerRow.getCell(i).getStringCellValue().trim();
 										if (!columnName.equals(fileFormat.get(i).trim())
 												&& !columnName.contains(fileFormat.get(i).trim())) {
 											attributes.addFlashAttribute("error", uploadformatError);
@@ -439,12 +434,41 @@ public class ActivitiesUploadController {
 								attributes.addFlashAttribute("error", uploadformatError);
 								return model;
 							}
-
+							
+							/********************************************************************************************************************/
+							XSSFSheet stripChartSheet = workbook.getSheetAt(3);
+							//System.out.println(uploadFilesSheet.getSheetName());
+							//header row
+							headerRow = stripChartSheet.getRow(1);
+							//checking given file format
+							if (headerRow != null) {
+								List<String> fileFormat = FileFormatModel.getStripChartData_FileFormat();
+								
+								int noOfColumns = headerRow.getLastCellNum();
+								if (noOfColumns == fileFormat.size()) {
+									for (int i = 0; i < fileFormat.size(); i++) {
+										//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+										//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+										String columnName = headerRow.getCell(i).getStringCellValue().trim();
+										if (!columnName.equals(fileFormat.get(i).trim())
+												&& !columnName.contains(fileFormat.get(i).trim())) {
+											attributes.addFlashAttribute("error", uploadformatError);
+											return model;
+										}
+									}
+								} else {
+									attributes.addFlashAttribute("error", uploadformatError);
+									return model;
+								}
+							} else {
+								attributes.addFlashAttribute("error", uploadformatError);
+								return model;
+							}
+							/********************************************************************************************************************/
 							int count = uploadActivities(activity, userId, userName, workbook);
 							attributes.addFlashAttribute("success", count + " Activities added successfully.");
 						}
 					}
-
 				}
 			} else {
 				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
@@ -474,15 +498,9 @@ public class ActivitiesUploadController {
 		Writer w = null;
 		int count = 0;
 		try {
-			/*List<String> fileFormat = null;				
-			fileFormat = FileFormatModel.getActivityFileFormat();*/
-
 			MultipartFile excelfile = obj.getStripChartFile();
 			// Creates a workbook object from the uploaded excelfile
 			if (null != excelfile) {
-				String fileName = excelfile.getOriginalFilename();
-				String fileType = FilenameUtils.getExtension(fileName);
-
 				if (excelfile.getSize() > 0)
 					//workbook = new XSSFWorkbook(excelfile.getInputStream());
 					// Creates a worksheet object representing the first sheet
@@ -509,17 +527,17 @@ public class ActivitiesUploadController {
 									scTypeList.add(formatter.formatCellValue(row.getCell(p)).trim());
 								}
 								/**********************************************************************************/
-								p = 13;
+								p = 2;
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
 									orderList.add(formatter.formatCellValue(row.getCell(p)).trim());
 								}
 								/**********************************************************************************/
-								p = 15;
+								p = 3;
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
 									latitudeList.add(formatter.formatCellValue(row.getCell(p)).trim());
 								}
 								/**********************************************************************************/
-								p = 16;
+								p = 4;
 								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
 									longitudeList.add(formatter.formatCellValue(row.getCell(p)).trim());
 								}

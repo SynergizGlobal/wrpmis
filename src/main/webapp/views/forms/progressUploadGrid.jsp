@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
      
-     
+
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -61,13 +61,12 @@
 		    right: 15px;
 		    font: normal normal normal 14px/1 FontAwesome;
 		}
-		.dataTables_filter label::after {
-    position: relative;
-    content: '\f002';
-    color: #2E58AD;
-    right: 15px;
-    font: normal normal normal 14px/1 FontAwesome;
-}
+		.dataTables_filter label .fa::before {
+		    position: relative;
+		    color: #2E58AD;
+		    right: 15px;
+		    font: normal normal normal 14px/1 FontAwesome;
+		}
     </style>
 </head>
 
@@ -408,6 +407,15 @@
 			   	                       }) 
 			   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
 				   	          $('.dataTables_filter div').append($searchButton, $clearButton); */
+				   	          
+	   	                   var input = $('.dataTables_filter input').unbind(),
+			   	            self = this.api(),
+			   	            $searchButton = $('<i class="fa fa-search">')
+			   	                       //.text('Go')
+			   	                       .click(function() {			   	                    	 
+			   	                          self.search(input.val()).draw();
+			   	                       })			   	        
+				   	          $('.dataTables_filter label').append($searchButton);	
 	   	                },
 	   	             columnDefs: [
 	                     {

@@ -546,145 +546,147 @@ public class DesignController {
 								//System.out.println(i);
 								design = new Design();
 								String val = null;
-								val = formatter.formatCellValue(row.getCell(0));
-								if(!StringUtils.isEmpty(val)) { design.setWork_id_fk(val.trim());}
-								
-								val = formatter.formatCellValue(row.getCell(1));
-								if(!StringUtils.isEmpty(val)) { design.setContract_id_fk(val.trim());}
-								
-								val = formatter.formatCellValue(row.getCell(2));
-								if(!StringUtils.isEmpty(val)) { design.setDepartment_id_fk(val.trim());}
-								
-								val = formatter.formatCellValue(row.getCell(3));
-								if(!StringUtils.isEmpty(val)) { design.setHod(val.trim());}	
-								
-								val = formatter.formatCellValue(row.getCell(4));
-								if(!StringUtils.isEmpty(val)) { design.setDy_hod(val.trim());}					
-								
-								val = formatter.formatCellValue(row.getCell(5));
-								if(!StringUtils.isEmpty(val)) { design.setPrepared_by_id_fk(val.trim());}								
-
-								val = formatter.formatCellValue(row.getCell(6));
-								if(!StringUtils.isEmpty(val)) { design.setConsultant_contract_id_fk(val.trim());}										
-
-								val = formatter.formatCellValue(row.getCell(7));
-								if(!StringUtils.isEmpty(val)) { design.setProof_consultant_contract_id_fk(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(8));
-								if(!StringUtils.isEmpty(val)) { design.setSubmited_to_proof_consultant_fk(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(9));
-								if(!StringUtils.isEmpty(val)) { design.setApproval_by_proof_consultant_fk(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(10));
-								if(!StringUtils.isEmpty(val)) { design.setStructure_type_fk(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(11));
-								if(!StringUtils.isEmpty(val)) { design.setComponent(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(12));
-								if(!StringUtils.isEmpty(val)) { design.setDrawing_type_fk(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(13));
-								if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(14));
-								if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(15));
-								if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val.trim());}								
-
-								val = formatter.formatCellValue(row.getCell(16));
-								if(!StringUtils.isEmpty(val)) { design.setHq_drawing_no(val.trim());}											
-
-								val = formatter.formatCellValue(row.getCell(17));
-								if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val.trim());}								
-
-								val = formatter.formatCellValue(row.getCell(18));
-								if(!StringUtils.isEmpty(val)) { design.setPlanned_start(val.trim());}										
-
-								val = formatter.formatCellValue(row.getCell(19));
-								if(!StringUtils.isEmpty(val)) { design.setPlanned_finish(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(20));
-								if(!StringUtils.isEmpty(val)) { design.setRevision(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(21));
-								if(!StringUtils.isEmpty(val)) { design.setConsultant_submission(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(22));
-								if(!StringUtils.isEmpty(val)) { design.setMrvc_reviewed(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(23));
-								if(!StringUtils.isEmpty(val)) { design.setDivisional_submission_fk(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(24));
-								if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_division(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(25));
-								if(!StringUtils.isEmpty(val)) { design.setDivisional_approval(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(26));
-								if(!StringUtils.isEmpty(val)) { design.setHq_submission_fk(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(27));
-								if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_hq(val.trim());}
-								
-								val = formatter.formatCellValue(row.getCell(28));
-								if(!StringUtils.isEmpty(val)) { design.setHq_approval(val.trim());}
-								
-								val = formatter.formatCellValue(row.getCell(29));
-								if(!StringUtils.isEmpty(val)) { design.setGfc_released(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(30));
-								if(!StringUtils.isEmpty(val)) { design.setAs_built_status(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(31));
-								if(!StringUtils.isEmpty(val)) { design.setAs_built_date(val.trim());}
-
-								val = formatter.formatCellValue(row.getCell(32));
-								if(!StringUtils.isEmpty(val)) { design.setRemarks(val.trim());}
-								
-								design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getSubmited_to_proof_consultant_fk()));
-								design.setApproval_by_proof_consultant_fk(DateParser.parse(design.getApproval_by_proof_consultant_fk()));
-								design.setPlanned_start(DateParser.parse(design.getPlanned_start()));
-								design.setPlanned_finish(DateParser.parse(design.getPlanned_finish()));
-								design.setConsultant_submission(DateParser.parse(design.getConsultant_submission()));
-								design.setMrvc_reviewed(DateParser.parse(design.getMrvc_reviewed()));
-								design.setDivisional_approval(DateParser.parse(design.getDivisional_approval()));
-								design.setHq_approval(DateParser.parse(design.getHq_approval()));
-								design.setGfc_released(DateParser.parse(design.getGfc_released()));
-								design.setAs_built_date(DateParser.parse(design.getAs_built_date()));
-								
-								design.setSubmitted_to_division(DateParser.parse(design.getSubmitted_to_division()));
-								design.setSubmitted_to_hq(DateParser.parse(design.getSubmitted_to_hq()));
-
+								if(!StringUtils.isEmpty(row)) {								
+									val = formatter.formatCellValue(row.getCell(0)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setWork_id_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(1)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setContract_id_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(2)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setDepartment_id_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(3)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setHod(val);}	
+									
+									val = formatter.formatCellValue(row.getCell(4)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setDy_hod(val);}					
+									
+									val = formatter.formatCellValue(row.getCell(5)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setPrepared_by_id_fk(val);}								
+									
+									val = formatter.formatCellValue(row.getCell(6)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setConsultant_contract_id_fk(val);}										
+									
+									val = formatter.formatCellValue(row.getCell(7)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setProof_consultant_contract_id_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(8)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setSubmited_to_proof_consultant_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(9)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setApproval_by_proof_consultant_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(10)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setStructure_type_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(11)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setComponent(val);}
+									
+									val = formatter.formatCellValue(row.getCell(12)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setDrawing_type_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(13)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val);}
+									
+									val = formatter.formatCellValue(row.getCell(14)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val);}
+									
+									val = formatter.formatCellValue(row.getCell(15)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val);}								
+									
+									val = formatter.formatCellValue(row.getCell(16)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setHq_drawing_no(val);}											
+									
+									val = formatter.formatCellValue(row.getCell(17)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val);}								
+									
+									val = formatter.formatCellValue(row.getCell(18)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setPlanned_start(val);}										
+									
+									val = formatter.formatCellValue(row.getCell(19)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setPlanned_finish(val);}
+									
+									val = formatter.formatCellValue(row.getCell(20)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setRevision(val);}
+									
+									val = formatter.formatCellValue(row.getCell(21)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setConsultant_submission(val);}
+									
+									val = formatter.formatCellValue(row.getCell(22)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setMrvc_reviewed(val);}
+									
+									val = formatter.formatCellValue(row.getCell(23)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setDivisional_submission_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(24)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_division(val);}
+									
+									val = formatter.formatCellValue(row.getCell(25)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setDivisional_approval(val);}
+									
+									val = formatter.formatCellValue(row.getCell(26)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setHq_submission_fk(val);}
+									
+									val = formatter.formatCellValue(row.getCell(27)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_hq(val);}
+									
+									val = formatter.formatCellValue(row.getCell(28)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setHq_approval(val);}
+									
+									val = formatter.formatCellValue(row.getCell(29)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}
+									
+									val = formatter.formatCellValue(row.getCell(30)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setAs_built_status(val);}
+									
+									val = formatter.formatCellValue(row.getCell(31)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setAs_built_date(val);}
+									
+									val = formatter.formatCellValue(row.getCell(32)).trim();
+									if(!StringUtils.isEmpty(val)) { design.setRemarks(val);}
+									
+									design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getSubmited_to_proof_consultant_fk()));
+									design.setApproval_by_proof_consultant_fk(DateParser.parse(design.getApproval_by_proof_consultant_fk()));
+									design.setPlanned_start(DateParser.parse(design.getPlanned_start()));
+									design.setPlanned_finish(DateParser.parse(design.getPlanned_finish()));
+									design.setConsultant_submission(DateParser.parse(design.getConsultant_submission()));
+									design.setMrvc_reviewed(DateParser.parse(design.getMrvc_reviewed()));
+									design.setDivisional_approval(DateParser.parse(design.getDivisional_approval()));
+									design.setHq_approval(DateParser.parse(design.getHq_approval()));
+									design.setGfc_released(DateParser.parse(design.getGfc_released()));
+									design.setAs_built_date(DateParser.parse(design.getAs_built_date()));
+									
+									design.setSubmitted_to_division(DateParser.parse(design.getSubmitted_to_division()));
+									design.setSubmitted_to_hq(DateParser.parse(design.getSubmitted_to_hq()));
+								}
 								List<Design> pObjList = new ArrayList<Design>();
+								
 								if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) {
 									XSSFSheet uploadFilesSheet2 = workbook.getSheetAt(2);
 									for(int j = 2; j<= uploadFilesSheet2.getLastRowNum();j++){
 										XSSFRow row2 = uploadFilesSheet2.getRow(j);
 										// Sets the Read data to the model class
-										
 										Design pObj = new Design();
-										
-										if(!StringUtils.isEmpty(formatter.formatCellValue(row2.getCell(0))))
-											pObj.setMrvc_drawing_no(formatter.formatCellValue(row2.getCell(0)));
-										if(!StringUtils.isEmpty(formatter.formatCellValue(row2.getCell(1))))
-											pObj.setRevision(formatter.formatCellValue(row2.getCell(1)));
-										if(!StringUtils.isEmpty(formatter.formatCellValue(row2.getCell(2))))
-											pObj.setRevision_date(formatter.formatCellValue(row2.getCell(2)));
-										if(!StringUtils.isEmpty(formatter.formatCellValue(row2.getCell(3))))
-											pObj.setRevision_status_fk(formatter.formatCellValue(row2.getCell(3)));
-										if(!StringUtils.isEmpty(formatter.formatCellValue(row2.getCell(4))))
-											pObj.setRemarks(formatter.formatCellValue(row2.getCell(4)));
-										
-										pObj.setRevision_date(DateParser.parse(pObj.getRevision_date()));
-										pObj.setConsultant_submission(DateParser.parse(pObj.getConsultant_submission()));
-										pObj.setMrvc_reviewed(DateParser.parse(pObj.getMrvc_reviewed()));
-										pObj.setDivisional_approval(DateParser.parse(pObj.getDivisional_approval()));
-										pObj.setHq_approval(DateParser.parse(pObj.getHq_approval()));
-										
+										if(!StringUtils.isEmpty(row2)) {
+											val = formatter.formatCellValue(row2.getCell(0)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setMrvc_drawing_no(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(1)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRevision(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(2)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRevision_date(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(3)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRevision_status_fk(val);}
+											
+											val = formatter.formatCellValue(row2.getCell(4)).trim();
+											if(!StringUtils.isEmpty(val)) { pObj.setRemarks(val);}
+											
+											pObj.setRevision_date(DateParser.parse(pObj.getRevision_date()));
+											
+										}
 										if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getMrvc_drawing_no())
 												&& pObj.getMrvc_drawing_no().equals(design.getMrvc_drawing_no()))
 										pObjList.add(pObj);
@@ -692,8 +694,9 @@ public class DesignController {
 									design.setDesignRevisions(pObjList);
 								}
 								
+								boolean flag = design.checkNullOrEmpty();
 								
-								if(!StringUtils.isEmpty(design)) {
+								if(!flag) {
 									designsList.add(design);
 								}
 							}

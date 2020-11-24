@@ -388,7 +388,7 @@ public class ActivitiesUploadController {
 							XSSFRow headerRow = uploadFilesSheet3.getRow(1);
 							//checking given file format
 							if (headerRow != null) {
-								List<String> fileFormat = FileFormatModel.getStripChartActivitiesSheet_3_FileFormat();
+								List<String> fileFormat = FileFormatModel.getStripChartRefetenceData_FileFormat();
 								;
 								int noOfColumns = headerRow.getLastCellNum();
 								if (noOfColumns == fileFormat.size()) {
@@ -417,7 +417,7 @@ public class ActivitiesUploadController {
 							XSSFRow headerRow2 = uploadFilesSheet4.getRow(1);
 							//checking given file format
 							if (headerRow2 != null) {
-								List<String> fileFormat = FileFormatModel.getStripChartActivitiesSheet_4_FileFormat();
+								List<String> fileFormat = FileFormatModel.getStripChartData_FileFormat();
 								;
 								int noOfColumns = headerRow2.getLastCellNum();
 								if (noOfColumns == fileFormat.size()) {

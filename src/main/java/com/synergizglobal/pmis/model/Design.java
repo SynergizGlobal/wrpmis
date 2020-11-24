@@ -1,7 +1,9 @@
 package com.synergizglobal.pmis.model;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Design {
@@ -486,6 +488,17 @@ public class Design {
 		this.submitted_to_hq = submitted_to_hq;
 	}
 
-	
+	public boolean checkNullOrEmpty() throws IllegalAccessException {
+		boolean flag = true;
+		try {
+			for (Field f : getClass().getDeclaredFields())
+		        if (!StringUtils.isEmpty(f.get(this)))
+		        	flag = false;
+		} catch (Exception e) {
+			
+		}
+	    
+	    return flag;            
+	}
 
 }

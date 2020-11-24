@@ -551,19 +551,19 @@
                     	 	    });
                     	 	 */
                     	 	 
-                    	 	$("#btn").on('click', function(){
+                    	 	/* $("#btn").on('click', function(){
                     	 		var ans = $("#actualScopes"+num).val();
                     	 		if($("#check_"+num).is(':checked') && ans == ""){
                     	 			$("#actualScopes"+num).focus();
                     	 	        $(".errMsg").show();
                     	 	        return false;
                     	 		}
-                    	 	})
+                    	 	}) */
                     	 	$("#activities").on('click', function(){
                     	 		var ans = $("#actualScopes"+num).val();
                     	 		if($("#check_"+num).is(':checked') && ans != ""){
                     	 			$("#actualScopes"+num).focus();
-                    	 	        $(".errMsg").hide();
+                    	 	        $(".error-msg").hide();
                     	 		}
                     	 		
                     	 	})
@@ -670,6 +670,9 @@
        		  },"contract_id_fk": {
    		 		required: false
    		 	  },"actualScopes": {
+   		 		required: function(element){
+		             return $(".check").is(':checked');
+		         },
    		 		 max: function() {
                      return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
                  },
@@ -682,7 +685,7 @@
                     },"contract_id_fk": {
    		 			required: 'Select contract'
    		 	  	 },"actualScopes": {
-   		 			required: 'text'
+   		 			required: 'click on finish activities'
    		 	  	 }
        	 },errorPlacement:function(error, element){
      		 	        if(element.attr("name") == "activity_check" ){

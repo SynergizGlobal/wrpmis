@@ -461,7 +461,7 @@
                                     <div class="row">
                                         <div class="col m2 hide-on-small-only"></div>
                                         <div class="col m8 s12 center-align" style="margin-bottom: 30px;margin-top: 10px;">
-                                            <a class="btn waves-effect bg-m" onclick="updateActual()">Finish Activities</a>
+                                            <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()">Finish Activities</a>
                                         </div>
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
@@ -540,7 +540,7 @@
                                     <div class="row">
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="button" onclick="updateProgress();" class="btn waves-effect waves-light bg-m"
+                                                <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m"
                                                     style="width: 100%;" >Update</button>
                                             </div>
                                         </div>
@@ -1114,6 +1114,15 @@
 	                   		       	    $("#select-all").prop('checked', false);
 	                   		   		 }
 	                    		});
+ 	                    	 	
+ 	                    	 	$("#activities").on('click', function(){
+ 	                    	 		var ans = $("#actualScopes"+num).val();
+ 	                    	 		if($("#check_"+num).is(':checked') && ans != ""){
+ 	                    	 			$("#actualScopes"+num).focus();
+ 	                    	 	        $(".error-msg").hide();
+ 	                    	 		}
+ 	                    	 		
+ 	                    	 	})
  	                   });
  	                }
  	                $(".page-loader").hide();
@@ -1174,6 +1183,9 @@
 		 	  },"strip_chart_activity_id": {
 		 		required: false
 		 	  },"actualScopes": {
+		 		 required: function(element){
+		             return $(".check").is(':checked');
+		         },
 	   		 		 max: function() {
 	                     return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
 	                 },
@@ -1197,7 +1209,9 @@
 		 			required: 'Select component id'
 		 	  	 },"strip_chart_activity_id": {
 		 			required: 'Select Activity'
-		 	  	 }
+		 	  	 },"actualScopes": {
+   		 			required: 'click on finish activities'
+   		 	  	 }
     	 },errorPlacement:function(error, element){
   		 	        if(element.attr("name") == "activity_check" ){
 					     document.getElementById("checkBoxError").innerHTML="";

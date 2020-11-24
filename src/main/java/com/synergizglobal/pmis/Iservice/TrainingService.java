@@ -26,4 +26,6 @@ public interface TrainingService {
 
 	public List<Training> getDepartmentsList() throws Exception;
 
+	public List<Training> getTrainings(Training obj) throws Exception;
+
 }

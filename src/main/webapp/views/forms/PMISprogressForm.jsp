@@ -83,6 +83,12 @@
          .error-msg label {
             color: red !important;
         }
+        .errMsg label {
+       		 color: red !important;
+        }
+        .errMsgCheck label {
+       		 color: red !important;
+        }
         .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -128,17 +134,22 @@
                             <div class="col m10 s12">
 
                                 <div class="row ">
-                                    <div class="col m3 hide-on-small-only"></div>
-                                    <div class="col m6 s12">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col m8 s12">
                                         <div class="row" style="margin-bottom: 0;">
-                                            <div class="col m2 hide-on-small-only"></div>
+                                           
                                             <div class="col s12 m4 input-field">
                                                 <p class="searchable_label">Milestone</p>
-                                                <select id="contract_id_fk" name="contract_id_fk" onchange="getMileStoneFilterList();" class="searchable validate-dropdown">
-                                                    <option value="">Select</option>
-                                                    
+                                                <select name="milestone_fk" id="milestone_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                                    <option value="">Select</option>                                                    
                                                 </select>
-                                            </div>
+                                            </div>          
+                                               <div class="col s12 m4 input-field">
+                                                <p class="searchable_label">Contract</p>
+                                                <select  name="contract_id_fk" id="contract_id_fk"  onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                                    <option value="">Select</option>                                                    
+                                                </select>
+                                            </div>                                 
                                             <div class="col s12 m4 input-field">
                                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters "  onclick="clearFilter();"
                                                     style="margin-top: 8px;width: 100%;">Clear Filters</button>
@@ -146,7 +157,7 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="col m3 hide-on-small-only"></div>
+                                    <div class="col m2 hide-on-small-only"></div>
                                 </div>
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col m2 hide-on-small-only"></div>
@@ -157,7 +168,8 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
 								<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
-								<span id="actualScopesError" class="error-msg" style="text-align:center"></span>
+								<span id="actualScopesError" class="errMsg" style="text-align:center">Click on Finish Activities</span>
+								<span  class="errMsgCheck" style="text-align:center">select Check Box first</span>
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
                                         <table class="mdl-data-table" id="datatable-table">
@@ -248,7 +260,7 @@
                                             </div> -->
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="button" onclick="updateProgress();" class="btn waves-effect waves-light bg-m"
+                                                <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m"
                                                     style="width: 100%;">Update</button>
                                             </div>
                                         </div>
@@ -324,6 +336,8 @@
 	        })
 	    });
         $(document).ready(function () {
+        	$(".errMsg").hide();
+        	$(".errMsgCheck").hide();
             $('.searchable').select2();
            // $('#start_date,#finish_date').datepicker();
             $('#start_date_icon').click(function () {
@@ -361,28 +375,30 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
-            getMileStoneFilterList();
+             getMileStoneList();
         });
         function clearFilter(){
         	$(".page-loader").show();
             $("#contract_id_fk").val("");
         	$('.searchable').select2();
-        	getMileStoneFilterList();
+        	getMileStoneList();
         }
 
-        function getMileStoneList() {
+        function getMileStoneFilterList() {
         	$(".page-loader").show();
-        	 var contract_id_fk = $("#contract_id_fk").val();
-    		if ($.trim(contract_id_fk) == "") {
-            	$("#contract_id_fk option:not(:first)").remove();
-            	var myParams = { contract_id_fk: contract_id_fk };
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var milestone_fk = $("#milestone_fk").val();
+    		if ($.trim(milestone_fk) == "") {
+            	$("#milestone_fk option:not(:first)").remove();
+            	
+            	var myParams = { contract_id_fk: contract_id_fk ,milestone_fk : milestone_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractMileStonesFilterList",
+                    url: "<%=request.getContextPath()%>/ajax/getMileStonesFilterListInMilestone",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.milestone_name)   +'</option>');
+    	                           $("#milestone_fk").append('<option value="' + val.milestone_fk + '">' + $.trim(val.milestone_name)   +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -397,20 +413,51 @@
             }
         }
         
+        function getContractFilterList() {
+        	$(".page-loader").show();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var milestone_fk = $("#milestone_fk").val();
+    		if ($.trim(contract_id_fk) == "") {
+            	$("#contract_id_fk option:not(:first)").remove();
+            	var myParams = { contract_id_fk: contract_id_fk,milestone_fk : milestone_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInPMISStripChart",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contractShortName = '';
+                            	 if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
+    	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' +$.trim(val.contract_id_fk)+ contractShortName   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+       }
         
-        function getMileStoneFilterList(){
+       function getMileStoneList(){
        	 $(".page-loader-2").show();
        	 var html = '';
-       	 getMileStoneList();
+       	 getMileStoneFilterList();
+       	 getContractFilterList();
        	 $("#filerList").html('');
        	 $("#select-all").prop('checked', false);
        	 var contract_id_fk = $("#contract_id_fk").val();
-       	table = $('#datatable-table').DataTable();
+       	 var milestone_fk = $("#milestone_fk").val();
+       	 table = $('#datatable-table').DataTable();
 		 
-		table.destroy();
+		 table.destroy();
 		
-		$.fn.dataTable.moment('DD-MMM-YYYY');
-		table = $('#datatable-table').DataTable({
+		 $.fn.dataTable.moment('DD-MMM-YYYY');
+		 table = $('#datatable-table').DataTable({
     		"bStateSave": true,
     		fixedHeader: true,
             "fnStateSave": function (oSettings, oData) {
@@ -445,7 +492,7 @@
         }).rows().remove().draw();
 		
 		table.state.clear();		
-  	     var myParams = {contract_id_fk : contract_id_fk };
+  	     var myParams = {contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
   	     $.ajax({
             url: "<%=request.getContextPath()%>/ajax/getMileStoneFilterList",
             data: myParams, cache: false,
@@ -455,22 +502,23 @@
   	                    $.each(data, function (i, val) {
 	  	                    var num = i;
 	  	                  	var rowArray = []; 
-	  	                    var checkBox = 	'<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span><input type="hidden" name="ids"  id="ids'+num+'"  value="' + $.trim(val.id) + '" /></span></label></p></td>';
-		  	                    			
-	                    	var milestone_name =  '<td>' + $.trim(val.milestone_name) + '</td>';
+	  	                  	
+	  	                    var checkBox = 		        '<tr id="row'+num+'"><td><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span><input type="hidden" name="ids"  id="ids'+num+'"  value="' + $.trim(val.id) + '" /></span></label></p></td>';
+	                    	var milestone_name = 	    '<td>' + $.trim(val.milestone_name) + '</td>';
 	                    	var activity_description =	'<td>' + $.trim(val.activity_description) + '</td>';
-	                    	var planned_start =	'<td>' + $.trim(val.planned_start) + '</td>';
-	                    	var planned_finish = '<td>' + $.trim(val.planned_finish) + '</td>';
-	                    	var actual_starts =	'<td> <div class="date-holder"><input id="actual_starts'+num+'" name="actual_starts" type="text" class="validate datepicker" placeholder="Start Date" value="' + $.trim(val.actual_start) + '">'
-                            					+'<button type="button" id="start_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
-                           	var actual_finishs =  '<td> <div class="date-holder"><input id="actual_finishs'+num+'" name="actual_finishs" type="text" class="validate datepicker" placeholder="Finish Date" value="' + $.trim(val.actual_finish) + '">'
-                          						+'<button type="button" id="finish_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
-                          	var totalScope =	'<td><span>' + $.trim(val.total_scope) + '</span>'
-          	 								+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
-          	 				var completed = '<td><span>' + $.trim(val.completed) + '</span>'
-          	 								+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" />';
-          	 				var actual = '<td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly></td></tr>';
-                   			rowArray.push(checkBox);
+	                    	var planned_start =			'<td>' + $.trim(val.planned_start) + '</td>';
+	                    	var planned_finish = 		'<td>' + $.trim(val.planned_finish) + '</td>';
+	                    	var actual_starts =			'<td> <div class="date-holder"><input id="actual_starts'+num+'" name="actual_starts" type="text" class="validate datepicker" placeholder="Start Date" value="' + $.trim(val.actual_start) + '">'
+                            								+'<button type="button" id="start_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
+                           	var actual_finishs = 		'<td> <div class="date-holder"><input id="actual_finishs'+num+'" name="actual_finishs" type="text" class="validate datepicker" placeholder="Finish Date" value="' + $.trim(val.actual_finish) + '">'
+                          						  		    +'<button type="button" id="finish_date_icon'+num+'" class="white"><i class="fa fa-calendar"></i></button></td>';
+                          	var totalScope = 			'<td><span>' + $.trim(val.total_scope) + '</span>'
+          	 											+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
+          	 				var completed = 			'<td><span>' + $.trim(val.completed) + '</span>'
+          	 											+'<input type="hidden" name="completedScopes" class="completed" id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" />';
+          	 				var actual = 				'<td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" ></td></tr>';
+                   			
+          	 				rowArray.push(checkBox);
                    			rowArray.push(milestone_name);
                    			rowArray.push(activity_description);
                    			rowArray.push(planned_start);
@@ -495,14 +543,37 @@
                     	 		}
                     	 	})
                     	 	//var noOfBoxes = document.getElementsByClassName("check")
-                    	 	
-                    	 
-
-                    	 	    $('#datatable-table').on('click', function () {
+                    	 	  /*   $('#datatable-table').on('click', function () {
                     	 	    	$("#check_"+num).change(function() {
                             	 		$("#actualScopes"+num).val('');
                             	 	})
                     	 	    });
+                    	 	 */
+                    	 	 
+                    	 	$("#btn").on('click', function(){
+                    	 		var ans = $("#actualScopes"+num).val();
+                    	 		if($("#check_"+num).is(':checked') && ans == ""){
+                    	 			$("#actualScopes"+num).focus();
+                    	 	        $(".errMsg").show();
+                    	 	        return false;
+                    	 		}
+                    	 	})
+                    	 	$("#activities").on('click', function(){
+                    	 		var ans = $("#actualScopes"+num).val();
+                    	 		if($("#check_"+num).is(':checked') && ans != ""){
+                    	 			$("#actualScopes"+num).focus();
+                    	 	        $(".errMsg").hide();
+                    	 		}
+                    	 		
+                    	 	})
+                    	 	/* $("#activities").on('click', function(){
+                    	 		if($(".check").prop('checked') == true){
+                    	 			$(".errMsgCheck").hide();
+                    	 		}
+                    	 		if($("#check_"+num).prop('checked') == false){
+                    	 			$(".errMsgCheck").show();
+                    	 		}
+                    	 	}) */
                     	 	
   	                 });
   	               }
@@ -597,10 +668,8 @@
        			 required: true
        		  },"contract_id_fk": {
    		 		required: false
-   		 	  },"actualScopes": {
-   		 		 required: function(element){
-   		             return $(".check").is(':checked');
-   		         }
+   		 	  },"actualScopes": true,
+   		 		maxlength: $('.completed').val().length
    		 	  }
        	 },
                messages: {
@@ -608,9 +677,7 @@
                        required: "You must check at least 1 box"
                     },"contract_id_fk": {
    		 			required: 'Select contract'
-   		 	  	 },"actualScopes": {
-   		 	  			required: 'click on Fisnish Activities'
-   	   		 	  }
+   		 	  	 }
        	 },errorPlacement:function(error, element){
      		 	        if(element.attr("name") == "activity_check" ){
 	   					     document.getElementById("checkBoxError").innerHTML="";
@@ -623,7 +690,7 @@
 	   			 			 error.appendTo('#actualScopesError');
 		   			 	    }
        	 },submitHandler:function(form){
-   		    	//form.submit();
+   		    	form.submit();
    		    }
         });
         
@@ -632,8 +699,7 @@
     	        $(this).valid();
     	    }
     	});
-        
-        $('input').change(function(){
+        $('input').click(function(){
     	    if ($(this).val() != ""){
     	        $(this).valid();
     	    }

@@ -1087,7 +1087,7 @@
  	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td><span>' + $.trim(val.completed) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
- 	            	 			+' <td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly></td></tr>';
+ 	            	 			+' <td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" ></td></tr>';
  	                    		$("#filerList").append(html);	  
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });

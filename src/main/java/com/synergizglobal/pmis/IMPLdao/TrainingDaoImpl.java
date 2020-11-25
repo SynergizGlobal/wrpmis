@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.velocity.runtime.directive.Foreach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -246,26 +247,27 @@ public class TrainingDaoImpl implements TrainingDao{
 			sObj = (Training)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
 			
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
-			
-			List<Training> objsList = null;
-			String qryDetails = "select training_session_id,training_id_fk as training_id,session_no,"
-					+" DATE_FORMAT(start_time,'%d-%m-%Y %H:%i:%s') AS start_time,remarks, DATE_FORMAT(end_time,'%d-%m-%Y %H:%i:%s') AS end_time "
-					+ "from training_session "
-					+"where training_id_fk is not null and training_id_fk = ? ";
-			
-			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
-			sObj.setTraining(objsList); 
-			}
-			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
-				
 				List<Training> objsList = null;
-				String qryDetails = "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk\r\n" + 
-						"from training_attendees "
+				String qryDetails = "select training_session_id,training_id_fk as training_id,session_no,"
+						+" DATE_FORMAT(start_time,'%d-%m-%Y %H:%i:%s') AS start_time,remarks, DATE_FORMAT(end_time,'%d-%m-%Y %H:%i:%s') AS end_time "
+						+ "from training_session "
 						+"where training_id_fk is not null and training_id_fk = ? ";
 				
 				objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
-				sObj.setTrainingAttendees(objsList); 
+				sObj.setTrainingSessions(objsList); 
+			}
+			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
+				for (Training session : sObj.getTrainingSessions()) {
+					List<Training> objsList = null;
+					String qryDetails = "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk\r\n" + 
+							"from training_attendees "
+							+"where training_id_fk = ? and  training_session_id_fk = ? ";
+					
+					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),session.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
+					session.setTrainingAttendees(objsList); 
 				}
+				
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());

@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMIS Progress Form</title>
+    <title> Progress Form</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -123,7 +123,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>PMIS Progress Form</h6>
+                                <h6>Progress Form</h6>
                             </div>
                         </span>
                     </div>
@@ -171,6 +171,8 @@
 								
 								<span  class="errMsg" id="errMsg" style="text-align:center">Click on Finish Activities</span>
 								<span  class="errMsgCheck" style="text-align:center">select Check Box first</span>
+							</div>
+							</div>
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
                                         <table class="mdl-data-table" id="datatable-table">
@@ -247,8 +249,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col m1 hide-on-small-only"></div>
-                                <div class="col m10 s12">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
 
                                     
                                     <div class="row">
@@ -274,9 +276,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+<!--                         </div> -->
 
-                </div>
+<!--                 </div> -->
                 </form>
             </div>
         </div>
@@ -481,7 +483,7 @@
                     // className: 'mdl-data-table__cell--non-numeric',
                    
                 },
-                { "width": "10px", "targets": [6] },
+                { "width": "10px", "targets": [6] },                
             ],
             'order': [1, 'asc'],
             // "ScrollX": true,

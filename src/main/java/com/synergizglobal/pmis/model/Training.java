@@ -8,7 +8,7 @@ public class Training {
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours ;
 
-	private List<Training> training;
+	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
@@ -24,12 +24,14 @@ public class Training {
 		this.trainingAttendees = trainingAttendees;
 	}
 
-	public List<Training> getTraining() {
-		return training;
+
+
+	public List<Training> getTrainingSessions() {
+		return trainingSessions;
 	}
 
-	public void setTraining(List<Training> training) {
-		this.training = training;
+	public void setTrainingSessions(List<Training> trainingSessions) {
+		this.trainingSessions = trainingSessions;
 	}
 
 	public String[] getTraining_attendees_ids() {

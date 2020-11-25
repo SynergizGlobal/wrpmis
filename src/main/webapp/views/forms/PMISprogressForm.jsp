@@ -535,7 +535,7 @@
           	 											+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
           	 				var completed = 			'<td><span>' + $.trim(val.completed) + '</span>'
           	 											+'<input type="hidden" name="completedScopes" class="completed" id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" />';
-          	 				var actual = 				'<td class="input-field"><input type="text" name="actualScopes" id="actualScopes'+num+'" readonly  ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+          	 				var actual = 				'<td class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" readonly  ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
                    			
           	 				rowArray.push(checkBox);
                    			rowArray.push(milestone_name);

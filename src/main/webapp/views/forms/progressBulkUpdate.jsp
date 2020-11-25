@@ -1147,13 +1147,15 @@
 	                    	 		}else{
 	                    	 			 $('#actualScopes'+num).prop('readonly', true);
 	                    	 			 $('#actualScopesError'+num).html("");
+	                    	 			 $('#btn').prop('disabled',true);
 	                    	 		}
  	                    	 	});
  	                    	 	document.getElementById('check_'+num).onchange = function() {
- 	                    	 		if($("#check_"+num).prop('checked') || $("#select-all").prop('checked') ){
+ 	                    	 		if($("#check_"+num).prop('checked') ){
  	                    	 			 $('#actualScopes'+num).prop('readonly', false);
  	                    	 		}else{
  	                    	 			 $('#actualScopes'+num).prop('readonly', true);
+ 	                    	 			 $('#btn').prop('disabled',true);
  	                    	 		}
  	                    	 	};
  	                    	 	$('#actualScopes'+num).on('blur', function(){

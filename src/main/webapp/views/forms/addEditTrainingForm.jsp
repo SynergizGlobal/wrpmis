@@ -130,7 +130,7 @@
         .materialize-textarea::placeholder {
             color: #777;
         }
-        .select2-container {
+        .modal .select2-container {
         	z-index:1034;
         }
         .select2-container--default .select2-selection--single{
@@ -440,7 +440,7 @@
                                                             class="fa fa-clock-o"></i></button>
                                                 </td>
                                                 <td>
-                                                    <a href="#session-update-modal"
+                                                    <a href="#session-update-modal0"
                                                         class="btn waves-effect waves-light bg-m t-c modal-trigger">
                                                         Update </a>
                                                 </td>
@@ -666,10 +666,12 @@
                		 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button> </td>' +
                 '<td> <input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
                 	 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
-                '<td>  <a href="#session-update-modal" class="btn waves-effect waves-light bg-m t-c modal-trigger" > Update </a> </td>' +
+                '<td>  <a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" > Update </a> ' +
+                ' <div id="session-update-modal'+ rNo +'" class="modal"> <div class="modal-content"> <h4>Modal Header</h4> <p>A bunch of text</p> </div>  </div> </td>'+
                 '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
                 '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>' + ' </tr>';
                 $('#trainingTableBody').append(html);
+                $('.modal').modal();
                 $("#rowNo").val(rNo);
                 MaterialDateTimePicker.create($("#start_times"+ rNo));
                 MaterialDateTimePicker.create($("#end_times"+ rNo));

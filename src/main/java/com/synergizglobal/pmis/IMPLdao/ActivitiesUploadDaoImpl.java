@@ -419,6 +419,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
@@ -499,6 +500,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

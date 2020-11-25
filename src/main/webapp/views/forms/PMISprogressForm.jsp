@@ -74,11 +74,27 @@
             padding: 0;
             border: 0;
         }
+		.w-150{
+			width:150px;
+			min-width:150px;
+			max-width:150px;
+		}
 
+		.w-250{
+			width:250px;
+			min-width:250px;
+			max-width:250px;
+		}
         @media only screen and (max-width: 700px) {
             div.dataTables_wrapper div.dataTables_filter input {
                 width: 90% !important;
             }
+            .w-150,.w-250{
+			width:auto;
+			min-width:auto;
+			max-width:auto;
+			word-break:break-word;
+		}
         }
          .error-msg label {
             color: red !important;
@@ -129,10 +145,9 @@
                     </div>
                     <!-- form start-->
                     <form action="<%=request.getContextPath() %>/update=pmis-progrss-form" id="progressForm" name="progressForm" method="post" >
-                        <div class="row">
+                        <div class="row" style="margin-bottom: 0;">
                             <div class="col m1 hide-on-small-only"></div>
                             <div class="col m10 s12">
-
                                 <div class="row ">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col m8 s12">
@@ -187,8 +202,8 @@
                                                             </label>
                                                         </p>
                                                     </th>
-                                                    <th>Milestone</th>
-                                                    <th>Activity</th>
+                                                    <th class="w-250">Milestone</th>
+                                                    <th class="w-150">Activity</th>
                                                     <th>Planned <br> Start Date</th>
                                                     <th>Planned <br> Finish Date</th>
                                                     <th>Actual <br> Start Date </th>

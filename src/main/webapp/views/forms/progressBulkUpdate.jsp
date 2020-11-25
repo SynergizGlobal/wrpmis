@@ -460,8 +460,14 @@
 
                                     <div class="row">
                                         <div class="col m2 hide-on-small-only"></div>
-                                        <div class="col m8 s12 center-align" style="margin-bottom: 30px;margin-top: 10px;">
-                                            <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()">Finish Activities</a>
+                                        <div class="col m4 s6" style="margin-bottom: 30px;margin-top: 10px;">
+                                            <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()" style="margin-top:8px">Finish Activities</a>
+                                        </div>
+                                        <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
+                                             <input id="reporting_date" type="text" class="validate datepicker">
+                                             <label for="reporting_date">Reporting Date</label>
+                                                    <button type="button" id="reporting_date_icon" class="white"><i
+                                                            class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
@@ -595,7 +601,11 @@
     <script>
         $(document).ready(function () {
             $('.searchable').select2();
-            
+            $('#reporting_date').datepicker();
+            $('#reporting_date_icon').click(function () {
+                event.stopPropagation();
+                $('#reporting_date').click();
+            });
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();
                 $('#progress_date').click();

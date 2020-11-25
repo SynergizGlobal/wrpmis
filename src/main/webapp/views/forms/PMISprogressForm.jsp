@@ -577,7 +577,14 @@
                     	 	        return false;
                     	 		}
                     	 	}) */
-                    	 	
+                    	 		$("#select-all").on('change', function(){
+		                    	 	if( $("#select-all").prop('checked') ){
+	                    	 				 $('#actualScopes'+num).prop('readonly', false);
+	                    	 		}else{
+	                    	 			 $('#actualScopes'+num).prop('readonly', true);
+	                    	 			 $('#actualScopesError'+num).html("");
+	                    	 		}
+	                    	 	});
                     	 		document.getElementById('check_'+num).onchange = function() {
                     	 		if($("#check_"+num).prop('checked')){
                     	 			 $('#actualScopes'+num).prop('readonly', false);

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ProgressBulkUpdateService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.StripChart;
 
@@ -191,6 +192,7 @@ public class ProgressBulkUpdateController {
 			model.setViewName("redirect:/progress-bulk-update");
 			userId = (String) session.getAttribute("USER_ID");
 			obj.setCreated_by_user_id_fk(userId);
+			obj.setProgress_date(DateParser.parse(obj.getProgress_date()));
 			boolean flag =  progressBulkUpdateervice.updateProgressBulk(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "ProgressBulk Updated Succesfully.");

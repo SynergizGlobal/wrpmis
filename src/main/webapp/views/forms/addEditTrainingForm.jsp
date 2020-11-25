@@ -307,25 +307,25 @@
 												                       	   <c:forEach var="dObj" items="${tObj.trainingAttendees }" varStatus="indexx"> 
 												                            <tr>
 												                                <td>
-												                                <input type="hidden" name="training_attendees_ids" id="training_attendees_ids${indexx.count }"  value="${dObj.training_attendees_id }" />
-												                                   <select class="searchable validate-dropdown" name="department_fks" id="department_fks${indexx.count }">
+												                                <input type="hidden" name="training_attendees_ids" id="training_attendees_ids${indexx.count }${index.count }"  value="${dObj.training_attendees_id }" />
+												                                   <select class="searchable validate-dropdown" name="department_fks" id="department_fks${indexx.count }${index.count }">
 												                                            <option value="" >Select Department </option>
 												                                            	 <c:forEach var="obj" items="${departmentsList}">
-													                       						  <option value="${obj.department_fk }" <c:if test="${dObj.department_fk eq obj.department_fk }">selected</c:if>>${obj.department_fk }</option>
+													                       						  <option value="${obj.department_name }" <c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
 													                                             </c:forEach>
 												                                   </select>
 												                                    <span id="training_category_fkError" class="error-msg" ></span>
 												                                </td>
 												                                <td>
-												                                    <input id="attendees${indexx.count }" name="attendees" type="text" class="validate" placeholder="Attendee" value="${dObj.attendee }">
+												                                    <input id="attendees${indexx.count }${index.count }" name="attendees" type="text" class="validate" placeholder="Attendee" value="${dObj.attendee }">
 												                                </td>
 												                                <td>
-												                                    <input id="mobile_nos${indexx.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile" value="${dObj.mobile_no }">
+												                                    <input id="mobile_nos${indexx.count }${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile" value="${dObj.mobile_no }">
 												                                </td>
 												                                <td>
 												                                    <p>
 												                                        <label>
-												                                            <input type="checkbox" id="required_fks${indexx.count }" name="required_fks" value="${dObj.required_fk }"/>
+												                                            <input type="checkbox" id="required_fks${indexx.count }${index.count }" name="required_fks" value="${dObj.required_fk }"/>
 												                                            <span></span>
 												                                        </label>
 												                                    </p>
@@ -333,7 +333,7 @@
 												                                <td>
 												                                    <p>
 												                                        <label>
-												                                            <input type="checkbox" id="participated_fks${indexx.count }" name="participated_fk" />
+												                                            <input type="checkbox" id="participated_fks${indexx.count }${index.count }" name="participated_fk" />
 												                                            <span></span>
 												                                        </label>
 												                                    </p>
@@ -351,7 +351,7 @@
 												                                   <select class="searchable validate-dropdown" name="department_fks" id="department_fks0">
 												                                            <option value="" >Select Department </option>
 												                                            	 <c:forEach var="obj" items="${departmentsList}">
-													                       						  <option value="${obj.department_fk }" >${obj.department_fk }</option>
+													                       						  <option value="${obj.department_name }" >${obj.department_name }</option>
 													                                             </c:forEach>
 												                                   </select>
 												                                    <span id="training_category_fkError" class="error-msg" ></span>
@@ -389,9 +389,9 @@
 								                                    </table>
 												                                     
 									                    			<table class="mdl-data-table">
-									                                        <tbody id="documentBody">                                          
+									                                        <tbody id="trainingBody">                                          
 												                                    <tr>
-												  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i
+												  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i
 												                                                            class="fa fa-plus"></i></a>
 												                                    </tr>
 									                                        </tbody>
@@ -411,7 +411,7 @@
 												    </div>
                                                 </td>
                                                 <td>
-                                                    <textarea id="remarkss${indexx.count }" name="remarkss" class="materialize-textarea"
+                                                    <textarea id="remarkss${index.count }" name="remarkss" class="materialize-textarea"
                                                         placeholder="Remarks">${tObj.remarks }</textarea>
                                                 </td>
                                                 <td>
@@ -440,9 +440,77 @@
                                                             class="fa fa-clock-o"></i></button>
                                                 </td>
                                                 <td>
-                                                    <a href="#session-update-modal0"
-                                                        class="btn waves-effect waves-light bg-m t-c modal-trigger">
-                                                        Update </a>
+                                                    <a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger"> Update </a>
+                                                     <div id="session-update-modal0" class="modal">
+												        <div class="modal-content">
+												          <h4 class="modal-header">Trainee Updation Details</h4>
+                                                          <div class="row fixed-width">
+												                <div class="table-inside">
+												                    <table id="training-update-table0" class="mdl-data-table">
+												                        <thead>
+												                            <tr>
+												                                <th>Department</th>
+												                                <th>Attendee</th>
+												                                <th>Mobile</th>
+												                                <th>Required</th>
+												                                <th>Participated</th>
+												                                <th>Action</th>
+												                            </tr>
+												                        </thead>
+												                        <tbody id="attendeesTableBody0" >
+												                       		 <tr>
+												                                <td>
+												                                <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0"  value="${dObj.training_attendees_id }" />
+												                                   <select class="searchable validate-dropdown" name="department_fks" id="department_fks0">
+												                                            <option value="" >Select Department </option>
+												                                            	 <c:forEach var="obj" items="${departmentsList}">
+													                       						  <option value="${obj.department_name }" <c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
+													                                             </c:forEach>
+												                                   </select>
+												                                    <span id="training_category_fkError" class="error-msg" ></span>
+												                                </td>
+												                                <td>
+												                                    <input id="attendees0" name="attendees" type="text" class="validate" placeholder="Attendee" value="${dObj.attendee }">
+												                                </td>
+												                                <td>
+												                                    <input id="mobile_nos0" name="mobile_nos" type="number" class="validate" placeholder="Mobile" value="${dObj.mobile_no }">
+												                                </td>
+												                                <td>
+												                                    <p>
+												                                        <label>
+												                                            <input type="checkbox" id="required_fks0" name="required_fks" value="${dObj.required_fk }"/>
+												                                            <span></span>
+												                                        </label>
+												                                    </p>
+												                                </td>
+												                                <td>
+												                                    <p>
+												                                        <label>
+												                                            <input type="checkbox" id="participated_fks0" name="participated_fk" />
+												                                            <span></span>
+												                                        </label>
+												                                    </p>
+												                                </td>
+												                                <td>
+												                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i
+												                                            class="fa fa-close"></i></a>
+												                                </td>
+												                            </tr>
+													                      </tbody>
+									                                    </table>
+												                             
+												                            <table class="mdl-data-table">
+									                                        <tbody id="trainingBody">                                          
+												                                    <tr>
+												  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i
+												                                                            class="fa fa-plus"></i></a>
+												                                    </tr>
+									                                        </tbody>
+									                                    </table>
+									                                  </div>
+												   				 </div>
+									                      </div>
+												    </div>
                                                 </td>
                                                 <td>
                                                     <textarea id="remarkss0" name="remarkss" class="materialize-textarea"
@@ -458,7 +526,7 @@
                                      	 </tbody>
                                     </table>
 									<table class="mdl-data-table">
-	                                        <tbody id="documentBody">                                          
+	                                        <tbody id="trainingBody">                                          
 				                                    <tr>
 				  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addSessionRow()"> <i
 				                                                            class="fa fa-plus"></i></a>
@@ -648,8 +716,8 @@
                 '<td><input id="mobile_nos'+ rNo +'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
                 '<td><p><label><input type="checkbox" id="required_fks'+ rNo +'" name="required_fks"/><span></span></label></p></td>' +
                 '<td><p><label><input type="checkbox" id="participated_fks'+ rNo +'" name="participated_fks"/><span></span></label></p></td>' +
-                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>' + '</tr>';
-                $('#attendeesTableBody').append(html);
+                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+                $('#attendeesTableBody'+ rNo).append(html);
                 $("#trainNo").val(rNo);
            	    $('#department_fks' + rNo).formSelect();
            
@@ -660,17 +728,38 @@
         function addSessionRow() {
         	 var rowNo = $("#rowNo").val();
              var rNo = Number(rowNo)+1;
-            var html = '<tr>' +
-                '<td> <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
-                '<td> <input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
-               		 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button> </td>' +
-                '<td> <input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
-                	 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
-                '<td>  <a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" > Update </a> ' +
-                ' <div id="session-update-modal'+ rNo +'" class="modal"> <div class="modal-content"> <h4>Modal Header</h4> <p>A bunch of text</p> </div>  </div> </td>'+
-                '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
-                '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>' + ' </tr>';
-                $('#trainingTableBody').append(html);
+             var html = '<tr>' +
+             '<td> <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
+             '<td> <input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
+            		 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button> </td>' +
+             '<td> <input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
+             	 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
+             '<td> <a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" > Update </a> ' +
+					'<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
+					'<h4 class="modal-header">Trainee Updation Details</h4> <div class="row fixed-width"><div class="table-inside">'+
+						'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
+							' <thead><tr><th>Department</th><th>Attendee</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
+							  ' <tbody id="attendeesTableBody'+ rNo +'" ><tr><td>'+
+								  ' <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +'"  value="${dObj.training_attendees_id }" />'+
+									'<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo +'">'+
+								      ' <option value="" >Select Department </option>'+
+							             <c:forEach var="obj" items="${departmentsList}">
+								            '<option value="${obj.department_name }" <c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>'+
+								          </c:forEach>
+									'</select>'+
+									'<span id="training_category_fkError" class="error-msg" ></span></td>'+
+									'<td><input id="attendees'+ rNo +'" name="attendees" type="text" class="validate" placeholder="Attendee" value="${dObj.attendee }"></td>'+
+									'<td><input id="mobile_nos'+ rNo +'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" value="${dObj.mobile_no }"></td>'+
+									' <td><p><label><input type="checkbox" id="required_fks'+ rNo +'" name="required_fks" value="${dObj.required_fk }"/><span></span></label></p></td>'+
+									'<td><p><label><input type="checkbox" id="participated_fks'+ rNo +'" name="participated_fk" /><span></span></label></p></td>'+
+									'<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td> </tr></tbody></table>'+
+									'<input type="hidden" id="trainNo"  name="trainNo" value="0" /> ' +                    
+	                        		'<table class="mdl-data-table"><tbody id="trainingBody">'+                                          
+	                                  '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i class="fa fa-plus"></i></a> </tr>'+
+	                                  '</tbody></table></div></div></div></div> </td>'+
+             '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
+             '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>' + ' </tr>';
+             $('#trainingTableBody').append(html);
                 $('.modal').modal();
                 $("#rowNo").val(rNo);
                 MaterialDateTimePicker.create($("#start_times"+ rNo));
@@ -682,6 +771,7 @@
             $('#end_time_icon'+ rNo +'').click(function () {
                 MaterialDateTimePicker.create($("#end_times" + rNo));
             });
+            $('#department_fks' + rNo).formSelect();
         }
       
     </script>

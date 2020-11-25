@@ -576,9 +576,9 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO scope_progress"
-					+ "(created_by_user_id_fk, remarks, completed_scope, strip_chart_id_fk,created_date)"
+					+ "(created_by_user_id_fk, remarks, completed_scope, strip_chart_id_fk,progress_date,created_date)"
 					+ "VALUES"
-					+ "(?,?,?,?,curdate())";
+					+ "(?,?,?,?,?,curdate())";
 			insertStmt = con.prepareStatement(insertQry);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
@@ -589,11 +589,14 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			}
 			for (int i = 0; i < arraySize; i++) {				
 			    int k = 1;
-			    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
-			    insertStmt.setString(k++, obj.getRemarks());
-			    insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
-			    insertStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
-			    insertStmt.addBatch();
+			    if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) {
+				    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
+				    insertStmt.setString(k++, obj.getRemarks());
+				    insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:null);
+				    insertStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
+				    insertStmt.setString(k++, obj.getProgress_date());
+				    insertStmt.addBatch();
+			    }
 			}
 			int[] insertCount = insertStmt.executeBatch();
 			
@@ -606,7 +609,8 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			if(flag) {
 				int i = 0;
 				
-				String updateQry = "UPDATE  strip_chart set completed = IFNULL(NULLIF(completed, '' ), 0) + ?   where strip_chart_id = ?";	
+				String updateQry = "UPDATE  strip_chart set completed = IFNULL(NULLIF(completed, '' ), 0) + ?,actual_start = IFNULL(actual_start,?),"
+						+ "actual_finish = (if (scope = completed ,?,actual_finish)) where strip_chart_id = ?";	
 				updateStmt = con.prepareStatement(updateQry);
 				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
 					obj.setCompletedScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getCompletedScopes()));
@@ -614,15 +618,15 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 						arraySize = obj.getCompletedScopes().length;
 					}
 				}
-				
 				for ( i = 0; i < arraySize; i++) {		
-				
 					int k = 1;
 					 String actual = "0";
 					
 					if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) {
 						actual = obj.getActualScopes()[i];
-						updateStmt.setString(k++, actual );					
+						updateStmt.setString(k++, actual );	
+						updateStmt.setString(k++, obj.getProgress_date());	
+						updateStmt.setString(k++, obj.getProgress_date());	
 						updateStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
 						updateStmt.addBatch();
 					}

@@ -6,7 +6,7 @@ public class Training {
 
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
-	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours ;
+	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name ;
 
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
@@ -15,6 +15,14 @@ public class Training {
 	training_session_ids, session_nos, start_times, end_times, remarkss;
 
 	
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
+	}
 
 	public List<Training> getTrainingAttendees() {
 		return trainingAttendees;

@@ -279,7 +279,7 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getDepartmentsList() throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select department as department_fk from department ";
+			String qry ="select department as department_fk,department_name from department ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

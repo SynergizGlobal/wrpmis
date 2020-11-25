@@ -464,10 +464,10 @@
                                             <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()" style="margin-top:8px">Finish Activities</a>
                                         </div>
                                         <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
-                                             <input id="reporting_date" type="text" class="validate datepicker">
-                                             <label for="reporting_date">Reporting Date</label>
-                                                    <button type="button" id="reporting_date_icon" class="white"><i
-                                                            class="fa fa-calendar"></i></button>
+                                             <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
+                                             <label for="progress_date">Reporting Date</label>
+                                             <button type="button" id="progress_date_icon" class="white"><i class="fa fa-calendar"></i></button>
+                                              <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
@@ -552,7 +552,7 @@
                                         </div>
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="reset" class="btn waves-effect waves-light bg-s"
+                                                <button type="reset" onClick="window.location.reload();" class="btn waves-effect waves-light bg-s"
                                                     style="width: 100%;">Reset</button>
                                             </div>
                                         </div>
@@ -599,12 +599,21 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+	    $(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
         $(document).ready(function () {
             $('.searchable').select2();
-            $('#reporting_date').datepicker();
-            $('#reporting_date_icon').click(function () {
+            $('#btn').prop('disabled',true);
+           // $('#progress_date').datepicker();
+            $('#progress_date_icon').click(function () {
                 event.stopPropagation();
-                $('#reporting_date').click();
+                $('#progress_date').click();
             });
             $('#progress_date_icon').click(function () {
                 event.stopPropagation();
@@ -1124,23 +1133,28 @@
 	                   		       	    $("#select-all").prop('checked', false);
 	                   		   		 }
 	                    		});
- 	                    	 	
  	                    	 	$("#activities").on('click', function(){
  	                    	 		var ans = $("#actualScopes"+num).val();
  	                    	 		if($("#check_"+num).is(':checked') && ans != ""){
  	                    	 			$("#actualScopes"+num).focus();
- 	                    	 	        $(".error-msg").hide();
+ 	                    	 	        $("#actualScopesError").hide();
+ 	                    	 	        $('#btn').prop('disabled', this.value == "" ? true : false);     
  	                    	 		}
- 	                    	 		
  	                    	 	})
- 	                    	 	
+ 	                    	 	$("#select-all").on('change', function(){
+ 	                    	 		if( $("#select-all").prop('checked') ){
+	                    	 			 $('#actualScopes'+num).prop('readonly', false);
+	                    	 		}else{
+	                    	 			 $('#actualScopes'+num).prop('readonly', true);
+	                    	 			 $('#actualScopesError'+num).html("");
+	                    	 		}
+ 	                    	 	});
  	                    	 	document.getElementById('check_'+num).onchange = function() {
- 	                    	 		if($("#check_"+num).prop('checked')){
+ 	                    	 		if($("#check_"+num).prop('checked') || $("#select-all").prop('checked') ){
  	                    	 			 $('#actualScopes'+num).prop('readonly', false);
  	                    	 		}else{
  	                    	 			 $('#actualScopes'+num).prop('readonly', true);
  	                    	 		}
- 	                    	 	  
  	                    	 	};
  	                    	 	$('#actualScopes'+num).on('blur', function(){
  	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
@@ -1148,17 +1162,21 @@
  	                    	 		if(actual < $('#actualScopes'+num).val()){
  	                    	 			$("#actualScopes"+num).val('');
  	                    	 			$('#actualScopesError'+num).html("< or =  '"+actual+"'");
+ 	                    	 			$('#btn').prop('disabled',true);
  	                    	 		}
  	                    	 		else{
  	                    	 			$('#actualScopesError'+num).html("");
  	                    	 		}
  	                    	 	})
  	                    	 	$("#check_"+num).on('change', function(){
-                    	 		if($("#check_"+num).is(':unchecked')){
-                    	 			$('#actualScopesError'+num).html("");
-                    	 		}
-                    	 	})
- 	                   });
+	                    	 		if($("#check_"+num).is(':unchecked')){
+	                    	 			$('#actualScopesError'+num).html("");
+                    	 			}
+                    	 		})
+							    $("#actualScopes"+num).keyup(function(){
+							        $('#btn').prop('disabled', this.value == "" ? true : false);     
+							    })
+ 	                     });
  	                }
  	                $(".page-loader").hide();
  	            }
@@ -1207,6 +1225,8 @@
 			 	required: false
 			  },"work_id_fk": {
 		 		required: false
+		 	  },"progress_date": {
+		 		required: true
 		 	  },"contract_id_fk": {
 		 		required: true
 		 	  },"strip_chart_structure_id_fk": {
@@ -1238,7 +1258,9 @@
 		 			required: 'Select contract'
 		 	  	 },"strip_chart_structure_id_fk": {
 		 	  		required: 'Select Structure'
-			 	 },"strip_chart_component": {
+			 	 },"progress_date": {
+		 			required: 'Select Reporting Date'
+		 	  	 },"strip_chart_component": {
 		 			required: 'Select component'
 		 	  	 },"strip_chart_component_id": {
 		 			required: 'Select component id'
@@ -1263,6 +1285,9 @@
 			 	    }else if (element.attr("id") == "strip_chart_structure_id_fk" ){
    			 	    	 document.getElementById("strip_chart_structure_id_fkError").innerHTML="";
 			 			 error.appendTo('#strip_chart_structure_id_fkError');
+		 	    	}else if (element.attr("id") == "progress_date" ){
+   			 	    	 document.getElementById("progress_dateError").innerHTML="";
+			 			 error.appendTo('#progress_dateError');
 		 	    	}else if (element.attr("id") == "strip_chart_component" ){
 			 		     document.getElementById("strip_chart_componentError").innerHTML="";
 			 			 error.appendTo('#strip_chart_componentError');
@@ -1280,6 +1305,15 @@
 		    	//form.submit();
 		    }
      });
+     $.validator.addMethod("dateFormat",
+     	    function(value, element) {
+     	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+     	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+     	    	//return dtRegex.test(value);
+     	    },
+     	    //"Date format (Aug 02,2020)"
+     	    "Date format (DD-MM-YYYY)"
+     	);
      
      $('select').change(function(){
  	    if ($(this).val() != ""){

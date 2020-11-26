@@ -812,8 +812,7 @@ var dateTimesInits=0;
             $('#end_time_icon'+ rNo +'').click(function () {
                 MaterialDateTimePicker.create($("#end_times" + rNo));
             });
-            
-        }
+            }
         
         function updateTraining(){
         	        	

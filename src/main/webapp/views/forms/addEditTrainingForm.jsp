@@ -136,13 +136,18 @@
         .select2-container--default .select2-selection--single{
         	background-color:transparent;
         }
+        tbody thead tr:hover{
+        	    background-color: #282130 !important;
+        }
     </style>
 </head>
 
 <body>
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
-
+<script>
+var dateTimesInits=0;
+</script>
     <!-- card  -->
     <div class="row">
         <div class="col s12 m12">
@@ -426,16 +431,9 @@
                                                     <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
-                                           <!--  <script>
-		                                            MaterialDateTimePicker.create($("#start_times${index.count }"));
-		                                            MaterialDateTimePicker.create($("#end_times${index.count }"));
-		                                            $('#start_time_icon${index.count }').click(function () {
-		                                                MaterialDateTimePicker.create($("#start_times${index.count }"));
-		                                            });
-		                                            $('#end_time_icon${index.count }').click(function () {
-		                                                MaterialDateTimePicker.create($("#end_times${index.count }"));
-		                                            });
-                                            </script> -->
+                                          <script>
+                                          		dateTimesInits++;                                         
+                                           </script>
                                           </c:forEach>
                                          </c:when>
                                        	<c:otherwise>
@@ -712,8 +710,23 @@
                     $('#issue_yes').css("display", "none");
                 }
             });
-
+            callDateTimePicker(dateTimesInits);
         });
+        //initializing datetime pickers 		
+        function callDateTimePicker(){
+        	
+        	for ( var i = 1; i <= dateTimesInits; i++ ) {
+        		//cons(dateTimesInits)
+        		 MaterialDateTimePicker.create($("#start_times"+i));
+        		 MaterialDateTimePicker.create($("#end_times"+i));
+        		 $('#start_time_icon'+i).click(function () {
+                     MaterialDateTimePicker.create($("#start_times"+i));
+                 });
+                 $('#end_time_icon'+i).click(function () {
+                     MaterialDateTimePicker.create($("#end_times"+i));
+                 });
+        	}
+        }
         function addTrainingUpdateRow() {
         	var index = $("#index").val();
         	 var trainNo = $("#trainNo").val();
@@ -751,7 +764,7 @@
             		 '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button> </td>' +
              '<td> <input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
              	 '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
-             '<td> <a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" > Update </a> ' +
+             '<td> <a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 					'<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 					'<h4 class="modal-header">Trainee Updation Details</h4> <div class="row fixed-width"><div class="table-inside">'+
 						'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
@@ -776,7 +789,19 @@
              '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
              '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
              $('#trainingTableBody').append(html);
-                $('.modal').modal();
+               /*  $('.modal').modal();
+                $('.modal .searchable').select2({
+                	 
+                }); */
+                $('#session-update-modal'+rNo).modal();
+                $('#department_fks' + rNo+tNo).select2({
+                	dropdownParent: $('#session-update-modal'+rNo+' .modal-content')
+                });
+               /*  $('#session-update-modal'+rNo).modal();
+                $('#session-update-modal'+rNo+' .searchable').select2({
+                	 dropdownParent: $('#session-update-modal'+rNo+' .modal-content')
+                });
+                 */
                 $("#rowNo").val(rNo);
                 MaterialDateTimePicker.create($("#start_times"+ rNo));
                 MaterialDateTimePicker.create($("#end_times"+ rNo));
@@ -787,7 +812,7 @@
             $('#end_time_icon'+ rNo +'').click(function () {
                 MaterialDateTimePicker.create($("#end_times" + rNo));
             });
-            $('#department_fks' + rNo+tNo).formSelect();
+            
         }
         
         function updateTraining(){
@@ -798,6 +823,10 @@
 	  			document.getElementById("trainingForm").submit();		
     		
         	
+        }
+        function showNo(a){
+        	var f=a.href.split("#")[1].split("-")[2].split('modal')[1];        	
+        	console.log($('#trainingRow'+f));
         }
       
     </script>

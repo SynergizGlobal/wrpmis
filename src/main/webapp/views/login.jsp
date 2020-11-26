@@ -131,7 +131,7 @@
         </div>
     </footer>
           <!-- footer ends here -->
-<script src="https://code.jquery.com/jquery-3.5.0.min.js" ></script>
+<script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
 <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
 <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
 <script type="text/javascript">

@@ -816,12 +816,10 @@ var dateTimesInits=0;
         }
         
         function updateTraining(){
-        	
-        	
+        	        	
 				$(".page-loader").show();
 				
-	  			document.getElementById("trainingForm").submit();		
-    		
+	  			document.getElementById("trainingForm").submit();		    		
         	
         }
         function showNo(a){

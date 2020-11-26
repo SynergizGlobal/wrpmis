@@ -32,8 +32,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.TrainingService;
 import com.synergizglobal.pmis.Iservice.WorkService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.Training;
 
@@ -150,6 +152,8 @@ public class TrainingController {
 			model.addObject("trainingTypesList", trainingTypesList);
 			List<Training> departmentsList = trainingService.getDepartmentsList();
 			model.addObject("departmentsList", departmentsList);
+			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
+			model.addObject("issueCatogoriesList", issueCatogoriesList);
 			
 		}catch (Exception e) {
 				logger.error("addTrainingForm : " + e.getMessage());
@@ -171,6 +175,8 @@ public class TrainingController {
 			model.addObject("trainingTypesList", trainingTypesList);
 			List<Training> departmentsList = trainingService.getDepartmentsList();
 			model.addObject("departmentsList", departmentsList);
+			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
+			model.addObject("issueCatogoriesList", issueCatogoriesList);
 			Training trainingDetails = trainingService.getTraining(obj);
 			model.addObject("trainingDetails", trainingDetails);
 		
@@ -181,12 +187,38 @@ public class TrainingController {
 		return model;
 	 }
 	
+	@RequestMapping(value = "/update-training", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateTraining(@ModelAttribute Training obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/training");
+			
+			obj.setStart_time(DateParser.parseDateTime(obj.getStart_time()));
+			obj.setEnd_time(DateParser.parseDateTime(obj.getEnd_time()));
+
+			boolean flag =  trainingService.updateTraining(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Training Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Training is failed. Try again.");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error","Updating Training is failed. Try again.");
+			logger.error("updateTraining : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
 	@RequestMapping(value = "/export-training", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportTraining(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Training dObj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.trainingGrid);
 		List<Training> dataList = new ArrayList<Training>();
 		try {
-			view.setViewName("redirect:/documents");
+			view.setViewName("redirect:/training");
 			dataList =   trainingService.getTrainingList(dObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();

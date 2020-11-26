@@ -12,6 +12,7 @@ public class DateParser {
 
 	public static Logger logger = Logger.getLogger(CommonMethods.class);
 	public static SimpleDateFormat mySQLDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	public static SimpleDateFormat mySQLDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static final Map<String, String> DATE_FORMAT_REGEXPS = new HashMap<String, String>() {        
 		/**
 		 * 
@@ -82,6 +83,23 @@ public class DateParser {
         return parsedDate;
     }
 
+    public static String parseDateTime(String value) {
+    	String parseDateTime = null;
+        if (value != null) {
+            String format = determineDateFormat(value);
+            if (format != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat(format);
+                try {
+                    Date date = sdf.parse(value);
+                    //System.out.println(String.format("Format : %s | Value : %s | Parsed Date : %s", value, date, format));
+                    parseDateTime = mySQLDateTimeFormat.format(date);
+                } catch (ParseException e) {
+                    // Failed the execution
+                }
+            }
+        }
+        return parseDateTime;
+    }
 	/*public static void main(String[] args) {
 	    parse("2011-09-27T07:04:21.97-05:00"); //here is your value
 	    parse("20110917");

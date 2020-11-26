@@ -26,5 +26,9 @@ public interface TrainingDao {
 
 	public List<Training> getTrainings(Training obj) throws Exception;
 
+	public List<Training> getIssueCatogoriesList() throws Exception;
+
+	public boolean updateTraining(Training obj) throws Exception;
+
 
 }

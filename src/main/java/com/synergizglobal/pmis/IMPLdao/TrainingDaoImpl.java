@@ -1,17 +1,41 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.apache.velocity.runtime.directive.Foreach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.TrainingDao;
+import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.Training;
@@ -25,6 +49,9 @@ public class TrainingDaoImpl implements TrainingDao{
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 
+	@Autowired
+	DataSourceTransactionManager transactionManager;
+	
 	@Override
 	public List<Training> getTrainingList(Training obj) throws Exception {
 		List<Training> objsList = null;
@@ -259,8 +286,9 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 				for (Training session : sObj.getTrainingSessions()) {
 					List<Training> objsList = null;
-					String qryDetails = "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk\r\n" + 
-							"from training_attendees "
+					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk\r\n" + 
+							"from training_attendees ta "
+							+ "LEFT JOIN department d on d.department = ta.department_fk "
 							+"where training_id_fk = ? and  training_session_id_fk = ? ";
 					
 					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),session.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
@@ -291,15 +319,22 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getTrainings(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_id() )) {
-			
-			String qryDetails = "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk "
-					+ "from training_attendees "
-					+"where training_id_fk is not null and training_id_fk = ? and training_session_id_fk = ? ";
-			
-			objsList = jdbcTemplate.query(qryDetails, new Object[] {obj.getTraining_id(),obj.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
-			
-			}
+			/*
+			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_id() ))
+			 * {
+			 * 
+			 * String qryDetails =
+			 * "select training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk "
+			 * + "from training_attendees "
+			 * +"where training_id_fk is not null and training_id_fk = ? and training_session_id_fk = ? "
+			 * ;
+			 * 
+			 * objsList = jdbcTemplate.query(qryDetails, new Object[]
+			 * {obj.getTraining_id(),obj.getTraining_session_id()}, new
+			 * BeanPropertyRowMapper<Training>(Training.class));
+			 * 
+			 * }
+			 */
 		
 		
 		}catch(Exception e) {
@@ -307,6 +342,121 @@ public class TrainingDaoImpl implements TrainingDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<Training> getIssueCatogoriesList() throws Exception {
+		List<Training> objsList = null;
+		try {
+			String qry ="select category from issue_category";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean updateTraining(Training obj) throws Exception {
+		boolean flag = false;
+		Connection con = null;
+		PreparedStatement updateStmt = null;
+		PreparedStatement insertStmt = null;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		
+		try{
+			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String qry = "UPDATE training SET training_type_fk=:training_type_fk,training_category_fk=:training_category_fk,status_fk=:status_fk,faculty_name=:faculty_name,"
+					+ "designation=:designation,title=:title,description=:description,training_center=:training_center "
+					+ "WHERE training_id = :training_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(qry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+			if(flag) {
+				String updateQry1 = "UPDATE training_session set "
+						+ "session_no=? , start_time= ?, end_time= ?,remarks = ? "
+						+ "where training_session_id= ? and training_id_fk = ? ";
+				
+				updateStmt = con.prepareStatement(updateQry1);
+				
+				String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,"
+						+"remarks) "
+						+"VALUES (?,?,?,?,?)";
+				insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
+				
+				int	arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
+					obj.setSession_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getSession_nos()));
+					if(arraySize < obj.getSession_nos().length) {
+						arraySize = obj.getSession_nos().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getStart_times()) && obj.getStart_times().length > 0) {
+					obj.setStart_times(CommonMethods.replaceEmptyByNullInSringArray(obj.getStart_times()));
+					if(arraySize < obj.getStart_times().length) {
+						arraySize = obj.getStart_times().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getEnd_times()) && obj.getEnd_times().length > 0) {
+					obj.setEnd_times(CommonMethods.replaceEmptyByNullInSringArray(obj.getEnd_times()));
+					if(arraySize < obj.getEnd_times().length) {
+						arraySize = obj.getEnd_times().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+					obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+					if(arraySize < obj.getRemarkss().length) {
+						arraySize = obj.getRemarkss().length;
+					}
+				}
+				for (int i = 0; i < arraySize; i++) {
+					String dId = obj.getTraining_session_ids()[i];
+					if(!StringUtils.isEmpty(dId)) {
+					    int p = 1;
+						
+						updateStmt.setString(p++,(obj.getSession_nos().length > 0)?obj.getSession_nos()[i]:null);
+					    updateStmt.setString(p++,DateParser.parseDateTime((obj.getStart_times().length > 0)?obj.getStart_times()[i]:null));
+					    updateStmt.setString(p++,DateParser.parseDateTime((obj.getEnd_times().length > 0)?obj.getEnd_times()[i]:null));
+					    updateStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+					    updateStmt.setString(p++,(obj.getTraining_session_ids()[i]));
+					    updateStmt.setString(p++,(obj.getTraining_id()));
+					    updateStmt.addBatch();
+					} else {
+							
+					    int p = 1;
+					    insertStmt.setString(p++,(obj.getTraining_id()));
+						insertStmt.setString(p++,(obj.getSession_nos().length > 0)?obj.getSession_nos()[i]:null);
+					    insertStmt.setString(p++,DateParser.parseDateTime((obj.getStart_times().length > 0)?obj.getStart_times()[i]:null));
+					    insertStmt.setString(p++,DateParser.parseDateTime((obj.getEnd_times().length > 0)?obj.getEnd_times()[i]:null));
+					    insertStmt.setString(p++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+					    insertStmt.addBatch();
+					}
+				}
+				int[] updateCount = updateStmt.executeBatch();
+				
+				
+				int[] insertCount = insertStmt.executeBatch();
+			
+				if(updateCount.length > 0 || insertCount.length > 0) {
+					flag = true;
+				}
+			}
+		DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+		DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
+		con.commit();
+		}catch(Exception e){ 
+			con.rollback();
+			e.printStackTrace();
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
+		}
+			
+		return flag;
 	}
 	
 

@@ -6,7 +6,7 @@ public class Training {
 
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
-	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name ;
+	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,is_there_issue,category ;
 
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
@@ -14,7 +14,23 @@ public class Training {
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss;
 
-	
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+	public String getIs_there_issue() {
+		return is_there_issue;
+	}
+
+	public void setIs_there_issue(String is_there_issue) {
+		this.is_there_issue = is_there_issue;
+	}
 
 	public String getDepartment_name() {
 		return department_name;

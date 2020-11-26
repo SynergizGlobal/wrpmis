@@ -3,7 +3,8 @@ package com.synergizglobal.pmis.constants;
 import java.io.File;
 
 public class CommonConstants {
-	public final static String BASE_URL = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
+	//public final static String BASE_URL = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
+	public final static String BASE_URL = "http://10.203.10.157:8000/trusted/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
 	public final static String TABLEAU_PARAMS = "&:tabs=no&:toolbar=no";
 	
 	
@@ -59,7 +60,7 @@ public class CommonConstants {
 	public final static String BUDGET_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"BUDGET_FILES"+File.separator;
 	public final static String FUND_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FUND_FILES"+File.separator;
 	public final static String DOCUMENT_FILES_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DOCUMENT_FILES"+File.separator;
-	*/
 	
+	*/
 	
 }

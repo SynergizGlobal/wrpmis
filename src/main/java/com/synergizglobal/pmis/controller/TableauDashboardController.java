@@ -80,7 +80,12 @@ public class TableauDashboardController {
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
-				String[] url = vo.getTableauUrl().split(".com/");
+				String[] url = {};
+				if(vo.getTableauUrl().contains(".com/")) {
+					url = vo.getTableauUrl().split(".com/");
+				}else {
+					url = vo.getTableauUrl().split(":8000/");
+				}
 				String trustedTokenId =  TableauTrustedTicket.getTrustedTicket();
 				String baseUrl = CommonConstants.BASE_URL.replace("{0}", trustedTokenId);
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
@@ -125,8 +130,13 @@ public class TableauDashboardController {
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
+				String[] url = {};
+				if(vo.getTableauUrl().contains(".com/")) {
+					url = vo.getTableauUrl().split(".com/");
+				}else {
+					url = vo.getTableauUrl().split(":8000/");
+				}
 				
-				String[] url = vo.getTableauUrl().split(".com/");
 				String trustedTokenId =  TableauTrustedTicket.getTrustedTicket();
 				String baseUrl = CommonConstants.BASE_URL.replace("{0}", trustedTokenId);
 				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;

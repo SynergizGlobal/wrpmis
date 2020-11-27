@@ -4,7 +4,7 @@ import java.io.File;
 
 public class CommonConstants {
 	//public final static String BASE_URL = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
-	public final static String BASE_URL = "http://10.203.10.157:8000/trusted/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
+	public final static String BASE_URL = "http://10.203.10.157:8000/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
 	public final static String TABLEAU_PARAMS = "&:tabs=no&:toolbar=no";
 	
 	

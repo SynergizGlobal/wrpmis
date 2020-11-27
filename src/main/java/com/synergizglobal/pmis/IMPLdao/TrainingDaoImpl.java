@@ -505,16 +505,25 @@ public class TrainingDaoImpl implements TrainingDao{
 						    updateStmt1.setString(p++,(obj.getTraining_attendees_ids()[i]));
 						    updateStmt1.addBatch();
 						} else {
-								
-						    int p = 1;
-						    insertStmt1.setString(p++,(obj.getTraining_id()));
-						    insertStmt1.setString(p++,(obj.getTraining_session_id_fks()[i]));
-							insertStmt1.setString(p++,(obj.getDepartment_fks().length > 0)?obj.getDepartment_fks()[i]:null);
-							insertStmt1.setString(p++,(obj.getAttendees().length > 0)?obj.getAttendees()[i]:null);
-							insertStmt1.setString(p++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[i]:null);
-							insertStmt1.setString(p++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[i]:null);
-						    insertStmt1.setString(p++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[i]:null);
-						    insertStmt1.addBatch();
+							if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0 && obj.getDepartment_fks()[i] != "") {	
+								if (rs.next()) {
+									String sessionId = rs.getString(1);
+									obj.setTraining_session_id_fk(sessionId);
+								}
+								int p = 1;
+							    insertStmt1.setString(p++,(obj.getTraining_id()));
+							    if((obj.getTraining_session_id_fks()[i] == "" || obj.getTraining_session_id_fks()[i] == "undefined")) {
+							    	insertStmt1.setString(p++,(obj.getTraining_session_id_fk()));
+							    }else {
+								    insertStmt1.setString(p++,(obj.getTraining_session_id_fks()[i]));
+							    }
+								insertStmt1.setString(p++,(obj.getDepartment_fks().length > 0)?obj.getDepartment_fks()[i]:null);
+								insertStmt1.setString(p++,(obj.getAttendees().length > 0)?obj.getAttendees()[i]:null);
+								insertStmt1.setString(p++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[i]:null);
+								insertStmt1.setString(p++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[i]:null);
+							    insertStmt1.setString(p++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[i]:null);
+							    insertStmt1.addBatch();
+							}
 						}
 					}
 					int[] updateCount1 = updateStmt1.executeBatch();
@@ -678,29 +687,30 @@ public class TrainingDaoImpl implements TrainingDao{
 								arraySize1 = obj.getParticipated_fks().length;
 							}
 						}
-						for (int i = 0; i < arraySize1; i++) {
-								if (rs.next()) {
-									String sessionId = rs.getString(1);
-									obj.setTraining_session_id(sessionId);
-								}
-							    int p = 1;
-							    insertStmt1.setString(p++,(obj.getTraining_id()));
-							    insertStmt1.setString(p++,(obj.getTraining_session_id()));
-								insertStmt1.setString(p++,(obj.getDepartment_fks().length > 0)?obj.getDepartment_fks()[i]:null);
-								insertStmt1.setString(p++,(obj.getAttendees().length > 0)?obj.getAttendees()[i]:null);
-								insertStmt1.setString(p++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[i]:null);
-								insertStmt1.setString(p++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[i]:null);
-							    insertStmt1.setString(p++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[i]:null);
-							    insertStmt1.addBatch();
+						if(!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
+							for (int i = 0; i < arraySize1; i++) {
+									if (rs.next()) {
+										String sessionId = rs.getString(1);
+										obj.setTraining_session_id(sessionId);
+									}
+								    int p = 1;
+								    insertStmt1.setString(p++,(obj.getTraining_id()));
+								    insertStmt1.setString(p++,(obj.getTraining_session_id()));
+									insertStmt1.setString(p++,(obj.getDepartment_fks().length > 0)?obj.getDepartment_fks()[i]:null);
+									insertStmt1.setString(p++,(obj.getAttendees().length > 0)?obj.getAttendees()[i]:null);
+									insertStmt1.setString(p++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[i]:null);
+									insertStmt1.setString(p++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[i]:null);
+								    insertStmt1.setString(p++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[i]:null);
+								    insertStmt1.addBatch();
+								
+							}
 							
-						}
-						
-						int[] insertCount1 = insertStmt1.executeBatch();
-						
-						if(insertCount1.length > 0) {
-							flag = true;
-						}
-						
+							int[] insertCount1 = insertStmt1.executeBatch();
+							
+							if(insertCount1.length > 0) {
+								flag = true;
+							}
+					    }
 						
 					}
 				}

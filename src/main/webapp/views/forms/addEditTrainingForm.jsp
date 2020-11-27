@@ -411,8 +411,8 @@ var dateTimesInits=0;
 																						<c:otherwise>
 																							<tr id="attendeesRow0">
 																								<td><input type="hidden" name="training_session_id_fks" id="training_session_id_fks0"
-																									value="${dObj.training_session_id_fk}" />
-																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0'" />
+																									 value="${tObj.training_session_id}" />
+																									 <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0" />
 																									  <select class="searchable validate-dropdown" name="department_fks" id="department_fks0">
 																											<option value="">Select Department</option>
 																											<c:forEach var="obj" items="${departmentsList}">
@@ -465,7 +465,7 @@ var dateTimesInits=0;
 																				<tbody id="trainingBody">
 																					<tr>
 																						<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
-																							onclick="addTrainingUpdateRow()"> <i class="fa fa-plus"></i></a>
+																							onclick="addTrainingUpdateRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
 																					</tr>
 																				</tbody>
 																			</table>
@@ -517,7 +517,7 @@ var dateTimesInits=0;
 																			</thead>
 																			<tbody id="attendeesTableBody0">
 																				<tr id="attendeesRow00">
-																					<td><input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" /> 
+																					<td><input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
 																					<select class="searchable validate-dropdown" name="department_fks" id="department_fks00">
 																							<option value="">Select Department</option>
 																							<c:forEach var="obj" items="${departmentsList}">
@@ -571,7 +571,7 @@ var dateTimesInits=0;
 																			<tbody id="trainingBody">
 																				<tr>
 																					<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
-																						onclick="addTrainingUpdateRow()"> <i class="fa fa-plus"></i></a>
+																						onclick="addTrainingUpdateRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
 																				</tr>
 																			</tbody>
 																		</table>
@@ -591,7 +591,7 @@ var dateTimesInits=0;
 									<tbody id="trainingBody">
 										<tr>
 											<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
-												onclick="addSessionRow()"> <i class="fa fa-plus"></i></a>
+												onclick="addSessionRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
 										</tr>
 									</tbody>
 								</table>
@@ -779,7 +779,7 @@ var dateTimesInits=0;
         	console.log($('#trainingRow'+f));
         }
         
-        function addTrainingUpdateRow() {
+        function addTrainingUpdateRow(trainingSessionId) {
         	var index = f;
         	if(index == null){
         		index = 0;
@@ -788,7 +788,7 @@ var dateTimesInits=0;
              var rNo = Number(trainNo)+1;
             var html = '<tr id="attendeesRow'+rNo+'">' +
             	'<td> '+
-			 	 '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'" value="${dObj.training_session_id_fk}" />'+
+			 	 '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'" value="'+trainingSessionId+'" />'+
 				 '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +'" />'+
 	                '<select id="department_fks'+ rNo +'" name="department_fks" class="searchable validate-dropdown " >'+
 	                '<option value="" >Select Department</option>'+
@@ -822,7 +822,7 @@ var dateTimesInits=0;
       
         }
         
-        function addSessionRow() {
+        function addSessionRow(sessionId) {
         
       	  var rowNo = $("#rowNo").val();
           var rNo = Number(rowNo)+1;
@@ -841,7 +841,7 @@ var dateTimesInits=0;
 						'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
 							' <thead><tr><th>Department</th><th>Attendee</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
 							  ' <tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+'"><td>'+
-							 	  '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'" />'+
+							 	  '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 								  '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +tNo+'" />'+
 									'<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo +tNo+'">'+
 								      ' <option value="" >Select Department </option>'+
@@ -856,7 +856,7 @@ var dateTimesInits=0;
 					                '<td><a onclick="removeTrainingAttendees('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 									'<input type="hidden" id="trainNo"  name="trainNo" value="1" /> ' +                    
 	                        		'<table class="mdl-data-table"><tbody id="trainingBody">'+                                          
-	                                  '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i class="fa fa-plus"></i></a> </tr>'+
+	                                  '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow('+sessionId+')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                                '</tbody></table></div></div></div></div> </td>'+
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           '<td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';

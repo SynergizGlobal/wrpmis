@@ -362,6 +362,7 @@ public class TrainingDaoImpl implements TrainingDao{
 	public boolean updateTraining(Training obj) throws Exception {
 		boolean flag = false;
 		Connection con = null;
+		ResultSet rs = null;
 		PreparedStatement updateStmt = null;
 		PreparedStatement insertStmt = null;
 		PreparedStatement updateStmt1 = null;
@@ -443,6 +444,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				
 				
 				int[] insertCount = insertStmt.executeBatch();
+				rs = insertStmt.getGeneratedKeys();
 			
 				if(updateCount.length > 0 || insertCount.length > 0) {
 					flag = true;
@@ -525,14 +527,12 @@ public class TrainingDaoImpl implements TrainingDao{
 					}
 				}
 
-				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
 					String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,CURDATE())";				
-					KeyHolder holder = new GeneratedKeyHolder();
 					jdbcTemplate.update(new PreparedStatementCreator() {
 						@Override
 						public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-							PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
+							PreparedStatement ps = connection.prepareStatement(issuesQry);
 							int i = 1;
 							ps.setString(i++, obj.getTitle());
 							ps.setString(i++, obj.getIssue_description());
@@ -542,11 +542,7 @@ public class TrainingDaoImpl implements TrainingDao{
 							ps.setString(i++, "Raised");
 							return ps;
 						}
-					}, holder);
-
-					issueId = String.valueOf(holder.getKey().longValue());				
-				}else{
-					issueId = null;
+					});
 				}
 			}
 			
@@ -709,14 +705,12 @@ public class TrainingDaoImpl implements TrainingDao{
 					}
 				}
 				
-				String issueId = null;
 				if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
 					String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,date)VALUES(?,?,?,?,?,?,CURDATE())";				
-					KeyHolder holder = new GeneratedKeyHolder();
 					jdbcTemplate.update(new PreparedStatementCreator() {
 						@Override
 						public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-							PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
+							PreparedStatement ps = connection.prepareStatement(issuesQry);
 							int i = 1;
 							ps.setString(i++, obj.getIssue_description());
 							ps.setString(i++, obj.getIssue_description());
@@ -726,11 +720,8 @@ public class TrainingDaoImpl implements TrainingDao{
 							ps.setString(i++, "Raised");
 							return ps;
 						}
-					}, holder);
+					});
 
-					issueId = String.valueOf(holder.getKey().longValue());				
-				}else{
-					issueId = null;
 				}
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);

@@ -131,13 +131,28 @@
             color: #777;
         }
         .modal .select2-container {
-        	z-index:1034;
+        	min-width: 160px;
+        	width:170px !important;
+    		max-width: 200px;
         }
         .select2-container--default .select2-selection--single{
         	background-color:transparent;
         }
         tbody thead tr:hover{
         	    background-color: #282130 !important;
+        }
+        .modal{
+        	max-height:90%;
+        }
+        .modal-content .row.fixed-width{
+        	margin:0;
+        }
+        
+        .select2-container.select2-container--default.select2-container--open{
+        	z-index:1034;
+        }
+        input[name^=start_times],input[name^=end_times]{
+        	font-size:0.95rem !important;
         }
     </style>
 </head>
@@ -891,7 +906,7 @@ var dateTimesInits=0;
 	                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
              $('#attendeesTableBody'+ index).append(html);
              $("#trainNo").val(rNo );
-       	     $('#department_fks' + rNo ).formSelect();
+       	     $('#department_fks' + rNo ).select2();
            
            	 $('#required_fks'+ rNo).on('change', function(e){
                  if($(this).prop('checked'))

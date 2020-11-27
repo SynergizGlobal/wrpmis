@@ -187,13 +187,40 @@ public class TrainingController {
 		return model;
 	 }
 	
-	@RequestMapping(value = "/update-training", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-training", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView updateTraining(@ModelAttribute Training obj,RedirectAttributes attributes){
+	public ModelAndView addTraining(@ModelAttribute Training obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
-		try{
+		try {			
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			obj.setCreated_by_user_id_fk(user_Id);
 			model.setViewName("redirect:/training");
 			
+			obj.setStart_time(DateParser.parseDateTime(obj.getStart_time()));
+			obj.setEnd_time(DateParser.parseDateTime(obj.getEnd_time()));
+			
+			boolean flag =  trainingService.addTraining(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Training Added Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Adding Training is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Adding Training is failed. Try again.");
+			logger.error("addTraining : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-training", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateTraining(@ModelAttribute Training obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			obj.setCreated_by_user_id_fk(user_Id);
+			model.setViewName("redirect:/training");
 			obj.setStart_time(DateParser.parseDateTime(obj.getStart_time()));
 			obj.setEnd_time(DateParser.parseDateTime(obj.getEnd_time()));
 

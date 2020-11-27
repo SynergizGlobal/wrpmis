@@ -143,546 +143,678 @@
 </head>
 
 <body>
-    <!-- header included -->
-    <jsp:include page="../layout/header.jsp"></jsp:include>
-<script>
+	<!-- header included -->
+	<jsp:include page="../layout/header.jsp"></jsp:include>
+	<script>
 var dateTimesInits=0;
 </script>
-    <!-- card  -->
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card ">
-                <div class="card-content">
-                    <div class="center-align">
-                        <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
-                                <h6>
-                                 <c:if test="${action eq 'edit'}">Update Training</c:if>
-								 <c:if test="${action eq 'add'}"> Add Training</c:if>
-                                </h6>
-                            </div>
-                        </span>
-                    </div>
-                    <!-- form start-->
-                    <div class="container container-no-margin">
-                        <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" >
-                          </c:if>
-			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" >
-						  </c:if>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <label class="primary-text-bold"></label>
-                                    <c:if test="${action eq 'edit'}"><label class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></label></c:if>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Training Type</p>
-                                   <select class="searchable validate-dropdown" name="training_type_fk" id="training_type_fk">
-                                            <option value="" >Select Financial Year </option>
-                                            	 <c:forEach var="obj" items="${trainingTypesList}">
-	                       						  <option value="${obj.training_type_fk }" <c:if test="${trainingDetails.training_type_fk eq obj.training_type_fk }">selected</c:if>>${obj.training_type_fk }</option>
-	                                             </c:forEach>
-                                   </select>
-                                    <span id="financial_year_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+	<!-- card  -->
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card ">
+				<div class="card-content">
+					<div class="center-align">
+						<span class="card-title headbg">
+							<div class="center-align p-2 bg-m">
+								<h6>
+									<c:if test="${action eq 'edit'}">Update Training</c:if>
+									<c:if test="${action eq 'add'}"> Add Training</c:if>
+								</h6>
+							</div>
+						</span>
+					</div>
+					<!-- form start-->
+					<div class="container container-no-margin">
+						<c:if test="${action eq 'edit'}">
+							<form action="<%=request.getContextPath() %>/update-training"
+								id="trainingForm" name="trainingForm" method="post"
+								class="form-horizontal" role="form">
+						</c:if>
+						<c:if test="${action eq 'add'}">
+							<form action="<%=request.getContextPath() %>/add-training"
+								id="trainingForm" name="trainingForm" method="post"
+								class="form-horizontal" role="form">
+						</c:if>
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m4 input-field">
+								<label class="primary-text-bold"></label>
+								<c:if test="${action eq 'edit'}">
+									<label class="primary-text-bold">Training ID : <span>${trainingDetails.training_id }</span></label>
+								</c:if>
+							</div>
+							<div class="col s12 m4 input-field">
+								<p class="searchable_label">Training Type</p>
+								<select class="searchable validate-dropdown"
+									name="training_type_fk" id="training_type_fk">
+									<option value="">Select Financial Year</option>
+									<c:forEach var="obj" items="${trainingTypesList}">
+										<option value="${obj.training_type_fk }"
+											<c:if test="${trainingDetails.training_type_fk eq obj.training_type_fk }">selected</c:if>>${obj.training_type_fk }</option>
+									</c:forEach>
+								</select> <span id="financial_year_fkError" class="error-msg"></span>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
 
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Category</p>
-                                   <select class="searchable validate-dropdown" name="training_category_fk" id="training_category_fk">
-                                            <option value="" >Select Financial Year </option>
-                                            	 <c:forEach var="obj" items="${categoriesList}">
-	                       						  <option value="${obj.training_category_fk }" <c:if test="${trainingDetails.training_category_fk eq obj.training_category_fk }">selected</c:if>>${obj.training_category_fk }</option>
-	                                             </c:forEach>
-                                   </select>
-                                    <span id="training_category_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Status </p>
-                                    <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
-                                            <option value="" >Select Financial Year </option>
-                                            	 <c:forEach var="obj" items="${statusList}">
-	                       						  <option value="${obj.status_fk }" <c:if test="${trainingDetails.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
-	                                             </c:forEach>
-                                   </select>
-                                    <span id="status_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m4 input-field">
+								<p class="searchable_label">Category</p>
+								<select class="searchable validate-dropdown"
+									name="training_category_fk" id="training_category_fk">
+									<option value="">Select Financial Year</option>
+									<c:forEach var="obj" items="${categoriesList}">
+										<option value="${obj.training_category_fk }"
+											<c:if test="${trainingDetails.training_category_fk eq obj.training_category_fk }">selected</c:if>>${obj.training_category_fk }</option>
+									</c:forEach>
+								</select> <span id="training_category_fkError" class="error-msg"></span>
+							</div>
+							<div class="col s12 m4 input-field">
+								<p class="searchable_label">Status</p>
+								<select class="searchable validate-dropdown" name="status_fk"
+									id="status_fk">
+									<option value="">Select Financial Year</option>
+									<c:forEach var="obj" items="${statusList}">
+										<option value="${obj.status_fk }"
+											<c:if test="${trainingDetails.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
+									</c:forEach>
+								</select> <span id="status_fkError" class="error-msg"></span>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
 
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
-                                    <input id="faculty_name" name="faculty_name" type="text" class="validate" value="${trainingDetails.faculty_name }">
-                                    <label for="faculty_name">Faculty</label>
-                                </div>
-                                <div class="col s12 m4 input-field ">
-                                    <input id="designation" type="text" class="validate" value="${trainingDetails.faculty_name }">
-                                    <label for="designation">Designation</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-							<input type="hidden" name="training_id" value="${trainingDetails.training_id }"/>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="training_title" name="title" class="materialize-textarea">${trainingDetails.title }</textarea>
-                                    <label for="training_title">Title</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="training_description" name="description" class="materialize-textarea">${trainingDetails.description }</textarea>
-                                    <label for="training_description">Description</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                           
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <!-- <input id="training_center" type="text" class="validate" style="margin-top: 10px;">
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m4 input-field ">
+								<input id="faculty_name" name="faculty_name" type="text"
+									class="validate" value="${trainingDetails.faculty_name }">
+								<label for="faculty_name">Faculty</label>
+							</div>
+							<div class="col s12 m4 input-field ">
+								<input id="designation" type="text" class="validate"
+									value="${trainingDetails.faculty_name }"> <label
+									for="designation">Designation</label>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+						<input type="hidden" name="training_id"
+							value="${trainingDetails.training_id }" />
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m8 input-field">
+								<textarea id="training_title" name="title"
+									class="materialize-textarea">${trainingDetails.title }</textarea>
+								<label for="training_title">Title</label>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m8 input-field">
+								<textarea id="training_description" name="description"
+									class="materialize-textarea">${trainingDetails.description }</textarea>
+								<label for="training_description">Description</label>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m8 input-field">
+								<!-- <input id="training_center" type="text" class="validate" style="margin-top: 10px;">
                                     <label for="training_center"> Training Center </label> -->
-                                    <textarea id="training_center" name="training_center" class="materialize-textarea">${trainingDetails.training_center }</textarea>
-                                    <label for="training_center">Training Center</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+								<textarea id="training_center" name="training_center"
+									class="materialize-textarea">${trainingDetails.training_center }</textarea>
+								<label for="training_center">Training Center</label>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
 
-                            <div class="row fixed-width">
-                                <h5 class="center-align">Sessions</h5>
-                                <div class="table-inside">
-                                    <table id="session-table" class="mdl-data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Session No</th>
-                                                <th>Start Time</th>
-                                                <th>End Time</th>
-                                                <th>Attendees</th>
-                                                <th>Remaks</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="trainingTableBody">
-                                         <c:choose>
-                                      	 <c:when test="${not empty trainingDetails.trainingSessions && fn:length(trainingDetails.trainingSessions) gt 0 }">
-                                       	 <c:forEach var="tObj" items="${trainingDetails.trainingSessions }" varStatus="index"> 
-                                            <tr id="trainingRow${index.count }">
-                                                <td>
-                                                 <input type="hidden" name= "training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
-                                                    <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
-                                                        placeholder="Session No">
-                                                </td>
-                                                <td>
-                                                    <input id="start_times${index.count }" name="start_times" type="text" class="validate timepicker" value="${tObj.start_time }"
-                                                        placeholder="Start Time">
-                                                    <button type="button" id="start_time_icon${index.count }"><i
-                                                            class="fa fa-clock-o"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }"
-                                                        placeholder="End Time">
-                                                    <button type="button" id="end_time_icon${index.count }"><i
-                                                            class="fa fa-clock-o"></i></button>
-                                                </td>
-                                                <td>
-                                                    <a href="#session-update-modal${index.count }"  class="btn waves-effect waves-light bg-m t-c modal-trigger"> 
-                                                    Update </a>
-                                                     <div id="session-update-modal${index.count }" class="modal" >
-                                                    
-												        <div class="modal-content">
-												            <h4 class="modal-header">Trainee Updation Details</h4>
-												
-												            <div class="row fixed-width">
-												                <div class="table-inside">
-												                    <table id="training-update-table${index.count }" class="mdl-data-table val">
-												                     <input type ="hidden" id="index" value="${index.count }"/>
-												                        <thead>
-												                            <tr>
-												                                <th>Department</th>
-												                                <th>Attendee</th>
-												                                <th>Mobile</th>
-												                                <th>Required</th>
-												                                <th>Participated</th>
-												                                <th>Action</th>
-												                            </tr>
-												                        </thead>
-												                        <tbody id="attendeesTableBody${index.count }" >
-												                         <c:choose>
-												                      	   <c:when test="${not empty tObj.trainingAttendees && fn:length(tObj.trainingAttendees) gt 0 }">
-												                       	    <c:forEach var="dObj" items="${tObj.trainingAttendees }" varStatus="indexx"> 
-												                              <tr id="attendeesRow${indexx.count }">
-												                                <td>
-												                                <input type="hidden" name="training_attendees_ids" id="training_attendees_ids${indexx.count }${index.count }"  value="${dObj.training_attendees_id }" />
-												                                   <select class="searchable validate-dropdown" name="department_fks" id="department_fks${indexx.count }${index.count }">
-												                                            <option value="" >Select Department </option>
-												                                            	 <c:forEach var="obj" items="${departmentsList}">
-													                       						    <option value="${obj.department_name }" <c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
-													                                             </c:forEach>
-												                                   </select>
-												                                    <span id="training_category_fkError" class="error-msg" ></span>
-												                                 </td>
-												                                 <td>
-												                                    <input id="attendees${indexx.count }${index.count }" name="attendees" type="text" class="validate" placeholder="Attendee" value="${dObj.attendee }">
-												                                 </td>
-												                                 <td>
-												                                    <input id="mobile_nos${indexx.count }${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile" value="${dObj.mobile_no }">
-												                                 </td>
-												                                 <td>
-												                                    <p>
-												                                        <label>
-												                                            <input type="checkbox" id="required_fks${indexx.count }${index.count }" name="required_fks" 
-																								 value="Yes"  <c:if test="${dObj.required_fk eq 'Yes'}">checked</c:if>/>
-												                                            <span></span>
-												                                        </label>
-												                                        
-												                                    </p>
-												                                 </td>
-												                                 <td>
-												                                    <p>
-												                                        <label>
-												                                            <input type="checkbox" id="participated_fks${indexx.count }${index.count }" name="participated_fks"
-												                                             value="Yes"  <c:if test="${dObj.participated_fk eq 'Yes'}">checked</c:if> />
-												                                            <span></span>
-												                                        </label>
-												                                    </p>
-												                                 </td>
-												                                 <td>
-												                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i
-												                                            class="fa fa-close"></i></a>
-												                                 </td>
-												                               </tr>
-												                                        </c:forEach>
-												                                       </c:when>
-												                                       	<c:otherwise>
-												                               <tr id="attendeesRow00">
-												                                <td>
-												                                   <select class="searchable validate-dropdown" name="department_fks" id="department_fks0">
-											                                            <option value="" >Select Department </option>
-											                                            	 <c:forEach var="obj" items="${departmentsList}">
-												                       						      <option value="${obj.department_name }" >${obj.department_name }</option>
-												                                             </c:forEach>
-												                                   </select>
-												                                    <span id="training_category_fkError" class="error-msg" ></span>
-												                                </td>
-												                                <td>
-												                                    <input id="attendees0" name="attendees" type="text" class="validate" placeholder="Attendee">
-												                                </td>
-												                                <td>
-												                                    <input id="mobile_nos0" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
-												                                </td>
-												                                <td>
-												                                    <p>
-												                                        <label>
-												                                            <input type="checkbox" id="required_fks0" name="required_fks" />
-												                                            <span></span>
-												                                        </label>
-												                                    </p>
-												                                </td>
-												                                <td>
-												                                    <p>
-												                                        <label>
-												                                            <input type="checkbox" id="participated_fks0" name="participated_fk" />
-												                                            <span></span>
-												                                        </label>
-												                                    </p>
-												                                </td>
-												                                <td>
-												                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
-												                                </td>
-												                            </tr>	
-												                          </c:otherwise> 
-								                                     	</c:choose>
-								                                     </tbody>
-								                                    </table>
-								                                    
-									                    			<table class="mdl-data-table">
-									                                        <tbody id="trainingBody">                                          
-												                                    <tr>
-												  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i
-												                                                            class="fa fa-plus"></i></a>
-												                                    </tr>
-									                                        </tbody>
-									                                   </table>
-										                               <c:choose>
-									                                        <c:when test="${not empty (tObj.trainingAttendees) && fn:length(tObj.trainingAttendees) gt 0 }">
-									                                    		<input type="hidden" id="trainNo"  name="trainNo" value="${fn:length(tObj.trainingAttendees) }" />
-									                                    	</c:when>
-									                                     	<c:otherwise>
-									                                     		<input type="hidden" id="trainNo"  name="trainNo" value="0" />
-									                                     	</c:otherwise>
-										                                 </c:choose> 
-												                </div>
-												            </div>
-												        </div>
-												    </div>
-                                                </td>
-                                                <td>
-                                                    <textarea id="remarkss${index.count }" name="remarkss" class="materialize-textarea" placeholder="Remarks">${tObj.remarks }</textarea>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                          <script>
+						<div class="row fixed-width">
+							<h5 class="center-align">Sessions</h5>
+							<div class="table-inside">
+								<table id="session-table" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Session No</th>
+											<th>Start Time</th>
+											<th>End Time</th>
+											<th>Attendees</th>
+											<th>Remaks</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody id="trainingTableBody">
+										<c:choose>
+											<c:when
+												test="${not empty trainingDetails.trainingSessions && fn:length(trainingDetails.trainingSessions) gt 0 }">
+												<c:forEach var="tObj"
+													items="${trainingDetails.trainingSessions }"
+													varStatus="index">
+													<tr id="trainingRow${index.count }">
+														<td><input type="hidden" name="training_session_id"
+															id="training_session_id${index.count }"
+															value="${tObj.training_session_id}" /> <input
+															type="hidden" name="training_session_ids"
+															id="training_session_ids${index.count }"
+															value="${tObj.training_session_id}" /> <input
+															id="session_nos${index.count }" name="session_nos"
+															type="text" class="validate" value="${tObj.session_no }"
+															placeholder="Session No"></td>
+														<td><input id="start_times${index.count }"
+															name="start_times" type="text"
+															class="validate timepicker" value="${tObj.start_time }"
+															placeholder="Start Time">
+															<button type="button" id="start_time_icon${index.count }">
+																<i class="fa fa-clock-o"></i>
+															</button></td>
+														<td><input id="end_times${index.count }"
+															name="end_times" type="text" class="validate timepicker"
+															value="${tObj.end_time }" placeholder="End Time">
+															<button type="button" id="end_time_icon${index.count }">
+																<i class="fa fa-clock-o"></i>
+															</button></td>
+														<td><a href="#session-update-modal${index.count }"
+															class="btn waves-effect waves-light bg-m t-c modal-trigger"
+															onclick="showNo(this)"> Update </a>
+															<div id="session-update-modal${index.count }"
+																class="modal">
+
+																<div class="modal-content">
+																	<h4 class="modal-header">Trainee Updation Details</h4>
+
+																	<div class="row fixed-width">
+																		<div class="table-inside">
+																			<table id="training-update-table${index.count }"
+																				class="mdl-data-table val">
+																				<thead>
+																					<tr>
+																						<th>Department</th>
+																						<th>Attendee</th>
+																						<th>Mobile</th>
+																						<th>Required</th>
+																						<th>Participated</th>
+																						<th>Action</th>
+																					</tr>
+																				</thead>
+																				<tbody id="attendeesTableBody${index.count }">
+																					<c:choose>
+																						<c:when
+																							test="${not empty tObj.trainingAttendees && fn:length(tObj.trainingAttendees) gt 0 }">
+																							<c:forEach var="dObj"
+																								items="${tObj.trainingAttendees }"
+																								varStatus="indexx">
+																								<tr id="attendeesRow${indexx.count }">
+																									<td><input type="hidden"
+																										name="training_session_id_fks"
+																										id="training_session_id_fks${indexx.count }${index.count }"
+																										value="${dObj.training_session_id_fk}" /> <input
+																										type="hidden" name="training_attendees_ids"
+																										id="training_attendees_ids${indexx.count }${index.count }"
+																										value="${dObj.training_attendees_id }" /> <select
+																										class="searchable validate-dropdown"
+																										name="department_fks"
+																										id="department_fks${indexx.count }${index.count }">
+																											<option value="">Select Department
+																											</option>
+																											<c:forEach var="obj"
+																												items="${departmentsList}">
+																												<option value="${obj.department_fk }"
+																													<c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
+																											</c:forEach>
+																									</select> <span id="training_category_fkError"
+																										class="error-msg"></span></td>
+																									<td><input
+																										id="attendees${indexx.count }${index.count }"
+																										name="attendees" type="text" class="validate"
+																										placeholder="Attendee"
+																										value="${dObj.attendee }"></td>
+																									<td><input
+																										id="mobile_nos${indexx.count }${index.count }"
+																										name="mobile_nos" type="number"
+																										class="validate" placeholder="Mobile"
+																										value="${dObj.mobile_no }"></td>
+																									<td>
+																										<p>
+																											<label> <input type="hidden"
+																												name="required_fks" value="No" class="req" />
+																												<c:if test="${dObj.required_fk eq 'No'}">
+																													<input type="hidden" name="required_fks"
+																														value="No" />
+																												</c:if> <input type="checkbox"
+																												id="required_fks${indexx.count }${index.count }"
+																												name="required_fks" class="required_fks"
+																												<c:if test="${dObj.required_fk eq 'Yes'}"> value="${dObj.required_fk}"  checked</c:if> />
+																												<span></span>
+																											</label>
+
+																										</p>
+																									</td>
+																									<td>
+																										<p>
+																											<label> <input type="hidden"
+																												name="participated_fks" value="No"
+																												class="part" /> <c:if
+																													test="${dObj.participated_fk eq 'No'}">
+																													<input type="hidden"
+																														name="participated_fks" value="No" />
+																												</c:if> <input type="checkbox"
+																												id="participated_fks${indexx.count }${index.count }"
+																												name="participated_fks"
+																												<c:if test="${dObj.participated_fk eq 'Yes'}"> value="${dObj.participated_fk}"  checked</c:if> />
+																												<span></span>
+																											</label>
+																										</p>
+																									</td>
+																									<td><a href="#"
+																										class="btn waves-effect waves-light red t-c ">
+																											<i class="fa fa-close"></i>
+																									</a></td>
+																								</tr>
+																								<script>
+															                       	 $('#required_fks${indexx.count }${index.count }').on('change', function(e){
+															                             if($(this).prop('checked'))
+															                             {
+															                            	 $(".req").prop('disabled', true);
+															                                 $('#required_fks${indexx.count }${index.count }').val('Yes');
+															                             } 
+															                   	    });
+															                    	 $('#participated_fks${indexx.count }${index.count }').on('change', function(e){
+															                             if($(this).prop('checked'))
+															                             {
+															                            	 $(".part").prop('disabled', true);
+															                                 $('#participated_fks${indexx.count }${index.count }').val('Yes');
+															                             } 
+															                   	    });
+												                            
+												                                </script>
+
+																							</c:forEach>
+																						</c:when>
+																						<c:otherwise>
+																							<tr id="attendeesRow0">
+																								<td><input type="hidden"
+																									name="training_session_id_fks"
+																									id="training_session_id_fks0"
+																									value="${dObj.training_session_id_fk}" /> <input
+																									type="hidden" name="training_attendees_ids"
+																									id="training_attendees_ids0'" /> <select
+																									class="searchable validate-dropdown"
+																									name="department_fks" id="department_fks0">
+																										<option value="">Select Department</option>
+																										<c:forEach var="obj"
+																											items="${departmentsList}">
+																											<option value="${obj.department_fk }">${obj.department_name }</option>
+																										</c:forEach>
+																								</select> <span id="training_category_fkError"
+																									class="error-msg"></span></td>
+																								<td><input id="attendees0" name="attendees"
+																									type="text" class="validate"
+																									placeholder="Attendee"></td>
+																								<td><input id="mobile_nos0"
+																									name="mobile_nos" type="number"
+																									class="validate" placeholder="Mobile">
+																								</td>
+																								<td>
+																									<p>
+																										<label> <input type="hidden"
+																											name="required_fks" value="No" class="req" />
+																											<input type="checkbox" id="required_fks0"
+																											name="required_fks" /> <span></span>
+																										</label>
+																									</p>
+																								</td>
+																								<td>
+
+																									<p>
+																										<label> <input type="hidden"
+																											name="participated_fks" value="No"
+																											class="part" /> <input type="checkbox"
+																											id="participated_fks0"
+																											name="participated_fks" /> <span></span>
+																										</label>
+																									</p>
+																								</td>
+																								<td><a href="#"
+																									class="btn waves-effect waves-light red t-c ">
+																										<i class="fa fa-close"></i>
+																								</a></td>
+																							</tr>
+																							<script>
+															                       	 $('#required_fks0').on('change', function(e){
+															                             if($(this).prop('checked'))
+															                             {
+															                            	 $(".req").prop('disabled', true);
+															                                 $('#required_fks0').val('Yes');
+															                             } 
+															                   	    });
+															                    	 $('#participated_fks0').on('change', function(e){
+															                             if($(this).prop('checked'))
+															                             {
+															                            	 $(".part").prop('disabled', true);
+															                                 $('#participated_fks0').val('Yes');
+															                             } 
+															                   	    });
+												                            
+												                            </script>
+																						</c:otherwise>
+																					</c:choose>
+																				</tbody>
+																			</table>
+
+																			<table class="mdl-data-table">
+																				<tbody id="trainingBody">
+																					<tr>
+																						<td colspan="6" style="text-align: right;"><a
+																							type="button"
+																							class="btn waves-effect waves-light bg-m t-c "
+																							onclick="addTrainingUpdateRow()"> <i
+																								class="fa fa-plus"></i></a>
+																					</tr>
+																				</tbody>
+																			</table>
+																			<c:choose>
+																				<c:when
+																					test="${not empty (tObj.trainingAttendees) && fn:length(tObj.trainingAttendees) gt 0 }">
+																					<input type="hidden" id="trainNo" name="trainNo"
+																						value="${fn:length(tObj.trainingAttendees) }" />
+																				</c:when>
+																				<c:otherwise>
+																					<input type="hidden" id="trainNo" name="trainNo"
+																						value="1" />
+																				</c:otherwise>
+																			</c:choose>
+																		</div>
+																	</div>
+																</div>
+															</div></td>
+														<td><textarea id="remarkss${index.count }"
+																name="remarkss" class="materialize-textarea"
+																placeholder="Remarks">${tObj.remarks }</textarea></td>
+														<td><a href="#"
+															class="btn waves-effect waves-light red t-c "> <i
+																class="fa fa-close"></i></a></td>
+													</tr>
+													<script>
                                           		dateTimesInits++;                                         
                                            </script>
-                                          </c:forEach>
-                                         </c:when>
-                                       	<c:otherwise>
-                                        	<tr id="trainingRow0">
-                                                <td>
-                                                    <input id="session_nos0" name="session_nos" type="text" class="validate"
-                                                        placeholder="Session No">
-                                                </td>
-                                                <td>
-                                                    <input id="start_times0" name="start_times" type="text" class="validate timepicker" 
-                                                        placeholder="Start Time">
-                                                    <button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button>
-                                                </td>
-                                                <td>
-                                                    <input id="end_times0" name="end_times" type="text" class="validate timepicker" 
-                                                        placeholder="End Time">
-                                                    <button type="button" id="end_time_icon0"><i  class="fa fa-clock-o"></i></button>
-                                                </td>
-                                                <td>
-                                                    <a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger"> Update </a>
-                                                     <div id="session-update-modal0" class="modal">
-												        <div class="modal-content">
-												          <h4 class="modal-header">Trainee Updation Details</h4>
-                                                          <div class="row fixed-width">
-												                <div class="table-inside">
-												                    <table id="training-update-table0" class="mdl-data-table">
-												                        <thead>
-												                            <tr>
-												                                <th>Department</th>
-												                                <th>Attendee</th>
-												                                <th>Mobile</th>
-												                                <th>Required</th>
-												                                <th>Participated</th>
-												                                <th>Action</th>
-												                            </tr>
-												                        </thead>
-												                        <tbody id="attendeesTableBody0" >
-												                       		 <tr id="attendeesRow0">
-												                                <td>
-												                                  <input type="hidden" name="training_attendees_ids" id="training_attendees_ids0"   />
-												                                     <select class="searchable validate-dropdown" name="department_fks" id="department_fks0">
-												                                            <option value="" >Select Department </option>
-												                                            	 <c:forEach var="obj" items="${departmentsList}">
-													                       						  <option value="${obj.department_name }" >${obj.department_name }</option>
-													                                             </c:forEach>
-												                                     </select>
-												                                     <span id="training_category_fkError" class="error-msg" ></span>
-												                                </td>
-												                                <td>
-												                                    <input id="attendees0" name="attendees" type="text" class="validate" placeholder="Attendee" >
-												                                </td>
-												                                <td>
-												                                    <input id="mobile_nos0" name="mobile_nos" type="number" class="validate" placeholder="Mobile" >
-												                                </td>
-												                                <td>
-												                                    <p>
-												                                        <label>
-												                                            <input type="checkbox" id="required_fks0" name="required_fks" />
-												                                            <span></span>
-												                                        </label>
-												                                    </p>
-												                                </td>
-												                                <td>
-												                                    <p>
-												                                        <label>
-												                                            <input type="checkbox" id="participated_fks0" name="participated_fk" />
-												                                            <span></span>
-												                                        </label>
-												                                    </p>
-												                                </td>
-												                                <td>
-												                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
-												                                </td>
-												                            </tr>
-													                      </tbody>
-									                                    </table>
-												                         <input type="hidden" id="trainNo"  name="trainNo" value="0" />
-												                        <table class="mdl-data-table">
-									                                        <tbody id="trainingBody">                                          
-												                                    <tr>
-												  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i
-												                                                            class="fa fa-plus"></i></a>
-												                                    </tr>
-									                                        </tbody>
-									                                    </table>
-									                                  </div>
-												   				 </div>
-									                      </div>
-												    </div>
-                                                </td>
-                                                <td>
-                                                    <textarea id="remarkss0" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn waves-effect waves-light red t-c "> <i  class="fa fa-close"></i></a>
-                                                </td>
-                                            </tr>
-                                           </c:otherwise>
-                                     	 </c:choose>
-                                     	 </tbody>
-                                    </table>
-									<table class="mdl-data-table">
-	                                       <tbody id="trainingBody">                                          
-				                                    <tr>
-				  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addSessionRow()"> <i
-				                                                            class="fa fa-plus"></i></a>
-				                                    </tr>
-	                                        </tbody>
-                                     </table>
-                                     <c:choose>
-                                     <c:when test="${not empty (trainingDetails.trainingSessions) && fn:length(trainingDetails.trainingSessions) gt 0 }">
-                                 		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(trainingDetails.trainingSessions) }" />
-                                 	</c:when>
-                                  	<c:otherwise>
-                                  		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
-                                  	</c:otherwise>
-                                    </c:choose>
-                                </div>
-                            </div>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>
+												<tr id="trainingRow0">
+													<td><input id="session_nos0" name="session_nos"
+														type="text" class="validate" placeholder="Session No">
+													</td>
+													<td><input id="start_times0" name="start_times"
+														type="text" class="validate timepicker"
+														placeholder="Start Time">
+														<button type="button" id="start_time_icon0">
+															<i class="fa fa-clock-o"></i>
+														</button></td>
+													<td><input id="end_times0" name="end_times"
+														type="text" class="validate timepicker"
+														placeholder="End Time">
+														<button type="button" id="end_time_icon0">
+															<i class="fa fa-clock-o"></i>
+														</button></td>
+													<td><a href="#session-update-modal0"
+														class="btn waves-effect waves-light bg-m t-c modal-trigger"
+														onclick="showNo(this)"> Update </a>
+														<div id="session-update-modal0" class="modal">
+															<div class="modal-content">
+																<h4 class="modal-header">Trainee Updation Details</h4>
+																<div class="row fixed-width">
+																	<div class="table-inside">
+																		<table id="training-update-table0"
+																			class="mdl-data-table">
+																			<thead>
+																				<tr>
+																					<th>Department</th>
+																					<th>Attendee</th>
+																					<th>Mobile</th>
+																					<th>Required</th>
+																					<th>Participated</th>
+																					<th>Action</th>
+																				</tr>
+																			</thead>
+																			<tbody id="attendeesTableBody0">
+																				<tr id="attendeesRow00">
+																					<td><input type="hidden"
+																						name="training_attendees_ids"
+																						id="training_attendees_ids00" /> <select
+																						class="searchable validate-dropdown"
+																						name="department_fks" id="department_fks00">
+																							<option value="">Select Department</option>
+																							<c:forEach var="obj" items="${departmentsList}">
+																								<option value="${obj.department_fk }">${obj.department_name }</option>
+																							</c:forEach>
+																					</select> <span id="training_category_fkError"
+																						class="error-msg"></span></td>
+																					<td><input id="attendees00" name="attendees"
+																						type="text" class="validate"
+																						placeholder="Attendee"></td>
+																					<td><input id="mobile_nos00" name="mobile_nos"
+																						type="number" class="validate"
+																						placeholder="Mobile"></td>
+																					<td>
+																						<p>
+																							<label> <input type="hidden"
+																								name="required_fks" value="No" class="req" /> <input
+																								type="checkbox" id="required_fks00"
+																								name="required_fks" /> <span></span>
+																							</label>
+																						</p>
+																					</td>
+																					<td>
+																						<p>
+																							<label> <input type="hidden"
+																								name="participated_fks" value="No" class="part" />
+																								<input type="checkbox" id="participated_fks00"
+																								name="participated_fks" /> <span></span>
+																							</label>
+																						</p>
+																					</td>
+																					<td><a href="#"
+																						class="btn waves-effect waves-light red t-c ">
+																							<i class="fa fa-close"></i>
+																					</a></td>
+																				</tr>
 
-                            <div class="row" style="margin-top: 20px;">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="row">
-                                        <div class="col s6 m6 input-field">
-                                            <p style="margin-top: 18px;">Any Issue ?</p>
-                                        </div>
-                                        <div class="col s6 m6 input-field">
-                                            <p class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
-                                                <label>
-                                                    <input class="with-gap" name="issue" type="radio" value="yes" />
-                                                    <span>Yes</span>
-                                                </label> &nbsp; <label>
-                                                    <input class="with-gap" name="issue" type="radio" value="no" />
-                                                    <span>No</span>
-                                                </label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+																			</tbody>
+																		</table>
+																		<script>
+															                       	 $('#required_fks00').on('change', function(e){
+															                             if($(this).prop('checked'))
+															                             {
+															                            	 $(".req").prop('disabled', true);
+															                                 $('#required_fks00').val('Yes');
+															                             } 
+															                   	    });
+															                    	 $('#participated_fks00').on('change', function(e){
+															                             if($(this).prop('checked'))
+															                             {
+															                            	 $(".part").prop('disabled', true);
+															                                 $('#participated_fks00').val('Yes');
+															                             } 
+															                   	    });
+												                            
+												                            </script>
+																		<input type="hidden" id="trainNo" name="trainNo"
+																			value="0" />
+																		<table class="mdl-data-table">
+																			<tbody id="trainingBody">
+																				<tr>
+																					<td colspan="6" style="text-align: right;"><a
+																						type="button"
+																						class="btn waves-effect waves-light bg-m t-c "
+																						onclick="addTrainingUpdateRow()"> <i
+																							class="fa fa-plus"></i></a>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+																</div>
+															</div>
+														</div></td>
+													<td><textarea id="remarkss0" name="remarkss"
+															class="materialize-textarea" placeholder="Remarks"></textarea>
+													</td>
+													<td><a href="#"
+														class="btn waves-effect waves-light red t-c "> <i
+															class="fa fa-close"></i></a></td>
+												</tr>
+											</c:otherwise>
+										</c:choose>
+									</tbody>
+								</table>
+								<table class="mdl-data-table">
+									<tbody id="trainingBody">
+										<tr>
+											<td colspan="6" style="text-align: right;"><a
+												type="button" class="btn waves-effect waves-light bg-m t-c "
+												onclick="addSessionRow()"> <i class="fa fa-plus"></i></a>
+										</tr>
+									</tbody>
+								</table>
+								<c:choose>
+									<c:when
+										test="${not empty (trainingDetails.trainingSessions) && fn:length(trainingDetails.trainingSessions) gt 0 }">
+										<input type="hidden" id="rowNo" name="rowNo"
+											value="${fn:length(trainingDetails.trainingSessions) }" />
+									</c:when>
+									<c:otherwise>
+										<input type="hidden" id="rowNo" name="rowNo" value="0" />
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
 
-                            <div id="issue_yes" style="display: none;">
-                                <div class="row">
-                                    <h6 class="center-align" style="color:#282130;font-weight:600">Issue Details </h6>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col m8 s12">
-                                        <div class="row">
-                                            <div class="col s12 m6 input-field" style="margin-top: 35px;">
-                                                <p class="searchable_label">Issue Category</p>
-                                               <select class="searchable validate-dropdown" id="issue_category_id" name="issue_category_id">
-                                           			 <option value="" >Select </option>
-                                            			 <c:forEach var="obj" items="${issueCatogoriesList}">
-	                       						 			 <option value="${obj.category }" >${obj.category }</option>
-	                                             		</c:forEach>
-                                   				</select>
-                                  		  		<span id="status_fkError" class="error-msg" ></span>
-                                            </div>
-                                            <div class="col s12 m6 input-field" style="padding-top: 4px;">
-                                                <p class="prio">Priority</p>
-                                                <p class="radiogroup">
-                                                    <label>
-                                                        <input class="with-gap" name="issue_priority_id" type="radio"
-                                                            value="low" />
-                                                        <span>Low</span>
-                                                    </label>
-                                                    &nbsp;
-                                                    <label>
-                                                        <input class="with-gap" name="issue_priority_id" type="radio"
-                                                            value="medium" />
-                                                        <span>Medium</span>
-                                                    </label>
-                                                    &nbsp;
-                                                    <label>
-                                                        <input class="with-gap" name="issue_priority_id" type="radio"
-                                                            value="high" />
-                                                        <span>High</span>
-                                                    </label>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m8 input-field">
-                                        <textarea id="issue_description" name="issue_description" class="materialize-textarea"
-                                            data-length="500"></textarea>
-                                        <label for="issueDesc">Issue Description</label>
-                                    </div>
-                                </div>
-                            </div>
+						<div class="row" style="margin-top: 20px;">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col m8 s12">
+								<div class="row">
+									<div class="col s6 m6 input-field">
+										<p style="margin-top: 18px;">Any Issue ?</p>
+									</div>
+									<div class="col s6 m6 input-field">
+										<p class="radiogroup"
+											style="padding-bottom: 10px; padding-top: 10px;">
+											<label> <input class="with-gap" name="is_there_issue"
+												type="radio" value="yes" /> <span>Yes</span>
+											</label> &nbsp; <label> <input class="with-gap"
+												name="is_there_issue" type="radio" value="no" /> <span>No</span>
+											</label>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
 
-                            <div class="row">
-                                <!-- row 10 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="textarea1">Remarks</label>
-                                </div>
-                            </div>
+						<div id="issue_yes" style="display: none;">
+							<div class="row">
+								<h6 class="center-align"
+									style="color: #282130; font-weight: 600">Issue Details</h6>
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row">
+										<div class="col s12 m6 input-field" style="margin-top: 35px;">
+											<p class="searchable_label">Issue Category</p>
+											<select class="searchable validate-dropdown"
+												id="issue_category_id" name="issue_category_id">
+												<option value="">Select</option>
+												<c:forEach var="obj" items="${issueCatogoriesList}">
+													<option value="${obj.category }">${obj.category }</option>
+												</c:forEach>
+											</select> <span id="status_fkError" class="error-msg"></span>
+										</div>
+										<div class="col s12 m6 input-field" style="padding-top: 4px;">
+											<p class="prio">Priority</p>
+											<p class="radiogroup">
+												<label> <input class="with-gap"
+													name="issue_priority_id" type="radio" value="low" /> <span>Low</span>
+												</label> &nbsp; <label> <input class="with-gap"
+													name="issue_priority_id" type="radio" value="medium" /> <span>Medium</span>
+												</label> &nbsp; <label> <input class="with-gap"
+													name="issue_priority_id" type="radio" value="high" /> <span>High</span>
+												</label>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col s12 m8 input-field">
+									<textarea id="issue_description" name="issue_description"
+										class="materialize-textarea" data-length="500"></textarea>
+									<label for="issueDesc">Issue Description</label>
+								</div>
+							</div>
+						</div>
 
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
-                                     <div class="center-align m-1">
-	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateTraining();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
-	                                         </c:if>
-											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addTraining();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
-											 </c:if>
-                                    </div>
-                                </div>
-                                <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button  href="<%=request.getContextPath()%>/training" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- form ends  -->
-                </div>
+						<div class="row">
+							<!-- row 10 -->
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m8 input-field">
+								<textarea id="textarea1" class="materialize-textarea"
+									data-length="1000"></textarea>
+								<label for="textarea1">Remarks</label>
+							</div>
+						</div>
 
-            </div>
-        </div>
-    </div>
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m4">
+								<div class="center-align m-1">
+									<c:if test="${action eq 'edit'}">
+										<button type="button" onclick="updateTraining();"
+											style="width: 100%;"
+											class="btn waves-effect waves-light bg-m">Update</button>
+									</c:if>
+									<c:if test="${action eq 'add'}">
+										<button type="button" onclick="addTraining();"
+											style="width: 100%;"
+											class="btn waves-effect waves-light bg-m">Add</button>
+									</c:if>
+								</div>
+							</div>
+							<div class="col s12 m4">
+								<div class="center-align m-1">
+									<button href="<%=request.getContextPath()%>/training"
+										class="btn waves-effect waves-light bg-s" style="width: 100%">Cancel</button>
+								</div>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+						</form>
+					</div>
+					<!-- form ends  -->
+				</div>
 
- 
-    <!-- footer included -->
-    <jsp:include page="../layout/footer.jsp"></jsp:include>
+			</div>
+		</div>
+	</div>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-    <script src="/pmis/resources/js/datetimepicker.js"></script>
+
+	<!-- footer included -->
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
+
+	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/pmis/resources/js/datetimepicker.js"></script>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="training_session_id" id="training_session_id" />
-    	<input type="hidden" name="training_id" id="training_id" />
-    </form>
- <script>
+		<input type="hidden" name="training_session_id"
+			id="training_session_id" /> <input type="hidden" name="training_id"
+			id="training_id" />
+	</form>
+	<script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -701,8 +833,8 @@ var dateTimesInits=0;
                 // $('#end_time').click();
                 MaterialDateTimePicker.create($("#end_times0"));
             });
-            $('input[name=issue]').change(function () {
-                var radioval = $('input[name=issue]:checked').val();
+            $('input[name=is_there_issue]').change(function () {
+                var radioval = $('input[name=is_there_issue]:checked').val();
                 if (radioval == 'yes') {
                     $('#issue_yes').css("display", "block");
                 }
@@ -727,31 +859,57 @@ var dateTimesInits=0;
                  });
         	}
         }
+        
+      
+        var f = null;
+        function showNo(a){
+        	 f=a.href.split("#")[1].split("-")[2].split('modal')[1];        	
+        	console.log($('#trainingRow'+f));
+        }
+        
         function addTrainingUpdateRow() {
-        	var index = $("#index").val();
+        	var index = f;
+        	if(index == null){
+        		index = 0;
+        	}
         	 var trainNo = $("#trainNo").val();
              var rNo = Number(trainNo)+1;
             var html = '<tr id="attendeesRow'+rNo+'">' +
-            	'<td> <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +'" />'+
-                '<select id="department_fks'+ rNo +'" name="department_fks" class="searchable validate-dropdown " >'+
-                '<option value="" >Select Department</option>'+
-	                <c:forEach var="obj" items="${departmentsList}">
-	             	  '<option value="${obj.department_name }">${obj.department_name}</option>' +
-	                </c:forEach>
-         	    '</select></td>'+
-                '<td><input id="attendees'+ rNo +'" name="attendees" type="text" class="validate" placeholder="Attendee"></td>' +
-                '<td><input id="mobile_nos'+ rNo +'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
-                '<td><p><label><input type="checkbox" id="required_fks'+ rNo +'" name="required_fks"/><span></span></label></p></td>' +
-                '<td><p><label><input type="checkbox" id="participated_fks'+ rNo +'" name="participated_fks"/><span></span></label></p></td>' +
-                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
-                $('#attendeesTableBody'+ rNo).append(html);
-                $("#trainNo").val(rNo );
-           	    $('#department_fks' + rNo ).formSelect();
+            	'<td> '+
+			 	 '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'" value="${dObj.training_session_id_fk}" />'+
+				 '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +'" />'+
+	                '<select id="department_fks'+ rNo +'" name="department_fks" class="searchable validate-dropdown " >'+
+	                '<option value="" >Select Department</option>'+
+		                <c:forEach var="obj" items="${departmentsList}">
+		             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
+		                </c:forEach>
+	         	    '</select></td>'+
+	                '<td><input id="attendees'+ rNo +'" name="attendees" type="text" class="validate" placeholder="Attendee"></td>' +
+	                '<td><input id="mobile_nos'+ rNo +'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
+	                '<td><p><label><input type="hidden" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +'" name="required_fks" class="required_fks"/><span></span></label></p></td>' +
+	                '<td><p><label><input type="hidden" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +'" name="participated_fks" class="participated_fks" /><span></span></label></p></td>' +
+	                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+             $('#attendeesTableBody'+ index).append(html);
+             $("#trainNo").val(rNo );
+       	     $('#department_fks' + rNo ).formSelect();
            
-            
+           	 $('#required_fks'+ rNo).on('change', function(e){
+                 if($(this).prop('checked'))
+                 {
+                	 $(".req").prop('disabled', true);
+                     $('#required_fks'+ rNo).val('Yes');
+                 } 
+       	    });
+           	$("#participated_fks"+ rNo).on('change', function(e){
+                if($(this).prop('checked'))
+                {
+                	 $(".part").prop('disabled', true);
+                    $("#participated_fks"+ rNo).val('Yes');
+                } 
+           });
+      
         }
-       
-       
+        
         function addSessionRow() {
         	 var rowNo = $("#rowNo").val();
              var rNo = Number(rowNo)+1;
@@ -770,22 +928,23 @@ var dateTimesInits=0;
 						'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
 							' <thead><tr><th>Department</th><th>Attendee</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
 							  ' <tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+'"><td>'+
-								  ' <input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +tNo+'" />'+
+							 	  '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'" />'+
+								  '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +tNo+'" />'+
 									'<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo +tNo+'">'+
 								      ' <option value="" >Select Department </option>'+
 							             <c:forEach var="obj" items="${departmentsList}">
-								            '<option value="${obj.department_name }" >${obj.department_name }</option>'+
+								            '<option value="${obj.department_fk }" >${obj.department_name }</option>'+
 								          </c:forEach>
-									'</select></td>'+
+									 '</select></td>'+
 									'<td><input id="attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Attendee" ></td>'+
 									'<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
-									' <td><p><label><input type="checkbox" id="required_fks'+ rNo +tNo+'" name="required_fks"/><span></span></label></p></td>'+
-									'<td><p><label><input type="checkbox" id="participated_fks'+ rNo +tNo+'" name="participated_fk" /><span></span></label></p></td>'+
-									'<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td> </tr></tbody></table>'+
+					                '<td><p><label><input type="hidden" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" name="required_fks" class="required_fks"/><span></span></label></p></td>' +
+					                '<td><p><label><input type="hidden" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" name="participated_fks" class="participated_fks" /><span></span></label></p></td>' +
+					                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
 									'<input type="hidden" id="trainNo"  name="trainNo" value="1" /> ' +                    
 	                        		'<table class="mdl-data-table"><tbody id="trainingBody">'+                                          
 	                                  '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i class="fa fa-plus"></i></a> </tr>'+
-	                                  '</tbody></table></div></div></div></div> </td>'+
+	                                 '</tbody></table></div></div></div></div> </td>'+
              '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
              '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
              $('#trainingTableBody').append(html);
@@ -793,18 +952,18 @@ var dateTimesInits=0;
                 $('.modal .searchable').select2({
                 	 
                 }); */
-                $('#session-update-modal'+rNo).modal();
-                $('#department_fks' + rNo+tNo).select2({
-                	dropdownParent: $('#session-update-modal'+rNo+' .modal-content')
-                });
+             $('#session-update-modal'+rNo).modal();
+             $('#department_fks' + rNo+tNo).select2({
+             	dropdownParent: $('#session-update-modal'+rNo+' .modal-content')
+             });
                /*  $('#session-update-modal'+rNo).modal();
                 $('#session-update-modal'+rNo+' .searchable').select2({
                 	 dropdownParent: $('#session-update-modal'+rNo+' .modal-content')
                 });
                  */
-                $("#rowNo").val(rNo);
-                MaterialDateTimePicker.create($("#start_times"+ rNo));
-                MaterialDateTimePicker.create($("#end_times"+ rNo));
+            $("#rowNo").val(rNo);
+            MaterialDateTimePicker.create($("#start_times"+ rNo));
+            MaterialDateTimePicker.create($("#end_times"+ rNo));
 
             $('#start_time_icon'+ rNo +'').click(function () {
                 MaterialDateTimePicker.create($("#start_times" + rNo));
@@ -812,19 +971,50 @@ var dateTimesInits=0;
             $('#end_time_icon'+ rNo +'').click(function () {
                 MaterialDateTimePicker.create($("#end_times" + rNo));
             });
-            }
+            
+	        $('#required_fks'+ rNo+tNo).on('change', function(e){
+	             if($(this).prop('checked'))
+	             {
+	            	 $(".req").prop('disabled', true);
+	                 $('#required_fks'+ rNo+tNo).val('Yes');
+	             } 
+	   	    });
+	       	$("#participated_fks"+ rNo+tNo).on('change', function(e){
+	            if($(this).prop('checked'))
+	            {
+	            	$(".part").prop('disabled', true);
+	                $("#participated_fks"+ rNo+tNo).val('Yes');
+	            } 
+	       });
+       }
         
         function updateTraining(){
-        	        	
-				$(".page-loader").show();
-				
-	  			document.getElementById("trainingForm").submit();		    		
-        	
+			$(".page-loader").show();
+			$('form input[name=session_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=start_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=end_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=required_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=participated_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			document.getElementById("trainingForm").submit();		    		
         }
-        function showNo(a){
-        	var f=a.href.split("#")[1].split("-")[2].split('modal')[1];        	
-        	console.log($('#trainingRow'+f));
-        }
+        function addTraining(){
+			$(".page-loader").show();
+			$('form input[name=session_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=start_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=end_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=required_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			$('form input[name=participated_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+  			document.getElementById("trainingForm").submit();		    		
+    	
+    }
       
     </script>
 </body>

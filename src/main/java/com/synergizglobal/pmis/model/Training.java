@@ -6,7 +6,8 @@ public class Training {
 
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
-	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,is_there_issue,category ;
+	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
+	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id ;
 
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
@@ -14,6 +15,38 @@ public class Training {
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss;
 
+
+	public String getIssue_description() {
+		return issue_description;
+	}
+
+	public void setIssue_description(String issue_description) {
+		this.issue_description = issue_description;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getIssue_priority_id() {
+		return issue_priority_id;
+	}
+
+	public void setIssue_priority_id(String issue_priority_id) {
+		this.issue_priority_id = issue_priority_id;
+	}
+
+	public String getIssue_category_id() {
+		return issue_category_id;
+	}
+
+	public void setIssue_category_id(String issue_category_id) {
+		this.issue_category_id = issue_category_id;
+	}
 
 	public String getCategory() {
 		return category;

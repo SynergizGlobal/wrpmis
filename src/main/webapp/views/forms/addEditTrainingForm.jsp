@@ -940,7 +940,7 @@ var dateTimesInits=0;
 									'<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 					                '<td><p><label><input type="hidden" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" name="required_fks" class="required_fks"/><span></span></label></p></td>' +
 					                '<td><p><label><input type="hidden" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" name="participated_fks" class="participated_fks" /><span></span></label></p></td>' +
-					                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+					                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 									'<input type="hidden" id="trainNo"  name="trainNo" value="1" /> ' +                    
 	                        		'<table class="mdl-data-table"><tbody id="trainingBody">'+                                          
 	                                  '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow()"> <i class="fa fa-plus"></i></a> </tr>'+

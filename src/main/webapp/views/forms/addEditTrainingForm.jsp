@@ -143,6 +143,7 @@
         }
         .modal{
         	max-height:90%;
+        	width:62%;
         }
         .modal-content .row.fixed-width{
         	margin:0;
@@ -151,14 +152,17 @@
         .select2-container.select2-container--default.select2-container--open{
         	z-index:1034;
         }
-      /*   input[name^=start_times],input[name^=end_times]{
-        	font-size:0.95rem !important;
-        } */
+     
         .fw-110{
             max-width: 110px;
 		    width: 110px;
 		    min-width: 110px;
     	}
+    	.fw-450{
+        	width: 450px;
+    		max-width: 450px;
+    	}
+    	    
     </style>
 </head>
 
@@ -166,8 +170,8 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 	<script>
-var dateTimesInits=0;
-</script>
+		var dateTimesInits=0;
+	</script>
 	<!-- card  -->
 	<div class="row">
 		<div class="col s12 m12">
@@ -184,13 +188,13 @@ var dateTimesInits=0;
 						</span>
 					</div>
 					<!-- form start-->
-					<div class="container container-no-margin">
 						<c:if test="${action eq 'edit'}">
 							<form action="<%=request.getContextPath() %>/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form">
 						</c:if>
 						<c:if test="${action eq 'add'}">
 							<form action="<%=request.getContextPath() %>/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form">
 						</c:if>
+					<div class="container container-no-margin">
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m4 input-field">
@@ -286,18 +290,23 @@ var dateTimesInits=0;
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
-
+					</div>
+					
+<div class="row">
+    <div class="col m1 hide-on-small-only"></div>
+    <div class="col m10 s12">
+        
 						<div class="row fixed-width">
 							<h5 class="center-align">Sessions</h5>
 							<div class="table-inside">
 								<table id="session-table" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th class="fw-110">Session No</th>
+											<th class="fw-110">Session No</th>	
 											<th>Start Time</th>
 											<th>End Time</th>
 											<th>Attendees</th>
-											<th>Remaks</th>
+											<th class="fw-450">Remaks</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -599,29 +608,34 @@ var dateTimesInits=0;
 								</c:choose>
 							</div>
 						</div>
-
-						<div class="row" style="margin-top: 20px;">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col m8 s12">
-								<div class="row">
-									<div class="col s6 m6 input-field">
-										<p style="margin-top: 18px;">Any Issue ?</p>
-									</div>
-									<div class="col s6 m6 input-field">
-										<p class="radiogroup"
-											style="padding-bottom: 10px; padding-top: 10px;">
-											<label> 
-												<input class="with-gap" name="is_there_issue" type="radio" value="yes" /> <span>Yes</span>
-											</label>
-											 &nbsp; 
-											 <label> 
-											 	<input class="with-gap" name="is_there_issue" type="radio" value="no" /> <span>No</span>
-											</label>
-										</p>
+						
+    </div>
+    <div class="col m1 hide-on-small-only"></div>
+</div>
+					
+						<div class="container container-no-margin">						
+							<div class="row" style="margin-top: 20px;">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row">
+										<div class="col s6 m6 input-field">
+											<p style="margin-top: 18px;">Any Issue ?</p>
+										</div>
+										<div class="col s6 m6 input-field">
+											<p class="radiogroup"
+												style="padding-bottom: 10px; padding-top: 10px;">
+												<label> 
+													<input class="with-gap" name="is_there_issue" type="radio" value="yes" /> <span>Yes</span>
+												</label>
+												 &nbsp; 
+												 <label> 
+												 	<input class="with-gap" name="is_there_issue" type="radio" value="no" /> <span>No</span>
+												</label>
+											</p>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 
 						<div id="issue_yes" style="display: none;">
 							<div class="row">
@@ -696,8 +710,8 @@ var dateTimesInits=0;
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
-						</form>
 					</div>
+						</form>
 					<!-- form ends  -->
 				</div>
 

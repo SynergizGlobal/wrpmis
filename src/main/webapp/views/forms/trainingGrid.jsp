@@ -34,6 +34,10 @@
          .input-field .searchable_label{
             font-size: 0.9rem;
         }
+        .fw-350{
+        	width:350px;
+        	max-width:350px;
+        }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -147,7 +151,7 @@
                                             <th>ID</th>
                                             <th>Type </th>
                                             <th>Category</th>
-                                            <th>Title </th>
+                                            <th class="fw-350">Title </th>
                                             <th>Faculty</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>

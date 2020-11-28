@@ -181,14 +181,10 @@ var dateTimesInits=0;
 					<!-- form start-->
 					<div class="container container-no-margin">
 						<c:if test="${action eq 'edit'}">
-							<form action="<%=request.getContextPath() %>/update-training"
-								id="trainingForm" name="trainingForm" method="post"
-								class="form-horizontal" role="form">
+							<form action="<%=request.getContextPath() %>/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form">
 						</c:if>
 						<c:if test="${action eq 'add'}">
-							<form action="<%=request.getContextPath() %>/add-training"
-								id="trainingForm" name="trainingForm" method="post"
-								class="form-horizontal" role="form">
+							<form action="<%=request.getContextPath() %>/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form">
 						</c:if>
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
@@ -308,17 +304,17 @@ var dateTimesInits=0;
 													items="${trainingDetails.trainingSessions }"
 													varStatus="index">
 													<tr id="trainingRow${index.count }">
-														<td><input type="hidden" name="training_session_id" id="training_session_id${index.count }" value="${tObj.training_session_id}" />
-														 <input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
+														<td><input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
 														 <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
 															placeholder="Session No"></td>
-														<td><input id="start_times${index.count }" name="start_times" type="text" class="validate timepicker" value="${tObj.start_time }"
+														<td><input type="hidden" name="start_times" value="${tObj.start_time }"/>
+															<input id="start_times${index.count }" type="text" class="validate timepicker" value="${tObj.start_time }"
 															placeholder="Start Time">
 															<button type="button" id="start_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></td>
 														<td><input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }" placeholder="End Time">
 															<button type="button" id="end_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></td>
 														<td><a href="#session-update-modal${index.count }" class="btn waves-effect waves-light bg-m t-c modal-trigger"
-															onclick="showNo(this)"> Update </a>
+															onclick="showNo(this);"> Update </a>
 															<div id="session-update-modal${index.count }" class="modal">
 																<div class="modal-content">
 																	<h4 class="modal-header">Trainee Updation Details</h4>
@@ -362,24 +358,20 @@ var dateTimesInits=0;
 																										value="${dObj.mobile_no }"></td>
 																									<td>
 																										<p>
-																											<label> <input type="hidden" name="required_fks" value="No" class="req" />
-																												<c:if test="${dObj.required_fk eq 'No'}">
-																													<input type="hidden" name="required_fks" value="No" />
-																												</c:if> <input type="checkbox" id="required_fks${indexx.count }${index.count }" name="required_fks" class="required_fks"
-																												<c:if test="${dObj.required_fk eq 'Yes'}"> value="${dObj.required_fk}"  checked</c:if> />
+																											<label><input type="hidden" name="required_fks" value ="${dObj.required_fk}" id="required_fk${indexx.count }${index.count }" />
+																											  
+																											   <input type="checkbox" id="required_fks${indexx.count }${index.count }"  class="required_fks" onChange="checkBox('${indexx.count }${index.count }')"
+																												 <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />
 																												<span></span>
 																											</label>
-
 																										</p>
 																									</td>
 																									<td>
 																										<p>
-																											<label> <input type="hidden" name="participated_fks" value="No" class="part" />
-																											  <c:if test="${dObj.participated_fk eq 'No'}">
-																													<input type="hidden" name="participated_fks" value="No" />
-																											  </c:if>
-																											   <input type="checkbox" id="participated_fks${indexx.count }${index.count }" name="participated_fks"
-																												<c:if test="${dObj.participated_fk eq 'Yes'}"> value="${dObj.participated_fk}"  checked</c:if> />
+																											<label> <input type="hidden" name="participated_fks" value ="${dObj.participated_fk}" id="participated_fk${indexx.count }${index.count }" /> 
+																											  
+																											   <input type="checkbox" id="participated_fks${indexx.count }${index.count }"  class="participated_fks" onChange="checkBoxs('${indexx.count }${index.count }')"
+																												 <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> />
 																												<span></span>
 																											</label>
 																										</p>
@@ -389,23 +381,6 @@ var dateTimesInits=0;
 																											<i class="fa fa-close"></i>
 																									</a></td>
 																								</tr>
-																								<script>
-																			                       	 $('#required_fks${indexx.count }${index.count }').on('change', function(e){
-																			                             if($(this).prop('checked'))
-																			                             {
-																			                            	 $(".req").prop('disabled', true);
-																			                                 $('#required_fks${indexx.count }${index.count }').val('Yes');
-																			                             } 
-																			                   	    });
-																			                    	 $('#participated_fks${indexx.count }${index.count }').on('change', function(e){
-																			                             if($(this).prop('checked'))
-																			                             {
-																			                            	 $(".part").prop('disabled', true);
-																			                                 $('#participated_fks${indexx.count }${index.count }').val('Yes');
-																			                             } 
-																			                   	    });
-															                            
-															                                </script>
 																							</c:forEach>
 																						 </c:when>
 																						<c:otherwise>
@@ -424,16 +399,16 @@ var dateTimesInits=0;
 																								</td>
 																								<td>
 																									<p>
-																										<label> <input type="hidden" name="required_fks" value="No" class="req" />
-																											<input type="checkbox" id="required_fks0" name="required_fks" /> <span></span>
+																										<label> <input type="hidden" id="required_fk0" name="required_fks" value="No" class="req" />
+																											<input type="checkbox" id="required_fks0" /> <span></span>
 																										</label>
 																									</p>
 																								</td>
 																								<td>
 
 																									<p>
-																										<label> <input type="hidden" name="participated_fks" value="No" class="part" /> 
-																											<input type="checkbox" id="participated_fks0" name="participated_fks" /> <span></span>
+																										<label> <input type="hidden" id="participated_fk0" name="participated_fks" value="No" class="part" /> 
+																											<input type="checkbox" id="participated_fks0"  /> <span></span>
 																										</label>
 																									</p>
 																								</td>
@@ -443,16 +418,22 @@ var dateTimesInits=0;
 																			                       	 $('#required_fks0').on('change', function(e){
 																			                             if($(this).prop('checked'))
 																			                             {
-																			                            	 $(".req").prop('disabled', true);
-																			                                 $('#required_fks0').val('Yes');
-																			                             } 
+																			                            	 //$(".req").prop('disabled', true);
+																			                                 $('#required_fk0').val('Yes');
+																			                             }else{
+																			                              	  $("#required_fk0").val('No')
+																			                            	  $("#required_fk0").prop('checked',false).removeAttr('checked');;
+																			                              }
 																			                   	    });
 																			                    	 $('#participated_fks0').on('change', function(e){
 																			                             if($(this).prop('checked'))
 																			                             {
-																			                            	 $(".part").prop('disabled', true);
-																			                                 $('#participated_fks0').val('Yes');
-																			                             } 
+																			                            	// $(".part").prop('disabled', true);
+																			                                 $('#participated_fk0').val('Yes');
+																			                             } else{
+																			                              	  $("#participated_fk0").val('No')
+																			                            	  $("#participated_fk0").prop('checked',false).removeAttr('checked');;
+																			                              }
 																			                   	    });
 												                            
 												                            				</script>
@@ -475,7 +456,7 @@ var dateTimesInits=0;
 																					<input type="hidden" id="trainNo" name="trainNo" value="${fn:length(tObj.trainingAttendees) }" />
 																				</c:when>
 																				<c:otherwise>
-																					<input type="hidden" id="trainNo" name="trainNo" value="1" />
+																					<input type="hidden" id="trainNo" name="trainNo" value="0" />
 																				</c:otherwise>
 																			</c:choose>
 																		</div>
@@ -492,7 +473,8 @@ var dateTimesInits=0;
 											</c:when>
 											<c:otherwise>
 												<tr id="trainingRow0">
-													<td><input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></td>
+													<td><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/>
+														<input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></td>
 													<td><input id="start_times0" name="start_times" type="text" class="validate timepicker" placeholder="Start Time">
 														<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></td>
 													<td><input id="end_times0" name="end_times" type="text" class="validate timepicker" placeholder="End Time">
@@ -530,15 +512,15 @@ var dateTimesInits=0;
 																					<td>
 																						<p>
 																							<label> 
-																								<input type="hidden" name="required_fks" value="No" class="req" /> 
-																								<input type="checkbox" id="required_fks00" name="required_fks" /> <span></span>
+																								<input type="hidden" id="required_fk00" name="required_fks" value="No" class="req" /> 
+																								<input type="checkbox" id="required_fks00" /> <span></span>
 																							</label>
 																						</p>
 																					</td>
 																					<td>
 																						<p>
-																							<label> <input type="hidden" name="participated_fks" value="No" class="part" />
-																								<input type="checkbox" id="participated_fks00" name="participated_fks" /> <span></span>
+																							<label> <input type="hidden" id="participated_fk00" name="participated_fks" value="No" class="part" />
+																								<input type="checkbox" id="participated_fks00"  /> <span></span>
 																							</label>
 																						</p>
 																					</td>
@@ -552,16 +534,22 @@ var dateTimesInits=0;
 															                       	 $('#required_fks00').on('change', function(e){
 															                             if($(this).prop('checked'))
 															                             {
-															                            	 $(".req").prop('disabled', true);
-															                                 $('#required_fks00').val('Yes');
-															                             } 
+															                            	 //$(".req").prop('disabled', true);
+															                                 $('#required_fk00').val('Yes');
+															                             } else{
+															                              	  $("#required_fk00").val('No')
+															                            	  $("#required_fk00").prop('checked',false).removeAttr('checked');;
+															                              }
 															                   	    });
 															                    	 $('#participated_fks00').on('change', function(e){
 															                             if($(this).prop('checked'))
 															                             {
-															                            	 $(".part").prop('disabled', true);
-															                                 $('#participated_fks00').val('Yes');
-															                             } 
+															                            	// $(".part").prop('disabled', true);
+															                                 $('#participated_fk00').val('Yes');
+															                             } else{
+															                              	  $("#participated_fk00").val('No')
+															                            	  $("#participated_fk00").prop('checked',false).removeAttr('checked');;
+															                              }
 															                   	    });
 												                            
 												                            </script>
@@ -678,7 +666,7 @@ var dateTimesInits=0;
 							<!-- row 10 -->
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m8 input-field">
-								<textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea>
+								<textarea id="textarea1" class="materialize-textarea" name="remarks" id="remarks" data-length="1000"></textarea>
 								<label for="textarea1">Remarks</label>
 							</div>
 						</div>
@@ -771,8 +759,26 @@ var dateTimesInits=0;
                  });
         	}
         }
-        
-      
+
+
+      function checkBox(rowCount){
+    	  if ($('#required_fks'+ rowCount).is(':checked')) {
+        	  //$('#required_fk'+ rowCount).prop('disabled', true);
+        	  $('#required_fk'+ rowCount).val('Yes');
+          }else{
+        	  $('#required_fk'+ rowCount).val('No');
+        	  $('#required_fks'+ rowCount).prop('checked',false).removeAttr('checked');;
+          }
+      }
+      function checkBoxs(rowCount){
+          if ($('#participated_fks'+ rowCount).is(':checked')) {
+        	  //$('#participated_fk'+ rowCount).prop('disabled', true);
+        	  $('#participated_fk'+ rowCount).val('Yes');
+          }else{
+        	  $('#participated_fk'+ rowCount).val('No')
+        	  $('#participated_fks'+ rowCount).prop('checked',false).removeAttr('checked');;
+          }
+      }
         var f = null;
         function showNo(a){
         	 f=a.href.split("#")[1].split("-")[2].split('modal')[1];        	
@@ -781,12 +787,17 @@ var dateTimesInits=0;
         
         function addTrainingUpdateRow(trainingSessionId) {
         	var index = f;
+        	var count = 0;
         	if(index == null){
         		index = 0;
         	}
+        	
+        	if(trainingSessionId === undefined){
+        		trainingSessionId = "";
+        	}
         	 var trainNo = $("#trainNo").val();
              var rNo = Number(trainNo)+1;
-            var html = '<tr id="attendeesRow'+rNo+'">' +
+            var html = '<tr id="attendeesRow'+rNo+'"><input type="hidden" id="rowCounts'+rNo+'" name="rowCounts" value="'+rNo+'"  />' +
             	'<td> '+
 			 	 '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'" value="'+trainingSessionId+'" />'+
 				 '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +'" />'+
@@ -798,26 +809,34 @@ var dateTimesInits=0;
 	         	    '</select></td>'+
 	                '<td><input id="attendees'+ rNo +'" name="attendees" type="text" class="validate" placeholder="Attendee"></td>' +
 	                '<td><input id="mobile_nos'+ rNo +'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
-	                '<td><p><label><input type="hidden" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +'" name="required_fks" class="required_fks"/><span></span></label></p></td>' +
-	                '<td><p><label><input type="hidden" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +'" name="participated_fks" class="participated_fks" /><span></span></label></p></td>' +
+	                '<td><p><label><input type="hidden" id="required_fk'+ rNo +'" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +'" class="required_fks"/><span></span></label></p></td>' +
+	                '<td><p><label><input type="hidden" id="participated_fk'+ rNo +'" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +'" class="participated_fks" /><span></span></label></p></td>' +
 	                '<td><a onclick="removeTrainingAttendees('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
              $('#attendeesTableBody'+ index).append(html);
              $("#trainNo").val(rNo );
        	     $('#department_fks' + rNo ).select2();
-           
+       		  var count = $('table tr').length;
+       			
+       		  
            	 $('#required_fks'+ rNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
-                	 $(".req").prop('disabled', true);
-                     $('#required_fks'+ rNo).val('Yes');
-                 } 
+                	 //$(".req").prop('disabled', true);
+                     $('#required_fk'+ rNo).val('Yes');
+                 }else{
+                 	  $("#required_fk"+ rNo).val('No')
+                	  $("#required_fk"+ rNo).prop('checked',false).removeAttr('checked');;
+                  }
        	    });
            	$("#participated_fks"+ rNo).on('change', function(e){
                 if($(this).prop('checked'))
                 {
-                	 $(".part").prop('disabled', true);
-                    $("#participated_fks"+ rNo).val('Yes');
-                } 
+                	 //$(".part").prop('disabled', true);
+                    $("#participated_fk"+ rNo).val('Yes');
+                }else{
+              	  $("#participated_fk"+ rNo).val('No')
+            	  $("#participated_fks"+ rNo).prop('checked',false).removeAttr('checked');;
+              }
            });
       
         }
@@ -851,8 +870,8 @@ var dateTimesInits=0;
 									 '</select></td>'+
 									'<td><input id="attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Attendee" ></td>'+
 									'<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
-					                '<td><p><label><input type="hidden" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" name="required_fks" class="required_fks"/><span></span></label></p></td>' +
-					                '<td><p><label><input type="hidden" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" name="participated_fks" class="participated_fks" /><span></span></label></p></td>' +
+					                '<td><p><label><input type="hidden" name="required_fks" id="required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
+					                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
 					                '<td><a onclick="removeTrainingAttendees('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 									'<input type="hidden" id="trainNo"  name="trainNo" value="1" /> ' +                    
 	                        		'<table class="mdl-data-table"><tbody id="trainingBody">'+                                          
@@ -888,16 +907,22 @@ var dateTimesInits=0;
 	        $('#required_fks'+ rNo+tNo).on('change', function(e){
 	             if($(this).prop('checked'))
 	             {
-	            	 $(".req").prop('disabled', true);
-	                 $('#required_fks'+ rNo+tNo).val('Yes');
-	             } 
+	            	// $(".req").prop('disabled', true);
+	                 $('#required_fk'+ rNo+tNo).val('Yes');
+	             } else{
+                 	  $("#required_fk"+ rNo+tNo).val('No')
+                	  $("#required_fk"+ rNo+tNo).prop('checked',false).removeAttr('checked');;
+                  }
 	   	    });
 	       	$("#participated_fks"+ rNo+tNo).on('change', function(e){
 	            if($(this).prop('checked'))
 	            {
-	            	$(".part").prop('disabled', true);
-	                $("#participated_fks"+ rNo+tNo).val('Yes');
-	            } 
+	            	//$(".part").prop('disabled', true);
+	                $("#participated_fk"+ rNo+tNo).val('Yes');
+	            } else{
+               	  $("#required_fk"+ rNo+tNo).val('No')
+            	  $("#required_fk"+ rNo+tNo).prop('checked',false).removeAttr('checked');;
+              }
 	       });
     }
      
@@ -917,8 +942,8 @@ var dateTimesInits=0;
 			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			$('form input[name=required_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			$('form input[name=participated_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=required_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			document.getElementById("trainingForm").submit();		    		
      }
      function addTraining(){
@@ -930,8 +955,8 @@ var dateTimesInits=0;
 			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			$('form input[name=required_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			$('form input[name=participated_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=required_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			document.getElementById("trainingForm").submit();		    		
  	
  }

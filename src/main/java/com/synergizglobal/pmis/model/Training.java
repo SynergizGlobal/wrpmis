@@ -15,6 +15,15 @@ public class Training {
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss;
 
+    private int [] rowCounts;
+
+	public int[] getRowCounts() {
+		return rowCounts;
+	}
+
+	public void setRowCounts(int[] rowCounts) {
+		this.rowCounts = rowCounts;
+	}
 
 	public String getIssue_description() {
 		return issue_description;

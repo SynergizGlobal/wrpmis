@@ -145,7 +145,7 @@
         	max-height:90%;
         	width:62%;
         }
-        .modal-content .row.fixed-width{
+        .modal-content .row.fixed-width,.row.fixed-width{
         	margin:0;
         }
         
@@ -158,11 +158,21 @@
 		    width: 110px;
 		    min-width: 110px;
     	}
-    	.fw-450{
-        	width: 450px;
-    		max-width: 450px;
+    	.fw-400{
+        	width: 400px;
+    		max-width: 400px;
     	}
-    	    
+    	  .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        .error-msg label{color:red!important;}   
     </style>
 </head>
 
@@ -207,12 +217,13 @@
 								<p class="searchable_label">Training Type</p>
 								<select class="searchable validate-dropdown"
 									name="training_type_fk" id="training_type_fk">
-									<option value="">Select Financial Year</option>
+									<option value="">Select Training Type</option>
 									<c:forEach var="obj" items="${trainingTypesList}">
 										<option value="${obj.training_type_fk }"
 											<c:if test="${trainingDetails.training_type_fk eq obj.training_type_fk }">selected</c:if>>${obj.training_type_fk }</option>
 									</c:forEach>
-								</select> <span id="financial_year_fkError" class="error-msg"></span>
+								</select> 
+								<span id="training_typeError" class="error-msg"></span>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
@@ -223,23 +234,25 @@
 								<p class="searchable_label">Category</p>
 								<select class="searchable validate-dropdown"
 									name="training_category_fk" id="training_category_fk">
-									<option value="">Select Financial Year</option>
+									<option value="">Select Category </option>
 									<c:forEach var="obj" items="${categoriesList}">
 										<option value="${obj.training_category_fk }"
 											<c:if test="${trainingDetails.training_category_fk eq obj.training_category_fk }">selected</c:if>>${obj.training_category_fk }</option>
 									</c:forEach>
-								</select> <span id="training_category_fkError" class="error-msg"></span>
+								</select> 
+								<span id="training_category_fkError" class="error-msg"></span>
 							</div>
 							<div class="col s12 m4 input-field">
 								<p class="searchable_label">Status</p>
 								<select class="searchable validate-dropdown" name="status_fk"
 									id="status_fk">
-									<option value="">Select Financial Year</option>
+									<option value="">Select Status</option>
 									<c:forEach var="obj" items="${statusList}">
 										<option value="${obj.status_fk }"
 											<c:if test="${trainingDetails.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
 									</c:forEach>
-								</select> <span id="status_fkError" class="error-msg"></span>
+								</select> 
+								<span id="status_fkError" class="error-msg"></span>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
@@ -247,13 +260,11 @@
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m4 input-field ">
-								<input id="faculty_name" name="faculty_name" type="text"
-									class="validate" value="${trainingDetails.faculty_name }">
+								<input id="faculty_name" name="faculty_name" type="text" class="validate" value="${trainingDetails.faculty_name }">
 								<label for="faculty_name">Faculty</label>
 							</div>
 							<div class="col s12 m4 input-field ">
-								<input id="designation" type="text" class="validate"
-									value="${trainingDetails.faculty_name }"> <label
+								<input id="designation" type="text" class="validate" value="${trainingDetails.description }"> <label
 									for="designation">Designation</label>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
@@ -263,17 +274,16 @@
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m8 input-field">
-								<textarea id="training_title" name="title"
-									class="materialize-textarea">${trainingDetails.title }</textarea>
+								<textarea id="training_title" name="title" class="materialize-textarea">${trainingDetails.title }</textarea>
 								<label for="training_title">Title</label>
+								<span id="training_typeError" class="error-msg"></span>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m8 input-field">
-								<textarea id="training_description" name="description"
-									class="materialize-textarea">${trainingDetails.description }</textarea>
+								<textarea id="training_description" name="description" class="materialize-textarea">${trainingDetails.description }</textarea>
 								<label for="training_description">Description</label>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
@@ -292,9 +302,9 @@
 						</div>
 					</div>
 					
-<div class="row">
-    <div class="col m1 hide-on-small-only"></div>
-    <div class="col m10 s12">
+				<div class="row">
+   				 <div class="col m1 hide-on-small-only"></div>
+    				<div class="col m10 s12">
         
 						<div class="row fixed-width">
 							<h5 class="center-align">Sessions</h5>
@@ -306,7 +316,7 @@
 											<th>Start Time</th>
 											<th>End Time</th>
 											<th>Attendees</th>
-											<th class="fw-450">Remaks</th>
+											<th class="fw-400">Remaks</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -426,7 +436,7 @@
 																										</label>
 																									</p>
 																								</td>
-																								<td><a onclick="removeTrainingAttendees('0');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
+																								<td><a onclick="removeTrainingAttendees('0','0');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
 																							</tr>
 																							<script>
 																			                       	 $('#required_fks0').on('change', function(e){
@@ -457,10 +467,10 @@
 																			</table>
 
 																			<table class="mdl-data-table">
-																				<tbody id="trainingBody">
+																				<tbody id="trainingUpdateBody">
 																					<tr>
 																						<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
-																							onclick="addTrainingUpdateRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
+																							onclick="addTrainingUpdateRow('${tObj.training_session_id}','${index.count }')"> <i class="fa fa-plus"></i></a>
 																					</tr>
 																				</tbody>
 																			</table>
@@ -513,7 +523,8 @@
 																			</thead>
 																			<tbody id="attendeesTableBody0">
 																				<tr id="attendeesRow00">
-																					<td><input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
+																					<td><input type="hidden" id="rowCounts00" name="rowCounts" value="1" class="hide" />
+																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
 																					<select class="searchable validate-dropdown" name="department_fks" id="department_fks00">
 																							<option value="">Select Department</option>
 																							<c:forEach var="obj" items="${departmentsList}">
@@ -570,10 +581,10 @@
 																		<input type="hidden" id="trainNo" name="trainNo"
 																			value="0" />
 																		<table class="mdl-data-table">
-																			<tbody id="trainingBody">
+																			<tbody id="trainingUpdateBody">
 																				<tr>
 																					<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
-																						onclick="addTrainingUpdateRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
+																						onclick="addTrainingUpdateRow('0','0')"> <i class="fa fa-plus"></i></a>
 																				</tr>
 																			</tbody>
 																		</table>
@@ -804,20 +815,27 @@
         	console.log($('#trainingRow'+f));
         }
         
-        function addTrainingUpdateRow(trainingSessionId) {
+        function addTrainingUpdateRow(trainingSessionId,tNo) {
         	var index = f;
-        	var count = 0;
+        	
         	if(index == null){
         		index = 0;
         	}
+        	$(".hide").prop('disabled', true);
         	
         	if(trainingSessionId === undefined){
         		trainingSessionId = "";
         	}
-        	 var trainNo = $("#trainNo").val();
-             var rNo = Number(trainNo)+1;
-            var html = '<tr id="attendeesRow'+rNo+'"><input type="hidden" id="rowCounts'+rNo+'" name="rowCounts" value="'+rNo+'"  />' +
-            	'<td> '+
+        	var trainNo = $("#trainNo").val();
+            var rNo = Number(trainNo)+1;
+            var c = $('#attendeesTableBody'+tNo+' tr').length + 1;
+            if(rNo > 1){
+            	var lastIndex = rNo -1;
+          	    var lastRow = $('#attendeesTableBody'+tNo+' #rowCounts'+lastIndex).prop('disabled', true);
+            } 
+         
+            var html = '<tr id="attendeesRow'+rNo+'">' +
+            	'<td> <input type="hidden" id="rowCounts'+rNo+'" name="rowCounts" "  />'+
 			 	 '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'" value="'+trainingSessionId+'" />'+
 				 '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +'" />'+
 	                '<select id="department_fks'+ rNo +'" name="department_fks" class="searchable validate-dropdown " >'+
@@ -834,9 +852,9 @@
              $('#attendeesTableBody'+ index).append(html);
              $("#trainNo").val(rNo );
        	     $('#department_fks' + rNo ).select2();
-       		  var count = $('table tr').length;
-       			
-       		  
+       	    
+       		 $('#attendeesTableBody'+tNo+' #rowCounts'+rNo+':last').val(c)
+       			 
            	 $('#required_fks'+ rNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
@@ -878,8 +896,8 @@
 					'<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close">  <i class="fa fa-close"></i>  	</span></h4> <div class="row fixed-width"><div class="table-inside">'+
 						'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
 							' <thead><tr><th>Department</th><th>Attendee</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
-							  ' <tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+'"><td>'+
-							 	  '<input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
+							  ' <tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+1+'"><td>'+
+							 	  '<input type="hidden" id="rowCounts'+rNo +tNo+'" name="rowCounts" value="1" class="hide" /><input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 								  '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo +tNo+'" />'+
 									'<select class="searchable validate-dropdown" name="department_fks" id="department_fks'+ rNo +tNo+'">'+
 								      ' <option value="" >Select Department </option>'+
@@ -893,8 +911,8 @@
 					                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
 					                '<td><a onclick="removeTrainingAttendees('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 									'<input type="hidden" id="trainNo"  name="trainNo" value="1" /> ' +                    
-	                        		'<table class="mdl-data-table"><tbody id="trainingBody">'+                                          
-	                                  '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow('+sessionId+')"> <i class="fa fa-plus"></i></a> </tr>'+
+	                        		'<table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
+	                                  '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                                '</tbody></table></div></div></div></div> </td>'+
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           '<td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
@@ -944,6 +962,7 @@
     	 $("#attendeesRow"+rowNo).remove();
      }
      function updateTraining(){
+    	 if(validator.form()){ // validation perform
 			$(".page-loader").show();
 			$('form input[name=session_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=start_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -954,9 +973,11 @@
 			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=required_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			document.getElementById("trainingForm").submit();		    		
+			document.getElementById("trainingForm").submit();	
+    	 }
      }
      function addTraining(){
+    	 if(validator.form()){ // validation perform
 			$(".page-loader").show();
 			$('form input[name=session_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=start_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -967,7 +988,68 @@
 			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=required_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			document.getElementById("trainingForm").submit();		    		
+			document.getElementById("trainingForm").submit();
+    	 }
+    	 
+    	 var validator =	$('#trainingForm').validate({
+			 ignore: ":hidden:not(.chosen-select)",
+	  		    rules: {
+	  		 		  "training_type_fk": {
+	  			 		required: true
+	  			 	  },"training_category_fk": {
+	  			 		required: true
+	  			 	  },"status_fk": {
+	  		 		    required: true
+	  			 	  },"title": {
+	  		 		    required: true
+	  			 	  },"description": {
+	  		 		    required: true
+	  			 	  }		
+	  		 	},
+	  		    messages: {
+	  		 		 "training_type_fk": {
+	  				 	required: 'This field is required',
+	  			 	  },"training_category_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"status_fk": {
+	  		 			required: ' This field is required'
+	  		 	  	 },"title": {
+	  		 			required: ' This field is required'
+	  		 	  	 },"description": {
+	  		 			required: ' This field is required'
+	  		 	  	 }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if (element.attr("id") == "training_type_fk" ){
+						 document.getElementById("training_type_fkError").innerHTML="";
+				 		 error.appendTo('#training_type_fkError');
+				    }else if(element.attr("id") == "training_category_fk" ){
+						   document.getElementById("training_category_fkError").innerHTML="";
+					 	   error.appendTo('#training_category_fkError');
+				    }else if(element.attr("id") == "status_fk" ){
+							document.getElementById("status_fkError").innerHTML="";
+						 	error.appendTo('#status_fkError');
+				    }else if(element.attr("id") == "title" ){
+				 		 document.getElementById("titleError").innerHTML="";
+		 				 error.appendTo('#titleError');
+					}else if(element.attr("id") == "description" ){
+				 		 document.getElementById("descriptionError").innerHTML="";
+		 				 error.appendTo('#descriptionError');
+					}else{
+		 					error.insertAfter(element);
+				       } 
+		   		},invalidHandler: function (form, validator) {
+                     var errors = validator.numberOfInvalids();
+                     if (errors) {
+                         var position = validator.errorList[0].element;
+                         jQuery('html, body').animate({
+                             scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                         }, 1000);
+                     }
+                 },submitHandler:function(form){
+			    	form.submit();
+			    }
+			});   
  	
  }
    

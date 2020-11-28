@@ -13,41 +13,51 @@
     <link rel="stylesheet" href="/pmis/resources/css/risk.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <style>
+      <style>
         p a {
             color: blue;
             text-decoration: none;
         }
+
         td:last-child,
         td:last-of-type {
             white-space: inherit;
         }
+
         .last-column a+a {
             margin-left: 20px;
         }
-        .input-field .searchable_label{
+
+        .input-field .searchable_label {
             font-size: 0.9rem;
         }
-        .tabs .tab a:not(.active){
-            color:#999999;
+
+        .tabs .tab a:not(.active) {
+            color: #999999;
         }
-        .tabs .tab a:focus.active{
-            background-color:#e5e5e5;
+
+        .tabs .tab a:focus.active {
+            background-color: #e5e5e5;
         }
-        .tabs .tab a.active{
-            color:#444;
-            background-color:#dadada;
+
+        .tabs .tab a.active {
+            color: #444;
+            background-color: #dadada;
             border-bottom: 1px solid #444;
         }
-        .tabs .indicator{
-            background-color:#888;
+
+        .tabs .indicator {
+            background-color: #888;
         }
-        .mt-md-54{
-            margin-top:54px;
+
+        .btn.disabled,
+        .btn.disabled * {
+            color: #999 !important;
         }
-        @media only screen and (max-width: 700px){
-            .mt-md-54{
-                margin-top:inherit;
+
+        @media only screen and (max-width: 700px) {
+            .mt-md-54 {
+                margin-top: inherit;
             }
         }
     </style>
@@ -70,106 +80,108 @@
                     <div class="">
                         <div class="row plr-1">
                             <div class="col s12 m4 l-align">
-                               
-                                    <ul class="tabs">
-                                        <li class="tab col s6"><a href="#initial">Initial</a></li>
-                                        <li class="tab col s6"><a class="active" href="#review">Review</a></li>
-                                    </ul>                                   
-                                    <div id="initial" class="center-align m-1">
-                                         <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Initial Data</strong></a>                                   
-                                    <p style="padding-top:1rem">Click <a href="#"> here </a>for the template</p>
-                                    </div>
-                                    <div id="review" class="center-align m-1">
-                                         <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Review Data</strong></a>                                   
-                                    <p style="padding-top:1rem">Click <a href="#"> here </a>for the template</p>
-                                    </div>
-                               
+                                <div class="m-1">
+                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Risk Data</strong></a>
+                                </div>
                             </div>
 
                             <div class="col s12 m4 c-align">
                                 <div class="m-1 ">
-                                    <div class="mt-md-54">
-                                         <a href="risks_new.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="risks_new.html" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Risks</strong></a>
-                                    </div>                                   
                                 </div>
                             </div>
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1">
-                                    <div class="mt-md-54">
-                                          <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
+                                    <div class="row">
+                                        <div class="col s12 m6 input-field" style="margin:0">
+                                            <p class="searchable_label" style="text-align:left">Work</p>
+                                            <select class="searchable" id="work_fk">
+                                                <option value="select" disabled selected>Select </option>
+                                                <option value="1">Option 1</option>
+                                                <option value="2">Option 2</option>
+                                                <option value="3">Option 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col s12 m6">
+                                            <a href="#" class="btn waves-effect waves-light bg-s t-c disabled"
+                                                id="downloadWork">
+                                                <strong><i class="fa fa-cloud-download"></i> Download Work
+                                                    Data</strong></a>
+                                        </div>
                                     </div>
-                                  
+                                    <!-- <div class="col s12 m6 input-field">
+                                        <p class="searchable_label">Work</p>
+                                        <select class="searchable" id="work_fk">
+                                            <option value="" disabled selected>Select </option>
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                        </select>
+                                    </div>
+                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                        <strong><i class="fa fa-cloud-download"></i> Download Work Data</strong></a> -->
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!--if  model 2 -->
                         <div class="row no-mar">
                             <div class="col m1 hide-on-small-only"></div>
-                            <div class="col m10 s12">
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Work</p>
-                                    <select class="searchable" id="work_fk">
-                                        <option value="" disabled selected>Select </option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Area</p>
-                                    <select class="searchable" id="area_fk">
-                                        <option value="" disabled selected>Select </option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Classification</p>
-                                    <select class="searchable" id="classification_fk">
-                                        <option value="" disabled selected>Select </option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Priority </p>
-                                    <select class="searchable" id="priority_fk">
-                                        <option value="" disabled selected>Select </option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Responsible Person </p>
-                                    <select class="searchable" id="responsible_fk">
-                                        <option value="" disabled selected>Select </option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                        style="margin-top: 8px;width: 100%;" onclick="clearFilters()">Clear Filters</button>
-                                </div>
+                            <!-- <div class="col m10 s12"> -->
+
+                            <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Area</p>
+                                <select class="searchable" id="area_fk">
+                                    <option value="" disabled selected>Select </option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
                             </div>
+                            <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Classification</p>
+                                <select class="searchable" id="classification_fk">
+                                    <option value="" disabled selected>Select </option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                            </div>
+                            <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Priority </p>
+                                <select class="searchable" id="priority_fk">
+                                    <option value="" disabled selected>Select </option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                            </div>
+                            <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Responsible Person </p>
+                                <select class="searchable" id="responsible_fk">
+                                    <option value="" disabled selected>Select </option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                            </div>
+                            <div class="col s12 m2 input-field">
+                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                    style="margin-top: 8px;width: 100%;" onclick="clearFilters()">Clear
+                                    Filters</button>
+                            </div>
+                            <!-- </div> -->
                             <div class="col m1 hide-on-small-only"></div>
-                           
+
                         </div>
 
                         <div class="row">
                             <div class="col m12 s12">
                                 <table id="example" class="mdl-data-table">
-                                    <thead>                                       
+                                    <thead>
                                         <tr>
                                             <th>Work</th>
                                             <th>Risk Id</th>
@@ -181,7 +193,7 @@
                                             <th>Date of <br> Identification</th>
                                             <!-- <th>Description </th> -->
                                             <!-- <th>Category</th> -->
-                                            <!-- <th>Mitigation Plan</th> 
+                                            <!-- <th>Mitigation Plan</th>
                                             <th>Target Date <br>of Mitigation</th>
                                             <th>Mitigated <br>On</th> -->
                                             <th>Action</th>
@@ -227,7 +239,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-   <script>
+      <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -249,8 +261,17 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+
+            $("#work_fk").change(function () {
+                if ($("#work_fk").val() == 'select') {
+                    $("#downloadWork").addClass('disabled');
+                }
+                else {
+                    $("#downloadWork").removeClass('disabled');
+                }
+            });
         });
-        function clearFilters(){
+        function clearFilters() {
             $('#work_fk').val('');
             $('#area_fk').val('');
             $('#classification_fk').val('');
@@ -258,6 +279,7 @@
             $('#responsible_fk').val('');
             $('.searchable').select2();
         }
+
     </script>
 
 </body>

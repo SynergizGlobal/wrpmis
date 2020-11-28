@@ -131,9 +131,9 @@
             color: #777;
         }
         .modal .select2-container {
-        	min-width: 160px;
-        	width:170px !important;
-    		max-width: 200px;
+        	min-width: 150px;
+        	width:150px !important;
+    		max-width: 160px;
         }
         .select2-container--default .select2-selection--single{
         	background-color:transparent;
@@ -151,9 +151,14 @@
         .select2-container.select2-container--default.select2-container--open{
         	z-index:1034;
         }
-        input[name^=start_times],input[name^=end_times]{
+      /*   input[name^=start_times],input[name^=end_times]{
         	font-size:0.95rem !important;
-        }
+        } */
+        .fw-110{
+            max-width: 110px;
+		    width: 110px;
+		    min-width: 110px;
+    	}
     </style>
 </head>
 
@@ -288,7 +293,7 @@ var dateTimesInits=0;
 								<table id="session-table" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th>Session No</th>
+											<th class="fw-110">Session No</th>
 											<th>Start Time</th>
 											<th>End Time</th>
 											<th>Attendees</th>
@@ -317,7 +322,7 @@ var dateTimesInits=0;
 															onclick="showNo(this);"> Update </a>
 															<div id="session-update-modal${index.count }" class="modal">
 																<div class="modal-content">
-																	<h4 class="modal-header">Trainee Updation Details</h4>
+																	<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close">  <i class="fa fa-close"></i>  	</span></h4>
 
 																	<div class="row fixed-width">
 																		<div class="table-inside">
@@ -856,7 +861,7 @@ var dateTimesInits=0;
           	 '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
           '<td> <a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 					'<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
-					'<h4 class="modal-header">Trainee Updation Details</h4> <div class="row fixed-width"><div class="table-inside">'+
+					'<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close">  <i class="fa fa-close"></i>  	</span></h4> <div class="row fixed-width"><div class="table-inside">'+
 						'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
 							' <thead><tr><th>Department</th><th>Attendee</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
 							  ' <tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+'"><td>'+
@@ -880,19 +885,10 @@ var dateTimesInits=0;
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           '<td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
           $('#trainingTableBody').append(html);
-            /*  $('.modal').modal();
-             $('.modal .searchable').select2({
-             	 
-             }); */
+           
           $('#session-update-modal'+rNo).modal();
-          $('#department_fks' + rNo+tNo).select2({
-          	dropdownParent: $('#session-update-modal'+rNo+' .modal-content')
-          });
-            /*  $('#session-update-modal'+rNo).modal();
-             $('#session-update-modal'+rNo+' .searchable').select2({
-             	 dropdownParent: $('#session-update-modal'+rNo+' .modal-content')
-             });
-              */
+          $('#department_fks' + rNo+tNo).select2();
+           
          $("#rowNo").val(rNo);
          MaterialDateTimePicker.create($("#start_times"+ rNo));
          MaterialDateTimePicker.create($("#end_times"+ rNo));

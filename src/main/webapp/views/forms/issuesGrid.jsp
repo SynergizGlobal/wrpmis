@@ -31,7 +31,14 @@
      	td:last-child,td:last-of-type{
      		white-space:inherit;
      	}
-        
+        .fw-350{
+    	 	width:350px !important;
+    	 	max-width:350px;
+    	 }
+    	 .fw-200{
+			width:200px !important;
+			max-width:200px;
+		}
         .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -146,8 +153,8 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Contract</th>
-                                            <th>Title </th>
+                                            <th class="fw-350">Contract</th>
+                                            <th class="fw-200">Title </th>
                                             <th>Location</th>
                                             <th>Responsible <br> Person </th>
                                             <th>Department</th>

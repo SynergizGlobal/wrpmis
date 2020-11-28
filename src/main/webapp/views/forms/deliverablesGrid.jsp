@@ -35,6 +35,10 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
+          .fw-300{
+    	 	width:300px !important;
+    	 	max-width:300px;
+    	 }
         .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -149,7 +153,7 @@
                                     <thead>
                                         <tr>
                                             <th> Project</th>
-                                            <th> Work</th>
+                                            <th class="fw-300"> Work</th>
                                             <th> Contract</th>
                                             <th> Deliverables Type</th>
                                             <th> Description</th>

@@ -29,6 +29,10 @@
     	 td:last-child{
     	 	word-break:inherit;
     	 }
+    	 .fw-400{
+    	 	width:400px !important;
+    	 	max-width:400px;
+    	 }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -164,7 +168,7 @@
                                     <thead>
                                         <tr>
                                             <th>Contract </th>
-                                            <th>Title</th>
+                                            <th  class="fw-400">Title</th>
                                             <th>Structure </th>
                                             <th>Drawing Type </th>
                                             <th>Contractor <br>Drawing No </th>

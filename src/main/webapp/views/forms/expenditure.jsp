@@ -39,6 +39,14 @@
     	  td:last-child{
     	 	word-break:inherit;
     	 }
+    	 .fw-300{
+    	 	width:300px !important;
+    	 	max-width:300px;
+    	 }
+    	  .fw-250{
+    	 	width:250px !important;
+    	 	max-width:250px;
+    	 }
     	 .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -168,10 +176,10 @@
                         <table id="datatable-expenditure" class="mdl-data-table">
                             <thead>
                                 <tr>
-                                    <th>Work</th>
-                                    <th>Contract</th>
+                                    <th class="fw-300">Work</th>
+                                    <th class="fw-250">Contract</th>
                                     <th>Ledger Account</th>
-                                    <th>Contractor Name</th>
+                                    <th>Contractor <br> Name</th>
                                     <th>Date</th>
                                     <th>Vocher Type </th>
                                     <th class="no-sort">Action</th>

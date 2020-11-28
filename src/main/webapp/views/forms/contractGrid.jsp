@@ -33,6 +33,14 @@
     	 }
     	 td:last-child{
     	 	word-break:inherit;
+    	 }  
+    	 .fw-250{
+    	 	width:250px !important;
+    	 	max-width:250px;
+    	 }
+    	 .fw-150{
+    	 	width:150px !important;
+    	 	max-width:150px;
     	 }
        .page-loader {
 		    background: #332e2ec2!important;
@@ -147,9 +155,9 @@
                                 <table id="datatable-contract" class="mdl-data-table">
                                     <thead >
                                         <tr>
-                                            <th>Work</th>
+                                            <th class="fw-150">Work</th>
                                             <th>Contract ID</th>
-                                            <th>Contract Name </th>
+                                            <th class="fw-250">Contract Name </th>
                                             <th>Contractor Name </th>
                                             <th>Department </th>
                                             <th>HOD </th>

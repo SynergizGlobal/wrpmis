@@ -29,6 +29,10 @@
      	td:last-child,td:last-of-type{
      		white-space:inherit;
      	}
+     	.fw-400{
+     		max-width:400px;
+     		width:400px;
+     	}
        .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -113,7 +117,7 @@
                                     <thead>
                                         <tr>
                                             <th>Work </th>
-                                            <th>Contract </th>
+                                            <th class="fw-400">Contract </th>
                                             <th>FOB ID </th>
                                             <th>FOB Name </th>                                          
                                             <th>Work Status </th>                                           

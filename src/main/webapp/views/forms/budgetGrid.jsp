@@ -35,6 +35,10 @@
         td:last-of-type {
             white-space: inherit;
         }
+        .fw-300{
+        	width:300px !important;
+        	max-width:300px;
+        }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -145,7 +149,7 @@
                                          <table id="datatable-budget" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Work </th>
+                                            <th class="fw-300">Work </th>
                                             <th>Financial Year</th>
                                             <th>Budget Estimate</th>
                                             <th>Budget Grant </th>

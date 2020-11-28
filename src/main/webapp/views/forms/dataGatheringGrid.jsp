@@ -35,6 +35,10 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
+          .fw-350{
+    	 	width:350px !important;
+    	 	max-width:350px;
+    	 }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -132,7 +136,7 @@
                                     <thead>
                                         <tr>
                                             <th> Project Priority</th>
-                                            <th> Work Name</th>
+                                            <th class="fw-350"> Work Name</th>
                                             <th> Target Date</th>
                                             <th> Start Date</th>
                                             <th> Finish Date</th>

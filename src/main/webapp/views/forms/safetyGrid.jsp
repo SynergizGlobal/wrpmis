@@ -27,6 +27,14 @@
 	    	word-wrap: break-word;
 	   		white-space: initial;
    		}
+   		.fw-300{
+    	 	width:300px !important;
+    	 	max-width:300px;
+    	 }
+    	 .fw-110{
+    	 	width:110px !important;
+    	 	max-width:110px;
+    	 }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -139,8 +147,8 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Contract</th>
-                                            <th>Title </th>
+                                            <th class="fw-300">Contract</th>
+                                            <th class="fw-110">Title </th>
                                             <th>Location </th>
                                             <th>Responsible <br> Person</th>
                                             <th>Department </th>

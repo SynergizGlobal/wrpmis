@@ -67,6 +67,10 @@
 		    right: 15px;
 		    font: normal normal normal 14px/1 FontAwesome;
 		}
+		.fw-200{
+			width:200px !important;
+			max-width:200px;
+		}
     </style>
 </head>
 
@@ -156,7 +160,7 @@
                                             <th>Structure</th>
                                             <th>Component <br>ID</th>
                                             <th>Component</th>
-                                            <th>Activity</th>
+                                            <th class="fw-200">Activity</th>
                                             <th>Planned <br> Start</th>
                                             <th>Planned <br> Finish</th>
                                             <th>Scope</th>

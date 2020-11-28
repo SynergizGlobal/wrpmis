@@ -36,6 +36,10 @@
     	  td:last-child{
     	 	word-break:inherit;
     	 }
+    	 .fw-450{
+    	 	width:450px !important;
+    	 	max-width:450px;
+    	 }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -134,7 +138,7 @@
                                 <table id="datatable-fund" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Work</th>
+                                            <th class="fw-450">Work</th>
                                             <th>Source of Fund</th>
                                             <th>Railway</th>
                                             <th>Funding Date </th>

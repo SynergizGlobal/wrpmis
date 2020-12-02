@@ -91,15 +91,18 @@
             width: 85% !important;
         }
         
-
         .fw-60 {
             max-width: 60px;
             width: 60px !important;
         }
-
+        
         .fw-150 {
             max-width: 150px;
             width: 150px !important;
+        }
+        .fw-180 {
+            max-width: 180px;
+            width: 180px !important;
         }
        tbody .select2-container--default .select2-selection--single {
         	background-color:transparent;
@@ -111,7 +114,7 @@
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
   <!-- card  -->
-    <div class="row">
+      <div class="row">
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
@@ -192,9 +195,10 @@
                                 <table id="riskReview" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Assessment Date</th>
+                                            <th class="fw-180">Assessment Date</th>
                                             <th>Owner</th>
                                             <th>Responsible <br> Person</th>
+                                            <th>Priority</th>
                                             <th>Probability</th>
                                             <th>Impact</th>
                                             <th>Mitigation <br> Plan</th>
@@ -218,33 +222,40 @@
                                                     placeholder="Responsible Person">
                                             </td>
                                             <td>
-                                                <select class="searchable" id="probability0">
-                                                    <option value="0" selected>Probability</option>
-                                                    <option value="1">owner 1</option>
-                                                    <option value="2">owner 2</option>
-                                                    <option value="3">owner 3</option>
+                                                <select id="priority0" class="searchable">
+                                                    <option selected>Priority</option>
+                                                    <option value="1">1</option>
+                                                    <option value="3">3</option>
+                                                    <option value="5">5</option>
                                                 </select>
                                             </td>
-
                                             <td>
-                                                <select class="searchable" id="impact0">
-                                                    <option value="0" selected>Impact</option>
-                                                    <option value="1">owner 1</option>
-                                                    <option value="2">owner 2</option>
-                                                    <option value="3">owner 3</option>
+                                                <select id="probability0" class="searchable">
+                                                    <option selected>Probability</option>
+                                                    <option value="1">1</option>
+                                                    <option value="3">3</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select id="impact0" class="searchable">
+                                                    <option selected>Impact</option>
+                                                    <option value="1">1</option>
+                                                    <option value="3">3</option>
+                                                    <option value="5">5</option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <textarea id="mitigation_plan0" class="materialize-textarea"
                                                     placeholder="Mitigation Plan"></textarea>
                                             </td>
-                                             <td>
+                                            <td>
                                                 <a class="waves-effect waves-light btn modal-trigger bg-m t-c"
                                                     href="#update_action0">Update</a>
                                                 <div id="update_action0" class="modal">
                                                     <div class="modal-content">
-                                                        <h4 class="modal-header">Modal Header</h4>
-                                                        <h6>Review Date (12-04-2020) </h6> <br>
+                                                        <h4 class="modal-header">Action Taken</h4>
+                                                        <h6>Assessment Date (12-04-2020) </h6> <br>
 
                                                         <div class="row fixed-width">
                                                             <div class="table-inside">
@@ -286,7 +297,7 @@
                                                                             <td></td>
                                                                             <td></td>
                                                                             <td>
-                                                                                <a onclick="addUpdateActionTableRow()"
+                                                                                <a onclick="addUpdateActionTableRow(0)"
                                                                                     class="btn waves-effect waves-light bg-m t-c ">
                                                                                     <i class="fa fa-plus"></i></a>
                                                                             </td>
@@ -313,6 +324,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td></td>
                                             <td>
                                                 <a onclick="addRow()" class="btn waves-effect waves-light bg-m t-c "> <i
                                                         class="fa fa-plus"></i></a>
@@ -325,7 +337,80 @@
                         </div>
 
                         <div class="container container-no-margin">
-                           
+                            <!-- <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                   <p class="searchable_label">Category</p>
+                                    <select class="searchable">
+                                        <option value="0" selected>Select</option>
+                                        <option value="1">probability 1</option>
+                                        <option value="2">probability 2</option>
+                                        <option value="3">probability 3</option>
+                                    </select>
+                                </div>
+                                <div class="col s12 m4 input-field">
+
+                                    <input id="priority" type="number" class="validate" style="margin-top: 5px;">
+                                    <label for="priority">Priority</label>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+
+                                <div class="col s12 m4 input-field">
+                                   <p class="searchable_label">Responsible Person </p>
+                                    <select class="searchable">
+                                        <option value="0" selected>Select</option>
+                                        <option value="1">Status 1</option>
+                                        <option value="2">Status 2</option>
+                                        <option value="3">Status 3</option>
+                                    </select>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="textarea3" class="materialize-textarea" data-length="1000"></textarea>
+                                    <label for="textarea3">Action Taken / Remarks</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input type="text" class="datepicker" id="target_date"
+                                        placeholder="Target Date of Mitigation">
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input type="text" class="datepicker" id="mitigated_on" placeholder="Mitigated On">
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field file-field">
+
+                                    <div class="btn bg-m">
+                                        <span>Attach Risk Analysis Report</span>
+                                        <input type="file">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text">
+                                    </div>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div> -->
+
+
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
@@ -350,7 +435,7 @@
             </div>
         </div>
     </div>
-
+   
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -387,24 +472,26 @@
         });
         riskNo = 1
         function addRow() {
-            var text = '<tr>' + '<td><input id="assessment_date' + riskNo + '" type="text" class="validate datepicker" placeholder="Date">' +
-                '<button type="button" id="assessment_date' + riskNo + '_icon"><i class="fa fa-calendar"></i></button> </td>' +
-                '<td> <input id="owner' + riskNo + '" type="text" class="validate" placeholder="Owner"></td>' +
-                '<td><input id="responsible' + riskNo + '" type="text" class="validate" placeholder="Responsible Person"></td>' +
-                '<td><select class="searchable" id="probability' + riskNo + '"> <option value="0" selected>Probability</option>' +
-                '<option value="1">owner 1</option>option value="2">owner 2</option><option value="3">owner 3</option> </select> </td>' +
-                '<td><select class="searchable" id="impact' + riskNo + '"><option value="0" selected>Impact</option><option value="1">owner 1</option>' +
-                '<option value="2">owner 2</option><option value="3">owner 3</option></select></td>' +
-                '<td><textarea id="mitigation_plan' + riskNo + '" class="materialize-textarea" placeholder="Mitigation Plan"></textarea></td>' +
-                '<td> <a class="waves-effect waves-light btn modal-trigger bg-m t-c" href="#update_action' + riskNo + '">Update</a> <div id="update_action' + riskNo + '" class="modal">' +
-                '<div class="modal-content"> <h4 class="modal-header">Modal Header</h4> <h6>Review Date (12-04-2020) </h6> <br> <div class="row fixed-width"> <div class="table-inside">' +
-                '<table id="update-action-table' + riskNo + '" class="mdl-data-table update-table" > <thead> <tr> <th class="fw-150">ATR Date</th> <th>Action Taken</th>' +
-                '<th class="fw-60">Action</th></tr></thead> <tbody> <tr> <td> <div class="input-field"> <input id="atr_date' + riskNo + '" type="text" class="validate datepicker"' +
-                'placeholder="ATR  Date"> <button type="button" id="atr_date0_icon"><i class="fa fa-calendar"></i></button> </div> </td><td> <textarea id="action_taken' + riskNo + '"' +
-                'class="materialize-textarea" placeholder="Action Taken" style="height: 44px;"></textarea></td><td><a href="#" class="btn waves-effect waves-light red t-c ">' +
-                '<i class="fa fa-close"></i></a></td></tr><tr class="last-row"><td></td><td></td><td><a onclick="addUpdateActionTableRow(' + riskNo + ')" class="btn waves-effect waves-light bg-m t-c ">' +
-                '<i class="fa fa-plus"></i></a></td></tr></tbody></table></div ></div ></div ></div ></td >' +
-                '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>  </tr>';
+        	 var text = '<tr>' + '<td><input id="assessment_date' + riskNo + '" type="text" class="validate datepicker" placeholder="Assessment Date">' +
+             '<button type="button" id="assessment_date' + riskNo + '_icon"><i class="fa fa-calendar"></i></button> </td>' +
+             '<td> <input id="owner' + riskNo + '" type="text" class="validate" placeholder="Owner"></td>' +
+             '<td><input id="responsible' + riskNo + '" type="text" class="validate" placeholder="Responsible Person"></td>' +
+             '<td><select id="priority' + riskNo + '" class="searchable"> <option selected>Priority</option> <option value="1">1</option>' +
+             '<option value="3">3</option><option value="5">5</option></select></td>' +
+             '<td><select class="searchable" id="probability' + riskNo + '"> <option selected>Probability</option>' +
+             '<option value="1">1</option>option value="3">3</option><option value="5">5</option> </select> </td>' +
+             '<td><select class="searchable" id="impact' + riskNo + '"><option selected>Impact</option><option value="1">1</option>' +
+             '<option value="3">2</option><option value="5">5</option></select></td>' +
+             '<td><textarea id="mitigation_plan' + riskNo + '" class="materialize-textarea" placeholder="Mitigation Plan"></textarea></td>' +
+             '<td> <a class="waves-effect waves-light btn modal-trigger bg-m t-c" href="#update_action' + riskNo + '">Update</a> <div id="update_action' + riskNo + '" class="modal">' +
+             '<div class="modal-content"> <h4 class="modal-header">Action Taken</h4> <h6>Assessment Date (12-04-2020) </h6> <br> <div class="row fixed-width"> <div class="table-inside">' +
+             '<table id="update-action-table' + riskNo + '" class="mdl-data-table update-table" > <thead> <tr> <th class="fw-150">ATR Date</th> <th>Action Taken</th>' +
+             '<th class="fw-60">Action</th></tr></thead> <tbody> <tr> <td> <div class="input-field"> <input id="atr_date' + riskNo + '" type="text" class="validate datepicker"' +
+             'placeholder="ATR  Date"> <button type="button" id="atr_date0_icon"><i class="fa fa-calendar"></i></button> </div> </td><td> <textarea id="action_taken' + riskNo + '"' +
+             'class="materialize-textarea" placeholder="Action Taken" style="height: 44px;"></textarea></td><td><a href="#" class="btn waves-effect waves-light red t-c ">' +
+             '<i class="fa fa-close"></i></a></td></tr><tr class="last-row"><td></td><td></td><td><a onclick="addUpdateActionTableRow(' + riskNo + ')" class="btn waves-effect waves-light bg-m t-c ">' +
+             '<i class="fa fa-plus"></i></a></td></tr></tbody></table></div ></div ></div ></div ></td >' +
+             '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>  </tr>';
             $('#riskReview').find('tr:last').prev().after(text);
             $('.modal').modal();
             $("#assessment_date" + riskNo).datepicker();
@@ -427,7 +514,7 @@
                 '<button type="button" id="atr_date' + updateNo + '_icon"><i class="fa fa-calendar"></i></button></div> </td> <td>' +
                 '<textarea id="action_taken' + updateNo + '" class="materialize-textarea" placeholder="Action Taken" ></textarea> </td>' +
                 '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
-                if (no=='')
+                if (no=='0')
             		$('#update-action-table0').find('tr:last').prev().after(text);
                 else
             		$('#update-action-table'+no).find('tr:last').prev().after(text);

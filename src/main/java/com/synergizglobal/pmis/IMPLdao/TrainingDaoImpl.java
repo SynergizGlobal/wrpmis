@@ -658,7 +658,7 @@ public class TrainingDaoImpl implements TrainingDao{
 							for (int j = 0; j < obj.getRowCounts()[i]; j++) {
 								    int k = 1;
 								    int a = r++; 
-								    if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[a])) {
+								    if( obj.getDepartment_fks().length > 0 && !StringUtils.isEmpty(obj.getDepartment_fks()[a])) {
 									    insertStmt1.setString(k++,(obj.getTraining_id()));
 									    insertStmt1.setString(k++,(obj.getTraining_session_id()));
 										insertStmt1.setString(k++,(obj.getDepartment_fks().length > 0)?obj.getDepartment_fks()[a]:null);

@@ -455,6 +455,7 @@
 																								<td><a onclick="removeTrainingAttendees('00');"	class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>
 																							</tr>
 																							<script>
+																									 $('#department_fks00').select2();
 																			                       	 $('#required_fks00').on('change', function(e){
 																			                             if($(this).prop('checked'))
 																			                             {
@@ -858,6 +859,9 @@
         	var trainNo = $("#trainNo").val();
             var rNo = Number(trainNo)+1;
             var id = $('#attendeesTableBody'+tNo+' tr .hide:last').attr('id');
+            if(id == null){
+            	id='s0';
+            }
             var splt = id.split('s')[1];
             var c = $('#attendeesTableBody'+tNo+' tr').length + 1;
             if(splt > 0){
@@ -912,7 +916,7 @@
           var rNo = Number(rowNo)+1;
           var trainNo = $("#trainNo").val();
           var tNo = Number(trainNo)+1;
-          var i = 1;
+          var i = 13;
           var html = '<tr id="trainingRow'+rNo+'">' +
           '<td><input type="hidden" name= "training_session_ids" id="training_session_ids'+rNo+'"  />'+
           ' <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +

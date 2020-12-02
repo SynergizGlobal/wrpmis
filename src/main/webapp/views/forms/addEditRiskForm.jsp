@@ -65,7 +65,42 @@
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
+          .modal-header {
+            text-align: center;
+            background-color: #999999;
+            color: #fff;
+            margin: -24px -24px 20px !important;
+            padding: 1rem;
+            font-size: 24px;
+        }
+
+        .update-table {
+            border: 1px solid #ddd;
+        }
+
+        table.update-table tbody td .datepicker~button {
+            top: 15px !important;
+            right: 1px;
+        }
+
+        table.update-table tbody td .input-field {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+         table.update-table tbody td .modal.datepicker-modal.open {
+            width: 85% !important;
+        }
         
+
+        .fw-60 {
+            max-width: 60px;
+            width: 60px !important;
+        }
+
+        .fw-150 {
+            max-width: 150px;
+            width: 150px !important;
+        }
        tbody .select2-container--default .select2-selection--single {
         	background-color:transparent;
         }
@@ -157,23 +192,22 @@
                                 <table id="riskReview" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Date Of Review</th>
+                                            <th>Assessment Date</th>
                                             <th>Owner</th>
                                             <th>Responsible <br> Person</th>
                                             <th>Probability</th>
                                             <th>Impact</th>
                                             <th>Mitigation <br> Plan</th>
-                                            <th>Action Taken</th>
-                                            <th>ATR Date</th>
+                                            <th>Update Action</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <input id="reveiw_date0" type="text" class="validate datepicker"
-                                                    placeholder="Date">
-                                                <button type="button" id="reveiw_date0_icon"><i
+                                                <input id="assessment_date0" type="text" class="validate datepicker"
+                                                    placeholder="Assessment Date">
+                                                <button type="button" id="assessment_date0_icon"><i
                                                         class="fa fa-calendar"></i></button>
                                             </td>
                                             <td>
@@ -204,15 +238,67 @@
                                                 <textarea id="mitigation_plan0" class="materialize-textarea"
                                                     placeholder="Mitigation Plan"></textarea>
                                             </td>
-                                            <td>
-                                                <textarea id="action_taken0" class="materialize-textarea"
-                                                    placeholder="Action Taken"></textarea>
-                                            </td>
-                                            <td>
-                                                <input id="atr_date0" type="text" class="validate datepicker"
-                                                    placeholder="ATR  Date">
-                                                <button type="button" id="atr_date0_icon"><i
-                                                        class="fa fa-calendar"></i></button>
+                                             <td>
+                                                <a class="waves-effect waves-light btn modal-trigger bg-m t-c"
+                                                    href="#update_action0">Update</a>
+                                                <div id="update_action0" class="modal">
+                                                    <div class="modal-content">
+                                                        <h4 class="modal-header">Modal Header</h4>
+                                                        <h6>Review Date (12-04-2020) </h6> <br>
+
+                                                        <div class="row fixed-width">
+                                                            <div class="table-inside">
+                                                                <table id="update-action-table0"
+                                                                    class="mdl-data-table update-table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="fw-150">ATR Date</th>
+                                                                            <th>Action Taken</th>
+                                                                            <th class="fw-60">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <div class="input-field">
+                                                                                    <input id="atr_date0" type="text"
+                                                                                        class="validate datepicker"
+                                                                                        placeholder="ATR  Date">
+                                                                                    <button type="button"
+                                                                                        id="atr_date0_icon"><i
+                                                                                            class="fa fa-calendar"></i></button>
+                                                                                </div>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <textarea id="action_taken0"
+                                                                                    class="materialize-textarea"
+                                                                                    placeholder="Action Taken"
+                                                                                    style="height: 44px;"></textarea>
+                                                                            </td>
+                                                                            <td>
+                                                                                <a href="#"
+                                                                                    class="btn waves-effect waves-light red t-c ">
+                                                                                    <i class="fa fa-close"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="last-row">
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td>
+                                                                                <a onclick="addUpdateActionTableRow()"
+                                                                                    class="btn waves-effect waves-light bg-m t-c ">
+                                                                                    <i class="fa fa-plus"></i></a>
+                                                                            </td>
+
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <a href="#" class="btn waves-effect waves-light red t-c "> <i
@@ -220,7 +306,6 @@
                                             </td>
                                         </tr>
                                         <tr class="last-row">
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -240,80 +325,7 @@
                         </div>
 
                         <div class="container container-no-margin">
-                            <!-- <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                   <p class="searchable_label">Category</p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">probability 1</option>
-                                        <option value="2">probability 2</option>
-                                        <option value="3">probability 3</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m4 input-field">
-
-                                    <input id="priority" type="number" class="validate" style="margin-top: 5px;">
-                                    <label for="priority">Priority</label>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-
-                                <div class="col s12 m4 input-field">
-                                   <p class="searchable_label">Responsible Person </p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Status 1</option>
-                                        <option value="2">Status 2</option>
-                                        <option value="3">Status 3</option>
-                                    </select>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="textarea3" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="textarea3">Action Taken / Remarks</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input type="text" class="datepicker" id="target_date"
-                                        placeholder="Target Date of Mitigation">
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input type="text" class="datepicker" id="mitigated_on" placeholder="Mitigated On">
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field file-field">
-
-                                    <div class="btn bg-m">
-                                        <span>Attach Risk Analysis Report</span>
-                                        <input type="file">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div> -->
-
-
+                           
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
@@ -354,11 +366,17 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $("#reveiw_date0,#date_of_identification").datepicker();
-            $('#reveiw_date0_icon').click(function () {
+            $("#assessment_date0,#date_of_identification").datepicker();
+            $('#assessment_date0_icon').click(function () {
                 event.stopPropagation();
-                $('#reveiw_date0').click();
+                $('#assessment_date0').click();
             });
+            $("#atr_date0").datepicker();
+            $('#atr_date0_icon').click(function () {
+                event.stopPropagation();
+                $('#atr_date0' + riskNo).click();
+            });
+            $('.modal').modal();
             $('#date_of_identification_icon').click(function () {
                 event.stopPropagation();
                 $('#date_of_identification').click();
@@ -369,8 +387,8 @@
         });
         riskNo = 1
         function addRow() {
-            var text = '<tr>' + '<td><input id="reveiw_date' + riskNo + '" type="text" class="validate datepicker" placeholder="Date">' +
-                '<button type="button" id="reveiw_date' + riskNo + '_icon"><i class="fa fa-calendar"></i></button> </td>' +
+            var text = '<tr>' + '<td><input id="assessment_date' + riskNo + '" type="text" class="validate datepicker" placeholder="Date">' +
+                '<button type="button" id="assessment_date' + riskNo + '_icon"><i class="fa fa-calendar"></i></button> </td>' +
                 '<td> <input id="owner' + riskNo + '" type="text" class="validate" placeholder="Owner"></td>' +
                 '<td><input id="responsible' + riskNo + '" type="text" class="validate" placeholder="Responsible Person"></td>' +
                 '<td><select class="searchable" id="probability' + riskNo + '"> <option value="0" selected>Probability</option>' +
@@ -378,17 +396,22 @@
                 '<td><select class="searchable" id="impact' + riskNo + '"><option value="0" selected>Impact</option><option value="1">owner 1</option>' +
                 '<option value="2">owner 2</option><option value="3">owner 3</option></select></td>' +
                 '<td><textarea id="mitigation_plan' + riskNo + '" class="materialize-textarea" placeholder="Mitigation Plan"></textarea></td>' +
-                '<td><textarea id="action_taken' + riskNo + '" class="materialize-textarea" placeholder="Action Taken"></textarea></td>' +
-                '<td> <input id="atr_date' + riskNo + '" type="text" class="validate datepicker" placeholder="ATR  Date"> <button type="button" id="atr_date0_icon">' +
-                '<i class="fa fa-calendar"></i></button></td>' +
+                '<td> <a class="waves-effect waves-light btn modal-trigger bg-m t-c" href="#update_action' + riskNo + '">Update</a> <div id="update_action' + riskNo + '" class="modal">' +
+                '<div class="modal-content"> <h4 class="modal-header">Modal Header</h4> <h6>Review Date (12-04-2020) </h6> <br> <div class="row fixed-width"> <div class="table-inside">' +
+                '<table id="update-action-table' + riskNo + '" class="mdl-data-table update-table" > <thead> <tr> <th class="fw-150">ATR Date</th> <th>Action Taken</th>' +
+                '<th class="fw-60">Action</th></tr></thead> <tbody> <tr> <td> <div class="input-field"> <input id="atr_date' + riskNo + '" type="text" class="validate datepicker"' +
+                'placeholder="ATR  Date"> <button type="button" id="atr_date0_icon"><i class="fa fa-calendar"></i></button> </div> </td><td> <textarea id="action_taken' + riskNo + '"' +
+                'class="materialize-textarea" placeholder="Action Taken" style="height: 44px;"></textarea></td><td><a href="#" class="btn waves-effect waves-light red t-c ">' +
+                '<i class="fa fa-close"></i></a></td></tr><tr class="last-row"><td></td><td></td><td><a onclick="addUpdateActionTableRow(' + riskNo + ')" class="btn waves-effect waves-light bg-m t-c ">' +
+                '<i class="fa fa-plus"></i></a></td></tr></tbody></table></div ></div ></div ></div ></td >' +
                 '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>  </tr>';
             $('#riskReview').find('tr:last').prev().after(text);
-
-            $("#reveiw_date" + riskNo).datepicker();
-            $('#reveiw_date' + riskNo + '_icon').click(function () {
+            $('.modal').modal();
+            $("#assessment_date" + riskNo).datepicker();
+            $('#assessment_date' + riskNo + '_icon').click(function () {
                 event.stopPropagation();
-                $('#reveiw_date' + riskNo).click();
-            });
+                $('#assessment_date' + riskNo).click();
+            });  
             $("#atr_date" + riskNo).datepicker();
             $('#atr_date' + riskNo + '_icon').click(function () {
                 event.stopPropagation();
@@ -396,7 +419,24 @@
             });
             $('.searchable').select2();
             riskNo++;
-
+        }
+        
+        updateNo = 1;
+        function addUpdateActionTableRow(no) {
+            var text = '<tr> <td> <div class="input-field"> <input id="atr_date' + updateNo + '" type="text" class="validate datepicker" placeholder="ATR  Date">' +
+                '<button type="button" id="atr_date' + updateNo + '_icon"><i class="fa fa-calendar"></i></button></div> </td> <td>' +
+                '<textarea id="action_taken' + updateNo + '" class="materialize-textarea" placeholder="Action Taken" ></textarea> </td>' +
+                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
+                if (no=='')
+            		$('#update-action-table0').find('tr:last').prev().after(text);
+                else
+            		$('#update-action-table'+no).find('tr:last').prev().after(text);
+	            $("#atr_date" + updateNo).datepicker();
+	            $('#atr_date' + updateNo + '_icon').click(function () {
+	                event.stopPropagation();
+	                $('#atr_date' + updateNo).click();
+	            });
+            updateNo++;
         }
     </script>
 

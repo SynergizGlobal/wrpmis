@@ -68,7 +68,7 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 
-    <div class="row">
+    <div class="row" style="margin-bottom:0;">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
@@ -170,7 +170,7 @@
                             </div>
                             <div class="col s12 m2 input-field">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 8px;width: 100%;" onclick="clearFilters()">Clear
+                                    style="margin-top: 6px;width: 100%;" onclick="clearFilters()">Clear
                                     Filters</button>
                             </div>
                             <!-- </div> -->
@@ -188,9 +188,9 @@
                                             <th>Area</th>
                                             <th>Sub Area</th>
                                             <th>Owner</th>
-                                            <th>Classification</th>
                                             <th>Responsible Person</th>
-                                            <th>Date of <br> Identification</th>
+                                            <th>Priority</th>
+                                            <th>Classification</th>
                                             <!-- <th>Description </th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Mitigation Plan</th>
@@ -228,6 +228,57 @@
         </div>
     </div>
 
+ 
+    <div class="row">
+        <div class="col s12 m12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title headbg">
+                        <div class="center-align bg-m p-2 m-b-5">
+                            <h6>Risk Analysis Report </h6>
+                        </div>
+                    </span>
+                    <div class="">
+                        <div class="row no-mar">
+                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m8 s12">
+                                <div class="row">
+                                    <div class="col s12 m4 input-field">
+                                        <p class="searchable_label" style="text-align:left">Work</p>
+                                        <select class="searchable" id="report_work">
+                                            <option value="select" disabled selected>Select </option>
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                        </select>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <p class="searchable_label">Assessment Date</p>
+                                        <select class="searchable" id="report_date">
+                                            <option value="" disabled selected>Select </option>
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col s12 m4 input-field">
+                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+                                            onclick="generateReport()">Generate
+                                            Report</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col m2 hide-on-small-only"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 

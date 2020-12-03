@@ -26,6 +26,7 @@ import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.SafetyEquipment;
+import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.Work;
 
 @Controller
@@ -197,7 +198,7 @@ public class RiskController {
 	}
 	
 	@RequestMapping(value = "/get-risk", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getRiskEquipment(@ModelAttribute Risk obj){
+	public ModelAndView getRisk(@ModelAttribute Risk obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditRiskForm);
@@ -214,8 +215,58 @@ public class RiskController {
 			model.addObject("riskDetails", riskDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getRiskEquipment : " + e.getMessage());
+			logger.error("getRisk : " + e.getMessage());
 		}
 		return model;
      }
+	
+	@RequestMapping(value = "/add-risk", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView addRisk(@ModelAttribute Risk obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {			
+			model.setViewName("redirect:/risk");
+			
+			obj.setDate_of_identification(DateParser.parseDateTime(obj.getDate_of_identification()));
+			obj.setDate(DateParser.parse(obj.getDate()));
+			obj.setAtr_date(DateParser.parse(obj.getAtr_date()));
+			
+			boolean flag =  riskService.addRisk(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Risk Added Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Adding Risk is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Adding Risk is failed. Try again.");
+			logger.error("addRisk : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-risk", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateRisk(@ModelAttribute Risk obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/risk");
+			obj.setDate_of_identification(DateParser.parseDateTime(obj.getDate_of_identification()));
+			obj.setDate(DateParser.parse(obj.getDate()));
+			obj.setAtr_date(DateParser.parse(obj.getAtr_date()));
+			
+			boolean flag =  riskService.updateRisk(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Risk Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Risk is failed. Try again.");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error","Updating Risk is failed. Try again.");
+			logger.error("updateRisk : " + e.getMessage());
+		}
+		return model;
+	}
 }

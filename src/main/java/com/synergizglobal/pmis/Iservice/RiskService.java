@@ -32,4 +32,8 @@ public interface RiskService {
 
 	public Risk getRiskDetails(Risk obj) throws Exception;
 
+	public boolean addRisk(Risk obj) throws Exception;
+
+	public boolean updateRisk(Risk obj) throws Exception;
+
 }

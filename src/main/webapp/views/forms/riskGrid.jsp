@@ -100,6 +100,16 @@
                         </div>
                     </span>
                     <div class="">
+                    <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                         <div class="row plr-1">
                             <div class="col s12 m4 l-align">
                                 <div class="m-1">
@@ -327,7 +337,7 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="risk_id" id="risk_id" />
+    	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
     	<input type="hidden" name="work_id_fk" id="work_id_fk" />
     </form>
       <script>
@@ -429,8 +439,8 @@
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-risk-list",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
-             			var risk_id = "'"+val.risk_id+"'";
-                        var actions = '<a href="javascript:void(0);"  onclick="getRisk('+ risk_id +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+             			var risk_id_pk = "'"+val.risk_id_pk+"'";
+                        var actions = '<a href="javascript:void(0);"  onclick="getRisk('+ risk_id_pk +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
     /*                     			  +'<a onclick="deleteRIsk('+risk_id_pk+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
      */                   	var rowArray = [];    	                 
     
@@ -621,8 +631,8 @@
             }
         }
         
-        function getRisk(risk_id){
-        	$("#risk_id").val(risk_id);
+        function getRisk(risk_id_pk){
+        	$("#risk_id_pk").val(risk_id_pk);
         	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-risk');
         	$('#getForm').submit();
         }

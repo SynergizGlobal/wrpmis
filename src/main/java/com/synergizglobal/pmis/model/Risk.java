@@ -5,8 +5,18 @@ import java.util.List;
 public class Risk {
 	
 	private String risk_id_pk,id, project_name,work_name,project_id_fk, work_id_fk, risk_id, sub_area_fk, date_of_identification,area,risk_revision_id, risk_id_pk_fk, date,
-	priority, probability_fk,item_no, impact_fk, owner, responsible_person,assessment_date, mitigation_plan, action_taken, attachment,sub_area, risk_area_fk,classification,atr_date,work_id;
+	priority, probability,item_no,priority_fk, impact, owner, responsible_person,assessment_date, mitigation_plan, action_taken, attachment,sub_area, risk_area_fk,classification,atr_date,work_id;
 
+
+
+	private String [] risk_revision_ids, risk_id_pk_fks, dates, prioritys, probabilitys, impacts,
+	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,priority_fks;
+	
+	private int [] rowCounts;
+	
+	private List<Risk> risks; 
+	private List<Risk> riskActions; 
+	
 
 	public String getItem_no() {
 		return item_no;
@@ -31,20 +41,60 @@ public class Risk {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	private String [] risk_revision_ids, risk_id_pk_fks, dates, prioritys, probability_fks, impact_fks,
-	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,rowCounts;
-	
-	private List<Risk> risks; 
-	private List<Risk> riskActions; 
-	
-	
-	public String[] getRowCounts() {
-		return rowCounts;
+	public void setRowCounts(int[] rowCounts) {
+		this.rowCounts = rowCounts;
 	}
 
-	public void setRowCounts(String[] rowCounts) {
-		this.rowCounts = rowCounts;
+	public String getProbability() {
+		return probability;
+	}
+
+	public void setProbability(String probability) {
+		this.probability = probability;
+	}
+
+	public String getImpact() {
+		return impact;
+	}
+
+	public void setImpact(String impact) {
+		this.impact = impact;
+	}
+
+	public String[] getProbabilitys() {
+		return probabilitys;
+	}
+
+	public void setProbabilitys(String[] probabilitys) {
+		this.probabilitys = probabilitys;
+	}
+
+	public String[] getImpacts() {
+		return impacts;
+	}
+
+	public void setImpacts(String[] impacts) {
+		this.impacts = impacts;
+	}
+
+	public String getPriority_fk() {
+		return priority_fk;
+	}
+
+	public void setPriority_fk(String priority_fk) {
+		this.priority_fk = priority_fk;
+	}
+
+	public String[] getPriority_fks() {
+		return priority_fks;
+	}
+
+	public void setPriority_fks(String[] priority_fks) {
+		this.priority_fks = priority_fks;
+	}
+
+	public int[] getRowCounts() {
+		return rowCounts;
 	}
 
 	public List<Risk> getRiskActions() {
@@ -153,21 +203,7 @@ public class Risk {
 		this.prioritys = prioritys;
 	}
 
-	public String[] getProbability_fks() {
-		return probability_fks;
-	}
-
-	public void setProbability_fks(String[] probability_fks) {
-		this.probability_fks = probability_fks;
-	}
-
-	public String[] getImpact_fks() {
-		return impact_fks;
-	}
-
-	public void setImpact_fks(String[] impact_fks) {
-		this.impact_fks = impact_fks;
-	}
+	
 
 	public String[] getOwners() {
 		return owners;
@@ -289,21 +325,6 @@ public class Risk {
 		this.priority = priority;
 	}
 
-	public String getProbability_fk() {
-		return probability_fk;
-	}
-
-	public void setProbability_fk(String probability_fk) {
-		this.probability_fk = probability_fk;
-	}
-
-	public String getImpact_fk() {
-		return impact_fk;
-	}
-
-	public void setImpact_fk(String impact_fk) {
-		this.impact_fk = impact_fk;
-	}
 
 	public String getOwner() {
 		return owner;

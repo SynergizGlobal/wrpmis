@@ -1,4 +1,4 @@
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -135,7 +135,12 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                  		 <c:if test="${action eq 'edit'}">
+							<form action="<%=request.getContextPath() %>/update-risk" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
+						</c:if>
+						<c:if test="${action eq 'add'}">
+							<form action="<%=request.getContextPath() %>/add-risk" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
+						</c:if>
                         <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -159,6 +164,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
+                            <input  type="hidden"   name="risk_id_pk" value="${riskDetails.risk_id_pk }" />
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -180,7 +186,9 @@
                                     <p class="searchable_label">Area</p>
                                     <select class="searchable validate-dropdown" id="area" name="area"  onchange="getSubAreasList();">
                                  	     <option value="" >Select</option>
-                                   		
+                                   		<c:forEach var="obj" items="${areasList }">
+                                      		<option value="${obj.area }" <c:if test="${riskDetails.area eq obj.area}">selected</c:if>>${obj.area }</option>
+                                   		 </c:forEach>
                                      </select>
                             		 <span id="areaError" class="error-msg" ></span>
                                 </div>
@@ -220,7 +228,9 @@
                                            <tr id="riskReviewRow${index.count }">
                                             <td >
                                             <div class="input-field">
-                                                <input id="dates${index.count }" name="dates" type="text" class="validate datepicker" value="${rObj.assessment_date }"
+                                             <input type="hidden" name="risk_revision_ids" id="risk_revision_ids${index.count }"
+																										 value="${rObj.risk_revision_id}" />
+                                                <input id="dates${index.count }" name="dates" type="text" class="validate datepicker" value="${rObj.date }"
                                                     placeholder="Date">
                                                 <button type="button" id="reveiw_date_icon${index.count }"><i
                                                         class="fa fa-calendar"></i></button>
@@ -234,28 +244,29 @@
                                                     placeholder="Responsible Person">
                                             </td>
                                             <td>
-                                                <select id="priority${index.count }" class="searchable">
-                                                    <option selected>Priority</option>
-                                                    <option value="1">1</option>
-                                                    <option value="3">3</option>
-                                                    <option value="5">5</option>
+                                                <select id="prioritys${index.count }" name="prioritys" class="searchable validate-dropdown">
+                                                    <option value="" >Priority</option>
+                                                    <c:forEach var="obj" items="${prioritiesList }">
+                                      					<option value="${obj.priority }" <c:if test="${rObj.priority_fk eq obj.priority}">selected</c:if>>${obj.priority}</option>
+                                   					 </c:forEach>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select class="searchable" id="probabilitys${index.count }" name="probabilitys">
                                                         <option >Probability</option>
-                                                    <option value="1">1</option>
-                                                    <option value="3">3</option>
-                                                    <option value="5">5</option>
+                                                    <option value="1" <c:if test="${rObj.probability eq 1}">selected</c:if>>1</option>
+                                                    <option value="3" <c:if test="${rObj.probability eq 3}">selected</c:if>>3</option>
+                                                    <option value="5" <c:if test="${rObj.probability eq 5}">selected</c:if>>5</option>
+                                                    
                                                 </select>
                                             </td>
 
                                             <td>
                                                 <select class="searchable" id="impacts${index.count }" name="impacts">
                                                     <option >Impact</option>
-                                                    <option value="1">1</option>
-                                                    <option value="3">3</option>
-                                                    <option value="5">5</option>
+                                                   <option value="1" <c:if test="${rObj.impact eq 1}">selected</c:if>>1</option>
+                                                    <option value="3" <c:if test="${rObj.impact eq 3}">selected</c:if>>3</option>
+                                                    <option value="5" <c:if test="${rObj.impact eq 5}">selected</c:if>>5</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -268,7 +279,7 @@
                                                 <div id="update_action${index.count }" class="modal">
                                                     <div class="modal-content">
                                                         <h4 class="modal-header">Action Taken</h4>
-                                                        <h6>Assessment Date value="${rObj.date } </h6> <br>
+                                                        <h6>Assessment Date : ${rObj.date } </h6> <br>
 
                                                         <div class="row fixed-width">
                                                             <div class="table-inside">
@@ -288,8 +299,8 @@
 																		<c:forEach var="aObj" items="${rObj.riskActions }" varStatus="indexx">
                                                                         <tr id="actionRow${indexx.count }${index.count }">
                                                                             <td><input type="hidden" id="rowCounts${indexx.count }${index.count }" name="rowCounts" class="hide" />
-                                                                            <input type="hidden" name="risk_revision_id_fks" id="risk_revision_id_fks${indexx.count }${index.count }"
-																										 value="${aObj.risk_revision_id}" />
+                                                                            <input type="hidden" name="risk_revision_ids" id="risk_revision_ids${indexx.count }${index.count }"
+																										 value="${rObj.risk_revision_id}" />
                                                                                 <div class="input-field">
                                                                                     <input id="atr_dates${indexx.count }${index.count }" name="atr_dates" type="text" class="validate datepicker" 
                                                                                      placeholder="ATR  Date" value="${ aObj.atr_date}">
@@ -298,8 +309,8 @@
 
                                                                             </td>
                                                                             <td>
-                                                                                <textarea id="action_takens${indexx.count }${index.count }" name="action_takens" class="materialize-textarea" placeholder="Action Taken" style="height: 44px;">
-                                                                                ${ aObj.action_taken}</textarea>
+                                                                                <textarea id="action_takens${indexx.count }${index.count }" name="action_takens" class="materialize-textarea" 
+                                                                                placeholder="Action Taken" style="height: 44px;">${ aObj.action_taken}</textarea>
                                                                             </td>
                                                                             <td>
                                                                                 <a onclick="removeactions('${indexx.count }${index.count }');prevRow('${index.count }')" class="btn waves-effect waves-light red t-c ">
@@ -386,16 +397,16 @@
                                                     placeholder="Responsible Person">
                                             </td>
                                             <td>
-                                                <select id="priority0" class="searchable">
-                                                    <option selected>Priority</option>
-                                                    <option value="1">1</option>
-                                                    <option value="3">3</option>
-                                                    <option value="5">5</option>
+                                                <select id="prioritys0" name="prioritys" class="searchable">
+                                                    <option value="">Priority</option>
+                                                     <c:forEach var="obj" items="${prioritiesList }">
+                                      					<option value="${obj.priority}">${obj.priority}</option>
+                                   					 </c:forEach>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select class="searchable" id="probabilitys0"  name="probabilitys">
-                                                      <option >Probability</option>
+                                                      <option value="" >Probability</option>
                                                     <option value="1">1</option>
                                                     <option value="3">3</option>
                                                     <option value="5">5</option>
@@ -404,7 +415,7 @@
 
                                             <td>
                                                 <select class="searchable" id="impacts0" name="impacts">
-                                                    <option >Impact</option>
+                                                    <option value="" >Impact</option>
                                                     <option value="1">1</option>
                                                     <option value="3">3</option>
                                                     <option value="5">5</option>
@@ -414,9 +425,8 @@
                                                 <textarea id="mitigation_plans0" name="mitigation_plans" class="materialize-textarea"
                                                     placeholder="Mitigation Plan"></textarea>
                                             </td>
-                                                                                        <td>
-                                                <a class="waves-effect waves-light btn modal-trigger bg-m t-c"
-                                                    href="#update_action0">Update</a>
+                                             <td>
+                                                <a class="waves-effect waves-light btn modal-trigger bg-m t-c" href="#update_action0" onclick="showNo(this);">Update</a>
                                                 <div id="update_action0" class="modal">
                                                     <div class="modal-content">
                                                         <h4 class="modal-header">Action Taken</h4>
@@ -436,6 +446,8 @@
                                                                     <tbody id="actionTableBody0" >
                                                                         <tr id="actionRow0">
                                                                             <td><input type="hidden" id="rowCounts0" name="rowCounts" value="1" class="hide" />
+                                                                                 <input type="hidden" name="risk_revision_id_fks" id="risk_revision_id_fks0"
+																										 value="${rObj.risk_revision_id_fk}" />
                                                                                 <div class="input-field">
                                                                                     <input id="atr_dates0" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">
                                                                                     <button type="button" id="atr_date0_icon"><i class="fa fa-calendar"></i></button>
@@ -453,13 +465,20 @@
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
-
+																<table class="mdl-data-table">
+																	<tbody id="actionBody">
+																		<tr>
+																			<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
+																				onclick="addRiskActionRow('${rObj.risk_revision_id}','0')"> <i class="fa fa-plus"></i></a>
+																		</tr>
+																	</tbody>
+																</table>
+																<input type="hidden" id="trainNo" name="trainNo" value="0" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
                                             <td>
                                                 <a onclick="removeRiskRow('0');" class="btn waves-effect waves-light red t-c "> <i
                                                         class="fa fa-close"></i></a>
@@ -473,7 +492,7 @@
                                  <table class="mdl-data-table">
                                         <tbody id="documentBody">                                          
 			                                    <tr>
-			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addRiskRow()"> <i
+			  										 <td colspan="9" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addRiskRow('${rObj.risk_revision_id}')"> <i
 			                                                            class="fa fa-plus"></i></a>
 			                                    </tr>
                                         </tbody>
@@ -567,10 +586,14 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <input type="submit" onclick="createRisk();" value="Create" class="btn waves-effect waves-light bg-m"
-                                            style="width: 100%;">
-                                    </div>
+                                   <div class="center-align m-1">
+									<c:if test="${action eq 'edit'}">
+										<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+									</c:if>
+									<c:if test="${action eq 'add'}"> 
+										<button type="button" onclick="addRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+									</c:if>
+								</div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
@@ -614,16 +637,24 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
  	  <script>
+ 	 $(document).on('focus', '.datepicker',function(){
+         $(this).datepicker({
+         	format:'dd-mm-yyyy',
+    	    	onSelect: function () {
+    	    	   $('.confirmation-btns .datepicker-done').click();
+    	    	}
+         })
+     });
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $("#assessment_date0,#date_of_identification").datepicker();
-            $('#assessment_date0_icon').click(function () {
+            $("#date0,#date_of_identification").datepicker();
+            $('#date_icon0').click(function () {
                 event.stopPropagation();
-                $('#assessment_date0').click();
+                $('#date0').click();
             });
             $("#atr_date0").datepicker();
-            $('#atr_date0_icon').click(function () {
+            $('#atr_date_icon0').click(function () {
                 event.stopPropagation();
                 $('#atr_date0' + riskNo).click();
             });
@@ -656,7 +687,15 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#area").append('<option value="' + val.area + '"<c:if test="${riskDetails.area eq obj.area}">selected</c:if>>' + $.trim(val.area)   +'</option>');
+    	                           $("#area").append('<option value="' + val.area + '">' + $.trim(val.area)   +'</option>');
+
+                              	 var area = "${riskDetails.area}";
+                              	 
+      	                           if ($.trim(area) != '' && val.area == $.trim(area)) {
+                                         $("#area").append('<option value="' + val.area + '" selected>' + $.trim(val.area) + '</option>');
+                                     } else {
+                                         $("#area").append('<option value="' + val.area + '">' + $.trim(val.area) + '</option>');
+                                     }
                             });
                         }
                         $('.searchable').select2();
@@ -684,7 +723,14 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#sub_area_fk").append('<option value="' + val.sub_area_fk + '"<c:if test="${riskDetails.sub_area_fk eq obj.sub_area_fk}">selected</c:if>>' + $.trim(val.sub_area_fk)   +'</option>');
+                            	
+                            	 var subArea = "${riskDetails.sub_area_fk}";
+                            	 
+    	                           if ($.trim(subArea) != '' && val.sub_area_fk == $.trim(subArea)) {
+                                       $("#sub_area_fk").append('<option value="' + val.sub_area_fk + '" selected>' + $.trim(val.sub_area_fk) + '</option>');
+                                   } else {
+                                       $("#sub_area_fk").append('<option value="' + val.sub_area_fk + '">' + $.trim(val.sub_area_fk) + '</option>');
+                                   }
                             });
                         }
                         $('.searchable').select2();
@@ -753,44 +799,65 @@
         
         
         
-        function addRiskRow() {
+        function addRiskRow(sessionId) {
         	
             var rowNo = $("#rowNo").val();
             var riskNo = Number(rowNo)+1;
-            
-            var html = '<tr id="riskReviewRow' + riskNo + '">'+
-            	'<td><input id="dates' + riskNo + '" name="dates" type="text" class="validate datepicker" placeholder="Date">' +
-                	'<button type="button" id="reveiw_date_icon' + riskNo + '"><i class="fa fa-calendar"></i></button> </td>' +
-                '<td> <input id="owners' + riskNo + '" name="owners" type="text" class="validate" placeholder="Owner"></td>' +
-                '<td><input id="responsible_persons' + riskNo + '" name="responsible_persons" type="text" class="validate" placeholder="Responsible Person"></td>' +
-                '<td><select class="validate-dropdown searchable" id="probability_fks' + riskNo + '" name="probability_fks">'+
-                '<option value="" >Probability</option>'+
-	                <c:forEach var="obj" items="${probabilitiesList }">
-	               	  '<option value="${obj.probability_fk }">${obj.probability_fk}</option>'+
-	                </c:forEach>
-                '</select> </td>' +
-                '<td><select class="validate-dropdown searchable" id="impact_fks' + riskNo + '" name="impact_fks">'+
-                '<option value="" >Impact</option>'+
-	                <c:forEach var="obj" items="${impactsList }">
-	               	  '<option value="${obj.impact_fk }">${obj.impact_fk}</option>'+
-	                </c:forEach>
-                '</select></td>' +
-                '<td><textarea id="mitigation_plans' + riskNo + '" name="mitigation_plans" class="materialize-textarea" placeholder="Mitigation Plan"></textarea></td>' +
-                '<td><textarea id="action_takens' + riskNo + '" name="action_takens" class="materialize-textarea" placeholder="Action Taken"></textarea></td>' +
-                '<td> <input id="atr_dates' + riskNo + '" name="atr_dates" type="text" class="validate datepicker" placeholder="ATR  Date"> <button type="button" id="atr_date_icon' + riskNo + '">' +
-                	'<i class="fa fa-calendar"></i></button></td>' +
-                '<td> <a onclick="removeRiskRow(' + riskNo +');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </tr>';
-            $('#riskRevisionBody').append(html);
+            var trainNo = $("#trainNo").val();
+            var tNo = Number(trainNo)+1;
+           
+			var html = '<tr id="riskReviewRow' + riskNo + '">'+
+						'<td><input id="dates' + riskNo + '" name="dates" type="text" class="validate datepicker" placeholder="Date">' +
+						'<button type="button" id="reveiw_date_icon' + riskNo + '"><i class="fa fa-calendar"></i></button> </td>' +
+						'<td> <input id="owners' + riskNo + '" name="owners" type="text" class="validate" placeholder="Owner"></td>' +
+						'<td><input id="responsible_persons' + riskNo + '" name="responsible_persons" type="text" class="validate" placeholder="Responsible Person"></td>' +
+						'<td><select class="validate-dropdown searchable" id="prioritys' + riskNo + '" name="prioritys">'+
+						'<option value="" >Priority</option>'+
+						<c:forEach var="obj" items="${prioritiesList }">
+						'<option value="${obj.priority_fk }">${obj.priority_fk}</option>'+
+						</c:forEach>
+						'</select> </td>' +
+						'<td><select class="validate-dropdown searchable" id="probabilitys' + riskNo + '" name="probabilitys">'+
+						'<option value="" >Probability</option>'+
+                         '<option value="1">1</option><option value="3">3</option><option value="5">5</option>'+
+						'</select></td>' +
+						'<td><select class="validate-dropdown searchable" id="impact_fks' + riskNo + '" name="impact_fks">'+
+						'<option value="" >Impact</option>'+
+                         '<option value="1">1</option><option value="3">3</option><option value="5">5</option>'+
+						'</select></td>' +
+						'<td><textarea id="mitigation_plans' + riskNo + '" name="mitigation_plans" class="materialize-textarea" placeholder="Mitigation Plan"></textarea></td>' +
+						
+						'<td><a class="waves-effect waves-light btn modal-trigger bg-m t-c" href="#update_action' + riskNo + '" onclick="showNo(this);">Update</a>'+
+						
+						'<div id="update_action' + riskNo + '" class="modal"><div class="modal-content"><h4 class="modal-header">Action Taken</h4>'+
+						'<!--  <h6>Assessment Date (12-04-2020) </h6> --> <br> <div class="row fixed-width">'+
+						'<div class="table-inside"> <table id="update-action-table' + riskNo + '"class="mdl-data-table update-table">'+
+						'<thead> <tr><th class="fw-150">ATR Date</th><th>Action Taken</th><th class="fw-60">Action</th></tr></thead>'+
+						'<tbody id="actionTableBody' + riskNo + '" ><tr id="actionRow' + riskNo +tNo+ '">'+
+						'<td><input type="hidden" id="rowCounts' + riskNo + '" name="rowCounts" value="1" class="hide" />'+
+						'<div class="input-field"><input id="atr_dates' + riskNo +tNo+ '" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'+
+						'	<button type="button" id="atr_date_icon' + riskNo + tNo+'"><i class="fa fa-calendar"></i></button></div></td>'+
+						'<td><textarea id="action_takens' + riskNo +tNo+ '"  name="action_takens" class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'+
+						'<td><a onclick="removeactions(' + riskNo +tNo+ ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>'+
+						'</tbody></table>'+
+						'<input type="hidden" id="trainNo"  name="trainNo" value="0" /> ' +                    
+              		    '<table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
+                        '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addRiskActionRow(\''+sessionId+'\',\''+ riskNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
+                      '</tbody></table></div></div></div></div> </td>'+
+						
+						'<td> <a onclick="removeRiskRow(' + riskNo +');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </tr>';
+			$('#riskRevisionBody').append(html);
             $("#rowNo").val(riskNo);
+            $('#update_action'+riskNo).modal();
             $("#dates" + riskNo).datepicker();
             $('#reveiw_date_icon' + riskNo).click(function () {
                 event.stopPropagation();
-                $('#reveiw_date' + riskNo).click();
+                $('#dates' + riskNo).click();
             });
-            $("#atr_dates" + riskNo).datepicker();
-            $('#reveiw_date_icon' + riskNo).click(function () {
+            $("#atr_dates" + riskNo+tNo).datepicker();
+            $('#atr_date_icon' + riskNo+tNo).click(function () {
                 event.stopPropagation();
-                $('#atr_date' + riskNo).click();
+                $('#atr_dates' + riskNo+tNo).click();
             });
             $('.searchable').select2();
 		
@@ -801,24 +868,103 @@
         	//alert("#revisionRow"+rowNo);
         	$("#riskReviewRow"+rowNo).remove();
         }
-        
-        updateNo = 1;
-        function addUpdateActionTableRow(no) {
-            var text = '<tr> <td> <div class="input-field"> <input id="atr_date' + updateNo + '" type="text" class="validate datepicker" placeholder="ATR  Date">' +
-                '<button type="button" id="atr_date' + updateNo + '_icon"><i class="fa fa-calendar"></i></button></div> </td> <td>' +
-                '<textarea id="action_taken' + updateNo + '" class="materialize-textarea" placeholder="Action Taken" ></textarea> </td>' +
-                '<td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
-                if (no=='0')
-            		$('#update-action-table0').find('tr:last').prev().after(text);
-                else
-            		$('#update-action-table'+no).find('tr:last').prev().after(text);
-	            $("#atr_date" + updateNo).datepicker();
-	            $('#atr_date' + updateNo + '_icon').click(function () {
-	                event.stopPropagation();
-	                $('#atr_date' + updateNo).click();
-	            });
-            updateNo++;
+        function removeactions(rowNo){
+        	//alert("#revisionRow"+rowNo);
+        	$("#actionRow"+rowNo).remove();
         }
+        var rowNumber = null;
+        function showNo(a){
+        	rowNumber = a.href.split("#")[1].split("_")[1].split('action')[1];        	
+        	console.log($('#riskReviewRow'+rowNumber));
+        }
+        
+        function prevRow(tNo){
+       	 var id = $('#actionTableBody'+tNo+' tr .hide:last').attr('id');
+       	 if(id == null){
+         	id='s0';
+         }
+            var splt = id.split('s')[1];
+            var c = $('#actionTableBody'+tNo+' tr').length;
+            if(splt > 0){
+            	var lastIndex = splt;
+          	    var lastRow = $('#actionTableBody'+tNo+' #rowCounts'+lastIndex).removeAttr("disabled");
+          	 $('#actionTableBody'+tNo+' #rowCounts'+lastIndex+':last').val(c)
+            }else{
+           	 $("#rowCounts0").removeAttr("disabled");
+            }
+       	
+       }
+        
+        function addRiskActionRow(revisionId,tNo) {
+        	var index = rowNumber;
+        	if(index == null){
+        		index = 0;
+        	}
+        	$("#rowCounts0").prop('disabled', true);
+        	$('#actionTableBody'+tNo+' #rowCounts'+tNo).prop('disabled', true);
+        	if(revisionId === undefined){
+        		revisionId = "";
+        	}
+        	var trainNo = $("#trainNo").val();
+            var riskNo = Number(trainNo)+1;
+            var id = $('#actionTableBody'+tNo+' tr .hide:last').attr('id');
+            if(id == null){
+            	id='s0';
+            }
+            var splt = id.split('s')[1];
+            var d =$('#actionTableBody'+tNo+' tr').length;
+            var c = $('#actionTableBody'+tNo+' tr').length + 1;
+            if(splt > 0){
+            	var lastIndex = splt;
+          	    var lastRow = $('#actionTableBody'+tNo+' #rowCounts'+lastIndex).prop('disabled', true);
+            } 
+            var html = '<tr id="actionRow' + riskNo + '">'+
+						'<td><input type="hidden" id="rowCounts' + riskNo + '" name="rowCounts" class="hide" />'+
+						'<div class="input-field"><input id="atr_dates' + riskNo + riskNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'+
+						'	<button type="button" id="atr_date_icon' + riskNo +riskNo + '"><i class="fa fa-calendar"></i></button></div></td>'+
+						'<td><textarea id="action_takens' + riskNo + riskNo +'"  name="action_takens" class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'+
+						'<td><a onclick="removeactions(' + riskNo + '); prevRow('+tNo+')" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
+				$('#actionTableBody'+ index).append(html);
+	            $("#trainNo").val(riskNo );
+	            $('#actionTableBody'+tNo+' #rowCounts'+riskNo+':last').val(c)
+	            $("#atr_dates" + riskNo+riskNo ).datepicker();
+	            $('#atr_date_icon' + riskNo +riskNo ).click(function () {
+	                event.stopPropagation();
+	                $('#atr_dates' +  riskNo+riskNo ).click();
+	            });
+        }
+        
+        function updateRisk(){
+       	// if(validator.form()){ // validation perform
+   			$(".page-loader").show();
+   			$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=owners]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=responsible_persons]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=prioritys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=probabilitys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=impact_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=mitigation_plans]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			document.getElementById("riskForm").submit();	
+      // 	}
+        }
+        
+        function addRisk(){
+          	// if(validator.form()){ // validation perform
+      			$(".page-loader").show();
+      			$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=owners]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=responsible_persons]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=prioritys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=probabilitys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=impact_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=mitigation_plans]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			document.getElementById("riskForm").submit();	
+          //	}
+           }
     </script>
 
 </body>

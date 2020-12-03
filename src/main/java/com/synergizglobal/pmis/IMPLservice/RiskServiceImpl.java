@@ -81,4 +81,14 @@ public class RiskServiceImpl implements RiskService{
 	public Risk getRiskDetails(Risk obj) throws Exception {
 		 return dao.getRiskDetails(obj);
 	}
+
+	@Override
+	public boolean addRisk(Risk obj) throws Exception {
+		 return dao.addRisk(obj);
+	}
+
+	@Override
+	public boolean updateRisk(Risk obj) throws Exception {
+		 return dao.updateRisk(obj);
+	}
 }

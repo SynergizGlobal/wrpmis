@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class RiskDaoImpl implements RiskDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and rv.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -577,7 +578,6 @@ public class RiskDaoImpl implements RiskDao{
 			}
 			
 			if(flag) {
-				if(!StringUtils.isEmpty(obj.getDates()) && obj.getDates().length > 0) {
 					String insertQry1 = "INSERT into  risk_revision (risk_id_pk_fk,owner,date,priority_fk,probability,impact,responsible_person,mitigation_plan) "
 							+"VALUES (?,?,?,?,?,?,?,?)";
 					insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
@@ -625,68 +625,69 @@ public class RiskDaoImpl implements RiskDao{
 							arraySize = obj.getMitigation_plans().length;
 						}
 					}
-				
+					int	arraySize1 = 0;
 					if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().length > 0) {
 						obj.setAction_takens(CommonMethods.replaceEmptyByNullInSringArray(obj.getAction_takens()));
-						if(arraySize < obj.getAction_takens().length) {
-							arraySize = obj.getAction_takens().length;
+						if(arraySize1 < obj.getAction_takens().length) {
+							arraySize1 = obj.getAction_takens().length;
 						}
 					}
 				
 					if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
 						obj.setAtr_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAtr_dates()));
-						if(arraySize < obj.getAtr_dates().length) {
-							arraySize = obj.getAtr_dates().length;
+						if(arraySize1 < obj.getAtr_dates().length) {
+							arraySize1 = obj.getAtr_dates().length;
 						}
 					}
-				
-					for (int i = 0; i < arraySize; i++) {
-						 if( obj.getDates().length > 0 && !StringUtils.isEmpty(obj.getDates()[i])) {
-						    int p = 1;
-						    insertStmt.setString(p++,(obj.getRisk_id_pk()));
-							insertStmt.setString(p++,(obj.getOwners().length > 0)?obj.getOwners()[i]:null);
-						    insertStmt.setString(p++,DateParser.parse((obj.getDates().length > 0)?obj.getDates()[i]:null));
-						    insertStmt.setString(p++,(obj.getPrioritys().length > 0)?obj.getPrioritys()[i]:null);
-						    insertStmt.setString(p++,(obj.getProbabilitys().length > 0)?obj.getProbabilitys()[i]:null);
-						    insertStmt.setString(p++,(obj.getImpacts().length > 0)?obj.getImpacts()[i]:null);
-						    insertStmt.setString(p++,(obj.getResponsible_persons().length > 0)?obj.getResponsible_persons()[i]:null);
-						    insertStmt.setString(p++,(obj.getMitigation_plans().length > 0)?obj.getMitigation_plans()[i]:null);
-						    insertStmt.addBatch();
-						 }
-						   
-					int[] insertCount = insertStmt.executeBatch();
-					rs = insertStmt.getGeneratedKeys();
-					if(insertCount.length > 0) {
-						
-						String insertQry2 = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date) "
-								+"VALUES (?,?,?)";
-						insertStmt1 = con.prepareStatement(insertQry2);
-						if (rs.next()) {
-							String revisionId = rs.getString(1);
-							obj.setRisk_revision_id(revisionId);
-						}
-						
-						if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
-							for (int j = 0; j < obj.getRowCounts()[i]; j++) {
-								    int k = 1;
-								    int a = r++; 
-								    if( obj.getAtr_dates().length > 0 && !StringUtils.isEmpty(obj.getAtr_dates()[a])) {
-									    insertStmt1.setString(k++,(obj.getRisk_revision_id()));
-									    insertStmt1.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[a]:null);
-									    insertStmt1.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[a]:null));
-									    insertStmt1.addBatch();
-								    }
+					if(!StringUtils.isEmpty(obj.getDates()) && obj.getDates().length > 0) {
+						 for (int i = 0; i < arraySize; i++) {
+							 if( obj.getDates().length > 0 && !StringUtils.isEmpty(obj.getDates()[i])) {
+								    int p = 1;
+								    insertStmt.setString(p++,(obj.getRisk_id_pk()));
+									insertStmt.setString(p++,(obj.getOwners().length > 0)?obj.getOwners()[i]:null);
+								    insertStmt.setString(p++,DateParser.parse((obj.getDates().length > 0)?obj.getDates()[i]:null));
+								    insertStmt.setString(p++,(obj.getPrioritys().length > 0)?obj.getPrioritys()[i]:null);
+								    insertStmt.setString(p++,(obj.getProbabilitys().length > 0)?obj.getProbabilitys()[i]:null);
+								    insertStmt.setString(p++,(obj.getImpacts().length > 0)?obj.getImpacts()[i]:null);
+								    insertStmt.setString(p++,(obj.getResponsible_persons().length > 0)?obj.getResponsible_persons()[i]:null);
+								    insertStmt.setString(p++,(obj.getMitigation_plans().length > 0)?obj.getMitigation_plans()[i]:null);
+								    insertStmt.addBatch();
 							 }
-						   }
-							int[] insertCount1 = insertStmt1.executeBatch();
-							
-							if(insertCount1.length > 0) {
-								flag = true;
-							}
-					    }
-						
-					}
-				}
+						   
+							int[] insertCount = insertStmt.executeBatch();
+							rs = insertStmt.getGeneratedKeys();
+							if(insertCount.length > 0) {
+								
+								String insertQry2 = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date) "
+										+"VALUES (?,?,?)";
+								insertStmt1 = con.prepareStatement(insertQry2);
+								if (rs.next()) {
+									String revisionId = rs.getString(1);
+									obj.setRisk_revision_id(revisionId);
+								}
+								
+								if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
+									for (int j = 0; j < obj.getRowCounts()[i]; j++) {
+										    int k = 1;
+										    int a = r++; 
+										    if( obj.getAtr_dates().length > 0 && !StringUtils.isEmpty(obj.getAtr_dates()[a])) {
+												    insertStmt1.setString(k++,(obj.getRisk_revision_id()));
+												    insertStmt1.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[a]:null);
+												    insertStmt1.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[a]:null));
+												    insertStmt1.addBatch();
+										    }
+									 }
+								   }
+									int[] insertCount1 = insertStmt1.executeBatch();
+									
+									if(insertCount1.length > 0) {
+										flag = true;
+									}
+							   }
+					
+					     }
+				   }
+		   	   
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);
 			con.commit();
@@ -709,6 +710,7 @@ public class RiskDaoImpl implements RiskDao{
 		PreparedStatement insertStmt = null;
 		PreparedStatement insertStmt1 = null;
 		PreparedStatement stmt = null;
+		PreparedStatement stmt1 = null;
 		 
 		try{
 			con = dataSource.getConnection();
@@ -722,19 +724,31 @@ public class RiskDaoImpl implements RiskDao{
 				flag = true;
 			}
 			if(flag) {
-					for(int x =0; x< obj.getRisk_revision_ids().length; x++) {
-						String deleteQry = "DELETE from risk_action where risk_revision_id_fk = ?";	
-						stmt = con.prepareStatement(deleteQry);
-						int k =1;
+				
+				  String deleteQry = "DELETE from risk_action where risk_revision_id_fk = ?";	
+				  stmt = con.prepareStatement(deleteQry);
+					
+				  for(int x =0; x < obj.getRisk_revision_ids().length; x++) {
+						  int k =1;
 						  stmt.setString(k++,(obj.getRisk_revision_ids()[x]));
 						  stmt.addBatch();
+				  }
+				  int[] deleteCount = stmt.executeBatch();
+				  if(deleteCount.length > 0) {
+							
+							String deleteQry1 = "DELETE from risk_revision where risk_revision_id = ?";	
+							stmt1 = con.prepareStatement(deleteQry1);
+							
+							for(int x =0; x < obj.getRisk_revision_ids().length; x++) {
+								  int k =1;
+								  stmt1.setString(k++,(obj.getRisk_revision_ids()[x]));
+								  stmt1.addBatch();
+						}
+						  int[] deleteCount1 = stmt1.executeBatch();
+						  if(deleteCount.length > 0) {
+							  flag = true;
+						  }
 					}
-					int[] deleteCount = stmt.executeBatch();
-				
-					String deleteQry1 = "DELETE from risk_revision where risk_id_pk_fk = :risk_id_pk";		 
-					paramSource = new BeanPropertySqlParameterSource(obj);		 
-					count = namedParamJdbcTemplate.update(deleteQry1, paramSource);
-				
 					String insertQry1 = "INSERT into  risk_revision (risk_id_pk_fk,owner,date,priority_fk,probability,impact,responsible_person,mitigation_plan) "
 							+"VALUES (?,?,?,?,?,?,?,?)";
 					insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
@@ -752,10 +766,10 @@ public class RiskDaoImpl implements RiskDao{
 							arraySize = obj.getOwners().length;
 						}
 					}
-					if(!StringUtils.isEmpty(obj.getPriority_fks()) && obj.getPriority_fks().length > 0) {
-						obj.setPriority_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getPriority_fks()));
-						if(arraySize < obj.getPriority_fks().length) {
-							arraySize = obj.getPriority_fks().length;
+					if(!StringUtils.isEmpty(obj.getPrioritys()) && obj.getPrioritys().length > 0) {
+						obj.setPrioritys(CommonMethods.replaceEmptyByNullInSringArray(obj.getPrioritys()));
+						if(arraySize < obj.getPrioritys().length) {
+							arraySize = obj.getPrioritys().length;
 						}
 					}
 					if(!StringUtils.isEmpty(obj.getProbabilitys()) && obj.getProbabilitys().length > 0) {
@@ -782,71 +796,74 @@ public class RiskDaoImpl implements RiskDao{
 							arraySize = obj.getMitigation_plans().length;
 						}
 					}
-				
+					int	arraySize1 = 0;
 					if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().length > 0) {
 						obj.setAction_takens(CommonMethods.replaceEmptyByNullInSringArray(obj.getAction_takens()));
-						if(arraySize < obj.getAction_takens().length) {
-							arraySize = obj.getAction_takens().length;
+						if(arraySize1 < obj.getAction_takens().length) {
+							arraySize1 = obj.getAction_takens().length;
 						}
 					}
 				
 					if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
 						obj.setAtr_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAtr_dates()));
-						if(arraySize < obj.getAtr_dates().length) {
-							arraySize = obj.getAtr_dates().length;
+						if(arraySize1 < obj.getAtr_dates().length) {
+							arraySize1 = obj.getAtr_dates().length;
 						}
 					}
-				
-					for (int i = 0; i < arraySize; i++) {
-						 if( obj.getDates().length > 0 && !StringUtils.isEmpty(obj.getDates()[i])) {
-						    int p = 1;
-						    insertStmt.setString(p++,(obj.getRisk_id_pk()));
-							insertStmt.setString(p++,(obj.getOwners().length > 0)?obj.getOwners()[i]:null);
-						    insertStmt.setString(p++,DateParser.parse((obj.getDates().length > 0)?obj.getDates()[i]:null));
-						    insertStmt.setString(p++,(obj.getPriority_fks().length > 0)?obj.getPriority_fks()[i]:null);
-						    insertStmt.setString(p++,(obj.getProbabilitys().length > 0)?obj.getProbabilitys()[i]:null);
-						    insertStmt.setString(p++,(obj.getImpacts().length > 0)?obj.getImpacts()[i]:null);
-						    insertStmt.setString(p++,(obj.getResponsible_persons().length > 0)?obj.getResponsible_persons()[i]:null);
-						    insertStmt.setString(p++,(obj.getMitigation_plans().length > 0)?obj.getMitigation_plans()[i]:null);
-						    insertStmt.addBatch();
-						 }
+					if(!StringUtils.isEmpty(obj.getDates()) && obj.getDates().length > 0) {
+						 for (int i = 0; i < arraySize; i++) {
+							 if( obj.getDates().length > 0 && !StringUtils.isEmpty(obj.getDates()[i])) {
+								    int p = 1;
+								    insertStmt.setString(p++,(obj.getRisk_id_pk()));
+									insertStmt.setString(p++,(obj.getOwners().length > 0)?obj.getOwners()[i]:null);
+								    insertStmt.setString(p++,DateParser.parse((obj.getDates().length > 0)?obj.getDates()[i]:null));
+								    insertStmt.setString(p++,(obj.getPrioritys().length > 0)?obj.getPrioritys()[i]:null);
+								    insertStmt.setString(p++,(obj.getProbabilitys().length > 0)?obj.getProbabilitys()[i]:null);
+								    insertStmt.setString(p++,(obj.getImpacts().length > 0)?obj.getImpacts()[i]:null);
+								    insertStmt.setString(p++,(obj.getResponsible_persons().length > 0)?obj.getResponsible_persons()[i]:null);
+								    insertStmt.setString(p++,(obj.getMitigation_plans().length > 0)?obj.getMitigation_plans()[i]:null);
+								    insertStmt.addBatch();
+							 }
 						   
-					int[] insertCount = insertStmt.executeBatch();
-					rs = insertStmt.getGeneratedKeys();
-					if(insertCount.length > 0) {
+							int[] insertCount = insertStmt.executeBatch();
+							rs = insertStmt.getGeneratedKeys();
+							if(insertCount.length > 0) {
+								
+								String insertQry2 = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date) "
+										+"VALUES (?,?,?)";
+								insertStmt1 = con.prepareStatement(insertQry2);
+								if (rs.next()) {
+									String revisionId = rs.getString(1);
+									obj.setRisk_revision_id(revisionId);
+								}
+								
+								if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
+									for (int j = 0; j < obj.getRowCounts()[i]; j++) {
+										    int k = 1;
+										    int a = r++; 
+										    if( obj.getAtr_dates().length > 0 && !StringUtils.isEmpty(obj.getAtr_dates()[a])) {
+												    insertStmt1.setString(k++,(obj.getRisk_revision_id()));
+												    insertStmt1.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[a]:null);
+												    insertStmt1.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[a]:null));
+												    insertStmt1.addBatch();
+										    }
+									 }
+								   }
+									int[] insertCount1 = insertStmt1.executeBatch();
+									
+									if(insertCount1.length > 0) {
+										flag = true;
+									}
+						      }
 						
-						String insertQry2 = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date) "
-								+"VALUES (?,?,?)";
-						insertStmt1 = con.prepareStatement(insertQry2);
-						if (rs.next()) {
-							String revisionId = rs.getString(1);
-							obj.setRisk_revision_id(revisionId);
-						}
-						
-						if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
-							for (int j = 0; j < obj.getRowCounts()[i]; j++) {
-								    int k = 1;
-								    int a = r++; 
-								    if( obj.getAtr_dates().length > 0 && !StringUtils.isEmpty(obj.getAtr_dates()[a])) {
-									    insertStmt1.setString(k++,(obj.getRisk_revision_id()));
-									    insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
-									    insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
-
-									    insertStmt1.addBatch();
-								    }
-							}
-						}
-							int[] insertCount1 = insertStmt1.executeBatch();
-							
-							if(insertCount1.length > 0) {
-								flag = true;
-							}
-					    }
-						
-					}
-				
-			}
+				      }
+			   }
+		   	   
+		}
 		DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);
+		DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+		DBConnectionHandler.closeJDBCResoucrs(null, stmt1, null);
+
 		con.commit();
 		}catch(Exception e){ 
 			con.rollback();

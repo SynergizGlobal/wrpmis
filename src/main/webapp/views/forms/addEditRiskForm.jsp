@@ -129,6 +129,18 @@
         .mdl-data-table tbody td .datepicker-table .datepicker-row{
         	bottom-border:none;
         }
+          .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
+	    .error-msg label{color:red!important;}   
+		
     </style>
     
 </head>
@@ -159,6 +171,7 @@
 							<form action="<%=request.getContextPath() %>/add-risk" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
 						</c:if>
                         <div class="container container-no-margin">
+                            <c:if test="${action eq 'add'}">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m4 s12 input-field">
@@ -180,6 +193,22 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            </c:if>
+                               <c:if test="${action eq 'edit'}">	
+                             <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                               
+                                <div class="col s12 m4 input-field">
+									<p class="searchable_label">Project</p>
+                                         	 	<input type="text" name="project_id_fk" id="project_id_fk" value="${riskDetails.project_id_fk}- ${riskDetails.project_name}" readonly />
+							    </div> 
+                                <div class="col s12 m4 input-field"> 
+								    <p class="searchable_label"> Work </p>
+                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${riskDetails.work_id_fk}- ${riskDetails.work_name}" readonly />
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                             </c:if>
                             <div class="row">
                             <input  type="hidden"   name="risk_id_pk" value="${riskDetails.risk_id_pk }" />
                                 <!-- row 1  -->
@@ -203,9 +232,7 @@
                                     <p class="searchable_label">Area</p>
                                     <select class="searchable validate-dropdown" id="area" name="area"  onchange="getSubAreasList();">
                                  	     <option value="" >Select</option>
-                                   		<c:forEach var="obj" items="${areasList }">
-                                      		<option value="${obj.area }" <c:if test="${riskDetails.area eq obj.area}">selected</c:if>>${obj.area }</option>
-                                   		 </c:forEach>
+                                   	
                                      </select>
                             		 <span id="areaError" class="error-msg" ></span>
                                 </div>
@@ -270,7 +297,7 @@
                                             </td>
                                             <td>
                                                 <select class="searchable" id="probabilitys${index.count }" name="probabilitys">
-                                                        <option >Probability</option>
+                                                        <option value="">Probability</option>
                                                     <option value="1" <c:if test="${rObj.probability eq 1}">selected</c:if>>1</option>
                                                     <option value="3" <c:if test="${rObj.probability eq 3}">selected</c:if>>3</option>
                                                     <option value="5" <c:if test="${rObj.probability eq 5}">selected</c:if>>5</option>
@@ -280,7 +307,7 @@
 
                                             <td>
                                                 <select class="searchable" id="impacts${index.count }" name="impacts">
-                                                    <option >Impact</option>
+                                                    <option value="" >Impact</option>
                                                    <option value="1" <c:if test="${rObj.impact eq 1}">selected</c:if>>1</option>
                                                     <option value="3" <c:if test="${rObj.impact eq 3}">selected</c:if>>3</option>
                                                     <option value="5" <c:if test="${rObj.impact eq 5}">selected</c:if>>5</option>
@@ -316,8 +343,8 @@
 																		<c:forEach var="aObj" items="${rObj.riskActions }" varStatus="indexx">
                                                                         <tr id="actionRow${indexx.count }${index.count }">
                                                                             <td><input type="hidden" id="rowCounts${indexx.count }${index.count }" name="rowCounts" class="hide" />
-                                                                            <input type="hidden" name="risk_revision_ids" id="risk_revision_ids${indexx.count }${index.count }"
-																										 value="${rObj.risk_revision_id}" />
+                                                                           <input type="hidden" name="risk_action_ids" id="risk_action_ids${indexx.count }${index.count }"
+																										 value="${aObj.risk_action_id}" />
                                                                                 <div class="input-field">
                                                                                     <input id="atr_dates${indexx.count }${index.count }" name="atr_dates" type="text" class="validate datepicker" 
                                                                                      placeholder="ATR  Date" value="${ aObj.atr_date}">
@@ -346,21 +373,19 @@
 																</c:forEach>
 															 </c:when>
 										 					<c:otherwise>
-										 					 <tr id="actionRow00">
-                                                                            <td><input type="hidden" id="rowCounts00" name="rowCounts" value="1" class="hide" />
-                                                                            <input type="hidden" name="risk_revision_id_fks" id="risk_revision_id_fks00"
-																										 value="${aObj.risk_revision_id_fk}" />
+										 					 <tr id="actionRow00${index.count }">
+                                                                            <td><input type="hidden" id="rowCounts00${index.count }" name="rowCounts" value="1" class="hide" />
                                                                                 <div class="input-field">
-                                                                                    <input id="atr_dates00" name="atr_dates" type="text" class="validate datepicker"  placeholder="ATR  Date">
-                                                                                    <button type="button" id="atr_date_icon00"><i  class="fa fa-calendar"></i></button>
+                                                                                    <input id="atr_dates00${index.count }" name="atr_dates" type="text" class="validate datepicker"  placeholder="ATR  Date">
+                                                                                    <button type="button" id="atr_date_icon00${index.count }"><i  class="fa fa-calendar"></i></button>
                                                                                 </div>
 
                                                                             </td>
                                                                             <td>
-                                                                                <textarea id="action_taken00" class="materialize-textarea" placeholder="Action Taken" style="height: 44px;"></textarea>
+                                                                                <textarea id="action_takens00${index.count }" name="action_takens" class="materialize-textarea" placeholder="Action Taken" style="height: 44px;"></textarea>
                                                                             </td>
                                                                             <td>
-                                                                                <a onclick="removeactions('00');" class="btn waves-effect waves-light red t-c ">
+                                                                                <a onclick="removeactions('00${index.count }');" class="btn waves-effect waves-light red t-c ">
                                                                                     <i class="fa fa-close"></i></a>
                                                                             </td>
                                                                         </tr>
@@ -401,10 +426,10 @@
                                        	<c:otherwise>
                                         <tr id="riskReviewRow0">
                                             <td>
-                                                <input id="dates0" name="dates" type="text" class="validate datepicker"
-                                                    placeholder="Date">
+                                                <div class ="input-field" ><input id="dates0" name="dates" type="text" class="validate datepicker"
+                                                    placeholder="Assesment Date">
                                                 <button type="button" id="reveiw_date_icon0"><i
-                                                        class="fa fa-calendar"></i></button>
+                                                        class="fa fa-calendar"></i></button></div>
                                             </td>
                                             <td>
                                                 <input id="owners0"  name="owners" type="text" class="validate" placeholder="Owner">
@@ -463,8 +488,7 @@
                                                                     <tbody id="actionTableBody0" >
                                                                         <tr id="actionRow0">
                                                                             <td><input type="hidden" id="rowCounts0" name="rowCounts" value="1" class="hide" />
-                                                                                 <input type="hidden" name="risk_revision_id_fks" id="risk_revision_id_fks0"
-																										 value="${rObj.risk_revision_id_fk}" />
+                                                                            
                                                                                 <div class="input-field">
                                                                                     <input id="atr_dates0" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">
                                                                                     <button type="button" id="atr_date0_icon"><i class="fa fa-calendar"></i></button>
@@ -654,26 +678,26 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
  	  <script>
- 	 $(document).on('focus', '.datepicker',function(){
-         $(this).datepicker({
+ 	   $(document).on('focus', '.datepicker',function(){
+           $(this).datepicker({
          	format:'dd-mm-yyyy',
     	    	onSelect: function () {
     	    	   $('.confirmation-btns .datepicker-done').click();
     	    	}
-         })
-     });
+           })
+        });
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $("#date0,#date_of_identification").datepicker();
+            $("#dates0,#date_of_identification").datepicker();
             $('#date_icon0').click(function () {
                 event.stopPropagation();
-                $('#date0').click();
+                $('#dates0').click();
             });
             $("#atr_date0").datepicker();
             $('#atr_date_icon0').click(function () {
                 event.stopPropagation();
-                $('#atr_date0' + riskNo).click();
+                $('#atr_dates0').click();
             });
             $('.modal').modal();
             $('#date_of_identification_icon').click(function () {
@@ -704,8 +728,6 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#area").append('<option value="' + val.area + '">' + $.trim(val.area)   +'</option>');
-
                               	 var area = "${riskDetails.area}";
                               	 
       	                           if ($.trim(area) != '' && val.area == $.trim(area)) {
@@ -816,7 +838,7 @@
         
         
         
-        function addRiskRow(sessionId) {
+        function addRiskRow(revisionId) {
         	
             var rowNo = $("#rowNo").val();
             var riskNo = Number(rowNo)+1;
@@ -831,14 +853,14 @@
 						'<td><select class="validate-dropdown searchable" id="prioritys' + riskNo + '" name="prioritys">'+
 						'<option value="" >Priority</option>'+
 						<c:forEach var="obj" items="${prioritiesList }">
-						'<option value="${obj.priority_fk }">${obj.priority_fk}</option>'+
+						'<option value="${obj.priority }">${obj.priority}</option>'+
 						</c:forEach>
 						'</select> </td>' +
 						'<td><select class="validate-dropdown searchable" id="probabilitys' + riskNo + '" name="probabilitys">'+
 						'<option value="" >Probability</option>'+
                          '<option value="1">1</option><option value="3">3</option><option value="5">5</option>'+
 						'</select></td>' +
-						'<td><select class="validate-dropdown searchable" id="impact_fks' + riskNo + '" name="impact_fks">'+
+						'<td><select class="validate-dropdown searchable" id="impacts' + riskNo + '" name="impacts">'+
 						'<option value="" >Impact</option>'+
                          '<option value="1">1</option><option value="3">3</option><option value="5">5</option>'+
 						'</select></td>' +
@@ -859,7 +881,7 @@
 						'</tbody></table>'+
 						'<input type="hidden" id="trainNo"  name="trainNo" value="0" /> ' +                    
               		    '<table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
-                        '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addRiskActionRow(\''+sessionId+'\',\''+ riskNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
+                        '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addRiskActionRow(\''+revisionId+'\',\''+ riskNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
                       '</tbody></table></div></div></div></div> </td>'+
 						
 						'<td> <a onclick="removeRiskRow(' + riskNo +');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </tr>';
@@ -929,17 +951,17 @@
             	id='s0';
             }
             var splt = id.split('s')[1];
-            var d =$('#actionTableBody'+tNo+' tr').length;
-            var c = $('#actionTableBody'+tNo+' tr').length + 1;
+            var d =$('#actionTableBody'+tNo+' >tr').length;
+            var c = $('#actionTableBody'+tNo+' >tr').length + 1;
             if(splt > 0){
             	var lastIndex = splt;
           	    var lastRow = $('#actionTableBody'+tNo+' #rowCounts'+lastIndex).prop('disabled', true);
             } 
             var html = '<tr id="actionRow' + riskNo + '">'+
-						'<td><input type="hidden" id="rowCounts' + riskNo + '" name="rowCounts" class="hide" />'+
+						'<td>'+
 						'<div class="input-field"><input id="atr_dates' + riskNo + riskNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'+
 						'	<button type="button" id="atr_date_icon' + riskNo +riskNo + '"><i class="fa fa-calendar"></i></button></div></td>'+
-						'<td><textarea id="action_takens' + riskNo + riskNo +'"  name="action_takens" class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'+
+						'<td><input type="hidden" id="rowCounts' + riskNo + '" name="rowCounts" class="hide" /><textarea id="action_takens' + riskNo + riskNo +'"  name="action_takens" class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'+
 						'<td><a onclick="removeactions(' + riskNo + '); prevRow('+tNo+')" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
 				$('#actionTableBody'+ index).append(html);
 	            $("#trainNo").val(riskNo );
@@ -952,7 +974,7 @@
         }
         
         function updateRisk(){
-       	// if(validator.form()){ // validation perform
+       	 if(validator.form()){ // validation perform
    			$(".page-loader").show();
    			$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    			$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -961,14 +983,14 @@
    			$('form input[name=responsible_persons]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    			$('form input[name=prioritys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    			$('form input[name=probabilitys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=impact_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			$('form input[name=impacts]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    			$('form input[name=mitigation_plans]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    			document.getElementById("riskForm").submit();	
-      // 	}
+      	}
         }
         
         function addRisk(){
-          	// if(validator.form()){ // validation perform
+          	 if(validator.form()){ // validation perform
       			$(".page-loader").show();
       			$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
       			$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -977,11 +999,55 @@
       			$('form input[name=responsible_persons]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
       			$('form input[name=prioritys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
       			$('form input[name=probabilitys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-      			$('form input[name=impact_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+      			$('form input[name=impacts]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
       			$('form input[name=mitigation_plans]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
       			document.getElementById("riskForm").submit();	
-          //	}
+          	}
            }
+        
+        var validator =	$('#riskForm').validate({
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		  "project_id_fk": {
+	  			 		required: true
+	  			 	  },"work_id_fk": {
+	  			 		required: true
+	  			 	  }
+	  		 	},
+	  		    messages: {
+	  		 		 "project_id_fk": {
+	  				 	required: 'This field is required',
+	  			 	  },"work_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if (element.attr("id") == "project_id_fk" ){
+						 document.getElementById("project_idError").innerHTML="";
+				 		 error.appendTo('#project_idError');
+					}else if(element.attr("id") == "work_id_fk" ){
+					   document.getElementById("work_id_fkError").innerHTML="";
+				 	   error.appendTo('#work_id_fkError');
+					}else{
+	 					error.insertAfter(element);
+			        } 
+		   		},submitHandler:function(form){
+			    	//form.submit();
+			    }
+			});   
+	            
+	            $('select').change(function(){
+	        	    if ($(this).val() != ""){
+	        	        $(this).valid();
+	        	    }
+	        	});
+	            
+	            $('input').change(function(){
+	        	    if ($(this).val() != ""){
+	        	        $(this).valid();
+	        	    }
+	        	});
+	            
     </script>
 
 </body>

@@ -5,18 +5,34 @@ import java.util.List;
 public class Risk {
 	
 	private String risk_id_pk,id, project_name,work_name,project_id_fk, work_id_fk, risk_id, sub_area_fk, date_of_identification,area,risk_revision_id, risk_id_pk_fk, date,
-	priority, probability,item_no,priority_fk, impact, owner, responsible_person,assessment_date, mitigation_plan, action_taken, attachment,sub_area, risk_area_fk,classification,atr_date,work_id;
+	priority, probability,item_no,priority_fk, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,sub_area, risk_area_fk,classification,atr_date,work_id;
 
 
 
 	private String [] risk_revision_ids, risk_id_pk_fks, dates, prioritys, probabilitys, impacts,
-	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,priority_fks;
+	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,priority_fks,risk_action_ids;
 	
 	private int [] rowCounts;
 	
 	private List<Risk> risks; 
 	private List<Risk> riskActions; 
 	
+
+	public String getRisk_action_id() {
+		return risk_action_id;
+	}
+
+	public void setRisk_action_id(String risk_action_id) {
+		this.risk_action_id = risk_action_id;
+	}
+
+	public String[] getRisk_action_ids() {
+		return risk_action_ids;
+	}
+
+	public void setRisk_action_ids(String[] risk_action_ids) {
+		this.risk_action_ids = risk_action_ids;
+	}
 
 	public String getItem_no() {
 		return item_no;

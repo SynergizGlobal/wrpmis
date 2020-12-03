@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
@@ -60,6 +63,25 @@
                 margin-top: inherit;
             }
         }
+         .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		 .page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}			
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -88,7 +110,7 @@
 
                             <div class="col s12 m4 c-align">
                                 <div class="m-1 ">
-                                    <a href="risks_new.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a  href="<%=request.getContextPath() %>/add-risk-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Risks</strong></a>
                                 </div>
                             </div>
@@ -97,13 +119,10 @@
                                 <div class="m-1">
                                     <div class="row">
                                         <div class="col s12 m6 input-field" style="margin:0">
-                                            <p class="searchable_label" style="text-align:left">Work</p>
-                                            <select class="searchable" id="work_fk">
-                                                <option value="select" disabled selected>Select </option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
-                                            </select>
+                                            <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable">
+                                            <option value="" >Select</option>
+	                                           
+                                           </select>
                                         </div>
                                         <div class="col s12 m6">
                                             <a href="#" class="btn waves-effect waves-light bg-s t-c disabled"
@@ -134,39 +153,31 @@
 
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Area</p>
-                                <select class="searchable" id="area_fk">
-                                    <option value="" disabled selected>Select </option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                  <select id="area" name="area" onchange="getRiskList();" class="searchable">
+                                            <option value="" >Select</option>
+	                                           
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Classification</p>
-                                <select class="searchable" id="classification_fk">
-                                    <option value="" disabled selected>Select </option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                 <select id="classification" name="classification" onchange="getRiskList();" class="searchable">
+                                            <option value="" >Select</option>
+	                                           
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Priority </p>
-                                <select class="searchable" id="priority_fk">
-                                    <option value="" disabled selected>Select </option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                               <select id="priority" name="priority" onchange="getRiskList();" class="searchable">
+                                            <option value="" >Select</option>
+	                                           
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Responsible Person </p>
-                                <select class="searchable" id="responsible_fk">
-                                    <option value="" disabled selected>Select </option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
+                                 <select id="responsible_person" name="responsible_person" onchange="getRiskList();" class="searchable">
+                                            <option value="" >Select</option>
+	                                           
+                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
@@ -180,7 +191,7 @@
 
                         <div class="row">
                             <div class="col m12 s12">
-                                <table id="example" class="mdl-data-table">
+                                <table id="datatable-risk" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Work</th>
@@ -200,7 +211,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                       <!--  <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -215,7 +226,7 @@
                                                 <a href="#" class="btn waves-effect waves-light bg-s t-c"><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
 
                                 </table>
@@ -278,7 +289,32 @@
             </div>
         </div>
     </div>
-    
+    <div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+ <div class="page-loader-2" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -290,12 +326,16 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="risk_id" id="risk_id" />
+    	<input type="hidden" name="work_id_fk" id="work_id_fk" />
+    </form>
       <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.tabs').tabs();
-            $('#example').DataTable({
+            $('#datatable-risk').DataTable({
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
@@ -321,15 +361,322 @@
                     $("#downloadWork").removeClass('disabled');
                 }
             });
+            
+            $("#work_id_fk").change(function () {
+                if ($("#work_id_fk").val() == 'select') {
+                    $("#downloadWork").addClass('disabled');
+                }
+                else {
+                    $("#downloadWork").removeClass('disabled');
+                }
+            });
+            getRiskList();
         });
         function clearFilters() {
-            $('#work_fk').val('');
-            $('#area_fk').val('');
-            $('#classification_fk').val('');
-            $('#priority_fk').val('');
-            $('#responsible_fk').val('');
+            $('#work_id_fk').val('');
+            $('#area').val('');
+            $('#classification').val('');
+            $('#priority').val('');
+            $('#responsible_person').val('');
+            getRiskList();
+            $("#downloadWork").addClass('disabled');
             $('.searchable').select2();
         }
+        
+        
+        function getRiskList(){
+        	$(".page-loader-2").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var area = $("#area").val();
+        	var priority = $("#priority").val();
+        	var classification = $("#classification").val();
+        	var responsible_person = $("#responsible_person").val();
+        	getWorksFilterList();
+         	getAreasFilterList();
+         	getPrioritiesFilterList();
+         	getClassificationsFilterList();
+         	getResponsiblePersonsFilterList();
+        	table = $('#datatable-risk').DataTable();
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#datatable-risk').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();		
+    		var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-risk-list",type:"POST",data:myParams,success : function(data){    				
+    			if(data != null && data != '' && data.length > 0){    					
+             		$.each(data,function(key,val){
+             			var risk_id = "'"+val.risk_id+"'";
+                        var actions = '<a href="javascript:void(0);"  onclick="getRisk('+ risk_id +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+    /*                     			  +'<a onclick="deleteRIsk('+risk_id_pk+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+     */                   	var rowArray = [];    	                 
+    
+                    	var workName = '';
+                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                        
+                       	rowArray.push($.trim(val.work_id_fk) + workName);
+                       	rowArray.push($.trim(val.risk_id));
+                       	rowArray.push($.trim(val.area));
+                       	rowArray.push($.trim(val.sub_area));
+                       	rowArray.push($.trim(val.owner));
+                       	rowArray.push($.trim(val.responsible_person));
+                       	rowArray.push($.trim(val.priority));
+                    	rowArray.push($.trim(val.classification));
+                       	rowArray.push($.trim(actions));   	                   	
+                       	
+                        table.row.add(rowArray).draw( true );
+                        		                       
+    				});
+             		
+             		$(".page-loader-2").hide();
+    			}else{
+    				$(".page-loader-2").hide();
+    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
+        
+        
+        function getWorksFilterList() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var area = $("#area").val();
+        	var priority = $("#priority").val();
+        	var classification = $("#classification").val();
+        	var responsible_person = $("#responsible_person").val();
+            if ($.trim(work_id_fk) == "") {
+            	$("#work_id_fk option:not(:first)").remove();
+            	            	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRisk",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var workShortName = '';
+                                 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getAreasFilterList() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var area = $("#area").val();
+        	var priority = $("#priority").val();
+        	var classification = $("#classification").val();
+        	var responsible_person = $("#responsible_person").val();
+            if ($.trim(area) == "") {
+            	$("#area option:not(:first)").remove();
+            	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getAreasFilterListInRisk",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#area").append('<option value="' + val.area + '">' + $.trim(val.area)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getPrioritiesFilterList() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var area = $("#area").val();
+        	var priority = $("#priority").val();
+        	var classification = $("#classification").val();
+        	var responsible_person = $("#responsible_person").val();
+            if ($.trim(priority) == "") {
+            	$("#priority option:not(:first)").remove();
+                      	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getPrioritiesFilterListInRisk",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#priority").append('<option value="' + val.priority + '">' + $.trim(val.priority)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        
+        function getClassificationsFilterList() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var area = $("#area").val();
+        	var priority = $("#priority").val();
+        	var classification = $("#classification").val();
+        	var responsible_person = $("#responsible_person").val();
+            if ($.trim(classification) == "") {
+            	$("#classification option:not(:first)").remove();
+            	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getClassificationsFilterListInRisk",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#classification").append('<option value="' + val.classification + '">' + $.trim(val.classification)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getResponsiblePersonsFilterList() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var area = $("#area").val();
+        	var priority = $("#priority").val();
+        	var classification = $("#classification").val();
+        	var responsible_person = $("#responsible_person").val();
+            if ($.trim(responsible_person) == "") {
+            	$("#responsible_person option:not(:first)").remove();
+            	  	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsFilterListInRisk",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#responsible_person").append('<option value="' + val.responsible_person + '">' + $.trim(val.responsible_person)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getRisk(risk_id){
+        	$("#risk_id").val(risk_id);
+        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-risk');
+        	$('#getForm').submit();
+        }
+        function deleteRisk(risk_id_pk){
+        	$("#risk_id_pk").val(risk_id_pk);
+        	showCancelMessage();
+        }
+        	
+        
+      	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        
+      	
+        function showCancelMessage() {
+        	swal({
+                title: "Are you sure?",
+                text: "You will be able to change the status of record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                   // swal("Deleted!", "Record has been deleted", "success");
+                	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-risk');
+        	    	$('#getForm').submit();
+               }else {
+                    swal("Cancelled", "Record is safe :)", "error");
+                }
+            });
+        }
+        
 
     </script>
 

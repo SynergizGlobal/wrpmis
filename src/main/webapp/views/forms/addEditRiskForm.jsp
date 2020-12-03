@@ -40,8 +40,8 @@
         }
 
         #riskReview .datepicker~button {
-            top: 30px;
-        }
+            right:5px;
+        } 
 
         #riskReview td .select2-container {
             width: 120px;
@@ -113,7 +113,24 @@
        tbody .select2-container--default .select2-selection--single {
         	background-color:transparent;
         }
+         .modal:not(.datepicker-modal){
+        	max-height:90%;
+        	width:62%;
+        	min-height:75%;
+        }
+       
+        .datepicker-table th, 
+        .datepicker-table td,
+        .mdl-data-table tbody td .datepicker-table th,
+        .mdl-data-table tbody td .datepicker-table .datepicker-row td{
+        	padding:0 !important;
+        	height:44px !important;
+        }
+        .mdl-data-table tbody td .datepicker-table .datepicker-row{
+        	bottom-border:none;
+        }
     </style>
+    
 </head>
 
 <body>
@@ -807,8 +824,8 @@
             var tNo = Number(trainNo)+1;
            
 			var html = '<tr id="riskReviewRow' + riskNo + '">'+
-						'<td><input id="dates' + riskNo + '" name="dates" type="text" class="validate datepicker" placeholder="Date">' +
-						'<button type="button" id="reveiw_date_icon' + riskNo + '"><i class="fa fa-calendar"></i></button> </td>' +
+						'<td><div class="input-field"><input id="dates' + riskNo + '" name="dates" type="text" class="validate datepicker" placeholder="Assessment Date">' +
+						'<button type="button" id="reveiw_date_icon' + riskNo + '"><i class="fa fa-calendar"></i></button> </div></td>' +
 						'<td> <input id="owners' + riskNo + '" name="owners" type="text" class="validate" placeholder="Owner"></td>' +
 						'<td><input id="responsible_persons' + riskNo + '" name="responsible_persons" type="text" class="validate" placeholder="Responsible Person"></td>' +
 						'<td><select class="validate-dropdown searchable" id="prioritys' + riskNo + '" name="prioritys">'+

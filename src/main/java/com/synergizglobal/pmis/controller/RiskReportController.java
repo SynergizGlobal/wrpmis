@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.controller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -82,8 +83,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.RiskReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.DocxTableCreation;
-import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.RiskReport;
 
 @Controller
@@ -136,7 +136,7 @@ public class RiskReportController {
 	
 	@RequestMapping(value = "/generate-risk-analysis-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateRiskAnalysisReport(@ModelAttribute RiskReport obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView();
+		ModelAndView model = new ModelAndView(PageConstants.riskGrid);
 		try{
             //String directory = CommonConstants.EARTH_WORK_REPORTS_FILE_SAVING_PATH;
 			
@@ -166,6 +166,10 @@ public class RiskReportController {
 			
 			RiskReport reportData = riskReportService.getRiskAnalysisReportData(obj);
 			
+			List<RiskReport> prioritizationOfRisks = riskReportService.getPrioritizationOfRisks(obj);
+			
+			List<RiskReport> reductionPlanRisks = riskReportService.getReductionPlanRisks(obj);
+			
 			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
@@ -185,18 +189,15 @@ public class RiskReportController {
 			Relationship relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreation.createTableForRiskAnalysisReport(wordMLPackage, mp, factory,reportData);
+			DocxTableCreation.createTableForRiskAnalysisReport(wordMLPackage, mp, factory,reportData,prioritizationOfRisks,reductionPlanRisks);
 	    	  
-			
+						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
 				wordMLPackage.save(bos);
-				//Docx4J.toPDF(wordMLPackage, bos);
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				//String FILE_EXTENSION = ".pdf";
 				String fileName = "Risk Analysis Report - " + currentDate + FILE_EXTENSION;
-				
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

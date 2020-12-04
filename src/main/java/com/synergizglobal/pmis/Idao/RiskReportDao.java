@@ -12,4 +12,8 @@ public interface RiskReportDao {
 
 	List<RiskReport> getAssessmentDateListInRiskReport(RiskReport obj) throws Exception;
 
+	List<RiskReport> getPrioritizationOfRisks(RiskReport obj) throws Exception;
+
+	List<RiskReport> getReductionPlanRisks(RiskReport obj) throws Exception;
+
 }

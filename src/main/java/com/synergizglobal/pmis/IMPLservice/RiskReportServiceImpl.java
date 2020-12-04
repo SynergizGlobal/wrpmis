@@ -30,4 +30,14 @@ public class RiskReportServiceImpl implements RiskReportService{
 		return dao.getAssessmentDateListInRiskReport(obj);
 	}
 
+	@Override
+	public List<RiskReport> getPrioritizationOfRisks(RiskReport obj) throws Exception {
+		return dao.getPrioritizationOfRisks(obj);
+	}
+
+	@Override
+	public List<RiskReport> getReductionPlanRisks(RiskReport obj) throws Exception {
+		return dao.getReductionPlanRisks(obj);
+	}
+
 }

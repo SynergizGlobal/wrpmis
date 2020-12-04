@@ -47,7 +47,7 @@ import com.synergizglobal.pmis.model.RiskReport;
 
 public class DocxTableCreation {	
 	public static void createTableForRiskAnalysisReport(WordprocessingMLPackage wordMLPackage,
-			MainDocumentPart t, ObjectFactory factory,RiskReport obj) throws Exception {
+			MainDocumentPart t, ObjectFactory factory,RiskReport obj, List<RiskReport> prioritizationOfRisks, List<RiskReport> reductionPlanRisks) throws Exception {
 		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
 		
@@ -69,7 +69,7 @@ public class DocxTableCreation {
 			/******************************* Headers *********************************************/
 			Tr titleRow1 = factory.createTr();		
 			List<String> tableHeader1 = new ArrayList<String>();
-		  	tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
+		  	tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\n"+obj.getOwner());
 		  	tableHeader1.add("");
 		  	tableHeader1.add("");
 		  	tableHeader1.add("");
@@ -77,7 +77,7 @@ public class DocxTableCreation {
 			
 			for (String headerValue : tableHeader1) {
 				addTableCell(factory, wordMLPackage, titleRow1, headerValue, titleRpr,
-						JcEnumeration.CENTER, true, "ecf2ff");
+						JcEnumeration.LEFT, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow1);
 			
@@ -88,7 +88,7 @@ public class DocxTableCreation {
 			/****************************************************************************/
 			Tr titleRow2 = factory.createTr();		
 			List<String> tableHeader2 = new ArrayList<String>();
-		  	tableHeader2.add("RISK ANALYSIS");
+		  	tableHeader2.add("RISK ANALYSIS                                " + obj.getAssessment_date());
 		  	tableHeader2.add("");
 		  	tableHeader2.add("");
 		  	tableHeader2.add("");
@@ -96,26 +96,20 @@ public class DocxTableCreation {
 			
 			for (String headerValue : tableHeader2) {
 				addTableCell(factory, wordMLPackage, titleRow2, headerValue, titleRpr,
-						JcEnumeration.CENTER, true, "ecf2ff");
+						JcEnumeration.RIGHT, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow2);	
 			mergeCellsHorizontal(reportTable, 1, 0, 4);
 			
 			/****************************************************************************/
+			
 			Tr titleRow3 = factory.createTr();		
 			List<String> tableHeader3 = new ArrayList<String>();
-		  	tableHeader3.add("Item No.");
-		  	tableHeader3.add("Risk Identified");
-		  	tableHeader3.add("Probability of\r\n" + 
-		  			"Occurrence of\r\n" + 
-		  			"Identified Risk\r\n" + 
-		  			"(A)");
-		  	tableHeader3.add("Likely Impact on\r\n" + 
-		  			"Cost/Time Over\r\n" + 
-		  			"Run\r\n" + 
-		  			"(B)");
-		  	tableHeader3.add("Risk Rating\r\n" + 
-		  			"(A x B)");
+			tableHeader3.add("Item No.");
+			tableHeader3.add("Risk Identified");
+			tableHeader3.add("Probability of Occurrence of Identified Risk \n (A)");
+			tableHeader3.add("Likely Impact on Cost/Time Over Run \n (B)");
+			tableHeader3.add("Risk Rating \n (A x B)");
 			
 			for (String headerValue : tableHeader3) {
 				addTableCell(factory, wordMLPackage, titleRow3, headerValue, titleRpr,
@@ -157,27 +151,173 @@ public class DocxTableCreation {
 					
 					reportTable.getContent().add(contentRow);
 				}				
-				/****************************************************************************************/
-				/*P p = factory.createP();
-				R r = factory.createR();		        
-				//Br br = factory.createBr(); 
-				//r.getContent().add( br); 
 				
-				p.getContent().add(r);
-	            
-	            t.addObject(p);*/
 			}
 			
 			setTableAlign(factory, reportTable, JcEnumeration.CENTER);
 			t.addObject(reportTable);
 			
 		}	
+		
+		
+		/****************************************************************************/
+		
+		if(!StringUtils.isEmpty(prioritizationOfRisks)) {			
+			/*P p = factory.createP();
+			R r = factory.createR();		        
+			Br br = factory.createBr(); 
+			r.getContent().add( br); 
+			p.getContent().add(r);
+			
+			t.addObject(p);*/
+	        
+	        addPageBreak(t);
+	        
+	        addHeading(wordMLPackage, t, factory,"PRIORITIZATION OF RISKS & ITS MITIGATION/REDUCTION PLAN");
+	        addHeading(wordMLPackage, t, factory,"Date: "+obj.getAssessment_date());
+			
+			Tbl reportTable = factory.createTbl();
+			addBorders(reportTable, "2");
+			
+			
+			Tr titleRow = factory.createTr();		
+			List<String> tableHeader = new ArrayList<String>();
+			tableHeader.add("PRIORITY\n" + 
+					"NO.");
+			tableHeader.add("ITEM NO(of Ann-I)");
+			tableHeader.add("RISK\n" + 
+					"RATING");
+			tableHeader.add("RISK\n" + 
+					"CLASSIFICATION");
+			tableHeader.add("MITIGATION/REDUCTION\n" + 
+					"PLAN");			
+			tableHeader.add("ACTION	BY");
+			
+			for (String headerValue : tableHeader) {
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+						JcEnumeration.CENTER, true, "ecf2ff");
+			}		
+			reportTable.getContent().add(titleRow);
+			
+			for (RiskReport pObj : prioritizationOfRisks) {
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();	
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				reportTable.getContent().add(contentRow);
+			}			
+			/****************************************************************************************/			
+			
+			setTableAlign(factory, reportTable, JcEnumeration.CENTER);
+			t.addObject(reportTable);
+			
+		}
+		
+/****************************************************************************/
+		
+		if(!StringUtils.isEmpty(reductionPlanRisks)) {			
+			/*P p = factory.createP();
+			R r = factory.createR();		        
+			Br br = factory.createBr(); 
+			r.getContent().add( br); 
+			p.getContent().add(r);
+			
+			t.addObject(p);*/
+			
+			addPageBreak(t);
+			
+			addHeading(wordMLPackage, t, factory,"ATR ON MITIGATION/REDUCTION PLAN");
+			
+			addHeading(wordMLPackage, t, factory,"Date: "+obj.getAssessment_date());
+			
+			Tbl reportTable = factory.createTbl();
+			addBorders(reportTable, "2");
+			
+			
+			Tr titleRow = factory.createTr();		
+			List<String> tableHeader = new ArrayList<String>();
+			tableHeader.add("PRIORITY\n" + 
+					"NO.");
+			tableHeader.add("ITEM NO(of Ann-I)");
+			tableHeader.add("RISK\n" + 
+					"RATING");
+			tableHeader.add("RISK\n" + 
+					"CLASSIFICATION");
+			tableHeader.add("MITIGATION/REDUCTION\n" + 
+					"PLAN");			
+			tableHeader.add("ACTION	TAKEN");
+			
+			for (String headerValue : tableHeader) {
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+						JcEnumeration.CENTER, true, "ecf2ff");
+			}		
+			reportTable.getContent().add(titleRow);
+			
+			for (RiskReport pObj : reductionPlanRisks) {
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();	
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getAction_taken(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				reportTable.getContent().add(contentRow);
+			}			
+			/****************************************************************************************/			
+			
+			setTableAlign(factory, reportTable, JcEnumeration.CENTER);
+			t.addObject(reportTable);
+			
+		}
+		
+		
 	}
 	
 	
 	
 	/***********************************************************************************************************************/
 	
+	
+	public static void addHeading(WordprocessingMLPackage wordMLPackage,
+			MainDocumentPart t, ObjectFactory factory,String contentValue) throws Exception {
+		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+				true, true, false, false);
+		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+				false, false, false, false);		
+		
+		P paragraph = factory.createP();
+		setParagraphAlign(factory, paragraph, JcEnumeration.CENTER);
+		Text txt = factory.createText();
+		txt.setValue(contentValue);
+		R run = factory.createR();
+		run.getContent().add(txt);
+		run.setRPr(titleRPr);
+		paragraph.getContent().add(run);
+		t.addObject(paragraph);		
+	}
 	
 	public static void addTableCellRemarks(ObjectFactory factory,
 			WordprocessingMLPackage wordMLPackage, Tr tableRow, String content,
@@ -343,10 +483,32 @@ public class DocxTableCreation {
 		Tc tableCell = factory.createTc();
 		P p = factory.createP();
 		setParagraphAlign(factory, p, jcEnumeration);
-		Text t = factory.createText();
-		t.setValue(content);
+		//Text t = factory.createText();
+		//t.setValue(content);
 		R run = factory.createR();
 		run.setRPr(rpr);
+		
+		//run.getContent().add(t);
+		
+	    p.getContent().add(run);  
+	    if (content != null) {  
+	        String[] contentArr = content.split("\n");  
+	        Text text = factory.createText();  
+	        text.setSpace("preserve");  
+	        text.setValue(contentArr[0]);  
+	        run.getContent().add(text);  
+	  
+	        for (int i = 1, len = contentArr.length; i < len; i++) {  
+	            Br br = factory.createBr();  
+	            run.getContent().add(br);// 换行  
+	            text = factory.createText();  
+	            text.setSpace("preserve");  
+	            text.setValue(contentArr[i]);  
+	            run.getContent().add(text);  
+	        }  
+	    }  
+		
+		
 
 		TcPr tcPr = tableCell.getTcPr();
 		if (tcPr == null) {
@@ -355,15 +517,15 @@ public class DocxTableCreation {
 		
 		CTVerticalJc valign = factory.createCTVerticalJc();
 		valign.setVal(STVerticalJc.CENTER);
-		tcPr.setVAlign(valign);
-
-		run.getContent().add(t);
-		p.getContent().add(run);
+		tcPr.setVAlign(valign);		
 		
 		//Removing space in cells
 		PPr pPr = factory.createPPr();
 		Spacing spacing = new Spacing();
-		spacing.setAfter(BigInteger.ZERO);
+		spacing.setBefore(BigInteger.TWO);
+		spacing.setAfter(BigInteger.TWO);
+		//spacing.setAfterLines(BigInteger.TEN);
+		//spacing.setBeforeLines(BigInteger.TEN);
 		pPr.setSpacing(spacing);
 		
 		Jc justification = factory.createJc();

@@ -172,17 +172,17 @@ public class RiskReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"mrvc.png";
+			//String imagePath = CommonConstants2.DOCX_LOGO+"/"+"mrvc.png";
 			
-			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			//JcEnumeration imageAlignment = JcEnumeration.LEFT;
 			
-			String headerTextMiddle = "No.	MRVC/W/Risk	Analysis/2019";
+			//String headerTextMiddle = "No.	MRVC/W/Risk	Analysis/2019";
 			
-			String headerTextRight = currentDate;
+			//String headerTextRight = currentDate;
 			
-			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);			 
-			createHeaderReference(wordMLPackage, mp, factory, relationship);
-			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);			 
+			//createHeaderReference(wordMLPackage, mp, factory, relationship);
+			Relationship relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
 			DocxTableCreation.createTableForRiskAnalysisReport(wordMLPackage, mp, factory,reportData);

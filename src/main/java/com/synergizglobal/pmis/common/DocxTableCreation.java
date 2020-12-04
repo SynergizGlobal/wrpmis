@@ -50,8 +50,12 @@ public class DocxTableCreation {
 			MainDocumentPart t, ObjectFactory factory,RiskReport obj) throws Exception {
 		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "20",
-				STHint.EAST_ASIA, false, false, false, false);	
+		
+		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "18",
+				STHint.EAST_ASIA, false, false, false, false);
+		
+		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+				STHint.EAST_ASIA, true, false, false, false);	
 		
 		Tbl table = factory.createTbl();
 		addBorders(table, "2");
@@ -124,15 +128,15 @@ public class DocxTableCreation {
 				String backgroundColor = null;
 				Tr contentRow = factory.createTr();	
 				addTableCell(factory, wordMLPackage, contentRow, area.getArea_item_no(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						contentRprParent, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, area.getArea(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						contentRprParent, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, "",
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						contentRprParent, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, "",
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						contentRprParent, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, "",
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						contentRprParent, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
 				reportTable.getContent().add(contentRow);
 				
@@ -143,7 +147,7 @@ public class DocxTableCreation {
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getArea_item_no()+"."+subArea.getSub_area_item_no(),
 							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getSub_area(),
-							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getProbability(),
 							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getImpact(),

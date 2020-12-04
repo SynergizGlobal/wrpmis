@@ -752,7 +752,7 @@
 	  		 		  "work_id": {
 	  			 		required: true
 	  			 	  },"assessment_date": {
-	  			 		required: false
+	  			 		required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {

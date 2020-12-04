@@ -50,7 +50,7 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getRiskList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry ="select id,r.risk_id_pk, rv.work_id_fk, rv.risk_id, rv.identification_date, area, area_item_no, sub_area, sub_area_item_no, "
+			String qry ="select id,r.risk_id_pk, w.work_name,rv.work_id_fk, rv.risk_id, rv.identification_date, area, area_item_no, sub_area, sub_area_item_no, "
 					+ "revision_id, assessment_date, max_assessment_date, priority, probability, impact, risk_rating, classification, owner, "
 					+ "responsible_person, mitigation_plan, action_taken, atr_date from risk_view rv " + 
 					"left join work w on rv.work_id_fk = w.work_id  "

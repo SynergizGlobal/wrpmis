@@ -15,6 +15,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -34,6 +35,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.Work;
@@ -50,11 +52,10 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getRiskList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry ="select id,r.risk_id_pk, w.work_name,rv.work_id_fk, rv.risk_id, rv.identification_date, area, area_item_no, sub_area, sub_area_item_no, "
+			String qry ="select id as risk_id_pk, w.work_name,rv.work_id_fk, rv.risk_id, rv.identification_date, area, area_item_no, sub_area, sub_area_item_no, "
 					+ "revision_id, assessment_date, max_assessment_date, priority, probability, impact, risk_rating, classification, owner, "
 					+ "responsible_person, mitigation_plan, action_taken, atr_date from risk_view rv " + 
 					"left join work w on rv.work_id_fk = w.work_id  "
-					+ "LEFT JOIN risk r on rv.risk_id = r.risk_id "
 					+ "where assessment_date = max_assessment_date ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
@@ -873,6 +874,188 @@ public class RiskDaoImpl implements RiskDao{
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 		}
 		return flag;
+	}
+
+	@Override
+	public int[] uploadRisks(List<Risk> risksList) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt1 = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		int count = 0;
+		int updateCount = 0 ;
+		int insertCount = 0 ;
+		try{
+			con = dataSource.getConnection();
+			for (Risk obj : risksList) {
+				String riskid_pk = getRiskId(obj.getWork_id_fk(),obj.getRisk_id(),obj.getSub_area_fk(),con);
+				 obj.setRisk_id_pk(riskid_pk);
+				
+				if(!StringUtils.isEmpty(riskid_pk)) {
+					NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+					String updateQry = "UPDATE risk set work_id_fk =:work_id_fk, risk_id =:risk_id, sub_area_fk =:sub_area_fk, date_of_identification =:date_of_identification"
+							+ " WHERE risk_id_pk =:risk_id_pk";
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+					 count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+					if(count > 0) {
+						flag = true;
+						String revisionId = getRevisionId(obj.getRisk_id_pk(),obj.getDate(),con);
+						 obj.setRisk_revision_id(revisionId);
+						 if(!StringUtils.isEmpty(revisionId)) {
+								String updateRevisionsQry = "UPDATE risk_revision set date =:date, priority_fk =:priority_fk, probability =:probability, impact =:impact, owner =:owner"
+										+ ", responsible_person =:responsible_person, mitigation_plan =:mitigation_plan "
+										+ " WHERE risk_revision_id =:risk_revision_id";
+								paramSource = new BeanPropertySqlParameterSource(obj);		 
+								count = namedParamJdbcTemplate.update(updateRevisionsQry, paramSource);
+								
+								updateCount++;
+								
+						 }else {
+							 String updateRevisionsQry = "INSERT into risk_revision  (risk_id_pk_fk,date , priority_fk, probability , impact, owner "
+										+ ", responsible_person , mitigation_plan) "
+										+ "VALUES(:risk_id_pk,:date, :priority_fk,:probability, :impact,:owner,:responsible_person,:mitigation_plan) ";
+								paramSource = new BeanPropertySqlParameterSource(obj);	
+								KeyHolder keyHolder1 = new GeneratedKeyHolder();
+								count = namedParamJdbcTemplate.update(updateRevisionsQry, paramSource,keyHolder1);
+								insertCount++;
+						 }
+						
+					}
+				}else {
+				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+				String insertQry = "insert into  risk  (work_id_fk , risk_id, sub_area_fk, date_of_identification) "
+						+ "VALUES(:work_id_fk,:risk_id,:sub_area_fk,:date_of_identification)";
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				KeyHolder keyHolder = new GeneratedKeyHolder();
+				count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+				 if(count > 0) {
+						String risk_id_fk = String.valueOf(keyHolder.getKey().intValue());
+						obj.setRisk_id_pk(risk_id_fk);
+						
+						String insertRevisionsQry = "INSERT into risk_revision  (risk_id_pk_fk,date , priority_fk, probability , impact, owner "
+								+ ", responsible_person , mitigation_plan) "
+								+ "VALUES(:risk_id_pk,:date, :priority_fk,:probability, :impact,:owner,:responsible_person,:mitigation_plan) ";
+						paramSource = new BeanPropertySqlParameterSource(obj);	
+						KeyHolder keyHolder2 = new GeneratedKeyHolder();
+						 count = namedParamJdbcTemplate.update(insertRevisionsQry, paramSource,keyHolder2);
+						 insertCount++;
+						
+				    }
+			  }
+				
+
+				if(flag && !StringUtils.isEmpty(obj.getRisks())) {
+					 String qryAction = "INSERT INTO risk_action (risk_revision_id_fk,action_taken,atr_date) VALUES(?,?,?)";
+						insertStmt1 = con.prepareStatement(qryAction);
+						
+						if(!StringUtils.isEmpty(obj.getRisks()) && obj.getRisks().size() > 0) {
+							for (int j = 0; j < obj.getRisks().size(); j++) {
+								    int k = 1;
+								    String riskId = obj.getRisks().get(j).getRisk_id();
+									String date = obj.getRisks().get(j).getDate();
+									String actionTaken = obj.getRisks().get(j).getAction_taken();
+									String atr_date = obj.getRisks().get(j).getAtr_date();
+									String revisionId = getRevisionIdFk(riskId,date);
+									obj.setRisk_revision_id(revisionId);
+									 
+								    insertStmt1.setString(k++,(obj.getRisk_revision_id()));
+									insertStmt1.setString(k++,!StringUtils.isEmpty(actionTaken)?actionTaken:null);
+									insertStmt1.setString(k++,DateParser.parse(!StringUtils.isEmpty(atr_date)?atr_date:null));
+								    insertStmt1.addBatch();
+							}
+						 }
+							int[] insertCount1 = insertStmt1.executeBatch();
+				}
+			}
+			
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		 int arr[] = new int[2];
+		arr[0] = updateCount;
+	    arr[1] = insertCount;
+		return arr;
+		
+	}
+
+	private String getRevisionIdFk(String risk_id, String date) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String risk_revision_id = null;
+		Connection con = null;
+		try{
+			con = dataSource.getConnection();
+			String riskIdQry = "SELECT risk_revision_id from risk_revision rr "
+					+ "LEFT JOIN risk r on rr.risk_id_pk_fk = r.risk_id_pk"
+					+ " where  r.risk_id = ? and date = ? ";
+			stmt = con.prepareStatement(riskIdQry);
+			int k =1;
+			stmt.setString(k++, risk_id);
+			stmt.setString(k++, date);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				risk_revision_id = rs.getString("risk_revision_id");
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return risk_revision_id;
+	}
+
+	private String getRevisionId(String risk_id_pk, String date, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String risk_revision_id = null;
+		try{
+			String riskIdQry = "SELECT risk_revision_id from risk_revision where  risk_id_pk_fk = ? and date = ? ";
+			stmt = con.prepareStatement(riskIdQry);
+			int k =1;
+			stmt.setString(k++, risk_id_pk);
+			stmt.setString(k++, date);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				risk_revision_id = rs.getString("risk_revision_id");
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return risk_revision_id;
+	}
+	
+
+	private String getRiskId(String work_id_fk, String risk_id, String sub_area_fk, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String risk_id_pk = null;
+		try{
+			String riskIdQry = "SELECT risk_id_pk from risk where work_id_fk = ? and risk_id = ? and sub_area_fk = ? ";
+			stmt = con.prepareStatement(riskIdQry);
+			int k =1;
+			stmt.setString(k++, work_id_fk);
+			stmt.setString(k++, risk_id);
+			stmt.setString(k++, sub_area_fk);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				risk_id_pk = rs.getString("risk_id_pk");
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return risk_id_pk;
 	}
 
 }

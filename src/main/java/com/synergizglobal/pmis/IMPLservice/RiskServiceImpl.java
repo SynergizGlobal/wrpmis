@@ -91,4 +91,9 @@ public class RiskServiceImpl implements RiskService{
 	public boolean updateRisk(Risk obj) throws Exception {
 		 return dao.updateRisk(obj);
 	}
+
+	@Override
+	public int[] uploadRisks(List<Risk> risksList) throws Exception {
+		 return dao.uploadRisks(risksList);
+	}
 }

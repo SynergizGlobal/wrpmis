@@ -106,6 +106,9 @@
 					        <div class="center-align m-1 close-message">	
 							   ${success}
 							</div>
+							<div class="center-align m-1 close-message">	
+							   ${updateSuccess}
+							</div>
 						</c:if>
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">
@@ -115,8 +118,9 @@
                         <div class="row plr-1">
                             <div class="col s12 m4 l-align">
                                 <div class="m-1">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="javascript:void(0);" onclick="openUploadRiskModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Risk Data</strong></a>
+                                        <p style="padding-top:1rem"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p>
                                 </div>
                             </div>
 
@@ -132,7 +136,7 @@
                                     <div class="row">
                                         <div class="col s12 m6 input-field" style="margin:0">
                                             <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select</option>
+                                            <option value="" >Work</option>
 	                                           
                                            </select>
                                         </div>
@@ -166,28 +170,28 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Area</p>
                                   <select id="area" name="area" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select</option>
+                                            <option value="" >Area</option>
 	                                           
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Classification</p>
                                  <select id="classification" name="classification" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select</option>
+                                            <option value="" >Classification</option>
 	                                           
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Priority </p>
                                <select id="priority" name="priority" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select</option>
+                                            <option value="" >Priority</option>
 	                                           
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Responsible Person </p>
                                  <select id="responsible_person" name="responsible_person" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select</option>
+                                            <option value="" >Responsible Person</option>
 	                                           
                                  </select>
                             </div>
@@ -300,6 +304,53 @@
             </div>
         </div>
     </div>
+     <!-- update popup starts -->
+    <div id="upload_template" class="modal">
+        <div class="modal-content headbg">
+            <div class="center-align p-2 bg-m modal-title">
+                <h6>Upload Users</h6>
+            </div>
+            <!-- form start-->
+            <div class="container">
+               <form action="<%=request.getContextPath() %>/upload-risk" method="post" enctype="multipart/form-data">
+                    <div class="row no-mar">
+                        <div class="col s12 m12 input-field center-align">
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
+                                    <div class="file-field input-field">
+                                        <div class="btn bg-m">
+                                            <span>Attachment</span>
+                                            <input type="file" id="riskFile" name="riskFile" required="required">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-mar">
+                        <div class="col s12 m6">
+                            <div class="center-align m-1">
+                                <button type="submit" class="btn waves-effect waves-light bg-m"
+                                    style="width: 100%;">Update</button>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="center-align m-1">
+                                <button type="button" class="btn waves-effect waves-light bg-s"
+                                    style="width: 100%;" onclick="closeUploadRiskModal();">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>     
+         
     <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
@@ -342,6 +393,17 @@
     	<input type="hidden" name="work_id_fk" id="work_id_fk" />
     </form>
       <script>
+	      function  openUploadRiskModal() {
+	  		$("#riskFile").val('');
+	      	$("#upload_template").modal();
+	      	$("#upload_template").modal('open');
+	  	}
+	
+	  	function  closeUploadRiskModal() {
+	  		$("#riskFile").val('');
+	      	$("#upload_template").modal('close');
+	  	}
+  	
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

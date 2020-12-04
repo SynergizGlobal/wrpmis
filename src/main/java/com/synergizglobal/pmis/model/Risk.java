@@ -1,5 +1,9 @@
 package com.synergizglobal.pmis.model;
+import java.lang.reflect.Field;
 import java.util.List;
+
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class Risk {
@@ -7,7 +11,7 @@ public class Risk {
 	private String risk_id_pk,id, project_name,work_name,project_id_fk, work_id_fk, risk_id, sub_area_fk, date_of_identification,area,risk_revision_id, risk_id_pk_fk, date,
 	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,sub_area, risk_area_fk,classification,atr_date,work_id;
 
-
+	private MultipartFile riskFile;
 
 	private String [] risk_revision_ids, risk_id_pk_fks, dates, prioritys, probabilitys, impacts,
 	owners, responsible_persons, mitigation_plans, action_takens, attachments,atr_dates,priority_fks,risk_action_ids;
@@ -17,6 +21,14 @@ public class Risk {
 	private List<Risk> risks; 
 	private List<Risk> riskActions; 
 	
+
+	public MultipartFile getRiskFile() {
+		return riskFile;
+	}
+
+	public void setRiskFile(MultipartFile riskFile) {
+		this.riskFile = riskFile;
+	}
 
 	public String getWork_short_name() {
 		return work_short_name;
@@ -406,4 +418,16 @@ public class Risk {
 		this.risk_area_fk = risk_area_fk;
 	}
 
+	public boolean checkNullOrEmpty() throws IllegalAccessException {
+		boolean flag = true;
+		try {
+			for (Field f : getClass().getDeclaredFields())
+		        if (!StringUtils.isEmpty(f.get(this)))
+		        	flag = false;
+		} catch (Exception e) {
+			
+		}
+	    
+	    return flag;            
+	}
 }

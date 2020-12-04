@@ -36,4 +36,6 @@ public interface RiskDao {
 
 	public boolean updateRisk(Risk obj) throws Exception;
 
+	public int[] uploadRisks(List<Risk> risksList) throws Exception;
+
 }

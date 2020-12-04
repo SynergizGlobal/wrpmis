@@ -87,4 +87,14 @@ public class FileFormatModel {
 		}		
 		return fileFormat;
 	}
+
+	public static List<String> getRiskFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work ID,Risk ID,Owner,Area,Sub-Area,Date of Assessment,Probability (A),Impact (B),Mitigation Plan,Priority,Responsible Person";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}		
+		return fileFormat;
+	}
 }

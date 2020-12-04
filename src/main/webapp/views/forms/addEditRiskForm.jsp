@@ -946,7 +946,7 @@
         	}
         	var trainNo = $("#trainNo").val();
             var riskNo = Number(trainNo)+1;
-            var id = $('#actionTableBody'+tNo+' tr .hide:last').attr('id');
+            var id = $('#actionTableBody'+tNo+' > tr .hide:last').attr('id');
             if(id == null){
             	id='s0';
             }

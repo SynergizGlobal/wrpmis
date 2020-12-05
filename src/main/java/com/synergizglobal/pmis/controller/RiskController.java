@@ -2,8 +2,14 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
@@ -91,6 +97,7 @@ public class RiskController {
 	public List<Risk> getRiskList(@ModelAttribute Risk obj) {
 		List<Risk> riskList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			riskList = riskService.getRiskList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -104,6 +111,7 @@ public class RiskController {
 	public List<Risk> getWorksList(@ModelAttribute Risk obj) {
 		List<Risk> worksList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			worksList = riskService.getRisktWorksList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -117,6 +125,7 @@ public class RiskController {
 	public List<Risk> getAreasList(@ModelAttribute Risk obj) {
 		List<Risk> areaList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			areaList = riskService.getRiskAreasList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -130,6 +139,7 @@ public class RiskController {
 	public List<Risk> getPrioritiesList(@ModelAttribute Risk obj) {
 		List<Risk> priotityList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			priotityList = riskService.getRiskPriotityList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -143,6 +153,7 @@ public class RiskController {
 	public List<Risk> getClassificationsList(@ModelAttribute Risk obj) {
 		List<Risk> clasificationList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			clasificationList = riskService.getRiskClassificationsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -156,6 +167,7 @@ public class RiskController {
 	public List<Risk> getResponsiblePersonsList(@ModelAttribute Risk obj) {
 		List<Risk> responsiblePersons = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			responsiblePersons = riskService.getRiskResponsiblePersonsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -168,6 +180,7 @@ public class RiskController {
 	public List<Risk> getAssessmentDatesFilterList(@ModelAttribute Risk obj) {
 		List<Risk> assesmentDates = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			assesmentDates = riskService.getAssessmentDatesFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();

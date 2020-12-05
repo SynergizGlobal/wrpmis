@@ -59,7 +59,7 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList = null;
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,title,faculty_name,status_fk,"
-					+ "DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,TIME_FORMAT(sum(TIMEDIFF(end_time,start_time)),'%H:%i') as hours from training t "
+					+ "DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))),'%H:%i') as hours from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
 					+ " where training_id_fk  = training_id ";
 			int arrSize = 0;

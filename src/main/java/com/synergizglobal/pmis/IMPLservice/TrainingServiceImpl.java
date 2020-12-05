@@ -79,4 +79,9 @@ public class TrainingServiceImpl implements TrainingService{
 	public boolean addTraining(Training obj) throws Exception {
 		return dao.addTraining(obj);
 	}
+
+	@Override
+	public List<Training> getUsersList() throws Exception {
+		return dao.getUsersList();
+	}
 }

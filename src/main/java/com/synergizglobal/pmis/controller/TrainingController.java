@@ -154,6 +154,8 @@ public class TrainingController {
 			model.addObject("departmentsList", departmentsList);
 			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
 			model.addObject("issueCatogoriesList", issueCatogoriesList);
+			List<Training> usersList = trainingService.getUsersList();
+			model.addObject("usersList", usersList);
 			
 		}catch (Exception e) {
 				logger.error("addTrainingForm : " + e.getMessage());
@@ -179,6 +181,8 @@ public class TrainingController {
 			model.addObject("issueCatogoriesList", issueCatogoriesList);
 			Training trainingDetails = trainingService.getTraining(obj);
 			model.addObject("trainingDetails", trainingDetails);
+			List<Training> usersList = trainingService.getUsersList();
+			model.addObject("usersList", usersList);
 		
 		}catch (Exception e) {
 				e.printStackTrace();

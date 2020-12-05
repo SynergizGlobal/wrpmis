@@ -52,12 +52,16 @@ public class RiskDaoImpl implements RiskDao{
 	public List<Risk> getRiskList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry ="select id as risk_id_pk, w.work_name,rv.work_id_fk, rv.risk_id, rv.identification_date, area, area_item_no, sub_area, sub_area_item_no, "
-					+ "revision_id, assessment_date, max_assessment_date, priority, probability, impact, risk_rating, classification, owner, "
+			String qry ="select id as risk_id_pk, w.work_name,rv.work_id_fk, rv.risk_id, identification_date, area, area_item_no, sub_area, sub_area_item_no, "
+					+ "revision_id, DATE_FORMAT(assessment_date,'%d-%b-%Y') AS assessment_date, max_assessment_date, priority, probability, impact, risk_rating, classification, owner, "
 					+ "responsible_person, mitigation_plan, action_taken, atr_date from risk_view rv " + 
 					"left join work w on rv.work_id_fk = w.work_id  "
-					+ "where assessment_date = max_assessment_date ";
+					+ "where  id is not null ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				qry = qry + " and area = ?";
 				arrSize++;
@@ -81,7 +85,10 @@ public class RiskDaoImpl implements RiskDao{
 			qry = qry + " group by risk_id"; 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
 			}
@@ -112,14 +119,18 @@ public class RiskDaoImpl implements RiskDao{
 		try {
 			String qry = "SELECT work_id_fk,w.work_short_name from risk_view rv " + 
 					"LEFT JOIN work w on rv.work_id_fk = w.work_id "+
-					"where work_id_fk is not null and assessment_date = max_assessment_date and work_id_fk <> '' ";
+					"where work_id_fk is not null   and work_id_fk <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				qry = qry + " and area = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and rv.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -139,6 +150,9 @@ public class RiskDaoImpl implements RiskDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
 			}
@@ -167,14 +181,18 @@ public class RiskDaoImpl implements RiskDao{
 		List<Risk> objsList = null;
 		try {
 			String qry = "SELECT area from risk_view rv " + 
-					"where area is not null and assessment_date = max_assessment_date and area <> '' ";
+					"where area is not null   and area <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				qry = qry + " and area = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and rv.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -189,11 +207,12 @@ public class RiskDaoImpl implements RiskDao{
 				qry = qry + " and priority = ?";
 				arrSize++;
 			}	
-			
 			qry = qry + " group by area";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
 			}
@@ -222,14 +241,18 @@ public class RiskDaoImpl implements RiskDao{
 		List<Risk> objsList = null;
 		try {
 			String qry = "SELECT priority from risk_view rv " + 
-					"where priority is not null and assessment_date = max_assessment_date and priority <> '' ";
+					"where priority is not null   and priority <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				qry = qry + " and area = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and rv.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -248,7 +271,9 @@ public class RiskDaoImpl implements RiskDao{
 			qry = qry + " group by priority";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
 			}
@@ -277,14 +302,18 @@ public class RiskDaoImpl implements RiskDao{
 		List<Risk> objsList = null;
 		try {
 			String qry = "SELECT classification from risk_view rv " + 
-					"where classification is not null and assessment_date = max_assessment_date and classification <> '' ";
+					"where classification is not null  and classification <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				qry = qry + " and area = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and rv.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -303,7 +332,9 @@ public class RiskDaoImpl implements RiskDao{
 			qry = qry + " group by classification";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
 			}
@@ -328,18 +359,22 @@ public class RiskDaoImpl implements RiskDao{
 	}
 
 	@Override
-	public List<Risk> getRiskResponsiblePersonsFilterList(Risk obj) throws Exception {
+	public List<Risk> getAssessmentDatesFilterList(Risk obj) throws Exception {
 		List<Risk> objsList = null;
 		try {
-			String qry = "SELECT responsible_person from risk_view rv " + 
-					"where responsible_person is not null and assessment_date = max_assessment_date and responsible_person <> '' ";
+			String qry = "SELECT DATE_FORMAT(assessment_date,'%d-%b-%Y') AS assessment_date from risk_view rv " + 
+					"where assessment_date is not null ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				qry = qry + " and area = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and rv.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -355,10 +390,71 @@ public class RiskDaoImpl implements RiskDao{
 				arrSize++;
 			}	
 			
+			qry = qry + " group by assessment_date";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				pValues[i++] = obj.getArea();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
+				pValues[i++] = obj.getResponsible_person();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getClassification())) {
+				pValues[i++] = obj.getClassification();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPriority())) {
+				pValues[i++] = obj.getPriority();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	@Override
+	public List<Risk> getRiskResponsiblePersonsFilterList(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "SELECT responsible_person from risk_view rv " + 
+					"where responsible_person is not null  and responsible_person <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				qry = qry + " and area = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and rv.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
+				qry = qry + " and responsible_person = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getClassification())) {
+				qry = qry + " and classification = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPriority())) {
+				qry = qry + " and priority = ?";
+				arrSize++;
+			}	
 			qry = qry + " group by responsible_person";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
 			}
@@ -1055,5 +1151,6 @@ public class RiskDaoImpl implements RiskDao{
 		}
 		return risk_id_pk;
 	}
+
 
 }

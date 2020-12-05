@@ -32,5 +32,7 @@ public interface TrainingDao {
 
 	public boolean addTraining(Training obj) throws Exception;
 
+	public List<Training> getUsersList() throws Exception;
+
 
 }

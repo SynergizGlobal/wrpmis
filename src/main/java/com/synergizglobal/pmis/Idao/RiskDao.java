@@ -38,4 +38,6 @@ public interface RiskDao {
 
 	public int[] uploadRisks(List<Risk> risksList) throws Exception;
 
+	public List<Risk> getAssessmentDatesFilterList(Risk obj) throws Exception;
+
 }

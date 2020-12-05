@@ -386,8 +386,11 @@
 																										id="attendees${indexx.count }${index.count }" name="attendees" type="text" class="validate" placeholder="Attendee"
 																										value="${dObj.attendee }"></td>
 																										<td>																											
-																                                        <select class="searchable" name="hod" id="hod${indexx.count }${index.count }" >
-																                                            <option value="" >Select HOD</option>                                           
+																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks${indexx.count }${index.count }" >
+																                                            <option value="" >Select HOD</option>  
+																                                            <c:forEach var="obj" items="${usersList}">
+																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation } - ${obj.user_name }</option>
+																											</c:forEach>                                         
 																                                        </select>                                   
 																										</td>
 																									<td><input id="mobile_nos${indexx.count }${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
@@ -442,8 +445,11 @@
 																									  </select> <span id="training_category_fkError" class="error-msg"></span></td>
 																								<td><input id="attendees00" name="attendees" type="text" class="validate" placeholder="Attendee"></td>
 																								<td>																											
-																                                        <select class="searchable" name="hod" id="hod00" >
-																                                            <option value="" >Select HOD</option>                                           
+																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks00" >
+																                                            <option value="" >Select HOD</option>  
+																                                             <c:forEach var="obj" items="${usersList}">
+																												<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>
+																											</c:forEach>                                           
 																                                        </select>                                   
 																										</td>
 																								<td><input id="mobile_nos00" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
@@ -561,7 +567,12 @@
 																							</c:forEach>
 																					</select> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
 																					<td><input id="attendees0" name="attendees" type="text" class="validate" placeholder="Attendee"></td>
-																					<td> <select class="searchable" name="hod" id="hod0" ><option value="" >Select HOD</option></select>    </td>
+																					<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0" >
+																					<option value="" >Select HOD</option>
+																					 <c:forEach var="obj" items="${usersList}">
+																							<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>
+																					</c:forEach>  
+																					</select>    </td>
 																					<td><input id="mobile_nos0" name="mobile_nos" type="tel" class="validate num" placeholder="Mobile">
 																					<br><span id="mobile_nosError" class="error-msg"></span></td>
 																					<td>
@@ -892,7 +903,12 @@
 		                </c:forEach>
 	         	    '</select></td>'+
 	                '<td><input id="attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Attendee"></td>' +
-	                '<td> <select class="searchable" name="hod" id="hod'+ rNo +tNo+'" ><option value="" >Select HOD</option></select>    </td>'+
+	                '<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +tNo+'" >'+
+	                '<option value="" >Select HOD</option>'+
+	                <c:forEach var="obj" items="${usersList}">
+						'<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>'+
+					</c:forEach>
+	                '</select>    </td>'+
 	                '<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
 	                '<td><p><label><input type="hidden" id="required_fk'+ rNo +tNo+'" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
 	                '<td><p><label><input type="hidden" id="participated_fk'+ rNo +tNo+'" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
@@ -900,7 +916,7 @@
              $('#attendeesTableBody'+ index).append(html);
              $("#trainNo").val(rNo );
        	     $('#department_fks' + rNo+tNo ).select2();
-       	  	 $('#hod' + rNo+tNo ).select2();
+       	  	 $('#hod_user_id_fks' + rNo+tNo ).select2();
        		 $('#attendeesTableBody'+tNo+' #rowCounts'+rNo+':last').val(c)
            	 $('#required_fks'+ rNo).on('change', function(e){
                  if($(this).prop('checked'))
@@ -954,7 +970,12 @@
 						          </c:forEach>
 							'</select></td>'+
 							'<td><input id="attendees'+ rNo+i+'" name="attendees" type="text" class="validate" placeholder="Attendee" ></td>'+
-							'<td> <select class="searchable" name="hod" id="hod'+ rNo +i+'" ><option value="" >Select HOD</option></select>    </td>'+
+							'<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +i+'" >'+
+							'<option value="" >Select HOD</option>'+
+			                <c:forEach var="obj" items="${usersList}">
+								'<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>'+
+							</c:forEach>
+			                '</select>    </td>'+
 							'<td><input id="mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td><p><label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
@@ -969,7 +990,7 @@
            
           $('#session-update-modal'+rNo).modal();
           $('#department_fks' + rNo+i).select2();
-          $('#hod' + rNo+i).select2();
+          $('#hod_user_id_fks' + rNo+i).select2();
           $("#rowNo").val(rNo);
           MaterialDateTimePicker.create($("#start_times"+ rNo));
           MaterialDateTimePicker.create($("#end_times"+ rNo));

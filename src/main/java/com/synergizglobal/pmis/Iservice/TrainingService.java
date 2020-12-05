@@ -34,5 +34,7 @@ public interface TrainingService {
 
 	public boolean addTraining(Training obj) throws Exception;
 
+	public List<Training> getUsersList() throws Exception;
+
 
 }

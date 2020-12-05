@@ -7,15 +7,39 @@ public class Training {
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
-	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id ;
+	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ;
 
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
-	training_session_ids, session_nos, start_times, end_times, remarkss;
+	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks;
 
     private int [] rowCounts;
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
+	}
+
+	public String[] getHod_user_id_fks() {
+		return hod_user_id_fks;
+	}
+
+	public void setHod_user_id_fks(String[] hod_user_id_fks) {
+		this.hod_user_id_fks = hod_user_id_fks;
+	}
 
 	public int[] getRowCounts() {
 		return rowCounts;

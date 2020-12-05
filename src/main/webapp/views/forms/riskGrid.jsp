@@ -184,7 +184,7 @@
                              <div class="col m10 s12"> 
 								<div class="col s12 m2 input-field">
 	                                <p class="searchable_label">Assessment Date</p>
-	                                  <select id="date" name="date" onchange="getRiskList();" class="searchable">
+	                                  <select id="assessment_date" name="assessment_date" onchange="getRiskList();" class="searchable">
 	                                            <option value="" >Select </option>	                                           
 	                                 </select>
 	                            </div>
@@ -431,6 +431,7 @@
             $('#classification').val('');
             $('#priority').val('');
             $('#responsible_person').val('');
+            $("#assessment_date").val('');
             getRiskList();
             $("#downloadWork").addClass('disabled');
             $('.searchable').select2();
@@ -444,11 +445,13 @@
         	var priority = $("#priority").val();
         	var classification = $("#classification").val();
         	var responsible_person = $("#responsible_person").val();
+        	var assessment_date = $("#assessment_date").val();
         	getWorksFilterList();
          	getAreasFilterList();
          	getPrioritiesFilterList();
          	getClassificationsFilterList();
          	getResponsiblePersonsFilterList();
+         	getAssessmentDatesFilterList();
         	table = $('#datatable-risk').DataTable();
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -478,7 +481,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    		var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
+    		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-risk-list",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
@@ -490,10 +493,11 @@
                     	var workName = '';
                         if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
                         
-                       	rowArray.push($.trim(val.work_id_fk) + workName);
+                       
                        	rowArray.push($.trim(val.risk_id));
                        	rowArray.push($.trim(val.area));
                        	rowArray.push($.trim(val.sub_area));
+                    	rowArray.push($.trim(val.assessment_date));
                        	rowArray.push($.trim(val.owner));
                        	rowArray.push($.trim(val.responsible_person));
                        	rowArray.push($.trim(val.priority));
@@ -523,9 +527,10 @@
         	var priority = $("#priority").val();
         	var classification = $("#classification").val();
         	var responsible_person = $("#responsible_person").val();
+        	var assessment_date = $("#assessment_date").val();
             if ($.trim(work_id_fk) == "") {
             	$("#work_id_fk option:not(:first)").remove();
-            	            	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRisk",
                     data: myParams, cache: false,
@@ -556,9 +561,10 @@
         	var priority = $("#priority").val();
         	var classification = $("#classification").val();
         	var responsible_person = $("#responsible_person").val();
+        	var assessment_date = $("#assessment_date").val();
             if ($.trim(area) == "") {
             	$("#area option:not(:first)").remove();
-            	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getAreasFilterListInRisk",
                     data: myParams, cache: false,
@@ -587,9 +593,10 @@
         	var priority = $("#priority").val();
         	var classification = $("#classification").val();
         	var responsible_person = $("#responsible_person").val();
+        	var assessment_date = $("#assessment_date").val();
             if ($.trim(priority) == "") {
             	$("#priority option:not(:first)").remove();
-                      	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getPrioritiesFilterListInRisk",
                     data: myParams, cache: false,
@@ -619,9 +626,10 @@
         	var priority = $("#priority").val();
         	var classification = $("#classification").val();
         	var responsible_person = $("#responsible_person").val();
+        	var assessment_date = $("#assessment_date").val();
             if ($.trim(classification) == "") {
             	$("#classification option:not(:first)").remove();
-            	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getClassificationsFilterListInRisk",
                     data: myParams, cache: false,
@@ -650,9 +658,10 @@
         	var priority = $("#priority").val();
         	var classification = $("#classification").val();
         	var responsible_person = $("#responsible_person").val();
+        	var assessment_date = $("#assessment_date").val();
             if ($.trim(responsible_person) == "") {
             	$("#responsible_person option:not(:first)").remove();
-            	  	var myParams = {work_id_fk : work_id_fk,area : area,priority : priority,classification : classification,responsible_person : responsible_person}
+        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsFilterListInRisk",
                     data: myParams, cache: false,
@@ -660,6 +669,37 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
     	                           $("#responsible_person").append('<option value="' + val.responsible_person + '">' + $.trim(val.responsible_person)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        function getAssessmentDatesFilterList() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var area = $("#area").val();
+        	var priority = $("#priority").val();
+        	var classification = $("#classification").val();
+        	var responsible_person = $("#responsible_person").val();
+        	var assessment_date = $("#assessment_date").val();
+            if ($.trim(assessment_date) == "") {
+            	$("#assessment_date option:not(:first)").remove();
+        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getAssessmentDatesFilterListInRisk",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#assessment_date").append('<option value="' + val.assessment_date + '">' + $.trim(val.assessment_date)   +'</option>');
                             });
                         }
                         $('.searchable').select2();

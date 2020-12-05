@@ -87,11 +87,11 @@
 						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                                <div class="m-1 l-align">
+                                <!-- <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col s12 m4">
@@ -102,10 +102,10 @@
                             </div>
 
                             <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
+                               <!--  <div class="m-1 ">
                                     <a href="javascript:void(0);" onclick="exportTraining();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 

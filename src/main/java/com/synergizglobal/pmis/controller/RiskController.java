@@ -159,11 +159,22 @@ public class RiskController {
 			responsiblePersons = riskService.getRiskResponsiblePersonsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getClassificationsList : " + e.getMessage());
+			logger.error("getResponsiblePersonsList : " + e.getMessage());
 		}
 		return responsiblePersons;
 	}
-	
+	@RequestMapping(value = "/ajax/getAssessmentDatesFilterListInRisk", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Risk> getAssessmentDatesFilterList(@ModelAttribute Risk obj) {
+		List<Risk> assesmentDates = null;
+		try {
+			assesmentDates = riskService.getAssessmentDatesFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAssessmentDatesFilterList : " + e.getMessage());
+		}
+		return assesmentDates;
+	}
 	
 	@RequestMapping(value = "/add-risk-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addRiskForm(){

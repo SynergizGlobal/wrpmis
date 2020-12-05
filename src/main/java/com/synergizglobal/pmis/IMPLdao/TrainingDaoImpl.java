@@ -59,9 +59,9 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList = null;
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,title,faculty_name,status_fk,"
-					+ "DATE_FORMAT(ts.start_time,'%d-%m-%Y') as start_time ,DATE_FORMAT(ts.end_time,'%d-%m-%Y') as end_time,TIME_FORMAT(sum(TIMEDIFF(end_time,start_time)),'%H:%i') as hours from training t "
+					+ "DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,TIME_FORMAT(sum(TIMEDIFF(end_time,start_time)),'%H:%i') as hours from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
-					+ " where training_id is not null";
+					+ " where training_id_fk  = training_id ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " and training_type_fk = ?";
@@ -76,7 +76,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				arrSize++;
 			}	
 			
-			qry = qry + "  group by training_id";
+			qry = qry + "  group by training_id_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -288,9 +288,9 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getTraining_id())) {
 				for (Training session : sObj.getTrainingSessions()) {
 					List<Training> objsList = null;
-					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no, required_fk, participated_fk\r\n" + 
+					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
 							"from training_attendees ta "
-							+ "LEFT JOIN department d on d.department = ta.department_fk "
+							+ "LEFT JOIN department d on ta.department_fk = d.department  "
 							+"where training_id_fk = ? and  training_session_id_fk = ? ";
 					
 					objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getTraining_id(),session.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
@@ -366,7 +366,6 @@ public class TrainingDaoImpl implements TrainingDao{
 		int r = 0;
 		PreparedStatement updateStmt = null;
 		PreparedStatement insertStmt = null;
-		PreparedStatement updateStmt1 = null;
 		PreparedStatement insertStmt1 = null;
 		 
 		try{
@@ -451,6 +450,12 @@ public class TrainingDaoImpl implements TrainingDao{
 						arraySize1 = obj.getParticipated_fks().length;
 					}
 				}
+				if(!StringUtils.isEmpty(obj.getHod_user_id_fks()) && obj.getHod_user_id_fks().length > 0) {
+					obj.setHod_user_id_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getHod_user_id_fks()));
+					if(arraySize1 < obj.getHod_user_id_fks().length) {
+						arraySize1 = obj.getHod_user_id_fks().length;
+					}
+				}
 				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						 if( obj.getSession_nos().length > 0 && !StringUtils.isEmpty(obj.getSession_nos()[i])) {
@@ -466,9 +471,9 @@ public class TrainingDaoImpl implements TrainingDao{
 					rs = insertStmt.getGeneratedKeys();
 					if(insertCount.length > 0) {
 						
-						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,department_fk,attendee,mobile_no,required_fk,"
+						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,department_fk,attendee,hod_user_id_fk,mobile_no,required_fk,"
 								+"participated_fk) "
-								+"VALUES (?,?,?,?,?,?,?)";
+								+"VALUES (?,?,?,?,?,?,?,?)";
 						insertStmt1 = con.prepareStatement(insertQry2);
 						if (rs.next()) {
 							String sessionId = rs.getString(1);
@@ -483,6 +488,7 @@ public class TrainingDaoImpl implements TrainingDao{
 								    insertStmt1.setString(k++,(obj.getTraining_session_id()));
 									insertStmt1.setString(k++,(obj.getDepartment_fks().length > 0)?obj.getDepartment_fks()[a]:null);
 									insertStmt1.setString(k++,(obj.getAttendees().length > 0)?obj.getAttendees()[a]:null);
+									insertStmt1.setString(k++,(obj.getHod_user_id_fks().length > 0)?obj.getHod_user_id_fks()[a]:null);
 									insertStmt1.setString(k++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[a]:null);
 									insertStmt1.setString(k++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[a]:null);
 								    insertStmt1.setString(k++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[a]:null);
@@ -645,9 +651,9 @@ public class TrainingDaoImpl implements TrainingDao{
 					rs = insertStmt.getGeneratedKeys();
 					if(insertCount.length > 0) {
 						
-						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,department_fk,attendee,mobile_no,required_fk,"
+						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,department_fk,attendee,hod_user_id_fk,mobile_no,required_fk,"
 								+"participated_fk) "
-								+"VALUES (?,?,?,?,?,?,?)";
+								+"VALUES (?,?,?,?,?,?,?,?)";
 						insertStmt1 = con.prepareStatement(insertQry2);
 						if (rs.next()) {
 							String sessionId = rs.getString(1);
@@ -659,10 +665,11 @@ public class TrainingDaoImpl implements TrainingDao{
 								    int k = 1;
 								    int a = r++; 
 								    if( obj.getDepartment_fks().length > 0 && !StringUtils.isEmpty(obj.getDepartment_fks()[a])) {
-									    insertStmt1.setString(k++,(obj.getTraining_id()));
+							    	    insertStmt1.setString(k++,(obj.getTraining_id()));
 									    insertStmt1.setString(k++,(obj.getTraining_session_id()));
 										insertStmt1.setString(k++,(obj.getDepartment_fks().length > 0)?obj.getDepartment_fks()[a]:null);
 										insertStmt1.setString(k++,(obj.getAttendees().length > 0)?obj.getAttendees()[a]:null);
+										insertStmt1.setString(k++,(obj.getHod_user_id_fks().length > 0)?obj.getHod_user_id_fks()[a]:null);
 										insertStmt1.setString(k++,(obj.getMobile_nos().length > 0)?obj.getMobile_nos()[a]:null);
 										insertStmt1.setString(k++,(obj.getRequired_fks().length > 0)?obj.getRequired_fks()[a]:null);
 									    insertStmt1.setString(k++,(obj.getParticipated_fks().length > 0)?obj.getParticipated_fks()[a]:null);
@@ -711,6 +718,18 @@ public class TrainingDaoImpl implements TrainingDao{
 			
 			
 		return flag;
+	}
+
+	@Override
+	public List<Training> getUsersList() throws Exception {
+		List<Training> objsList = null;
+		try {
+			String qry ="select user_id as hod_user_id_fk,designation,user_name from user ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 

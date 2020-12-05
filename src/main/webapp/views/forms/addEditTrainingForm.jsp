@@ -131,8 +131,8 @@
             color: #777;
         }
         .modal .select2-container {
-        	min-width: 150px;
-        	width:150px !important;
+        	/* min-width: 150px; */
+        	width:110px !important;
     		max-width: 160px;
         }
         .select2-container--default .select2-selection--single{
@@ -143,7 +143,7 @@
         }
         .modal{
         	max-height:90%;
-        	width:62%;
+        	width:68%;
         }
         .modal-content .row.fixed-width,.row.fixed-width{
         	margin:0;
@@ -346,7 +346,7 @@
 															onclick="showNo(this);"> Update </a>
 															<div id="session-update-modal${index.count }" class="modal">
 																<div class="modal-content">
-																	<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close">  <i class="fa fa-close"></i>  	</span></h4>
+																	<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
 
 																	<div class="row fixed-width">
 																		<div class="table-inside">
@@ -356,6 +356,7 @@
 																					<tr>
 																						<th>Department</th>
 																						<th>Attendee</th>
+																						<th>HOD</th>
 																						<th>Mobile</th>
 																						<th>Required</th>
 																						<th>Participated</th>
@@ -384,6 +385,11 @@
 																									<td><input
 																										id="attendees${indexx.count }${index.count }" name="attendees" type="text" class="validate" placeholder="Attendee"
 																										value="${dObj.attendee }"></td>
+																										<td>																											
+																                                        <select class="searchable" name="hod" id="hod${indexx.count }${index.count }" >
+																                                            <option value="" >Select HOD</option>                                           
+																                                        </select>                                   
+																										</td>
 																									<td><input id="mobile_nos${indexx.count }${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
 																										value="${dObj.mobile_no }"></td>
 																									<td>
@@ -435,6 +441,11 @@
 																											</c:forEach>
 																									  </select> <span id="training_category_fkError" class="error-msg"></span></td>
 																								<td><input id="attendees00" name="attendees" type="text" class="validate" placeholder="Attendee"></td>
+																								<td>																											
+																                                        <select class="searchable" name="hod" id="hod00" >
+																                                            <option value="" >Select HOD</option>                                           
+																                                        </select>                                   
+																										</td>
 																								<td><input id="mobile_nos00" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
 																								<td>
@@ -486,7 +497,7 @@
 																			<table class="mdl-data-table">
 																				<tbody id="trainingUpdateBody">
 																					<tr>
-																						<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
+																						<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
 																							onclick="addTrainingUpdateRow('${tObj.training_session_id}','${index.count }')"> <i class="fa fa-plus"></i></a>
 																					</tr>
 																				</tbody>
@@ -523,7 +534,7 @@
 													<td><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
 														<div id="session-update-modal0" class="modal">
 															<div class="modal-content">
-																<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close">  <i class="fa fa-close"></i>  	</span></h4>
+																<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
 															   	<div class="row fixed-width">
 																	<div class="table-inside">
 																		<table id="training-update-table0"
@@ -532,6 +543,7 @@
 																				<tr>
 																					<th>Department</th>
 																					<th>Attendee</th>
+																					<th>HOD</th>
 																					<th>Mobile</th>
 																					<th>Required</th>
 																					<th>Participated</th>
@@ -549,6 +561,7 @@
 																							</c:forEach>
 																					</select> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
 																					<td><input id="attendees0" name="attendees" type="text" class="validate" placeholder="Attendee"></td>
+																					<td> <select class="searchable" name="hod" id="hod0" ><option value="" >Select HOD</option></select>    </td>
 																					<td><input id="mobile_nos0" name="mobile_nos" type="tel" class="validate num" placeholder="Mobile">
 																					<br><span id="mobile_nosError" class="error-msg"></span></td>
 																					<td>
@@ -600,7 +613,7 @@
 																		<table class="mdl-data-table">
 																			<tbody id="trainingUpdateBody">
 																				<tr>
-																					<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
+																					<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
 																						onclick="addTrainingUpdateRow('0','0')"> <i class="fa fa-plus"></i></a>
 																				</tr>
 																			</tbody>
@@ -620,7 +633,7 @@
 								<table class="mdl-data-table">
 									<tbody id="trainingBody">
 										<tr>
-											<td colspan="6" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
+											<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
 												onclick="addSessionRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
 										</tr>
 									</tbody>
@@ -879,6 +892,7 @@
 		                </c:forEach>
 	         	    '</select></td>'+
 	                '<td><input id="attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Attendee"></td>' +
+	                '<td> <select class="searchable" name="hod" id="hod'+ rNo +tNo+'" ><option value="" >Select HOD</option></select>    </td>'+
 	                '<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
 	                '<td><p><label><input type="hidden" id="required_fk'+ rNo +tNo+'" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
 	                '<td><p><label><input type="hidden" id="participated_fk'+ rNo +tNo+'" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
@@ -886,6 +900,7 @@
              $('#attendeesTableBody'+ index).append(html);
              $("#trainNo").val(rNo );
        	     $('#department_fks' + rNo+tNo ).select2();
+       	  	 $('#hod' + rNo+tNo ).select2();
        		 $('#attendeesTableBody'+tNo+' #rowCounts'+rNo+':last').val(c)
            	 $('#required_fks'+ rNo).on('change', function(e){
                  if($(this).prop('checked'))
@@ -926,9 +941,9 @@
           	  '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></td>' +
           '<td><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
-				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close">  <i class="fa fa-close"></i>  	</span></h4> <div class="row fixed-width"><div class="table-inside">'+
+				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row fixed-width"><div class="table-inside">'+
 					'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
-					  '<thead><tr><th>Department</th><th>Attendee</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
+					  '<thead><tr><th>Department</th><th>Attendee</th><th>HOD</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
 						'<tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+1+'"><td>'+
 						    '<input type="hidden" id="rowCounts'+rNo +'" name="rowCounts" value="1" class="hide" /><input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" />'+
@@ -939,13 +954,14 @@
 						          </c:forEach>
 							'</select></td>'+
 							'<td><input id="attendees'+ rNo+i+'" name="attendees" type="text" class="validate" placeholder="Attendee" ></td>'+
+							'<td> <select class="searchable" name="hod" id="hod'+ rNo +i+'" ><option value="" >Select HOD</option></select>    </td>'+
 							'<td><input id="mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td><p><label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
 			                '<td><a onclick="removeTrainingAttendees('+rNo+1+');prevRow('+rNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr></tbody></table>'+
 							'<input type="hidden" id="trainNo"  name="trainNo" value="0" /> ' +                    
 	                  		    '<table class="mdl-data-table"><tbody id="trainingUpdateBody">'+                                          
-	                            '<tr><td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
+	                            '<tr><td colspan="7" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div></div> </td>'+
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
           '<td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
@@ -953,7 +969,7 @@
            
           $('#session-update-modal'+rNo).modal();
           $('#department_fks' + rNo+i).select2();
-           
+          $('#hod' + rNo+i).select2();
           $("#rowNo").val(rNo);
           MaterialDateTimePicker.create($("#start_times"+ rNo));
           MaterialDateTimePicker.create($("#end_times"+ rNo));

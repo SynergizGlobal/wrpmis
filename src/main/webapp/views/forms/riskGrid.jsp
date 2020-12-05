@@ -182,42 +182,46 @@
                         <!--if  model 2 -->
                         <div class="row no-mar">
                             <div class="col m1 hide-on-small-only"></div>
-                            <!-- <div class="col m10 s12"> -->
-
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Area</p>
-                                  <select id="area" name="area" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select </option>
-	                                           
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Classification</p>
-                                 <select id="classification" name="classification" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select </option>
-	                                           
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Priority </p>
-                               <select id="priority" name="priority" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select </option>
-	                                           
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Responsible Person </p>
-                                 <select id="responsible_person" name="responsible_person" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select </option>
-	                                           
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 6px;width: 100%;" onclick="clearFilters()">Clear
-                                    Filters</button>
-                            </div>
-                            <!-- </div> -->
+                             <div class="col m10 s12"> 
+								<div class="col s12 m2 input-field">
+	                                <p class="searchable_label">Assessment Date</p>
+	                                  <select id="date" name="date" onchange="getRiskList();" class="searchable">
+	                                            <option value="" >Select </option>	                                           
+	                                 </select>
+	                            </div>
+	                            <div class="col s12 m2 input-field">
+	                                <p class="searchable_label">Area</p>
+	                                  <select id="area" name="area" onchange="getRiskList();" class="searchable">
+	                                            <option value="" >Select </option>	                                           
+	                                 </select>
+	                            </div>
+	                            <div class="col s12 m2 input-field">
+	                                <p class="searchable_label">Classification</p>
+	                                 <select id="classification" name="classification" onchange="getRiskList();" class="searchable">
+	                                            <option value="" >Select </option>
+		                                           
+	                                 </select>
+	                            </div>
+	                            <div class="col s12 m2 input-field">
+	                                <p class="searchable_label">Priority </p>
+	                               <select id="priority" name="priority" onchange="getRiskList();" class="searchable">
+	                                            <option value="" >Select </option>
+		                                           
+	                                 </select>
+	                            </div>
+	                            <div class="col s12 m2 input-field">
+	                                <p class="searchable_label">Responsible Person </p>
+	                                 <select id="responsible_person" name="responsible_person" onchange="getRiskList();" class="searchable">
+	                                            <option value="" >Select </option>
+		                                           
+	                                 </select>
+	                            </div>
+	                            <div class="col s12 m2 input-field">
+	                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                    style="margin-top: 6px;width: 100%;" onclick="clearFilters()">Clear
+	                                    Filters</button>
+	                            </div>
+                            </div> 
                             <div class="col m1 hide-on-small-only"></div>
 
                         </div>
@@ -227,12 +231,13 @@
                                 <table id="datatable-risk" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th class="fw-200">Work</th>
+                                           <!--  <th class="fw-200">Work</th> -->
                                             <th>Risk Id</th>
                                             <th>Area</th>
                                             <th class="fw-250">Sub Area</th>
+                                            <th>Assessment <br> Date </th>
                                             <th>Owner</th>
-                                            <th class="fw-100">Responsible Person</th>
+                                            <th class="fw-100">Responsible <br> Person</th>
                                             <th>Priority</th>
                                             <th>Classification</th>
                                             <!-- <th>Description </th> -->

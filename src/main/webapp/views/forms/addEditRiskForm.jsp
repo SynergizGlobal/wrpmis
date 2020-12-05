@@ -324,7 +324,7 @@
                                                     href="#update_action${index.count }">Update</a>
                                                 <div id="update_action${index.count }" class="modal">
                                                     <div class="modal-content">
-                                                        <h4 class="modal-header">Action Taken</h4>
+                                                       <h4 class="modal-header">Action Taken <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
                                                         <h6>Assessment Date : ${rObj.date } </h6> <br>
 
                                                         <div class="row fixed-width">
@@ -473,7 +473,7 @@
                                                 <a class="waves-effect waves-light btn modal-trigger bg-m t-c" href="#update_action0" onclick="showNo(this);">Update</a>
                                                 <div id="update_action0" class="modal">
                                                     <div class="modal-content">
-                                                        <h4 class="modal-header">Action Taken</h4>
+                                                       <h4 class="modal-header">Action Taken <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
                                                        <!--  <h6>Assessment Date (12-04-2020) </h6> --> <br>
 
                                                         <div class="row fixed-width">
@@ -870,7 +870,7 @@
 						
 						'<td><a class="waves-effect waves-light btn modal-trigger bg-m t-c" href="#update_action' + riskNo + '" onclick="showNo(this);">Update</a>'+
 						
-						'<div id="update_action' + riskNo + '" class="modal"><div class="modal-content"><h4 class="modal-header">Action Taken</h4>'+
+						'<div id="update_action' + riskNo + '" class="modal"><div class="modal-content"><h4 class="modal-header">Action Taken <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>'+
 						'<!--  <h6>Assessment Date (12-04-2020) </h6> --> <br> <div class="row fixed-width">'+
 						'<div class="table-inside"> <table id="update-action-table' + riskNo + '"class="mdl-data-table update-table">'+
 						'<thead> <tr><th class="fw-150">ATR Date</th><th>Action Taken</th><th class="fw-60">Action</th></tr></thead>'+

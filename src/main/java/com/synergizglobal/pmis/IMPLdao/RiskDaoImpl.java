@@ -942,8 +942,6 @@ public class RiskDaoImpl implements RiskDao{
 						
 				    }
 			  }
-				
-
 				if(flag && !StringUtils.isEmpty(obj.getRisks())) {
 					 String qryAction = "INSERT INTO risk_action (risk_revision_id_fk,action_taken,atr_date) VALUES(?,?,?)";
 						insertStmt1 = con.prepareStatement(qryAction);

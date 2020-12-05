@@ -312,7 +312,7 @@
             </div>
             <!-- form start-->
             <div class="container">
-               <form action="<%=request.getContextPath() %>/upload-risk" method="post" enctype="multipart/form-data">
+               <form action="<%=request.getContextPath() %>/upload-risk" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
                     <div class="row no-mar">
                         <div class="col s12 m12 input-field center-align">
                             <div class="row">
@@ -335,7 +335,7 @@
                     <div class="row no-mar">
                         <div class="col s12 m6">
                             <div class="center-align m-1">
-                                <button type="submit" class="btn waves-effect waves-light bg-m"
+                                <button type="button" onclick="riskFileSubmit();" class="btn waves-effect waves-light bg-m"
                                     style="width: 100%;">Update</button>
                             </div>
                         </div>
@@ -445,6 +445,12 @@
             });
             getRiskList();
         });
+        
+        function riskFileSubmit(){
+        	$(".page-loader").show();
+        	$("#upload_template").modal();
+        	$("#riskUploadForm").submit();
+        }
         function clearFilters() {
             $('#work_id_fk').val('');
             $('#area').val('');

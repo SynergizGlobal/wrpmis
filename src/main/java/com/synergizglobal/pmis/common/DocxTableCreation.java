@@ -57,6 +57,15 @@ public class DocxTableCreation {
 		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
+		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+				true, true, false, false);
+		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+				false, false, false, false);
+		
+		addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,fontRPr,"Annexure-I");
+		
 		Tbl table = factory.createTbl();
 		addBorders(table, "2");
 		
@@ -69,7 +78,8 @@ public class DocxTableCreation {
 			/******************************* Headers *********************************************/
 			Tr titleRow1 = factory.createTr();		
 			List<String> tableHeader1 = new ArrayList<String>();
-		  	tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\n"+obj.getOwner());
+		  	tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()+"\nDate of Risk Assessment - "+obj.getAssessment_date());
+		  	tableHeader1.add("");
 		  	tableHeader1.add("");
 		  	tableHeader1.add("");
 		  	tableHeader1.add("");
@@ -81,14 +91,15 @@ public class DocxTableCreation {
 			}		
 			reportTable.getContent().add(titleRow1);
 			
-			mergeCellsHorizontal(reportTable, 0, 0, 4);
+			mergeCellsHorizontal(reportTable, 0, 0, 5);
 			
 			/****************************************************************************/
 			
 			/****************************************************************************/
 			Tr titleRow2 = factory.createTr();		
 			List<String> tableHeader2 = new ArrayList<String>();
-		  	tableHeader2.add("RISK ANALYSIS                                " + obj.getAssessment_date());
+		  	tableHeader2.add("RISK ANALYSIS" );
+		  	tableHeader2.add("");
 		  	tableHeader2.add("");
 		  	tableHeader2.add("");
 		  	tableHeader2.add("");
@@ -96,10 +107,10 @@ public class DocxTableCreation {
 			
 			for (String headerValue : tableHeader2) {
 				addTableCell(factory, wordMLPackage, titleRow2, headerValue, titleRpr,
-						JcEnumeration.RIGHT, true, "ecf2ff");
+						JcEnumeration.CENTER, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow2);	
-			mergeCellsHorizontal(reportTable, 1, 0, 4);
+			mergeCellsHorizontal(reportTable, 1, 0, 5);
 			
 			/****************************************************************************/
 			
@@ -110,6 +121,7 @@ public class DocxTableCreation {
 			tableHeader3.add("Probability of Occurrence of Identified Risk \n (A)");
 			tableHeader3.add("Likely Impact on Cost/Time Over Run \n (B)");
 			tableHeader3.add("Risk Rating \n (A x B)");
+			tableHeader3.add("Priority");
 			
 			for (String headerValue : tableHeader3) {
 				addTableCell(factory, wordMLPackage, titleRow3, headerValue, titleRpr,
@@ -125,6 +137,8 @@ public class DocxTableCreation {
 						contentRprParent, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, area.getArea(),
 						contentRprParent, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, "",
+						contentRprParent, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, "",
 						contentRprParent, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, "",
@@ -147,6 +161,8 @@ public class DocxTableCreation {
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getImpact(),
 							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					addTableCell(factory, wordMLPackage, contentRow, subArea.getRisk_rating(),
+							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, subArea.getPriority(),
 							contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					
 					reportTable.getContent().add(contentRow);
@@ -172,9 +188,10 @@ public class DocxTableCreation {
 			t.addObject(p);*/
 	        
 	        addPageBreak(t);
-	        
-	        addHeading(wordMLPackage, t, factory,"PRIORITIZATION OF RISKS & ITS MITIGATION/REDUCTION PLAN");
-	        addHeading(wordMLPackage, t, factory,"Date: "+obj.getAssessment_date());
+	        addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,fontRPr,"Annexure-II");
+	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"PRIORITIZATION OF RISKS & ITS MITIGATION/REDUCTION PLAN");
+	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
+	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Date of Risk Assessment : "+obj.getAssessment_date());
 			
 			Tbl reportTable = factory.createTbl();
 			addBorders(reportTable, "2");
@@ -191,7 +208,7 @@ public class DocxTableCreation {
 					"CLASSIFICATION");
 			tableHeader.add("MITIGATION/REDUCTION\n" + 
 					"PLAN");			
-			tableHeader.add("ACTION	BY");
+			tableHeader.add("ACTION BY");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -237,10 +254,10 @@ public class DocxTableCreation {
 			t.addObject(p);*/
 			
 			addPageBreak(t);
-			
-			addHeading(wordMLPackage, t, factory,"ATR ON MITIGATION/REDUCTION PLAN");
-			
-			addHeading(wordMLPackage, t, factory,"Date: "+obj.getAssessment_date());
+			addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,fontRPr,"Annexure-III");
+			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"ATR ON MITIGATION/REDUCTION PLAN");
+			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
+			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Date of Risk Assessment : "+obj.getAssessment_date());
 			
 			Tbl reportTable = factory.createTbl();
 			addBorders(reportTable, "2");
@@ -257,7 +274,7 @@ public class DocxTableCreation {
 					"CLASSIFICATION");
 			tableHeader.add("MITIGATION/REDUCTION\n" + 
 					"PLAN");			
-			tableHeader.add("ACTION	TAKEN");
+			tableHeader.add("ACTION TAKEN");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -296,20 +313,15 @@ public class DocxTableCreation {
 	
 	
 	
-	/***********************************************************************************************************************/
+	/**
+	 * @param titleRpr 
+	 * @param alignment *********************************************************************************************************************/
 	
 	
 	public static void addHeading(WordprocessingMLPackage wordMLPackage,
-			MainDocumentPart t, ObjectFactory factory,String contentValue) throws Exception {
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
-				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
-				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
-				false, false, false, false);		
-		
+			MainDocumentPart t, ObjectFactory factory,JcEnumeration alignment, RPr titleRPr, String contentValue) throws Exception {
 		P paragraph = factory.createP();
-		setParagraphAlign(factory, paragraph, JcEnumeration.CENTER);
+		setParagraphAlign(factory, paragraph, alignment);
 		Text txt = factory.createText();
 		txt.setValue(contentValue);
 		R run = factory.createR();

@@ -100,7 +100,6 @@
 		}			
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
 		
-		.error-msg label{color:red!important;}
     </style>
 </head>
 
@@ -278,54 +277,7 @@
     </div>
 
  
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Risk Analysis Report </h6>
-                        </div>
-                    </span>
-                    <div class="">
-                        <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
-                            	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
-	                                <div class="row">
-	                                    <div class="col s12 m4 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="report_work_id" name="work_id" onchange="getAssessmentDateListInRiskReport(this.value);">
-	                                            <option value="">Select </option>
-	                                        </select>
-	                                        <span id="report_work_idError" class="error-msg" ></span>
-	                                    </div>
-	                                    <div class="col s12 m4 input-field">
-	                                        <p class="searchable_label">Assessment Date</p>
-	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date">
-	                                            <option value="">Select </option>
-	                                        </select>
-	                                        <span id="report_assessment_dateError" class="error-msg" ></span>
-	                                    </div>
-	
-	                                    <div class="col s12 m4 input-field">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()">Generate
-	                                            Report</button>
-	                                    </div>
-	                                </div>
-                                
-                                </form>
-                            </div>
-
-                            <div class="col m2 hide-on-small-only"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
      <!-- update popup starts -->
     <div id="upload_template" class="modal">
         <div class="modal-content headbg">
@@ -777,96 +729,6 @@
                 }
             });
         }
-        
-        
-        $(document).ready(function(){
-        	getWorksListInRiskReport();
-        });
-        
-        function getWorksListInRiskReport() {
-        	$(".page-loader").show();
-           	$("#report_work_id option:not(:first)").remove();
-           	var myParams = {}
-           	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorksListInRiskReport",
-                   data: myParams, cache: false,
-                   success: function (data) {
-                       if (data.length > 0) {
-                           $.each(data, function (i, val) {
-                           	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-   	                         $("#report_work_id").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                           });
-                       }
-                       $('.searchable').select2();
-                       $(".page-loader").hide();
-                   },error: function (jqXHR, exception) {
-    	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-   	   	     	  }
-            });
-        }
-        
-        
-        function getAssessmentDateListInRiskReport(work_id) {
-        	$(".page-loader").show();
-           	$("#report_assessment_date option:not(:first)").remove();
-           	var myParams = {work_id : work_id}
-           	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getAssessmentDateListInRiskReport",
-                   data: myParams, cache: false,
-                   success: function (data) {
-                       if (data.length > 0) {
-                           $.each(data, function (i, val) {
-								$("#report_assessment_date").append('<option value="' + $.trim(val.assessment_date) + '">' + $.trim(val.assessment_date)+'</option>');
-                           });
-                       }
-                       $('.searchable').select2();
-                       $(".page-loader").hide();
-                   },error: function (jqXHR, exception) {
-    	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-   	   	     	  }
-            });
-        }
-        
-        function generateReport() {
-        	//$(".page-loader").show();
-        	$("#reportForm").submit();
-		}
-        
-        
-        var validator =	$('#reportForm').validate({
-			 ignore: ":hidden:not(.validate-dropdown)",
-	  		    rules: {
-	  		 		  "work_id": {
-	  			 		required: true
-	  			 	  },"assessment_date": {
-	  			 		required: true
-	  			 	  }	
-	  		 	},
-	  		    messages: {
-	  		 		 "work_id": {
-	  				 	required: 'This field is required',
-	  			 	  },"assessment_date": {
-	  			 		required: ' This field is required'
-	  			 	  }
-		   		},
-		   		errorPlacement:function(error, element){
-		   		 	if (element.attr("id") == "report_work_id" ){
-						 document.getElementById("report_work_idError").innerHTML="";
-				 		 error.appendTo('#report_work_idError');
-					} else if(element.attr("id") == "report_assessment_date" ){
-						   document.getElementById("report_assessment_dateError").innerHTML="";
-					 	   error.appendTo('#report_assessment_dateError');
-					} else{
-	 					error.insertAfter(element);
-			       }
-                }
-		   		,submitHandler:function(form){
-			    	form.submit();
-			    }
-			}); 
         
 
     </script>

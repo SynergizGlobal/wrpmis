@@ -107,6 +107,20 @@ public class RiskReportController {
 	@Value("${common.error.message}")
 	public String commonError;
 	
+	
+	@RequestMapping(value = "/risk-analysis-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView riskAnalysisReport(@ModelAttribute RiskReport obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView(PageConstants.riskReport);
+		try{
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("riskAnalysisReport : " + e.getMessage());
+		}
+		return model;
+     }
+	
+	
 	@RequestMapping(value = "/ajax/getWorksListInRiskReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RiskReport> getWorksList(@ModelAttribute RiskReport obj) {

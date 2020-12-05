@@ -46,7 +46,6 @@
         #riskReview td .select2-container {
             width: 120px;
             max-width: 120px;
-            /* margin-top: 8px; */
         }
 
         .datepicker-table thead tr,
@@ -101,7 +100,10 @@
             max-width: 60px;
             width: 60px !important;
         }
-        
+        .fw-110{
+        	 max-width: 100px;
+            width: 100px !important;
+        }        
         .fw-150 {
             max-width: 150px;
             width: 150px !important;
@@ -288,7 +290,7 @@
                                                     placeholder="Responsible Person">
                                             </td>
                                             <td>
-                                                <select id="prioritys${index.count }" name="prioritys" class="searchable validate-dropdown">
+                                                <select id="prioritys${index.count }" name="prioritys" class="searchable validate-dropdown fw-110">
                                                     <option value="" >Priority</option>
                                                     <c:forEach var="obj" items="${prioritiesList }">
                                       					<option value="${obj.priority }" <c:if test="${rObj.priority_fk eq obj.priority}">selected</c:if>>${obj.priority}</option>
@@ -296,7 +298,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <select class="searchable" id="probabilitys${index.count }" name="probabilitys">
+                                                <select class="searchable fw-60" id="probabilitys${index.count }" name="probabilitys">
                                                         <option value="">Probability</option>
                                                     <option value="1" <c:if test="${rObj.probability eq 1}">selected</c:if>>1</option>
                                                     <option value="3" <c:if test="${rObj.probability eq 3}">selected</c:if>>3</option>
@@ -306,7 +308,7 @@
                                             </td>
 
                                             <td>
-                                                <select class="searchable" id="impacts${index.count }" name="impacts">
+                                                <select class="searchable fw-60" id="impacts${index.count }" name="impacts">
                                                     <option value="" >Impact</option>
                                                    <option value="1" <c:if test="${rObj.impact eq 1}">selected</c:if>>1</option>
                                                     <option value="3" <c:if test="${rObj.impact eq 3}">selected</c:if>>3</option>

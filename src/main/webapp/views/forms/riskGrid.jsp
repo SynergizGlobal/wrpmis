@@ -63,6 +63,23 @@
                 margin-top: inherit;
             }
         }
+       
+        td {
+        	word-break: break-word;
+    		white-space: initial;
+		}
+		.fw-120{
+        	width:120px !important;
+        	max-width:120px;
+        }
+		.fw-200{
+        	width:200px;
+        	max-width:200px;
+        }
+        .fw-250{
+        	width:250px;
+        	max-width:250px;
+        }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -135,9 +152,9 @@
                                 <div class="m-1">
                                     <div class="row">
                                         <div class="col s12 m6 input-field" style="margin:0">
+                                        <p class="searchable_label left-align">Work</p>
                                             <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Work</option>
-	                                           
+                                            <option value="" >Select</option>	                                           
                                            </select>
                                         </div>
                                         <div class="col s12 m6">
@@ -170,28 +187,28 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Area</p>
                                   <select id="area" name="area" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Area</option>
+                                            <option value="" >Select </option>
 	                                           
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Classification</p>
                                  <select id="classification" name="classification" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Classification</option>
+                                            <option value="" >Select </option>
 	                                           
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Priority </p>
                                <select id="priority" name="priority" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Priority</option>
+                                            <option value="" >Select </option>
 	                                           
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Responsible Person </p>
                                  <select id="responsible_person" name="responsible_person" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Responsible Person</option>
+                                            <option value="" >Select </option>
 	                                           
                                  </select>
                             </div>
@@ -210,12 +227,12 @@
                                 <table id="datatable-risk" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Work</th>
+                                            <th class="fw-200">Work</th>
                                             <th>Risk Id</th>
                                             <th>Area</th>
-                                            <th>Sub Area</th>
+                                            <th class="fw-250">Sub Area</th>
                                             <th>Owner</th>
-                                            <th>Responsible Person</th>
+                                            <th class="fw-100">Responsible Person</th>
                                             <th>Priority</th>
                                             <th>Classification</th>
                                             <!-- <th>Description </th> -->

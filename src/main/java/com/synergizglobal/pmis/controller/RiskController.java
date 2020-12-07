@@ -1,20 +1,31 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
-import java.sql.Date;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -37,14 +48,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.RiskService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Risk;
-import com.synergizglobal.pmis.model.SafetyEquipment;
-import com.synergizglobal.pmis.model.Training;
-import com.synergizglobal.pmis.model.Work;
 
 @Controller
 public class RiskController {
@@ -508,5 +513,250 @@ public class RiskController {
 		}
 		
 		return arr;
+	}
+	
+	
+	@RequestMapping(value = "/export-risks", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportRisks(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Risk risk,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants.trainingGrid);
+		List<Risk> dataList = new ArrayList<Risk>();
+		try {
+			view.setViewName("redirect:/risk");
+			dataList =   riskService.getRiskList(risk);
+			if(dataList != null && dataList.size() > 0){
+				XSSFWorkbook  workBook = new XSSFWorkbook();
+		        XSSFSheet indexSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Index"));
+		        workBook.setSheetOrder(indexSheet.getSheetName(), 0);
+		        
+		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)0};
+		        byte[] greenRGB = new byte[]{(byte)144, (byte)208, (byte)80};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	            
+		        XSSFRow indexRow = indexSheet.createRow(1);
+		        Cell cell = indexRow.createCell(1);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("");
+				
+				cell = indexRow.createCell(2);
+				cell.setCellStyle(whiteStyle);
+				cell.setCellValue("Columns coming from Dropdowns");
+				indexSheet.autoSizeColumn(2);
+				
+				indexRow = indexSheet.createRow(2);
+		        cell = indexRow.createCell(1);
+				cell.setCellStyle(yellowStyle);
+				cell.setCellValue("");
+				
+				cell = indexRow.createCell(2);
+				cell.setCellStyle(whiteStyle);
+				cell.setCellValue("Format to be followed as per Guidelines");
+				indexSheet.autoSizeColumn(2);
+				
+				indexRow = indexSheet.createRow(3);
+		        cell = indexRow.createCell(1);
+				cell.setCellStyle(greenStyle);
+				cell.setCellValue("");
+				
+				cell = indexRow.createCell(2);
+				cell.setCellStyle(whiteStyle);
+				cell.setCellValue("To be filled by MRVC");
+				
+				indexRow = indexSheet.createRow(5);
+		        cell = indexRow.createCell(1);
+				cell.setCellStyle(whiteStyle);
+				cell.setCellValue("*Note: Reference Data should not be altered");				
+				indexSheet.addMergedRegion(new CellRangeAddress(5, 5, 1,6));
+				
+				indexRow = indexSheet.createRow(6);
+		        cell = indexRow.createCell(1);
+				cell.setCellStyle(whiteStyle);
+				cell.setCellValue("**All dates should be in \"DD/MM/YYYY\"");
+				indexSheet.addMergedRegion(new CellRangeAddress(6, 6, 1,6));
+				
+				
+				
+		        
+		        XSSFSheet referenceDataSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
+		        workBook.setSheetOrder(referenceDataSheet.getSheetName(), 1);
+		        
+		        XSSFSheet riskSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Risk"));
+		        workBook.setSheetOrder(riskSheet.getSheetName(), 2);
+		        
+		        XSSFSheet revisionSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("ATR Revision"));
+		        workBook.setSheetOrder(revisionSheet.getSheetName(), 3);
+		        
+		          
+		        isWrapText = true;isBoldText = true;isItalicText = false; fontSize = 11;fontName = "Times New Roman";
+		        blueStyle = cellFormating(workBook,blueRGB,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	            
+		        XSSFRow headingRow = riskSheet.createRow(0);
+		        cell = headingRow.createCell(0);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Risk ID");
+				
+				cell = headingRow.createCell(1);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Area");
+				
+				cell = headingRow.createCell(2);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Sub Area");
+				
+				cell = headingRow.createCell(3);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Assessment Date");
+				
+				cell = headingRow.createCell(4);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Owner");
+				
+				cell = headingRow.createCell(5);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Responsible Person");
+				
+				cell = headingRow.createCell(6);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Priority");
+				
+				cell = headingRow.createCell(7);
+				cell.setCellStyle(blueStyle);
+				cell.setCellValue("Classification");
+				
+				/*************************************************************************/
+				
+				
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+
+
+	            short rowNo = 1;
+	            for (Risk obj : dataList) {
+	                XSSFRow row = riskSheet.createRow(rowNo);
+	                
+	                cell = row.createCell(0);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRisk_id());
+					
+					cell = row.createCell(1);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getArea());
+					
+					cell = row.createCell(2);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getSub_area());
+					
+					cell = row.createCell(3);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getAssessment_date());
+					
+					cell = row.createCell(4);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getOwner());
+					
+					cell = row.createCell(5);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getResponsible_person());
+					
+					cell = row.createCell(6);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getPriority());
+					
+					cell = row.createCell(7);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getClassification());
+					
+	                rowNo++;
+	            }
+	            
+	            
+	            for(int columnIndex = 0; columnIndex < 8; columnIndex++) {
+				     //sheet.autoSizeColumn(columnIndex);
+	            	riskSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+                Date date = new Date();
+                String fileName = "Risks_"+dateFormat.format(date);
+                
+                try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+			}else{
+				attributes.addFlashAttribute("error",dataExportNoData);
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+		CellStyle style = workBook.createCellStyle();
+		//Setting Background color  
+		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		if (style instanceof XSSFCellStyle) {
+		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+		}
+		//style.setFillPattern(FillPatternType.ALT_BARS);
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setAlignment(HorizontalAlignment.CENTER);
+		style.setVerticalAlignment(VerticalAlignment.CENTER);
+		style.setWrapText(isWrapText);
+		
+		Font font = workBook.createFont();
+        //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+        font.setFontHeightInPoints((short)fontSize);  
+        font.setFontName(fontName);  //"Times New Roman"
+        
+        font.setItalic(isItalicText); 
+        font.setBold(isBoldText);
+        // Applying font to the style  
+        style.setFont(font); 
+        
+        return style;
 	}
 }

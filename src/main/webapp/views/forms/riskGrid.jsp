@@ -149,31 +149,21 @@
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1">
-                                    <div class="row">
-                                        <div class="col s12 m6 input-field" style="margin:0">
-                                        <p class="searchable_label left-align">Work</p>
-                                            <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable">
-                                            <option value="" >Select</option>	                                           
-                                           </select>
-                                        </div>
-                                        <div class="col s12 m6">
-                                            <a href="#" class="btn waves-effect waves-light bg-s t-c disabled"
-                                                id="downloadWork">
-                                                <strong><i class="fa fa-cloud-download"></i> Download Work
-                                                    Data</strong></a>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col s12 m6 input-field">
-                                        <p class="searchable_label">Work</p>
-                                        <select class="searchable" id="work_fk">
-                                            <option value="" disabled selected>Select </option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                    </div>
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Download Work Data</strong></a> -->
+                                	<form action="<%=request.getContextPath()%>/export-risks">
+	                                    <div class="row">
+	                                        <div class="col s12 m6 input-field" style="margin:0">
+	                                        	<p class="searchable_label left-align">Work</p>
+	                                            <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable">
+	                                            	<option value="" >Select</option>	                                           
+	                                            </select>
+	                                        </div>
+	                                        <div class="col s12 m6">
+	                                            <button class="btn waves-effect waves-light bg-s t-c disabled" id="downloadWork">
+	                                            	<strong><i class="fa fa-cloud-download"></i> Download Work Data</strong>
+	                                            </button>
+	                                        </div>
+	                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

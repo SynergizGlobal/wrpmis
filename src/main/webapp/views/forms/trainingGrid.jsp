@@ -90,7 +90,7 @@
                                  <div class="m-1 l-align">
                                     <a href="javascript:void(0);" onclick="openUploadTrainingModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
+                                    <p style="padding-top:1rem"> Click <a href="/pmis/Training_Template.xlsx">here</a> for the template</p>
                                 </div> 
                             </div>
 

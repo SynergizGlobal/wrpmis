@@ -7,10 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class SafetyEquipment {
 	private String safety_equipment_id, safety_equipment_number, safety_equipment_detail, validity_date,contract_id_fk,
 	project_id_fk,work_id_fk,project_name,work_name,contract_name,attachment,remarks,work_id,project_id,contract_id,
-	contract_short_name,inspecting_official,last_inspection_date,next_inspection_due;
+	contract_short_name,inspecting_official,last_inspection_date,next_inspection_due,safety_instructions_id, document_name, document_url;
 	
 	private String[] safety_equipment_ids,safety_equipment_numbers, safety_equipment_details, validity_dates,contract_id_fks,
-	attachments,remarkss,safetyEquipmentFileNames,inspecting_officials,last_inspection_dates,next_inspection_dues;
+	attachments,remarkss,safetyEquipmentFileNames,inspecting_officials,last_inspection_dates,next_inspection_dues,safety_instructions_ids, document_names, document_urls;
 	
 
 	private List<SafetyEquipment> safetyEquipments;
@@ -20,6 +20,54 @@ public class SafetyEquipment {
 	
 	
 	
+	public String getSafety_instructions_id() {
+		return safety_instructions_id;
+	}
+
+	public void setSafety_instructions_id(String safety_instructions_id) {
+		this.safety_instructions_id = safety_instructions_id;
+	}
+
+	public String getDocument_name() {
+		return document_name;
+	}
+
+	public void setDocument_name(String document_name) {
+		this.document_name = document_name;
+	}
+
+	public String getDocument_url() {
+		return document_url;
+	}
+
+	public void setDocument_url(String document_url) {
+		this.document_url = document_url;
+	}
+
+	public String[] getSafety_instructions_ids() {
+		return safety_instructions_ids;
+	}
+
+	public void setSafety_instructions_ids(String[] safety_instructions_ids) {
+		this.safety_instructions_ids = safety_instructions_ids;
+	}
+
+	public String[] getDocument_names() {
+		return document_names;
+	}
+
+	public void setDocument_names(String[] document_names) {
+		this.document_names = document_names;
+	}
+
+	public String[] getDocument_urls() {
+		return document_urls;
+	}
+
+	public void setDocument_urls(String[] document_urls) {
+		this.document_urls = document_urls;
+	}
+
 	public String[] getInspecting_officials() {
 		return inspecting_officials;
 	}

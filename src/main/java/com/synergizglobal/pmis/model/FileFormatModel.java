@@ -97,4 +97,14 @@ public class FileFormatModel {
 		}		
 		return fileFormat;
 	}
+
+	public static List<String> getTrainingFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Training ID,Training Type,Category,Faculty Name,Designation,Title,Description,Training Center,Status, Remark";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}		
+		return fileFormat;
+	}
 }

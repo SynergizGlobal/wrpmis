@@ -87,11 +87,11 @@
 						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                                <!-- <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                 <div class="m-1 l-align">
+                                    <a href="javascript:void(0);" onclick="openUploadTrainingModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div> -->
+                                </div> 
                             </div>
 
                             <div class="col s12 m4">
@@ -102,10 +102,10 @@
                             </div>
 
                             <div class="col s12 m4 r-align">
-                               <!--  <div class="m-1 ">
+                                 <div class="m-1 ">
                                     <a href="javascript:void(0);" onclick="exportTraining();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div> -->
+                                </div> 
                             </div>
                         </div>
 
@@ -191,6 +191,53 @@
             </div>
         </div>
     </div>
+      <!-- update popup starts -->
+    <div id="upload_template" class="modal">
+        <div class="modal-content headbg">
+            <div class="center-align p-2 bg-m modal-title">
+                <h6>Upload Users</h6>
+            </div>
+            <!-- form start-->
+            <div class="container">
+               <form action="<%=request.getContextPath() %>/upload-training" id="trainingUploadForm" name="trainingUploadForm" method="post" enctype="multipart/form-data">
+                    <div class="row no-mar">
+                        <div class="col s12 m12 input-field center-align">
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
+                                    <div class="file-field input-field">
+                                        <div class="btn bg-m">
+                                            <span>Attachment</span>
+                                            <input type="file" id="trainingFile" name="trainingFile" required="required">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-mar">
+                        <div class="col s12 m6">
+                            <div class="center-align m-1">
+                                <button type="button" onclick="trainingFileSubmit();" class="btn waves-effect waves-light bg-m"
+                                    style="width: 100%;">Update</button>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="center-align m-1">
+                                <button type="button" class="btn waves-effect waves-light bg-s"
+                                    style="width: 100%;" onclick="closeUploadTrainingModal();">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>     
+    
 
 <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
@@ -242,6 +289,16 @@
 	 </form>
 
     <script>
+	    function  openUploadTrainingModal() {
+	  		$("#trainingFile").val('');
+	      	$("#upload_template").modal();
+	      	$("#upload_template").modal('open');
+	  	}
+	
+	  	function  closeUploadTrainingModal() {
+	  		$("#trainingFile").val('');
+	      	$("#upload_template").modal('close');
+	  	}
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -274,7 +331,12 @@
         	$('.searchable').select2();
         	getTraningList();
         }
-
+        
+        function trainingFileSubmit(){
+        	$(".page-loader").show();
+        	$("#upload_template").modal();
+        	$("#trainingUploadForm").submit();
+        }
         function getTraningList(){
         	$(".page-loader-2").show();
         	var training_type_fk = $("#training_type_fk").val();

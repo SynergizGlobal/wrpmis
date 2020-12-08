@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,12 +24,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,6 +42,8 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.Training;
 
 @Controller
@@ -68,6 +75,12 @@ public class TrainingController {
 	
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
+
+	@Value("${template.upload.common.error}")
+	public String uploadCommonError;
+	
+	@Value("${template.upload.formatError}")
+	public String uploadformatError;
 	
 	
 	@RequestMapping(value="/training",method={RequestMethod.GET,RequestMethod.POST})
@@ -326,4 +339,245 @@ public class TrainingController {
 		}
 	}
 
+	@RequestMapping(value = "/upload-training", method = {RequestMethod.POST})
+	public ModelAndView uploadTraining(@ModelAttribute Training training,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String userId = null;String userName = null;
+		try {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			model.setViewName("redirect:/training");
+			
+			if(!StringUtils.isEmpty(training.getTrainingFile())){
+				MultipartFile multipartFile = training.getTrainingFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet trainingsSheet = workbook.getSheetAt(2);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = trainingsSheet.getRow(1);
+						int list = trainingsSheet.getLastRowNum();
+						//checking given file format
+						if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getTrainingFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							if(noOfColumns == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		return model;
+				                	}
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+		                		return model;
+							}
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}
+						
+						int count = uploadTrainings(training,userId,userName);
+					
+							attributes.addFlashAttribute("success", count + " Trainings updated successfully.");
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+
+	private int uploadTrainings(Training obj, String userId, String userName) throws Exception {
+		Training training = null;
+		List<Training> trainingsList = new ArrayList<Training>();
+		Writer w = null;
+		 int j = 0;
+		 int k = 0;
+		 int i = 0;
+		int count = 0 ;
+		try {	
+			MultipartFile excelfile = obj.getTrainingFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					XSSFSheet trainingsSheet = workbook.getSheetAt(2);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					int list = trainingsSheet.getLastRowNum();
+					for( i = 2; i <= trainingsSheet.getLastRowNum();i++){
+						XSSFRow row = trainingsSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						training = new Training();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setTraining_id(val);}
+							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setTraining_type_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setTraining_category_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setFaculty_name(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(4)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setDesignation(val);}					
+							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setTitle(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(6)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setDescription(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setTraining_center(val);}
+							
+							val = formatter.formatCellValue(row.getCell(8)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setStatus_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) { training.setRemarks(val);}
+						
+						}
+						List<Training> sObjList = new ArrayList<Training>();
+					
+						XSSFSheet trainingSessionsSheet = workbook.getSheetAt(3);
+						int list1 = trainingSessionsSheet.getLastRowNum();
+						for( j = 2; j <= trainingSessionsSheet.getLastRowNum();j++){
+							XSSFRow row2 = trainingSessionsSheet.getRow(j);
+							// Sets the Read data to the model class
+							Training sObj = new Training();
+							if(!StringUtils.isEmpty(row2)) {
+								val = formatter.formatCellValue(row2.getCell(0)).trim();
+								if(!StringUtils.isEmpty(val)) { sObj.setTraining_id(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(1)).trim();
+								if(!StringUtils.isEmpty(val)) { sObj.setSession_no(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(2)).trim();
+								if(!StringUtils.isEmpty(val)) { sObj.setDate(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(3)).trim();
+								if(!StringUtils.isEmpty(val)) { sObj.setStart_time(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(4)).trim();
+								if(!StringUtils.isEmpty(val)) { sObj.setEnd_time(val);}
+								
+								val = formatter.formatCellValue(row2.getCell(5)).trim();
+								if(!StringUtils.isEmpty(val)) { sObj.setRemarks(val);}
+									
+								if(!StringUtils.isEmpty(sObj.getDate())) {
+									String date= (sObj.getDate() +" "+ sObj.getStart_time());
+									String date2 = (sObj.getDate() +" "+ sObj.getEnd_time());
+									
+									DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+									DateFormat outputformat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+									Date startDate =null;
+									startDate = df.parse(date);
+									Date EndDate =null;
+									EndDate = df.parse(date2);
+									sObj.setStart_time((outputformat.format(startDate)));
+									sObj.setEnd_time((outputformat.format(EndDate)));
+								}
+							  }
+							  if(!StringUtils.isEmpty(sObj)&& !StringUtils.isEmpty(sObj.getTraining_id())
+									&& sObj.getTraining_id().equals(training.getTraining_id())) 
+								sObjList.add(sObj);
+							    training.setTrainingSessions(sObjList);
+		
+								List<Training> aObjList = new ArrayList<Training>();
+								XSSFSheet trainingAttendeesSheet = workbook.getSheetAt(4);
+								int list2 = trainingAttendeesSheet.getLastRowNum();
+								for( k = 1; k <= trainingAttendeesSheet.getLastRowNum();k++){
+									XSSFRow row3 = trainingAttendeesSheet.getRow(k);
+									Training aObj = new Training();
+									if(!StringUtils.isEmpty(row3)) {
+												
+										val = formatter.formatCellValue(row3.getCell(0)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setTraining_id(val);}
+										
+										val = formatter.formatCellValue(row3.getCell(1)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setSession_no(val);}
+										
+										val = formatter.formatCellValue(row3.getCell(2)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setDepartment_fk(val);}
+										
+										val = formatter.formatCellValue(row3.getCell(3)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setAttendee(val);}
+										
+										val = formatter.formatCellValue(row3.getCell(4)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setHod_user_id_fk(val);}
+										
+										val = formatter.formatCellValue(row3.getCell(5)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setMobile_no(val);}
+										
+										val = formatter.formatCellValue(row3.getCell(6)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setRequired_fk(val);}
+										
+										val = formatter.formatCellValue(row3.getCell(7)).trim();
+										if(!StringUtils.isEmpty(val)) { aObj.setParticipated_fk(val);}
+								   }
+								  if(!StringUtils.isEmpty(aObj) && !StringUtils.isEmpty(aObj.getTraining_id())
+										&& aObj.getTraining_id().equals(training.getTraining_id()))
+									aObjList.add(aObj);
+							      }
+							      training.setTrainingAttendees(aObjList);
+							}
+							boolean flag = training.checkNullOrEmpty();
+						
+							if(!flag) {
+								trainingsList.add(training);
+							}
+						}
+					
+						if(!trainingsList.isEmpty() && trainingsList != null){
+							count  = trainingService.uploadTraining(trainingsList);
+						}
+				  }
+			   	  workbook.close();
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadTrainings() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadTrainings() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return count;
+	}
+	
 }

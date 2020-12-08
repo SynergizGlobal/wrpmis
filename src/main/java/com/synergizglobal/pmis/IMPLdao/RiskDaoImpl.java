@@ -1007,12 +1007,12 @@ public class RiskDaoImpl implements RiskDao{
 								updateCount++;
 								
 						 }else {
-							 String updateRevisionsQry = "INSERT into risk_revision  (risk_id_pk_fk,date , priority_fk, probability , impact, owner "
+							 String insertRevisionsQry = "INSERT into risk_revision  (risk_id_pk_fk,date , priority_fk, probability , impact, owner "
 										+ ", responsible_person , mitigation_plan) "
 										+ "VALUES(:risk_id_pk,:date, :priority_fk,:probability, :impact,:owner,:responsible_person,:mitigation_plan) ";
 								paramSource = new BeanPropertySqlParameterSource(obj);	
 								KeyHolder keyHolder1 = new GeneratedKeyHolder();
-								count = namedParamJdbcTemplate.update(updateRevisionsQry, paramSource,keyHolder1);
+								count = namedParamJdbcTemplate.update(insertRevisionsQry, paramSource,keyHolder1);
 								insertCount++;
 						 }
 						
@@ -1066,6 +1066,9 @@ public class RiskDaoImpl implements RiskDao{
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt1, rs);
 		}
 		 int arr[] = new int[2];
 		arr[0] = updateCount;

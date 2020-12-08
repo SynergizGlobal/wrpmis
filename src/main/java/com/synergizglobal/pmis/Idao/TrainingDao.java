@@ -34,5 +34,7 @@ public interface TrainingDao {
 
 	public List<Training> getUsersList() throws Exception;
 
+	public int uploadTraining(List<Training> trainingsList) throws Exception;
+
 
 }

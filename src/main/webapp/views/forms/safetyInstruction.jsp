@@ -76,7 +76,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>
-                                                            <input id="name0" type="text" class="validate"
+                                                            <input id="document_names0" names="document_name" type="text" class="validate"
                                                                 placeholder="Name">
                                                         </td>
                                                         <td>

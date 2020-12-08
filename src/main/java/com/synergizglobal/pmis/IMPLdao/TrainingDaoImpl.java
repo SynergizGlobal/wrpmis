@@ -40,6 +40,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.Training;
 
 @Repository
@@ -731,6 +732,162 @@ public class TrainingDaoImpl implements TrainingDao{
 		}
 		return objsList;
 	}
-	
+
+	@Override
+	public int uploadTraining(List<Training> trainingsList) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		int count = 0;
+		int insertCount = 0;
+		String training_id =null;
+		try{
+			
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String insertQry = "insert into  training  (training_type_fk , training_category_fk, faculty_name, designation,title,description,training_center,status_fk,remarks) "
+					+ "VALUES(:training_type_fk,:training_category_fk,:faculty_name,:designation,:title,:description,:training_center,:status_fk,:remarks)";
+			for (Training obj : trainingsList) {
+				if(!StringUtils.isEmpty(obj.getTraining_id())) {
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				KeyHolder keyHolder = new GeneratedKeyHolder();
+				count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+				if(count > 0) {
+				    training_id = String.valueOf(keyHolder.getKey().intValue());
+					obj.setTraining_id(training_id);
+					insertCount++;
+				}
+				if(!StringUtils.isEmpty(obj.getTrainingSessions())) {
+						String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,"
+								+"remarks) "
+								+"VALUES (?,?,?,?,?)";
+						con = dataSource.getConnection();
+						insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
+						for (int i=0; i<obj.getTrainingSessions().size(); i++) {
+							String session_no = obj.getTrainingSessions().get(i).getSession_no();
+							String start_date = obj.getTrainingSessions().get(i).getStart_time();
+							String end_date = obj.getTrainingSessions().get(i).getEnd_time();
+							String remarks = obj.getTrainingSessions().get(i).getRemarks();
+							
+							int k =1;
+						 	insertStmt.setString(k++,(obj.getTraining_id()));
+							insertStmt.setString(k++,!StringUtils.isEmpty(session_no)?session_no:null);
+						    insertStmt.setString(k++,DateParser.parseDateTime(!StringUtils.isEmpty(start_date)?start_date:null));
+						    insertStmt.setString(k++,DateParser.parseDateTime(!StringUtils.isEmpty(end_date)?end_date:null));
+						    insertStmt.setString(k++,!StringUtils.isEmpty(remarks)?remarks:null);
+						    insertStmt.addBatch();
+						 }
+						int[] insertCount1 = insertStmt.executeBatch();
+						rs = insertStmt.getGeneratedKeys();
+						if (rs.next()) {
+							String revisionId = rs.getString(1);
+							obj.setTraining_session_id(revisionId);
+						}
+					    if(!StringUtils.isEmpty(obj.getTrainingAttendees())) {
+							String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,department_fk,attendee,hod_user_id_fk,mobile_no,required_fk,"
+									+"participated_fk) "
+									+"VALUES (?,?,?,?,?,?,?,?)";
+						  
+							        int[] counts1 = jdbcTemplate.batchUpdate(insertQry2,
+						            new BatchPreparedStatementSetter() {
+										@Override
+										public void setValues(PreparedStatement ps, int j) throws SQLException {
+											try {										
+												String department = obj.getTrainingAttendees().get(j).getDepartment_fk();
+												String attende = obj.getTrainingAttendees().get(j).getAttendee();
+												String hod = obj.getTrainingAttendees().get(j).getHod_user_id_fk();
+												String mobile_no = obj.getTrainingAttendees().get(j).getMobile_no();
+												String requried = obj.getTrainingAttendees().get(j).getRequired_fk();
+												String participated = obj.getTrainingAttendees().get(j).getParticipated_fk();
+												
+												String departmentFk = getDepartmentFk(department);
+												String userId = getUserId(hod);
+												int p = 1;
+												ps.setString(p++,(obj.getTraining_id()));
+												ps.setString(p++,(obj.getTraining_session_id()));
+												ps.setString(p++,!StringUtils.isEmpty(departmentFk)?departmentFk:null);
+												ps.setString(p++,!StringUtils.isEmpty(attende)?attende:null);
+												ps.setString(p++,!StringUtils.isEmpty(userId)?userId:null);
+												ps.setString(p++,!StringUtils.isEmpty(mobile_no)?mobile_no:null);
+												ps.setString(p++,!StringUtils.isEmpty(requried)?requried:null);
+												ps.setString(p++,!StringUtils.isEmpty(participated)?participated:null);
+											
+											} catch (Exception e) {
+												
+											}
+										}
+										@Override
+										public int getBatchSize() {
+											return obj.getTrainingAttendees().size();
+									}
+							  });
+						}
+					}
+			    }
+		   }
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
+		}
+		
+		return insertCount;
+		
+	}
+
+	private String getUserId(String hod) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String user_id = null;
+		 Connection con = null;
+		try{
+			con = dataSource.getConnection();
+			String deptFkQry = "SELECT user_id from user where designation = ? ";
+			stmt = con.prepareStatement(deptFkQry);
+			int k =1;
+			stmt.setString(k++, hod);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				user_id = rs.getString("user_id");
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return user_id;
+	}
+
+	private String getDepartmentFk(String department) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String department_fk = null;
+		 Connection con = null;
+		try{
+			con = dataSource.getConnection();
+			String deptFkQry = "SELECT department from department where department_name = ? ";
+			stmt = con.prepareStatement(deptFkQry);
+			int k =1;
+			stmt.setString(k++, department);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				department_fk = rs.getString("department");
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return department_fk;
+	}
+
+		
+
 
 }

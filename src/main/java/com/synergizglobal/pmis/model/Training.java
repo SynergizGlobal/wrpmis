@@ -1,21 +1,51 @@
 package com.synergizglobal.pmis.model;
 
+import java.lang.reflect.Field;
 import java.util.List;
+
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 public class Training {
 
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
-	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ;
+	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,date;
 
+	private MultipartFile trainingFile;
+	
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks;
 
-    private int [] rowCounts;
+    private int [] rowCounts,attendeesRowCount;
+
+	public int[] getAttendeesRowCount() {
+		return attendeesRowCount;
+	}
+
+	public void setAttendeesRowCount(int[] attendeesRowCount) {
+		this.attendeesRowCount = attendeesRowCount;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public MultipartFile getTrainingFile() {
+		return trainingFile;
+	}
+
+	public void setTrainingFile(MultipartFile trainingFile) {
+		this.trainingFile = trainingFile;
+	}
 
 	public String getUser_name() {
 		return user_name;
@@ -410,5 +440,18 @@ public class Training {
 
 	public void setEnd_time(String end_time) {
 		this.end_time = end_time;
+	}
+	
+	public boolean checkNullOrEmpty() throws IllegalAccessException {
+		boolean flag = true;
+		try {
+			for (Field f : getClass().getDeclaredFields())
+		        if (!StringUtils.isEmpty(f.get(this)))
+		        	flag = false;
+		} catch (Exception e) {
+			
+		}
+	    
+	    return flag;            
 	}
 }

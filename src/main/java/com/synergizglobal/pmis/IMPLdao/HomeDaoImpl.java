@@ -313,14 +313,15 @@ public class HomeDaoImpl implements HomeDao {
 					+ "from `project`";
 			
 			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
-					+ "sum(wr.sanctioned_completion_cost) as sanctioned_completion_cost,max(wr.year_of_completion) as year_of_completion, " 
+					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, " 
 					+ "max(wr.projected_completion) as projected_completion_year,"
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
 			
 			String workQry = "select wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
-					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year "
+					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year, "
+					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ?";
 			
 			objsList = jdbcTemplate.query( projectQry, new BeanPropertyRowMapper<Project>(Project.class));
@@ -331,10 +332,10 @@ public class HomeDaoImpl implements HomeDao {
 				Project projectInfo = jdbcTemplate.queryForObject( projectDetailsQry, new Object[] {project.getProject_id(),project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
 				if(!StringUtils.isEmpty(projectInfo)) {
 					
-					project.setSanctioned_estimated_cost(projectInfo.getSanctioned_completion_cost());
+					project.setSanctioned_estimated_cost(projectInfo.getSanctioned_estimated_cost());
 					project.setSanctioned_year_fk(projectInfo.getSanctioned_year_fk());
 					
-					project.setSanctioned_completion_cost(projectInfo.getSanctioned_completion_cost());
+					project.setCompletion_cost(projectInfo.getCompletion_cost());
 					project.setYear_of_completion(projectInfo.getYear_of_completion());
 					
 					project.setProjected_completion_year(projectInfo.getProjected_completion_year());

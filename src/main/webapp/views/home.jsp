@@ -197,7 +197,7 @@
 	                            </p>
 	                            <p class="aligncenter">:</p>
 	                            <p class="alignright">
-	                            <c:if test="${pObj.project_status eq 'Closed' }">${pObj.sanctioned_completion_cost }</c:if>
+	                            <c:if test="${pObj.project_status eq 'Closed' }">${pObj.completion_cost }</c:if>
 	                            <c:if test="${pObj.project_status eq 'Open' }">${pObj.latest_revised_cost}</c:if>
 	                            </p>
 	                        </div>
@@ -240,7 +240,7 @@
 		                                                    <p class="aligncenter">:</p>
 		                                                    <p class="alignright">${wObj.sanctioned_year_fk }</p>
 		                                                </div>
-		                                                <div class="line">
+		                                               <%--  <div class="line">
 		                                                    <p class="alignleft">Completion Cost</p>
 		                                                    <p class="aligncenter">:</p>
 		                                                    <p class="alignright">${wObj.completion_cost}</p>
@@ -249,7 +249,31 @@
 		                                                    <p class="alignleft">Completion Year</p>
 		                                                    <p class="aligncenter">:</p>
 		                                                    <p class="alignright">${wObj.projected_completion_year}</p>
-		                                                </div>
+		                                                </div> --%>
+		                                                
+		                                                <div class="line">
+								                            <p class="alignleft">
+								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">Completion Cost</c:if>
+								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">Latest Revised Cost</c:if>
+								                            </p>
+								                            <p class="aligncenter">:</p>
+								                            <p class="alignright">
+								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">${wObj.completion_cost }</c:if>
+								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">${wObj.latest_revised_cost}</c:if>
+								                            </p>
+								                        </div>
+								                        <div class="line">
+								                            <p class="alignleft">
+								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">Completion Year</c:if>
+								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">Projected Completion Year</c:if>
+								                            </p>
+								                            <p class="aligncenter">:</p>
+								                            <p class="alignright">
+								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">${wObj.year_of_completion }</c:if>
+								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">${wObj.projected_completion_year }</c:if>
+								                            </p>
+								                        </div>
+	                        
 		                                            </div>
 		                                        </div>
 		                                    </div>

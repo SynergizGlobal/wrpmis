@@ -62,13 +62,17 @@
     </style> -->
     
      <style>
+        nav {
+            box-shadow: none !important;
+        }
+
         .card-title {
             text-transform: capitalize;
         }
 
-        .card.main-clr {
-            background-color: #fdfdfd ;
-            border-radius: 10px !important;
+        .main-clr {
+            background-color: #fdfdfd;
+            border-radius: 10px;
         }
 
         .no-mar .row {
@@ -91,7 +95,7 @@
         .card.sec-clr .card.main-clr.active,
         .card.sec-clr .card.main-clr,
         .card.sec-clr .card.sec-clr {
-            background-color: #f0f7ff ;
+            background-color: #f0f7ff;
         }
 
         .card-title .material-icons {
@@ -115,8 +119,8 @@
         .card.sec-clr .card.main-clr.active .card-content:after {
             border-color: #f0f7ff transparent transparent transparent;
         }
-      
-           .card.main-clr {
+
+        .card.main-clr {
             min-height: 180px;
         }
 
@@ -133,7 +137,7 @@
 
         .card.main-clr .line>.alignleft {
             float: left;
-            width: 48.33333%;
+            width: 58.33333%;
             text-align: left;
         }
 
@@ -145,8 +149,18 @@
 
         .card.main-clr .line>.alignright {
             float: left;
-            width: 48.33333%;
+            width: 38.33333%;
             text-align: right;
+        }
+
+        .result {
+            width: 70vw;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .result {
+                width: 90vw;
+            }
         }
     </style>
 </head>
@@ -155,119 +169,36 @@
   <!-- header included -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
 
-<!--   <div class="row no-mar">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content" style="height: 660px;">
-                    <span class="card-title ">
-                        <div class="center-align p-2">
-                            <h4> Welcome to MRVC PMIS </h4>
-                            <img src="/pmis/resources/images/mrvclogo.png" alt="lgo" style="width: 10%;">
-                        </div>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-     -->
-     
-        	
-    <div class="container-fluid no-mar" style="margin-bottom:40px">
+  
+    <div class="container no-mar" style="margin-bottom:40px">
         <div class="row">
-            <div class="col m1 hide-on-small"></div>
-            <div class="col m10 s12">
-                <div class="row">
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="1" onclick="showdiv(this,1)">
-                            <div class="card-content">
-                                <span class="card-title center-align">MUTP - I</span>
-                                
-                                <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
-                            </div>
+            <div class="col s12 m4">
+                <div class="card main-clr" onclick="showdiv(this)">
+                    <div class="card-content">
+                        <span class="card-title center-align">MUTP - I</span>
+                        <div class="line">
+                            <p class="alignleft">Origional Sanctioned Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,00,00,000</p>
                         </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="1" onclick="showdiv(this,1)">
-                            <div class="card-content">
-                                <span class="card-title center-align">MUTP - II</span>
-                                <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sanctioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2019</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Latest Revised Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">1,90,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Projected Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
-                            </div>
+                        <div class="line">
+                            <p class="alignleft">Sactioned Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2018</p>
                         </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="1" onclick="showdiv(this,1)">
-                            <div class="card-content">
-                                <span class="card-title center-align">MUTP - II B</span>
-                                  <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
-                            </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,10,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2020</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col m1 hide-on-small"></div>
-        </div>
-
-        <div class="row result hidden" id="result1">
-            <div class="col m1 hide-on-small"></div>
-            <div class="col m10 s12">
-                <div class="row">
+                <div class="row result hidden" id="result1">
                     <div class="col s12 m12">
                         <div class="card sec-clr">
                             <div class="card-content">
@@ -278,319 +209,715 @@
                                 </div>
                                 <div class="row">
                                     <div class="col s12 m4">
-                                        <div class="card main-clr" >
+                                        <div class="card main-clr">
                                             <div class="card-content">
                                                 <span class="card-title center-align">thane diva </span>
-                                                  <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col s12 m4">
-                                        <div class="card main-clr" >
+                                        <div class="card main-clr">
                                             <div class="card-content">
                                                 <span class="card-title center-align">harbour line</span>
-                                                  <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col s12 m4">
-                                        <div class="card main-clr" >
+                                        <div class="card main-clr">
                                             <div class="card-content">
                                                 <span class="card-title center-align">stabling lines</span>
-                                                   <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col s12 m4">
-                                        <div class="card main-clr" >
+                                        <div class="card main-clr">
                                             <div class="card-content">
                                                 <span class="card-title center-align">dc to ac conversion</span>
-                                                   <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>                              
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col m1 hide-on-small"></div>
-        </div>
-
-        <div class="row">
-            <div class="col m1 hide-on-small"></div>
-            <div class="col m10 s12">
-                <div class="row">
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="2" onclick="showdiv(this,2)">
-                            <div class="card-content">
-                                <span class="card-title center-align">MUTP - III</span>
-                                   <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="2" onclick="showdiv(this,2)">
-                            <div class="card-content">
-                                <span class="card-title center-align">MUTP - III A</span>
-                                  <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="2" onclick="showdiv(this,2)">
-                            <div class="card-content">
-                                <span class="card-title center-align">PH-53 FOB</span>
-                                  <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col m1 hide-on-small"></div>
-        </div>
-
-        <div class="row hidden result" id="result2">
-            <div class="col m1 hide-on-small"></div>
-            <div class="col m10 s12">
-                <div class="row">
+            <div class="col s12 m4">
+                <div class="card main-clr" onclick="showdiv(this)">
+                    <div class="card-content">
+                        <span class="card-title center-align">MUTP - II</span>
+                        <div class="line">
+                            <p class="alignleft">Origional Sanctioned Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,00,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Sanctioned Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2019</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Latest Revised Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">1,90,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Projected Completion Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2020</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row result hidden" id="result2">
                     <div class="col s12 m12">
                         <div class="card sec-clr">
                             <div class="card-content">
-                                <div class="card-title">
+                                <div class="card-title"> &nbsp;
                                     <span class="right">
                                         <span class="material-icons" onclick="closeDiv(2)">close</span>
                                     </span>
                                 </div>
-                                <p>MUTP - II B Data</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col m1 hide-on-small"></div>
-        </div>
-
-        <div class="row">
-            <div class="col m1 hide-on-small"></div>
-            <div class="col m10 s12">
-                <div class="row">
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="3" onclick="showdiv(this,3)">
-                            <div class="card-content">
-                                <span class="card-title center-align">PH-53 FOB WR</span>
-                                  <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card main-clr" data-row="3" onclick="showdiv(this,3)">
-                            <div class="card-content">
-                                <span class="card-title center-align">Other Works</span>
-                                 <div class="line">
-                                    <p class="alignleft">Origional Sanctioned Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,00,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Sactioned Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2018</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Cost</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2,10,00,000</p>
-                                </div>
-                                <div class="line">
-                                    <p class="alignleft">Completion Year</p>
-                                    <p class="aligncenter">:</p>
-                                    <p class="alignright">2020</p>
+                                <div class="row">
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">thane diva </span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">harbour line</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col m1 hide-on-small"></div>
-        </div>
-
-        <div class="row hidden result" id="result3">
-            <div class="col m1 hide-on-small"></div>
-            <div class="col m10 s12">
-                <div class="row">
+            <div class="col s12 m4">
+                <div class="card main-clr" onclick="showdiv(this)">
+                    <div class="card-content">
+                        <span class="card-title center-align">MUTP - II B</span>
+                        <div class="line">
+                            <p class="alignleft">Origional Sanctioned Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,00,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Sactioned Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2018</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,10,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2020</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row result hidden" id="result3">
                     <div class="col s12 m12">
                         <div class="card sec-clr">
                             <div class="card-content">
-                                <div class="card-title">
+                                <div class="card-title"> &nbsp;
                                     <span class="right">
                                         <span class="material-icons" onclick="closeDiv(3)">close</span>
                                     </span>
                                 </div>
-                                <p>MUTP - II B Data</p>
+                                <div class="row">
+
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">harbour line</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">stabling lines</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">dc to ac conversion</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col m1 hide-on-small"></div>
         </div>
 
-    </div>
-    
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="card main-clr" onclick="showdiv(this)">
+                    <div class="card-content">
+                        <span class="card-title center-align">MUTP - I</span>
+                        <div class="line">
+                            <p class="alignleft">Origional Sanctioned Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,00,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Sactioned Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2018</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,10,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2020</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row result hidden" id="result4">
+                    <div class="col s12 m12">
+                        <div class="card sec-clr">
+                            <div class="card-content">
+                                <div class="card-title"> &nbsp;
+                                    <span class="right">
+                                        <span class="material-icons" onclick="closeDiv(4)">close</span>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">thane diva </span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">harbour line</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">stabling lines</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">dc to ac conversion</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card main-clr" onclick="showdiv(this)">
+                    <div class="card-content">
+                        <span class="card-title center-align">MUTP - II</span>
+                        <div class="line">
+                            <p class="alignleft">Origional Sanctioned Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,00,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Sanctioned Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2019</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Latest Revised Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">1,90,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Projected Completion Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2020</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row result hidden" id="result5">
+                    <div class="col s12 m12">
+                        <div class="card sec-clr">
+                            <div class="card-content">
+                                <div class="card-title"> &nbsp;
+                                    <span class="right">
+                                        <span class="material-icons" onclick="closeDiv(5)">close</span>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">thane diva </span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">harbour line</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card main-clr" onclick="showdiv(this)">
+                    <div class="card-content">
+                        <span class="card-title center-align">MUTP - II B</span>
+                        <div class="line">
+                            <p class="alignleft">Origional Sanctioned Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,00,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Sactioned Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2018</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Cost</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2,10,00,000</p>
+                        </div>
+                        <div class="line">
+                            <p class="alignleft">Completion Year</p>
+                            <p class="aligncenter">:</p>
+                            <p class="alignright">2020</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row result hidden" id="result6">
+                    <div class="col s12 m12">
+                        <div class="card sec-clr">
+                            <div class="card-content">
+                                <div class="card-title"> &nbsp;
+                                    <span class="right">
+                                        <span class="material-icons" onclick="closeDiv(6)">close</span>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">harbour line</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">stabling lines</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m4">
+                                        <div class="card main-clr">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">dc to ac conversion</span>
+                                                <div class="line">
+                                                    <p class="alignleft">Origional Sanctioned Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,00,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Sactioned Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2018</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Cost</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2,10,00,000</p>
+                                                </div>
+                                                <div class="line">
+                                                    <p class="alignleft">Completion Year</p>
+                                                    <p class="aligncenter">:</p>
+                                                    <p class="alignright">2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>    
 
 
   <!-- footer included -->
@@ -602,25 +929,46 @@
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
 
-  <script>
-        function showdiv(present, no) {
-            $('.card.main-clr.active').each(function () {
-                if ($(this).attr('data-row') == no) {
-                    $(this).removeClass('active');
+   <script>
+        $(document).ready(function () {
+            $('.notification.dropdown-trigger').dropdown({
+                coverTrigger: false,
+                closeOnClick: false,
+                onOpenStart() {
+                    $('<div class="modal-overlay" style="z-index:9998; display: block; opacity: 0.7;"></div>').insertAfter('#dropdown1');
+                },
+                onCloseStart() {
+                    $('#dropdown1').next('.modal-overlay').remove();
                 }
+            });
+            $('.sidenav').sidenav();
+            $('.collapsible').collapsible();
+        });
+
+        function showdiv(present) {
+            $('.result').each(function () {
+                if (!$(this).hasClass('hidden')) {
+                    $(this).addClass('hidden');
+                }
+            });
+            $('.card.main-clr.active').each(function () {
+                $(this).removeClass('active');
             });
             $(present).addClass('active');
-            $('#result' + no).removeClass('hidden');           
+            $(present).parent().find('.result').removeClass('hidden');
+            var colLeft = Number($(present).parent().position().left);
+            var rowLeft = Number($(present).parent().parent().position().left);
+            $(present).parent().find('.result').css('margin-left', (rowLeft - colLeft - 10) + 'px');
         }
+
         function closeDiv(no) {
             $('.card.main-clr.active').each(function () {
-                if ($(this).attr('data-row') == no) {
-                    $(this).removeClass('active');
-                }
+                $(this).removeClass('active');
             });
             $('#result' + no).addClass('hidden');
-        }      
+        }
 
+        
     </script>
     
 </body>

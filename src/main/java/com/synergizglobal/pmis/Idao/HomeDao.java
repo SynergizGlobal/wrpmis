@@ -14,4 +14,5 @@ public interface HomeDao {
 	public List<Project> getProjectsList() throws Exception;
 	public List<Work> getWorksList(Work obj) throws Exception;
 	public List<String> getGeneralStatusList() throws Exception;
+	public List<Project> getProjectsInformation(Project obj) throws Exception;
 }

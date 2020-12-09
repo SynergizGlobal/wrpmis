@@ -47,9 +47,12 @@ public class HomeController {
 		try {
 			 if (session.getAttribute("user") != null ) {
 		         model.setViewName(PageConstants.home);
-		         
 		         model.addObject("homeHeader", "yes");
-				 
+		         
+		         Project obj = new Project();
+		         
+		         List<Project> projectsInfo = homeService.getProjectsInformation(obj);
+		         model.addObject("projectsInfo", projectsInfo);
 			 } else {
 				 model.setViewName(PageConstants.login);
 			 }				

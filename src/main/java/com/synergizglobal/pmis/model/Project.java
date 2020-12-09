@@ -1,7 +1,40 @@
 package com.synergizglobal.pmis.model;
 
 public class Project {
-	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks;
+	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status
+	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost;
+
+	public String getSanctioned_estimated_cost() {
+		return sanctioned_estimated_cost;
+	}
+
+	public void setSanctioned_estimated_cost(String sanctioned_estimated_cost) {
+		this.sanctioned_estimated_cost = sanctioned_estimated_cost;
+	}
+
+	public String getSanctioned_year_fk() {
+		return sanctioned_year_fk;
+	}
+
+	public void setSanctioned_year_fk(String sanctioned_year_fk) {
+		this.sanctioned_year_fk = sanctioned_year_fk;
+	}
+
+	public String getSanctioned_completion_cost() {
+		return sanctioned_completion_cost;
+	}
+
+	public void setSanctioned_completion_cost(String sanctioned_completion_cost) {
+		this.sanctioned_completion_cost = sanctioned_completion_cost;
+	}
+
+	public String getYear_of_completion() {
+		return year_of_completion;
+	}
+
+	public void setYear_of_completion(String year_of_completion) {
+		this.year_of_completion = year_of_completion;
+	}
 
 	public String getProject_id() {
 		return project_id;
@@ -41,6 +74,38 @@ public class Project {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getProject_description() {
+		return project_description;
+	}
+
+	public void setProject_description(String project_description) {
+		this.project_description = project_description;
+	}
+
+	public String getProject_status() {
+		return project_status;
+	}
+
+	public void setProject_status(String project_status) {
+		this.project_status = project_status;
+	}
+
+	public String getProjected_completion_year() {
+		return projected_completion_year;
+	}
+
+	public void setProjected_completion_year(String projected_completion_year) {
+		this.projected_completion_year = projected_completion_year;
+	}
+
+	public String getLatest_revised_cost() {
+		return latest_revised_cost;
+	}
+
+	public void setLatest_revised_cost(String latest_revised_cost) {
+		this.latest_revised_cost = latest_revised_cost;
 	}
 	
 }

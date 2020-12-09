@@ -3,6 +3,8 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -305,7 +307,7 @@ public class HomeDaoImpl implements HomeDao {
 	@Override
 	public List<Project> getProjectsInformation(Project obj) throws Exception {
 		List<Project> objsList = new ArrayList<Project>();
-		List<Project> objsList2 = new ArrayList<Project>();
+		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String projectQry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status "
 					+ "from `project`";
@@ -341,14 +343,12 @@ public class HomeDaoImpl implements HomeDao {
 				
 				List<Work> worksInfo = jdbcTemplate.query( workQry, new Object[] {project.getProject_id()}, new BeanPropertyRowMapper<Work>(Work.class));
 				project.setWorksInfo(worksInfo);
-				
-				objsList2.add(project);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
 		}
-		return objsList2;
+		return objsList;
 	}
 	
 }

@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.Idao.BudgetDao;
 import com.synergizglobal.pmis.Idao.RiskDao;
 import com.synergizglobal.pmis.Iservice.RiskService;
 import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.RiskReport;
 
 @Service
 public class RiskServiceImpl implements RiskService{
@@ -100,5 +100,10 @@ public class RiskServiceImpl implements RiskService{
 	@Override
 	public List<Risk> getAssessmentDatesFilterList(Risk obj) throws Exception {
 		 return dao.getAssessmentDatesFilterList(obj);
+	}
+
+	@Override
+	public List<RiskReport> getExportRiskList(Risk risk) throws Exception {
+		 return dao.getExportRiskList(risk);
 	}
 }

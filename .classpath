@@ -30,25 +30,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Synergiz/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar" sourcepath="C:/Users/Synergiz/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="commons-collections4-4.4.jar"/>
-			<attribute name="maven.groupId" value="org.apache.commons"/>
-			<attribute name="maven.artifactId" value="commons-collections4"/>
-			<attribute name="maven.version" value="4.4"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Synergiz/.m2/repository/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7.jar" sourcepath="C:/Users/Synergiz/.m2/repository/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="commons-lang3-3.7.jar"/>
-			<attribute name="maven.groupId" value="org.apache.commons"/>
-			<attribute name="maven.artifactId" value="commons-lang3"/>
-			<attribute name="maven.version" value="3.7"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

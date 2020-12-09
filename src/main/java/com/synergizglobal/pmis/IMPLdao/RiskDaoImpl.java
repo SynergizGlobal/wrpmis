@@ -3,22 +3,15 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -26,19 +19,13 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.RiskDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
-import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Risk;
-import com.synergizglobal.pmis.model.Training;
-import com.synergizglobal.pmis.model.Work;
+import com.synergizglobal.pmis.model.RiskReport;
 @Repository
 public class RiskDaoImpl implements RiskDao{
 
@@ -1154,6 +1141,69 @@ public class RiskDaoImpl implements RiskDao{
 		}
 		return risk_id_pk;
 	}
+	@Override
+	public List<RiskReport> getExportRiskList(Risk obj) throws Exception {
+		List<RiskReport> risksList = null;
+		try {
+			String qry = "select id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,"
+							+ "priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date "
+							+ "from risk_view rv " 
+							+ "where risk_id is not null";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				qry = qry + " and area = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and rv.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
+				qry = qry + " and responsible_person = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getClassification())) {
+				qry = qry + " and classification = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPriority())) {
+				qry = qry + " and priority = ?";
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
 
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				pValues[i++] = obj.getArea();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
+				pValues[i++] = obj.getResponsible_person();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getClassification())) {
+				pValues[i++] = obj.getClassification();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPriority())) {
+				pValues[i++] = obj.getPriority();
+			}
+			
+			
+			risksList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return risksList;
+	}
 
 }

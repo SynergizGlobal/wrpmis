@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.Idao;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.RiskReport;
 
 public interface RiskDao {
 
@@ -39,5 +40,7 @@ public interface RiskDao {
 	public int[] uploadRisks(List<Risk> risksList) throws Exception;
 
 	public List<Risk> getAssessmentDatesFilterList(Risk obj) throws Exception;
+
+	public List<RiskReport> getExportRiskList(Risk risk) throws Exception;
 
 }

@@ -1,8 +1,12 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 public class Project {
 	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status
-	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost;
+	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,completion_cost,work_short_name;
+	
+	private List<Work> worksInfo;
 
 	public String getSanctioned_estimated_cost() {
 		return sanctioned_estimated_cost;
@@ -106,6 +110,30 @@ public class Project {
 
 	public void setLatest_revised_cost(String latest_revised_cost) {
 		this.latest_revised_cost = latest_revised_cost;
+	}
+
+	public String getCompletion_cost() {
+		return completion_cost;
+	}
+
+	public void setCompletion_cost(String completion_cost) {
+		this.completion_cost = completion_cost;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
+	public List<Work> getWorksInfo() {
+		return worksInfo;
+	}
+
+	public void setWorksInfo(List<Work> worksInfo) {
+		this.worksInfo = worksInfo;
 	}
 	
 }

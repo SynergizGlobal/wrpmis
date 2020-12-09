@@ -8,7 +8,8 @@ public class Work {
 	private String work_id,work_name,work_short_name,project_id_fk,sanctioned_year,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,pink_book_item_number,latest_revised_cost,
-	year_of_revision,revision_number,wys_renarks,attachment,railway,executed_by,projected_completion;
+	year_of_revision,revision_number,wys_renarks,attachment,railway,executed_by,projected_completion,
+	projected_completion_year;
 
 
 	private String[] financial_years,pink_book_item_numbers,latest_revised_costs,
@@ -331,6 +332,14 @@ public class Work {
 
 	public void setProjected_completion(String projected_completion) {
 		this.projected_completion = projected_completion;
+	}
+
+	public String getProjected_completion_year() {
+		return projected_completion_year;
+	}
+
+	public void setProjected_completion_year(String projected_completion_year) {
+		this.projected_completion_year = projected_completion_year;
 	}
 	
 }

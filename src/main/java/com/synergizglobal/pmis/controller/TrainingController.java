@@ -176,7 +176,7 @@ public class TrainingController {
 		return model;
 	 }
 	
-	@RequestMapping(value = "/get-training", method = {RequestMethod.POST})
+	@RequestMapping(value = "/get-training", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView getTraining(@ModelAttribute Training obj ){
 		ModelAndView model = new ModelAndView();
 		try{

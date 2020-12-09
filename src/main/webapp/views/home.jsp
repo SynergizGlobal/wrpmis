@@ -121,7 +121,7 @@
         }
 
         .card.main-clr {
-            min-height: 180px;
+            min-height: 240px;
         }
 
         .card.main-clr .line {
@@ -162,6 +162,7 @@
                 width: 90vw;
             }
         }
+       
     </style>
 </head>
 
@@ -174,6 +175,7 @@
         <div class="row">
         
         	<c:forEach var="pObj" items="${projectsInfo}" varStatus="index">
+        	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
 	            <div class="col s12 m4">
 	                <div id="project_data_${index.count }" class="card main-clr" onclick="showWorkData('${index.count }')">
 	                    <div class="card-content">
@@ -223,6 +225,7 @@
 	                                </div>
 	                                <div class="row">
 	                                	<c:forEach var="wObj" items="${pObj.worksInfo}" varStatus="index">
+	                                	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
 		                                    <div class="col s12 m4">
 		                                        <div class="card main-clr">
 		                                            <div class="card-content">
@@ -257,6 +260,7 @@
 	                    </div>
 	                </div>
 	            </div> 
+	            	           
             </c:forEach>
         </div>
     </div>    
@@ -298,6 +302,7 @@
             });
             $("#project_data_"+indexNo).addClass('active');
             $("#project_data_"+indexNo).parent().find('.result').removeClass('hidden');
+            
             var colLeft = Number($("#project_data_"+indexNo).parent().position().left);
             var rowLeft = Number($("#project_data_"+indexNo).parent().parent().position().left);
             $("#project_data_"+indexNo).parent().find('.result').css('margin-left', (rowLeft - colLeft - 10) + 'px');

@@ -37,10 +37,12 @@ public interface RiskService {
 
 	public boolean updateRisk(Risk obj) throws Exception;
 
-	public int[] uploadRisks(List<Risk> risksList) throws Exception;
+	public int[] uploadRisks(List<Risk> risksList, List<Risk> revisionList) throws Exception;
 
 	public List<Risk> getAssessmentDatesFilterList(Risk obj) throws Exception;
 
 	public List<RiskReport> getExportRiskList(Risk risk) throws Exception;
+
+	public List<RiskReport> getATRRevisionDataList(Risk risk) throws Exception;
 
 }

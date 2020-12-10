@@ -93,8 +93,8 @@ public class RiskServiceImpl implements RiskService{
 	}
 
 	@Override
-	public int[] uploadRisks(List<Risk> risksList) throws Exception {
-		 return dao.uploadRisks(risksList);
+	public int[] uploadRisks(List<Risk> risksList, List<Risk> revisionList) throws Exception {
+		 return dao.uploadRisks(risksList,revisionList);
 	}
 
 	@Override
@@ -105,5 +105,10 @@ public class RiskServiceImpl implements RiskService{
 	@Override
 	public List<RiskReport> getExportRiskList(Risk risk) throws Exception {
 		 return dao.getExportRiskList(risk);
+	}
+
+	@Override
+	public List<RiskReport> getATRRevisionDataList(Risk risk) throws Exception {
+		return dao.getATRRevisionDataList(risk);
 	}
 }

@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class Risk {
 	
 	private String risk_id_pk,id, project_name,work_name,project_id_fk, work_id_fk, risk_id, sub_area_fk, date_of_identification,area,risk_revision_id, risk_id_pk_fk, date,
-	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,sub_area, risk_area_fk,classification,atr_date,work_id;
+	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,
+	sub_area, risk_area_fk,classification,atr_date,work_id,risk_rating,status;
 
 	private MultipartFile riskFile;
 
@@ -429,5 +430,21 @@ public class Risk {
 		}
 	    
 	    return flag;            
+	}
+
+	public String getRisk_rating() {
+		return risk_rating;
+	}
+
+	public void setRisk_rating(String risk_rating) {
+		this.risk_rating = risk_rating;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

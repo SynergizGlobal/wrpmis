@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.NumberUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -419,71 +421,50 @@ public class RiskController {
 							if(!StringUtils.isEmpty(val)) { risk.setWork_id_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(1)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setRisk_id(val);}
+							if(!StringUtils.isEmpty(val)) { risk.setItem_no(val);}
 							
 							val = formatter.formatCellValue(row.getCell(2)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setOwner(val);}
+							if(!StringUtils.isEmpty(val)) { risk.setRisk_id(val);}
 							
 							val = formatter.formatCellValue(row.getCell(3)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setArea(val);}	
+							if(!StringUtils.isEmpty(val)) { risk.setOwner(val);}
 							
 							val = formatter.formatCellValue(row.getCell(4)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setSub_area_fk(val);}					
+							if(!StringUtils.isEmpty(val)) { risk.setArea(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(5)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setDate(val);}								
+							if(!StringUtils.isEmpty(val)) { risk.setSub_area_fk(val);}					
 							
 							val = formatter.formatCellValue(row.getCell(6)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setProbability(val);}										
+							if(!StringUtils.isEmpty(val)) { risk.setDate(val);}								
 							
 							val = formatter.formatCellValue(row.getCell(7)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setImpact(val);}
+							if(!StringUtils.isEmpty(val)) { risk.setProbability(val);}										
 							
 							val = formatter.formatCellValue(row.getCell(8)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setMitigation_plan(val);}
+							if(!StringUtils.isEmpty(val)) { risk.setImpact(val);}
 							
 							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
+							val = formatter.formatCellValue(row.getCell(10)).trim();
+							if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(11)).trim();
+							if(!StringUtils.isEmpty(val)) { risk.setMitigation_plan(val);}
+							
+							val = formatter.formatCellValue(row.getCell(12)).trim();
 							if(!StringUtils.isEmpty(val)) { risk.setPriority_fk(val);}
 							
-							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setResponsible_person(val);}
+							val = formatter.formatCellValue(row.getCell(13)).trim();
+							if(!StringUtils.isEmpty(val)) { risk.setResponsible_person(val);}	
 							
-							
+							val = formatter.formatCellValue(row.getCell(14)).trim();
+							if(!StringUtils.isEmpty(val)) { risk.setStatus(val);;}
 							
 							risk.setDate(DateParser.parse(risk.getDate()));
 						
-						}
-						List<Risk> pObjList = new ArrayList<Risk>();
-						
-							XSSFSheet riskRevisionsSheet = workbook.getSheetAt(3);
-							for(int j = 1; j <= riskRevisionsSheet.getLastRowNum();j++){
-								XSSFRow row2 = riskRevisionsSheet.getRow(j);
-								// Sets the Read data to the model class
-								Risk pObj = new Risk();
-								if(!StringUtils.isEmpty(row2)) {
-									val = formatter.formatCellValue(row2.getCell(0)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setRisk_id(val);}
-									
-									val = formatter.formatCellValue(row2.getCell(1)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setDate(val);}
-									
-									val = formatter.formatCellValue(row2.getCell(2)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setAtr_date(val);}
-									
-									val = formatter.formatCellValue(row2.getCell(3)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setAction_taken(val);}
-									
-									pObj.setDate(DateParser.parse(pObj.getDate()));
-									pObj.setAtr_date(DateParser.parse(pObj.getAtr_date()));
-									
-								}
-								if(!StringUtils.isEmpty(pObj) && !StringUtils.isEmpty(pObj.getRisk_id())
-										&& pObj.getRisk_id().equals(risk.getRisk_id()))
-								pObjList.add(pObj);
-							}
-							risk.setRisks(pObjList);
-						
-						
+						}						
 						boolean flag = risk.checkNullOrEmpty();
 						
 						if(!flag) {
@@ -491,8 +472,40 @@ public class RiskController {
 						}
 					}
 					
-					if(!risksList.isEmpty() && risksList != null){
-						arr  = riskService.uploadRisks(risksList);
+					List<Risk> revisionList = new ArrayList<Risk>();
+					
+					XSSFSheet riskRevisionsSheet = workbook.getSheetAt(3);
+					for(int j = 1; j <= riskRevisionsSheet.getLastRowNum();j++){
+						XSSFRow row2 = riskRevisionsSheet.getRow(j);
+						// Sets the Read data to the model class
+						Risk pObj = new Risk();
+						String val = null;
+						if(!StringUtils.isEmpty(row2)) {
+							val = formatter.formatCellValue(row2.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { pObj.setRisk_id(val);}
+							
+							val = formatter.formatCellValue(row2.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { pObj.setDate(val);}
+							
+							val = formatter.formatCellValue(row2.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { pObj.setAtr_date(val);}
+							
+							val = formatter.formatCellValue(row2.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { pObj.setAction_taken(val);}
+							
+							pObj.setDate(DateParser.parse(pObj.getDate()));
+							pObj.setAtr_date(DateParser.parse(pObj.getAtr_date()));
+							
+						}
+						boolean flag = pObj.checkNullOrEmpty();
+						
+						if(!flag) {
+							revisionList.add(pObj);
+						}
+					}
+					
+					if(!risksList.isEmpty() || !revisionList.isEmpty()){
+						arr  = riskService.uploadRisks(risksList,revisionList);
 					}
 				}
 				workbook.close();
@@ -520,241 +533,256 @@ public class RiskController {
 	@RequestMapping(value = "/export-risks", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportRisks(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Risk risk,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.trainingGrid);
-		List<RiskReport> dataList = new ArrayList<RiskReport>();
+		List<RiskReport> riskDataList = new ArrayList<RiskReport>();
+		List<RiskReport> atrRevisionDataList = new ArrayList<RiskReport>();
 		try {
 			view.setViewName("redirect:/risk");
-			dataList =   riskService.getExportRiskList(risk);
-			if(dataList != null && dataList.size() > 0){
+			riskDataList =   riskService.getExportRiskList(risk);
+			atrRevisionDataList =   riskService.getATRRevisionDataList(risk);
 				
-				XSSFWorkbook  workBook = new XSSFWorkbook();
+			XSSFWorkbook  workBook = new XSSFWorkbook();
 
-	            /********************************************************/
-		        
-		        XSSFSheet indexSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Index"));
-		        workBook.setSheetOrder(indexSheet.getSheetName(), 0);
-		        
-		        XSSFSheet referenceDataSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
-		        workBook.setSheetOrder(referenceDataSheet.getSheetName(), 1);
-		        
-		        XSSFSheet riskSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Risk"));
-		        workBook.setSheetOrder(riskSheet.getSheetName(), 2);
-		        
-		        XSSFSheet revisionSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("ATR Revision"));
-		        workBook.setSheetOrder(revisionSheet.getSheetName(), 3);
-		        
-		        /***************************************************************************/
-		        
-				byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
-		        byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)0};
-		        byte[] greenRGB = new byte[]{(byte)144, (byte)208, (byte)80};
-		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
-		        
-		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
-		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        
-		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        
-		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
-		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        
-	            
-		        /***************************************************************/
-		        
-		        XSSFRow indexRow = indexSheet.createRow(1);
-		        Cell cell = indexRow.createCell(1);
-				cell.setCellStyle(blueStyle);
-				cell.setCellValue("");
-				
-				cell = indexRow.createCell(2);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Columns coming from Dropdowns");
-				indexSheet.autoSizeColumn(2);				
-				/********************************************************/
-				
-				/********************************************************/
-				indexRow = indexSheet.createRow(2);
-		        cell = indexRow.createCell(1);
-				cell.setCellStyle(yellowStyle);
-				cell.setCellValue("");
-				
-				cell = indexRow.createCell(2);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Format to be followed as per Guidelines");
-				indexSheet.autoSizeColumn(2);
-				/********************************************************/
-				
-				/********************************************************/
-				indexRow = indexSheet.createRow(3);
-		        cell = indexRow.createCell(1);
-				cell.setCellStyle(greenStyle);
-				cell.setCellValue("");
-				
-				cell = indexRow.createCell(2);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("To be filled by MRVC");
-				/********************************************************/
-				
-				/********************************************************/
-				indexRow = indexSheet.createRow(5);
-		        cell = indexRow.createCell(1);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("*Note: Reference Data should not be altered");	
-				
-				for (int i = 2; i < 7; i++) {
-					cell = indexRow.createCell(i);
-					cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue("");
-				}	
-				indexSheet.addMergedRegion(new CellRangeAddress(5, 5, 1,6));
-				
-				indexRow = indexSheet.createRow(6);
-		        cell = indexRow.createCell(1);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("**All dates should be in \"DD/MM/YYYY\"");
-				
-				for (int i = 2; i < 7; i++) {
-					cell = indexRow.createCell(i);
-					cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue("");
-				}	
-				indexSheet.addMergedRegion(new CellRangeAddress(6, 6, 1,6));
-				/********************************************************/
-		        
-		        
-		        /********************************************************/
-		        XSSFRow referenceDataRow = referenceDataSheet.createRow(0);
-		        cell = referenceDataRow.createCell(1);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Different Probabilities of Risk");
-				
-		        cell = referenceDataRow.createCell(3);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Different Impacts of Risk");
-				
-				cell = referenceDataRow.createCell(5);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Status of Risk");
-				
-				cell = referenceDataRow.createCell(7);
+            /********************************************************/
+	        
+	        XSSFSheet indexSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Index"));
+	        workBook.setSheetOrder(indexSheet.getSheetName(), 0);
+	        
+	        XSSFSheet referenceDataSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
+	        workBook.setSheetOrder(referenceDataSheet.getSheetName(), 1);
+	        
+	        XSSFSheet riskSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Risk"));
+	        workBook.setSheetOrder(riskSheet.getSheetName(), 2);
+	        
+	        XSSFSheet revisionSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("ATR Revision"));
+	        workBook.setSheetOrder(revisionSheet.getSheetName(), 3);
+	        
+	        /***************************************************************************/
+	        
+			byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+	        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+            
+	        /***************************************************************/
+	        
+	        XSSFRow indexRow = indexSheet.createRow(1);
+	        Cell cell = indexRow.createCell(1);
+			cell.setCellStyle(blueStyle);
+			cell.setCellValue("");
+			
+			cell = indexRow.createCell(2);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Columns coming from Dropdowns");
+			indexSheet.autoSizeColumn(2);				
+			/********************************************************/
+			
+			/********************************************************/
+			indexRow = indexSheet.createRow(2);
+	        cell = indexRow.createCell(1);
+			cell.setCellStyle(yellowStyle);
+			cell.setCellValue("");
+			
+			cell = indexRow.createCell(2);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Format to be followed as per Guidelines");
+			indexSheet.autoSizeColumn(2);
+			/********************************************************/
+			
+			/********************************************************/
+			indexRow = indexSheet.createRow(3);
+	        cell = indexRow.createCell(1);
+			cell.setCellStyle(greenStyle);
+			cell.setCellValue("");
+			
+			cell = indexRow.createCell(2);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("To be filled by MRVC");
+			/********************************************************/
+			
+			/********************************************************/
+			indexRow = indexSheet.createRow(5);
+	        cell = indexRow.createCell(1);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("*Note: Reference Data should not be altered");	
+			
+			for (int i = 2; i < 7; i++) {
+				cell = indexRow.createCell(i);
 				cell.setCellStyle(indexWhiteStyle);
 				cell.setCellValue("");
-				
-				referenceDataRow = referenceDataSheet.createRow(1);
-		        cell = referenceDataRow.createCell(1);
-				cell.setCellStyle(greenStyle);
-				cell.setCellValue("Probability");
-				
-		        cell = referenceDataRow.createCell(3);
-				cell.setCellStyle(greenStyle);
-				cell.setCellValue("Impact");
-				
-				cell = referenceDataRow.createCell(5);
-				cell.setCellStyle(greenStyle);
-				cell.setCellValue("Status");
-				
-				cell = referenceDataRow.createCell(7);
-				cell.setCellStyle(greenStyle);
-				cell.setCellValue("Priority");
-				
-				referenceDataRow = referenceDataSheet.createRow(2);
-		        cell = referenceDataRow.createCell(1);
+			}	
+			indexSheet.addMergedRegion(new CellRangeAddress(5, 5, 1,6));
+			
+			indexRow = indexSheet.createRow(6);
+	        cell = indexRow.createCell(1);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("**All dates should be in \"DD/MM/YYYY\"");
+			
+			for (int i = 2; i < 7; i++) {
+				cell = indexRow.createCell(i);
 				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue(1);
-				
-		        cell = referenceDataRow.createCell(3);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue(1);
-				
-				cell = referenceDataRow.createCell(5);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Open");
-				
-				cell = referenceDataRow.createCell(7);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("P1");
-				
-				referenceDataRow = referenceDataSheet.createRow(3);
-		        cell = referenceDataRow.createCell(1);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue(3);
-				
-		        cell = referenceDataRow.createCell(3);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue(3);
-				
-				cell = referenceDataRow.createCell(5);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Closed");
-				
-				cell = referenceDataRow.createCell(7);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("P2");
-				
-				referenceDataRow = referenceDataSheet.createRow(4);
-		        cell = referenceDataRow.createCell(1);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue(5);
-				
-		        cell = referenceDataRow.createCell(3);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue(5);
-				
-				cell = referenceDataRow.createCell(7);
-				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("P3");
-				
-				for (int i = 5; i < 11; i++) {
-					referenceDataRow = referenceDataSheet.createRow(i);
-			        cell = referenceDataRow.createCell(7);
-					cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue("P"+(i-1));
-				}			
-				
-				referenceDataRow = referenceDataSheet.createRow(11);
+				cell.setCellValue("");
+			}	
+			indexSheet.addMergedRegion(new CellRangeAddress(6, 6, 1,6));
+			/********************************************************/
+	        
+	        
+	        /********************************************************/
+	        XSSFRow referenceDataRow = referenceDataSheet.createRow(0);
+	        cell = referenceDataRow.createCell(1);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Different Probabilities of Risk");
+			
+	        cell = referenceDataRow.createCell(3);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Different Impacts of Risk");
+			
+			cell = referenceDataRow.createCell(5);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Status of Risk");
+			
+			cell = referenceDataRow.createCell(7);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("");
+			
+			referenceDataRow = referenceDataSheet.createRow(1);
+	        cell = referenceDataRow.createCell(1);
+			cell.setCellStyle(greenStyle);
+			cell.setCellValue("Probability");
+			
+	        cell = referenceDataRow.createCell(3);
+			cell.setCellStyle(greenStyle);
+			cell.setCellValue("Impact");
+			
+			cell = referenceDataRow.createCell(5);
+			cell.setCellStyle(greenStyle);
+			cell.setCellValue("Status");
+			
+			cell = referenceDataRow.createCell(7);
+			cell.setCellStyle(greenStyle);
+			cell.setCellValue("Priority");
+			
+			referenceDataRow = referenceDataSheet.createRow(2);
+	        cell = referenceDataRow.createCell(1);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(1);
+			
+	        cell = referenceDataRow.createCell(3);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(1);
+			
+			cell = referenceDataRow.createCell(5);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Open");
+			
+			cell = referenceDataRow.createCell(7);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("P1");
+			
+			referenceDataRow = referenceDataSheet.createRow(3);
+	        cell = referenceDataRow.createCell(1);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(3);
+			
+	        cell = referenceDataRow.createCell(3);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(3);
+			
+			cell = referenceDataRow.createCell(5);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Closed");
+			
+			cell = referenceDataRow.createCell(7);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("P2");
+			
+			referenceDataRow = referenceDataSheet.createRow(4);
+	        cell = referenceDataRow.createCell(1);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(5);
+			
+	        cell = referenceDataRow.createCell(3);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(5);
+			
+			cell = referenceDataRow.createCell(7);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("P3");
+			
+			for (int i = 5; i < 11; i++) {
+				referenceDataRow = referenceDataSheet.createRow(i);
 		        cell = referenceDataRow.createCell(7);
 				cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Accepted");
-				
-				for(int columnIndex = 0; columnIndex < 8; columnIndex++) {
-					referenceDataSheet.autoSizeColumn(columnIndex);
-					//referenceDataSheet.setColumnWidth(columnIndex, 25 * 150);
-				}
-				
-				/********************************************************/		        
-		        
-		        String firstHeaderString = "Unique ID of the Work^To be confirmed if it's reqd. in input sheet^Unique ID of the Risk^Name of the person owning the Risk^Area of the Risk (dorpdown chosen from Column B of Reference sheet)^Sub Area of the Risk (dorpdown chosen from Column C of Reference sheet)^Date the Risk Review in \"DD/MM/YYYY\"^"
-		        		+ "Probability of the Risk (dorpdown chosen from Column D of Reference sheet)^Impact of the Risk (dorpdown chosen from Column E of Reference sheet)^Calculated field by System  \r\n" + 
-		        		"Not part of Input Form^^Mitigation Plan for the Risk^Type of Priority^Name of the person responsible to mitigate the Risk^<New Column>There can be mulitiple ATR dates for each risk^Action Taken (There can be mulitiple ATR dates for each risk)^Calculated field - If risk classification is low, then it is to be treated as \"Closed\" else \"Open\"";
-		       
-		        String secongHeaderString = "Work ID^Item No.^Risk ID^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING\r\n" + 
-		        		"A x B^RISK CLASSIFICATION^Mitigation Plan^Priority^Responsible Person^ATR Date ^Action Taken^Status";
-		        
-		        String[] firstHeaderStringArr = firstHeaderString.split("\\^");
-		        
-		        XSSFRow firstHeadingRow = riskSheet.createRow(0);
-		        for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
-			        cell = firstHeadingRow.createCell(i);
+				cell.setCellValue("P"+(i-1));
+			}			
+			
+			referenceDataRow = referenceDataSheet.createRow(11);
+	        cell = referenceDataRow.createCell(7);
+			cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue("Accepted");
+			
+			for(int columnIndex = 0; columnIndex < 8; columnIndex++) {
+				referenceDataSheet.autoSizeColumn(columnIndex);
+				//referenceDataSheet.setColumnWidth(columnIndex, 25 * 150);
+			}
+			
+			/********************************************************/		        
+	        
+	        String firstHeaderString = "Unique ID of the Work^To be confirmed if it's reqd. in input sheet^Unique ID of the Risk^Name of the person owning the Risk^Area of the Risk (dorpdown chosen from Column B of Reference sheet)^Sub Area of the Risk (dorpdown chosen from Column C of Reference sheet)^Date the Risk Review in \"DD/MM/YYYY\"^"
+	        		+ "Probability of the Risk (dorpdown chosen from Column D of Reference sheet)^Impact of the Risk (dorpdown chosen from Column E of Reference sheet)^Calculated field by System  \r\n" + 
+	        		"Not part of Input Form^^Mitigation Plan for the Risk^Type of Priority^Name of the person responsible to mitigate the Risk^Calculated field - If risk classification is low, then it is to be treated as \"Closed\" else \"Open\"";
+	       
+	        String secongHeaderString = "Work ID^Item No.^Risk ID^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING\n" + 
+	        		"A x B^RISK CLASSIFICATION^Mitigation Plan^Priority^Responsible Person^Status";
+	        
+	        String[] firstHeaderStringArr = firstHeaderString.split("\\^");
+	        
+	        XSSFRow firstHeadingRow = riskSheet.createRow(0);
+	        for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+		        cell = firstHeadingRow.createCell(i);
+		        if(i == 1 || i == 9 || i == 10 || i == 14) {
+					cell.setCellStyle(redStyle);
+		        }else {
 					cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue(firstHeaderStringArr[i]);
-				}
-		        
-		        String[] secongHeaderStringArr = secongHeaderString.split("\\^");
-		        
-		        XSSFRow secondHeadingRow = riskSheet.createRow(1);
-		        for (int i = 0; i < secongHeaderStringArr.length; i++) {		        	
-			        cell = secondHeadingRow.createCell(i);
-					cell.setCellStyle(blueStyle);
-					cell.setCellValue(secongHeaderStringArr[i]);
-				}				
-				
-				/*************************************************************************/		        
+		        }
+				cell.setCellValue(firstHeaderStringArr[i]);
+			}
+	        
+	        riskSheet.addMergedRegion(new CellRangeAddress(0, 0, 9,10));
+	        
+	        String[] secongHeaderStringArr = secongHeaderString.split("\\^");
+	        
+	        XSSFRow secondHeadingRow = riskSheet.createRow(1);
+	        for (int i = 0; i < secongHeaderStringArr.length; i++) {		        	
+		        cell = secondHeadingRow.createCell(i);
+		        if(i == 1 || i == 9 || i == 10 || i == 14) {
+					cell.setCellStyle(yellowStyle);
+		        }else if(i > 5) {
+					cell.setCellStyle(greenStyle);
+		        }else {
+		        	cell.setCellStyle(blueStyle);
+		        }
+				cell.setCellValue(secongHeaderStringArr[i]);
+			}				
+			
+			/*************************************************************************/		        
+	        if(riskDataList != null && riskDataList.size() > 0){
 
-
-	            short rowNo = 2;
-	            for (RiskReport obj : dataList) {
+	        	int rowNo = 2;
+	            for (RiskReport obj : riskDataList) {
 	                XSSFRow row = riskSheet.createRow(rowNo);
 	                int c = 0;
 	                
@@ -788,15 +816,15 @@ public class RiskController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getProbability());
+					cell.setCellValue(NumberUtils.createInteger(obj.getProbability()));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getImpact());
+					cell.setCellValue(NumberUtils.createInteger(obj.getImpact()));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRisk_rating());
+					cell.setCellValue(NumberUtils.createInteger(obj.getRisk_rating()));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -813,111 +841,109 @@ public class RiskController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getResponsible_person());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getAtr_date());	
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getAction_taken());
-					
+										
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue("");
 					
 	                rowNo++;
 	            }
-	            
-	            for(int columnIndex = 0; columnIndex < secongHeaderStringArr.length; columnIndex++) {
-				     //sheet.autoSizeColumn(columnIndex);
-	            	riskSheet.setColumnWidth(columnIndex, 25 * 200);
-				}
-	            
-	            /*******************************************************************************/
-	            
-	            String revisionHeaderString = "Risk ID^Date of Assessment^ATR Date^Action Taken";
-		        
-		        String[] revisionHeaderStringArr = revisionHeaderString.split("\\^");
-		        
-		        XSSFRow revisionHeadingRow = revisionSheet.createRow(0);
-		        for (int i = 0; i < revisionHeaderStringArr.length; i++) {		        	
-			        cell = revisionHeadingRow.createCell(i);
+            
+	        }
+
+            
+            for(int columnIndex = 0; columnIndex < secongHeaderStringArr.length; columnIndex++) {
+			     //sheet.autoSizeColumn(columnIndex);
+            	riskSheet.setColumnWidth(columnIndex, 25 * 200);
+			}
+            /*******************************************************************************/
+            
+            String revisionHeaderString = "Risk ID^Date of Assessment^ATR Date^Action Taken";
+	        
+	        String[] revisionHeaderStringArr = revisionHeaderString.split("\\^");
+	        
+	        XSSFRow revisionHeadingRow = revisionSheet.createRow(0);
+	        for (int i = 0; i < revisionHeaderStringArr.length; i++) {		        	
+		        cell = revisionHeadingRow.createCell(i);
+		        if(i == 0 || i == 1) {
 					cell.setCellStyle(blueStyle);
-					cell.setCellValue(revisionHeaderStringArr[i]);
-				}
-		        
-				/*rowNo = 1;
-				for (RiskReport obj : dataList) {
-				    XSSFRow row = riskSheet.createRow(rowNo);
+		        }else {
+					cell.setCellStyle(greenStyle);
+		        }
+				cell.setCellValue(revisionHeaderStringArr[i]);
+			}
+	        if(atrRevisionDataList != null && atrRevisionDataList.size() > 0){
+	        	int rowNo = 1;
+				for (RiskReport obj : atrRevisionDataList) {
+				    XSSFRow row = revisionSheet.createRow(rowNo);
 				    int c = 0;
 				    
-				    cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getWork_id());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getArea_item_no()+"."+obj.getSub_area_item_no());
-					
 				    cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getRisk_id());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getOwner());
-				}*/
-	            
-		        for(int columnIndex = 0; columnIndex < revisionHeaderStringArr.length; columnIndex++) {
-				     //sheet.autoSizeColumn(columnIndex);
-		        	revisionSheet.setColumnWidth(columnIndex, 25 * 200);
+					cell.setCellValue(obj.getAssessment_date());
+					
+				    cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getAtr_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getAction_taken());
+					rowNo++;
 				}
-	            
-	            
-	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-                Date date = new Date();
-                String fileName = "Risks_"+dateFormat.format(date);
-                
-                try{
-	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
-	                workBook.write(fos);
-	                fos.flush();*/
-	            	
-	               response.setContentType("application/.csv");
-	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-	 			   response.setContentType("application/vnd.ms-excel");
-	 			   // add response header
-	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
-	 			   
-	 			    //copies all bytes from a file to an output stream
-	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
-		           workBook.close();
-	 			    //flushes output stream
-	 			    response.getOutputStream().flush();
-	            	
-	                
-	                attributes.addFlashAttribute("success",dataExportSucess);
-	            	//response.setContentType("application/vnd.ms-excel");
-	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
-	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
-	            	// ...
-	            	// Now populate workbook the usual way.
-	            	// ...
-	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
-	            	//workbook.close();
-	            }catch(FileNotFoundException e){
-	                //e.printStackTrace();
-	                attributes.addFlashAttribute("error",dataExportInvalid);
-	            }catch(IOException e){
-	                //e.printStackTrace();
-	                attributes.addFlashAttribute("error",dataExportError);
-	            }
-			}else{
-				attributes.addFlashAttribute("error",dataExportNoData);
+	        }
+            
+	        for(int columnIndex = 0; columnIndex < revisionHeaderStringArr.length; columnIndex++) {
+			     //sheet.autoSizeColumn(columnIndex);
+	        	revisionSheet.setColumnWidth(columnIndex, 25 * 200);
 			}
+            
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+            Date date = new Date();
+            String fileName = "Risks_"+dateFormat.format(date);
+            
+            try{
+                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+                workBook.write(fos);
+                fos.flush();*/
+            	
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+            	
+                
+                attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                //e.printStackTrace();
+                attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                //e.printStackTrace();
+                attributes.addFlashAttribute("error",dataExportError);
+            }
+			
 		}catch (Exception e) {
-			// TODO: handle exception
+			 attributes.addFlashAttribute("error",dataExportError);
 		}
 	}
 	

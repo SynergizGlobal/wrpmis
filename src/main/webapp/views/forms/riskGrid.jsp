@@ -149,16 +149,16 @@
 
                             <div class="col s12 m4 r-align">
                                 <div class="m-1">
-                                	<form action="<%=request.getContextPath()%>/export-risks">
+                                	<form action="<%=request.getContextPath()%>/export-risks" method="post">
 	                                    <div class="row">
 	                                        <div class="col s12 m6 input-field" style="margin:0">
 	                                        	<p class="searchable_label left-align">Work</p>
-	                                            <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable">
+	                                            <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable" required="required">
 	                                            	<option value="" >Select</option>	                                           
 	                                            </select>
 	                                        </div>
 	                                        <div class="col s12 m6">
-	                                            <button class="btn waves-effect waves-light bg-s t-c disabled" id="downloadWork">
+	                                            <button type="submit" class="btn waves-effect waves-light bg-s t-c disabled" id="downloadWork">
 	                                            	<strong><i class="fa fa-cloud-download"></i> Download Work Data</strong>
 	                                            </button>
 	                                        </div>
@@ -389,21 +389,11 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
-
-            $("#work_fk").change(function () {
-                if ($("#work_fk").val() == 'select') {
-                    $("#downloadWork").addClass('disabled');
-                }
-                else {
-                    $("#downloadWork").removeClass('disabled');
-                }
-            });
             
             $("#work_id_fk").change(function () {
-                if ($("#work_id_fk").val() == 'select') {
+                if ($("#work_id_fk").val() == '') {
                     $("#downloadWork").addClass('disabled');
-                }
-                else {
+                } else {
                     $("#downloadWork").removeClass('disabled');
                 }
             });

@@ -960,7 +960,7 @@ public class RiskDaoImpl implements RiskDao{
 	}
 
 	@Override
-	public int[] uploadRisks(List<Risk> risksList) throws Exception {
+	public int[] uploadRisks(List<Risk> risksList, List<Risk> revisionList) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt1 = null;
 		ResultSet rs = null;
@@ -1004,14 +1004,14 @@ public class RiskDaoImpl implements RiskDao{
 						 }
 						
 					}
-				}else {
-				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-				String insertQry = "insert into  risk  (work_id_fk , risk_id, sub_area_fk, date_of_identification) "
-						+ "VALUES(:work_id_fk,:risk_id,:sub_area_fk,:date_of_identification)";
-				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-				KeyHolder keyHolder = new GeneratedKeyHolder();
-				count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
-				 if(count > 0) {
+				} else {
+					NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+					String insertQry = "insert into  risk  (work_id_fk , risk_id, sub_area_fk, date_of_identification) "
+							+ "VALUES(:work_id_fk,:risk_id,:sub_area_fk,:date_of_identification)";
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					KeyHolder keyHolder = new GeneratedKeyHolder();
+					count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+					if(count > 0) {
 						String risk_id_fk = String.valueOf(keyHolder.getKey().intValue());
 						obj.setRisk_id_pk(risk_id_fk);
 						
@@ -1020,36 +1020,34 @@ public class RiskDaoImpl implements RiskDao{
 								+ "VALUES(:risk_id_pk,:date, :priority_fk,:probability, :impact,:owner,:responsible_person,:mitigation_plan) ";
 						paramSource = new BeanPropertySqlParameterSource(obj);	
 						KeyHolder keyHolder2 = new GeneratedKeyHolder();
-						 count = namedParamJdbcTemplate.update(insertRevisionsQry, paramSource,keyHolder2);
-						 insertCount++;
-						
-				    }
-			  }
-				if(flag && !StringUtils.isEmpty(obj.getRisks())) {
-					 String qryAction = "INSERT INTO risk_action (risk_revision_id_fk,action_taken,atr_date) VALUES(?,?,?)";
-						insertStmt1 = con.prepareStatement(qryAction);
-						
-						if(!StringUtils.isEmpty(obj.getRisks()) && obj.getRisks().size() > 0) {
-							for (int j = 0; j < obj.getRisks().size(); j++) {
-								    int k = 1;
-								    String riskId = obj.getRisks().get(j).getRisk_id();
-									String date = obj.getRisks().get(j).getDate();
-									String actionTaken = obj.getRisks().get(j).getAction_taken();
-									String atr_date = obj.getRisks().get(j).getAtr_date();
-									String revisionId = getRevisionIdFk(riskId,date);
-									obj.setRisk_revision_id(revisionId);
-									 
-								    insertStmt1.setString(k++,(obj.getRisk_revision_id()));
-									insertStmt1.setString(k++,!StringUtils.isEmpty(actionTaken)?actionTaken:null);
-									insertStmt1.setString(k++,DateParser.parse(!StringUtils.isEmpty(atr_date)?atr_date:null));
-								    insertStmt1.addBatch();
-							}
-						 }
-							int[] insertCount1 = insertStmt1.executeBatch();
+						count = namedParamJdbcTemplate.update(insertRevisionsQry, paramSource,keyHolder2);
+						insertCount++;
+					}
 				}
+				
 			}
 			
-			
+			String qryAction = "INSERT INTO risk_action (risk_revision_id_fk,action_taken,atr_date) VALUES(?,?,?)";
+			insertStmt1 = con.prepareStatement(qryAction);
+					
+			if(!StringUtils.isEmpty(revisionList) && revisionList.size() > 0) {
+				for (Risk obj : revisionList) {
+					 int k = 1;
+					    String riskId = obj.getRisk_id();
+						String date = obj.getDate();
+						String actionTaken = obj.getAction_taken();
+						String atr_date = obj.getAtr_date();
+						
+						String revisionId = getRevisionIdFk(riskId,date);
+						obj.setRisk_revision_id(revisionId);
+						 
+					    insertStmt1.setString(k++,(obj.getRisk_revision_id()));
+						insertStmt1.setString(k++,!StringUtils.isEmpty(actionTaken)?actionTaken:null);
+						insertStmt1.setString(k++,DateParser.parse(!StringUtils.isEmpty(atr_date)?atr_date:null));
+					    insertStmt1.addBatch();
+				}
+				int[] insertCount1 = insertStmt1.executeBatch();
+			 }
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
@@ -1145,62 +1143,35 @@ public class RiskDaoImpl implements RiskDao{
 	public List<RiskReport> getExportRiskList(Risk obj) throws Exception {
 		List<RiskReport> risksList = null;
 		try {
-			String qry = "select id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,"
+			String qry = "select id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,DATE_FORMAT(assessment_date,'%d/%m/%Y') AS assessment_date,max_assessment_date,"
 							+ "priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date "
 							+ "from risk_view rv " 
-							+ "where risk_id is not null";
-					
-			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
-				qry = qry + " and assessment_date = ?";
-				arrSize++;
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
-				qry = qry + " and area = ?";
-				arrSize++;
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and rv.work_id_fk = ?";
-				arrSize++;
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				qry = qry + " and responsible_person = ?";
-				arrSize++;
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getClassification())) {
-				qry = qry + " and classification = ?";
-				arrSize++;
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPriority())) {
-				qry = qry + " and priority = ?";
-				arrSize++;
-			}	
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
-				pValues[i++] = obj.getAssessment_date();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
-				pValues[i++] = obj.getArea();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				pValues[i++] = obj.getResponsible_person();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getClassification())) {
-				pValues[i++] = obj.getClassification();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPriority())) {
-				pValues[i++] = obj.getPriority();
-			}
+							+ "where rv.work_id_fk = ?";
 			
+			Object[] pValues = new Object[] {obj.getWork_id_fk()};
 			
 			risksList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			
 		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return risksList;
+	}
+
+	@Override
+	public List<RiskReport> getATRRevisionDataList(Risk obj) throws Exception {
+		List<RiskReport> risksList = null;
+		try {
+			String qry = "select risk_id,DATE_FORMAT(assessment_date,'%d/%m/%Y') AS assessment_date,action_taken,DATE_FORMAT(atr_date,'%d/%m/%Y') AS atr_date "
+							+ "from risk_view rv " 
+							+ "where rv.work_id_fk = ? and assessment_date = max_assessment_date and atr_date is not null";
+			
+			Object[] pValues = new Object[] {obj.getWork_id_fk()};
+			
+			risksList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return risksList;

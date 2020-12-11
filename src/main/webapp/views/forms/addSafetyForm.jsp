@@ -103,14 +103,16 @@
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" >${obj.department_fk}</option>
+                                        	<c:if test="${obj.department_fk eq 'Elec' or obj.department_fk eq 'Engg' or obj.department_fk eq 'S&T'}">
+                                            	<option value="${obj.department_fk }" >${obj.department_name}</option>
+                                        	</c:if>
                                         </c:forEach>
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <p> <label> Category </label></p>
-                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
+                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyCategoryList }">
                                             <option value="${obj.category }" >${obj.category}</option>
@@ -161,18 +163,20 @@
                                  <div class="col s12 m2 input-field mti-5">
 	                                 <p>
 									      <label>
-									        <input type="checkbox" id="committee_required"/>
-									        <span>Commitee Required</span>
+									        <input type="checkbox" id="committee_required" name="committee_required"/>
+									        <span>Committee Required</span>
 									      </label>
+									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
 								    </p>
 							    </div>
 							    <div class="col s12 m2 hidden input-field mti-5" id="committee_formed_div" >
 	                                 <p>
 									      <label>
-									        <input type="checkbox" />
-									        <span>Commitee Formed</span>
+									        <input type="checkbox" id="committee_formed" name="committee_formed" />
+									        <span>Committee Formed</span>
 									      </label>
 								    </p>
+								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
 							    </div>
                                <!--  <div class="col s12 m4 input-field">
                                 <p> <label> Committee formed </label></p>
@@ -395,6 +399,7 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+	
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -449,13 +454,35 @@
   	        });
             
             $('#committee_required').change(function(){
-                if(this.checked)
+                if(this.checked){
                     $('#committee_formed_div').removeClass('hidden');
-                else
+                }else{
                     $('#committee_formed_div').addClass('hidden');
-
+                }
             });
+            
+            
+            $("#committee_required").change(function(){
+	            if($(this).prop("checked") == true){
+	            	$("#committee_required_fk").val("Yes");
+	            }else{
+	            	$("#committee_required_fk").val("No");
+	            }
+	        });
+	        
+	        $("#committee_formed").change(function(){
+	            if($(this).prop("checked") == true){
+	            	$("#committee_formed_fk").val("Yes");
+	            }else{
+	            	$("#committee_formed_fk").val("No");
+	            }
+	        });
+	        
         });
+        
+        function setTitle(category){
+        	$("#title").val(category).focus();
+        }
         
       //geting works list from database    
         function getWorksList(projectId) {

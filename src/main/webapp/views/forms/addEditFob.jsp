@@ -170,7 +170,7 @@
                                 </div>
                                  <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
-                                    <input id="last_sanctioned_cost" name="last_sanctioned_cost" type="number" class="validate" >
+                                    <input id="last_sanctioned_cost" name="last_sanctioned_cost" type="number" class="validate" value="${fob.last_sanctioned_cost }">
                                     <label for="last_sanctioned_cost">Last Sanctioned Cost </label>
                                     <span id="last_sanctioned_costError" class="error-msg" ></span>
                                 </div>                                
@@ -556,7 +556,10 @@
 				 		required: true
 				 	  },"estimated_cost": {
 				 		required: false
-				 	  },"construction_start_date": {
+				 	  },"last_sanctioned_cost": {
+			 		    required: false,
+			 	   	  },
+				 	  "construction_start_date": {
 			 		    required: false,
 			 	   	  },"commissioning_date": {
 				 		required: false
@@ -590,7 +593,9 @@
 			 			required: 'Required'
 			 	  	 },"estimated_cost": {
 			 			required: 'Required'
-			 	  	 },"construction_start_date": {
+			 	  	 },"last_sanctioned_cost": {
+			 	  		required: 'Required'
+			 	   	 },"construction_start_date": {
 			 			required: 'Required'
 			 	  	 },"commissioning_date": {
 			 			required: 'Required'
@@ -633,9 +638,12 @@
 			 	    }else if (element.attr("id") == "estimated_cost" ){
 			 		     document.getElementById("estimated_costError").innerHTML="";
 			 			 error.appendTo('#estimated_costError');
-			 	    }else if (element.attr("id") == "construction_start_date" ){
-			 		     document.getElementById("construction_start_dateError").innerHTML="";
-			 			 error.appendTo('#construction_start_dateError');
+			 	    }else if (element.attr("id") == "estimated_cost" ){
+			 		     document.getElementById("estimated_costError").innerHTML="";
+			 			 error.appendTo('#estimated_costError');
+			 	    }else if (element.attr("id") == "last_sanctioned_cost" ){
+			 		     document.getElementById("last_sanctioned_costError").innerHTML="";
+			 			 error.appendTo('#last_sanctioned_costError');
 			 	    }else if (element.attr("id") == "commissioning_date" ){
 			 		     document.getElementById("commissioning_dateError").innerHTML="";
 			 			 error.appendTo('#commissioning_dateError');

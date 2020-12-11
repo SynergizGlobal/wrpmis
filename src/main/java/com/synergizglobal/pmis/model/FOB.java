@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FOB {
 	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
-	detail_name,value,work_id_fk,project_id_fk,project_name,contract_id,contract_name,contract_short_name;
+	detail_name,value,work_id_fk,project_id_fk,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost;
 
 	public String getContract_short_name() {
 		return contract_short_name;
@@ -246,6 +246,14 @@ public class FOB {
 
 	public void setFobFile(MultipartFile fobFile) {
 		this.fobFile = fobFile;
+	}
+
+	public String getLast_sanctioned_cost() {
+		return last_sanctioned_cost;
+	}
+
+	public void setLast_sanctioned_cost(String last_sanctioned_cost) {
+		this.last_sanctioned_cost = last_sanctioned_cost;
 	}
 	
 }

@@ -107,14 +107,16 @@
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" <c:if test="${safety.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_fk}</option>
+                                        	<c:if test="${obj.department_fk eq 'Elec' or obj.department_fk eq 'Engg' or obj.department_fk eq 'S&T'}">
+                                            	<option value="${obj.department_fk }" <c:if test="${safety.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_fk}</option>
+                                        	</c:if>
                                         </c:forEach>
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <p> <label> Category </label></p>
-                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
+                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyCategoryList }">
                                             <option value="${obj.category }" <c:if test="${safety.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
@@ -162,21 +164,24 @@
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s12 m2 input-field mti-5">
+                                <div class="col s12 m2 input-field mti-5">
 	                                 <p>
 									      <label>
-									        <input type="checkbox" id="committee_required"/>
-									        <span>Commitee Required</span>
+									        <input type="checkbox" id="committee_required" name="committee_required" <c:if test="${safety.committee_required_fk eq 'Yes'}">checked</c:if>/>
+									        <span>Committee Required</span>
 									      </label>
+									      <input type="hidden" id="committee_required_fk" name="committee_required_fk" value="No"/>
 								    </p>
 							    </div>
 							    <div class="col s12 m2 hidden input-field mti-5" id="committee_formed_div" >
 	                                 <p>
 									      <label>
-									        <input type="checkbox" />
-									        <span>Commitee Formed</span>
+									        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
+									        <span>Committee Formed</span>
 									      </label>
+									      
 								    </p>
+								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
 							    </div>
                                 <%-- <div class="col s12 m4 input-field">
                                  <p> <label> Committee formed </label></p>
@@ -444,14 +449,52 @@
             }
             
             $('#committee_required').change(function(){
-                if(this.checked)
+                if(this.checked){
                     $('#committee_formed_div').removeClass('hidden');
-                else
+                }else{
                     $('#committee_formed_div').addClass('hidden');
-
+                }
             });
             
+            
+            $("#committee_required").change(function(){
+	            if($(this).prop("checked") == true){
+	            	$("#committee_required_fk").val("Yes");
+	            }else{
+	            	$("#committee_required_fk").val("No");
+	            }
+	        });
+	        
+	        $("#committee_formed").change(function(){
+	            if($(this).prop("checked") == true){
+	            	$("#committee_formed_fk").val("Yes");
+	            }else{
+	            	$("#committee_formed_fk").val("No");
+	            }
+	        });
+	        
+	        var rValue = "${safety.committee_required_fk}";
+	        var fValue = "${safety.committee_formed_fk}";
+	        
+	        if(rValue == 'Yes'){
+	        	$("#committee_required_fk").val("Yes");
+	        	$('#committee_formed_div').removeClass('hidden');
+	        }else{
+	        	$("#committee_required_fk").val("No");
+	        	$('#committee_formed_div').addClass('hidden');
+	        }
+	        
+	        if(fValue == 'Yes'){
+	        	$("#committee_formed_fk").val("Yes");
+	        }else{
+	        	$("#committee_formed_fk").val("No");
+	        }
+            
         });
+        
+        function setTitle(category){
+        	$("#title").val(category).focus();
+        }
         
       //geting works list from database    
         function getWorksList(projectId) {

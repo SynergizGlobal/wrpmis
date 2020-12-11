@@ -458,6 +458,8 @@
                     $('#committee_formed_div').removeClass('hidden');
                 }else{
                     $('#committee_formed_div').addClass('hidden');
+                    $("#committee_formed_fk").val("No");
+                    $('#committee_formed').prop('checked', false);
                 }
             });
             

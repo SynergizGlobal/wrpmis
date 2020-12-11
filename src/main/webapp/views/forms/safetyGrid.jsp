@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Safety</title>
+	<title>Safety Incidents</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	 
@@ -57,7 +57,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Safety</h6>
+                            <h6> Safety Incidents</h6>
                         </div>
                     </span>
                     <div class="">
@@ -83,7 +83,7 @@
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
                                     <a href="<%=request.getContextPath()%>/add-safety-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Safety</strong></a>
+                                        <strong><i class="fa fa-plus-circle"></i> Add Safety Incidents</strong></a>
                                 </div>
                             </div>
 
@@ -148,9 +148,9 @@
                                         <tr>
                                             <th>ID</th>
                                             <th class="fw-300">Contract</th>
-                                            <th class="fw-110">Title </th>
+                                            <th class="fw-110">Short Description </th>
                                             <th>Location </th>
-                                            <th>Responsible <br> Person</th>
+                                            <th>Responsible Person <br> in MRVC</th>
                                             <th>Department </th>
                                             <th>Category </th>                                           
                                             <th>Status </th>                                           

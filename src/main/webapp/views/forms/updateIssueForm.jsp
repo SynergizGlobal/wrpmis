@@ -153,7 +153,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="title" name="title" type="text" class="validate" value="${issue.title }">
-                                    <label for="title">Title</label>
+                                    <label for="title">Short Description</label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -205,7 +205,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${issue.reported_by }">
-                                    <label for="reported_by">Reported By </label>
+                                    <label for="reported_by">Raised By </label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -219,7 +219,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Zonal Rly</label></p>
+                                    <p><label> Responsible Organization</label></p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">

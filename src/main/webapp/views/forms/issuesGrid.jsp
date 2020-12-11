@@ -101,7 +101,6 @@
                         </div>
                         
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m1 hide-on-small-only"></div>
                             <div class="col s12 m2 input-field">
                              <p> <label>Contract</label></p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="getIssues();" class="searchable">
@@ -139,11 +138,19 @@
 		                             </c:forEach> --%>
                                  </select>
                             </div>
+                             <div class="col s12 m2 input-field">
+								 <p><label>Responsible Organization</label></p>                            
+                                 <select id="responsible_Organization_fk" name="responsible_Organization_fk" onchange="getIssues();" class="searchable">
+                                     <option value="" >Select</option>
+                                     <%-- <c:forEach var="obj" items="${statuses }">
+		                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
+		                             </c:forEach> --%>
+                                 </select>
+                            </div>
                             <div class="col s12 m2">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                     style="margin-top: 30px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                             </div>
-                            <div class="col m1 hide-on-small-only"></div>
                         </div>
                         
                         <div class="row">
@@ -154,7 +161,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th class="fw-350">Contract</th>
-                                            <th class="fw-200">Title </th>
+                                            <th class="fw-200">Short Description </th>
                                             <th>Location</th>
                                             <th>Responsible <br> Person </th>
                                             <th>Department</th>

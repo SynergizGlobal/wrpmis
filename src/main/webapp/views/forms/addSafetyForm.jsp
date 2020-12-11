@@ -1,13 +1,13 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Safety</title>
+    <title>Add Safety Incidents </title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	 
@@ -19,6 +19,12 @@
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
+        }
+         .hidden{
+        	display:none;
+        }
+        .mti-5 p{
+        	margin-top:5px;
         }
         .page-loader {
 		    background: #332e2ec2!important;
@@ -44,7 +50,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add Safety</h6>
+                                <h6>Add Safety Incidents</h6>
                             </div>
                         </span>
                     </div>
@@ -152,7 +158,23 @@
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                 <div class="col s12 m2 input-field mti-5">
+	                                 <p>
+									      <label>
+									        <input type="checkbox" id="committee_required"/>
+									        <span>Commitee Required</span>
+									      </label>
+								    </p>
+							    </div>
+							    <div class="col s12 m2 hidden input-field mti-5" id="committee_formed_div" >
+	                                 <p>
+									      <label>
+									        <input type="checkbox" />
+									        <span>Commitee Formed</span>
+									      </label>
+								    </p>
+							    </div>
+                               <!--  <div class="col s12 m4 input-field">
                                 <p> <label> Committee formed </label></p>
                                     <select id="committee_formed_fk" name="committee_formed_fk" class="searchable">
                                         <option value="" selected>Select</option>
@@ -160,7 +182,7 @@
                                         <option value="No">No</option>
                                     </select>
                                     <span id="committee_formed_fkError" class="error-msg" ></span>
-                                </div>
+                                </div> -->
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
@@ -170,7 +192,7 @@
                                     <div class="row">
                                         <div class="col s12 m4 input-field ">
                                             <input id="title" name="title" type="text" class="validate">
-		                                    <label for="title">Title</label>
+		                                    <label for="title">Short Description</label>
 		                                    <span id="titleError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m8 input-field">
@@ -225,7 +247,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person">Responsible Person </label>
+                                    <label for="responsible_person">Responsible Person in MRVC</label>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -269,29 +291,32 @@
                                     <label for="work_impact"> Work Impact </label>
                                     <span id="work_impactError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="compensation" name="compensation" type="text" class="validate">
-                                    <label for="compensation"> Compensation </label>
-                                    <span id="compensationError" class="error-msg" ></span>
+                                 <div class="col s12 m4 input-field ">
+                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker">
+                                    <label for="investigation_completed">Investigation Completion Date</label>
+                                    <button type="button" id="investigation_completed_icon"><i class="fa fa-calendar"></i></button>
+                                    <span id="investigation_completedError" class="error-msg" ></span>
                                 </div>
+                                
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
                                 <!-- //row 7 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field ">
-                                    <input id="investigation_completed" name="investigation_completed" type="text" class="validate datepicker">
-                                    <label for="investigation_completed">Investigation Completion Date</label>
-                                    <button type="button" id="investigation_completed_icon"><i class="fa fa-calendar"></i></button>
-                                    <span id="investigation_completedError" class="error-msg" ></span>
-                                </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="payment_date" name="payment_date" type="text" class="validate datepicker">
                                     <label for="payment_date">Payment Date</label>
                                     <button type="button" id="payment_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="payment_dateError" class="error-msg" ></span>
                                 </div>
+                               <div class="col s12 m4 input-field">
+                               		<i class="material-icons prefix center-align">₹</i>
+                                    <input id="compensation" name="compensation" type="text" class="validate">
+                                    <label for="compensation"> Compensation </label>
+                                    <span id="compensationError" class="error-msg" ></span>
+                                </div>
+                                
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
@@ -423,6 +448,13 @@
   	    	    }
   	        });
             
+            $('#committee_required').change(function(){
+                if(this.checked)
+                    $('#committee_formed_div').removeClass('hidden');
+                else
+                    $('#committee_formed_div').addClass('hidden');
+
+            });
         });
         
       //geting works list from database    

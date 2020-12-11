@@ -154,7 +154,9 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m8">
+	                                <div class="row">
+	                                	  <div class="col s12 m4 input-field">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }">
                                     <label for="target_date">Target Date </label>
                                     <button type="button" id="target_date_icon"><i class="fa fa-calendar"></i></button>
@@ -162,11 +164,19 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
-                                    <input id="estimated_cost" name="estimated_cost" type="text" class="validate" value="${fob.estimated_cost }">
+                                    <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }">
                                     <label for="estimated_cost">Estimated Cost </label>
                                     <span id="estimated_costError" class="error-msg" ></span>
                                 </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                                 <div class="col s12 m4 input-field">
+                                	<i class="material-icons prefix center-align">₹</i>   
+                                    <input id="last_sanctioned_cost" name="last_sanctioned_cost" type="number" class="validate" >
+                                    <label for="last_sanctioned_cost">Last Sanctioned Cost </label>
+                                    <span id="last_sanctioned_costError" class="error-msg" ></span>
+                                </div>                                
+	                                </div>
+                                </div>
+                              <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>

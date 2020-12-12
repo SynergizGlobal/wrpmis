@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.velocity.runtime.directive.Foreach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -94,30 +95,29 @@ public class TrainingDaoImpl implements TrainingDao{
 
 		    if(!StringUtils.isEmpty(objsList)) {
 		    	List<Training> objsLists = null;
-		    
+		    int arrSize1 = 0;
+		    int k = 0;
+		  
+    		
 		    	for (Training session : objsList) {
-		    		String qryDetails = "select training_session_id,training_id_fk as training_id,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
-							+" time_format(start_time,'%h:%i:%s') as start_time,remarks,time_format(end_time,'%h:%i:%s') as end_time,remarks as session_remarks "
-							+ "from training_session "
-							+"where training_id_fk is not null and training_id_fk = ?";
 		    		
-				objsLists = jdbcTemplate.query(qryDetails, new Object[] {session.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));
+		    		  String qryDetails = "select training_session_id,training_id_fk as training_id,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
+		  					+" time_format(start_time,'%h:%i:%s') as start_time,remarks,time_format(end_time,'%h:%i:%s') as end_time,remarks as session_remarks "
+		  					+ "from training_session "
+		  					+"where training_id_fk is not null and training_id_fk = ? ";
+					if(!StringUtils.isEmpty(session) && !StringUtils.isEmpty(session.getTraining_id())) {
+						arrSize1++;
+					}	
+					Object[] sValues = new Object[arrSize1-1]; 
+							sValues = ArrayUtils.add( sValues, session.getTraining_id() );
+					
+					
+					
+				objsLists = jdbcTemplate.query( qryDetails,sValues, new BeanPropertyRowMapper<Training>(Training.class));
 				obj.setTrainingSessions(objsLists); 
 			   }
 		    }
-			if(!StringUtils.isEmpty(objsList)) {
-				List<Training> objsLists = null;
-				for (Training attendees : obj.getTrainingSessions()) {
-					String qryDetails = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
-							"from training_attendees ta "
-							+ "LEFT JOIN department d on ta.department_fk = d.department  "
-							+"where training_id_fk = ? and  training_session_id_fk = ? ";
-					
-					objsLists = jdbcTemplate.query(qryDetails, new Object[] {attendees.getTraining_id(),attendees.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
-					attendees.setTrainingAttendees(objsLists); 
-				}
-				
-			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

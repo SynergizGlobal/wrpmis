@@ -70,8 +70,13 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 					model.addObject("message", passwordExpired);
 				}
 				
-				List<TableauDashboard> dashboardsList = service.getDashboardsList();
-				model.addObject("dashboardsList", dashboardsList);
+				String dashboardType = "Module";
+				List<TableauDashboard> modulesList = service.getDashboardsList(dashboardType);
+				model.addObject("dashboardModulesList", modulesList);
+				
+				dashboardType = "Project";
+				List<TableauDashboard> projectsList = service.getDashboardsList(dashboardType);
+				model.addObject("dashboardProjectsList", projectsList);
 				
 				String base = "web";
 				List<Forms> forms = service.getFormsList(base);

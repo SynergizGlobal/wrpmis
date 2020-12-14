@@ -100,17 +100,17 @@
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" <c:if test="${issue.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_fk}</option>
+                                            <option value="${obj.department_fk }" <c:if test="${issue.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 
-                                 <div class="col s12 m4 input-field">
+                                <%--  <div class="col s12 m4 input-field">
                                     <input id="activity" name="activity" type="text" class="validate" value="${issue.activity }">
                                     <label> Activity </label>
                                     <span id="activityError" class="error-msg" ></span>
-                                </div>
+                                </div> --%>
 
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -172,7 +172,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker" value="${issue.date }">
-                                    <label for="date"> Date</label>
+                                    <label for="date">Date of raising issue</label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
-                                    <label for="responsible_person">Responsible Person </label>
+                                    <label for="responsible_person">Responsible Person In MRVC</label>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -483,7 +483,9 @@
     				 	  },"corrective_measure": {
     			 		    required: false,
     			 	   	  },"resolved_date": {
-    				 		required: false
+    				 		required: false,
+       				 		dateBefore1:"#date",
+    				 		statusCheck1: true
     				 	  },"escalated_to": {
     			 		    required: false
     			 	   	  },"zonal_railway_fk": {
@@ -629,6 +631,35 @@
         	    "Date format (DD-MM-YYYY)"
         	);
             
+    	    $.validator.addMethod("dateBefore1", function(value, element) {
+	            var fromDateString = $('#date').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            	//return Date.parse(fromDate) < Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	            
+	        }, "Resolved Date must be after Date of raising issue");
+    	    
+    	    $.validator.addMethod("statusCheck1", function(value, element) {
+    	    	var status = $("#status_fk").val();
+    	    	if(($.trim(status) == '' || status != 'Closed') && $.trim(value) != ''){
+	            	$("#resolved_date").val('').focus();
+	            	return false;
+	            }else{
+	            	return true;
+	            }	          
+	        }, "Status is not closed, So you cannot select this field");
             
             /* $('select').change(function(){
         	    if ($(this).val() != ""){

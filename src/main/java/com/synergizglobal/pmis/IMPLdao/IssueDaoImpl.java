@@ -144,10 +144,10 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
-					+ "(contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
+					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
 					+"priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,attachment,zonal_railway_fk) "
 					+ "VALUES "
-					+ "(:contract_id_fk,:activity,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
+					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
 					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment,:zonal_railway_fk)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -241,7 +241,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE issue SET "
-					+ "contract_id_fk=:contract_id_fk,activity=:activity,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,"  
+					+ "contract_id_fk=:contract_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,"  
 					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,remarks=:remarks,attachment=:attachment,zonal_railway_fk=:zonal_railway_fk "
 					+ "where issue_id = :issue_id" ;		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -280,7 +280,7 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getDepartmentList() throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select department as department_fk from department";			
+			String qry = "select department as department_fk,department_name from department";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

@@ -95,16 +95,16 @@
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" >${obj.department_fk}</option>
+                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <!-- <div class="col s12 m4 input-field">
                                     <input id="activity" name="activity" type="text" class="validate" style="margin-top:5px">
                                     <label for="activity"> Activity </label>
                                     <span id="activityError" class="error-msg" ></span>
-                                </div>
+                                </div> -->
 
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -168,7 +168,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date"> Date</label>
+                                    <label for="date">Date of raising issue</label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -206,7 +206,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person">Responsible Person </label>
+                                    <label for="responsible_person">Responsible Person In MRVC </label>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -443,8 +443,6 @@
     				 		required: true
     				 	  },"contract_id_fk": {
     				 		required: true
-    				 	  },"activity": {
-    				 		required: false
     				 	  },"department_fk": {
     				 		required: true
     				 	  },"category_fk": {
@@ -472,7 +470,9 @@
     				 	  },"corrective_measure": {
     			 		    required: false,
     			 	   	  },"resolved_date": {
-    				 		required: false
+    				 		required: false,
+       				 		dateBefore1:"#date",
+    				 		statusCheck1: true
     				 	  },"escalated_to": {
     			 		    required: false
     			 	   	  },"zonal_railway_fk": {
@@ -488,8 +488,6 @@
 	   			 	  	 },"work_id_fk": {
     			 			required: 'Required'
     			 	  	 },"contract_id_fk": {
-    			 			required: 'Required'
-    			 	  	 },"activity": {
     			 			required: 'Required'
     			 	  	 },"department_fk": {
     			 			required: 'Required'
@@ -539,9 +537,6 @@
     			 	    }else if (element.attr("id") == "contract_id_fk" ){
     			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#contract_id_fkError');
-    			 	    }else if (element.attr("id") == "activity" ){
-    			 		     document.getElementById("activityError").innerHTML="";
-    			 			 error.appendTo('#activityError');
     			 	    }else if (element.attr("id") == "department_fk" ){
     			 		     document.getElementById("department_fkError").innerHTML="";
     			 			 error.appendTo('#department_fkError');
@@ -617,6 +612,38 @@
         	    //"Date format (Aug 02,2020)"
         	    "Date format (DD-MM-YYYY)"
         	);
+    	    
+    	    
+    	    $.validator.addMethod("dateBefore1", function(value, element) {
+	            var fromDateString = $('#date').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            	//return Date.parse(fromDate) < Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	            
+	        }, "Resolved Date must be after Date of raising issue");
+    	    
+    	    $.validator.addMethod("statusCheck1", function(value, element) {
+    	    	var status = $("#status_fk").val();
+    	    	if(($.trim(status) == '' || status != 'Closed') && $.trim(value) != ''){
+	            	$("#resolved_date").val('').focus();
+	            	return false;
+	            }else{
+	            	return true;
+	            }	          
+	        }, "Status is not closed, So you cannot select this field");
+    	    
             
             
             $('select').change(function(){

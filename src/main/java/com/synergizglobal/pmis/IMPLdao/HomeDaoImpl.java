@@ -40,7 +40,7 @@ public class HomeDaoImpl implements HomeDao {
 	 * @throws Exception will raise an exception when abnormal termination occur.
 	 */
 	@Override
-	public List<TableauDashboard> getDashboardsList() throws Exception {
+	public List<TableauDashboard> getDashboardsList(String dashboardType) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -51,10 +51,11 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path "
 					+ "FROM dashboard tum "
-					+ "WHERE parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? order by priority";
+					+ "WHERE parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? order by priority";
 			
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, dashboardType);
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				tableauSubList = null;

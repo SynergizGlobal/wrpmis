@@ -15,14 +15,14 @@ public class Contract {
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
-	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,
-	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,
+	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,
+	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
 	
 	private MultipartFile contractFile;
 	
-	private String[] contractDocumentNames,contractDocumentFileNames,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds;
+	private String[] contractDocumentNames,contractDocumentFileNames,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds,contractKeyPersonnelDesignations;
 	private MultipartFile[] contractDocumentFiles;
 	
 	private List<Contract> bankGauranree;
@@ -959,6 +959,30 @@ public class Contract {
 
 	public void setContract_short_name(String contract_short_name) {
 		this.contract_short_name = contract_short_name;
+	}
+
+	public String[] getBank_revisions() {
+		return bank_revisions;
+	}
+
+	public void setBank_revisions(String[] bank_revisions) {
+		this.bank_revisions = bank_revisions;
+	}
+
+	public String[] getInsurance_revisions() {
+		return insurance_revisions;
+	}
+
+	public void setInsurance_revisions(String[] insurance_revisions) {
+		this.insurance_revisions = insurance_revisions;
+	}
+
+	public String[] getContractKeyPersonnelDesignations() {
+		return contractKeyPersonnelDesignations;
+	}
+
+	public void setContractKeyPersonnelDesignations(String[] contractKeyPersonnelDesignations) {
+		this.contractKeyPersonnelDesignations = contractKeyPersonnelDesignations;
 	}
 	
 }

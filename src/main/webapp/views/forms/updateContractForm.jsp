@@ -499,6 +499,7 @@
                                                 <th>Bank Address </th>
                                                 <th>BG Number </th>
                                                 <th>BG Value </th>
+                                                <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
                                                 <th>Action</th>
@@ -536,6 +537,10 @@
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values${index.count }" name="bg_values" type="text" class="validate" value="${bankObj.bg_value }"
                                                         placeholder="BG Value">
+                                                </td>
+                                                <td>
+                                                    <input id="bank_revisions${index.count }" name="bank_revisions" type="text" class="validate" value="${bankObj.revision }"
+                                                        placeholder="Revision">
                                                 </td>
                                                 <td>
                                                     <input id="bg_valid_uptos${index.count }" name="bg_valid_uptos" type="text" class="validate datepicker" value="${bankObj.bg_valid_upto }"
@@ -590,6 +595,10 @@
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values0" name="bg_values" type="text" class="validate"
                                                         placeholder="BG Value">
+                                                </td>
+                                                <td>
+                                                    <input id="bank_revisions0" name="bank_revisions" type="text" class="validate"
+                                                        placeholder="Revision">
                                                 </td>
                                                 <td>
                                                     <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
@@ -672,6 +681,7 @@
                                                 <th>Agency Address </th>
                                                 <th>Insurance Number </th>
                                                 <th>Insurance Value </th>
+                                                <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
                                                 <th>Action</th>
@@ -706,6 +716,10 @@
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="insurance_values${index.count }" name="insurance_values" type="text" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
+                                                </td>
+                                                 <td>
+                                                    <input id="insurance_revisions${index.count }" name="insurance_revisions" type="text" class="validate" value="${insurenceObj.revision }"  
+                                                        placeholder="Revision">
                                                 </td>
                                                 <td>
                                                     <input id="insurence_valid_uptos${index.count }" name="insurence_valid_uptos" type="text" value="${insurenceObj.insurence_valid_upto }"
@@ -759,6 +773,10 @@
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="insurance_values0" name="insurance_values" type="text" class="validate" 
                                                         placeholder="Insurance Value">
+                                                </td>
+                                                 <td>
+                                                    <input id="insurance_revisions0" name="insurance_revisions" type="text" class="validate" 
+                                                        placeholder="Revision">
                                                 </td>
                                                 <td>
                                                     <input id="insurence_valid_uptos0" name="insurence_valid_uptos" type="text" 
@@ -1039,6 +1057,7 @@
 	                                            <thead>
 	                                                <tr>
 	                                                    <th>Name </th>
+	                                                    <th>Designation </th>
 	                                                    <th>Mobile No</th>
 	                                                    <th>Email ID </th>
 	                                                    <th>Action</th>
@@ -1049,7 +1068,11 @@
 			                                        <c:when test="${not empty contractDeatils.contractKeyPersonnels  && fn:length(contractDeatils.contractKeyPersonnels ) gt 0 }">			                                          
 				                                        <c:forEach var="keyObj" items="${contractDeatils.contractKeyPersonnels }" varStatus="index">  
 			                                                <tr id="keyPersonnelRow${index.count }">
-			                                                    <td> <input id="contractKeyPersonnelNames${index.count }" name="contractKeyPersonnelNames" type="text" value="${keyObj.name }" class="validate" placeholder="Name">
+			                                                    <td> 
+			                                                    	<input id="contractKeyPersonnelNames${index.count }" name="contractKeyPersonnelNames" type="text" value="${keyObj.name }" class="validate" placeholder="Name">
+			                                                    </td>
+			                                                    <td> 
+			                                                    	<input id="contractKeyPersonnelDesignations${index.count }" name="contractKeyPersonnelDesignations" type="text" value="${keyObj.designation }" class="validate" placeholder="Designation">
 			                                                    </td>
 			                                                    <td>
 			                                                        <input id="contractKeyPersonnelMobileNos${index.count }" name="contractKeyPersonnelMobileNos" type="number" value="${keyObj.mobile_no }" class="validate" placeholder="Mobile No">
@@ -1065,7 +1088,11 @@
 	                                           		</c:when>
 	                                             	<c:otherwise>
 	                                             		<tr id="keyPersonnelRow0">
-		                                                    <td> <input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
+		                                                    <td> 
+		                                                    	<input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
+		                                                    </td>
+		                                                    <td> 
+		                                                    	<input id="contractKeyPersonnelDesignations0" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Designation">
 		                                                    </td>
 		                                                    <td>
 		                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">
@@ -1326,6 +1353,7 @@
 	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bg_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bg_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=bank_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=bg_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurance_type_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
@@ -1333,6 +1361,7 @@
 	  			$('form input[name=agency_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurance_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurance_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=insurance_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurence_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurence_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contract_milestones_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
@@ -1351,6 +1380,7 @@
 	  			$('form input[name=contractDocumentNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contractDocumentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contractKeyPersonnelNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=contractKeyPersonnelDesignations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=contractKeyPersonnelMobileNos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=contractKeyPersonnelEmailIds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
@@ -1687,6 +1717,7 @@
 				   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 				   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
 				   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
+				   +'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 				   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -1725,6 +1756,7 @@
 			   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 			   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
 			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
+			   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
@@ -1822,6 +1854,8 @@
 			 var total = 0;
 			 var html = '<tr id="keyPersonnelRow'+rNo+'">'
 						 +'<td> <input id="contractKeyPersonnelNames'+rNo+'" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">'
+						 +'</td>'
+						 +'<td> <input id="contractKeyPersonnelDesignations'+rNo+'" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Name">'
 						 +'</td>'
 						 +'<td>'
 						 +'<input id="contractKeyPersonnelMobileNos'+rNo+'" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">'

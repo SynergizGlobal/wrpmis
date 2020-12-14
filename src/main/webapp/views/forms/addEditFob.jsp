@@ -558,19 +558,21 @@
 				 		required: false
 				 	  },"last_sanctioned_cost": {
 			 		    required: false,
-			 	   	  },
-				 	  "construction_start_date": {
+			 	   	  },"construction_start_date": {
 			 		    required: false,
+   				 		dateBefore1:"#target_date"
 			 	   	  },"commissioning_date": {
-				 		required: false
+				 		required: false,
+   				 		dateBefore2:"#construction_start_date"
 				 	  },"actual_completion_date": {
-			 		    required: false
+			 		    required: false,
+   				 		dateBefore3:"#commissioning_date"
 			 	   	  },"completion_cost": {
 				 		required: false
 				 	  },"latitude": {
-				 		required: true
+				 		required: false
 				 	  },"longitude": {
-				 		required: true
+				 		required: false
 				 	  },"remarks":{
 				 		 required: false
 				 	  }
@@ -638,6 +640,9 @@
 			 	    }else if (element.attr("id") == "estimated_cost" ){
 			 		     document.getElementById("estimated_costError").innerHTML="";
 			 			 error.appendTo('#estimated_costError');
+			 	    }else if (element.attr("id") == "construction_start_date" ){
+			 		     document.getElementById("construction_start_dateError").innerHTML="";
+			 			 error.appendTo('#construction_start_dateError');
 			 	    }else if (element.attr("id") == "estimated_cost" ){
 			 		     document.getElementById("estimated_costError").innerHTML="";
 			 			 error.appendTo('#estimated_costError');
@@ -687,6 +692,67 @@
     	    //"Date format (Aug 02,2020)"
     	    "Date format (DD-MM-YYYY)"
     	);
+	    
+	    
+	    $.validator.addMethod("dateBefore1", function(value, element) {
+            var fromDateString = $('#target_date').val();
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            	//return Date.parse(fromDate) < Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Construction Start Date must be after Target Date");
+	    
+	    $.validator.addMethod("dateBefore2", function(value, element) {
+            var fromDateString = $('#construction_start_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            	//return Date.parse(fromDate) < Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Commissioning Date must be after Construction Start Date");
+	    
+	    $.validator.addMethod("dateBefore3", function(value, element) {
+            var fromDateString = $('#commissioning_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+
+            var toDateParts = value.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+            	return Date.parse(fromDate) <= Date.parse(toDate);
+            	//return Date.parse(fromDate) < Date.parse(toDate);
+            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+            	return false;
+            }else{
+            	return true;
+            }
+            
+        }, "Actual Completion Date must be after Commissioning Date");
         
         
         $('select').change(function(){

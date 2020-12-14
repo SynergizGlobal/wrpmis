@@ -206,10 +206,12 @@
                                 <div class="col s12 m4 input-field">
                                     <input id="hod" type="text" class="validate" name="hod" value="${designDetails.hod }">
                                     <label for="hod">HOD </label>
+                                    <span id="hodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="dy_hod" type="text" class="validate" name="dy_hod" value="${designDetails.dy_hod }">
                                     <label for="dy_hod">Dy HOD </label>
+                                    <span id="dy_hodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -219,21 +221,23 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Prepared By </p>
-                                    <select class="searchable" name="prepared_by_id_fk" id="prepared_by_id_fk">
+                                    <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${preparedBy }">
                                       	    <option value= "${ obj.prepared_by_id_fk}" <c:if test="${designDetails.prepared_by_id_fk eq obj.prepared_by_id_fk}">selected</c:if>>${obj.prepared_by_id_fk}</option>
                                           </c:forEach>
                                     </select>
+                                    <span id="prepared_by_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                                 <p class="searchable_label">Structure </p>
-                                    <select id="structure_type_fk" name="structure_type_fk" class="searchable">
+                                    <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
-                                       			<c:forEach var="obj" items="${structureTypeList}">
-	                       						   <option value="${obj.structure_type_fk }" <c:if test="${designDetails.structure_type_fk eq obj.structure_type_fk }">selected</c:if>>${obj.structure_type_fk}</option>
-	                                            </c:forEach>
+                                 		<c:forEach var="obj" items="${structureTypeList}">
+                  						   <option value="${obj.structure_type_fk }" <c:if test="${designDetails.structure_type_fk eq obj.structure_type_fk }">selected</c:if>>${obj.structure_type_fk}</option>
+                                       </c:forEach>
                                     </select>
+                                    <span id="structure_type_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -243,16 +247,17 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="component" type="text" class="validate" name="component" value="${designDetails.component }">
-                                    <label for="dy_hod">Component </label>
+                                    <label for="component">Component </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label" style="margin-top:-4px !important">Drawing Type </p>
-                                    <select id="drawing_type_fk" name="drawing_type_fk" class="searchable">
+                                    <select id="drawing_type_fk" name="drawing_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
                                			<c:forEach var="obj" items="${drawingTypeList}">
                 						    <option value="${obj.drawing_type_fk }" <c:if test="${designDetails.drawing_type_fk eq obj.drawing_type_fk }">selected</c:if>>${obj.drawing_type_fk}</option>
                                       	</c:forEach>
                                     </select>
+                                    <span id="drawing_type_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -262,6 +267,7 @@
                                 <div class="col s12 m8 input-field">
                                     <textarea id="drawing_title" name="drawing_title" class="materialize-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title</label>
+                                     <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>
                             </div>
 
@@ -901,9 +907,7 @@
     				 		required: false
     				 	  },"proof_consultant_contract_id_fk": {
     				 		required: false
-    				 	  }
-    				 	  
-    				 	  ,"consultant_submission": {
+    				 	  },"consultant_submission": {
        				 		required: false
        				 	  },"mrvc_reviewed": {
     				 		required: false,
@@ -920,23 +924,47 @@
     				 	  },"as_built_date": {
     				 		required: false,
        				 		dateBefore5:"#gfc_released"
+    				 	  },"hod": {
+       				 		required: true
+       				 	  },"dy_hod": {
+    				 		required: true
+    				 	  },"prepared_by_id_fk": {
+    				 		required: true
+    				 	  },"structure_type_fk": {
+    				 		required: true
+    				 	  },"drawing_type_fk": {
+    				 		required: true
+    				 	  },"drawing_title": {
+    				 		required: true
     				 	  }
     				 				
     			 	},
     			   messages: {
-    				     "project_id_fk": {
-       			 			required: 'Required'
-       			 	  	 },"work_id_fk": {
-    			 			required: 'Required'
-    			 	  	 },"contract_id_fk": {
-    			 			required: 'Required'
-    			 	  	 },"department_id_fk": {
-    			 			required: 'Required'
-    			 	  	 },"consultant_contract_id_fk": {
-    			 			required: 'Required'
-    			 	  	 },"proof_consultant_contract_id_fk": {
-    			 			required: 'Required'
-    			 	  	 }      
+	   				     "project_id_fk": {
+	      			 		required: 'Required'
+	      			 	 },"work_id_fk": {
+	   			 			required: 'Required'
+	   			 	  	 },"contract_id_fk": {
+	   			 			required: 'Required'
+	   			 	  	 },"department_id_fk": {
+	   			 			required: 'Required'
+	   			 	  	 },"consultant_contract_id_fk": {
+	   			 			required: 'Required'
+	   			 	  	 },"proof_consultant_contract_id_fk": {
+	   			 			required: 'Required'
+	   			 	  	 },"hod": {
+	   			 	  		required: 'Required'
+	    				 },"dy_hod": {
+	    					required: 'Required'
+	   				 	 },"prepared_by_id_fk": {
+	   				 		required: 'Required'
+	   				 	 },"structure_type_fk": {
+	   				 		required: 'Required'
+	   				 	 },"drawing_type_fk": {
+	   				 		required: 'Required'
+	   				 	 },"drawing_title": {
+	   				 		required: 'Required'
+	   				 	 }      
     		    },
     			  errorPlacement:
     			 	function(error, element){
@@ -958,10 +986,7 @@
     			 	    }else if (element.attr("id") == "proof_consultant_contract_id_fk" ){
     			 		     document.getElementById("proof_consultant_contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#proof_consultant_contract_id_fkError');
-    			 	    }
-    			 	    
-    			 	    
-    			 	    else if (element.attr("id") == "consultant_submission" ){
+    			 	    }else if (element.attr("id") == "consultant_submission" ){
      			 		     document.getElementById("consultant_submissionError").innerHTML="";
      			 			 error.appendTo('#consultant_submissionError');
      			 	    }else if (element.attr("id") == "mrvc_reviewed" ){
@@ -979,6 +1004,24 @@
     			 	    }else if (element.attr("id") == "as_built_date" ){
     			 		     document.getElementById("as_built_dateError").innerHTML="";
     			 			 error.appendTo('#as_built_dateError');
+    			 	    }else  if (element.attr("id") == "hod" ){
+     			 		     document.getElementById("hodError").innerHTML="";
+     			 			 error.appendTo('#hodError');
+     			 	    }else if (element.attr("id") == "dy_hod" ){
+    			 		     document.getElementById("dy_hodError").innerHTML="";
+    			 			 error.appendTo('#dy_hodError');
+    			 	    }else if (element.attr("id") == "prepared_by_id_fk" ){
+    			 	    	 document.getElementById("prepared_by_id_fkError").innerHTML="";
+    			 			 error.appendTo('#prepared_by_id_fkError');
+    			 	    }else if (element.attr("id") == "structure_type_fk" ){
+    			 		     document.getElementById("structure_type_fkError").innerHTML="";
+    			 			 error.appendTo('#structure_type_fkError');
+    			 	    }else if (element.attr("id") == "drawing_type_fk" ){
+    			 		     document.getElementById("drawing_type_fkError").innerHTML="";
+    			 			 error.appendTo('#drawing_type_fkError');
+    			 	    }else if (element.attr("id") == "drawing_title" ){
+    			 		     document.getElementById("drawing_titleError").innerHTML="";
+    			 			 error.appendTo('#drawing_titleError');
     			 	    }
     			 },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();

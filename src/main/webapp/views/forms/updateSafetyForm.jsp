@@ -585,13 +585,13 @@
     				 	  },"department_fk": {
     				 		required: true
     				 	  },"category_fk": {
-    				 		required: false
+    				 		required: true
     				 	  },"impact_fk": {
-    				 		required: false
+    				 		required: true
     				 	  },"status_fk": {
     			 		    required: true,
     			 	   	  },"root_cause_fk": {
-    			 		    required: false,
+    			 		    required: true,
     			 	   	  },"title": {
     				 		required: true
     				 	  },"description": {
@@ -724,7 +724,10 @@
     			 	    }else if (element.attr("id") == "status_fk" ){
     			 		     document.getElementById("status_fkError").innerHTML="";
     			 			 error.appendTo('#status_fkError');
-    			 	    }else if (element.attr("id") == "title" ){
+    			 	    }else if (element.attr("id") == "root_cause_fk" ){
+	   			 		     document.getElementById("root_cause_fkError").innerHTML="";
+				 			 error.appendTo('#root_cause_fkError');
+				 	    }else if (element.attr("id") == "title" ){
     			 		     document.getElementById("titleError").innerHTML="";
     			 			 error.appendTo('#titleError');
     			 	    }else if (element.attr("name") == "description" ){

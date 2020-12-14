@@ -11,7 +11,7 @@ public class User  {
 	private String confirmPassword;
 	private String passwordExpiredTime;
 	
-	private String reporting_to_name,department,department_name,user_access_type,user_access_table,user_id_fk,
+	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
 	access_value_id,access_value_name,user_role_code;
 	
@@ -436,6 +436,16 @@ public class User  {
 
 	public void setKeyAvailability(String keyAvailability) {
 		this.keyAvailability = keyAvailability;
+	}
+
+
+	public String getReporting_to_designation() {
+		return reporting_to_designation;
+	}
+
+
+	public void setReporting_to_designation(String reporting_to_designation) {
+		this.reporting_to_designation = reporting_to_designation;
 	}
 	
 	

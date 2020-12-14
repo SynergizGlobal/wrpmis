@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 
@@ -52,12 +53,20 @@
             border-radius: 50%;
         }
 
-        .profile_name {
+        /* .profile_name {
             font-size: 3rem;
             margin: 20px 0;
             font-weight: bold;
             text-transform: uppercase;
-        }
+        } */
+        
+        .profile_name {
+		    font-size: 2rem;
+		    margin: 20px 0;
+		    font-weight: bold;
+		    text-transform: uppercase;
+		    line-height: 1;
+		}
 
         .profile_designation {
             font-size: 1.5rem;
@@ -108,7 +117,7 @@
                                 <div class="card-content">
                                     <span class="card-title headbg">Basic Details</span>
                                     <div class="profile_photo">
-                                        <img src="/pmis/resources/images/mrvc.png">
+                                        <img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';">
                                     </div>
                                     <div class="profile_name">${ userDetails.user_name } </div>
                                     <div class="profile_designation">${ userDetails.designation }
@@ -139,7 +148,7 @@
 											        </tr>
 											        <tr>
 											            <td>Reporting To</td>
-											            <td>: &nbsp; <c:if test="${not empty userDetails.designation }">${ userDetails.designation } - </c:if> ${ userDetails.reporting_to_name }</td>
+											            <td>: &nbsp; ${ userDetails.reporting_to_name } <c:if test="${not empty userDetails.designation }">(${ userDetails.reporting_to_designation }) </c:if> </td>
 											        </tr>
 											        <tr>
 											            <td>Mobile No</td>

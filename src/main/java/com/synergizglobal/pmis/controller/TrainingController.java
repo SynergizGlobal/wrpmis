@@ -261,10 +261,12 @@ public class TrainingController {
 	public void exportTraining(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Training dObj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.trainingGrid);
 		List<Training> dataList = new ArrayList<Training>();
+		List<Training> sessionsList = new ArrayList<Training>();
+		List<Training> attendeesList = new ArrayList<Training>();
 		try {
 			view.setViewName("redirect:/training");
 			dataList =   trainingService.getTrainingList(dObj);
-			List<Training> sessionsList = dObj.getTrainingSessions();
+			
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet training = workBook.createSheet();
@@ -279,7 +281,6 @@ public class TrainingController {
 	            headingRow.createCell((short)7).setCellValue("Training Center");
 	            headingRow.createCell((short)8).setCellValue("Status");
 	            headingRow.createCell((short)9).setCellValue("Remark");
-
 
 	            short rowNo = 1;
 	            for (Training obj : dataList) {
@@ -306,19 +307,54 @@ public class TrainingController {
 	            headingRow1.createCell((short)4).setCellValue("End Time");
 	            headingRow1.createCell((short)5).setCellValue("Remark");
 	            
-	            short rowNo2 = 1;
-	            for (Training sObj : sessionsList) {
-	                XSSFRow row2 = sessions.createRow(rowNo2);
-	                row2.createCell((short)0).setCellValue(sObj.getTraining_id());
-	                row2.createCell((short)1).setCellValue(sObj.getSession_no());
-	                row2.createCell((short)2).setCellValue(sObj.getDate());
-	                row2.createCell((short)3).setCellValue(sObj.getStart_time());
-	                row2.createCell((short)4).setCellValue(sObj.getEnd_time());
-	                row2.createCell((short)5).setCellValue(sObj.getSession_remarks());
-	          
-	                rowNo2++;
-	            }
+	            XSSFSheet attendees = workBook.createSheet();
+		        XSSFRow headingRow2 = attendees.createRow(0);
+		        headingRow2.createCell((short)0).setCellValue("Training ID");
+		        headingRow2.createCell((short)1).setCellValue("Session No");
+		        headingRow2.createCell((short)2).setCellValue("Department");
+		        headingRow2.createCell((short)3).setCellValue("Name of attendee in the meenting");
+		        headingRow2.createCell((short)4).setCellValue("HOD");
+		        headingRow2.createCell((short)5).setCellValue("Mobile No");
+		        headingRow2.createCell((short)6).setCellValue("Required (Yes / No)");
+		        headingRow2.createCell((short)7).setCellValue("Participated (Yes/No)");
 	            
+	            short rowNo2 = 1;
+	        	for (Training tariningSessions : dataList) { 
+	        		String id = tariningSessions.getTraining_id();
+	        		sessionsList = trainingService.getTrainingSessionsList(id);
+		           
+		            for (Training sObj : sessionsList) {
+		                XSSFRow row2 = sessions.createRow(rowNo2);
+		                row2.createCell((short)0).setCellValue(sObj.getTraining_id());
+		                row2.createCell((short)1).setCellValue(sObj.getSession_no());
+		                row2.createCell((short)2).setCellValue(sObj.getDate());
+		                row2.createCell((short)3).setCellValue(sObj.getStart_time());
+		                row2.createCell((short)4).setCellValue(sObj.getEnd_time());
+		                row2.createCell((short)5).setCellValue(sObj.getSession_remarks());
+		          
+		                rowNo2++;
+		            }
+	        	}
+	        	short rowNo3 = 1;
+		        	for (Training tariningAttendees : dataList) { 
+		        		String trainingId = tariningAttendees.getTraining_id();
+		        		attendeesList = trainingService.getTrainingAttendeesList(trainingId);
+		        	
+			            for (Training aObj : attendeesList) {
+			                XSSFRow row3 = attendees.createRow(rowNo3);
+			                row3.createCell((short)0).setCellValue(aObj.getTraining_id());
+			                row3.createCell((short)1).setCellValue(aObj.getSession_no());
+			                row3.createCell((short)2).setCellValue(aObj.getDepartment_fk());
+			                row3.createCell((short)3).setCellValue(aObj.getAttendee());
+			                row3.createCell((short)4).setCellValue(aObj.getHod_user_id_fk());
+			                row3.createCell((short)5).setCellValue(aObj.getMobile_no());
+			                row3.createCell((short)6).setCellValue(aObj.getRequired_fk());
+			                row3.createCell((short)7).setCellValue(aObj.getParticipated_fk());
+			          
+			                rowNo3++;
+			            }
+		        	}
+		        	
 	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Training_"+dateFormat.format(date);

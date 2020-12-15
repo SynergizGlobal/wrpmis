@@ -89,4 +89,14 @@ public class TrainingServiceImpl implements TrainingService{
 	public int uploadTraining(List<Training> trainingsList) throws Exception {
 		return dao.uploadTraining(trainingsList);
 	}
+
+	@Override
+	public List<Training> getTrainingSessionsList(String id) throws Exception {
+		return dao.getTrainingSessionsList(id);
+	}
+
+	@Override
+	public List<Training> getTrainingAttendeesList(String trainingId) throws Exception {
+		return dao.getTrainingAttendeesList(trainingId);
+	}
 }

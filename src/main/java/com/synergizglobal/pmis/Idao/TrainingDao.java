@@ -36,5 +36,9 @@ public interface TrainingDao {
 
 	public int uploadTraining(List<Training> trainingsList) throws Exception;
 
+	public List<Training> getTrainingSessionsList(String id) throws Exception;
+
+	public List<Training> getTrainingAttendeesList(String trainingId) throws Exception;
+
 
 }

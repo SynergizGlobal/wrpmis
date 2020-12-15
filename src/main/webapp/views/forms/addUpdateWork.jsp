@@ -167,7 +167,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                    <input id="completeion_period_months" type="text" class="validate" name="completeion_period_months" value="${workDeatils.completeion_period_months }">
-                                   <label for="completeion_period_months">Completion Period </label>
+                                   <label for="completeion_period_months">Completion Period (in Months)</label>
                                    <span id="completeion_period_monthsError"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -178,13 +178,13 @@
                                 <div class="col s12 m4 input-field">
                        				<i class="material-icons prefix center-align">₹</i>
                                     <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDeatils.sanctioned_estimated_cost }" min="1">
-                                    <label for="sanctioned_estimated_cost">Sanctioned Estimated Cost</label>
+                                    <label for="sanctioned_estimated_cost">Sanctioned Estimated Cost (in Cr)</label>
                                     <span id="sanctioned_estimated_costError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                   	<i class="material-icons prefix center-align">₹</i>
                                     <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDeatils.sanctioned_completion_cost }" min="1">
-                                    <label for="sanctioned_completion_cost"> Sanctioned Completion Cost </label>
+                                    <label for="sanctioned_completion_cost"> Sanctioned Completion Cost (in Cr)</label>
                                     <span id="sanctioned_completion_costError"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -203,7 +203,7 @@
                                 <div class="col s12 m4 input-field">
                                   	<i class="material-icons prefix center-align">₹</i>
                                     <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDeatils.anticipated_cost }" min="1">
-                                    <label for="anticipated_cost">Anticipated cost</label>
+                                    <label for="anticipated_cost">Anticipated cost (in Cr)</label>
                                     <span id="anticipated_costError"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -273,7 +273,7 @@
                                 <div class="col s12 m4 input-field">
                                 <i class="material-icons prefix center-align">₹</i>
                                     <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDeatils.completion_cost }" min="1">
-                                    <label for="completion_cost">Completion cost</label>
+                                    <label for="completion_cost">Completion cost (in Cr)</label>
                                     <span id="completion_costError"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

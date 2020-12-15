@@ -51,6 +51,9 @@
 			z-index:1;
 			background-color:#003049;
 		}
+		.input-field>label.small{
+			font-size: 0.88rem !important;
+		}
 		/*table with fixed header & height ends */
 		
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
@@ -165,13 +168,13 @@
                                 <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
                                     <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }">
-                                    <label for="estimated_cost">Estimated Cost </label>
+                                    <label for="estimated_cost">Estimated Cost (in Cr)</label>
                                     <span id="estimated_costError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
                                     <input id="last_sanctioned_cost" name="last_sanctioned_cost" type="number" class="validate" value="${fob.last_sanctioned_cost }">
-                                    <label for="last_sanctioned_cost">Last Sanctioned Cost </label>
+                                    <label for="last_sanctioned_cost" class="small">Last Sanctioned Cost (in Cr)</label>
                                     <span id="last_sanctioned_costError" class="error-msg" ></span>
                                 </div>                                
 	                                </div>
@@ -206,7 +209,7 @@
                                 <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
                                     <input id="completion_cost" name="completion_cost" type="text" class="validate" value="${fob.completion_cost }">
-                                    <label for="completion_cost">Completion Cost </label>
+                                    <label for="completion_cost">Completion Cost (in Cr)</label>
                                     <span id="completion_costError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

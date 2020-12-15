@@ -165,7 +165,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">Budget Estimate</span>
+                                                                <span class="primary-text">Budget Estimate (in Cr)</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -179,7 +179,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">August Review<br> Estimate</span>
+                                                                <span class="primary-text">August Review<br> Estimate (in Cr)</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -191,7 +191,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">Revised Estimate</span>
+                                                                <span class="primary-text">Revised Estimate (in Cr)</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -203,7 +203,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">Final Estimate</span>
+                                                                <span class="primary-text">Final Estimate (in Cr)</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -233,7 +233,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">Budget Grant</span>
+                                                                <span class="primary-text">Budget Grant (in Cr)</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -246,7 +246,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">Revised Grant</span>
+                                                                <span class="primary-text">Revised Grant (in Cr)</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">
@@ -259,7 +259,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span class="primary-text">Final Grant</span>
+                                                                <span class="primary-text">Final Grant (in Cr)</span>
                                                             </td>
                                                             <td>
                                                                 <div class="input-field">

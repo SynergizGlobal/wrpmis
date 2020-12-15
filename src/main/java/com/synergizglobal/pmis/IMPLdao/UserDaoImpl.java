@@ -144,7 +144,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUsersList(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
@@ -197,9 +197,9 @@ public class UserDaoImpl implements UserDao{
 			obj.setUser_id(user_id);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO user"
-					+ "(user_id,user_name,password,designation,email_id,mobile_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image) "
+					+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image) "
 					+ "VALUES "
-					+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks,:user_image)";		 
+					+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks,:user_image)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
@@ -284,7 +284,7 @@ public class UserDaoImpl implements UserDao{
 	public User getUser(User obj) throws Exception {
 		User uobj = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
@@ -344,7 +344,7 @@ public class UserDaoImpl implements UserDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {			  
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
-			String qry = "UPDATE user SET user_name=:user_name,designation=:designation,email_id=:email_id,mobile_number=:mobile_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,user_image=:user_image "
+			String qry = "UPDATE user SET user_name=:user_name,designation=:designation,email_id=:email_id,mobile_number=:mobile_number,personal_contact_number=:personal_contact_number,landline=:landline,extension=:extension,department_fk=:department_fk,reporting_to_id_srfk=:reporting_to_id_srfk,pmis_key_fk=:pmis_key_fk,user_role_name_fk=:user_role_name_fk,user_image=:user_image "
 					+ "WHERE user_id = :user_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -435,9 +435,9 @@ public class UserDaoImpl implements UserDao{
 				user.setUser_id(user_id);
 				NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 				String qry = "INSERT INTO user"
-						+ "(user_id,user_name,password,designation,email_id,mobile_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
+						+ "(user_id,user_name,password,designation,email_id,mobile_number,personal_contact_number,landline,extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks) "
 						+ "VALUES "
-						+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
+						+ "(:user_id,:user_name,:password,:designation,:email_id,:mobile_number,:personal_contact_number,:landline,:extension,:department_fk,:reporting_to_id_srfk,:pmis_key_fk,:user_role_name_fk,:remarks)";		 
 				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
 				count = namedParamJdbcTemplate.update(qry, paramSource);			
 				if(count > 0) {

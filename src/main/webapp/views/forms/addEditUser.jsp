@@ -214,7 +214,20 @@
                                 </div>
 
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>                          
+                            </div>        
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                
+                                <div class="col s12 m4 input-field ">
+                                    <input id="personal_contact_number " name="personal_contact_number" type="text" class="validate" value="${usrObj.personal_contact_number }">
+                                    <label for="personal_contact_number"> Personal Contact Number </label>
+                                    <span id="personal_contact_numberError" class="error-msg" ></span>
+                                </div>
+
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                                              
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">

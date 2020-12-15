@@ -155,7 +155,11 @@
 											            <td>: &nbsp; ${ userDetails.mobile_number }</td>
 											        </tr>
 											        <tr>
-											            <td>Landline</td>
+											            <td>Personal Contact Number</td>
+											            <td>: &nbsp; ${ userDetails.personal_contact_number }</td>
+											        </tr>
+											        <tr>
+											            <td>Land line</td>
 											            <td>: &nbsp; ${ userDetails.landline }</td>
 											        </tr>
 											        <tr>

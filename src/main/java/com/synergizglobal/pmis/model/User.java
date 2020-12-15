@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class User  {
-	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,mobile_number,landline,extension,pmis_key_fk,remarks,user_image,keyAvailability;
+	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,mobile_number,personal_contact_number,landline,extension,pmis_key_fk,remarks,user_image,keyAvailability;
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
@@ -446,6 +446,16 @@ public class User  {
 
 	public void setReporting_to_designation(String reporting_to_designation) {
 		this.reporting_to_designation = reporting_to_designation;
+	}
+
+
+	public String getPersonal_contact_number() {
+		return personal_contact_number;
+	}
+
+
+	public void setPersonal_contact_number(String personal_contact_number) {
+		this.personal_contact_number = personal_contact_number;
 	}
 	
 	

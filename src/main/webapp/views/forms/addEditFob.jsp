@@ -556,14 +556,14 @@
 				 	  },"work_status_fk": {
 				 		required: true
 				 	  },"target_date": {
-				 		required: true
+				 		required: true,
+   				 		dateBefore1:"#construction_start_date"
 				 	  },"estimated_cost": {
 				 		required: false
 				 	  },"last_sanctioned_cost": {
 			 		    required: false,
 			 	   	  },"construction_start_date": {
-			 		    required: false,
-   				 		dateBefore1:"#target_date"
+			 		    required: false
 			 	   	  },"commissioning_date": {
 				 		required: false,
    				 		dateBefore2:"#construction_start_date"
@@ -698,7 +698,7 @@
 	    
 	    
 	    $.validator.addMethod("dateBefore1", function(value, element) {
-            var fromDateString = $('#target_date').val();
+            var fromDateString = $('#construction_start_date').val();
             var fromDateParts = fromDateString.split("-");
             // month is 0-based, that's why we need dataParts[1] - 1
             var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
@@ -715,7 +715,7 @@
             	return true;
             }
             
-        }, "Construction Start Date must be after Target Date");
+        }, "Target Date must be after Construction Start Date");
 	    
 	    $.validator.addMethod("dateBefore2", function(value, element) {
             var fromDateString = $('#construction_start_date').val(); //

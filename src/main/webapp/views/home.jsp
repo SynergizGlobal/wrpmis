@@ -15,52 +15,7 @@
     
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-       
-   <!--  <style>
-        .input-field .select2-container--default {
-            width: 100% !important;
-        }
-
-        /* searchable dropdown styling */
-        .select2-container--default .select2-selection--single {
-            background-color: lightgrey;
-            border: 1px solid #aaa;
-            height: 32px;
-            /* border-radius: 2px; */
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        /* datatable styling starts here*/
-        .dataTables_filter label::after {
-            position: relative;
-            content: '\f002';
-            color: #6C587B;
-            right: 15px;
-            font: normal normal normal 14px/1 FontAwesome;
-        }
-
-        .dataTables_filter label {
-            color: #fff;
-        }
-
-        /* datatable stylings ends here*/
-        
-        
-          h4 {
-		    font-size: 2.28rem;
-		    line-height: 110%;
-		    margin: 0 0 .912rem 0;
-		}
-		
-		.card .card-content {
-		    padding: 5px 24px;
-		    border-radius: 0 0 2px 2px;
-		}
-	.no-mar{
-		margin-bottom:0;
-	}
-    </style> -->
-    
+           
      <style>
         nav {
             box-shadow: none !important;
@@ -121,7 +76,7 @@
         }
 
         .card.main-clr {
-            min-height: 240px;
+            min-height: 250px;
         }
 
         .card.main-clr .line {
@@ -152,14 +107,33 @@
             width: 38.33333%;
             text-align: right;
         }
-
+        .button .btn{
+       		position: absolute;
+		    right: 0;
+		    bottom: 0;
+		    margin: 5px 2px;
+		    border-radius: 10px 0;
+		    text-transform:capitalize;
+		    padding:0 10px;	
+		    background-color:#1565C0cc;
+       	}
+	
+		 .button .btn:hover, 
+		 .button .btn:focus{
+		 	background-color:#1565C088;
+		 }
+		 .button .btn:active{
+		 	background-color:#1565C0ff;
+		 }
         .result {
-            width: 70vw;
+            width: 75vw;
+            margin-left:-5vw !important;
         }
 
         @media only screen and (max-width: 600px) {
             .result {
                 width: 90vw;
+                margin-left:-0.75rem !important;
             }
         }
        
@@ -169,15 +143,14 @@
 <body>
   <!-- header included -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
-
   
-    <div class="container no-mar" style="margin-bottom:40px">
+    <div class="container no-mar" style="padding-bottom:30px">
         <div class="row">
         
         	<c:forEach var="pObj" items="${projectsInfo}" varStatus="index">
         	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
 	            <div class="col s12 m4">
-	                <div id="project_data_${index.count }" class="card main-clr" onclick="showWorkData('${index.count }')">
+	                <div id="project_data_${index.count }" class="card main-clr" >
 	                    <div class="card-content">
 	                        <span class="card-title center-align">${pObj.project_name }</span>
 	                        <div class="line">
@@ -212,6 +185,7 @@
 	                            <c:if test="${pObj.project_status eq 'Open' }">${pObj.projected_completion_year }</c:if>
 	                            </p>
 	                        </div>
+	                        <div class="button"><a class="btn" onclick="closeOther('${index.count }')">More</a></div>
 	                    </div>
 	                </div>
 	                <div class="row result hidden" id="result${index.count }">
@@ -315,7 +289,7 @@
             $('.collapsible').collapsible();
         });
 
-        function showWorkData(indexNo) {
+    /*     function showWorkData(indexNo) {
             $('.result').each(function () {
                 if (!$(this).hasClass('hidden')) {
                     $(this).addClass('hidden');
@@ -330,13 +304,35 @@
             var colLeft = Number($("#project_data_"+indexNo).parent().position().left);
             var rowLeft = Number($("#project_data_"+indexNo).parent().parent().position().left);
             $("#project_data_"+indexNo).parent().find('.result').css('margin-left', (rowLeft - colLeft - 10) + 'px');
-        }
+        } */
 
         function closeDiv(no) {
             $('.card.main-clr.active').each(function () {
                 $(this).removeClass('active');
             });
             $('#result' + no).addClass('hidden');
+            $('[id^="project_data"].card.main-clr:not(.active)').each(function () {               
+      			$(this).parent().removeClass('hidden');
+             });
+        }
+        
+        function closeOther(no){
+        	  $('.result').each(function () {
+                  if (!$(this).hasClass('hidden')) {
+                      $(this).addClass('hidden');
+                  }
+              });
+        	   $('.card.main-clr.active').each(function () {
+                   $(this).removeClass('active');
+               });
+        	          	   
+        	   $("#project_data_"+no).addClass('active');
+        	                
+               $('[id^="project_data"].card.main-clr:not(.active)').each(function () {
+                  $(this).parent().addClass('hidden');
+               });
+              // $("#project_data_"+no).parent().removeClass('hidden');
+               $('#result'+no).removeClass('hidden');
         }
 
         

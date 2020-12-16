@@ -35,6 +35,12 @@
             width: 100%;
             overflow: auto;
         }
+        .input-field .searchable_label {
+        	font-size:0.85rem;
+        }
+        #revisionsTableBody .select2-container--default .select2-selection--single {
+        	background-color:transparent;
+        }
         .my-error-class {
    			 color:red;
 		}
@@ -111,23 +117,32 @@
                             <div class="row">
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p><label>Project</label></p>
-                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
-                                   			<option value="">select</option>
-                                          <c:forEach var="obj" items="${projectsList}">
-                       						  <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id}</option>
-                                            </c:forEach>
-                                    </select>
-                                      <span id="project_id_fkError"></span>
+                                <div class="col s12 m8">
+	                                 <div class="row">
+	                                 	<div class="col s12 m4 input-field">
+		                                   <p class="searchable_label">Project</p>
+		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
+		                                   			<option value="">select</option>
+		                                          <c:forEach var="obj" items="${projectsList}">
+		                       						  <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id}</option>
+		                                            </c:forEach>
+		                                    </select>
+		                                      <span id="project_id_fkError"></span>
+		                               </div> 
+		                               <div class="col s12 m4 input-field">
+			                               <input id="pb_item_no" type="text" class="validate" name="pb_item_no" value="">
+		                                   <label for="pb_item_no">Pb Item No</label>
+		                                   <span id="pb_item_noError"></span>
+		                               </div>                        
+		                                <div class="col s12 m4 input-field">
+		                               		 <c:if test="${action eq 'edit'}">				                
+		                                   		  <input id="work_id" type="text" class="form-control" name="work_id" value="${workDeatils.work_id }" readonly >  
+		                                     	  <label>Work ID :</label>
+		                                	 </c:if>
+		                                 </div>
+	                                 </div>
                                 </div>
-                                
-                                <div class="col s12 m4 input-field">
-                               		 <c:if test="${action eq 'edit'}">				                
-                                   		  <input id="work_id" type="text" class="form-control" name="work_id" value="${workDeatils.work_id }" readonly >  
-                                     	  <label>Work ID :</label>
-                                	 </c:if>
-                                 </div>
+                             
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
@@ -177,13 +192,13 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                        				<i class="material-icons prefix center-align">₹</i>
-                                    <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDeatils.sanctioned_estimated_cost }" min="1">
+                                    <input id="sanctioned_estimated_cost" type="number" class="validate" name="sanctioned_estimated_cost" value="${workDeatils.sanctioned_estimated_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_estimated_cost">Sanctioned Estimated Cost (in Cr)</label>
                                     <span id="sanctioned_estimated_costError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                   	<i class="material-icons prefix center-align">₹</i>
-                                    <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDeatils.sanctioned_completion_cost }" min="1">
+                                    <input id="sanctioned_completion_cost" type="number" class="validate" name="sanctioned_completion_cost" value="${workDeatils.sanctioned_completion_cost }" min="0.01" step="0.01">
                                     <label for="sanctioned_completion_cost"> Sanctioned Completion Cost (in Cr)</label>
                                     <span id="sanctioned_completion_costError"></span>
                                 </div>
@@ -202,7 +217,7 @@
                                
                                 <div class="col s12 m4 input-field">
                                   	<i class="material-icons prefix center-align">₹</i>
-                                    <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDeatils.anticipated_cost }" min="1">
+                                    <input id="anticipated_cost" type="number" class="validate" name="anticipated_cost" value="${workDeatils.anticipated_cost }" min="0.01" step="0.01">
                                     <label for="anticipated_cost">Anticipated cost (in Cr)</label>
                                     <span id="anticipated_costError"></span>
                                 </div>
@@ -272,7 +287,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 <i class="material-icons prefix center-align">₹</i>
-                                    <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDeatils.completion_cost }" min="1">
+                                    <input id="completion_cost" type="number" class="validate" name="completion_cost" value="${workDeatils.completion_cost }" min="0.01" step="0.01">
                                     <label for="completion_cost">Completion cost (in Cr)</label>
                                     <span id="completion_costError"></span>
                                 </div>

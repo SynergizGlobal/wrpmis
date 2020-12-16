@@ -319,11 +319,11 @@ public class HomeDaoImpl implements HomeDao {
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
 			
-			String workQry = "select wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
+			String workQry = "select wr.work_id,wr.work_short_name,wr.pink_book_item_number,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
 					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year, "
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
-					+ "from work wr where wr.project_id_fk = ?";
+					+ "from work wr where wr.project_id_fk = ? order by wr.work_short_name";
 			
 			objsList = jdbcTemplate.query( projectQry, new BeanPropertyRowMapper<Project>(Project.class));
 			
@@ -357,6 +357,12 @@ public class HomeDaoImpl implements HomeDao {
 				}
 				
 				List<Work> worksInfo = jdbcTemplate.query( workQry, new Object[] {project.getProject_id()}, new BeanPropertyRowMapper<Work>(Work.class));
+				
+				for (Work work : worksInfo) {
+					work.setRailwayAgency(getRailwayAgencyList(work.getWork_id()));
+					work.setExecutedBy(getExecutedByList(work.getWork_id()));
+				}
+				
 				project.setWorksInfo(worksInfo);
 			}
 		}catch(Exception e){ 
@@ -364,6 +370,55 @@ public class HomeDaoImpl implements HomeDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+	
+	private String getExecutedByList(String work_id) throws Exception {
+		List<Work> objsList = new ArrayList<Work>();
+		String executedByList = "";
+		try {
+			String qry ="SELECT executed_by_id_fk,railway_name "
+					+ "from work_railway wr "
+					+ "left join railway ON executed_by_id_fk = railway_id "
+					+ "where executed_by_id_fk is not null and executed_by_id_fk <> '' and work_id_fk = ?";
+		
+			objsList = jdbcTemplate.query( qry, new Object[] {work_id}, new BeanPropertyRowMapper<Work>(Work.class));
+			for (Work work : objsList) {
+				executedByList = executedByList + ", " + work.getRailway_name();
+			}
+			if(!StringUtils.isEmpty(executedByList)) {
+				executedByList = executedByList.startsWith(",") ? executedByList.substring(1) : executedByList;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return executedByList;
+	}
+
+
+	private String getRailwayAgencyList(String work_id) throws Exception {
+		List<Work> objsList = new ArrayList<Work>();
+		String railwayAgencyList = "";
+		try {
+			String qry ="SELECT railway_id_fk,railway_name "
+					+ "from work_railway wr "
+					+ "left join railway ON railway_id_fk = railway_id "
+					+ "where railway_id_fk is not null and railway_id_fk <> '' and work_id_fk = ?";
+		
+			objsList = jdbcTemplate.query( qry, new Object[] {work_id}, new BeanPropertyRowMapper<Work>(Work.class));
+			for (Work work : objsList) {
+				railwayAgencyList = railwayAgencyList + ", " + work.getRailway_name();
+			}
+			
+			if(!StringUtils.isEmpty(railwayAgencyList)) {
+				railwayAgencyList = railwayAgencyList.startsWith(",") ? railwayAgencyList.substring(1) : railwayAgencyList;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return railwayAgencyList;
+		
 	}
 	
 }

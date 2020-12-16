@@ -9,7 +9,7 @@ public class Work {
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,pink_book_item_number,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,railway,executed_by,projected_completion,
-	projected_completion_year;
+	projected_completion_year,railwayAgency,executedBy;
 
 
 	private String[] financial_years,pink_book_item_numbers,latest_revised_costs,
@@ -22,6 +22,22 @@ public class Work {
 	private List<Work> executedByList;
 
 	
+	public String getRailwayAgency() {
+		return railwayAgency;
+	}
+
+	public void setRailwayAgency(String railwayAgency) {
+		this.railwayAgency = railwayAgency;
+	}
+
+	public String getExecutedBy() {
+		return executedBy;
+	}
+
+	public void setExecutedBy(String executedBy) {
+		this.executedBy = executedBy;
+	}
+
 	public String getFinancial_year_fk() {
 		return financial_year_fk;
 	}

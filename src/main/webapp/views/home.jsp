@@ -194,12 +194,12 @@
 	                        <div class="line">
                                 <p class="alignleft">Project ID</p>
                                 <p class="aligncenter">:</p>
-                                <p class="alignright">xxx</p>
+                                <p class="alignright">${pObj.project_id }</p>
 		                    </div> 
 		                     <div class="line">
                                 <p class="alignleft">Plan Head No</p>
                                 <p class="aligncenter">:</p>
-                                <p class="alignright">xxxxx</p>
+                                <p class="alignright">${pObj.plan_head_number }</p>
 		                    </div> 
 	                        <div class="button"><a class="btn" onclick="closeOther('${index.count }')">More</a></div>
 	                    </div>
@@ -230,16 +230,6 @@
 		                                                    <p class="aligncenter">:</p>
 		                                                    <p class="alignright">${wObj.sanctioned_year_fk }</p>
 		                                                </div>
-		                                               <%--  <div class="line">
-		                                                    <p class="alignleft">Completion Cost</p>
-		                                                    <p class="aligncenter">:</p>
-		                                                    <p class="alignright">${wObj.completion_cost}</p>
-		                                                </div>
-		                                                <div class="line">
-		                                                    <p class="alignleft">Completion Year</p>
-		                                                    <p class="aligncenter">:</p>
-		                                                    <p class="alignright">${wObj.projected_completion_year}</p>
-		                                                </div> --%>
 		                                                
 		                                                <div class="line">
 								                            <p class="alignleft">
@@ -266,22 +256,22 @@
 								                         <div class="line">
 							                                <p class="alignleft">Work ID</p>
 							                                <p class="aligncenter">:</p>
-							                                <p class="alignright">xxxxx</p>
+							                                <p class="alignright">${wObj.work_id}</p>
 									                    </div> 
 	                        							<div class="line">
 							                                <p class="alignleft">PB Item No</p>
 							                                <p class="aligncenter">:</p>
-							                                <p class="alignright">xxxxx</p>
+							                                <p class="alignright">${wObj.pink_book_item_number}</p>
 									                    </div> 
 									                    <div class="line">
 							                                <p class="alignleft">Railway</p>
 							                                <p class="aligncenter">:</p>
-							                                <p class="alignright">xxxxx</p>
+							                                <p class="alignright">${wObj.railwayAgency}</p>
 									                    </div> 
 									                    <div class="line">
 							                                <p class="alignleft">Execution Agency</p>
 							                                <p class="aligncenter">:</p>
-							                                <p class="alignright">xxxxx</p>
+							                                <p class="alignright">${wObj.executedBy}</p>
 									                    </div> 
 		                                            </div>
 		                                        </div>

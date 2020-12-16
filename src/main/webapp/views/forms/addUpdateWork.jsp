@@ -129,17 +129,20 @@
 		                                    </select>
 		                                      <span id="project_id_fkError"></span>
 		                               </div> 
+		                                                      
 		                               <div class="col s12 m4 input-field">
-			                               <input id="pb_item_no" type="text" class="validate" name="pb_item_no" value="">
-		                                   <label for="pb_item_no">Pb Item No</label>
-		                                   <span id="pb_item_noError"></span>
-		                               </div>                        
-		                                <div class="col s12 m4 input-field">
 		                               		 <c:if test="${action eq 'edit'}">				                
 		                                   		  <input id="work_id" type="text" class="form-control" name="work_id" value="${workDeatils.work_id }" readonly >  
 		                                     	  <label>Work ID :</label>
 		                                	 </c:if>
-		                                 </div>
+		                               </div>
+		                                 
+		                               <div class="col s12 m4 input-field">
+			                               <input type="text" class="validate" id="pink_book_item_number" name="pink_book_item_number" value="${workDeatils.pink_book_item_number }">
+		                                   <label for="pb_item_no">PB Item No</label>
+		                                   <span id="pb_item_noError"></span>
+		                               </div>
+		                               
 	                                 </div>
                                 </div>
                              

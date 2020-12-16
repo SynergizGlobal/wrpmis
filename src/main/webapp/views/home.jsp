@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
            
      <style>
+     body{
+     	background-color:#f2f2f2;
+     }
         nav {
             box-shadow: none !important;
         }
@@ -80,6 +83,12 @@
             min-height: 270px;
             height: auto;
         }
+         .card.main-clr .card-content{
+         	padding-bottom:0;
+         }
+         .card.sec-clr .card.main-clr .card-content{
+         	padding-bottom:20px;
+         }
 
         .card.main-clr .line {
             display: flex;
@@ -111,7 +120,7 @@
         }
         .button .btn{
        		position: relative;
-		    bottom: -25px;
+		    /* bottom: -25px; */
 		    left: 87%;
 		    margin: 5px 2px;
 		    border-radius: 10px 0;

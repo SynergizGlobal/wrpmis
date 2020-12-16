@@ -76,7 +76,8 @@
         }
 
         .card.main-clr {
-            min-height: 250px;
+            min-height: 300px;
+            height: auto;
         }
 
         .card.main-clr .line {
@@ -129,7 +130,12 @@
             width: 75vw;
             margin-left:-5vw !important;
         }
-
+		@media only screen and (min-width: 993px){
+				.container.no-mar {
+				    width: 75%;
+				}
+		}
+		
         @media only screen and (max-width: 600px) {
             .result {
                 width: 90vw;
@@ -185,6 +191,16 @@
 	                            <c:if test="${pObj.project_status eq 'Open' }">${pObj.projected_completion_year }</c:if>
 	                            </p>
 	                        </div>
+	                        <div class="line">
+                                <p class="alignleft">Project ID</p>
+                                <p class="aligncenter">:</p>
+                                <p class="alignright">xxx</p>
+		                    </div> 
+		                     <div class="line">
+                                <p class="alignleft">Plan Head No</p>
+                                <p class="aligncenter">:</p>
+                                <p class="alignright">xxxxx</p>
+		                    </div> 
 	                        <div class="button"><a class="btn" onclick="closeOther('${index.count }')">More</a></div>
 	                    </div>
 	                </div>
@@ -247,7 +263,26 @@
 								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">${wObj.projected_completion_year }</c:if>
 								                            </p>
 								                        </div>
-	                        
+								                         <div class="line">
+							                                <p class="alignleft">Work ID</p>
+							                                <p class="aligncenter">:</p>
+							                                <p class="alignright">xxxxx</p>
+									                    </div> 
+	                        							<div class="line">
+							                                <p class="alignleft">PB Item No</p>
+							                                <p class="aligncenter">:</p>
+							                                <p class="alignright">xxxxx</p>
+									                    </div> 
+									                    <div class="line">
+							                                <p class="alignleft">Railway</p>
+							                                <p class="aligncenter">:</p>
+							                                <p class="alignright">xxxxx</p>
+									                    </div> 
+									                    <div class="line">
+							                                <p class="alignleft">Execution Agency</p>
+							                                <p class="aligncenter">:</p>
+							                                <p class="alignright">xxxxx</p>
+									                    </div> 
 		                                            </div>
 		                                        </div>
 		                                    </div>

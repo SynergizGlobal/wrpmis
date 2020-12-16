@@ -141,7 +141,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyCategoryList() throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "select category from safety_category";			
+			String qry = "select category,short_description from safety_category";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

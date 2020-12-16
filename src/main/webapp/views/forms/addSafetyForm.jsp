@@ -115,7 +115,7 @@
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyCategoryList }">
-                                            <option value="${obj.category }" >${obj.category}</option>
+                                            <option name="${obj.short_description}" value="${obj.category }" >${obj.category}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="category_fkError" class="error-msg" ></span>
@@ -483,7 +483,8 @@
         });
         
         function setTitle(category){
-        	$("#title").val(category).focus();
+        	var short_description = $("#category_fk").find('option:selected').attr("name");
+        	$("#title").val(short_description).focus();
         }
         
       //geting works list from database    

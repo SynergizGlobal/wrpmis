@@ -383,7 +383,7 @@ public class HomeDaoImpl implements HomeDao {
 		
 			objsList = jdbcTemplate.query( qry, new Object[] {work_id}, new BeanPropertyRowMapper<Work>(Work.class));
 			for (Work work : objsList) {
-				executedByList = executedByList + ", " + work.getRailway_name();
+				executedByList = executedByList + ", " + work.getExecuted_by_id_fk();
 			}
 			if(!StringUtils.isEmpty(executedByList)) {
 				executedByList = executedByList.startsWith(",") ? executedByList.substring(1) : executedByList;
@@ -407,7 +407,7 @@ public class HomeDaoImpl implements HomeDao {
 		
 			objsList = jdbcTemplate.query( qry, new Object[] {work_id}, new BeanPropertyRowMapper<Work>(Work.class));
 			for (Work work : objsList) {
-				railwayAgencyList = railwayAgencyList + ", " + work.getRailway_name();
+				railwayAgencyList = railwayAgencyList + ", " + work.getRailway_id_fk();
 			}
 			
 			if(!StringUtils.isEmpty(railwayAgencyList)) {

@@ -77,6 +77,7 @@
 
         .card.main-clr {
             min-height: 300px;
+            min-height: 270px;
             height: auto;
         }
 
@@ -109,9 +110,9 @@
             text-align: right;
         }
         .button .btn{
-       		position: absolute;
-		    right: 0;
-		    bottom: 0;
+       		position: relative;
+		    bottom: -25px;
+		    left: 87%;
 		    margin: 5px 2px;
 		    border-radius: 10px 0;
 		    text-transform:capitalize;
@@ -127,7 +128,7 @@
 		 	background-color:#1565C0ff;
 		 }
         .result {
-            width: 75vw;
+            width: 80vw;
             margin-left:-5vw !important;
         }
 		@media only screen and (min-width: 993px){

@@ -39,6 +39,16 @@
             width: 45%;
             max-width: 45%;
         }
+          .page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -56,9 +66,19 @@
                                 <h6>Safety Instruction</h6>
                             </div>
                         </span>
+                        <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                   	<form action="<%=request.getContextPath() %>/update-safety-instructions" id="safetyInstructionsForm" name="safetyInstructionsForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                         <div class="container container-no-margin" style="margin-top:20px;margin-bottom:20px">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -73,38 +93,50 @@
                                                         <th class="no-sort">Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
+                                                <tbody id="safetyTableBody">
+                                       				 <c:forEach var="sObj" items="${safetyInstructionsList }" varStatus="index"> 
+                                                    <tr id="safetyRow${index.count }">
                                                         <td>
-                                                            <input id="document_names0" names="document_name" type="text" class="validate"
+                                                        <input type="hidden" name= "safety_instructions_ids" id="safety_instructions_ids${index.count }" value="${sObj.safety_instructions_id}" />
+                                                            <input id="document_names${index.count }" name="document_names" type="text" class="validate" value="${sObj.document_name }"
+                                                            
                                                                 placeholder="Name">
                                                         </td>
                                                         <td>
-                                                            <div class="">
-                                                                <input type="file" name="myfile" id="myFile0"
-                                                                    onchange="getFileName(0)" style="display:none" />
-                                                                <label for="myFile0" class="btn bg-m"><i
-                                                                        class="fa fa-paperclip"></i></label>
-                                                                <span id="fileVal0" class="filevalue">fileName</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <a href="#" class="btn waves-effect waves-light red t-c ">
-                                                                <i class="fa fa-close"></i></a>
-                                                        </td>
+                                                    <div class="">
+                                                        <input type="file" name="SafetyFile" id="SafetyFile${index.count }" onchange="getFileName('${index.count }')"   
+                                                            style="display:none" />
+                                                        <label for="SafetyFile${index.count }" class="btn bg-m"><i
+                                                                class="fa fa-paperclip"></i></label>
+                                                        <a id="fileVal${index.count }" class="filevalue"  >${sObj.document_url }</a>
+                                                    </div>
+                                                    <input type="hidden" id="safetyEquipmentFileNames${index.count }" name="safetyEquipmentFileNames" value="${sObj.document_url }">
+                                                </td>
+                                                <td>
+                                                    <a onclick="removeSafety('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+                                                            class="fa fa-close"></i></a>
+                                                </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <a href="#" class="btn waves-effect waves-light bg-m t-c "
-                                                                onclick="addNewRow()">
-                                                                <i class="fa fa-plus"></i></a>
-                                                        </td>
-                                                    </tr>
+                                                     </c:forEach>
+                                       				
                                                 </tbody>
                                             </table>
-
+                                          <table class="mdl-data-table">
+                                       	 <tbody id="safetyBody">                                          
+			                                    <tr>
+			  										 <td colspan="3" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-s t-c " onclick="addSafetyRow()"> <i
+			                                                            class="fa fa-plus"></i></a>
+			                                    </tr>
+                                        </tbody>
+                                    </table>
+										<c:choose>
+                                        <c:when test="${not empty safetyInstructionsList && fn:length(safetyInstructionsList) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(safetyInstructionsList) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose> 
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +151,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button style="width: 100%;"
+                                        <button style="width: 100%;" onclick="updateSafetyInstructions();"
                                             class="btn waves-effect waves-light bg-m black-text">Update</button>
                                     </div>
                                 </div>
@@ -170,19 +202,36 @@
         $(document).ready(function () {
 
         });
-        rowNo = 1
-        function addNewRow() {
-            var text = '<tr>' + '<td><input id="name0" type="text" class="validate" placeholder = "Name" ></td > ' +
-                '<td><div class=""><input type="file" name="myfile" id="myFile' + rowNo + '" onchange="getFileName(' + rowNo + ')" style="display:none" />' +
-                ' <label for="myFile' + rowNo + '" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal' + rowNo + '" class="filevalue">fileName</span>' +
-                '</div ></td ><td><a href="#" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>' + '</tr>';
-            $('#safety-instruction').find('tr:last').prev().after(text);
-            rowNo++;
+        function addSafetyRow() {
+     	    var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+            var html = '<tr id="safetyRow' + rNo + '">' + 
+           	    '<td><input id="document_names' + rNo + '" name="document_names" type="text" class="validate" placeholder = "Name" ></td > ' 
+           	 	+'<td><div class=""> <input type="file" name="SafetyFile" id="SafetyFile'+rNo+'" style="display:none" onchange="getFileName('+rNo+')" /> '
+		   	     +'<label for="SafetyFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+		   	     +'<input type="hidden" id="safetyEquipmentFileNames'+rNo+'" name="safetyEquipmentFileNames">'
+                +'<span id="fileVal'+rNo+'" class="filevalue" ></span> </div></td>'
+                +'<td><a  onclick="removeSafety('+rNo+');"  class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>' + '</tr>';
+            $('#safetyTableBody').append(html);
+            $("#rowNo").val(rNo);
         }
 
-        function getFileName(rowNo) {
-            var filename = $('#myFile' + rowNo)[0].files[0].name;
-            $('#fileVal' + rowNo).html(filename);
+        function getFileName(rowNo){
+			var filename = $('#SafetyFile'+rowNo)[0].files[0].name;
+		    $('#fileVal'+rowNo).html(filename);
+		}
+        
+        function removeSafety(rowNo){
+        	$("#safetyRow"+rowNo).remove();
+        }
+        
+        function updateSafetyInstructions(){
+        	//if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	        	$('form input[name=document_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=safetyEquipmentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("safetyInstructionsForm").submit();	
+        	//}
         }
     </script>
 </body>

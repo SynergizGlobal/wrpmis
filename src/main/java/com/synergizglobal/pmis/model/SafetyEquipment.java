@@ -18,8 +18,18 @@ public class SafetyEquipment {
 
 	private MultipartFile[] safetyEquipmentFile;
 	
+	private MultipartFile[] safetyFile;
 	
 	
+	
+	public MultipartFile[] getSafetyFile() {
+		return safetyFile;
+	}
+
+	public void setSafetyFile(MultipartFile[] safetyFile) {
+		this.safetyFile = safetyFile;
+	}
+
 	public String getSafety_instructions_id() {
 		return safety_instructions_id;
 	}

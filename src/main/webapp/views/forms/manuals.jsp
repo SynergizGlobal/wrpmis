@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/la.css">
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<style>		
 		.center-align.p-2.bg-m h5{
 			font-size:20px;
@@ -18,6 +20,14 @@
 			text-transform: inherit;
 			font-size:1rem;
 			font-weight:500;
+		}
+		.file-upload-btn{
+			width: 100%;
+		    border-radius: 40px;
+		    height: 45px;
+		    line-height: 45px;
+		    font-size: 1.1rem;
+		    font-weight: 400;
 		}
 		.modal-header {
 		    text-align: center;
@@ -57,6 +67,22 @@
             display: inline-block;
         }
 	/* change icon & bg based on the active state ends  */
+		.input-field .searchable_label{
+			font-size:0.85rem;
+			margin-bottom:6px !important;
+		}
+		.select2-container.select2-container--default.select2-container--open{
+			z-index:1034;
+		}
+		.select2-container--default .select2-selection--single {
+			background-color: transparent;
+		}
+		.modal .input-field p{
+			margin:0;
+		}
+		.modal .container .row{
+			margin-bottom:0;
+		}
 		.card-action.flex {
 			display: flex;
 			justify-content: space-between;
@@ -149,23 +175,14 @@
 
 					<div class="container" style="margin-top: 30px;">
 						<div class="row" style="margin-top: 30px">
-							<div class="input-field col m6 s12">
+							<div class="input-field col m10 s8">
 								<i class="material-icons prefix right-side"
 									onclick="alert('search')">search</i> <input id="icon_telephone"
 									type="text" class="validate autocomplete"
 									placeholder="Search ...">
 							</div>
-							<div class="col m6 s12">
-								<form action="#">
-									<div class="file-field input-field">
-										<div class="btn t-t-i bg-m">
-											<span>Upload File</span> <input type="file">
-										</div>
-										<div class="file-path-wrapper">
-											<input class="file-path validate" type="text">
-										</div>
-									</div>
-								</form>
+							<div class="col m2 s4 input-field">
+								<a class="btn t-t-i bg-m modal-trigger file-upload-btn" href="#upload-modal">Upload</a>							
 							</div>
 						</div>
 						<div class="row">
@@ -233,16 +250,21 @@
 									</div>
 									<div class="collapsible-body">
 										<div class="files-collection">
-
 											<div class="card card-file">
 												<div class="card-content center-align">
 													<img src="/pmis/resources/images/document.svg"> <span
 														class="card-title">Contractor 1</span>
 												</div>
 												<div class="card-action flex">
-													<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
+													<a href="#modal1" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
 														href="#"><i class="fa fa-download"></i></a>
 												</div>
+												 <div id="modal1" class="modal preview-modal">
+												    <div class="modal-content">
+												      <h5 class="modal-header">File Preview <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+												      <div class="center-align" style="margin-top:150px">Preview of File Goes Here...</div>
+												    </div>
+												 </div>
 											</div>
 											<div class="card card-file">
 												<div class="card-content center-align">
@@ -273,7 +295,8 @@
 													<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
 														href="#"><i class="fa fa-download"></i></a>
 												</div>
-											</div>
+											</div>											
+											
 										</div>
 									</div>
 								</li>
@@ -312,6 +335,58 @@
     </div>
   </div>
 
+  <!-- Modal Structure -->
+	<div id="upload-modal" class="modal preview-modal">
+		<div class="modal-content">
+			<h5 class="modal-header">
+				File Upload<span class="right modal-action modal-close"><span
+					class="material-icons">close</span></span>
+			</h5>
+
+			<div class="container">
+				<div class="row">
+					<div class="col m6 s12 input-field">
+						<input id="title" type="text" class="validate"> <label
+							for="title">Title</label>
+					</div>
+					<div class="col m6 s12 input-field">
+						<p class="searchable_label">Folder</p>
+						<select class="searchable">
+							<option disabled>Choose your option</option>
+							<option value="contractor">Contractor</option>
+							<option value="contract">Contract</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col m12 s12 input-field file-field">
+						<div class="btn bg-m t-t-i">
+							<span>Upload File</span> <input type="file">
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate" type="text">
+						</div>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 15px;">
+					<div class="col s12 m6">
+						<div class="center-align m-1">
+							<button style="width: 100%;"
+								class="btn waves-effect waves-light bg-m">Upload</button>
+						</div>
+					</div>
+					<div class="col s12 m6">
+						<div class="center-align m-1">
+							<button class="btn waves-effect waves-light bg-s modal-close"
+								style="width: 100%">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -319,21 +394,22 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script>
-	    $(document).ready(function(){
-	      $('.collapsible').collapsible();
-	      $('.modal').modal({
-	    	  dismissible:false,
-	      });
-	      $('input.autocomplete').autocomplete({
-              data: {
-                  "MUTP-I": null,
-                  "MUTP-II": null,
-                  "MUTP-IIA": null,
-                  "MUTP-IIB": null,
-                  "MUTP-III": null,
-              },
-          });
-	    });
-    </script>
+		$(document).ready(function() {
+			$('.collapsible').collapsible();
+			$('.searchable').select2();
+			$('.modal').modal({
+				dismissible : false,
+			});
+			$('input.autocomplete').autocomplete({
+				data : {
+					"MUTP-I" : null,
+					"MUTP-II" : null,
+					"MUTP-IIA" : null,
+					"MUTP-IIB" : null,
+					"MUTP-III" : null,
+				},
+			});
+		});
+	</script>
 </body>
 </html>

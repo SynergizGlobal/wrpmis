@@ -23,11 +23,7 @@
         nav {
             box-shadow: none !important;
         }
-
-        /* .card-title {
-            text-transform: capitalize;
-        } */
-
+      
         .main-clr {
             background-color: #fdfdfd;
             border-radius: 10px;
@@ -80,7 +76,6 @@
 
         .card.main-clr {
             min-height: 300px;
-            min-height: 270px;
             height: auto;
         }
          .card.main-clr .card-content{
@@ -154,6 +149,118 @@
         }
        
     </style>
+      <style>
+        .modal-header {
+            text-align: center;
+            background-color: #1565C0cc;
+            background-image: linear-gradient(to right, #16D58A, #00BDE7);
+            color: #fff;
+            margin: -24px -24px 20px !important;
+            padding: 1rem;
+        }
+
+        .modal {
+            max-height: 100%;
+            top: 0 !important;
+        }
+
+        .map-btn-holder {
+            /* margin-top: 3px; */
+            text-align: center;
+        }
+
+        .map-btn-holder .btn {
+            background-color: #1565C0cc;
+            background-image: linear-gradient(to right, #16D58A, #00BDE7);
+            border-radius: 20px;
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+            height: 3rem;
+            padding: 0 28px;
+        }
+
+        .map-btn-holder .fa {
+            font-size: 2.3rem;
+            vertical-align: middle;
+            height: 100%;
+            margin-top: 15%;
+        }
+
+        .button .btn:hover,
+        .button .btn:focus,
+        .card.main-clr.active .button .btn {
+            background-color: #1565C088;
+            background-image: linear-gradient(to right, #16D58A, #00BDE7);
+        }
+
+        .container.no-mar .col {
+            padding: 0 .37rem;
+        }
+
+        .card.main-clr {
+            margin-bottom: 0.5rem;
+            border-width: 5px;
+            border-style: outset;
+        }
+
+        .card.main-clr .card-content .card-title {
+            margin: -23px -23px 10px -23px;
+            background-color: #1565C0cc;
+            background-image: linear-gradient(to right, #16D58A, #00BDE7);
+            color: #fff;
+            border-radius: 4px 4px 0 0;
+            padding: 3px;
+            box-shadow: 2px 3px 7px 2px #999999;
+            text-transform: inherit;
+        }
+
+        /* div:not(.sec-clr):not(.card) .card-content .card.main-clr .card-content .card-title {
+            margin: inherit;
+            background-color: inherit;
+            color: inherit;
+            box-shadow: inherit;
+        } */
+
+        .card.card.sec-clr .row {
+            display: flex;
+        }
+
+        .card.card.sec-clr .row .col {
+            padding: 5px;
+        }
+
+        .card.sec-clr .row .col .card.main-clr {
+            min-height: 100%;
+        }
+
+        .autocomplete~ul.autocomplete-content {
+            border-radius: 20px;
+        }
+
+        .input-field .prefix.right-side {
+            right: 0
+        }
+
+        .input-field .prefix.right-side~label,
+        .input-field .prefix.right-side~input {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .input-field .prefix.right-side~input {
+            background-color: #fff;
+            width: calc(100% - 25px);
+            border-radius: 20px;
+            padding-left: 25px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .input-field .prefix.right-side~input {
+                padding-left: 15px;
+                width: calc(100% - 15px);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -161,8 +268,33 @@
   <jsp:include page="./layout/header.jsp"></jsp:include>
   
     <div class="container no-mar" style="padding-bottom:30px">
-        <div class="row">
+     <div style="margin-top:30px">
+            <div class="row">
+                <div class="input-field col m11 s9">
+                    <i class="material-icons prefix right-side">search</i>
+                    <input id="icon_telephone" type="text" class="validate autocomplete" placeholder="Search ...">
+                </div>
+                <div class="col m1 s3 input-field">
+                    <div class="map-btn-holder">
+                        <a class="waves-effect waves-light btn modal-trigger" href="#mapmodal" title="click to see map">
+                            <!-- <span class="material-icons">map</span> -->
+                            <i class="fa fa-globe"></i>
+                        </a>
+                        <!-- Modal Structure -->
+                        <div id="mapmodal" class="modal">
+                            <div class="modal-content">
+                                <h4 class="modal-header">Map with MUTP 3A Corridors <span
+                                        class="right modal-action modal-close"><span
+                                            class="material-icons">close</span></span></h4>
+                                <img src="images/Final Map with MUTP 3A corridors.png" alt="Map Image" width="100%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
+        <div class="row">        
         	<c:forEach var="pObj" items="${projectsInfo}" varStatus="index">
         	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
 	            <div class="col s12 m4">
@@ -322,6 +454,18 @@
             });
             $('.sidenav').sidenav();
             $('.collapsible').collapsible();
+            $('.modal').modal({
+                dismissible: false,
+            });
+            $('input.autocomplete').autocomplete({
+                data: {
+                    "MUTP-I": null,
+                    "MUTP-II": null,
+                    "MUTP-IIA": null,
+                    "MUTP-IIB": null,
+                    "MUTP-III": null,
+                },
+            });
         });
 
     /*     function showWorkData(indexNo) {

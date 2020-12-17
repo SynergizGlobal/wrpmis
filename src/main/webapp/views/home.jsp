@@ -24,9 +24,9 @@
             box-shadow: none !important;
         }
 
-        .card-title {
+        /* .card-title {
             text-transform: capitalize;
-        }
+        } */
 
         .main-clr {
             background-color: #fdfdfd;

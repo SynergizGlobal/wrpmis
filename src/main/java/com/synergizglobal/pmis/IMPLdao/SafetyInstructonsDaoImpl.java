@@ -102,15 +102,16 @@ public class SafetyInstructonsDaoImpl implements SafetyInstructonsDao{
 					} else {
 						docFileName  = (obj.getSafetyEquipmentFileNames().length > 0)?obj.getSafetyEquipmentFileNames()[i]:null;
 					}
+					if( obj.getDocument_names().length > 0 && !StringUtils.isEmpty(obj.getDocument_names()[i])) {
 					files.add(file);
-					stmt.setString(k++,(obj.getDocument_names().length > 0)?obj.getDocument_names()[i]:null);
-					if (null != docFileName1 && !docFileName1.isEmpty()){
-						stmt.setString(k++,saveDirectory+docFileName1);
-					}else {
-						stmt.setString(k++,docFileName);
+						stmt.setString(k++,(obj.getDocument_names().length > 0)?obj.getDocument_names()[i]:null);
+						if (null != docFileName1 && !docFileName1.isEmpty()){
+							stmt.setString(k++,saveDirectory+docFileName1);
+						}else {
+							stmt.setString(k++,docFileName);
+						}
+						stmt.addBatch();
 					}
-					
-					stmt.addBatch();
 			}	
 			int[] insertCount = stmt.executeBatch();
 		

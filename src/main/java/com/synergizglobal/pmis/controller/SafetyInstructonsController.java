@@ -58,13 +58,13 @@ public class SafetyInstructonsController {
 			model.setViewName("redirect:/safety-instructions");
 			boolean flag =  service.updateSafetyInstructions(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "safety Instructions Updated Succesfully.");
+				attributes.addFlashAttribute("success", "Safety Instructions Updated Succesfully.");
 			}else {
-				attributes.addFlashAttribute("error","Updating safety Instructions is failed. Try again.");
+				attributes.addFlashAttribute("error","Updating Safety Instructions is failed. Try again.");
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
-			attributes.addFlashAttribute("error","Updating safety Instructions is failed. Try again.");
+			attributes.addFlashAttribute("error","Updating Safety Instructions is failed. Try again.");
 			logger.error("updateDocument : " + e.getMessage());
 		}
 		return model;

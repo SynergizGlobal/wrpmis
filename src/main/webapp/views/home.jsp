@@ -228,7 +228,7 @@
 	                                	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
 		                                    <div class="col s12 m4">
 		                                        <div class="card main-clr">
-		                                            <div class="card-content">
+		                                            <div class="card-content" style="cursor: pointer;" onclick="getTableauDashboard('${wObj.work_id}');">
 		                                                <span class="card-title center-align">${wObj.work_short_name }</span>
 		                                                <div class="line">
 		                                                    <p class="alignleft">Original Sanctioned Cost</p>
@@ -368,6 +368,18 @@
                });
               // $("#project_data_"+no).parent().removeClass('hidden');
                $('#result'+no).removeClass('hidden');
+        }
+        
+        
+        function getTableauDashboard(work_id){
+        	if($.trim(work_id) != ''){
+        		if($.trim(work_id) == 'P06W01'){
+        			window.location.href = "<%=request.getContextPath()%>/InfoViz/cr-fob"
+        		}
+				if($.trim(work_id) == 'P07W01'){
+					window.location.href = "<%=request.getContextPath()%>/InfoViz/wr-fob"
+        		}
+        	}
         }
 
         

@@ -457,18 +457,19 @@
             $('.modal').modal({
                 dismissible: false,
             });
+            
+            var searchData = {};
+            
+            <c:forEach var="pObj" items="${projectsInfo}" varStatus="index">
+            	searchData['${pObj.project_name}'] = null;
+            </c:forEach>
+            
             $('input.autocomplete').autocomplete({
-                data: {
-                    "MUTP-I": null,
-                    "MUTP-II": null,
-                    "MUTP-IIA": null,
-                    "MUTP-IIB": null,
-                    "MUTP-III": null,
-                },
+                data: searchData,
             });
         });
 
-    /*     function showWorkData(indexNo) {
+    	/*function showWorkData(indexNo) {
             $('.result').each(function () {
                 if (!$(this).hasClass('hidden')) {
                     $(this).addClass('hidden');

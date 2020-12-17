@@ -157,6 +157,25 @@
             left: 0;
             z-index: 1000;
         }
+        
+        .page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+		.page-loader-3 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
 
         .preloader-wrapper {
             top: 45% !important;
@@ -570,7 +589,7 @@
         </div>
     </div>
     
-        <div class="page-loader" style="display: none;">
+    <div class="page-loader" style="display: none;">
         <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-blue-only">
                 <div class="circle-clipper left">
@@ -585,6 +604,34 @@
             </div>
         </div>
     </div>
+    
+    <div class="page-loader-2" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+	
+	<div class="page-loader-3" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
     
       <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>    
@@ -807,7 +854,7 @@
      } 
 	
 	  function getProgressBulkUpdateStructures() {
-      	$(".page-loader").show();
+      	$(".page-loader-2").show();
       	var contract_id_fk = $("#contract_id_fk").val();
           $("#strip_chart_structure_id_fk option:not(:first)").remove();
           if ($.trim(contract_id_fk) != "") {
@@ -829,7 +876,7 @@
                           });
                       }
                       $('.searchable').select2();
-                      $(".page-loader").hide();
+                      $(".page-loader-2").hide();
                       
                       
                       if ($.trim(id1) != '' && $.trim(id2) != '') {
@@ -838,7 +885,7 @@
                   }
               });
           }else{
-          	$(".page-loader").hide();
+          	$(".page-loader-2").hide();
           }
       }
 	  
@@ -890,7 +937,7 @@
 	}
 
 	 function getComponentIdsList() {   
-     	$(".page-loader").show();
+     	$(".page-loader-3").show();
      	
      	clearComponentCircle();
          
@@ -955,7 +1002,7 @@
                      $("#component_circles").html(html);
                      $("#component_circles_row").show();
                      $('#legends').show();
-                     $(".page-loader").hide();
+                     $(".page-loader-3").hide();
                      
                      
                      if ($.trim(id1) != '' && $.trim(id2) != '') {
@@ -964,7 +1011,7 @@
                  }
              });
          }else{
-         	$(".page-loader").hide();
+         	$(".page-loader-3").hide();
          	$("#component_circles").html(html);
              $("#component_circles_row").hide();
              $('#legends').hide();

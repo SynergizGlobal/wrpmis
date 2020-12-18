@@ -178,8 +178,8 @@
 						</span>
 					</div>
 
-					<div class="container" style="margin-top: 30px;">
-						<div class="row" style="margin-top: 30px">
+					<div class="container">
+						<div class="row">
 							<div class="input-field col m10 s8">
 								<i class="material-icons prefix right-side"
 									onclick="alert('search')">search</i> <input id="icon_telephone"

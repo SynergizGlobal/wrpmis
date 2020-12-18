@@ -83,6 +83,9 @@
 		.modal .container .row{
 			margin-bottom:0;
 		}
+		file-field .btn span{
+   		 font-weight: 400;
+		}
 		.card-action.flex {
 			display: flex;
 			justify-content: space-between;

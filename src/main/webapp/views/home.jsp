@@ -272,7 +272,7 @@
             <div class="row">
                 <div class="input-field col m11 s9">
                     <i class="material-icons prefix right-side">search</i>
-                    <input id="icon_telephone" type="text" class="validate autocomplete" placeholder="Search ...">
+                    <input id="projects_search" type="text" class="validate autocomplete" placeholder="Search ...">
                 </div>
                 <div class="col m1 s3 input-field">
                     <div class="map-btn-holder">
@@ -286,7 +286,7 @@
                                 <h4 class="modal-header">Map with MUTP 3A Corridors <span
                                         class="right modal-action modal-close"><span
                                             class="material-icons">close</span></span></h4>
-                                <img src="images/Final Map with MUTP 3A corridors.png" alt="Map Image" width="100%">
+                                <img src="/pmis/resources/images/final_map.png" alt="Map Image" width="100%">
                             </div>
                         </div>
                     </div>
@@ -297,7 +297,7 @@
         <div class="row">        
         	<c:forEach var="pObj" items="${projectsInfo}" varStatus="index">
         	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
-	            <div class="col s12 m4">
+	            <div class="col s12 m4 projects-filter">
 	                <div id="project_data_${index.count }" class="card main-clr" >
 	                    <div class="card-content">
 	                        <span class="card-title center-align">${pObj.project_name }</span>
@@ -468,6 +468,21 @@
                 data: searchData,
             });
         });
+        
+        
+
+        $("#projects_search").on("keyup change", function() {
+            var txt = $('#projects_search').val();
+            $('.projects-filter').each(function(){
+            	if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
+                   $(this).show();
+               }else{
+            	   $(this).hide();
+               }
+            });
+        });
+        
+        
 
     	/*function showWorkData(indexNo) {
             $('.result').each(function () {

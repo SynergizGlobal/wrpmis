@@ -380,7 +380,7 @@ public class ContractDaoImpl implements ContractDao {
 				c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
 				
-				String Milestone_qry = "INSERT into  contract_milestones (milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk) "
+				String Milestone_qry = "INSERT into  contract_milestones (milestone_id,milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk) "
 									+"VALUES (?,?,?,?,?,?)";
 				stmt = con.prepareStatement(Milestone_qry); 
 				arraySize = 0; 
@@ -388,6 +388,12 @@ public class ContractDaoImpl implements ContractDao {
 					contract.setMilestone_names(CommonMethods.replaceEmptyByNullInSringArray(contract.getMilestone_names()));
 					if(arraySize < contract.getMilestone_names().length) {
 						arraySize = contract.getMilestone_names().length;
+					}
+				}
+				if(!StringUtils.isEmpty(contract.getMilestone_ids()) && contract.getMilestone_ids().length > 0) {
+					contract.setMilestone_ids(CommonMethods.replaceEmptyByNullInSringArray(contract.getMilestone_ids()));
+					if(arraySize < contract.getMilestone_ids().length) {
+						arraySize = contract.getMilestone_ids().length;
 					}
 				}
 				if(!StringUtils.isEmpty(contract.getMilestone_dates()) && contract.getMilestone_dates().length > 0) {
@@ -417,6 +423,7 @@ public class ContractDaoImpl implements ContractDao {
 				
 				for (int i = 0; i < arraySize; i++) {
 					 int k = 1;
+					 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
 					    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
 						stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
 						stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
@@ -803,13 +810,15 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> milestones = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT milestone_name,DATE_FORMAT(milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(actual_date,'%d-%m-%Y') AS actual_date, revision"
-					+ ",remarks from contract_milestones where contract_id_fk = ?";
+			String qry ="SELECT milestone_id,milestone_name,DATE_FORMAT(milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(actual_date,'%d-%m-%Y') AS actual_date, revision"
+					+ ",remarks from contract_milestones where contract_id_fk = ? and status = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
+			stmt.setString(2, CommonConstants.ACTIVE);
 			resultSet = stmt.executeQuery();
 			while(resultSet.next()) {
 				obj = new Contract();
+				obj.setMilestone_id(resultSet.getString("milestone_id"));
 				obj.setMilestone_name(resultSet.getString("milestone_name"));
 				obj.setMilestone_date(resultSet.getString("milestone_date"));
 				obj.setActual_date(resultSet.getString("actual_date"));
@@ -1101,14 +1110,15 @@ public class ContractDaoImpl implements ContractDao {
 					c = stmt.executeBatch();
 					if(stmt != null){stmt.close();}
 				
-					deleteQry = "DELETE from contract_milestones where contract_id_fk = ?";		 
+					deleteQry = "UPDATE contract_milestones set status = ? where contract_id_fk = ?";		 
 					stmt = con.prepareStatement(deleteQry);
-					stmt.setString(1,contract.getContract_id()); 
+					stmt.setString(1,CommonConstants.INACTIVE);
+					stmt.setString(2,contract.getContract_id());
 					stmt.executeUpdate();
 					if(stmt != null){stmt.close();}
 					
-					String Milestone_qry = "INSERT into  contract_milestones (milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk) "
-										+"VALUES (?,?,?,?,?,?)";
+					String Milestone_qry = "INSERT into  contract_milestones (milestone_id,milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk,status) "
+										+"VALUES (?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(Milestone_qry); 
 					arraySize = 0; 
 					if(!StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
@@ -1141,15 +1151,22 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getMile_remarks().length;
 						}
 					}
-					
+					if(!StringUtils.isEmpty(contract.getMilestone_ids()) && contract.getMilestone_ids().length > 0) {
+						contract.setMilestone_ids(CommonMethods.replaceEmptyByNullInSringArray(contract.getMilestone_ids()));
+						if(arraySize < contract.getMilestone_ids().length) {
+							arraySize = contract.getMilestone_ids().length;
+						}
+					}
 					for (int i = 0; i < arraySize; i++) {
 						 int k = 1;
+						 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
 						    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
 							stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
 							stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
 							stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
 							stmt.setString(k++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
 							stmt.setString(k++,contract.getContract_id());
+							stmt.setString(k++,CommonConstants.ACTIVE);
 							stmt.addBatch();
 					}
 				

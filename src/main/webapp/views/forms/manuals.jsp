@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -184,79 +186,30 @@
 									type="text" class="validate autocomplete"
 									placeholder="Search ...">
 							</div>
-							<div class="col m2 s4 input-field">
+
+							<c:if test="${action eq 'Yes'}">	
+							     <div class="col m2 s4 input-field">
 								<a class="btn t-t-i bg-m modal-trigger file-upload-btn" href="#upload-modal">Upload</a>							
-							</div>
-						</div>
+								</div>
+							</c:if>
+							  
+							 
+					</div>
 						<div class="row">
 							<ul class="collapsible">
+							<c:choose>   
+	                            	<c:when test="${foldersList.size() gt 0}">
+		                            	<c:forEach var="rows" items="${foldersList}" varStatus="index">     
 								<li>
 									<div class="collapsible-header">
-										<i class="fa fa-folder open"></i> <i class="fa fa-folder-open close"></i>Contractor
-									</div>
-									<div class="collapsible-body">
-										<div class="row">
-											<div class="col s6 m3">
-												<div class="card">
-													<div class="card-content center-align">
-														<img src="/pmis/resources/images/document.svg"> <span
-															class="card-title">Contractor 1</span>
-													</div>
-													<div class="card-action flex">
-														<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-															href="#"><i class="fa fa-download"></i></a>
-													</div>
-												</div>
-											</div>
-											<div class="col s6 m3">
-												<div class="card">
-													<div class="card-content center-align">
-														<img src="/pmis/resources/images/document.svg"> <span
-															class="card-title">Contractor 2</span>
-													</div>
-													<div class="card-action flex">
-														<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-															href="#"><i class="fa fa-download"></i></a>
-													</div>
-												</div>
-											</div>
-											<div class="col s6 m3">
-												<div class="card">
-													<div class="card-content center-align">
-														<img src="/pmis/resources/images/document.svg"> <span
-															class="card-title">Contractor 3</span>
-													</div>
-													<div class="card-action flex">
-														<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-															href="#"><i class="fa fa-download"></i></a>
-													</div>
-												</div>
-											</div>
-											<div class="col s6 m3">
-												<div class="card">
-													<div class="card-content center-align">
-														<img src="/pmis/resources/images/document.svg"> <span
-															class="card-title">Contractor 4</span>
-													</div>
-													<div class="card-action flex">
-														<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-															href="#"><i class="fa fa-download"></i></a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="collapsible-header">
-										<i class="fa fa-folder open"></i> <i class="fa fa-folder-open close"></i> Contracts
+										<i class="fa fa-folder open"></i> <i class="fa fa-folder-open close"></i> ${rows.manual_folder_fk }
 									</div>
 									<div class="collapsible-body">
 										<div class="files-collection">
 											<div class="card card-file">
 												<div class="card-content center-align">
 													<img src="/pmis/resources/images/document.svg"> <span
-														class="card-title">Contractor 1</span>
+														class="card-title">${rows.manual_name }</span>
 												</div>
 												<div class="card-action flex">
 													<a href="#modal1" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
@@ -269,40 +222,15 @@
 												    </div>
 												 </div>
 											</div>
-											<div class="card card-file">
-												<div class="card-content center-align">
-													<img src="/pmis/resources/images/document.svg"> <span
-														class="card-title">Contractor 2</span>
-												</div>
-												<div class="card-action flex">
-													<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-														href="#"><i class="fa fa-download"></i></a>
-												</div>
-											</div>
-											<div class="card card-file">
-												<div class="card-content center-align">
-													<img src="/pmis/resources/images/document.svg"> <span
-														class="card-title">Contractor 3</span>
-												</div>
-												<div class="card-action flex">
-													<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-														href="#"><i class="fa fa-download"></i></a>
-												</div>
-											</div>
-											<div class="card card-file">
-												<div class="card-content center-align">
-													<img src="/pmis/resources/images/document.svg"> <span
-														class="card-title">Contractor 4</span>
-												</div>
-												<div class="card-action flex">
-													<a href="#modal-test" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-														href="#"><i class="fa fa-download"></i></a>
-												</div>
-											</div>											
-											
 										</div>
 									</div>
 								</li>
+								 </c:forEach>
+	                                </c:when>
+	                                <c:otherwise>
+	                                	<li style="text-align: center!important;">No folders available</li>
+	                                </c:otherwise>
+                                </c:choose>
 							</ul>
 						</div>
 
@@ -354,10 +282,11 @@
 					</div>
 					<div class="col m6 s12 input-field">
 						<p class="searchable_label">Folder</p>
-						<select class="searchable">
-							<option disabled>Choose your option</option>
-							<option value="contractor">Contractor</option>
-							<option value="contract">Contract</option>
+						<select class="searchable" name="manual_folder_fk" id="manual_folder_fk">
+							<option disabled selected>Choose your option</option>
+							<c:forEach var="obj" items="${foldersList }">
+                                   <option value="${obj.manual_folder_fk }">${obj.manual_folder_fk}</option>
+                            </c:forEach>
 						</select>
 					</div>
 				</div>

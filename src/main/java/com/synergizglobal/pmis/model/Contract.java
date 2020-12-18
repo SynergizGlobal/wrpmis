@@ -10,7 +10,7 @@ public class Contract {
 	final_takeover,final_bill_release,defect_liability_period,retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,
 	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk,
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
-	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,
+	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
@@ -22,7 +22,7 @@ public class Contract {
 	
 	private MultipartFile contractFile;
 	
-	private String[] contractDocumentNames,contractDocumentFileNames,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds,contractKeyPersonnelDesignations;
+	private String[] contractDocumentNames,contractDocumentFileNames,milestone_ids,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds,contractKeyPersonnelDesignations;
 	private MultipartFile[] contractDocumentFiles;
 	
 	private List<Contract> bankGauranree;
@@ -34,6 +34,22 @@ public class Contract {
 	
 	public String getContract_documents_id() {
 		return contract_documents_id;
+	}
+
+	public String[] getMilestone_ids() {
+		return milestone_ids;
+	}
+
+	public void setMilestone_ids(String[] milestone_ids) {
+		this.milestone_ids = milestone_ids;
+	}
+
+	public String getMilestone_id() {
+		return milestone_id;
+	}
+
+	public void setMilestone_id(String milestone_id) {
+		this.milestone_id = milestone_id;
 	}
 
 	public void setContract_documents_id(String contract_documents_id) {

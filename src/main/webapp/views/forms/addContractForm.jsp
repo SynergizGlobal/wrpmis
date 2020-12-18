@@ -677,7 +677,7 @@
 	                                        
 	                                            <tr id="mileRow0">  
 	                                            	<td>
-	                                                    <input id="milestone_id0" name="milestone_id" type="text" class="validate" 
+	                                                    <input id="milestone_ids0" name="milestone_ids" type="text" class="validate" 
 	                                                        placeholder="Milestone ID">
 	                                                </td>                                  
 	                                                <td>
@@ -1008,6 +1008,7 @@
 	  			$('form input[name=insurence_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=insurence_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contract_milestones_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=milestone_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=milestone_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=milestone_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=actual_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
@@ -1426,7 +1427,7 @@
 	 var rNo = Number(rowNo)+1;
 	 var total = 0;
 	 var html = '<tr id="mileRow'+rNo+'">'
-	 	   +'<td><input id="milestone_id'+rNo+'" name="milestone_id" type="text" class="validate" placeholder="Milestone ID"></td>'
+	 	   +'<td><input id="milestone_ids'+rNo+'" name="milestone_ids" type="text" class="validate" placeholder="Milestone ID"></td>'
 		   +'<td><input id="milestone_names'+rNo+'" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
 		   +'<td><input id="milestone_dates'+rNo+'" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="actual_dates'+rNo+'" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'

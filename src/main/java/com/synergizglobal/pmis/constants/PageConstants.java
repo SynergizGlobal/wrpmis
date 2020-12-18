@@ -72,4 +72,6 @@ public class PageConstants {
 	public static final String riskReport = "forms/riskReport";
 	
 	public static final String safetyInstruction = "forms/safetyInstruction";
+	
+	public static final String manuals = "forms/manuals";
 }

@@ -135,7 +135,7 @@ public class StripChartDaoImpl implements StripChartDao {
 			String qry = "select s.fob_id_fk as strip_chart_structure_id_fk from strip_chart_general s "
 					+ "where s.fob_id_fk is not null and s.fob_id_fk <> '' and s.contract_id_fk = ? "
 					+ "and (select count(*) from strip_chart_general s1 where s1.status <> ? "
-					+ "and s1.contract_id_fk = ? and s1.fob_id_fk = s.fob_id_fk) > 0 and s.structure <> 'Foot Over Bridge' ";
+					+ "and s1.contract_id_fk = ? and s1.fob_id_fk = s.fob_id_fk) > 0 ";
 			qry = qry + "group by s.fob_id_fk ";
 			
 			

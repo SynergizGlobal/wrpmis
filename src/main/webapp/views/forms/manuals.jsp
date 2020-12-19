@@ -209,13 +209,13 @@
 							</c:if>
 					</div>
 					
-						<div class="row">
+						<div class="row files-filter">
 						   <ul class="collapsible">
 							<c:choose>   
 	                          <c:when test="${foldersList.size() gt 0}">
 		                        <c:forEach var="rows" items="${foldersList}" varStatus="index">     
-								  <li class=" files-filter">
-									<div class="collapsible-header " id="folder${index.count }">
+								  <li class="files-filter">
+									<div class="collapsible-header  " id="folder${index.count }">
 										<i class="fa fa-folder open"></i> <i class="fa fa-folder-open close"></i> ${rows.manual_folder_fk }
 									</div>
 									<div class="collapsible-body">
@@ -223,7 +223,7 @@
 										<c:choose>   
 										 <c:when test="${not empty rows.manualsList && fn:length(rows.manualsList) gt 0 }">
 										  <c:forEach var="data" items="${rows.manualsList}" varStatus="indexx"> 
-											<div class="card card-file"  id="row${indexx.count }${index.count }">
+											<div class="card card-file files-filter-data"  id="row${indexx.count }${index.count }">
 												<div class="card-content center-align ">
 													<img src="/pmis/resources/images/document.svg"> 
 													<span class="card-title">${data.manual_name }</span>
@@ -360,7 +360,7 @@
 			  var searchData = {};
 	            
 	            <c:forEach var="mObj" items="${foldersList}" varStatus="index">
-	            searchData['${rows.manual_folder_fk}'] = null;
+	            searchData['${mObj.manual_name}'] = null;
 	            </c:forEach>
 	            
 	            $('input.autocomplete').autocomplete({
@@ -371,6 +371,14 @@
 		 $("#fileSearch").on("keyup change", function() {
 	            var txt = $('#fileSearch').val();
 	            $('.files-filter').each(function(){
+	            	if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
+	                   $(this).show();
+	               }else{
+	            	   $(this).hide();
+	               }
+	            });
+	            
+	            $('.files-filter-data').each(function(){
 	            	if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
 	                   $(this).show();
 	               }else{

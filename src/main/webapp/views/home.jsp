@@ -358,7 +358,7 @@
 	                                <div class="row">
 	                                	<c:forEach var="wObj" items="${pObj.worksInfo}" varStatus="index">
 	                                	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
-		                                    <div class="col s12 m4">
+		                                    <div class="col s12 m4 projects-filter-work">
 		                                        <div class="card main-clr">
 		                                            <div class="card-content" style="cursor: pointer;" onclick="getTableauDashboard('${wObj.work_id}');">
 		                                                <span class="card-title center-align">${wObj.work_short_name }</span>
@@ -445,10 +445,10 @@
             $('.notification.dropdown-trigger').dropdown({
                 coverTrigger: false,
                 closeOnClick: false,
-                onOpenStart() {
+                onOpenStart: function() {
                     $('<div class="modal-overlay" style="z-index:9998; display: block; opacity: 0.7;"></div>').insertAfter('#dropdown1');
                 },
-                onCloseStart() {
+                onCloseStart: function() {
                     $('#dropdown1').next('.modal-overlay').remove();
                 }
             });
@@ -474,6 +474,14 @@
         $("#projects_search").on("keyup change", function() {
             var txt = $('#projects_search').val();
             $('.projects-filter').each(function(){
+            	if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
+                   $(this).show();
+               }else{
+            	   $(this).hide();
+               }
+            });
+            
+            $('.projects-filter-work').each(function(){
             	if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
                    $(this).show();
                }else{

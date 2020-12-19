@@ -297,7 +297,7 @@
 				<div class="row">
 					<div class="col m6 s12 input-field">
 						<input id="manual_name" name="manual_name" type="text" class="validate"> <label
-							for="title">Title</label>
+							for="manual_name">Title</label>
 					</div>
 					<div class="col m6 s12 input-field">
 						<p class="searchable_label">Folder</p>
@@ -345,9 +345,9 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
-	 <form name="getForm" id="getForm" method="post">
+	<!--  <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="manual_folder_fk" id="manual_folder_fk" />
-    </form>
+    </form> -->
 	<script>
 		$(document).ready(function() {
 			$('.collapsible').collapsible();
@@ -355,15 +355,7 @@
 			$('.modal').modal({
 				dismissible : false,
 			});
-			$('input.autocomplete').autocomplete({
-				data : {
-					"MUTP-I" : null,
-					"MUTP-II" : null,
-					"MUTP-IIA" : null,
-					"MUTP-IIB" : null,
-					"MUTP-III" : null,
-				},
-			});
+		
 			
 			  var searchData = {};
 	            

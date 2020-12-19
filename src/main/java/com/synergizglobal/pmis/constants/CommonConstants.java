@@ -20,6 +20,7 @@ public class CommonConstants {
 	public final static String DOCUMENT_FILES = "/pmis/DOCUMENT_FILES/";
 	public final static String SAFETY_FILES = "/pmis/SAFETY_FILES/";
 	public final static String SAFETY_INSTRUCTIONS__FILES = "/pmis/SAFETY_FILES/SAFETY_INSTRUCTIONS_FILES/";
+	public final static String MANUAL_FILES = "/pmis/MANUAL_FILES/";
 	
 	/*********** LOCAL ****************************************************/
 	
@@ -35,7 +36,8 @@ public class CommonConstants {
 	public final static String FUND_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FUND_FILES"+File.separator;
 	public final static String DOCUMENT_FILES_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DOCUMENT_FILES"+File.separator;
 	public static final String SAFETY_INSTRUCTIONS__FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_FILES"+File.separator+"SAFETY_INSTRUCTIONS_FILES"+File.separator;
-	
+	public final static String MANUAL_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
+
 	
 	/*********** PRODUCTION ****************************************************/
 	

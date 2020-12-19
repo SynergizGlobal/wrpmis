@@ -21,8 +21,8 @@ public class ManualsServiceImpl implements ManualsService {
 	}
 
 	@Override
-	public Manuals getFoldersDataList(Manuals obj) throws Exception {
-		return dao.getFoldersDataList(obj);
+	public boolean addManuals(Manuals obj) throws Exception {
+		return dao.addManuals(obj);
 	}
 
 

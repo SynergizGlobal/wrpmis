@@ -2,12 +2,32 @@ package com.synergizglobal.pmis.model;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Manuals {
 	
-	private String manuals_id, manual_name, manual_folder_fk, attachment,user_role_name_fk;
+	private String manuals_id, manual_name, manual_folder_fk, attachment,user_role_name_fk,manual_folders;
 
 	private List<Manuals> manualsList;
 	
+	private MultipartFile manualFile;
+	
+	public String getManual_folders() {
+		return manual_folders;
+	}
+
+	public void setManual_folders(String manual_folders) {
+		this.manual_folders = manual_folders;
+	}
+
+	public MultipartFile getManualFile() {
+		return manualFile;
+	}
+
+	public void setManualFile(MultipartFile manualFile) {
+		this.manualFile = manualFile;
+	}
+
 	public List<Manuals> getManualsList() {
 		return manualsList;
 	}

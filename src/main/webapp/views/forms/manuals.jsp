@@ -1,4 +1,4 @@
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -125,8 +125,12 @@
 		
 		.files-collection {
 			display: flex;
-			justify-content: space-between;
+			/* justify-content: space-between; */
+			justify-content: flex-start;
 			flex-wrap: wrap;
+		}
+		.files-collection .card-file{
+			margin:6px;
 		}
 		
 		.input-field .prefix.right-side {
@@ -177,13 +181,24 @@
 							</div>
 						</span>
 					</div>
-
+ 						<c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+							<div class="center-align m-1 close-message">	
+							   ${updateSuccess}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
 					<div class="container">
 						<div class="row">
 							<div class="input-field col m10 s8">
-								<i class="material-icons prefix right-side"
-									onclick="alert('search')">search</i> <input id="icon_telephone"
-									type="text" class="validate autocomplete"
+								<i class="material-icons prefix right-side">search</i> 
+									<input id="fileSearch" type="text" class="validate autocomplete"
 									placeholder="Search ...">
 							</div>
 
@@ -192,52 +207,58 @@
 								<a class="btn t-t-i bg-m modal-trigger file-upload-btn" href="#upload-modal">Upload</a>							
 								</div>
 							</c:if>
-							  
-							 
 					</div>
+					
 						<div class="row">
-							<ul class="collapsible">
+						   <ul class="collapsible">
 							<c:choose>   
-	                            	<c:when test="${foldersList.size() gt 0}">
-		                            	<c:forEach var="rows" items="${foldersList}" varStatus="index">     
-								<li>
-									<div class="collapsible-header" id="floder${index.count }">
+	                          <c:when test="${foldersList.size() gt 0}">
+		                        <c:forEach var="rows" items="${foldersList}" varStatus="index">     
+								  <li class=" files-filter">
+									<div class="collapsible-header " id="folder${index.count }">
 										<i class="fa fa-folder open"></i> <i class="fa fa-folder-open close"></i> ${rows.manual_folder_fk }
 									</div>
 									<div class="collapsible-body">
 										<div class="files-collection">
-										<c:forEach var="data" items="${foldersDataList.manualsList}" varStatus="index"> 
-											<div class="card card-file"  id="row${index.count }">
-												<div class="card-content center-align">
-													<img src="/pmis/resources/images/document.svg"> <span
-														class="card-title">${data.manual_name }</span>
+										<c:choose>   
+										 <c:when test="${not empty rows.manualsList && fn:length(rows.manualsList) gt 0 }">
+										  <c:forEach var="data" items="${rows.manualsList}" varStatus="indexx"> 
+											<div class="card card-file"  id="row${indexx.count }${index.count }">
+												<div class="card-content center-align ">
+													<img src="/pmis/resources/images/document.svg"> 
+													<span class="card-title">${data.manual_name }</span>
 												</div>
 												<div class="card-action flex">
-													<a href="#modal1" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
-														href="#"><i class="fa fa-download"></i></a>
+													<a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
+													<a href="<%=CommonConstants.MANUAL_FILES %>${data.attachment }" download><i class="fa fa-download"></i></a>
 												</div>
-												 <div id="modal1" class="modal preview-modal">
+												 <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">
 												    <div class="modal-content">
 												      <h5 class="modal-header">File Preview <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
-												      <div class="center-align" style="margin-top:150px">Preview of File Goes Here...</div>
+												      <div class="center-align" style="margin-top:50px">
+												      	<embed src="<%=CommonConstants.MANUAL_FILES %>${data.attachment }#toolbar=0" width="800px" height="2100px" />
+												      </div>
 												    </div>
 												 </div>
 											</div>
-										</c:forEach>
-										</div>
-									</div>
-								</li>
-								 </c:forEach>
-	                                </c:when>
-	                                <c:otherwise>
-	                                	<li style="text-align: center!important;">No folders available</li>
-	                                </c:otherwise>
-                                </c:choose>
-							</ul>
-						</div>
-
+										  </c:forEach>
+									  </c:when>
+	                               	  <c:otherwise>
+	                                	<span style="width: 100%;text-align: center">No files available in ${rows.manual_folder_fk }</span>
+	                                  </c:otherwise>
+                                   </c:choose>
+								</div>
+							  </div>
+							 </li>
+							</c:forEach>
+	                       </c:when>
+                           <c:otherwise>
+                           	<li style="text-align: center!important;">No folders available</li>
+                           </c:otherwise>
+                         </c:choose>
+					    </ul>
+					  </div>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -261,12 +282,7 @@
 	</div>
 
   <!-- Modal Structure -->
-  <div id="modal-test" class="modal preview-modal">
-    <div class="modal-content">
-      <h5 class="modal-header">File Preview <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
-      <div class="center-align" style="margin-top:150px">Preview of File Goes Here....</div>
-    </div>
-  </div>
+  
 
   <!-- Modal Structure -->
 	<div id="upload-modal" class="modal preview-modal"> 
@@ -277,9 +293,10 @@
 			</h5>
 
 			<div class="container">
+			 <form action="<%=request.getContextPath() %>/upload-manual" id="manualUploadForm" name="manualUploadForm" method="post" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col m6 s12 input-field">
-						<input id="title" type="text" class="validate"> <label
+						<input id="manual_name" name="manual_name" type="text" class="validate"> <label
 							for="title">Title</label>
 					</div>
 					<div class="col m6 s12 input-field">
@@ -295,29 +312,30 @@
 				<div class="row">
 					<div class="col m12 s12 input-field file-field">
 						<div class="btn bg-m t-t-i">
-							<span>Upload File</span> <input type="file">
+							<span>Upload File</span> <input type="file" id="manualFile" name="manualFile">
 						</div>
 						<div class="file-path-wrapper">
-							<input class="file-path validate" type="text">
+							<input class="file-path validate" type="text" id="attachment" name="attachment" >
 						</div>
 					</div>
 				</div>
 				<div class="row" style="margin-top: 15px;">
 					<div class="col s12 m6">
 						<div class="center-align m-1">
-							<button style="width: 100%;"
+							<button type="button" onclick="manualFileSubmit();" style="width: 100%;"
 								class="btn waves-effect waves-light bg-m">Upload</button>
 						</div>
 					</div>
 					<div class="col s12 m6">
 						<div class="center-align m-1">
-							<button class="btn waves-effect waves-light bg-s modal-close"
-								style="width: 100%">Cancel</button>
+								<a href="<%=request.getContextPath()%>/manuals"  class="btn waves-effect waves-light bg-s modal-close"
+                                            style="width:100%">Cancel</a>
 						</div>
 					</div>
 				</div>
+				</form>
 			</div>
-
+		
 		</div>
 	</div>
 
@@ -327,6 +345,9 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
+	 <form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="manual_folder_fk" id="manual_folder_fk" />
+    </form>
 	<script>
 		$(document).ready(function() {
 			$('.collapsible').collapsible();
@@ -343,7 +364,39 @@
 					"MUTP-III" : null,
 				},
 			});
+			
+			  var searchData = {};
+	            
+	            <c:forEach var="mObj" items="${foldersList}" varStatus="index">
+	            searchData['${rows.manual_folder_fk}'] = null;
+	            </c:forEach>
+	            
+	            $('input.autocomplete').autocomplete({
+	                data: searchData,
+	            });
 		});
+		
+		 $("#fileSearch").on("keyup change", function() {
+	            var txt = $('#fileSearch').val();
+	            $('.files-filter').each(function(){
+	            	if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
+	                   $(this).show();
+	               }else{
+	            	   $(this).hide();
+	               }
+	            });
+	        });
+		 
+		  function manualFileSubmit(){
+	        	$(".page-loader").show();
+	        	$("#upload_template").modal();
+	        	$("#manualUploadForm").submit();
+	        }
+		 <%--  function folderList(manual_folder_fk){
+			  $("#manual_folder_fk").val(manual_folder_fk);
+	        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-list');
+	        	$('#getForm').submit();  
+		  } --%>
 	</script>
 </body>
 </html>

@@ -8,7 +8,7 @@ public interface ManualsService {
 
 	public List<Manuals> getFoldersList() throws Exception;
 
-	public Manuals getFoldersDataList(Manuals obj) throws Exception;
+	public boolean addManuals(Manuals obj) throws Exception;
 
 
 

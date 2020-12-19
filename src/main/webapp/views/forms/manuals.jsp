@@ -201,15 +201,16 @@
 	                            	<c:when test="${foldersList.size() gt 0}">
 		                            	<c:forEach var="rows" items="${foldersList}" varStatus="index">     
 								<li>
-									<div class="collapsible-header">
+									<div class="collapsible-header" id="floder${index.count }">
 										<i class="fa fa-folder open"></i> <i class="fa fa-folder-open close"></i> ${rows.manual_folder_fk }
 									</div>
 									<div class="collapsible-body">
 										<div class="files-collection">
-											<div class="card card-file">
+										<c:forEach var="data" items="${foldersDataList.manualsList}" varStatus="index"> 
+											<div class="card card-file"  id="row${index.count }">
 												<div class="card-content center-align">
 													<img src="/pmis/resources/images/document.svg"> <span
-														class="card-title">${rows.manual_name }</span>
+														class="card-title">${data.manual_name }</span>
 												</div>
 												<div class="card-action flex">
 													<a href="#modal1" class="modal-trigger"><i class="fa fa-eye"></i></a> <a
@@ -222,6 +223,7 @@
 												    </div>
 												 </div>
 											</div>
+										</c:forEach>
 										</div>
 									</div>
 								</li>
@@ -267,7 +269,7 @@
   </div>
 
   <!-- Modal Structure -->
-	<div id="upload-modal" class="modal preview-modal">
+	<div id="upload-modal" class="modal preview-modal"> 
 		<div class="modal-content">
 			<h5 class="modal-header">
 				File Upload<span class="right modal-action modal-close"><span

@@ -8,5 +8,7 @@ public interface ManualsDao {
 
 	public List<Manuals> getFoldersList() throws Exception;
 
+	public Manuals getFoldersDataList(Manuals obj) throws Exception;
+
 
 }

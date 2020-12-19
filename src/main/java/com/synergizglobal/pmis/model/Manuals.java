@@ -1,8 +1,20 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 public class Manuals {
 	
 	private String manuals_id, manual_name, manual_folder_fk, attachment,user_role_name_fk;
+
+	private List<Manuals> manualsList;
+	
+	public List<Manuals> getManualsList() {
+		return manualsList;
+	}
+
+	public void setManualsList(List<Manuals> manualsList) {
+		this.manualsList = manualsList;
+	}
 
 	public String getUser_role_name_fk() {
 		return user_role_name_fk;

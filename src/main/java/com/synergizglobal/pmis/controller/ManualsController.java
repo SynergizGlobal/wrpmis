@@ -10,6 +10,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,7 +36,7 @@ public class ManualsController {
 	
 	
 	@RequestMapping(value="/manuals",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView manuals(HttpSession session){
+	public ModelAndView manuals(@ModelAttribute Manuals obj,HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.manuals);
 		try {
 			String Admin = "No";
@@ -47,6 +48,8 @@ public class ManualsController {
 			}
 			List<Manuals> foldersList = service.getFoldersList();
 			model.addObject("foldersList", foldersList);
+			Manuals foldersDataList = service.getFoldersDataList(obj);
+			model.addObject("foldersDataList", foldersDataList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("manuals : " + e.getMessage());

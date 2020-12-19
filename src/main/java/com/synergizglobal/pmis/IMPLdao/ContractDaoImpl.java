@@ -810,7 +810,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> milestones = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT milestone_id,milestone_name,DATE_FORMAT(milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(actual_date,'%d-%m-%Y') AS actual_date, revision"
+			String qry ="SELECT contract_milestones_id,milestone_id,milestone_name,DATE_FORMAT(milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(actual_date,'%d-%m-%Y') AS actual_date, revision"
 					+ ",remarks from contract_milestones where contract_id_fk = ? and status = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -818,6 +818,7 @@ public class ContractDaoImpl implements ContractDao {
 			resultSet = stmt.executeQuery();
 			while(resultSet.next()) {
 				obj = new Contract();
+				obj.setContract_milestones_id(resultSet.getString("contract_milestones_id"));
 				obj.setMilestone_id(resultSet.getString("milestone_id"));
 				obj.setMilestone_name(resultSet.getString("milestone_name"));
 				obj.setMilestone_date(resultSet.getString("milestone_date"));
@@ -906,6 +907,7 @@ public class ContractDaoImpl implements ContractDao {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		PreparedStatement updateStmt = null;
 		int count = 0;
 		boolean flag = false;
 		try{
@@ -1107,15 +1109,19 @@ public class ContractDaoImpl implements ContractDao {
 						stmt.setString(k++,(contract.getInsurance_revisions().length > 0)?contract.getInsurance_revisions()[i]:null);
 						stmt.addBatch();
 					}
-					c = stmt.executeBatch();
+					c = stmt.executeBatch(); 
 					if(stmt != null){stmt.close();}
 				
-					deleteQry = "UPDATE contract_milestones set status = ? where contract_id_fk = ?";		 
-					stmt = con.prepareStatement(deleteQry);
+					String inactiveQry = "UPDATE contract_milestones set status = ? where contract_id_fk = ?";		 
+					stmt = con.prepareStatement(inactiveQry);
 					stmt.setString(1,CommonConstants.INACTIVE);
 					stmt.setString(2,contract.getContract_id());
 					stmt.executeUpdate();
 					if(stmt != null){stmt.close();}
+					String updateQry = "UPDATE contract_milestones set "
+							+ "milestone_id= ?, milestone_name=? ,milestone_date= ?, actual_date= ?, revision= ?,remarks = ?,status = ? "
+							+ "where contract_milestones_id= ?";
+					updateStmt = con.prepareStatement(updateQry);
 					
 					String Milestone_qry = "INSERT into  contract_milestones (milestone_id,milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk,status) "
 										+"VALUES (?,?,?,?,?,?,?,?)";
@@ -1158,6 +1164,19 @@ public class ContractDaoImpl implements ContractDao {
 						}
 					}
 					for (int i = 0; i < arraySize; i++) {
+						String mId = contract.getContract_milestones_ids()[i];
+						if(!StringUtils.isEmpty(mId)) {
+							int t = 1;
+							updateStmt.setString(t++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
+							updateStmt.setString(t++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
+							updateStmt.setString(t++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
+							updateStmt.setString(t++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
+							updateStmt.setString(t++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
+							updateStmt.setString(t++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
+							updateStmt.setString(t++,CommonConstants.ACTIVE);
+							updateStmt.setString(t++,(contract.getContract_milestones_ids().length > 0)?contract.getContract_milestones_ids()[i]:null);
+							updateStmt.addBatch();
+						}else {
 						 int k = 1;
 						 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
 						    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
@@ -1168,10 +1187,11 @@ public class ContractDaoImpl implements ContractDao {
 							stmt.setString(k++,contract.getContract_id());
 							stmt.setString(k++,CommonConstants.ACTIVE);
 							stmt.addBatch();
+						}
 					}
-				
 					c = stmt.executeBatch();
-					if(stmt != null){stmt.close();}
+					int[] updateCount = updateStmt.executeBatch();
+					if(stmt != null || updateStmt != null ){stmt.close();updateStmt.close();}
 				
 					deleteQry = "DELETE from contract_revision where contract_id_fk = ?";		 
 					stmt = con.prepareStatement(deleteQry);

@@ -311,7 +311,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public DataGathering getDeliverables(DataGathering obj) throws Exception {
 		DataGathering deliverables = null;
 		try {
-			String qry = "select id, project_priority_fk, d.project_id_fk,p.project_name,w.work_name,c.contract_name, d.work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description, target_date, start_date, finish_date, status_fk, d.remarks from deliverables d " + 
+			String qry = "select id, project_priority_fk, d.project_id_fk,p.project_name,w.work_name,c.contract_name, d.work_id_fk, contract_id_fk, deliverable_type_fk, deliverable_description,DATE_FORMAT(target_date,'%d-%m-%Y') AS target_date, DATE_FORMAT(start_date,'%d-%m-%Y') AS start_date,DATE_FORMAT(finish_date,'%d-%m-%Y') AS  finish_date, status_fk, d.remarks from deliverables d " + 
 						 "LEFT JOIN work w on d.work_id_fk = w.work_id "
 						 +"LEFT JOIN project p on d.project_id_fk = p.project_id "
 						 +"LEFT JOIN contract c on d.contract_id_fk = c.contract_id where id is not null ";

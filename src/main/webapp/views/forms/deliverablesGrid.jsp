@@ -339,11 +339,11 @@
 					    var workName = '';
 					    if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
 					    var contarctName = '';
-					    if ($.trim(val.contarct_name) != '') { contarctName = ' - ' + $.trim(val.contarct_name) }
+					    if ($.trim(val.contract_name) != '') { contarctName = ' - ' + $.trim(val.contract_name) }
  					 
  					    rowArray.push($.trim(val.project_id_fk) + projectName);
  					 	rowArray.push($.trim(val.work_name) + workName);
- 					 	rowArray.push($.trim(val.contarct_id_fk) + contarctName);
+ 					 	rowArray.push($.trim(val.contract_id_fk) + contarctName);
  					 	rowArray.push($.trim(val.deliverable_type_fk));
  					 	rowArray.push($.trim(val.deliverable_description));
  					 	rowArray.push($.trim(val.status_fk));

@@ -174,7 +174,7 @@
 	          <span class="material-icons-outlined">assignment</span> Reports</a>
           </li>
           
-          <li class="blue"><a href="#" class='head-img'>
+          <li class="blue"><a href="<%=request.getContextPath()%>/manuals" class='head-img'>
 	          <span class="material-icons-outlined">assignment</span> Manuals</a>
           </li>
           
@@ -395,7 +395,7 @@
          </ul>
     </li>
     <li><a href="#" class='head-img'><span class="material-icons-outlined">assignment</span> Reports</a></li>
-    <li><a href="#" class='head-img'><span class="material-icons-outlined">assignment</span> Manuals</a></li>
+    <li><a href="<%=request.getContextPath()%>/manuals" class='head-img'><span class="material-icons-outlined">assignment</span> Manuals</a></li>
     <li>
    		<!-- a class='dropdown-trigger' data-target='dropdown1'-->
    		<a href="<%=request.getContextPath() %>/home" data-target="notification-demo" class="sidenav-trigger">

@@ -608,32 +608,72 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			
 			if(flag) {
-				int i = 0;
-				
-				String updateQry = "UPDATE  strip_chart set completed = IFNULL(NULLIF(completed, '' ), 0) + ?,actual_start = IFNULL(actual_start,?),"
-						+ "actual_finish = (if (scope = completed ,?,actual_finish)) where strip_chart_id = ?";	
-				updateStmt = con.prepareStatement(updateQry);
+				int arrSize =0;
 				if( !StringUtils.isEmpty(obj.getCompletedScopes()) && obj.getCompletedScopes().length > 0) {
 					obj.setCompletedScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getCompletedScopes()));
-					if(arraySize < obj.getCompletedScopes().length) {
-						arraySize = obj.getCompletedScopes().length;
+					if(arrSize < obj.getCompletedScopes().length) {
+						arrSize = obj.getCompletedScopes().length;
 					}
 				}
-				for ( i = 0; i < arraySize; i++) {		
-					int k = 1;
-					 String actual = "0";
+				if( !StringUtils.isEmpty(obj.getTotalScopes()) && obj.getTotalScopes().length > 0) {
+					obj.setTotalScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getTotalScopes()));
+					if(arrSize < obj.getTotalScopes().length) {
+						arrSize = obj.getTotalScopes().length;
+					}
+				}
+				if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {
+					obj.setActualScopes(CommonMethods.replaceEmptyByNullInSringArray(obj.getActualScopes()));
+					if(arrSize < obj.getActualScopes().length) {
+						arrSize = obj.getActualScopes().length;
+					}
+				}
+				if( !StringUtils.isEmpty(obj.getStrip_chart_ids()) && obj.getStrip_chart_ids().length > 0) {
+					obj.setStrip_chart_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getStrip_chart_ids()));
+					if(arrSize < obj.getStrip_chart_ids().length) {
+						arrSize = obj.getStrip_chart_ids().length;
+					}
+				}
+				for (int i = 0; i < arrSize; i++) {	
 					
-					if( obj.getActualScopes().length > 0 && !StringUtils.isEmpty(obj.getActualScopes()[i])) {
-						actual = obj.getActualScopes()[i];
-						updateStmt.setString(k++, actual );	
-						updateStmt.setString(k++, obj.getProgress_date());	
-						updateStmt.setString(k++, obj.getProgress_date());	
-						updateStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
-						updateStmt.addBatch();
+					String updateQry = "UPDATE  strip_chart set completed = IFNULL(NULLIF(completed, '' ), 0) + ?";	
+					
+					float scope = 0,completed=0,actual=0;
+					if(!StringUtils.isEmpty(obj.getTotalScopes()[i])) {
+						 scope = Float.parseFloat(obj.getTotalScopes()[i]);
 					}
-				
+					if(!StringUtils.isEmpty(obj.getCompletedScopes()[i])) {
+						 completed = Float.parseFloat(obj.getCompletedScopes()[i]);
+					}
+					if(!StringUtils.isEmpty(obj.getActualScopes()[i])) {
+						 actual = Float.parseFloat(obj.getActualScopes()[i]);
+					}
+					
+					if(completed == 0) {
+						updateQry = updateQry + ", actual_start = ?";
+					}
+					
+					
+					if((completed+actual) > 0 && scope == (completed+actual)) {
+						updateQry = updateQry + ", actual_finish = ?";						
+					}
+					updateQry = updateQry + " WHERE strip_chart_id = ?";
+					updateStmt = con.prepareStatement(updateQry);
+						
+					int k = 1;
+					
+					updateStmt.setString(k++, String.valueOf(actual) );	
+					
+					if(completed == 0) {
+						updateStmt.setString(k++, obj.getProgress_date() );	
+					}
+					if((completed+actual) > 0 && scope == (completed+actual)) {
+						updateStmt.setString(k++, obj.getProgress_date());						
+					}
+					updateStmt.setString(k++,(obj.getStrip_chart_ids()[i]));
+					updateStmt.executeUpdate();
 				}
-				 int[] c = updateStmt.executeBatch();
+				
+					
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

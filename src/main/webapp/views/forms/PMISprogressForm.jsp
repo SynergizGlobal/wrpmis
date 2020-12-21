@@ -185,9 +185,9 @@
 								<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
 								
 								<span  class="errMsg" id="errMsg" style="text-align:center">Click on Finish Activities</span>
-								<span  class="errMsgCheck" style="text-align:center">select Check Box first</span>
 							</div>
 							</div>
+							<span id="actualScopesError" class="error-msg" style="color:red"></span>
                                 <div class="row fixed-width" style="margin-bottom: 30px;">
                                     <div class="table-inside">
                                         <table class="mdl-data-table" id="datatable-table">
@@ -278,7 +278,7 @@
                                             </div> -->
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m"
+                                                <button type="button" id="btn"  class="btn waves-effect waves-light bg-m"
                                                     style="width: 100%;">Update</button>
                                             </div>
                                         </div>
@@ -465,6 +465,7 @@
        function getMileStoneList(){
        	 $(".page-loader-2").show();
        	 var html = '';
+       	 var s =0;
        	 getMileStoneFilterList();
        	 getContractFilterList();
        	 $("#filerList").html('');
@@ -535,7 +536,7 @@
           	 											+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.total_scope) + '" />';
           	 				var completed = 			'<td><span>' + $.trim(val.completed) + '</span>'
           	 											+'<input type="hidden" name="completedScopes" class="completed" id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" />';
-          	 				var actual = 				'<td class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" readonly  ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+          	 				var actual = 				'<td class="input-field"><input type="number" class="count" min="0" name="actualScopes" id="actualScopes'+num+'" readonly  ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
                    			
           	 				rowArray.push(checkBox);
                    			rowArray.push(milestone_name);
@@ -594,7 +595,6 @@
                     	 	  
                     	 	};
                     	 	
-                    	 	
                     	 	$("#activities").on('click', function(){
                     	 		var ans = $("#actualScopes"+num).val();
                     	 		if($("#check_"+num).is(':checked') && ans != ""){
@@ -604,20 +604,24 @@
                     	 		/* if ($("#progressForm input:checkbox:checked").length == 0){
                     	 			alert('check any box ')
                     	 		} */
-                    	 		
                     	 	})
                     	 	
-                    	 	$('#actualScopes'+num).on('blur', function(){
+                    	 	$('#actualScopes'+num).on('keyup', function(){
                     	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
                     	 		
-                    	 		if(actual < $('#actualScopes'+num).val()){
+                    	 		if(actual < $('#actualScopes'+num).val() || $('#actualScopes'+num).val() < 0){
                     	 			$("#actualScopes"+num).val('');
                     	 			$('#actualScopesError'+num).html("< or = '"+actual+"'");
                     	 		}
                     	 		else{
                     	 			$('#actualScopesError'+num).html("");
+                    	 			document.getElementById("actualScopesError").innerHTML = ""; 
                     	 		}
                     	 	})
+                    	 	
+                    	 	if( $("#check_"+num).prop('checked') ){
+                    	 		$('#actualScopesError').html("");
+                    	 	}
                     	 	/* $("#activities").on('click', function(){
                     	 		if($(".check").prop('checked') == true){
                     	 			$(".errMsgCheck").hide();
@@ -626,19 +630,49 @@
                     	 			$(".errMsgCheck").show();
                     	 		}
                     	 	}) */
-                    	 	$("#check_"+num).on('change', function(){
-                    	 		if($("#check_"+num).is(':unchecked')){
-                    	 			$('#actualScopesError'+num).html("");
-                    	 		}
-                    	 	})
-  	                 });
+                    	 	$(function(){
+	                    	 	$("#btn").on('click', function(){
+	                    	 		
+	                   	 			 checked = $("input[type=checkbox]:checked").length;
+	                   	              if(!checked) {
+	                   	            	  document.getElementById("actualScopesError").innerHTML = "select atleast one checkbox"; 
+	                   	            	
+	                   	             }else{
+	                   	            	 var v =$('#actualScopes'+num).val();
+	                   	            	
+	                   	            	  var field = $(this).parent().children('.count');
+	                   	            	  var count = 0;
+
+	                   	            	  $('.count').each(function() {
+	                   	            	    if ($(this).val()) {
+	                   	            	      count++;
+	                   	            	    }
+	                   	            	  });
+
+		                   	           
+	                        	 		 if(typeof v != 'undefined' && v != ""){ 
+	                        	 			  
+	                        	 			 if(count == checked){
+	 	                        	 			updateProgress();
+	                        	 			 }
+	                        	 		 }else{
+	                        	 			document.getElementById("actualScopesError").innerHTML = "click on finish activities"; 
+	                        	 		 }
+	                   	             }
+	                    	 	})
+	                    	 	$("#check_"+num).on('change', function(){
+                    	 			if($("#check_"+num).is(':checked')){
+                    	 			  document.getElementById("actualScopesError").innerHTML = ""; 
+	                    	 	    }
+	                    	   })
+                    	  })
+  	                  });
   	               }
   	               $(".page-loader-2").hide();
   	            }
   	        });
-  	    
-       
        } 
+       
         $('#datatable-table').on('click', function () {
         $("input[type='checkbox'].check").change(function(){
    		    var a = $("input[type='checkbox'].check");
@@ -670,9 +704,7 @@
                  }
                  
              }
-            if($(this).prop('unchecked')){
-            	 alert("nsafj")
-             }
+          
          })           
      } 
     	 	
@@ -710,46 +742,36 @@
         	    console.log(msg);
          }
         
-      
+    
         //update button functionality
         function updateProgress(){
-       	 if(validator.form()){ // validation perform
-   	        	$(".page-loader").show();	    		
-   	   			document.getElementById("progressForm").submit();	
-        	}
+             
+              	if(validator.form()){ // validation perform
+         	        	$(".page-loader").show();	    		
+         	   			document.getElementById("progressForm").submit();	
+              	}
+              
         }
         
         
         var validator = $('#progressForm').validate({
        	 ignore: ":hidden:not(.validate-dropdown)",
        	 rules: {
-       		  "activity_check" :{
-       			 required: true
-       		  },"contract_id_fk": {
+       		   "contract_id_fk": {
    		 		required: false
    		 	  },"actualScopes": {
-   		 		required: function(element){
-		             return $(".check").is(':checked');
-		         }/* ,
-   		 		 max: function() {
-                     return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
-                 },
-                 min:0 */
-   		 	  }
+ 		 		 required: false,
+ 				 min:0
+		 	  }
        	 },
                messages: {
-                    "activity_check": {
-                       required: "You must check at least 1 box"
-                    },"contract_id_fk": {
+                    "contract_id_fk": {
    		 			required: 'Select contract'
    		 	  	 },"actualScopes": {
    		 			required: 'click on finish activities'
    		 	  	 }
        	 },errorPlacement:function(error, element){
-     		 	        if(element.attr("name") == "activity_check" ){
-	   					     document.getElementById("checkBoxError").innerHTML="";
-	   				 	     error.appendTo('#checkBoxError');
-     		 	        }else if (element.attr("id") == "contract_id_fk" ){
+     		 	        if (element.attr("id") == "contract_id_fk" ){
 	   			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
 	   			 			 error.appendTo('#contract_id_fkError');
 	   			 	    }else if (element.attr("name") == "actualScopes" ){

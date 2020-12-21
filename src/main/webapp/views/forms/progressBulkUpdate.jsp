@@ -491,7 +491,7 @@
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
-									<span id="actualScopesError" class="error-msg" style="text-align:center"></span>
+									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
 								</div>
 								<div class="col m1 hide-on-small-only"></div>
 								
@@ -1206,14 +1206,15 @@
  	                    	 			 $('#btn').prop('disabled',true);
  	                    	 		}
  	                    	 	};
- 	                    	 	$('#actualScopes'+num).on('blur', function(){
+ 	                    	 	$('#actualScopes'+num).on('keyup', function(){
  	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
  	                    	 		
- 	                    	 		if(actual < $('#actualScopes'+num).val()){
+ 	                    	 		if(actual < $('#actualScopes'+num).val() || $('#actualScopes'+num).val() < 0){
  	                    	 			$("#actualScopes"+num).val('');
  	                    	 			$('#actualScopesError'+num).html("< or =  '"+actual+"'");
  	                    	 			$('#btn').prop('disabled',true);
  	                    	 		}
+ 	                    	 		
  	                    	 		else{
  	                    	 			$('#actualScopesError'+num).html("");
  	                    	 		}
@@ -1269,9 +1270,7 @@
      var validator = $('#ProgressBulkUpdateForm').validate({
     	 ignore: ":hidden:not(.validate-dropdown)",
     	 rules: {
-    		  "activity_check" :{
-    			 required: true
-    		  },"project_id": {
+    		  "project_id": {
 			 	required: false
 			  },"work_id_fk": {
 		 		required: false
@@ -1288,19 +1287,12 @@
 		 	  },"strip_chart_activity_id": {
 		 		required: false
 		 	  },"actualScopes": {
-		 		 required: function(element){
-		             return $(".check").is(':checked');
-		         }/* ,
-	   		 		 max: function() {
-	                     return parseFloat($('[name="totalScopes"]').val() - $('[name="completedScopes"]').val());
-	                 },
-		 				 min:0 */
+		 		 required: false,
+		 				 min:0
 	   		 	  }
     	 },
             messages: {
-                 "activity_check": {
-                    required: "You must check at least 1 box"
-                 },"project_id": {
+                  "project_id": {
 			 		required: 'Select project'
 			 	 },"work_id_fk": {
 		 			required: 'Select work'
@@ -1320,10 +1312,7 @@
    		 			required: 'click on finish activities'
    		 	  	 }
     	 },errorPlacement:function(error, element){
-  		 	        if(element.attr("name") == "activity_check" ){
-					     document.getElementById("checkBoxError").innerHTML="";
-				 	     error.appendTo('#checkBoxError');
-				    }else if (element.attr("id") == "project_id" ){
+  		 	         if (element.attr("id") == "project_id" ){
 			 		     document.getElementById("project_idError").innerHTML="";
  			 			 error.appendTo('#project_idError');
  			 	    }else if (element.attr("id") == "work_id_fk" ){

@@ -577,9 +577,9 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO scope_progress"
-					+ "(created_by_user_id_fk, remarks, completed_scope, strip_chart_id_fk,progress_date,created_date)"
+					+ "(created_by_user_id_fk, remarks, completed_scope, strip_chart_id_fk,progress_date)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,curdate())";
+					+ "(?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry);
 			int	arraySize = 0;
 			if( !StringUtils.isEmpty(obj.getActualScopes()) && obj.getActualScopes().length > 0) {

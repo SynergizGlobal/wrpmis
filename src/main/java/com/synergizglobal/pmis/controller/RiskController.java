@@ -532,7 +532,7 @@ public class RiskController {
 	
 	@RequestMapping(value = "/export-risks", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportRisks(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Risk risk,RedirectAttributes attributes){
-		ModelAndView view = new ModelAndView(PageConstants.trainingGrid);
+		ModelAndView view = new ModelAndView();
 		List<RiskReport> riskDataList = new ArrayList<RiskReport>();
 		List<RiskReport> atrRevisionDataList = new ArrayList<RiskReport>();
 		try {

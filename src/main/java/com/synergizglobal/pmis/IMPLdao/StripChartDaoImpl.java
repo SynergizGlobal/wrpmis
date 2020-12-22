@@ -591,7 +591,7 @@ public class StripChartDaoImpl implements StripChartDao {
 			if(!StringUtils.isEmpty(obj)) {				
 				pValues[i++] = obj.getProgress_date();			
 				pValues[i++] = obj.getStrip_chart_id();
-				pValues[i++] = obj.getCompleted();
+				pValues[i++] = obj.getProgress();
 				pValues[i++] = obj.getAttachment_url();
 				pValues[i++] = obj.getRemarks();
 				//pValues[i++] = issueId;

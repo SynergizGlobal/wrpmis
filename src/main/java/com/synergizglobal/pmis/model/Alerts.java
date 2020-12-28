@@ -1,7 +1,7 @@
 package com.synergizglobal.pmis.model;
 
 public class Alerts {
-	private String alert_id,alert_level,alert_type_fk,alert_type_id,alert_type,contract_id,created_date,alert_status;
+	private String alert_id,alert_level,alert_type_fk,alert_type_id,alert_type,contract_id,created_date,alert_status,alert_value;
 
 	public String getAlert_id() {
 		return alert_id;
@@ -65,6 +65,14 @@ public class Alerts {
 
 	public void setAlert_status(String alert_status) {
 		this.alert_status = alert_status;
+	}
+
+	public String getAlert_value() {
+		return alert_value;
+	}
+
+	public void setAlert_value(String alert_value) {
+		this.alert_value = alert_value;
 	}
 	
 }

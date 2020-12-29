@@ -147,7 +147,9 @@
                 margin-left:-0.75rem !important;
             }
         }
-       
+       .projects-filter-work {
+		    margin-left: initial !important;
+		}
     </style>
       <style>
         .modal-header {
@@ -165,7 +167,6 @@
         }
 
         .map-btn-holder {
-            /* margin-top: 3px; */
             text-align: center;
         }
 
@@ -213,13 +214,6 @@
             box-shadow: 2px 3px 7px 2px #999999;
             text-transform: inherit;
         }
-
-        /* div:not(.sec-clr):not(.card) .card-content .card.main-clr .card-content .card-title {
-            margin: inherit;
-            background-color: inherit;
-            color: inherit;
-            box-shadow: inherit;
-        } */
 
         .card.card.sec-clr .row {
             display: flex;

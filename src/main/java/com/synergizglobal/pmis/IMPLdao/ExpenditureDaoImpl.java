@@ -108,7 +108,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			connection = dataSource.getConnection();
 			String qry = "SELECT expenditure_id,w.project_id_fk,p.project_name,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type , " + 
 					"voucher_no,narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"+
-					"cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,cast(`interest on_mob_adv` as CHAR) as `interest on_mob_adv`," + 
+					"cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(igst_tds as CHAR) as igst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,cast(`interest on_mob_adv` as CHAR) as `interest on_mob_adv`," + 
 					"cast(amount_withheld as CHAR) as amount_withheld,e.remarks from expenditure e " + 
 					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id  " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -138,6 +138,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				expenditure.setContractor_income_tax(resultSet.getString("contractor_income_tax"));
 				expenditure.setCgst_tds(resultSet.getString("cgst_tds"));
 				expenditure.setSgst_tds(resultSet.getString("sgst_tds"));
+				expenditure.setIgst_tds(resultSet.getString("igst_tds"));
 				expenditure.setVat_wct(resultSet.getString("vat_wct"));
 				expenditure.setMob_advance(resultSet.getString("mob_advance"));
 				expenditure.setInterest_on_mob_adv(resultSet.getString("interest on_mob_adv"));
@@ -164,9 +165,9 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			String insertQry = "INSERT INTO expenditure"
 					+ "(contract_id_fk, ledger_account, date, contractor_name, voucher_type, "
 					+ "voucher_no, narration, net_paid, gross_work_done, sd_payable, contractor_income_tax,cgst_tds"
-					+ ",sgst_tds,vat_wct,mob_advance,`interest on_mob_adv`,amount_withheld,remarks)"
+					+ ",sgst_tds,igst_tds,vat_wct,mob_advance,`interest on_mob_adv`,amount_withheld,remarks)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			int p =1;
 			stmt = con.prepareStatement(insertQry); 
 			stmt.setString(p++,obj.getContract_id_fk());
@@ -182,6 +183,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			stmt.setString(p++,obj.getContractor_income_tax());
 			stmt.setString(p++,obj.getCgst_tds());
 			stmt.setString(p++,obj.getSgst_tds());
+			stmt.setString(p++,obj.getIgst_tds());
 			stmt.setString(p++,obj.getVat_wct());
 			stmt.setString(p++,obj.getMob_advance());
 			stmt.setString(p++,obj.getInterest_on_mob_adv());
@@ -210,7 +212,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "ledger_account= ?, date= ?, "
 					+ "contractor_name= ?, voucher_type= ?, voucher_no= ?,narration= ?, "
 					+ "net_paid= ?, gross_work_done= ?, sd_payable = ?, contractor_income_tax= ?, "
-					+ "cgst_tds= ?, sgst_tds= ?, vat_wct = ?, mob_advance= ?, "
+					+ "cgst_tds= ?, sgst_tds= ?,igst_tds= ?, vat_wct = ?, mob_advance= ?, "
 					+ "`interest on_mob_adv`= ? , amount_withheld= ?, remarks = ? "
 					+ "where expenditure_id= ?";
 			int p = 1;
@@ -227,6 +229,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			stmt.setString(p++,obj.getContractor_income_tax());
 			stmt.setString(p++,obj.getCgst_tds());
 			stmt.setString(p++,obj.getSgst_tds());
+			stmt.setString(p++,obj.getIgst_tds());
 			stmt.setString(p++,obj.getVat_wct());
 			stmt.setString(p++,obj.getMob_advance());
 			stmt.setString(p++,obj.getInterest_on_mob_adv());

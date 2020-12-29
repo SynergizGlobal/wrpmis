@@ -8,7 +8,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 	<title>Add / Edit Expenditure</title>
+ 	<title>
+ 		 <c:if test="${action eq 'edit'}">Update Expenditure</c:if>
+		 <c:if test="${action eq 'add'}"> Add Expenditure</c:if>
+ 	</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
      
@@ -53,7 +56,10 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Expenditure</h6>
+                                <h6>
+                                 <c:if test="${action eq 'edit'}">Update Expenditure</c:if>
+								 <c:if test="${action eq 'add'}"> Add Expenditure</c:if>
+                                </h6>
                             </div>
                         </span>
                     </div>
@@ -226,7 +232,7 @@
 										<div class="col s12 m4 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
 												id="igst_tds" type="text" class="validate" name="igst_tds"
-												value="${expenditureDetails.sgst_tds }"> <label
+												value="${expenditureDetails.igst_tds }"> <label
 												for="igst_tds">IGST TDS</label> <span id="igst_tdsError"
 												class="error-msg"></span>
 										</div>

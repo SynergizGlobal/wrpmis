@@ -1283,7 +1283,7 @@
 		 	  },"strip_chart_component": {
 		 		required: false
 		 	  },"strip_chart_component_id": {
-		 		required: true
+		 		required: false
 		 	  },"strip_chart_activity_id": {
 		 		required: false
 		 	  },"actualScopes": {
@@ -1340,9 +1340,17 @@
   			 	    	 document.getElementById("actualScopesError").innerHTML="";
    			 			 error.appendTo('#actualScopesError');
 	   			 	}
-    	 },submitHandler:function(form){
+	    	 },invalidHandler: function (form, validator) {
+	             var errors = validator.numberOfInvalids();
+	             if (errors) {
+	                 var position = validator.errorList[0].element;
+	                 jQuery('html, body').animate({
+	                     scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+	                 }, 1000);
+	             }
+	         },submitHandler:function(form){
 		    	//form.submit();
-		    }
+		     }
      });
      $.validator.addMethod("dateFormat",
      	    function(value, element) {

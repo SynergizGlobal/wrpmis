@@ -43,7 +43,10 @@ public class AlertsDaoImpl implements AlertsDao{
 		try {
 			
 			/***************************** BG alerts*******************************************************/
-			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,CONCAT(bg.bg_type_fk, ' Valid upto ',valid_upto ) AS alert_value from contract c " + 
+			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"
+					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',valid_upto ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',valid_upto ) end ) as alert_value " 
+					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " + 
 					"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15)";
 			
@@ -52,7 +55,10 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert1List);
 			}			
 			
-			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,CONCAT(bg.bg_type_fk, ' Valid upto ',valid_upto ) AS alert_value from contract c " + 
+			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"
+					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',valid_upto ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',valid_upto ) end ) as alert_value " 
+					+ " from contract c " +
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " + 
 					"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7)";
 			
@@ -61,7 +67,10 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(bgQryAlert2List);
 			}	
 			
-			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,CONCAT(bg.bg_type_fk, ' Valid upto ',valid_upto ) AS alert_value from contract c " + 
+			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"
+					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',valid_upto ) " 
+					+ "else CONCAT('Bank guarantee valid upto ',valid_upto ) end ) as alert_value " 
+					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " + 
 					"where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7";
 			
@@ -73,7 +82,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Insurance alerts*******************************************************/
 			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',valid_upto ) " 
-					+ "else CONCAT('Valid upto ',valid_upto ) end ) as alert_value "
+					+ "else CONCAT('Insurance valid upto ',valid_upto ) end ) as alert_value "
 					+ "from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " + 
 					"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15)";
@@ -85,7 +94,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String insuranceQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',valid_upto ) " 
-					+ "else CONCAT('Valid upto ',valid_upto ) end ) as alert_value "
+					+ "else CONCAT('Insurance valid upto ',valid_upto ) end ) as alert_value "
 					+ " from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " + 
 					"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7)";
@@ -97,7 +106,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String insuranceQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',valid_upto ) " 
-					+ "else CONCAT('Valid upto ',valid_upto ) end ) as alert_value "
+					+ "else CONCAT('Insurance valid upto ',valid_upto ) end ) as alert_value "
 					+ " from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " + 
 					"where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7";
@@ -110,8 +119,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************** Contract Period alerts*******************************************************/
 			String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null and doc is null then CONCAT('contract revised date : ',contract_revised_date ) " 
-					+ "when contract_revised_date is null and doc is not null then CONCAT('doc : ',doc ) else null end ) as alert_value"
+					+ "(case when contract_revised_date is not null and doc is null then CONCAT('Contract revised date : ',contract_revised_date ) " 
+					+ "when contract_revised_date is null and doc is not null then CONCAT('Date of Completion : ',doc ) else null end ) as alert_value"
 					+ " from contract_view " + 
 					"where contract_status = 'In Progress' and ((contract_revised_date is not null and doc is null and DATEDIFF(contract_revised_date ,NOW()) <= 30 and DATEDIFF(contract_revised_date ,NOW()) > 15) or (contract_revised_date is null and doc is not null and DATEDIFF(doc ,NOW()) <= 30 and DATEDIFF(doc ,NOW()) > 15))";
 			
@@ -121,8 +130,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null and doc is null then CONCAT('contract revised date : ',contract_revised_date ) " 
-					+ "when contract_revised_date is null and doc is not null then CONCAT('doc : ',doc ) else null end ) as alert_value"
+					+ "(case when contract_revised_date is not null and doc is null then CONCAT('Contract revised date : ',contract_revised_date ) " 
+					+ "when contract_revised_date is null and doc is not null then CONCAT('Date of Completion : ',doc ) else null end ) as alert_value"
 					+ " from contract_view " + 
 					"where contract_status = 'In Progress' and ((contract_revised_date is not null and doc is null and DATEDIFF(contract_revised_date ,NOW()) <= 15 and DATEDIFF(contract_revised_date ,NOW()) > 7) or (contract_revised_date is null and doc is not null and DATEDIFF(doc ,NOW()) <= 15 and DATEDIFF(doc ,NOW()) > 7))";
 			
@@ -132,8 +141,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null and doc is null then CONCAT('contract revised date : ',contract_revised_date ) " 
-					+ "when contract_revised_date is null and doc is not null then CONCAT('doc : ',doc ) else null end ) as alert_value"
+					+ "(case when contract_revised_date is not null and doc is null then CONCAT('Contract revised date : ',contract_revised_date ) " 
+					+ "when contract_revised_date is null and doc is not null then CONCAT('Date of Completion : ',doc ) else null end ) as alert_value"
 					+ " from contract_view " + 
 					"where contract_status = 'In Progress' and ((contract_revised_date is not null and doc is null and DATEDIFF(contract_revised_date ,NOW()) <= 7) or (contract_revised_date is null and doc is not null and DATEDIFF(doc ,NOW()) <= 7))";
 			
@@ -174,7 +183,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			/***************************** Physical progress alerts*******************************************************/
-			String ppQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Physical Progress' as alert_type,CONCAT('Physical planned : ',physical_planned,', Physical actual : ',physical_actual ) AS alert_value"
+			String ppQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Physical Progress' as alert_type,"
+					+ "CONCAT('Physical planned : ',TRUNCATE(physical_planned*100, 2),'%, Physical actual : ',TRUNCATE(physical_actual*100, 2),'%' ) AS alert_value"
 					+ " from contract_view " + 
 					"where contract_status = 'In Progress' " + 
 					"and physical_planned is not null and physical_actual is not null and (((physical_planned-physical_actual)*100)/physical_planned) >= 20 and (((physical_planned-physical_actual)*100)/physical_planned) <= 30";
@@ -184,7 +194,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(ppQryAlert1List);
 			}
 			
-			String ppQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Physical Progress' as alert_type,CONCAT('Physical planned : ',physical_planned,', Physical actual : ',physical_actual ) AS alert_value"
+			String ppQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Physical Progress' as alert_type,"
+					+ "CONCAT('Physical planned : ',TRUNCATE(physical_planned*100, 2),'%, Physical actual : ',TRUNCATE(physical_actual*100, 2),'%' ) AS alert_value"
 					+ " from contract_view " + 
 					"where contract_status = 'In Progress' " + 
 					"and physical_planned is not null and physical_actual is not null and (((physical_planned-physical_actual)*100)/physical_planned) >= 31  and (((physical_planned-physical_actual)*100)/physical_planned) <= 39";
@@ -194,7 +205,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(ppQryAlert2List);
 			}
 			
-			String ppQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Physical Progress' as alert_type,CONCAT('Physical planned : ',physical_planned,', Physical actual : ',physical_actual ) AS alert_value"
+			String ppQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Physical Progress' as alert_type,"
+					+ "CONCAT('Physical planned : ',TRUNCATE(physical_planned*100, 2),'%, Physical actual : ',TRUNCATE(physical_actual*100, 2),'%' ) AS alert_value"
 					+ " from contract_view " + 
 					"where contract_status = 'In Progress' " + 
 					"and physical_planned is not null and physical_actual is not null and (((physical_planned-physical_actual)*100)/physical_planned) >= 40";
@@ -206,12 +218,12 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			/*************************Alerts insertion********************************************/
-			String updateQry = "update alerts set alert_status = ?";	
+			String updateQry = "update alerts set alert_status = ? where contract_id is not null and contract_id <> '' and count <> 0";	
 			Object[] pValues = new Object[] {CommonConstants.INACTIVE};
 			int count = jdbcTemplate.update(updateQry,pValues);	
 			
 			
-			String qryUserPermissions = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value) VALUES  (?,?,?,?,?)";		
+			String qryUserPermissions = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`) VALUES  (?,?,?,?,?,?)";		
 			
 			int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions, new BatchPreparedStatementSetter() { 
 								@Override
@@ -221,6 +233,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				                    ps.setString(3, list.get(i).getContract_id());
 				                    ps.setString(4, CommonConstants.ACTIVE);
 				                    ps.setString(5, list.get(i).getAlert_value());
+				                    ps.setString(6, "1");
 				                }
 				                @Override  
 				                public int getBatchSize() {

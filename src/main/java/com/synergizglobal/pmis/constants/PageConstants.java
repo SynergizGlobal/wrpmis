@@ -74,4 +74,6 @@ public class PageConstants {
 	public static final String safetyInstruction = "forms/safetyInstruction";
 	
 	public static final String manuals = "forms/manuals";
+	
+	public static final String stripChartReport = "forms/stripChartReport";
 }

@@ -86,7 +86,7 @@ public class SafetyInstructonsDaoImpl implements SafetyInstructonsDao{
 					arraySize = obj.getSafetyEquipmentFileNames().length;
 				}
 			}
-			String saveDirectory = CommonConstants.SAFETY_INSTRUCTIONS__FILE_SAVING_PATH ;
+			String saveDirectory = CommonConstants.SAFETY_INSTRUCTIONS_FILE_SAVING_PATH ;
 			List<MultipartFile> files = new ArrayList<MultipartFile>();
 			for (int i = 0; i < arraySize; i++) {
 				    int k = 1;
@@ -106,7 +106,7 @@ public class SafetyInstructonsDaoImpl implements SafetyInstructonsDao{
 					files.add(file);
 						stmt.setString(k++,(obj.getDocument_names().length > 0)?obj.getDocument_names()[i]:null);
 						if (null != docFileName1 && !docFileName1.isEmpty()){
-							stmt.setString(k++,saveDirectory+docFileName1);
+							stmt.setString(k++,docFileName1);
 						}else {
 							stmt.setString(k++,docFileName);
 						}

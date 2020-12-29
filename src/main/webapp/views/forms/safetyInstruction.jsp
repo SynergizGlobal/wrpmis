@@ -108,7 +108,7 @@
                                                             style="display:none" />
                                                         <label for="SafetyFile${index.count }" class="btn bg-m"><i
                                                                 class="fa fa-paperclip"></i></label>
-                                                        <a id="fileVal${index.count }" class="filevalue"  >${sObj.document_url }</a>
+                                                        <a href="<%=CommonConstants.SAFETY_INSTRUCTIONS_FILES %>/${sObj.document_url }" id="fileVal${index.count }" class="filevalue" download >${sObj.document_url }</a>
                                                     </div>
                                                     <input type="hidden" id="safetyEquipmentFileNames${index.count }" name="safetyEquipmentFileNames" value="${sObj.document_url }">
                                                 </td>

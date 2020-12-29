@@ -27,8 +27,8 @@ public class AlertsController {
 	@Value("${common.error.message}")
 	public String commonError;
 	
-	@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
-	//@Scheduled(cron = "0 2 1 ? * *")	//  = every day.
+	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
+	@Scheduled(cron = "0 2 1 ? * *")	//  = every day.
 	public void generateAtertsByCronJob(){		
 	     String message = "Method executed every day at 02:01 am. Current time is :: "+ new Date();
 	     

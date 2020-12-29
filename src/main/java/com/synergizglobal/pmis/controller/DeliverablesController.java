@@ -162,7 +162,7 @@ public class DeliverablesController {
 		}
 		return model;
 	 }
-	@RequestMapping(value = "/get-deliverables", method = {RequestMethod.POST})
+	@RequestMapping(value = "/get-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDeliverablesForm(@ModelAttribute DataGathering obj ){
 		ModelAndView model = new ModelAndView();
 		try{

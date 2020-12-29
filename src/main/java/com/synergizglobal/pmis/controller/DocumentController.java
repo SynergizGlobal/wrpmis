@@ -171,7 +171,7 @@ public class DocumentController {
 		return model;
 	 }
 	
-	@RequestMapping(value = "/get-document", method = {RequestMethod.POST})
+	@RequestMapping(value = "/get-document", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDocument(@ModelAttribute Document obj ){
 		ModelAndView model = new ModelAndView();
 		try{

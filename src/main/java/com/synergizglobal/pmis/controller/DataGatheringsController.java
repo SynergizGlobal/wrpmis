@@ -142,7 +142,7 @@ public class DataGatheringsController {
 		return model;
 	 }
 	
-	@RequestMapping(value = "/get-data-gathering", method = {RequestMethod.POST})
+	@RequestMapping(value = "/get-data-gathering", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDataGatherigForm(@ModelAttribute DataGathering obj ){
 		ModelAndView model = new ModelAndView();
 		try{

@@ -207,19 +207,32 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="cgst_tds" type="text" class="validate" name="cgst_tds" value="${expenditureDetails.cgst_tds }">
-                                    <label for="cgst_tds">CGST TDS</label>
-                                    <span id="cgst_tdsError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <i class="material-icons prefix center-align">₹</i>
-                                    <input id="sgst_tds" type="text" class="validate" name="sgst_tds" value="${expenditureDetails.sgst_tds }">
-                                    <label for="sgst_tds">SGST TDS</label>
-                                    <span id="sgst_tdsError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
+								<div class="col s12 m8">
+									<div class="row">
+										<div class="col s12 m4 input-field">
+											<i class="material-icons prefix center-align">₹</i> <input
+												id="cgst_tds" type="text" class="validate" name="cgst_tds"
+												value="${expenditureDetails.cgst_tds }"> <label
+												for="cgst_tds">CGST TDS</label> <span id="cgst_tdsError"
+												class="error-msg"></span>
+										</div>
+										<div class="col s12 m4 input-field">
+											<i class="material-icons prefix center-align">₹</i> <input
+												id="sgst_tds" type="text" class="validate" name="sgst_tds"
+												value="${expenditureDetails.sgst_tds }"> <label
+												for="sgst_tds">SGST TDS</label> <span id="sgst_tdsError"
+												class="error-msg"></span>
+										</div>
+										<div class="col s12 m4 input-field">
+											<i class="material-icons prefix center-align">₹</i> <input
+												id="igst_tds" type="text" class="validate" name="igst_tds"
+												value="${expenditureDetails.sgst_tds }"> <label
+												for="igst_tds">IGST TDS</label> <span id="igst_tdsError"
+												class="error-msg"></span>
+										</div>
+									</div>
+								</div>
+							<div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>

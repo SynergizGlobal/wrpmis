@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
      
      
-    <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
 	<style>

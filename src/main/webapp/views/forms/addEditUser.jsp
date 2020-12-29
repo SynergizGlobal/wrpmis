@@ -17,7 +17,7 @@
 	 
 	 
 	<link rel="stylesheet" href="/pmis/resources/css/users.css">
-	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<style>
         #example3 .datepicker~button,

@@ -17,7 +17,7 @@
      
      
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <style>

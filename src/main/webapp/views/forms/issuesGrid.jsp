@@ -11,11 +11,11 @@
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	 
-	<link rel="stylesheet" href="/mrvc/resources/css/material-design-lite-v.1.0.css">
+	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
 	
 	 
-	<link rel="stylesheet" href="/mrvc/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/mrvc/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/issues.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	

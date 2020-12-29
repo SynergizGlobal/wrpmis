@@ -230,7 +230,7 @@
                  }
              },submitHandler: function(form) {
 			    // do other things for a valid form
-			    //form.submit();
+			    form.submit();
 			    //return true;
 			  }
 		});

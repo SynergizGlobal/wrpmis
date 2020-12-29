@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -116,10 +117,9 @@ public class StripChartReportsController {
 	public ModelAndView generateStripChartDPRReport(@ModelAttribute StripChartReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/strip-chart-dpr-report");
 		try{
-			
-			StripChartReport details = service.getStripChartDPRReportDetails(obj);
-			
+			String reporting_date = obj.getReporting_date();
 			obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
+			StripChartReport details = service.getStripChartDPRReportDetails(obj);
 			List<StripChartReport> dprDataList = service.getStripChartDPRReportData(obj);
 			
 			
@@ -169,25 +169,38 @@ public class StripChartReportsController {
 	        XSSFRow deatilsRow = dprSheet.createRow(3);
 	        
 	        cell = deatilsRow.createCell(2);
-	        cell.setCellStyle(sectionStyle);
+	        cell.setCellStyle(indexWhiteStyle);
 			cell.setCellValue("Date ");
 			
 			cell = deatilsRow.createCell(3);
-	        cell.setCellStyle(sectionStyle);
-			cell.setCellValue(obj.getReporting_date());
-	        
+	        cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(reporting_date);
+			
+			for (int i = 4; i < 9; i++) {		        	
+		        cell = deatilsRow.createCell(i);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("");
+			}	
+			dprSheet.addMergedRegion(new CellRangeAddress(3, 3, 3,8));
 			/********************************************************/
 	        
 			/********************************************************/	
 	        deatilsRow = dprSheet.createRow(4);
 	        
 	        cell = deatilsRow.createCell(2);
-	        cell.setCellStyle(sectionStyle);
+	        cell.setCellStyle(indexWhiteStyle);
 			cell.setCellValue("work ");
 			
 			cell = deatilsRow.createCell(3);
-	        cell.setCellStyle(sectionStyle);
-			cell.setCellValue(details.getWork_name());
+	        cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(!StringUtils.isEmpty(details.getWork_short_name())?details.getWork_short_name():details.getWork_name());
+			
+			for (int i = 4; i < 9; i++) {		        	
+		        cell = deatilsRow.createCell(i);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("");
+			}	
+			dprSheet.addMergedRegion(new CellRangeAddress(4, 4, 3,8));
 	        
 			/********************************************************/
 	        
@@ -195,25 +208,39 @@ public class StripChartReportsController {
 	        deatilsRow = dprSheet.createRow(5);
 	        
 	        cell = deatilsRow.createCell(2);
-	        cell.setCellStyle(sectionStyle);
+	        cell.setCellStyle(indexWhiteStyle);
 			cell.setCellValue("Contract ");
 			
 			cell = deatilsRow.createCell(3);
-	        cell.setCellStyle(sectionStyle);
-			cell.setCellValue(details.getContract_short_name());
+	        cell.setCellStyle(indexWhiteStyle);
+			cell.setCellValue(!StringUtils.isEmpty(details.getContract_short_name())?details.getContract_short_name():details.getContract_name());
 	        
+			for (int i = 4; i < 9; i++) {		        	
+		        cell = deatilsRow.createCell(i);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("");
+			}	
+			dprSheet.addMergedRegion(new CellRangeAddress(5,5, 3,8));
+			
 			/********************************************************/
 			
 			/********************************************************/	
 	        deatilsRow = dprSheet.createRow(6);
 	        
 	        cell = deatilsRow.createCell(2);
-	        cell.setCellStyle(sectionStyle);
+	        cell.setCellStyle(indexWhiteStyle);
 			cell.setCellValue("Contractor ");
 			
 			cell = deatilsRow.createCell(3);
-	        cell.setCellStyle(sectionStyle);
+	        cell.setCellStyle(indexWhiteStyle);
 			cell.setCellValue(details.getContractor_name());
+			
+			for (int i = 4; i < 9; i++) {		        	
+		        cell = deatilsRow.createCell(i);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("");
+			}	
+			dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
 	        
 			/********************************************************/
 			
@@ -224,7 +251,7 @@ public class StripChartReportsController {
 	        
 	        XSSFRow headingRow = dprSheet.createRow(8);
 	        for (int i = 0; i < headerStringArr.length; i++) {		        	
-		        cell = headingRow.createCell(i);
+		        cell = headingRow.createCell(i+2);
 		        cell.setCellStyle(greenStyle);
 				cell.setCellValue(headerStringArr[i]);
 			}				
@@ -255,15 +282,15 @@ public class StripChartReportsController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(dObj.getScope());
+					cell.setCellValue(Double.parseDouble(dObj.getScope()));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(dObj.getCompleted_scope());
+					cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()));
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(dObj.getCompleted());
+					cell.setCellValue(Double.parseDouble(dObj.getCompleted()));
 					
 	                rowNo++;
 	            }
@@ -273,7 +300,7 @@ public class StripChartReportsController {
             
             for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
 			     //sheet.autoSizeColumn(columnIndex);
-            	dprSheet.setColumnWidth(columnIndex, 25 * 200);
+            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
 			}
             
             /*******************************************************************************/

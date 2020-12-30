@@ -3,18 +3,30 @@ package com.synergizglobal.pmis.common;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.synergizglobal.pmis.model.Alerts;
 
 public class EMailSender {    
 	
@@ -80,5 +92,77 @@ public class EMailSender {
 	    return convFile;
 	}
 	
+	
+	public void sendEmailWithAlerts(Mail mail, List<Alerts> alerts) throws Exception {
+		try {
+			  MimeMessage message = new MimeMessage( getSession() );
+			  Multipart multipart = new MimeMultipart( "alternative" );
+
+			  VelocityEngine velocityEngine = new VelocityEngine();
+			  Properties p = new Properties();
+			  //p.setProperty("resource.loader", "class");
+			  //p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+			  
+			  p.setProperty("resource.loader", "class");
+			  p.setProperty("class.resource.loader.description", "Velocity Classpath Resource Loader");
+			  p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+			  
+			  p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
+			  
+			  //p.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS,    NullLogChute.class.getName());
+			  try {
+				  velocityEngine.init( p );    
+			  }catch (Exception e) {
+				  throw new Exception(e);
+			  }
+			     
+			 			  
+			  Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
+				
+			  VelocityContext velocityContext = new VelocityContext();
+			  velocityContext.put("alerts", alerts);
+			  
+			  StringWriter stringWriter = new StringWriter();
+			  
+			  template.merge(velocityContext, stringWriter);
+
+
+			  MimeBodyPart htmlPart = new MimeBodyPart();
+			  htmlPart.setContent( stringWriter.toString(), "text/html; charset=utf-8" );
+
+			  //multipart.addBodyPart( htmlPart );
+
+			  
+			  //Multipart multiPart = new MimeMultipart();
+			  multipart.addBodyPart(htmlPart);
+			  
+			  
+			  message.setContent( multipart );
+		    
+			  message.setFrom(new InternetAddress(mailId));
+			  
+			  
+			  ArrayList<String> recipientsArray = new ArrayList<String>();
+			  StringTokenizer stringTokenizer = new StringTokenizer(mail.getMailTo(), ",");
+			 
+			  while (stringTokenizer.hasMoreTokens()) {
+				 recipientsArray.add(stringTokenizer.nextToken());
+			  }
+			  int sizeTo = recipientsArray.size();
+			  InternetAddress[] addressTo = new InternetAddress[sizeTo];
+			  for (int i = 0; i < sizeTo; i++) {
+				 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+			  }	 
+			  message.setRecipients(Message.RecipientType.TO, addressTo);
+				 
+			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
+			  message.setSubject(mail.getMailSubject());
+			  
+			  Transport.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+	}
 	
 }

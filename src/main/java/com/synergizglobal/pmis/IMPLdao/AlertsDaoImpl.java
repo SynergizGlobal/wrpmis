@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionDefinition;
@@ -246,5 +244,21 @@ public class AlertsDaoImpl implements AlertsDao{
 			throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<Alerts> getAlertsList() throws Exception {
+		List<Alerts> objsList = null;
+		try {
+			String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
+					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";
+			
+			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 }

@@ -21,7 +21,6 @@
         .row.no-mar {
             margin-bottom: 0;
         }
-
        
         .last-column .btn+.btn {
             margin-left: 20px;

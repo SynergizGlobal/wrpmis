@@ -381,7 +381,7 @@
                                 </div>
                                <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                          <a href="<%=request.getContextPath()%>/document" class="btn waves-effect waves-light bg-s white-text"
+                                          <a href="<%=request.getContextPath()%>/documents" class="btn waves-effect waves-light bg-s white-text"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>

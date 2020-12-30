@@ -295,7 +295,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 				obj.setActuals(CommonMethods.replaceEmptyByNullInSringArray(obj.getActuals()));
 				if(arraySize < obj.getActuals().length) {
 					arraySize = obj.getActuals().length;
-				} 
+				}  
 			}
 			if( !StringUtils.isEmpty(obj.getPayment_receiveds()) && obj.getPayment_receiveds().length > 0) {
 				obj.setPayment_receiveds(CommonMethods.replaceEmptyByNullInSringArray(obj.getPayment_receiveds()));

@@ -189,7 +189,7 @@
                                         </thead>
                                       <tbody id="safetyTableBody">
                                      
-                                                      <c:choose>
+                                       <c:choose>
                                       	 <c:when test="${not empty safetyEquipmentDetails.safetyEquipments && fn:length(safetyEquipmentDetails.safetyEquipments) gt 0 }">
                                        	 <c:forEach var="sObj" items="${safetyEquipmentDetails.safetyEquipments }" varStatus="index"> 
                                        	 

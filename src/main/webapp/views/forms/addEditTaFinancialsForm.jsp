@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,31 +83,63 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>Add / Edit TA Financials</h5>
+                                <h5>
+                                 <c:if test="${action eq 'edit'}">Update TA Financials</c:if>
+								 <c:if test="${action eq 'add'}">Add TA Financials</c:if>
+                                </h5>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+	                   	 <c:if test="${action eq 'edit'}">				                
+					           <form action="<%=request.getContextPath() %>/update-ta-financials" id="taFinancialForm" name="taFinancialForm" method="post" class="form-horizontal" role="form" >
+		                 </c:if>
+					     <c:if test="${action eq 'add'}">				                
+					           <form action="<%=request.getContextPath() %>/add-ta-financials" id="taFinancialForm" name="taFinancialForm" method="post" class="form-horizontal" role="form">
+						</c:if>
                         <div class="container container-no-margin">
+                         <c:if test="${action eq 'add'}">	
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Work </p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                        onchange="getContractsList(this.value);">
+                                        <option value="">Select</option>
+                                         <c:forEach var="obj" items="${worksList }">
+                                            <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                        </c:forEach>
                                     </select>
-                                    <span id="workError" class="error-msg"></span>
+                                    <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract </p>
-                                    <select class="searchable">
-                                        <option value="0" selected>Select</option>
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                        <option value="">Select</option>
                                     </select>
-                                    <span id="contractError" class="error-msg"></span>
+                                    <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            </c:if>
+                        </div>
+                         <div>
+                       		<c:if test="${action eq 'edit'}">	
+                       		 <div class="row">
+                       	      <div class="col m2 hide-on-small-only">
+                       	      </div>
+                       		  <div class="col s12 m4 input-field">
+									<p><label> Work </label></p>
+                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_name}" readonly />
+							  </div> 
+							  <div class="col s12 m4 input-field"> 
+								    <p><label> Contract </label></p>
+                                         	 	<input type="text" value="${taFinancialDetails.contract_id_fk}- ${taFinancialDetails.contract_name}" readonly />
+                                         	 	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${taFinancialDetails.contract_id_fk}" readonly />
+                                         	 	
+                              </div>
+                        	  </div> 
+                           </c:if>
                         </div>
                         <div class="row">
                             <div class="col m2 hide-on-small-only"></div>
@@ -123,53 +157,97 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td> <input id="month0" name="month" type="month" class="validate"
-                                                            placeholder="Select Month">
-                                                        <span id="month0sgst_tdsError" class="error-msg"></span>
-                                                    </td>
-                                                    <td class="input-field">
-                                                        <i class="material-icons prefix center-align">₹</i>
-                                                        <input id="planned_invoice0" type="number" step="0.01"
-                                                            min="0.01" class="validate" name="planned_invoice"
-                                                            placeholder="Planned Invoicing">
-                                                        <span id="planned_invoice0Error" class="error-msg"></span>
-                                                    </td>
-                                                    <td class="input-field">
-                                                        <i class="material-icons prefix center-align">₹</i>
-                                                        <input id="actual_invoice0" type="number" step="0.01" min="0.01"
-                                                            class="validate" name="actual_invoice"
-                                                            placeholder="Actual Invoicing">
-                                                        <span id="actual_invoice0Error" class="error-msg"></span>
-                                                    </td>
-                                                    <td class="input-field">
-                                                        <i class="material-icons prefix center-align">₹</i>
-                                                        <input id="payment_received0" type="number" step="0.01"
-                                                            min="0.01" class="validate" name="payment_received0"
-                                                            placeholder="Payment Received">
-                                                        <span id="payment_received0Error" class="error-msg"></span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#" class="btn waves-effect waves-light red t-c "> <i
-                                                                class="fa fa-close"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <a href="#" class="btn waves-effect waves-light bg-m t-c"
-                                                            onclick="addRow()">
-                                                            <i class="fa fa-plus"></i></a>
-                                                    </td>
-
-                                                </tr>
+                                            <tbody id="financialTableBody">
+                                             <c:choose>
+		                                      	 <c:when test="${not empty taFinancialDetails.taFinancials && fn:length(taFinancialDetails.taFinancials) gt 0 }">
+		                                       	 <c:forEach var="sObj" items="${taFinancialDetails.taFinancials }" varStatus="index"> 
+                                       	 
+	                                                <tr id="financialRow${index.count }">
+	                                                    <td> <input type="hidden" name= "IDs" id="IDs${index.count }" value="${sObj.ID }"/>
+	                                                    <input id="months${index.count }" name="months" type="month" class="validate" value="${sObj.month }"
+	                                                            placeholder="Select Month">
+	                                                        <span id="month${index.count }sgst_tdsError" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td class="input-field">
+	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                        <input id="planned_invoice${index.count }" type="number" step="0.01" value="${sObj.planned }"
+	                                                            min="0.01" class="validate" name="planneds"
+	                                                            placeholder="Planned Invoicing">
+	                                                        <span id="planned_invoice${index.count }Error" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td class="input-field">
+	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                        <input id="actual_invoices${index.count }" type="number" step="0.01" min="0.01" value="${sObj.actual }"
+	                                                            class="validate" name="actuals"
+	                                                            placeholder="Actual Invoicing">
+	                                                        <span id="actual_invoice${index.count }Error" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td class="input-field">
+	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                        <input id="payment_receiveds${index.count }" type="number" step="0.01" value="${sObj.payment_received }"
+	                                                            min="0.01" class="validate" name="payment_receiveds"
+	                                                            placeholder="Payment Received">
+	                                                        <span id="payment_received${index.count }Error" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td>
+	                                                        <a onclick="removeFinancial('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+	                                                                class="fa fa-close"></i></a>
+	                                                    </td>
+	                                                </tr>
+	                                               </c:forEach>
+                                      			 </c:when>
+                                       			<c:otherwise>
+                                       				 <tr id="financialRow0">
+	                                                    <td> <input id="months0" name="months" type="month" class="validate"
+	                                                            placeholder="Select Month">
+	                                                        <span id="month0sgst_tdsError" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td class="input-field">
+	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                        <input id="planned_invoices0" type="number" step="0.01"
+	                                                            min="0.01" class="validate" name="planneds"
+	                                                            placeholder="Planned Invoicing">
+	                                                        <span id="planned_invoice0Error" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td class="input-field">
+	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                        <input id="actual_invoices0" type="number" step="0.01" min="0.01"
+	                                                            class="validate" name="actuals"
+	                                                            placeholder="Actual Invoicing">
+	                                                        <span id="actual_invoice0Error" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td class="input-field">
+	                                                        <i class="material-icons prefix center-align">₹</i>
+	                                                        <input id="payment_receiveds0" type="number" step="0.01"
+	                                                            min="0.01" class="validate" name="payment_receiveds"
+	                                                            placeholder="Payment Received">
+	                                                        <span id="payment_received0Error" class="error-msg"></span>
+	                                                    </td>
+	                                                    <td>
+	                                                        <a onclick="removeFinancial('0');" class="btn waves-effect waves-light red t-c "> <i
+	                                                                class="fa fa-close"></i></a>
+	                                                    </td>
+	                                                </tr>
+	                                               </c:otherwise>
+                                     			 </c:choose>
                                             </tbody>
-                                        </table>
-
+	                                        </table>
+											<table class="mdl-data-table">
+		                                        <tbody id="safetyBody">                                          
+					                                    <tr>
+					  										 <td colspan="5" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addFinancialRow()"> <i
+					                                                            class="fa fa-plus"></i></a>
+					                                    </tr>
+		                                        </tbody>
+                                   		   </table>
+                                   		   <c:choose>
+		                                        <c:when test="${not empty taFinancials && fn:length(taFinancialDetails.taFinancials) gt 0 }">
+		                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(taFinancialDetails.taFinancials) }" />
+		                                    	</c:when>
+		                                     	<c:otherwise>
+		                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+		                                     	</c:otherwise>
+                                      	 </c:choose> 
                                     </div>
                                 </div>
                             </div>
@@ -180,15 +258,20 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
+                                  
                                     <div class="center-align m-1">
-                                        <button style="width: 100%;" class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateTAFinancial();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addTAFinancial();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                        <a href="<%=request.getContextPath()%>/ta-financials" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -201,7 +284,20 @@
             </div>
         </div>
     </div>
-
+ <!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
  <jsp:include page="../layout/footer.jsp"></jsp:include>
     <!-- footer  -->
 
@@ -210,6 +306,7 @@
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -225,20 +322,149 @@
 
 
         });
-        No = 1
-        function addRow() {
-            var text = ' <tr> <td> <input id="month' + No + '" name="month" type="month" class="validate" placeholder="Select Month">' +
-                '<span id="month' + No + 'Error" class="error-msg"></span></td > <td class="input-field"> <i class="material-icons prefix center-align">₹</i>' +
-                '<input id="planned_invoice' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planned_invoice" placeholder="Planned Invoicing">' +
-                '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> </td><td class="input-field">' +
-                '<i class="material-icons prefix center-align">₹</i><input id="actual_invoice' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actual_invoice" placeholder="Actual Invoicing">' +
-                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> <td class="input-field"><i class="material-icons prefix center-align">₹</i>' +
-                '<input id="payment_received' + No + '" type="number" step="0.01" min="0.01" class="validate" name="payment_received' + No + '" placeholder="Payment Received">' +
-                '<span id="payment_received' + No + 'Error" class="error-msg"></span></td> <td> <a href="#" class="btn waves-effect waves-light red t-c "> ' +
-                '<i class="fa fa-close"></i></a></td></tr>';
-            $('#financialFormTable').find('tr:last').prev().after(text);
-            No++;
+        
+        //geting contracts list    
+        function getContractsList(work_id_fk) {
+        	$(".page-loader").show();
+            $("#contract_id_fk option:not(:first)").remove();
+            if ($.trim(work_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContract",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_name = '';
+                            	var contract_id_fk = "${taFinancialDetails.contract_id_fk }";
+                                if ($.trim(val.contract_name) != '') { contract_name = val.contract_id+' - ' + $.trim(val.contract_name) }
+                                var contract_id_fk = "${taFinancialDetails.contract_id_fk }";
+                                if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
+                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                }else {
+                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
         }
+        
+        
+        No = 1
+        function addFinancialRow() {
+        	var rowNo = $("#rowNo").val();
+            var No = Number(rowNo)+1;
+             
+            var html = ' <tr id="financialRow' + No + '"> <input type="hidden" name= "IDs" id="IDs'+No+'" />'+
+            '<td> <input id="months' + No + '"  name="months" type="month" class="validate" placeholder="Select Month">' +
+                '<span id="month' + No + 'Error" class="error-msg"></span></td >'+
+                '<td class="input-field"> <i class="material-icons prefix center-align">₹</i>' +
+                '<input id="planned_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="planneds" placeholder="Planned Invoicing">' +
+                '<span id="planned_invoice' + No + 'Error" class="error-msg"></span> </td>'+
+                '<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="actual_invoices' + No + '" type="number" step="0.01" min="0.01" class="validate" name="actuals" placeholder="Actual Invoicing">' +
+                '<span id="actual_invoice' + No + 'Error" class="error-msg"></span> </td> <td class="input-field"><i class="material-icons prefix center-align">₹</i>' +
+                '<input id="payment_receiveds' + No + '" type="number" step="0.01" min="0.01" class="validate" name="payment_receiveds" placeholder="Payment Received">' +
+                '<span id="payment_received' + No + 'Error" class="error-msg"></span></td>'+
+                '<td> <a onclick="removeFinancial('+ No +');" class="btn waves-effect waves-light red t-c "> ' +
+                '<i class="fa fa-close"></i></a></td></tr>';
+                $('#financialTableBody').append(html);
+				$("#rowNo").val(rNo);
+        }
+        
+        function removeFinancial(rowNo){
+        	$("#financialRow"+rowNo).remove();
+        }
+        
+        function addTAFinancial(){
+        	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("taFinancialForm").submit();	
+        	}
+        }
+        
+        function updateTAFinancial(){
+        	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	    		
+	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=planneds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=actuals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=payment_receiveds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			document.getElementById("taFinancialForm").submit();	
+        	}
+        }
+        
+        var validator =	$('#taFinancialForm').validate({
+			 errorClass: "my-error-class",
+			 validClass: "my-valid-class",
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  			 	  "work_id_fk": {
+	  			 		required: true
+	  			 	  },"contract_id_fk": {
+	  		 		    required: true
+	  			 	  }
+	  		 	},
+	  		    messages: {
+	  		 		 "work_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"contract_id_fk": {
+	  		 			required: ' This field is required'
+	  		 	  	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if(element.attr("id") == "work_id_fk" ){
+					   document.getElementById("work_id_fkError").innerHTML="";
+				 	   error.appendTo('#work_id_fkError');
+					}else if(element.attr("id") == "contract_id_fk" ){
+						document.getElementById("contract_id_fkError").innerHTML="";
+					 	error.appendTo('#contract_id_fkError');
+					}else{
+	 					error.insertAfter(element);
+			        } 
+		   		},invalidHandler: function (form, validator) {
+                   var errors = validator.numberOfInvalids();
+                   if (errors) {
+                       var position = validator.errorList[0].element;
+                       jQuery('html, body').animate({
+                           scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                       }, 1000);
+                   }
+               },submitHandler:function(form){
+			    	form.submit();
+			    }
+			}); 
+       
+       $.validator.addMethod("dateFormat",
+       	    function(value, element) {
+       	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+       	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+       	    	//return dtRegex.test(value);
+       	    },
+       	    //"Date format (Aug 02,2020)"
+       	    "Date format (DD-MM-YYYY)"
+       	);
+           
+           $('select').change(function(){
+       	    if ($(this).val() != ""){
+       	        $(this).valid();
+       	    }
+       	});
+           
+           $('input').change(function(){
+       	    if ($(this).val() != ""){
+       	        $(this).valid();
+       	    }
+       	});
     </script>
 
 </body>

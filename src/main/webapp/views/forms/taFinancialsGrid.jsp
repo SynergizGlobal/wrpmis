@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,6 +35,15 @@
             word-break: break-all;
             white-space: inherit;
         }
+         td{
+	       white-space: break-spaces;
+	       word-break: break-word;
+	     } 
+       .fw-300{
+	       	width:300px;
+	       	min-width:300px;
+	       	max-width:300px;
+       }
           .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
@@ -42,7 +54,17 @@
 		    z-index: 1000;
 		}	
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		.error-msg label{color:red!important;}
+		
+		.page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}	
+		
     </style>
 </head>
 
@@ -60,13 +82,23 @@
                             <h5> TA Financials</h5>
                         </div>
                     </span>
+                    <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+					</c:if>
+					<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+					</c:if>
                     <div class="">
 
                         <div class="row center-align">
                             <div class="col s12 m4 "> </div>
 
                             <div class="col s12 m4 c-align">
-                                <a href="tafinancials.html" class="btn waves-effect waves-light bg-s t-c">
+                                <a  href="<%=request.getContextPath() %>/add-ta-financials-form" class="btn waves-effect waves-light bg-s t-c">
                                     <strong><i class="fa fa-plus-circle"></i> Add TA Financials</strong></a>
                             </div>
 
@@ -78,25 +110,20 @@
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Work</p>
-                                        <select class="searchable">
+                                        <select class="searchable" name="work_id_fk" id="work_id_fk" onchange="getTAFinancialList();">
                                             <option value="" disabled selected>Select </option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Contract</p>
-                                        <select class="searchable">
+                                        <select class="searchable" name="contract_id_fk" id="contract_id_fk" onchange="getTAFinancialList();">
                                             <option value="" disabled selected>Select</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
+                                            
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 6px;width: 100%;">Clear Filters</button>
+                                            style="margin-top: 6px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -109,16 +136,16 @@
                                 <table id="tafinancials" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Work</th>
-                                            <th>Contract</th>
-                                            <th>Planned Invoicing Till Date</th>
-                                            <th>Actual Invoicing Till Date</th>
-                                            <th>Payment Received Till Date</th>
+                                            <th class="fw-300">Work</th>
+                                            <th class="fw-300">Contract</th>
+                                            <th>Planned Invoicing <br> Till Date</th>
+                                            <th>Actual Invoicing <br>Till Date</th>
+                                            <th>Payment Received <br>Till Date</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                       <!--  <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -130,7 +157,7 @@
                                                 <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
 
@@ -141,6 +168,32 @@
             </div>
         </div>
     </div>
+<div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+ <div class="page-loader-2" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -152,7 +205,12 @@
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
-
+    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="ID" id="ID" />
+    </form>
     <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
@@ -174,8 +232,203 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+            getTAFinancialList();
         });
 
+        function clearFilter(){
+        	$("#work_id_fk").val("");
+        	$("#contract_id_fk").val("");
+        	$('.searchable').select2();
+        	getTAFinancialList();
+        }
+        
+        function getTAFinancialList(){
+        	$(".page-loader-2").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	getWorksFilterList();
+         	getContractsFilterList();
+        	table = $('#tafinancials').DataTable();
+    		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#tafinancials').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();		
+    	 	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-ta-financials",type:"POST",data:myParams,success : function(data){    				
+    			if(data != null && data != '' && data.length > 0){    					
+             		$.each(data,function(key,val){
+             			var ID = "'"+val.financial_id+"'" ;
+                        var actions = '<a href="javascript:void(0);"  onclick="getTAFinancials('+ID+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+    /*                     			  +'<a onclick="deleteTAFinancials('+ID+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+     */                   	var rowArray = [];    	                 
+                       	
+                    	var workName = '';
+                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                        var contractName = '';
+                        if ($.trim(val.contract_name) != '') { contractName = ' - ' + $.trim(val.contract_name) }
+                        
+                       	rowArray.push($.trim(val.work_id_fk) + workName);
+                       	rowArray.push($.trim(val.contract_id_fk) + contractName);
+                       	rowArray.push($.trim(val.planned));
+                       	rowArray.push($.trim(val.actual));
+                       	rowArray.push($.trim(val.payment_received));
+                       	rowArray.push($.trim(actions));   	                   	
+                       	
+                        table.row.add(rowArray).draw( true );
+                        		                       
+    				});
+             		
+             		$(".page-loader-2").hide();
+    			}else{
+    				$(".page-loader-2").hide();
+    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
+        
+        function getWorksFilterList() {
+        	$(".page-loader").show();
+            var contract_id_fk = $("#contract_id_fk").val();
+            var work_id_fk = $("#work_id_fk").val();
+            if ($.trim(work_id_fk) == "") {
+            	$("#work_id_fk option:not(:first)").remove();
+            	var myParams = {contract_id_fk : contract_id_fk,work_id_fk: work_id_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInTAFinancials",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var workShortName = '';
+                                 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getContractsFilterList() {
+        	$(".page-loader").show();
+            var contract_id_fk = $("#contract_id_fk").val();
+            var work_id_fk = $("#work_id_fk").val();
+            if ($.trim(contract_id_fk) == "") {
+            	$("#contract_id_fk option:not(:first)").remove();
+            	var myParams = {contract_id_fk : contract_id_fk,work_id_fk: work_id_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInTAFinancials",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var contractShortName = '';
+                                 if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
+    	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk)   + contractShortName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+    	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        
+      	
+        function showCancelMessage() {
+        	swal({
+                title: "Are you sure?",
+                text: "You will be able to change the status of record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                   // swal("Deleted!", "Record has been deleted", "success");
+                	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-budget');
+        	    	$('#getForm').submit();
+               }else {
+                    swal("Cancelled", "Record is safe :)", "error");
+                }
+            });
+        }
+        
+        function getTAFinancials(ID){
+        	$("#ID").val(ID);
+        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-ta-financials');
+        	$('#getForm').submit();
+        }
+        function deleteTAFinancials(ID){
+        	$("#ID").val(ID);
+        	showCancelMessage();
+        }
     </script>
 
 </body>

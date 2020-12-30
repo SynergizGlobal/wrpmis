@@ -76,4 +76,7 @@ public class PageConstants {
 	public static final String manuals = "forms/manuals";
 	
 	public static final String stripChartReport = "forms/stripChartReport";
+	
+	public static final String taFinancialsGrid = "forms/taFinancialsGrid";
+	public static final String addEditTaFinancialsForm = "forms/addEditTaFinancialsForm";
 }

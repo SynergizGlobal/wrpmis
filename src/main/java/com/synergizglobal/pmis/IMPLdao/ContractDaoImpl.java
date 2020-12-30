@@ -190,7 +190,7 @@ public class ContractDaoImpl implements ContractDao {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),getDepartmentCode(contract.getDepartment_fk(),con),con);
-			
+			contract.setContract_id(contract_id);
 			String ContractQry = "INSERT INTO contract "
 							+"(contract_id,work_id_fk,department_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
@@ -380,8 +380,8 @@ public class ContractDaoImpl implements ContractDao {
 				c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
 				
-				String Milestone_qry = "INSERT into  contract_milestones (milestone_id,milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk) "
-									+"VALUES (?,?,?,?,?,?)";
+				String Milestone_qry = "INSERT into  contract_milestones (milestone_id,milestone_name,milestone_date,actual_date,revision,remarks,contract_id_fk,status) "
+									+"VALUES (?,?,?,?,?,?,?,?)";
 				stmt = con.prepareStatement(Milestone_qry); 
 				arraySize = 0; 
 				if(!StringUtils.isEmpty(contract.getMilestone_names()) && contract.getMilestone_names().length > 0) {
@@ -430,6 +430,7 @@ public class ContractDaoImpl implements ContractDao {
 						stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
 						stmt.setString(k++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
 						stmt.setString(k++,contract.getContract_id());
+						stmt.setString(k++,CommonConstants.ACTIVE);
 						stmt.addBatch();
 				}
 			
@@ -1165,17 +1166,17 @@ public class ContractDaoImpl implements ContractDao {
 					}
 					for (int i = 0; i < arraySize; i++) {
 						String mId = contract.getContract_milestones_ids()[i];
-						if(!StringUtils.isEmpty(mId)) {
-							int t = 1;
-							updateStmt.setString(t++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
-							updateStmt.setString(t++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
-							updateStmt.setString(t++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
-							updateStmt.setString(t++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
-							updateStmt.setString(t++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
-							updateStmt.setString(t++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
-							updateStmt.setString(t++,CommonConstants.ACTIVE);
-							updateStmt.setString(t++,(contract.getContract_milestones_ids().length > 0)?contract.getContract_milestones_ids()[i]:null);
-							updateStmt.addBatch();
+							if(!StringUtils.isEmpty(mId)) {
+								int t = 1;
+								updateStmt.setString(t++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
+								updateStmt.setString(t++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
+								updateStmt.setString(t++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
+								updateStmt.setString(t++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
+								updateStmt.setString(t++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
+								updateStmt.setString(t++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
+								updateStmt.setString(t++,CommonConstants.ACTIVE);
+								updateStmt.setString(t++,(contract.getContract_milestones_ids().length > 0)?contract.getContract_milestones_ids()[i]:null);
+								updateStmt.addBatch();
 						}else {
 						 int k = 1;
 						 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);

@@ -891,7 +891,7 @@
 	                                              </c:when>
 	                                             <c:otherwise>
 	                                              <tr id="mileRow0"> 
-	                                              <td>
+	                                              <td><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids0" value=" "/>
 	                                                    <input id="milestone_ids0" name="milestone_ids" type="text" class="validate" 
 	                                                        placeholder="Milestone ID">
 	                                                </td>                                        

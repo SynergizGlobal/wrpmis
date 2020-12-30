@@ -2,8 +2,6 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -17,7 +15,6 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.TAFinancialsDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.TAFinancials;
 
@@ -192,6 +189,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		boolean flag = false;		
 		try {
 			con = dataSource.getConnection();
+			con.setAutoCommit(false);
 			String insertQry = "INSERT INTO tastudies_financial"
 					+ "(contract_id_fk, month, planned, actual, payment_received, status)"
 					+ "VALUES"
@@ -223,30 +221,34 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 					arraySize = obj.getPayment_receiveds().length;
 				}
 			}
-			for (int i = 0; i < arraySize; i++) {
-				 int k = 1;
-				 String date = obj.getMonths()[i] + "-01";
-				 insertStmt.setString(k++,obj.getContract_id_fk());
-				 insertStmt.setString(k++,(date));
-				 insertStmt.setString(k++,(obj.getPlanneds().length > 0)?obj.getPlanneds()[i]:null);
-				 insertStmt.setString(k++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
-				 insertStmt.setString(k++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
-				 insertStmt.setString(k++,CommonConstants.ACTIVE);
-				 insertStmt.addBatch();
+			if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
+				for (int i = 0; i < arraySize; i++) {
+					 int k = 1;
+					 if( obj.getMonths().length > 0 && !StringUtils.isEmpty(obj.getMonths()[i])) {
+						 String date = obj.getMonths()[i] + "-01";
+						 insertStmt.setString(k++,obj.getContract_id_fk());
+						 insertStmt.setString(k++,(date));
+						 insertStmt.setString(k++,(obj.getPlanneds().length > 0)?obj.getPlanneds()[i]:null);
+						 insertStmt.setString(k++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
+						 insertStmt.setString(k++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
+						 insertStmt.setString(k++,CommonConstants.ACTIVE);
+						 insertStmt.addBatch();
+					 }
+				}
 			}
 			int[] insertCount = insertStmt.executeBatch();
 			if(insertCount.length > 0) {
 				flag = true;
 			}
-		 
-	}catch(Exception e){ 
-		e.printStackTrace();
-		throw new Exception(e.getMessage());
-	}
-	finally {
+		con.commit();
+	    }catch(Exception e){ 
+	    	con.rollback();
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+	    }finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
-	}
-	return flag;
+	   }
+	   return flag;
 	}
 
 	@Override
@@ -301,30 +303,34 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 					arraySize = obj.getPayment_receiveds().length;
 				}
 			}
-			
-			for (int i = 0; i < arraySize; i++) {
-				String fId = obj.getIDs()[i];
-				if(!StringUtils.isEmpty(fId)) {
-					 int k =1;
-					 String date = obj.getMonths()[i] + "-01";
-					 updateStmt.setString(k++,(date));
-					 updateStmt.setString(k++,(obj.getPlanneds().length > 0)?obj.getPlanneds()[i]:null);
-					 updateStmt.setString(k++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
-					 updateStmt.setString(k++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
-					 updateStmt.setString(k++,CommonConstants.ACTIVE);
-					 updateStmt.setString(k++,obj.getIDs()[i]);
-					 updateStmt.addBatch();
-
-				}else {
-					 int t = 1;
-					 String date = obj.getMonths()[i] + "-01";
-					 insertStmt.setString(t++,obj.getContract_id_fk());
-					 insertStmt.setString(t++,(date));
-					 insertStmt.setString(t++,(obj.getPlanneds().length > 0)?obj.getPlanneds()[i]:null);
-					 insertStmt.setString(t++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
-					 insertStmt.setString(t++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
-					 insertStmt.setString(t++,CommonConstants.ACTIVE);
-					 insertStmt.addBatch();
+			if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
+				for (int i = 0; i < arraySize; i++) {
+					String fId = obj.getIDs()[i];
+					if(!StringUtils.isEmpty(fId)) {
+						 int k =1;
+						 String date = obj.getMonths()[i] + "-01";
+						 updateStmt.setString(k++,(date));
+						 updateStmt.setString(k++,(obj.getPlanneds().length > 0)?obj.getPlanneds()[i]:null);
+						 updateStmt.setString(k++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
+						 updateStmt.setString(k++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
+						 updateStmt.setString(k++,CommonConstants.ACTIVE);
+						 updateStmt.setString(k++,obj.getIDs()[i]);
+						 updateStmt.addBatch();
+	
+					}else {
+						
+						 int t = 1;
+						 if( obj.getMonths().length > 0 && !StringUtils.isEmpty(obj.getMonths()[i])) {
+							 String date = obj.getMonths()[i] + "-01";
+							 insertStmt.setString(t++,obj.getContract_id_fk());
+							 insertStmt.setString(t++,(date));
+							 insertStmt.setString(t++,(obj.getPlanneds().length > 0)?obj.getPlanneds()[i]:null);
+							 insertStmt.setString(t++,(obj.getActuals().length > 0)?obj.getActuals()[i]:null);
+							 insertStmt.setString(t++,(obj.getPayment_receiveds().length > 0)?obj.getPayment_receiveds()[i]:null);
+							 insertStmt.setString(t++,CommonConstants.ACTIVE);
+							 insertStmt.addBatch();
+						 }
+					}
 				}
 			}
 			int[] insertCount = insertStmt.executeBatch();
@@ -334,16 +340,16 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			con.commit();
-		}catch(Exception e){ 
-				con.rollback();
-				e.printStackTrace();
-				throw new Exception(e);
-		}
-		finally {
-				DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
-		}		
-		return flag;	
-	}
+	   }catch(Exception e){ 
+			con.rollback();
+			e.printStackTrace();
+			throw new Exception(e);
+	   }
+	   finally {
+		DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
+	  }		
+	   return flag;	
+   }
 		
 		
 		

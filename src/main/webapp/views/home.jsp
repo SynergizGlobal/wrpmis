@@ -346,7 +346,7 @@
 	                              <a class="btn btn-left" href="<%=CommonConstants.PROJECT_FILES %>${pObj.attachment }" download><i class="fa fa-download" ></i></a> 
 	                           </c:when>
 	                           <c:otherwise>
-	                           	 
+	                           	 <div></div>
 	                           </c:otherwise>
 	                        </c:choose>	                        
 		                        <a class="btn" onclick="closeOther('${index.count }')">More</a>
@@ -428,7 +428,7 @@
 															  <a class="btn btn-left" href="<%=CommonConstants2.WORK_FILES %>${wObj.work_attachment }" download><i class="fa fa-download"></i></a> 
 								                           </c:when>
 								                           <c:otherwise>
-								                           	  
+								                           	   <div></div>
 								                           </c:otherwise>
 								                        </c:choose>	     	                        
 									                        <!-- <a class="btn" onclick="closeOther('${index.count }')">More</a> -->

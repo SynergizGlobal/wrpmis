@@ -1,7 +1,33 @@
 package com.synergizglobal.pmis.model;
 
 public class Alerts {
-	private String alert_id,alert_level,alert_type_fk,alert_type_id,alert_type,contract_id,created_date,alert_status,alert_value,count;
+	private String alert_id,alert_level,alert_type_fk,alert_type_id,alert_type,contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name;
+
+	
+	
+	public String getHod() {
+		return hod;
+	}
+
+	public void setHod(String hod) {
+		this.hod = hod;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
+	}
 
 	public String getAlert_id() {
 		return alert_id;

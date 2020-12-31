@@ -21,6 +21,8 @@ public class CommonConstants {
 	public final static String SAFETY_FILES = "/pmis/SAFETY_FILES/";
 	public final static String SAFETY_INSTRUCTIONS_FILES = "/pmis/SAFETY_INSTRUCTIONS_FILES/";
 	public final static String MANUAL_FILES = "/pmis/MANUAL_FILES/";
+	public static final String PROJECT_FILES = "/pmis/PROJECT_FILES/";
+	public static final String WORK_FILES = "/pmis/WORK_FILES/";
 	
 	/*********** LOCAL ****************************************************/
 	
@@ -28,7 +30,7 @@ public class CommonConstants {
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
 	public final static String CONTEXT_PATH = "http://localhost/pmis";
 	public final static String STRIPCHART_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"STRIPCHART_FILES"+File.separator;
-	public final static String WORK_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"WORK_FILES"+File.separator;
+	public final static String WORK_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"WORK_FILES"+File.separator;
 	public final static String CONTRACT_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"CONTRACT_FILES"+File.separator;
 	public final static String DESIGN_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
 	public final static String SAFETYEQUIPMENT_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_EQUIPMENT_FILES"+File.separator;
@@ -37,7 +39,8 @@ public class CommonConstants {
 	public final static String DOCUMENT_FILES_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DOCUMENT_FILES"+File.separator;
 	public static final String SAFETY_INSTRUCTIONS_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_INSTRUCTIONS_FILES"+File.separator;
 	public final static String MANUAL_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
-	
+	public final static String PROJECT_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"PROJECT_FILES"+File.separator;
+
 		
 	/*********** PRODUCTION ****************************************************/
 	
@@ -53,7 +56,9 @@ public class CommonConstants {
 	public final static String FUND_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/FUND_FILES/";
 	public final static String DOCUMENT_FILES_SAVING_PATH = "usr/share/nginx/html/pmis/DOCUMENT_FILES/";
 	public final static String SAFETY_INSTRUCTIONS_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/SAFETY_INSTRUCTIONS_FILES/";
-	public final static String MANUAL_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/MANUAL_FILES/";*/
+	public final static String MANUAL_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/MANUAL_FILES/";
+	public final static String PROJECT_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/PROJECT_FILES/";*/
+	
 	
 	/*public final static String LOGIN_BACKGROUND_IMAGE = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
 	public static String LOGIN_BACKGROUND_IMAGE_URL = "/pmis/resources/images/login-background.jpg";
@@ -68,6 +73,7 @@ public class CommonConstants {
 	public final static String DOCUMENT_FILES_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DOCUMENT_FILES"+File.separator;
 	public final static String SAFETY_INSTRUCTIONS_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_INSTRUCTIONS_FILES"+File.separator;
 	public final static String MANUAL_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
+	public final static String PROJECT_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"PROJECT_FILES"+File.separator;
 
 	*/
 	

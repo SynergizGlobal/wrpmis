@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -340,8 +340,15 @@
                                 <p class="aligncenter">:</p>
                                 <p class="alignright">${pObj.plan_head_number }</p>
 		                    </div> 
-	                        <div class="button">	                        
-		                        <a class="btn btn-left" ><i class="fa fa-download"></i></a> 
+	                        <div class="button">
+	                        <c:choose>
+	                           <c:when test="${not empty pObj.attachment}">
+	                              <a class="btn btn-left" href="<%=CommonConstants.PROJECT_FILES %>${pObj.attachment }" download><i class="fa fa-download" ></i></a> 
+	                           </c:when>
+	                           <c:otherwise>
+	                           	 
+	                           </c:otherwise>
+	                        </c:choose>	                        
 		                        <a class="btn" onclick="closeOther('${index.count }')">More</a>
 	                        </div>
 	                    </div>
@@ -415,8 +422,15 @@
 							                                <p class="aligncenter">:</p>
 							                                <p class="alignright">${wObj.executedBy}</p>
 									                    </div> 
-									                    <div class="button">	                        
-									                        <a class="btn btn-left" ><i class="fa fa-download"></i></a> 
+									                    <div class="button">
+									                    <c:choose>
+								                           <c:when test="${not empty wObj.work_attachment}">
+															  <a class="btn btn-left" href="<%=CommonConstants2.WORK_FILES %>${wObj.work_attachment }" download><i class="fa fa-download"></i></a> 
+								                           </c:when>
+								                           <c:otherwise>
+								                           	  
+								                           </c:otherwise>
+								                        </c:choose>	     	                        
 									                        <!-- <a class="btn" onclick="closeOther('${index.count }')">More</a> -->
 								                        </div>
 		                                            </div>

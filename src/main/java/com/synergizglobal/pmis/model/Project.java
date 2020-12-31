@@ -2,11 +2,31 @@ package com.synergizglobal.pmis.model;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Project {
-	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status
+	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status,attachment
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,completion_cost,work_short_name;
 	
+	private MultipartFile projectFile;
+	
 	private List<Work> worksInfo;
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	public MultipartFile getProjectFile() {
+		return projectFile;
+	}
+
+	public void setProjectFile(MultipartFile projectFile) {
+		this.projectFile = projectFile;
+	}
 
 	public String getSanctioned_estimated_cost() {
 		return sanctioned_estimated_cost;

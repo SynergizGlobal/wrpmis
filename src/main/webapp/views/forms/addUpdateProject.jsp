@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -87,11 +87,11 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <c:if test="${action eq 'edit'}">				                
-			                	<form action="update-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form">
+			                	<form action="update-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                                       </c:if>
 			              
 			                <c:if test="${action eq 'add'}">				                
-			                	<form action="add-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form">
+			                	<form action="add-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							</c:if> 
 							
                             <div class="row">
@@ -138,24 +138,40 @@
 
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> -->
-                              <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="projectFile" name="workFile">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment" >
-                                        </div>
-                                    </div>                                   
-                                   
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
 
-                            <div class="row">
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m4 input-field">
+								<!-- <p class="searchable_label">Project Status</p> -->
+								<select class="validate-dropdown" name="project_status" id="project_status">
+									<option value="">Select</option>
+									<option value="Open" <c:if test="${projectDeatils.project_status == 'Open'}">selected</c:if>>Open</option>
+									<option value="Closed" <c:if test="${projectDeatils.project_status == 'Closed'}">selected</c:if>>Closed</option>
+								</select> 
+								<label for="project_staus">Project Status</label>
+								<span id="project_statusError"></span>
+							</div>
+							<div class="col m4 s12">
+								<div class="file-field input-field">
+									<div class="btn bg-m t-c">
+										<span>Attachment</span> <input type="file" id="projectFile"
+											name="projectFile">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text"
+											name="attachment" value="${projectDeatils.attachment }">
+									</div>
+								</div>
+								<c:if test="${not empty projectDeatils.attachment }">
+									<a
+										href="<%=CommonConstants.PROJECT_FILES %>${projectDeatils.attachment }"
+										class="filevalue" download>${projectDeatils.attachment }</a>
+								</c:if>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+
+						<div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">

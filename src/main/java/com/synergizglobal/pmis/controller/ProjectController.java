@@ -25,11 +25,14 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.ProjectService;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Project;
 
@@ -100,6 +103,13 @@ public class ProjectController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/project");
+			MultipartFile file = project.getProjectFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				project.setAttachment(fileName);
+			}		
 			boolean flag =  projectService.updateProject(project);
 			if(flag == true) {
 				attributes.addFlashAttribute("success", "Project Updated Succesfully.");
@@ -136,6 +146,13 @@ public class ProjectController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/project");
+			MultipartFile file = project.getProjectFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.PROJECT_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				project.setAttachment(fileName);
+			}		
 			boolean flag =  projectService.addProject(project);
 			if(flag == true) {
 				attributes.addFlashAttribute("success", "Project Added Succesfully.");

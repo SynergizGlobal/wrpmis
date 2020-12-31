@@ -50,7 +50,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		Project project = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,remarks FROM project"
+			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_status,attachment FROM project"
 					+ " where project_id = ?";
 			stmt = connection.prepareStatement(qry);
 			stmt.setString(1, projectId);
@@ -62,6 +62,8 @@ public class ProjectDaoImpl implements ProjectDao {
 				project.setPlan_head_number(resultSet.getString("plan_head_number"));
 				project.setPink_book_item_number(resultSet.getString("pink_book_item_number"));
 				project.setRemarks(resultSet.getString("remarks"));
+				project.setProject_status(resultSet.getString("project_status"));
+				project.setAttachment(resultSet.getString("attachment"));
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -82,14 +84,16 @@ public class ProjectDaoImpl implements ProjectDao {
 		boolean flag = false;
 		try{
 			con = dataSource.getConnection();
-			String qry = "update project set project_name = ?,plan_head_number = ?,pink_book_item_number =?,remarks = ?" + 
+			String qry = "update project set project_name = ?,plan_head_number = ?,pink_book_item_number =?,remarks = ?,project_status=?,attachment=?" + 
 					 " where project_id =?";
 			stmt = con.prepareStatement(qry); 
 			stmt.setString(1,project.getProject_name());
 			stmt.setString(2,project.getPlan_head_number());
 			stmt.setString(3,project.getPink_book_item_number());
 			stmt.setString(4,project.getRemarks());
-			stmt.setString(5,project.getProject_id());
+			stmt.setString(5,project.getProject_status());
+			stmt.setString(6,project.getAttachment());
+			stmt.setString(7,project.getProject_id());
 			count = stmt.executeUpdate();
 			if(count > 0 ){
 				flag = true;
@@ -115,8 +119,8 @@ public class ProjectDaoImpl implements ProjectDao {
 			
 			String projectId = getProjectId(con);
 			
-			String qry ="INSERT into project (project_id,project_name,plan_head_number,pink_book_item_number,remarks)" + 
-					 " VALUES(?,?,?,?,?)";
+			String qry ="INSERT into project (project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_status,attachment)" + 
+					 " VALUES(?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			
 			stmt.setString(1,projectId); 
@@ -124,6 +128,8 @@ public class ProjectDaoImpl implements ProjectDao {
 			stmt.setString(3,project.getPlan_head_number()); 
 			stmt.setString(4,project.getPink_book_item_number()); 
 			stmt.setString(5,project.getRemarks()); 
+			stmt.setString(6,project.getProject_status());
+			stmt.setString(7,project.getAttachment());
 			count = stmt.executeUpdate();
 			if(count > 0 ){
 				flag = true; 

@@ -310,7 +310,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Project> objsList = new ArrayList<Project>();
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String projectQry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status "
+			String projectQry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_status,attachment "
 					+ "from `project`";
 			
 			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
@@ -321,7 +321,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 			String workQry = "select wr.work_id,wr.work_short_name,wr.pink_book_item_number,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
-					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year, "
+					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year, wr.attachment as work_attachment,"
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? order by wr.work_short_name";
 			

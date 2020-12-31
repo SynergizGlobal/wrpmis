@@ -35,8 +35,8 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
 					" FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
-					" left join work w on c.work_id_fk = w.work_id where status = \"Active\" ";
-			int arrSize = 0;
+					" left join work w on c.work_id_fk = w.work_id where status = ? ";
+			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
@@ -47,7 +47,11 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			}	
 			qry = qry +" group by contract_id_fk";
 			Object[] pValues = new Object[arrSize];
+			
+
 			int i = 0;
+			
+			pValues[i++] = CommonConstants.ACTIVE;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();

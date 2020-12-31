@@ -115,8 +115,8 @@
         }
         .button .btn{
        		position: relative;
-		    left: 68%;
-		    margin: 5px 2px;
+		    float:right;
+		    margin: 5px 0;
 		    border-radius: 0 10px 10px 0;
 		    text-transform:capitalize;
 		    padding:0 10px;	
@@ -124,7 +124,7 @@
        	}
        	.button .btn.btn-left{
        		position:relative;
-       		left:0;  
+       		float:left;  
        		border-radius: 10px 0 0 10px;   		
        	}	
 		 .button .btn:hover, 
@@ -214,6 +214,7 @@
             color: #fff;
             border-radius: 4px 4px 0 0;
             padding: 3px;
+            font-size:21px;
             box-shadow: 2px 3px 7px 2px #999999;
             text-transform: inherit;
         }
@@ -346,7 +347,7 @@
 	                              <a class="btn btn-left" href="<%=CommonConstants.PROJECT_FILES %>${pObj.attachment }" download><i class="fa fa-download" ></i></a> 
 	                           </c:when>
 	                           <c:otherwise>
-	                           	 <div></div>
+	                           	 <a ></a>
 	                           </c:otherwise>
 	                        </c:choose>	                        
 		                        <a class="btn" onclick="closeOther('${index.count }')">More</a>

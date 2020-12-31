@@ -31,15 +31,26 @@
         #budgetTable1 td.input-field .prefix {
             top: 1.5rem;
         }
-        
+          .input-field .searchable_label{
+            font-size: .85rem;
+            text-align: left;
+        }
         .fixed-width {
             width: 100%;
+            margin-left:auto !important;
+            margin-right:auto !important;
         }
-
+  		.filevalue {
+            display: block;
+            margin-top: 10px;
+        }
         .fixed-width .table-inside {
             width: 100%;
             overflow: auto;
         }
+        .select2-container--default .select2-selection--single {
+    		background-color: transparent;
+    	}
 
         @media only screen and (max-width: 600px) {
             .input-field .prefix~input {
@@ -48,7 +59,7 @@
         }
 
         .table-inside td span {
-            text-align: left;
+            text-align: center;
             display: block;
         }
            .primary-text {
@@ -98,7 +109,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Project </label></p>
+                                    <p class="searchable_label"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -109,7 +120,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Work </label></p>
+                                    <p class="searchable_label"> Work</p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" >
                                         <option value="">Select</option>
                                     </select>
@@ -123,16 +134,17 @@
 	                              <div class="col m2 hide-on-small-only">
 	                              </div>
 	                       		  <div class="col s12 m4 input-field">
-										<p><label> Project </label></p>
+										<p class="searchable_label"> Project</p>
 	                                         	 	<input type="text" name="project_id_fk" id="project_id_fk" value="${budgetDetails.project_id_fk}- ${budgetDetails.project_name}" readonly />
 								  </div> 
 								  <div class="col s12 m4 input-field"> 
-									    <p><label> Work </label></p>
+									    <p class="searchable_label"> Work</p>
 	                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}- ${budgetDetails.work_name}" readonly />
 	                              </div>
                               </div> 
                              </c:if>
-                            <div class="row">
+                             </div>
+                            <!-- <div class="row">
                                 <div class="col m4 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p><label> Financial Year</label></p>
@@ -145,165 +157,125 @@
                                          <span id="financial_year_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m4 hide-on-small-only"></div>
-                            </div>
+                            </div> -->
 							<div>
 							<input type="hidden" name="budget_id" value="${budgetDetails.budget_id }" />
 							</div>
-                            <div class="container" style="margin-bottom:20px;">
-                                <div class="row">
-                                    <div class="col m6 s12">
-                                        <div class="row fixed-width">
-                                            <h5 class="center-align">Budget</h5>
-                                            <div class="table-inside">
-                                                <table id="budgetTable1" class="mdl-data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Budget Type </th>
-                                                            <th>Amount </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text">Budget Estimate (in Cr)</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-field">
-                                                                    <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="budget_estimate" type="text" name="budget_estimate"
-                                                                        class="validate"  placeholder="Amount" value="${budgetDetails.budget_estimate }">
-                                                                        <span id="budget_estimateError" class="error-msg" ></span>
-                                                                </div>
-                                                                
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text">August Review<br> Estimate (in Cr)</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-field">
-                                                                    <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="august_review_estimate" name="august_review_estimate" type="text" 
-                                                                        class="validate" placeholder="Amount" value="${budgetDetails.august_review_estimate }">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text">Revised Estimate (in Cr)</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-field">
-                                                                    <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="revised_estimate" name="revised_estimate" type="text"
-                                                                        class="validate" placeholder="Amount" value="${budgetDetails.revised_estimate }">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text">Final Estimate (in Cr)</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-field">
-                                                                    <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="final_estimate" name="final_estimate" type="text"
-                                                                        class="validate" placeholder="Amount" value="${budgetDetails.final_estimate }">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col m6 s12">
-                                        <div class="row fixed-width">
-                                            <h5 class="center-align">Grants</h5>
-                                            <div class="table-inside">
-                                                <table id="budgetTable2" class="mdl-data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Grant Type </th>
-                                                            <th>Amount </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text">Budget Grant (in Cr)</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-field">
-                                                                    <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="budget_grant" name="budget_grant" type="text"
-                                                                        class="validate" placeholder="Amount" value="${budgetDetails.budget_grant }">
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text">Revised Grant (in Cr)</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-field">
-                                                                    <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="revised_grant" name="revised_grant" type="text"
-                                                                        class="validate" placeholder="Amount" value="${budgetDetails.revised_grant }">
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="primary-text">Final Grant (in Cr)</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-field">
-                                                                    <i class="material-icons prefix center-align">₹</i>
-                                                                    <input id="final_grant" name="final_grant" type="text"
-                                                                        class="validate" placeholder="Amount" value="${budgetDetails.final_grant }">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+						<div class="row fixed-width">
+							<h5 class="center-align">Budget Details</h5>
+							<div class="table-inside">
+								<table id="budgetTable" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Financial Year</th>
+											<th>Budget Estimate <br>(in Cr)	</th>
+											<th>Revised Estimate <br>(in Cr)</th>
+											<th>Final Estimate <br>(in Cr)	</th>
+											<th>Budget Grant <br>(in Cr)</th>
+											<th>Revised Grant <br>(in Cr)</th>
+											<th>Final Grant <br>(in Cr)	</th>
+											<th>Attachment</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<div class="input-field">
+													<select class="searchable validate-dropdown"
+														name="financial_year_fk" id="financial_year0_fk">
+														<option value="">Select Financial Year</option>
+														<c:forEach var="obj" items="${financialYearList}">
+															<option value="${obj.financial_year }"
+																<c:if test="${budgetDetails.financial_year_fk eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
+														</c:forEach>
+													</select> <span id="financial_year0_fkError" class="error-msg"></span>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="budget_estimate0" type="number" name="budget_estimate"
+														class="validate" placeholder="Amount" min="0.01" step="0.01"
+														value="${budgetDetails.budget_estimate }"> <span
+														id="budget_estimate0Error" class="error-msg"></span>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="revised_estimate" name="revised_estimate0" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount"
+														value="${budgetDetails.revised_estimate }">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="final_estimate0" name="final_estimate" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount"
+														value="${budgetDetails.final_estimate }">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="budget_grant0" name="budget_grant" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount"
+														value="${budgetDetails.budget_grant }">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="revised_grant0" name="revised_grant" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount"
+														value="${budgetDetails.revised_grant }">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="final_grant0" name="final_grant" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount"
+														value="${budgetDetails.final_grant }">
+												</div>
+											</td>
+											<td>
+												<div class="">
+													<input type="file" name="myfile" id="myFile0"
+														style="display: none" /> <label for="myFile0"
+														class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span
+														id="fileVal" class="filevalue">fileName</span>
+												</div>
+											</td>
+											<td><a href="#"
+												class="btn waves-effect waves-light red t-c "> <i
+													class="fa fa-close"></i></a></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><a href="#" onclick="addRow()"
+												class="btn waves-effect waves-light bg-m t-c "> <i
+													class="fa fa-plus"></i></a></td>
+										</tr>
+	
+									</tbody>
+								</table>
+	
+							</div>
+						</div>
 
 
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" accept="image/x-png,image/jpeg" name="budgetFile" id="budgetFile"  >
-                                           
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment"  value="${budgetDetails.attachment }" >
-                                        </div>
-                                    </div>
-                                    <c:if test="${not empty budgetDetails.attachment }">
-                                      <a  class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${budgetDetails.attachment }" download>${budgetDetails.attachment }</a>
-                                    </c:if>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${budgetDetails.remarks}</textarea>
-                                    <label for="remarks">Remarks</label>
-                                </div>
-                            </div>
+					<div class="container container-no-margin">                           
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -369,7 +341,28 @@
             	getWorksList(projectId);
             }
         });
-       
+        
+        var budget = 1;
+        function addRow(){
+        	var text='<tr><td><div class="input-field"><select class="searchable validate-dropdown" name="financial_year_fk" id="financial_year'+budget+'_fk">'+
+            '<option value="">Select Financial Year</option></select> <span id="financial_year'+budget+'_fkError" class="error-msg"></span></div></td>'+
+            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimate'+budget+'" type="number" name="budget_estimate"'+
+            'class="validate" placeholder="Amount" min="0.01" step="0.01"> <span id="budget_estimate'+budget+'Error" class="error-msg"></span></div></td>'+
+            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_estimate'+budget+'" name="revised_estimate" type="number" min="0.01" step="0.01"'+
+            'class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i> '+
+            '<input id="final_estimate'+budget+'" name="final_estimate" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td>'+
+            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_grant'+budget+'" name="budget_grant" type="number"'+
+            ' min="0.01" step="0.01"class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i>'+
+            '<input id="revised_grant'+budget+'" name="revised_grant" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount" ></div></td>'+
+            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_grant'+budget+'" name="final_grant" type="number"'+
+            'min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td><td><div class=""><input type="file" name="myfile" id="myFile'+budget+'" '+
+            'style="display: none" /> <label for="myFile'+budget+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+budget+'" '+
+            'class="filevalue">fileName</span></div></td><td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+        	
+            $('#budgetTable tbody').find('tr:last').prev().after(text);
+            $('.searchable').select2();
+            budget++;
+        }
         
         function getWorksList(projectId) {
         	$(".page-loader").show();

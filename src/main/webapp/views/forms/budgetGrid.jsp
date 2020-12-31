@@ -86,13 +86,7 @@
 							</div>
 						</c:if>
                         <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                               <!--  <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div> -->
-                            </div>
+                            <div class="col s12 m4"> </div>
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
@@ -110,38 +104,38 @@
                         </div>
 
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m3 hide-on-small-only"></div>
 
-                            <div class="col m8 s12">
+                            <div class="col m6 s12">
                                 <div class="row" style="margin-bottom: 0;">
-                                    <div class="col s12 m3 input-field">
+                                    <div class="col s12 m4 input-field">
                                         <p><label>Project</label></p>
                                         <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getBudgetList();">
                                             <option value="" selected>Select</option>
                                             	
                                         </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
+                                    <div class="col s12 m4 input-field">
                                         <p><label>Work</label></p>
                                         <select id="work_id_fk" name="work_id_fk" onchange="getBudgetList();" class="searchable">
                                             <option value="" >Select</option>
 	                                           
                                         </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
+                                    <!-- <div class="col s12 m3 input-field">
                                         <p><label>Financial Year</label></p>
                                         <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList();">
                                             <option value="" >Select</option>
                                             	 
                                         </select>
-                                    </div>
-                                    <div class="col s12 m3">
+                                    </div> -->
+                                    <div class="col s12 m4">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                             style="margin-top: 30px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m3 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">
@@ -150,7 +144,7 @@
                                     <thead>
                                         <tr>
                                             <th class="fw-300">Work </th>
-                                            <th>Financial Year</th>
+                                            <th>Current <br>Financial Year</th>
                                             <th>Budget Estimate</th>
                                             <th>Budget Grant </th>
                                             <th>Reivised Estimate</th>

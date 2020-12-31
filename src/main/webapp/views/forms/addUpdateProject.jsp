@@ -138,6 +138,22 @@
 
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> -->
+                              <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
+                                    <div class="file-field input-field">
+                                        <div class="btn bg-m">
+                                            <span>Attachment</span>
+                                            <input type="file" id="projectFile" name="workFile">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" name="attachment" >
+                                        </div>
+                                    </div>                                   
+                                   
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
 
                             <div class="row">
                                 <!-- row 10 -->

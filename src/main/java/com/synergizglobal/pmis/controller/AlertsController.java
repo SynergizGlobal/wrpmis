@@ -48,9 +48,7 @@ public class AlertsController {
 	    	 logger.error("generateAtertsByCronJob : "+flag);
 	    	 
 	    	 List<Alerts> alerts = service.getAlertsList();
-	    	 
-    		 
-             //dueActivities = aService.getDueActivities(null);
+
              String emailSubject = "Upcoming alerts";
              
              Mail mail = new Mail();

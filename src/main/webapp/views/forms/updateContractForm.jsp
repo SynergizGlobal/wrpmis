@@ -286,14 +286,23 @@
 	                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="" selected>Select</option> 
 	                                                 <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.designation eq obj.designation}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.hod_user_id_fk eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 			                                        </c:forEach> 
 	                                            </select> 
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                        <div class="col s12 m6 input-field">
-	                                           <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" value="${contractDeatils.dy_hod_user_id_fk }" style="margin-top:10px">
-	                                    		<label for="dy_hod_user_id_fk">Dy HOD</label>
+	                                          <%--  <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" value="${contractDeatils.dy_hod_user_id_fk }" style="margin-top:10px">
+	                                    		<label for="dy_hod_user_id_fk">Dy HOD</label> --%>
+	                                    		
+	                                    		<p><label>Dy HOD</label></p>
+	                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable"> 
+	                                     		  <option value="" selected>Select</option> 
+	                                                 <c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select> 
+	                                    		
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                    </div>

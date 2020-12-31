@@ -273,24 +273,25 @@
 	  										<div class="col s12 m6 input-field">
 	  										 	<p><label>HOD</label></p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
-	                                     		  <option value="" selected>Select</option> 
+	                                     		  <option value="">Select</option> 
 	                                                 <c:forEach var="obj" items="${hodList }"> 
 			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
 			                                        </c:forEach> 
 	                                            </select> 
-	<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
-	<!--                                    <label for="hod_user_id_fk">HOD</label> -->
+												<!-- <input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+												<label for="hod_user_id_fk">HOD</label> -->
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                        <div class="col s12 m6 input-field">
-	<!--                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown"> -->
-	<!--                                                 <option value="" selected>Select</option> -->
-	<%--                                                 <c:forEach var="obj" items="${hodList }"> --%>
-	<%-- 		                                    	  <option value="${obj.user_id }" >${obj.user_id }</option> --%>
-	<%-- 		                                     	 </c:forEach> --%>
-	<!--                                             </select> -->
-											<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
-	                               		     <label for="dy_hod_user_id_fk">Dy HOD</label>
+	                                        	<p><label>Dy HOD</label></p>
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
+	                                                <option value="">Select</option>
+	                                                <c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select>
+												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
+	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                    </div>

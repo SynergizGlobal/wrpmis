@@ -33,7 +33,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		List<TAFinancials> objsList = null;
 		try {
 			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
-					" FROM tastudies_financial t " + 
+					" FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
 					" left join work w on c.work_id_fk = w.work_id where status = \"Active\" ";
 			int arrSize = 0;
@@ -68,7 +68,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	public List<TAFinancials> getTAFinancialsWorksList(TAFinancials obj) throws Exception {
 		List<TAFinancials> objsList = null;
 		try {
-			String qry = "select work_id as work_id_fk, w.work_short_name from tastudies_financial t " + 
+			String qry = "select work_id as work_id_fk, w.work_short_name from ta_financials t " + 
 					"left join contract c on c.contract_id = t.contract_id_fk " + 
 					"left join work w on c.work_id_fk = w.work_id  " + 
 					"where work_id_fk is not null and work_id_fk <> '' ";
@@ -101,7 +101,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	public List<TAFinancials> getTAFinancialsContractsList(TAFinancials obj) throws Exception {
 		List<TAFinancials> objsList = null;
 		try {
-			String qry = "select contract_id_fk, c.contract_short_name from tastudies_financial t " + 
+			String qry = "select contract_id_fk, c.contract_short_name from ta_financials t " + 
 					"left join contract c on c.contract_id = t.contract_id_fk " + 
 					"where contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
@@ -147,7 +147,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		
 		try {
 			String qry = "select w.work_id as work_id_fk ,c.contract_name,w.work_name,contract_id_fk "
-					+"from tastudies_financial t "
+					+"from ta_financials t "
 					+"LEFT OUTER join contract c on contract_id_fk =c.contract_id " 
 					+"LEFT OUTER join work w on c.work_id_fk = w.work_id "  
 					+"where ID is not null";
@@ -168,7 +168,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 				List<TAFinancials> objsList = null;
 			String qryDetails = "select ID,contract_id_fk, DATE_FORMAT(month,'%Y-%m') AS month,"
 					+ "cast(planned as CHAR) as planned,cast(actual as CHAR) as actual,cast(payment_received as CHAR) as payment_received "
-					+ "from tastudies_financial "
+					+ "from ta_financials "
 					+"where contract_id_fk = ? and status = ?";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getContract_id_fk(),CommonConstants.ACTIVE}, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));	
@@ -190,7 +190,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String insertQry = "INSERT INTO tastudies_financial"
+			String insertQry = "INSERT INTO ta_financials"
 					+ "(contract_id_fk, month, planned, actual, payment_received, status)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?)";
@@ -261,19 +261,19 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			String inactiveQry = "UPDATE tastudies_financial set status = ? where contract_id_fk = ?";		 
+			String inactiveQry = "UPDATE ta_financials set status = ? where contract_id_fk = ?";		 
 			stmt = con.prepareStatement(inactiveQry);
 			stmt.setString(1,CommonConstants.INACTIVE);
 			stmt.setString(2,obj.getContract_id_fk());
 			stmt.executeUpdate();
 			if(stmt != null){stmt.close();}
 			
-			String updateQry = "UPDATE tastudies_financial set "
+			String updateQry = "UPDATE ta_financials set "
 					+ "month= ?, planned= ?, actual= ?,payment_received = ?,status = ? "
 					+ "where ID= ?";
 			updateStmt = con.prepareStatement(updateQry);
 			
-			String insertqry = "INSERT INTO tastudies_financial"
+			String insertqry = "INSERT INTO ta_financials"
 					+ "(contract_id_fk, month, planned, actual, payment_received, status)"
 					+ "VALUES(?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertqry); 

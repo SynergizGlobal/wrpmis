@@ -115,15 +115,18 @@
         }
         .button .btn{
        		position: relative;
-		    /* bottom: -25px; */
-		    left: 87%;
+		    left: 68%;
 		    margin: 5px 2px;
-		    border-radius: 10px 0;
+		    border-radius: 0 10px 10px 0;
 		    text-transform:capitalize;
 		    padding:0 10px;	
 		    background-color:#1565C0cc;
        	}
-	
+       	.button .btn.btn-left{
+       		position:relative;
+       		left:0;  
+       		border-radius: 10px 0 0 10px;   		
+       	}	
 		 .button .btn:hover, 
 		 .button .btn:focus{
 		 	background-color:#1565C088;
@@ -337,7 +340,10 @@
                                 <p class="aligncenter">:</p>
                                 <p class="alignright">${pObj.plan_head_number }</p>
 		                    </div> 
-	                        <div class="button"><a class="btn" onclick="closeOther('${index.count }')">More</a></div>
+	                        <div class="button">	                        
+		                        <a class="btn btn-left" ><i class="fa fa-download"></i></a> 
+		                        <a class="btn" onclick="closeOther('${index.count }')">More</a>
+	                        </div>
 	                    </div>
 	                </div>
 	                <div class="row result hidden" id="result${index.count }">
@@ -409,6 +415,10 @@
 							                                <p class="aligncenter">:</p>
 							                                <p class="alignright">${wObj.executedBy}</p>
 									                    </div> 
+									                    <div class="button">	                        
+									                        <a class="btn btn-left" ><i class="fa fa-download"></i></a> 
+									                        <!-- <a class="btn" onclick="closeOther('${index.count }')">More</a> -->
+								                        </div>
 		                                            </div>
 		                                        </div>
 		                                    </div>

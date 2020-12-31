@@ -35,7 +35,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
 					" FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
-					" left join work w on c.work_id_fk = w.work_id where status = ? ";
+					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";

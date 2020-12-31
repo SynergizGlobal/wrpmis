@@ -290,7 +290,7 @@ public class StripChartReportsController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(Double.parseDouble(dObj.getCompleted()));
+					cell.setCellValue(Double.parseDouble(dObj.getCumulative_completed()));
 					
 	                rowNo++;
 	            }

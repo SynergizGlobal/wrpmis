@@ -3,7 +3,7 @@ package com.synergizglobal.pmis.model;
 public class StripChartReport {
 	private String progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name, 
 	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,
-	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk;
+	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed;
 
 	public String getProgress_date() {
 		return progress_date;
@@ -179,6 +179,14 @@ public class StripChartReport {
 
 	public void setContractor_id_fk(String contractor_id_fk) {
 		this.contractor_id_fk = contractor_id_fk;
+	}
+
+	public String getCumulative_completed() {
+		return cumulative_completed;
+	}
+
+	public void setCumulative_completed(String cumulative_completed) {
+		this.cumulative_completed = cumulative_completed;
 	}
 	
 	

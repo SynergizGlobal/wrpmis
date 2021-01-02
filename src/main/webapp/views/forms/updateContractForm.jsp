@@ -46,7 +46,7 @@
 
         .datepicker-table th,
         .datepicker-table td {
-            padding: 0;
+            padding: 0 !important;
         }
 
         .radiogroup {
@@ -111,16 +111,20 @@
 			max-width:134px
 		}
 		#bankTableBody .select2-container{
-			max-width:100px
+			max-width:140px;
+			width:130px;
+		}
+		#bankTableBody th.fs-100,
+		#bankTableBody td.fs-100{
+			max-width:100px;
+			width:90px;
 		}
 		#insurenceTableBody td.input-field .prefix,
 		#revTableBody td.input-field .prefix,
 		#bankTableBody td.input-field .prefix {
     		top: 1.5rem;
 		}
-/* 		textarea{ */
-/* 			height:auto; */
-/* 		} */
+
 		.filevalue {
             display: block;
             margin-top: 10px;
@@ -145,6 +149,15 @@
          .table-inside .normal-btn .btn .fa{
          	font-size:1.3rem;
          }
+         .select2-container--default .select2-selection--single {
+	    	background-color: transparent;
+	     }
+	     #bankTable thead th, 
+	     #bankTable tbody td,	      
+	     #insurenceTable thead th, 
+	     #insurenceTable tbody td{
+	     	padding:12px;
+	     }
     </style>
 </head>
 
@@ -502,15 +515,16 @@
                                     <table id="bankTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
-                                                <!-- <th>Contract ID </th> -->
+                                               <th class="fs-100">Code </th>
                                                 <th>BG Type </th>
                                                 <th>Issuing Bank </th>
-                                                <th>Bank Address </th>
-                                                <th>BG Number </th>
-                                                <th>BG Value </th>
-                                                <th>Revision </th>
-                                                <th>Valid Upto </th>
-                                                <th>Remarks </th>
+                                               <!--  <th>Bank Address </th> -->
+                                                <th>BG / FDR <br>Number </th>
+                                                <th>Amount </th>
+                                                <th>BG / FDR <br> Date </th>
+                                                <th>Expiry Date </th>
+                                              <!--   <th>Remarks </th> -->
+                                                <th>Release Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -521,6 +535,9 @@
                                 		  <c:forEach var="bankObj" items="${contractDeatils.bankGauranree }" varStatus="index">                                        	
                                         
                                             <tr id="bankRow${index.count }">
+                                            <td class="fs-100"> <input id="codes${index.count }" type="text" class="validate" name="codes" value="${bankObj.code }"
+                                                        placeholder="Code">
+                                                </td>
                                                 <td> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
                                                         <option value="">Select</option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
@@ -535,31 +552,35 @@
                                                     <input id="issuing_banks${index.count }" name="issuing_banks"  type="text" class="validate" value="${bankObj.issuing_bank }"
                                                         placeholder="Issuing Bank">
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <input id="bank_addresss${index.count }" name ="bank_addresss" type="text" class="validate" value="${bankObj.bank_address }"
                                                         placeholder="Bank Address">
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <input id="bg_numbers${index.count }" name="bg_numbers" type="text" class="validate" value="${bankObj.bg_number}"
-                                                        placeholder="BG Number">
+                                                        placeholder="BG / FDR Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values${index.count }" name="bg_values" type="text" class="validate" value="${bankObj.bg_value }"
-                                                        placeholder="BG Value">
+                                                        placeholder="Amount">
+                                                </td>
+                                               <td>
+                                                    <input id="bg_dates${index.count }" name="bg_dates" type="text" class="validate datepicker" value="${bankObj.bg_date }"
+                                                        placeholder="BG /FDR Date">
+                                                         <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="bank_revisions${index.count }" name="bank_revisions" type="text" class="validate" value="${bankObj.revision }"
-                                                        placeholder="Revision">
-                                                </td>
-                                                <td>
-                                                    <input id="bg_valid_uptos${index.count }" name="bg_valid_uptos" type="text" class="validate datepicker" value="${bankObj.bg_valid_upto }"
-                                                        placeholder="Valid Upto">
+                                                     <input id="bg_valid_uptos${index.count }" name="bg_valid_uptos" type="text" class="validate datepicker" value="${bankObj.bg_valid_upto }"
+                                                        placeholder="Expiry Date">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <input id="remarkss${index.count }" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }"
                                                         placeholder="Remarks">
-                                                </td>
+                                                </td> -->
+                                                <td>	<input id="release_dates${index.count }" name="release_dates" type="text" class="validate datepicker" value="${bankObj.release_date }"
+                                                        placeholder="Release Date">
+                                                    <button type="button"><i class="fa fa-calendar"></i></button></td>       
                                                 <td>
                                                     <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -574,11 +595,15 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 }); */
+	                                                
                                                 </script>
                                           </c:forEach>
                                            </c:when>
                                              <c:otherwise>
                                              <tr id="bankRow0">
+                                             <td class="fs-100"> <input id="codes0" type="text" class="validate" name="codes"
+                                                        placeholder="Code">
+                                                </td>
                                                 <td> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
@@ -593,38 +618,42 @@
                                                     <input id="issuing_banks0" name="issuing_banks"  type="text" class="validate"
                                                         placeholder="Issuing Bank">
                                                 </td>
-                                                <td>
+                                               <!--  <td>
                                                     <input id="bank_addresss0" name ="bank_addresss" type="text" class="validate"
                                                         placeholder="Bank Address">
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
-                                                        placeholder="BG Number">
+                                                        placeholder="BG / FDR Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values0" name="bg_values" type="text" class="validate"
-                                                        placeholder="BG Value">
+                                                        placeholder="Amount">
                                                 </td>
                                                 <td>
-                                                    <input id="bank_revisions0" name="bank_revisions" type="text" class="validate"
-                                                        placeholder="Revision">
+                                                    <input id="bg_dates0" name="bg_dates" type="text" class="validate datepicker"
+                                                        placeholder="BG /FDR Date">
+                                                         <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
                                                     <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
-                                                        placeholder="Valid Upto">
+                                                        placeholder="Expiry Date">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td>
+                                               <!--  <td>
                                                     <input id="remarkss0" name ="remarkss" type="text" class="validate"
                                                         placeholder="Remarks">
-                                                </td>
+                                                </td> -->
+                                                <td>	<input id="release_dates0" name="release_dates" type="text" class="validate datepicker"
+                                                        placeholder="Release Date">
+                                                    <button type="button"><i class="fa fa-calendar"></i></button>	</td>       
                                                 <td>
                                                     <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                                 
                                                 
-                                            </tr>
+                                            </tr> 
                                             	<script type="text/javascript">
 	                                                $("#bg_valid_uptos0").datepicker({
 	                                                	
@@ -633,6 +662,7 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 });
+	                                             
                                                 </script>
                                               </c:otherwise>
                                             </c:choose>
@@ -693,6 +723,7 @@
                                                 <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
+                                                <th>Release</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -739,6 +770,9 @@
                                                     <input id="insurence_remarks${index.count }" name="insurence_remarks"  type="text" class="validate" value="${insurenceObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
+                                                <td>	<label> <input type="hidden" id="insuranceStatuss${index.count }" name="insuranceStatus" value="${insurenceObj.insurance_status}" />
+                                                <input type="checkbox" id="insuranceStatus${index.count }" <c:if test="${insurenceObj.insurance_status == 'Yes'}">checked
+                                            </c:if>/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeInsurence('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -752,6 +786,17 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 }); */
+	                                                 $('#insuranceStatus${index.count }').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#insuranceStatuss${index.count }').val('Yes');
+							                             } else{
+							                              	 
+							                            	  $("#insuranceStatuss${index.count }").prop('checked',false).removeAttr('checked');
+							                            	  $("#insuranceStatuss${index.count }").val('No')
+							                              }
+							                   	    });
                                                 </script>
                                              </c:forEach>
                                              </c:when>
@@ -796,6 +841,8 @@
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
+                                                <td><label><input type="hidden" id="insuranceStatuss0" name="insuranceStatus" value="No" />
+                                                 <input type="checkbox" id="insuranceStatus0" /> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -809,6 +856,17 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 });
+	                                                $('#insuranceStatus0').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#insuranceStatuss0').val('Yes');
+							                             } else{
+							                              	 
+							                            	  $("#insuranceStatuss0").prop('checked',false).removeAttr('checked');
+							                            	  $("#insuranceStatuss0").val('No')
+							                              }
+							                   	    });
                                                 </script>
                                            
                                              </c:otherwise>
@@ -1371,7 +1429,13 @@
 	  			$('form input[name=issuing_banks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bank_addresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=bg_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=bg_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=bg_values]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			$('form input[name=release_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=bg_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=codes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=insuranceStatus]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
 	  			$('form input[name=bank_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=bg_valid_uptos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
@@ -1726,7 +1790,7 @@
 		          var rowNo = $("#bankRowNo").val();
 		          var rNo = Number(rowNo)+1;
 		          var total = 0;
-		          var html = '<tr id="bankRow'+rNo+'"><td> <div>'
+		          var html = '<tr id="bankRow'+rNo+'"> <td> <input id="codes'+rNo+'" type="text" class="validate" name="codes" placeholder="Code">       </td><td> <div>'
 		  		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'" class="searchable">'	   			
 		  		   +'<option value="" >select</option>'
 		  		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
@@ -1734,13 +1798,16 @@
 					</c:forEach>
 		  		   +'</select></div></td>'
 				   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
-				   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
-				   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
-				   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
-				   +'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
-				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-				   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
-			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+				  // +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
+				   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
+				   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="Amount"></td>'
+				   +'<td><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
+				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
+				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
+				   //+'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
+				   //+'<td><label> <input type="checkbox" name="bankStatus" id="bankStatus'+rNo+'" value="Inactive"/> <span></span> </label></td>'
+				   +'<td><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
+				   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			 
 				 $('#bankTableBody').append(html);
 				 $("#bankRowNo").val(rNo);
@@ -1752,7 +1819,7 @@
 		  	    	     $('.confirmation-btns .datepicker-done').click();
 		  	    	  }
 		         });
-		
+				
 		} 
 		
 		
@@ -1779,7 +1846,8 @@
 			   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
-		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+			   +'<td><label> <input type="hidden" id="insuranceStatus'+rNo+'" name="insuranceStatus" value="No" /><input type="checkbox" id="insuranceStatuss'+rNo+'" /> <span></span> </label></td>'
+			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 		 		  
 			 $('#insurenceTableBody').append(html);
 			 $("#insurenceRowNo").val(rNo);
@@ -1789,8 +1857,18 @@
 			          onSelect: function () {
 				    	     $('.confirmation-btns .datepicker-done').click();
 				    	  }
-			      });
-			
+			 });
+			 $("#insuranceStatuss"+rNo).on('change', function(e){
+                 if($(this).prop('checked'))
+                 {
+                	// $(".part").prop('disabled', true);
+                     $("#insuranceStatus"+rNo).val('Yes');
+                 } else{
+                  	 
+                	  $("#insuranceStatus"+rNo).prop('checked',false).removeAttr('checked');
+                	  $("#insuranceStatus"+rNo).val('No')
+                  }
+       	    });
 		} 
 		
 		

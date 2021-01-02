@@ -570,7 +570,8 @@
                                                     <input id="remarkss${index.count }" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
+                                                <td>	<label> <input type="checkbox" name="bankStatus" id="bankStatus${index.count }" value="${bankObj.bank_status }" <c:if test="${bankObj.bank_status == 'Active'}">checked
+                                            </c:if>/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -585,6 +586,16 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 }); */
+	                                                 $('#bankStatus${index.count }').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#bankStatus${index.count }').val('Active');
+							                             } else{
+							                              	  $("#bankStatus${index.count }").val('Inactive')
+							                            	  $("#bankStatus${index.count }").prop('checked',false).removeAttr('checked');;
+							                              }
+							                   	    });
                                                 </script>
                                           </c:forEach>
                                            </c:when>
@@ -629,14 +640,14 @@
                                                     <input id="remarkss0" name ="remarkss" type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
+                                                <td>	<label> <input type="checkbox" name="bankStatus" id="bankStatus0"/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                                 
                                                 
-                                            </tr>
+                                            </tr> 
                                             	<script type="text/javascript">
 	                                                $("#bg_valid_uptos0").datepicker({
 	                                                	
@@ -645,6 +656,16 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 });
+	                                                $('#bankStatus0').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#bankStatus0').val('Active');
+							                             } else{
+							                              	  $("#bankStatus0").val('Inactive')
+							                            	  $("#bankStatus0").prop('checked',false).removeAttr('checked');;
+							                              }
+							                   	    });
                                                 </script>
                                               </c:otherwise>
                                             </c:choose>
@@ -752,7 +773,8 @@
                                                     <input id="insurence_remarks${index.count }" name="insurence_remarks"  type="text" class="validate" value="${insurenceObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
+                                                <td>	<label> <input type="checkbox" name="insuranceStatus" id="insuranceStatus${index.count }" value="${insurenceObj.insurance_status}" <c:if test="${insurenceObj.insurance_status == 'Active'}">checked
+                                            </c:if>/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeInsurence('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -810,7 +832,7 @@
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
+                                                <td>	<label> <input type="checkbox" namee="insuranceStatus" id="insuranceStatus0"/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1755,7 +1777,7 @@
 				   +'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 				   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
-				   +'<td><label> <input type="checkbox" id="status'+rNo+'"/> <span></span> </label></td>'
+				   +'<td><label> <input type="checkbox" name="bankStatus" id="bankStatus'+rNo+'" value="Inactive"/> <span></span> </label></td>'
 				   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			 
 				 $('#bankTableBody').append(html);
@@ -1768,7 +1790,16 @@
 		  	    	     $('.confirmation-btns .datepicker-done').click();
 		  	    	  }
 		         });
-		
+				 $("#bankStatus"+rNo).on('change', function(e){
+                     if($(this).prop('checked'))
+                     {
+                    	// $(".part").prop('disabled', true);
+                         $("#bankStatus"+rNo).val('Active');
+                     } else{
+                      	  $("#bankStatus"+rNo).val('Inactive')
+                    	  $("#bankStatus"+rNo).prop('checked',false).removeAttr('checked');
+                      }
+           	    });
 		} 
 		
 		
@@ -1795,7 +1826,7 @@
 			   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label> <input type="checkbox" id="status'+rNo+'"/> <span></span> </label></td>'
+			   +'<td><label> <input type="checkbox" name="insuranceStatus" id="insuranceStatus'+rNo+'"/> <span></span> </label></td>'
 			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 		 		  
 			 $('#insurenceTableBody').append(html);

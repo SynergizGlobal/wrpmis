@@ -10,12 +10,12 @@ public class Contract {
 	final_takeover,final_bill_release,defect_liability_period,retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,
 	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk,
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
-	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,
-	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name;
+	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,
+	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
-	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,
+	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
@@ -32,6 +32,46 @@ public class Contract {
 	private List<Contract> contractDocuments;
 	private List<Contract> contractKeyPersonnels;
 	
+	public String getBank_status() {
+		return bank_status;
+	}
+
+	public void setBank_status(String bank_status) {
+		this.bank_status = bank_status;
+	}
+
+	public String getInsurance_status() {
+		return insurance_status;
+	}
+
+	public void setInsurance_status(String insurance_status) {
+		this.insurance_status = insurance_status;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String[] getBankStatus() {
+		return bankStatus;
+	}
+
+	public void setBankStatus(String[] bankStatus) {
+		this.bankStatus = bankStatus;
+	}
+
+	public String[] getInsuranceStatus() {
+		return insuranceStatus;
+	}
+
+	public void setInsuranceStatus(String[] insuranceStatus) {
+		this.insuranceStatus = insuranceStatus;
+	}
+
 	public String getContract_documents_id() {
 		return contract_documents_id;
 	}

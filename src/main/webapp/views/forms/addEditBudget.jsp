@@ -1,6 +1,7 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -159,7 +160,7 @@
                                 <div class="col m4 hide-on-small-only"></div>
                             </div> -->
 							<div>
-							<input type="hidden" name="budget_id" value="${budgetDetails.budget_id }" />
+							<%-- <input type="hidden" name="budget_id" value="${budgetDetails.budget_id }" /> --%>
 							</div>
 
 						<div class="row fixed-width">
@@ -179,24 +180,27 @@
 											<th>Action</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
+									<tbody id="budgetTableBody">
+									 <c:choose>
+                                      	 <c:when test="${not empty budget && fn:length(budget) gt 0 }">
+                                       	 <c:forEach var="sObj" items="${budget }" varStatus="index"> 
+										  <tr id="safetyRow${index.count }">
 											<td>
 												<div class="input-field">
 													<select class="searchable validate-dropdown"
-														name="financial_year_fk" id="financial_year0_fk">
+														name="financial_year_fks" id="financial_year_fks${index.count }">
 														<option value="">Select Financial Year</option>
 														<c:forEach var="obj" items="${financialYearList}">
 															<option value="${obj.financial_year }"
 																<c:if test="${budgetDetails.financial_year_fk eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
 														</c:forEach>
-													</select> <span id="financial_year0_fkError" class="error-msg"></span>
+													</select> <span id="financial_year${index.count }_fkError" class="error-msg"></span>
 												</div>
 											</td>
 											<td>
 												<div class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
-														id="budget_estimate0" type="number" name="budget_estimate"
+														id="budget_estimates${index.count }" type="number" name="budget_estimates"
 														class="validate" placeholder="Amount" min="0.01" step="0.01"
 														value="${budgetDetails.budget_estimate }"> <span
 														id="budget_estimate0Error" class="error-msg"></span>
@@ -205,7 +209,7 @@
 											<td>
 												<div class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
-														id="revised_estimate" name="revised_estimate0" type="number" min="0.01" step="0.01"
+														id="revised_estimates${index.count }" name="revised_estimates" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
 														value="${budgetDetails.revised_estimate }">
 												</div>
@@ -213,7 +217,7 @@
 											<td>
 												<div class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
-														id="final_estimate0" name="final_estimate" type="number" min="0.01" step="0.01"
+														id="final_estimates${index.count }" name="final_estimates" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
 														value="${budgetDetails.final_estimate }">
 												</div>
@@ -221,7 +225,7 @@
 											<td>
 												<div class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
-														id="budget_grant0" name="budget_grant" type="number" min="0.01" step="0.01"
+														id="budget_grants${index.count }" name="budget_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
 														value="${budgetDetails.budget_grant }">
 												</div>
@@ -229,7 +233,7 @@
 											<td>
 												<div class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
-														id="revised_grant0" name="revised_grant" type="number" min="0.01" step="0.01"
+														id="revised_grants${index.count }" name="revised_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
 														value="${budgetDetails.revised_grant }">
 												</div>
@@ -237,9 +241,79 @@
 											<td>
 												<div class="input-field">
 													<i class="material-icons prefix center-align">₹</i> <input
-														id="final_grant0" name="final_grant" type="number" min="0.01" step="0.01"
+														id="final_grants${index.count }" name="final_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
 														value="${budgetDetails.final_grant }">
+												</div>
+											</td>
+											<td>
+												<div class="">
+													<input type="file" name="myfile" id="myFile${index.count }"
+														style="display: none" /> <label for="myFile${index.count }"
+														class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span
+														id="fileVal" class="filevalue">fileName</span>
+												</div>
+											</td>
+											<td><a onclick="removeBudget('${index.count }');"
+												class="btn waves-effect waves-light red t-c "> <i
+													class="fa fa-close"></i></a></td>
+										</tr>
+										 </c:forEach>
+                                       </c:when>
+                                       	<c:otherwise>
+                                       	 <tr id="safetyRow0">
+											<td>
+												<div class="input-field">
+													<select class="searchable validate-dropdown"
+														name="financial_year_fks" id="financial_year_fks0">
+														<option value="">Select Financial Year</option>
+														<c:forEach var="obj" items="${financialYearList}">
+															<option value="${obj.financial_year }">${obj.financial_year }</option>
+														</c:forEach>
+													</select> <span id="financial_year0_fkError" class="error-msg"></span>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="budget_estimates0" type="number" name="budget_estimates"
+														class="validate" placeholder="Amount" min="0.01" step="0.01"> 
+														<span id="budget_estimate0Error" class="error-msg"></span>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="revised_estimates0" name="revised_estimates" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="final_estimates0" name="final_estimates" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="budget_grants0" name="budget_grants" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="revised_grants0" name="revised_grants" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount">
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="final_grants0" name="final_grants" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount">
 												</div>
 											</td>
 											<td>
@@ -250,27 +324,30 @@
 														id="fileVal" class="filevalue">fileName</span>
 												</div>
 											</td>
-											<td><a href="#"
+											<td><a onclick="removeBudget('0');"
 												class="btn waves-effect waves-light red t-c "> <i
 													class="fa fa-close"></i></a></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td><a href="#" onclick="addRow()"
-												class="btn waves-effect waves-light bg-m t-c "> <i
-													class="fa fa-plus"></i></a></td>
-										</tr>
-	
+										 </tr>
+										</c:otherwise>
+                                      </c:choose>
 									</tbody>
 								</table>
-	
+								 <table class="mdl-data-table">
+                                        <tbody id="safetyBody">                                          
+			                                    <tr>
+			  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addSafetyRow()"> <i
+			                                                            class="fa fa-plus"></i></a>
+			                                    </tr>
+                                        </tbody>
+                                    </table>
+  									<c:choose>
+                                        <c:when test="${not empty budget && fn:length(budget) gt 0 }">
+                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(budget) }" />
+                                    	</c:when>
+                                     	<c:otherwise>
+                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                     	</c:otherwise>
+                                     </c:choose> 
 							</div>
 						</div>
 
@@ -342,26 +419,33 @@
             }
         });
         
-        var budget = 1;
         function addRow(){
-        	var text='<tr><td><div class="input-field"><select class="searchable validate-dropdown" name="financial_year_fk" id="financial_year'+budget+'_fk">'+
-            '<option value="">Select Financial Year</option></select> <span id="financial_year'+budget+'_fkError" class="error-msg"></span></div></td>'+
-            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimate'+budget+'" type="number" name="budget_estimate"'+
-            'class="validate" placeholder="Amount" min="0.01" step="0.01"> <span id="budget_estimate'+budget+'Error" class="error-msg"></span></div></td>'+
-            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_estimate'+budget+'" name="revised_estimate" type="number" min="0.01" step="0.01"'+
-            'class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i> '+
-            '<input id="final_estimate'+budget+'" name="final_estimate" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td>'+
-            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_grant'+budget+'" name="budget_grant" type="number"'+
-            ' min="0.01" step="0.01"class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i>'+
-            '<input id="revised_grant'+budget+'" name="revised_grant" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount" ></div></td>'+
-            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_grant'+budget+'" name="final_grant" type="number"'+
-            'min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td><td><div class=""><input type="file" name="myfile" id="myFile'+budget+'" '+
-            'style="display: none" /> <label for="myFile'+budget+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+budget+'" '+
-            'class="filevalue">fileName</span></div></td><td><a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
-        	
-            $('#budgetTable tbody').find('tr:last').prev().after(text);
+    	    var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+             
+        	var html = '<tr id="budgetRow()"><td><div class="input-field">'+
+	        	'<select class="searchable validate-dropdown" name="financial_year_fks" id="financial_year_fks'+rNo+'">'+
+	        	'<option value="">Select Financial Year</option></select>'+
+	        	 <c:forEach var="obj" items="${financialYearList}">
+	   	    		  +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
+			     </c:forEach>
+	   	    	+'</select></div></td>'
+	            '<span id="financial_year'+rNo+'_fkError" class="error-msg"></span></div></td>'+
+	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimates'+rNo+'" type="number" name="budget_estimates"'+
+	            'class="validate" placeholder="Amount" min="0.01" step="0.01"> <span id="budget_estimate'+rNo+'Error" class="error-msg"></span></div></td>'+
+	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_estimates'+rNo+'" name="revised_estimates" type="number" min="0.01" step="0.01"'+
+	            'class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i> '+
+	            '<input id="final_estimate'+rNo+'" name="final_estimate" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td>'+
+	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_grants'+rNo+'" name="budget_grants" type="number"'+
+	            ' min="0.01" step="0.01"class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i>'+
+	            '<input id="revised_grants'+rNo+'" name="revised_grants" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount" ></div></td>'+
+	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_grants'+rNo+'" name="final_grants" type="number"'+
+	            'min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td><td><div class=""><input type="file" name="myfile" id="myFile'+rNo+'" '+
+	            'style="display: none" /> <label for="myFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+'" '+
+	            'class="filevalue">fileName</span></div></td><td><a onclick="removeBudget('+rNo+'');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+            $('#budgetTableBody').append(html);
+			$("#rowNo").val(rNo);
             $('.searchable').select2();
-            budget++;
         }
         
         function getWorksList(projectId) {

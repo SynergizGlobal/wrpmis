@@ -271,29 +271,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			/*String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
 					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";*/
 			
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name  " + 
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name  " + 
 					"from alerts a " + 
 					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
-					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0";
-			
-			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-	
-	//@Override
-	public List<Alerts> getAlertsList2() throws Exception {
-		List<Alerts> objsList = null;
-		try {
-			
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name  " + 
-					"from alerts a " + 
-					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
-					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0";
+					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 			
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));

@@ -10,12 +10,13 @@ public class Contract {
 	final_takeover,final_bill_release,defect_liability_period,retention_money_release,pbg_release,contract_closure,contract_status_fk,bg_required,insurance_required,
 	actual_completion_date,completed_cost,contract_closure_date,weight,remarks,work_name,contractor_name,insurance_type,project_id_fk,
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
-	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,
-	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status;
+	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
+	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status
+	,code, bg_date, release_date;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
-	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,
+	private String[] bg_type_fks,issuing_banks,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
@@ -32,6 +33,70 @@ public class Contract {
 	private List<Contract> contractDocuments;
 	private List<Contract> contractKeyPersonnels;
 	
+	public String[] getReleased_fks() {
+		return released_fks;
+	}
+
+	public void setReleased_fks(String[] released_fks) {
+		this.released_fks = released_fks;
+	}
+
+	public String[] getCodes() {
+		return codes;
+	}
+
+	public void setCodes(String[] codes) {
+		this.codes = codes;
+	}
+
+	public String[] getBg_dates() {
+		return bg_dates;
+	}
+
+	public void setBg_dates(String[] bg_dates) {
+		this.bg_dates = bg_dates;
+	}
+
+	public String[] getRelease_dates() {
+		return release_dates;
+	}
+
+	public void setRelease_dates(String[] release_dates) {
+		this.release_dates = release_dates;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getBg_date() {
+		return bg_date;
+	}
+
+	public void setBg_date(String bg_date) {
+		this.bg_date = bg_date;
+	}
+
+	public String getRelease_date() {
+		return release_date;
+	}
+
+	public void setRelease_date(String release_date) {
+		this.release_date = release_date;
+	}
+
+	public String getReleased_fk() {
+		return released_fk;
+	}
+
+	public void setReleased_fk(String released_fk) {
+		this.released_fk = released_fk;
+	}
+
 	public String getBank_status() {
 		return bank_status;
 	}

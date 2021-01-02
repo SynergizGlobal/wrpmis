@@ -51,6 +51,15 @@
 		    left: 0;
 		    z-index: 1000;
 		}		
+		 .page-loader-2 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}		
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
@@ -211,7 +220,19 @@
 	  </div>
 	</div> 
 
-
+<div class="page-loader-2" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -280,7 +301,7 @@
     }
     
     function getContractList(){
-    	$(".page-loader").show();
+    	$(".page-loader-2").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
@@ -346,13 +367,13 @@
 	                    		                       
 					});
 	         		
-	         		$(".page-loader").hide();
+	         		$(".page-loader-2").hide();
 				}else{
-					$(".page-loader").hide();
+					$(".page-loader-2").hide();
 				}
 				
 			},error: function (jqXHR, exception) {
-				$(".page-loader").hide();
+				$(".page-loader-2").hide();
 	         	getErrorMessage(jqXHR, exception);
 	     }});
     } 

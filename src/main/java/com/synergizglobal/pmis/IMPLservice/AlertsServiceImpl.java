@@ -24,4 +24,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.getAlertsList();
 	}
 
+	@Override
+	public boolean sendNotificationAlertMails() throws Exception {
+		return dao.sendNotificationAlertMails();
+	}
+
 }

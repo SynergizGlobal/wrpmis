@@ -9,5 +9,7 @@ public interface AlertsDao {
 	boolean generateAtertsByCronJob() throws Exception;
 
 	List<Alerts> getAlertsList() throws Exception;
+
+	boolean sendNotificationAlertMails() throws Exception;
 	
 }

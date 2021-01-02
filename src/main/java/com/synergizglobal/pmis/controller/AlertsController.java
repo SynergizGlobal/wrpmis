@@ -63,6 +63,8 @@ public class AlertsController {
             	 //System.out.println("Sending mail : End "+ new Date());
              }
 		     
+		     //flag = service.sendNotificationAlertMails();
+		     
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("generateAtertsByCronJob() : "+e.getMessage());

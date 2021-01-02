@@ -48,7 +48,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
 					+ "left outer join user u2 on c.dy_hod_user_id_fk = u2.user_id " 
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15)";
+					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and release_date is null";
 			
 			List<Alerts> bgQryAlert1List = jdbcTemplate.query( bgQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert1List) && bgQryAlert1List.size() > 0) {
@@ -62,7 +62,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
 					+ "left outer join user u2 on c.dy_hod_user_id_fk = u2.user_id " 
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7)";
+					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7) and release_date is null";
 			
 			List<Alerts> bgQryAlert2List = jdbcTemplate.query( bgQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert2List) && bgQryAlert2List.size() > 0) {
@@ -76,7 +76,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
 					+ "left outer join user u2 on c.dy_hod_user_id_fk = u2.user_id " 
-					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7";
+					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7 and release_date is null";
 			
 			List<Alerts> bgQryAlert3List = jdbcTemplate.query( bgQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(bgQryAlert3List) && bgQryAlert3List.size() > 0) {
@@ -91,7 +91,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
 					+ "left outer join user u2 on c.dy_hod_user_id_fk = u2.user_id " 
-					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15)";
+					+"where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 30 and DATEDIFF(valid_upto ,NOW()) > 15) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert1List = jdbcTemplate.query( insuranceQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert1List) && insuranceQryAlert1List.size() > 0) {
@@ -105,7 +105,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
 					+ "left outer join user u2 on c.dy_hod_user_id_fk = u2.user_id " 
-					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7)";
+					+ "where contract_status_fk = 'In Progress' and (DATEDIFF(valid_upto ,NOW()) <= 15 and DATEDIFF(valid_upto ,NOW()) > 7) and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert2List = jdbcTemplate.query( insuranceQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert2List) && insuranceQryAlert2List.size() > 0) {
@@ -119,7 +119,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
 					+ "left outer join user u2 on c.dy_hod_user_id_fk = u2.user_id "
-					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7";
+					+ "where contract_status_fk = 'In Progress' and DATEDIFF(valid_upto ,NOW()) <= 7 and (bg.released_fk = 'No' or bg.released_fk is null)";
 			
 			List<Alerts> insuranceQryAlert3List = jdbcTemplate.query( insuranceQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(insuranceQryAlert3List) && insuranceQryAlert3List.size() > 0) {
@@ -284,6 +284,33 @@ public class AlertsDaoImpl implements AlertsDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public boolean sendNotificationAlertMails() throws Exception {
+		boolean flag = false;
+		try {
+			String dyHODQry ="select dy_hod_email from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by dy_hod_email";
+			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+			List<String> dyHODList = jdbcTemplate.query( dyHODQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+			
+			String hodQry ="select hod_email from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by hod_email";
+			pValues = new Object[] {CommonConstants.ACTIVE};
+			List<String> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+			
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name  " + 
+					"from alerts a " + 
+					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
+					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+			
+			pValues = new Object[] {CommonConstants.ACTIVE};
+			List<Alerts> alertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
 	}
 	
 }

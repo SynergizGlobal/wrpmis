@@ -145,6 +145,15 @@
          .table-inside .normal-btn .btn .fa{
          	font-size:1.3rem;
          }
+         .select2-container--default .select2-selection--single {
+	    	background-color: transparent;
+	     }
+	     #bankTable thead th, 
+	     #bankTable tbody td,	      
+	     #insurenceTable thead th, 
+	     #insurenceTable tbody td{
+	     	padding:12px;
+	     }
     </style>
 </head>
 
@@ -511,6 +520,7 @@
                                                 <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
+                                                <th>Active</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -560,6 +570,7 @@
                                                     <input id="remarkss${index.count }" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
+                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -618,6 +629,7 @@
                                                     <input id="remarkss0" name ="remarkss" type="text" class="validate"
                                                         placeholder="Remarks">
                                                 </td>
+                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -693,6 +705,7 @@
                                                 <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
+                                                <th>Active</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -739,6 +752,7 @@
                                                     <input id="insurence_remarks${index.count }" name="insurence_remarks"  type="text" class="validate" value="${insurenceObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
+                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeInsurence('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -796,6 +810,7 @@
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
+                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>       
                                                 <td>
                                                     <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1740,7 +1755,8 @@
 				   +'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 				   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
-			   	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+				   +'<td><label> <input type="checkbox" id="status'+rNo+'"/> <span></span> </label></td>'
+				   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			 
 				 $('#bankTableBody').append(html);
 				 $("#bankRowNo").val(rNo);
@@ -1779,7 +1795,8 @@
 			   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
-		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+			   +'<td><label> <input type="checkbox" id="status'+rNo+'"/> <span></span> </label></td>'
+			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 		 		  
 			 $('#insurenceTableBody').append(html);
 			 $("#insurenceRowNo").val(rNo);

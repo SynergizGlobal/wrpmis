@@ -74,7 +74,7 @@ public class StripChartReportsController {
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
 	
-	@RequestMapping(value = "/strip-chart-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/dpr", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView stripChartDPRReport(@ModelAttribute StripChartReport obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView(PageConstants.stripChartReport);
 		try{
@@ -115,7 +115,7 @@ public class StripChartReportsController {
 	
 	@RequestMapping(value = "/generate-strip-chart-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateStripChartDPRReport(@ModelAttribute StripChartReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/strip-chart-dpr-report");
+		ModelAndView model = new ModelAndView("redirect:/dpr");
 		try{
 			String reporting_date = obj.getReporting_date();
 			obj.setReporting_date(DateParser.parse(obj.getReporting_date()));

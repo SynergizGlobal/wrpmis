@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -68,6 +70,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	@Override
 	public List<StripChartReport> getStripChartDPRReportData(StripChartReport obj) throws Exception {
 		List<StripChartReport> objsList = null;
+		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
 			/*String qry = "select progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name," + 
 					"component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name " + 
@@ -78,11 +81,11 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 			
 			String qry = "select sp.progress_date,sp.strip_chart_id_fk,sp.completed_scope,scg.strip_chart_id,scg.contract_id_fk,scg.fob_id_fk,scg.component_id_name," + 
 					"	scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,cv.contract_name,cv.contract_short_name,cv.work_name,cv.work_short_name,cv.contractor_name," + 
-					"    TRUNCATE((scg.completed - (select sum(completed_scope) " + 
+					"    (scg.completed - IFNULL((select sum(completed_scope) " + 
 					"    from scope_progress sp1 " + 
 					"    left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
 					"	left outer join contract_view cv1 on scg1.contract_id_fk = cv1.contract_id " + 
-					"    where scg1.contract_id_fk = ? and sp1.progress_date > ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk)),4) as cumulative_completed " + 
+					"    where scg1.contract_id_fk = ? and sp1.progress_date > ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
 					"	from scope_progress sp " + 
 					"	left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
 					"	left outer join contract_view cv on scg.contract_id_fk = cv.contract_id " + 
@@ -91,6 +94,12 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 			Object[] pValues = new Object[] {obj.getContract_id(),obj.getReporting_date(),obj.getContract_id(),obj.getReporting_date()};
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			
+			
+			for (StripChartReport object : objsList) {
+				object.setCumulative_completed(numberFormatter.format(Double.parseDouble(object.getCumulative_completed())));
+			}
+			
 					
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

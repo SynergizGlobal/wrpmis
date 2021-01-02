@@ -16,6 +16,16 @@
 			font-size:0.9rem;
 		}
 		.error-msg label{color:red!important;}
+		.page-loader {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+		.preloader-wrapper{top: 45%!important;left:47%!important;}
 	</style>
 </head>
 <body>
@@ -29,12 +39,12 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m">
-								<h6>StripChart Report</h6>
+								<h6>DPR</h6>
 							</div>
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath() %>/generate-strip-chart-dpr-report" id="stripChartReportForm" name="stripChartReportForm" method="post">
+					<form action="<%=request.getContextPath() %>/generate-strip-chart-dpr-report" id="stripChartReportForm" name="stripChartReportForm" method="post" target="_blank">
 						<div class="container container-no-margin">
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>								

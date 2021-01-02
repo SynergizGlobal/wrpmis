@@ -284,4 +284,24 @@ public class AlertsDaoImpl implements AlertsDao{
 		}
 		return objsList;
 	}
+	
+	//@Override
+	public List<Alerts> getAlertsList2() throws Exception {
+		List<Alerts> objsList = null;
+		try {
+			
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name  " + 
+					"from alerts a " + 
+					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
+					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0";
+			
+			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
 }

@@ -438,15 +438,15 @@ public class ContractDaoImpl implements ContractDao {
 					for (int i = 0; i < arraySize; i++) {
 						 int k = 1;
 						 if( contract.getMilestone_ids().length > 0 && !StringUtils.isEmpty(contract.getMilestone_ids()[i])) {
-							 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
-							    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
-								stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
-								stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
-								stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
-								stmt.setString(k++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
-								stmt.setString(k++,contract.getContract_id());
-								stmt.setString(k++,CommonConstants.ACTIVE);
-								stmt.addBatch();
+						 	stmt.setString(k++,(contract.getMilestone_ids().length > 0)?contract.getMilestone_ids()[i]:null);
+						    stmt.setString(k++,(contract.getMilestone_names().length > 0)?contract.getMilestone_names()[i]:null);
+							stmt.setString(k++,DateParser.parse((contract.getMilestone_dates().length > 0)?contract.getMilestone_dates()[i]:null));
+							stmt.setString(k++,DateParser.parse((contract.getActual_dates().length > 0)?contract.getActual_dates()[i]:null));
+							stmt.setString(k++,(contract.getRevisions().length > 0)?contract.getRevisions()[i]:null);
+							stmt.setString(k++,(contract.getMile_remarks().length > 0)?contract.getMile_remarks()[i]:null);
+							stmt.setString(k++,contract.getContract_id());
+							stmt.setString(k++,CommonConstants.ACTIVE);
+							stmt.addBatch();
 						 }
 					}
 				}

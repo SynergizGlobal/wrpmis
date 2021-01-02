@@ -45,7 +45,7 @@
 
         .datepicker-table th,
         .datepicker-table td {
-            padding: 0;
+            padding: 0 !important;
         }
 
         .radiogroup {
@@ -108,7 +108,13 @@
 			max-width:134px
 		}
 		#bankTableBody .select2-container{
-			max-width:100px
+			max-width:140px;
+			width:130px;
+		}
+		#bankTableBody th.fs-100,
+		#bankTableBody td.fs-100{
+			max-width:100px;
+			width:90px;
 		}
 		#insurenceTableBody td.input-field .prefix,
 		#revTableBody td.input-field .prefix,
@@ -497,21 +503,24 @@
                                     <table id="bankTable" class="mdl-data-table">
                                         <thead>
                                             <tr>
-                                                <!-- <th>Contract ID </th> -->
+                                                <th class="fs-100">Code </th>
                                                 <th>BG Type </th>
                                                 <th>Issuing Bank </th>
-                                                <th>Bank Address </th>
-                                                <th>BG Number </th>
-                                                <th>BG Value </th>
-                                                <th>Revision </th>
-                                                <th>Valid Upto </th>
-                                                <th>Remarks </th>
-                                                <th>Active</th>
+                                               <!--  <th>Bank Address </th> -->
+                                                <th>BG / FDR <br>Number </th>
+                                                <th>Amount </th>
+                                                <th>BG / FDR <br> Date </th>
+                                                <th>Expiry Date </th>
+                                              <!--   <th>Remarks </th> -->
+                                                <th>Release Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="bankTableBody">
                                             <tr id="bankRow0">
+                                            <td class="fs-100"> <input id="code0" type="text" class="validate" name="code"
+                                                        placeholder="Code">
+                                                </td>
                                                 <td> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
                                                         <option value="" selected>Select </option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
@@ -519,39 +528,43 @@
 		                                     			  </c:forEach>
                                                     </select>
                                                 </td> 
-                                                <!-- <td> <input id="bg_type" type="text" class="validate"
-                                                        placeholder="BG Type">
-                                                </td> -->
+                                                  
                                                 <td>
                                                     <input id="issuing_banks0" name="issuing_banks"  type="text" class="validate"
                                                         placeholder="Issuing Bank">
                                                 </td>
-                                                <td>
+                                               <!--  <td>
                                                     <input id="bank_addresss0" name ="bank_addresss" type="text" class="validate"
                                                         placeholder="Bank Address">
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
-                                                        placeholder="BG Number">
+                                                        placeholder="BG / FDR Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values0" name="bg_values" type="text" class="validate"
-                                                        placeholder="BG Value">
+                                                        placeholder="Amount">
                                                 </td>
                                                 <td>
-                                                    <input id="bank_revisions0" name="bank_revisions" type="text" class="validate"
-                                                        placeholder="Revision">
+                                                    <input id="fdr_date0" name="fdr_date" type="text" class="validate datepicker"
+                                                        placeholder="FDR Date">
+                                                         <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                 <td>
-                                                    <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
-                                                        placeholder="Valid Upto">
+                                                    <input id="expiry_date0" name="expiry_date" type="text" class="validate datepicker"
+                                                        placeholder="Expiry Date">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td>
+                                               <!--  <td>
                                                     <input id="remarkss0" name ="remarkss" type="text" class="validate"
                                                         placeholder="Remarks">
-                                                </td>
-												<td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>                                                
+                                                </td> -->
+												<td>	
+													<!-- <label> <input type="checkbox" id="status0"/> <span></span> </label>	 -->
+													<input id="release_date0" name="release_date" type="text" class="validate datepicker"
+                                                        placeholder="Release Date">
+                                                    <button type="button"><i class="fa fa-calendar"></i></button>
+												</td>                                                
                                                 <td>
                                                     <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -605,7 +618,7 @@
                                                 <th>Revision </th>
                                                 <th>Valid Upto </th>
                                                 <th>Remarks </th>
-                                                <th>Active</th>
+                                                <th>Release</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -652,7 +665,7 @@
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td>	<label> <input type="checkbox" id="status0"/> <span></span> </label>	</td>
+                                                <td>	<label> <input type="checkbox" id="release0"/> <span></span> </label>	</td>
                                                 <td>
                                                     <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1366,21 +1379,22 @@
        var rowNo = $("#bankRowNo").val();
        var rNo = Number(rowNo)+1;
        var total = 0;
-       var html = '<tr id="bankRow'+rNo+'"><td> <div>'
+       var html = '<tr id="bankRow'+rNo+'">  <td> <input id="code'+rNo+'" type="text" class="validate" name="code" placeholder="Code">       </td><td> <div>'
 		   +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'"  class="searchable">'	   			
-		   +'<option value="" >select</option>'
+		   +'<option value="" >Select</option>'
 		 	<c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		  +'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
 			</c:forEach>
 		   +'</select></div></td>'
 		   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
-		   +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
-		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
-		   +'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
+		   //+'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
+		   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
+		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="Amount"></td>'
+		   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
+		   +'<td><input id="fdr_date'+rNo+'" name="fdr_date" type="text" class="validate datepicker" placeholder="FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
 		   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-		   +'<td><input id="remarkss'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
-		   +'<td><label> <input type="checkbox" id="status'+rNo+'"/> <span></span> </label></td>'
+		   //+'<td><input id="remarks'+rNo+'" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
+		   +'<td><input id="release_date'+rNo+'" name="release_date" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 	 
 		 $('#bankTableBody').append(html);

@@ -28,7 +28,8 @@ public class AlertsController {
 	public String commonError;
 	
 	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
-	@Scheduled(cron = "0 2 1 ? * *")	//  = every day.
+	@Scheduled(cron = "0 10 2 * * *")	//  = every day 2:10 am.
+	//@Scheduled(cron = "0 10 16 * * *")	//  = every day 4:10 pm.
 	public void generateAtertsByCronJob(){		
 	     String message = "Method executed every day at 02:01 am. Current time is :: "+ new Date();
 	     
@@ -42,6 +43,7 @@ public class AlertsController {
 	    	 
 			flag = service.sendMailAlerts();
 			logger.error("generateAtertsByCronJob >> sendMailAlerts >> Sending mails : "+ flag); 
+			//System.out.println("Sending mails : "+ flag); 
 			
 		    //flag = service.sendNotificationAlertMails();
 		    //logger.error("generateAtertsByCronJob >> sendNotificationAlertMails >> Sending mails : "+ flag); 

@@ -298,8 +298,8 @@ public class AlertsDaoImpl implements AlertsDao{
 				EMailSender emailSender = new EMailSender();
 				logger.error("sendMailAlerts() >> Sending mail : Start ");	
 				emailSender.sendEmailWithAlerts(mail,objsList); 
-				logger.error("sendMailAlerts() >> Sending mail : End ");	
-				//System.out.println("Sending mail : End "+ new Date());
+				logger.error("sendMailAlerts() >> Sending mail : End ");
+				flag = true;
 			}
 
 		}catch(Exception e){ 
@@ -359,6 +359,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					emailSender.sendEmailWithAlerts(mail,allAlertsList); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD : End ");	
 					//System.out.println("Sending mail : End "+ new Date());
+					flag = true;
 				}
 			}
 			
@@ -375,6 +376,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					emailSender.sendEmailWithAlerts(mail,secondAnd3rdAlertsList); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to HOD : End ");	
 					//System.out.println("Sending mail : End "+ new Date());
+					flag = true;
 				}
 			}
 			
@@ -391,6 +393,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					emailSender.sendEmailWithAlerts(mail,thirdAlertsList); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to CMD : End ");	
 					//System.out.println("Sending mail : End "+ new Date());
+					flag = true;
 				}
 			}
 

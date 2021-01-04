@@ -40,10 +40,10 @@ public class AlertsController {
 	     logger.error("generateDPRReportsByCronJob : "+message);	    
 	     try {
 	    	 
-	    	 //System.out.println("Start "+ new Date());
-             boolean flag = service.generateAtertsByCronJob();
-             //System.out.println("End "+ new Date());
-	    	 logger.error("generateAtertsByCronJob : "+flag);
+	    	//System.out.println("Start "+ new Date());
+            boolean flag = service.generateAtertsByCronJob();
+            //System.out.println("End "+ new Date());
+	    	logger.error("generateAtertsByCronJob : "+flag);
 	    	 
 			/*List<Alerts> alerts = service.getAlertsList();
 			
@@ -62,8 +62,9 @@ public class AlertsController {
 				//System.out.println("Sending mail : End "+ new Date());
 			}*/
 		     
-		     flag = service.sendNotificationAlertMails();
-		     
+		    flag = service.sendNotificationAlertMails();
+		    logger.error("generateAtertsByCronJob >> Sending mails : "+ flag); 
+		    //System.out.println("Sending mails : "+ flag); 
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("generateAtertsByCronJob() : "+e.getMessage());

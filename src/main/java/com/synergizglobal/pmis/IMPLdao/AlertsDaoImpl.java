@@ -296,6 +296,8 @@ public class AlertsDaoImpl implements AlertsDao{
 	public boolean sendNotificationAlertMails() throws Exception {
 		boolean flag = false;
 		try {
+			EMailSender emailSender = new EMailSender();
+			
 			String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
 			String dyHODEmailsList = jdbcTemplate.queryForObject( dyHODQry,pValues, new BeanPropertyRowMapper<String>(String.class));
@@ -336,10 +338,10 @@ public class AlertsDaoImpl implements AlertsDao{
 				mail.setTemplateName("alerts.vm");
 				
 				if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0){
-					EMailSender emailSender = new EMailSender();
-					logger.error("sendNotificationAlertMails() >> Sending mail : Start ");	
+					
+					logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD: Start ");	
 					emailSender.sendEmailWithAlerts(mail,allAlertsList); 
-					logger.error("sendNotificationAlertMails() >> Sending mail : End ");	
+					logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD : End ");	
 					//System.out.println("Sending mail : End "+ new Date());
 				}
 			}
@@ -353,10 +355,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				mail.setTemplateName("alerts.vm");
 				
 				if(!StringUtils.isEmpty(secondAnd3rdAlertsList) && secondAnd3rdAlertsList.size() > 0){
-					EMailSender emailSender = new EMailSender();
-					logger.error("sendNotificationAlertMails() >> Sending mail : Start ");	
+					logger.error("sendNotificationAlertMails() >> Sending mail to HOD : Start ");	
 					emailSender.sendEmailWithAlerts(mail,secondAnd3rdAlertsList); 
-					logger.error("sendNotificationAlertMails() >> Sending mail : End ");	
+					logger.error("sendNotificationAlertMails() >> Sending mail to HOD : End ");	
 					//System.out.println("Sending mail : End "+ new Date());
 				}
 			}
@@ -370,10 +371,9 @@ public class AlertsDaoImpl implements AlertsDao{
 				mail.setTemplateName("alerts.vm");
 				
 				if(!StringUtils.isEmpty(thirdAlertsList) && thirdAlertsList.size() > 0){
-					EMailSender emailSender = new EMailSender();
-					logger.error("sendNotificationAlertMails() >> Sending mail : Start ");	
+					logger.error("sendNotificationAlertMails() >> Sending mail to CMD : Start ");	
 					emailSender.sendEmailWithAlerts(mail,thirdAlertsList); 
-					logger.error("sendNotificationAlertMails() >> Sending mail : End ");	
+					logger.error("sendNotificationAlertMails() >> Sending mail to CMD : End ");	
 					//System.out.println("Sending mail : End "+ new Date());
 				}
 			}

@@ -159,7 +159,8 @@
 							  </div> 
 							  <div class="col s12 m4 input-field"> 
 								    <p><label> Work </label></p>
-                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${safetyEquipmentDetails.work_id}- ${safetyEquipmentDetails.work_name}" readonly />
+                                         	 	<input type="text"  value="${safetyEquipmentDetails.work_id}- ${safetyEquipmentDetails.work_name}" readonly />
+                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${safetyEquipmentDetails.work_id}" readonly />
                               </div>
                           </div> 
                      				<p><label>Contract </label></p>        

@@ -1,5 +1,8 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -11,13 +14,14 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.BudgetDao;
+import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Contract;
-import com.synergizglobal.pmis.model.Contractor;
-import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Work;
 
 @Repository
 public class BudgetDaoImpl implements BudgetDao {
@@ -34,7 +38,7 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> budgetList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="select budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " + 
+			String qry ="select budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,b.financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " + 
 					"cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " + 
 					",b.remarks from budget b " + 
 					"left join work w on b.work_id_fk = w.work_id " + 
@@ -49,10 +53,8 @@ public class BudgetDaoImpl implements BudgetDao {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
-				qry = qry + " and financial_year_fk = ?";
-				arrSize++;
-			}	
+			qry = qry +" GROUP BY work_id_fk";
+
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -61,9 +63,6 @@ public class BudgetDaoImpl implements BudgetDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFinancial_year_fk())) {
-				pValues[i++] = obj.getFinancial_year_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
 
@@ -77,11 +76,9 @@ public class BudgetDaoImpl implements BudgetDao {
 	public Budget getBudget(Budget obj)throws Exception{
 		Budget budget = null;
 		try {
-			String qry = "select budget_id, work_id_fk,w.work_name,p.project_name, b.financial_year_fk,w.project_id_fk, cast(budget_estimate as CHAR) as budget_estimate, cast(august_review_estimate as CHAR) as august_review_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate," + 
-					"cast(budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant, b.remarks, b.attachment from budget b " + 
-					"left join work w on b.work_id_fk = w.work_id " + 
-					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join financial_year f on b.financial_year_fk = f.financial_year where budget_id is not null";
+			String qry = "select budget_id, work_id_fk,w.work_name,p.project_name,w.project_id_fk from budget b" + 
+					"left join work w on work_id_fk = w.work_id " + 
+					"left join project p on w.project_id_fk = p.project_id where budget_id is not null" ; 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBudget_id())) {
 				qry = qry + " and budget_id = ?";
@@ -93,55 +90,293 @@ public class BudgetDaoImpl implements BudgetDao {
 				pValues[i++] = obj.getBudget_id();
 			}
 			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
+			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
+				List<Budget> objsList = null;
+				String qryDetails = "select budget_id,b.financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
+						"cast(budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant, b.remarks, b.attachment "
+						+ "from budget b " 
+						+"left join financial_year f on b.financial_year_fk = f.financial_year where work_id_fk = ? and status = ?";
 				
+				objsList = jdbcTemplate.query(qryDetails, new Object[] {budget.getWork_id_fk(),CommonConstants.ACTIVE}, new BeanPropertyRowMapper<Budget>(Budget.class));	
+				budget.setBudget(objsList);
+			}
 		}catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
 		return budget;
+		
 	}
 
 	@Override
 	public boolean addBudget(Budget budget) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
 		boolean flag = false;
+		int[] insertCount = {};
 		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO budget"
-					+ "(work_id_fk, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, "
-					+ "final_estimate, budget_grant, revised_grant, final_grant, attachment, remarks)"
-					+ "VALUES"
-					+ "(:work_id_fk,:financial_year_fk,:budget_estimate,:august_review_estimate,:revised_estimate,"
-					+ ":final_estimate,:budget_grant,:revised_grant,:final_grant,:attachment,:remarks)";
 			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(budget);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
-				flag = true;
+			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			String insert_qry = "INSERT into  budget ( work_id_fk, financial_year_fk, budget_estimate, revised_estimate, "
+					+ "final_estimate, budget_grant, revised_grant, final_grant, attachment, status) "
+					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insert_qry); 
+			int arraySize = 0; 
+			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
+				budget.setFinancial_year_fks(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinancial_year_fks()));
+				if(arraySize < budget.getFinancial_year_fks().length) {
+					arraySize = budget.getFinancial_year_fks().length;
+				}
 			}
+			if(!StringUtils.isEmpty(budget.getBudget_estimates()) && budget.getBudget_estimates().length > 0) {
+				budget.setBudget_estimates(CommonMethods.replaceEmptyByNullInSringArray(budget.getBudget_estimates()));
+				if(arraySize < budget.getBudget_estimates().length) {
+					arraySize = budget.getBudget_estimates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getRevised_estimates()) && budget.getRevised_estimates().length > 0) {
+				budget.setRevised_estimates(CommonMethods.replaceEmptyByNullInSringArray(budget.getRevised_estimates()));
+				if(arraySize < budget.getRevised_estimates().length) {
+					arraySize = budget.getRevised_estimates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getFinal_estimates()) && budget.getFinal_estimates().length > 0) {
+				budget.setFinal_estimates(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinal_estimates()));
+				if(arraySize < budget.getFinal_estimates().length) {
+					arraySize = budget.getFinal_estimates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getBudget_grants()) && budget.getBudget_grants().length > 0) {
+				budget.setBudget_grants(CommonMethods.replaceEmptyByNullInSringArray(budget.getBudget_grants()));
+				if(arraySize < budget.getBudget_grants().length) {
+					arraySize = budget.getBudget_grants().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getRevised_grants()) && budget.getRevised_grants().length > 0) {
+				budget.setRevised_grants(CommonMethods.replaceEmptyByNullInSringArray(budget.getRevised_grants()));
+				if(arraySize < budget.getRevised_grants().length) {
+					arraySize = budget.getRevised_grants().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getFinal_grants()) && budget.getFinal_grants().length > 0) {
+				budget.setFinal_grants(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinal_grants()));
+				if(arraySize < budget.getFinal_grants().length) {
+					arraySize = budget.getFinal_grants().length;
+				}
+			}
+			String[] documentNames = new String[arraySize];
+			if(!StringUtils.isEmpty(budget.getBudgetFile()) && budget.getBudgetFile().length > 0) {
+				if(arraySize < budget.getBudgetFile().length) {
+						arraySize = budget.getBudgetFile().length;
+				}
+				String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
+				documentNames = new String[arraySize];
+				for (int k = 0; k < documentNames.length; k++) {
+					/*if (rs.next()) {
+						String id = rs.getString(1);
+						obj.setDocument_no(id);
+					}*/
+					MultipartFile file = budget.getBudgetFile()[k];
+					if (null != file && !file.isEmpty()){
+						String fileName = file.getOriginalFilename();
+						//DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+						//String fileName_new = "Document-"+obj.getSafety_equipment_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+						documentNames[k] = fileName;
+						FileUploads.singleFileSaving(file, saveDirectory, fileName);
+						budget.setAttachment(fileName);
+					}else {
+						documentNames[k] = null;
+					}
+			    }
+			}
+			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
+				for (int i = 0; i < arraySize; i++) {
+				    int p = 1;
+				    if( budget.getFinancial_year_fks().length > 0 && !StringUtils.isEmpty(budget.getFinancial_year_fks()[i])) {
+					    insertStmt.setString(p++,(budget.getWork_id_fk()));
+					    insertStmt.setString(p++,(budget.getFinancial_year_fks().length > 0)?budget.getFinancial_year_fks()[i]:null);
+					    insertStmt.setString(p++,(budget.getBudget_estimates().length > 0)?budget.getBudget_estimates()[i]:null);
+					    insertStmt.setString(p++,(budget.getRevised_estimates().length > 0)?budget.getRevised_estimates()[i]:null);
+					    insertStmt.setString(p++,(budget.getFinal_estimates().length > 0)?budget.getFinal_estimates()[i]:null);
+					    insertStmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
+					    insertStmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
+					    insertStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
+					    insertStmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
+					    insertStmt.setString(p++,CommonConstants.ACTIVE);
+					   
+					    insertStmt.addBatch();
+				    }
+			  }
+		      insertCount = insertStmt.executeBatch();
+		   }
+				
+		   if(insertCount.length > 0) {
+				flag = true;
+		   }
+		   con.commit();
 		}catch(Exception e){ 
+			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 		}
 		return flag;
 	}
 
 	@Override
 	public boolean updateBudget(Budget budget) throws Exception {
+		Connection con = null;
+		PreparedStatement updateStmt = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
+		int[] updateCount = {};
 		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			String inactiveQry = "UPDATE budget set status = ? where work_id_fk = ?";		 
+			stmt = con.prepareStatement(inactiveQry);
+			stmt.setString(1,CommonConstants.INACTIVE);
+			stmt.setString(2,budget.getWork_id_fk());
+			stmt.executeUpdate();
+			if(stmt != null){stmt.close();}
+			
 			String updateQry = "UPDATE budget set "
-					+ "financial_year_fk= :financial_year_fk, budget_estimate= :budget_estimate, "
-					+ "august_review_estimate= :august_review_estimate, revised_estimate= :revised_estimate, final_estimate= :final_estimate,budget_grant= :budget_grant, "
-					+ "revised_grant= :revised_grant, final_grant= :final_grant, attachment = :attachment, remarks= :remarks "
-					+ "where budget_id= :budget_id";
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(budget);		 
-			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
-			if(count > 0) {
+					+ "financial_year_fk= ?, budget_estimate=? ,revised_estimate= ?, final_estimate= ?, budget_grant= ?,revised_grant = ?,final_grant = ?,attachment=? ,status=?"
+					+ "where budget_id= ?";
+			updateStmt = con.prepareStatement(updateQry);
+			String insert_qry = "INSERT into  budget ( work_id_fk, financial_year_fk, budget_estimate, revised_estimate, "
+					+ "final_estimate, budget_grant, revised_grant, final_grant, attachment, status) "
+					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
+			stmt = con.prepareStatement(insert_qry); 
+			int arraySize = 0; 
+			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
+				budget.setFinancial_year_fks(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinancial_year_fks()));
+				if(arraySize < budget.getFinancial_year_fks().length) {
+					arraySize = budget.getFinancial_year_fks().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getBudget_estimates()) && budget.getBudget_estimates().length > 0) {
+				budget.setBudget_estimates(CommonMethods.replaceEmptyByNullInSringArray(budget.getBudget_estimates()));
+				if(arraySize < budget.getBudget_estimates().length) {
+					arraySize = budget.getBudget_estimates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getRevised_estimates()) && budget.getRevised_estimates().length > 0) {
+				budget.setRevised_estimates(CommonMethods.replaceEmptyByNullInSringArray(budget.getRevised_estimates()));
+				if(arraySize < budget.getRevised_estimates().length) {
+					arraySize = budget.getRevised_estimates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getFinal_estimates()) && budget.getFinal_estimates().length > 0) {
+				budget.setFinal_estimates(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinal_estimates()));
+				if(arraySize < budget.getFinal_estimates().length) {
+					arraySize = budget.getFinal_estimates().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getBudget_grants()) && budget.getBudget_grants().length > 0) {
+				budget.setBudget_grants(CommonMethods.replaceEmptyByNullInSringArray(budget.getBudget_grants()));
+				if(arraySize < budget.getBudget_grants().length) {
+					arraySize = budget.getBudget_grants().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getRevised_grants()) && budget.getRevised_grants().length > 0) {
+				budget.setRevised_grants(CommonMethods.replaceEmptyByNullInSringArray(budget.getRevised_grants()));
+				if(arraySize < budget.getRevised_grants().length) {
+					arraySize = budget.getRevised_grants().length;
+				}
+			}
+			if(!StringUtils.isEmpty(budget.getFinal_grants()) && budget.getFinal_grants().length > 0) {
+				budget.setFinal_grants(CommonMethods.replaceEmptyByNullInSringArray(budget.getFinal_grants()));
+				if(arraySize < budget.getFinal_grants().length) {
+					arraySize = budget.getFinal_grants().length;
+				}
+			}
+			String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
+			List<MultipartFile> files = new ArrayList<MultipartFile>();
+			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
+				for (int i = 0; i < arraySize; i++) {
+					String bId = budget.getBudget_ids()[i];
+					if(!StringUtils.isEmpty(bId)) {
+						int p =1;
+						if( budget.getFinancial_year_fks().length > 0 && !StringUtils.isEmpty(budget.getFinancial_year_fks()[i])) {
+							 String docFileName = null;
+							    MultipartFile file = budget.getBudgetFile()[i];
+								if (null != file && !file.isEmpty()){
+									String fileName = file.getOriginalFilename();
+									docFileName = fileName;
+									FileUploads.singleFileSaving(file, saveDirectory, docFileName);
+								} else {
+									docFileName  = (budget.getBudgetFileNames().length > 0)?budget.getBudgetFileNames()[i]:null;
+								} 
+								updateStmt.setString(p++,(budget.getFinancial_year_fks().length > 0)?budget.getFinancial_year_fks()[i]:null);
+								updateStmt.setString(p++,(budget.getBudget_estimates().length > 0)?budget.getBudget_estimates()[i]:null);
+								updateStmt.setString(p++,(budget.getRevised_estimates().length > 0)?budget.getRevised_estimates()[i]:null);
+								updateStmt.setString(p++,(budget.getFinal_estimates().length > 0)?budget.getFinal_estimates()[i]:null);
+								updateStmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
+								updateStmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
+								updateStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
+								updateStmt.setString(p++,docFileName);	
+								updateStmt.setString(p++,CommonConstants.ACTIVE);
+								updateStmt.setString(p++,(budget.getBudget_ids()[i]));
+								updateStmt.addBatch();
+					  }
+					}else {
+						String[] documentNames = new String[arraySize];
+						if(!StringUtils.isEmpty(budget.getBudgetFile()) && budget.getBudgetFile().length > 0) {
+							if(arraySize < budget.getBudgetFile().length) {
+									arraySize = budget.getBudgetFile().length;
+							}
+							String saveDirectory1 = CommonConstants.DOCUMENT_FILES_SAVING_PATH ;
+							documentNames = new String[arraySize];
+							for (int k = 0; k < documentNames.length; k++) {
+								MultipartFile file = budget.getBudgetFile()[k];
+								if (null != file && !file.isEmpty()){
+									String fileName = file.getOriginalFilename();
+									documentNames[k] = fileName;
+									FileUploads.singleFileSaving(file, saveDirectory1, fileName);
+									budget.setAttachment(fileName);
+								}else {
+									documentNames[k] = null;
+								}
+						    }
+						}
+					    int p = 1;
+						if( budget.getFinancial_year_fks().length > 0 && !StringUtils.isEmpty(budget.getFinancial_year_fks()[i])) {
+							    MultipartFile file = budget.getBudgetFile()[i];
+								files.add(file);
+							    stmt.setString(p++,(budget.getWork_id_fk()));
+							    stmt.setString(p++,(budget.getFinancial_year_fks().length > 0)?budget.getFinancial_year_fks()[i]:null);
+							    stmt.setString(p++,(budget.getBudget_estimates().length > 0)?budget.getBudget_estimates()[i]:null);
+							    stmt.setString(p++,(budget.getRevised_estimates().length > 0)?budget.getRevised_estimates()[i]:null);
+							    stmt.setString(p++,(budget.getFinal_estimates().length > 0)?budget.getFinal_estimates()[i]:null);
+							    stmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
+							    stmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
+							    stmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
+							    stmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);	
+							    stmt.setString(p++,CommonConstants.ACTIVE);
+							    stmt.addBatch();
+						}
+					}
+				}
+			}
+			updateCount = updateStmt.executeBatch();
+			
+			
+			int[] insertCount = stmt.executeBatch();
+		
+			if(updateCount.length > 0 || insertCount.length > 0) {
 				flag = true;
 			}
-		}catch(Exception e){ 
+
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+			con.commit();
+		}catch(Exception e){
+			con.rollback();
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}
 		return flag;
 	}

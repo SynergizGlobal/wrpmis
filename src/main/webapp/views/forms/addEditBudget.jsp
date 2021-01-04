@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html>
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
      
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-     
+    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
@@ -99,13 +100,14 @@
                         </span>
                     </div>
                     <!-- form start-->
+                     <c:if test="${action eq 'edit'}">				                
+		                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                      </c:if>
+		              <c:if test="${action eq 'add'}">				                
+		                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+					  </c:if>
+                        
                     <div class="container container-no-margin">
-                         <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-budget" id="budgetForm" name="budgetForm" method="post"   enctype="multipart/form-data">
-                         </c:if>
-			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-budget" id="budgetForm" name="budgetForm" method="post"  enctype="multipart/form-data">
-						  </c:if>
 						   <c:if test="${action eq 'add'}">	
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -140,33 +142,17 @@
 								  </div> 
 								  <div class="col s12 m4 input-field"> 
 									    <p class="searchable_label"> Work</p>
-	                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}- ${budgetDetails.work_name}" readonly />
+	                                         	 	<input type="text"  value="${budgetDetails.work_id_fk}- ${budgetDetails.work_name}" readonly />
+	                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}" readonly />
 	                              </div>
                               </div> 
                              </c:if>
                              </div>
-                            <!-- <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p><label> Financial Year</label></p>
-                                    <select class="searchable validate-dropdown" name="financial_year_fk" id="financial_year_fk">
-                                            <option value="" >Select Financial Year </option>
-                                            	 <c:forEach var="obj" items="${financialYearList}">
-	                       						  <option value="${obj.financial_year }" <c:if test="${budgetDetails.financial_year_fk eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
-	                                             </c:forEach>
-                                        </select>
-                                         <span id="financial_year_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m4 hide-on-small-only"></div>
-                            </div> -->
-							<div>
-							<%-- <input type="hidden" name="budget_id" value="${budgetDetails.budget_id }" /> --%>
-							</div>
-
+                    
 						<div class="row fixed-width">
 							<h5 class="center-align">Budget Details</h5>
 							<div class="table-inside">
-								<table id="budgetTable" class="mdl-data-table">
+								<table id="budgetFormTable" class="mdl-data-table">
 									<thead>
 										<tr>
 											<th>Financial Year</th>
@@ -182,19 +168,20 @@
 									</thead>
 									<tbody id="budgetTableBody">
 									 <c:choose>
-                                      	 <c:when test="${not empty budget && fn:length(budget) gt 0 }">
-                                       	 <c:forEach var="sObj" items="${budget }" varStatus="index"> 
-										  <tr id="safetyRow${index.count }">
+                                      	 <c:when test="${not empty budgetDetails.budget && fn:length(budgetDetails.budget) gt 0 }">
+                                       	  <c:forEach var="bObj" items="${budgetDetails.budget }" varStatus="index"> 
+										   <tr id="budgetRow${index.count }">
 											<td>
 												<div class="input-field">
+												    <input type="hidden" name="budget_ids" id="budget_ids${index.count }" value="${bObj.budget_id}" />
 													<select class="searchable validate-dropdown"
 														name="financial_year_fks" id="financial_year_fks${index.count }">
 														<option value="">Select Financial Year</option>
 														<c:forEach var="obj" items="${financialYearList}">
 															<option value="${obj.financial_year }"
-																<c:if test="${budgetDetails.financial_year_fk eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
+																<c:if test="${bObj.financial_year_fk eq obj.financial_year }">selected</c:if>>${obj.financial_year }</option>
 														</c:forEach>
-													</select> <span id="financial_year${index.count }_fkError" class="error-msg"></span>
+													</select>
 												</div>
 											</td>
 											<td>
@@ -202,8 +189,7 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="budget_estimates${index.count }" type="number" name="budget_estimates"
 														class="validate" placeholder="Amount" min="0.01" step="0.01"
-														value="${budgetDetails.budget_estimate }"> <span
-														id="budget_estimate0Error" class="error-msg"></span>
+														value="${bObj.budget_estimate }">
 												</div>
 											</td>
 											<td>
@@ -211,7 +197,7 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="revised_estimates${index.count }" name="revised_estimates" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
-														value="${budgetDetails.revised_estimate }">
+														value="${bObj.revised_estimate }">
 												</div>
 											</td>
 											<td>
@@ -219,7 +205,7 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="final_estimates${index.count }" name="final_estimates" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
-														value="${budgetDetails.final_estimate }">
+														value="${bObj.final_estimate }">
 												</div>
 											</td>
 											<td>
@@ -227,7 +213,7 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="budget_grants${index.count }" name="budget_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
-														value="${budgetDetails.budget_grant }">
+														value="${bObj.budget_grant }">
 												</div>
 											</td>
 											<td>
@@ -235,7 +221,7 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="revised_grants${index.count }" name="revised_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
-														value="${budgetDetails.revised_grant }">
+														value="${bObj.revised_grant }">
 												</div>
 											</td>
 											<td>
@@ -243,16 +229,17 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="final_grants${index.count }" name="final_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
-														value="${budgetDetails.final_grant }">
+														value="${bObj.final_grant }">
 												</div>
 											</td>
 											<td>
-												<div class="">
-													<input type="file" name="myfile" id="myFile${index.count }"
-														style="display: none" /> <label for="myFile${index.count }"
-														class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span
-														id="fileVal" class="filevalue">fileName</span>
-												</div>
+												
+												 <div class="">
+                                                    <input type="file" name="budgetFile" id="budgetFile${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
+                                                    <label for="budgetFile${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+													<a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${bObj.attachment }" download>${bObj.attachment }</a> 
+													</div>                                              
+											        <input type="hidden" id="budgetFileNames${index.count }" name="budgetFileNames" value="${bObj.attachment }">
 											</td>
 											<td><a onclick="removeBudget('${index.count }');"
 												class="btn waves-effect waves-light red t-c "> <i
@@ -261,7 +248,7 @@
 										 </c:forEach>
                                        </c:when>
                                        	<c:otherwise>
-                                       	 <tr id="safetyRow0">
+                                       	 <tr id="budgetRow0">
 											<td>
 												<div class="input-field">
 													<select class="searchable validate-dropdown"
@@ -270,7 +257,7 @@
 														<c:forEach var="obj" items="${financialYearList}">
 															<option value="${obj.financial_year }">${obj.financial_year }</option>
 														</c:forEach>
-													</select> <span id="financial_year0_fkError" class="error-msg"></span>
+													</select>
 												</div>
 											</td>
 											<td>
@@ -278,7 +265,6 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="budget_estimates0" type="number" name="budget_estimates"
 														class="validate" placeholder="Amount" min="0.01" step="0.01"> 
-														<span id="budget_estimate0Error" class="error-msg"></span>
 												</div>
 											</td>
 											<td>
@@ -317,37 +303,44 @@
 												</div>
 											</td>
 											<td>
-												<div class="">
-													<input type="file" name="myfile" id="myFile0"
-														style="display: none" /> <label for="myFile0"
-														class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span
-														id="fileVal" class="filevalue">fileName</span>
-												</div>
+											  <div class="">
+                                                   <input type="file" name="budgetFile" id="budgetFile0"  onchange="getFileName('0')" 
+                                                            style="display:none" />
+                                                   <label for="budgetFile0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+                                                   <span id="fileVal0" class="filevalue" ></span>
+                                              </div>
 											</td>
 											<td><a onclick="removeBudget('0');"
 												class="btn waves-effect waves-light red t-c "> <i
 													class="fa fa-close"></i></a></td>
 										 </tr>
+										 <script>
+											 $("#budgetFile0").change(function () {
+	                                             filename1 = $('#budgetFile0')[0].files[0].name;
+	                                             $('#fileVal0').html(filename1);
+	                                             console.log(filename1)
+	                                         }); 
+										 </script>
 										</c:otherwise>
                                       </c:choose>
 									</tbody>
 								</table>
 								 <table class="mdl-data-table">
-                                        <tbody id="safetyBody">                                          
+                                        <tbody>                                          
 			                                    <tr>
-			  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addSafetyRow()"> <i
+			  										 <td colspan="6" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addBudgetRow()"> <i
 			                                                            class="fa fa-plus"></i></a>
 			                                    </tr>
                                         </tbody>
-                                    </table>
-  									<c:choose>
-                                        <c:when test="${not empty budget && fn:length(budget) gt 0 }">
-                                    		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(budget) }" />
-                                    	</c:when>
-                                     	<c:otherwise>
-                                     		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
-                                     	</c:otherwise>
-                                     </c:choose> 
+                               </table>
+							   <c:choose>
+                                    <c:when test="${not empty budgetDetails.budget && fn:length(budgetDetails.budget) gt 0 }">
+                                		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(budgetDetails.budget) }" />
+                                	</c:when>
+                                 	<c:otherwise>
+                                 		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                 	</c:otherwise>
+                                 </c:choose> 
 							</div>
 						</div>
 
@@ -374,9 +367,10 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                        </form>
+                        
                     </div>
                     <!-- form ends  -->
+                    </form>
                 </div>
 
             </div>
@@ -399,55 +393,25 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
+ 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#remarks').characterCounter();
+           // $('#remarks').characterCounter();
             
             var projectId = "${budgetDetails.project_id_fk}";
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
             }
         });
-        
-        function addRow(){
-    	    var rowNo = $("#rowNo").val();
-            var rNo = Number(rowNo)+1;
-             
-        	var html = '<tr id="budgetRow()"><td><div class="input-field">'+
-	        	'<select class="searchable validate-dropdown" name="financial_year_fks" id="financial_year_fks'+rNo+'">'+
-	        	'<option value="">Select Financial Year</option></select>'+
-	        	 <c:forEach var="obj" items="${financialYearList}">
-	   	    		  +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
-			     </c:forEach>
-	   	    	+'</select></div></td>'
-	            '<span id="financial_year'+rNo+'_fkError" class="error-msg"></span></div></td>'+
-	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimates'+rNo+'" type="number" name="budget_estimates"'+
-	            'class="validate" placeholder="Amount" min="0.01" step="0.01"> <span id="budget_estimate'+rNo+'Error" class="error-msg"></span></div></td>'+
-	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_estimates'+rNo+'" name="revised_estimates" type="number" min="0.01" step="0.01"'+
-	            'class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i> '+
-	            '<input id="final_estimate'+rNo+'" name="final_estimate" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td>'+
-	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_grants'+rNo+'" name="budget_grants" type="number"'+
-	            ' min="0.01" step="0.01"class="validate" placeholder="Amount"></div></td><td><div class="input-field"><i class="material-icons prefix center-align">₹</i>'+
-	            '<input id="revised_grants'+rNo+'" name="revised_grants" type="number" min="0.01" step="0.01" class="validate" placeholder="Amount" ></div></td>'+
-	            '<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_grants'+rNo+'" name="final_grants" type="number"'+
-	            'min="0.01" step="0.01" class="validate" placeholder="Amount"></div></td><td><div class=""><input type="file" name="myfile" id="myFile'+rNo+'" '+
-	            'style="display: none" /> <label for="myFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+'" '+
-	            'class="filevalue">fileName</span></div></td><td><a onclick="removeBudget('+rNo+'');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
-            $('#budgetTableBody').append(html);
-			$("#rowNo").val(rNo);
-            $('.searchable').select2();
-        }
-        
+     
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
@@ -478,20 +442,77 @@
             	$(".page-loader").hide();
             }
         }
+
+        function addBudgetRow(){
+    	    var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+             
+        	var html ='<tr id="budgetRow'+rNo+'"><td> <input type="hidden" name="budget_ids" id="budget_ids'+rNo+'" />'
+		        		+'<select  name="financial_year_fks" id="financial_year_fks'+rNo+'" class="validate-dropdown searchable" >'
+							+'<option value="">Select Financial Year</option>' 
+							<c:forEach var="obj" items="${financialYearList}">
+								+'<option value="${obj.financial_year }">${obj.financial_year }</option>'
+							</c:forEach>
+						+'</select></td>'
+			            +'<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_estimates'+rNo+'" type="number" name="budget_estimates"'
+						    +'class="validate" placeholder="Amount" min="0.01" step="0.01"</div></td>'
+			            +'<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_estimates'+rNo+'" name="revised_estimates" type="number" min="0.01" step="0.01"'
+							+'class="validate" placeholder="Amount" ></div></td>'
+			            +'<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_estimates'+rNo+'" name="final_estimates" type="number" min="0.01" step="0.01"'
+							+'class="validate" placeholder="Amount"></div></td>'
+			            +'<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="budget_grants'+rNo+'" name="budget_grants" type="number" min="0.01" step="0.01"'
+							+'class="validate" placeholder="Amount"></div></td>'
+			            +'<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="revised_grants'+rNo+'" name="revised_grants" type="number" min="0.01" step="0.01"'
+							+'class="validate" placeholder="Amount"></div></td>'
+			            +'<td><div class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_grants'+rNo+'" name="final_grants" type="number" min="0.01" step="0.01"'
+							+'class="validate" placeholder="Amount"></div></td>'
+			            +'<td> <div class=""><input type="file" name="budgetFile" id="budgetFile'+rNo+'"  onchange="getFileName('+rNo+')" style="display:none" /> <label for="budgetFile'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+		          		+'<span id="fileVal'+rNo+'" class="filevalue" ></span></div></td>'
+			            +'<td><a onclick="removeBudget('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
+            $('#budgetTableBody').append(html);
+			$("#rowNo").val(rNo);
+            $('.searchable').select2();
+        }
         
+        function getFileName(rowNo){
+			var filename = $('#budgetFile'+rowNo)[0].files[0].name;
+		    $('#fileVal'+rowNo).html(filename);
+		}
+        
+
+		function removeBudget(rowNo){
+			$("#budgetRow"+rowNo).remove();
+		}
+		
+		
         function addBudget(){
         	 if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	    		
+	        	$(".page-loader").show();	
+	        	$('form input[name=financial_year_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=budget_estimates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=revised_estimates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=final_estimates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	   			document.getElementById("budgetForm").submit();			
    	 	 }
         }
         function updateBudget(){
         	if(validator.form()){ // validation perform
-	        	$(".page-loader").show();	    		
+	        	$(".page-loader").show();	
+	        	$('form input[name=financial_year_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=budget_estimates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=revised_estimates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=final_estimates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	   			document.getElementById("budgetForm").submit();	
         	}
         }
         
+      
         var validator =	$('#budgetForm').validate({
 			 errorClass: "my-error-class",
 			   validClass: "my-valid-class",
@@ -501,20 +522,12 @@
 	  			 		  required: true
 	  			 	  },"work_id_fk": {
 	  			 		  required: true
-	  			 	  },"financial_year_fk": {
-	  			 		  required: true
-	  			 	  },"budget_estimate": {
-	  			 		  required: false
 	  			 	  }	
 	  		 	},
 	  		    messages: {
 	  		 		   "project_id_fk": {
 	  			 		  required: 'Required'
 	  			 	  },"work_id_fk": {
-	  			 		  required: 'Required'
-	  			 	  },"financial_year_fk": {
-	  			 		  required: 'Required'
-	  			 	  },"budget_estimate": {
 	  			 		  required: 'Required'
 	  			 	  }		
 		   		},
@@ -525,25 +538,11 @@
 					 }else if(element.attr("id") == "work_id_fk" ){
 					     document.getElementById("work_id_fkError").innerHTML="";
 				 	     error.appendTo('#work_id_fkError');
-					 }else if(element.attr("id") == "financial_year_fk" ){
-					     document.getElementById("financial_year_fkError").innerHTML="";
-				 	     error.appendTo('#financial_year_fkError');
-					 }else if(element.attr("id") == "budget_estimate" ){
-					     document.getElementById("budget_estimateError").innerHTML="";
-				 	     error.appendTo('#budget_estimateError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 
-		   		},invalidHandler: function (form, validator) {
-                    var errors = validator.numberOfInvalids();
-                    if (errors) {
-                        var position = validator.errorList[0].element;
-                        jQuery('html, body').animate({
-                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-                        }, 1000);
-                    }
-                },submitHandler:function(form){
-			    	form.submit();
+		   		},submitHandler:function(form){
+			    	//form.submit();
 			    }
 			});   
       

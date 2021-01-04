@@ -48,7 +48,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		List<SafetyEquipment> objsList = null;
 		try {
 			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name, safety_equipment_number,safety_equipment_detail, "
-					+ "DATE_FORMAT(validity_date,'%d-%m-%Y') AS validity_date,s.remarks "
+					+ "DATE_FORMAT(validity_date,'%d-%m-%Y') AS validity_date, "
 					+ "inspecting_official,DATE_FORMAT(last_inspection_date,'%d-%m-%Y') AS last_inspection_date,DATE_FORMAT(next_inspection_due,'%d-%m-%Y') AS next_inspection_due "
 					+ "from safety_equipment s " + 
 						 "left join contract c on  s.contract_id_fk = c.contract_id  where safety_equipment_id is not null";
@@ -57,7 +57,9 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
-			}	
+			}
+			qry = qry +" GROUP BY contract_id_fk";
+
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

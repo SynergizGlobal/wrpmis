@@ -271,7 +271,7 @@
                                             </td>
                                             <td>
                                                 <div class="">
-                                                    <input type="file" name="documentsFile" id="documentsFile${index.count }" style="display:none" onchange="getFileName('${index.count }')"  />
+                                                    <input type="file" name="documentsFile" id="documentsFile${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
                                                     <label for="documentsFile${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
                                                     <a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.DOCUMENT_FILES %>${dObj.document_attachment }" download>${dObj.document_attachment }</a>
                                                 </div>

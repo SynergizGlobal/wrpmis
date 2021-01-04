@@ -9,8 +9,102 @@ public class Budget {
 	private String budget_id, work_id_fk,work_id, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
 					final_grant, remarks, attachment,project_id_fk,work_name,project_name,project_id,financial_year,work_short_name;
 
-	private List<Budget> budget;
 	
+	private String[] financial_year_fks,budget_ids, budget_estimates, august_review_estimates,budgetFileNames, revised_estimates, final_estimates, budget_grants, revised_grants, final_grants;
+	
+	private List<Budget> budget;
+
+	private MultipartFile[] budgetFile;
+	
+	public String[] getBudget_ids() {
+		return budget_ids;
+	}
+
+	public void setBudget_ids(String[] budget_ids) {
+		this.budget_ids = budget_ids;
+	}
+
+	public String[] getFinancial_year_fks() {
+		return financial_year_fks;
+	}
+
+	public void setFinancial_year_fks(String[] financial_year_fks) {
+		this.financial_year_fks = financial_year_fks;
+	}
+
+	public String[] getBudget_estimates() {
+		return budget_estimates;
+	}
+
+	public void setBudget_estimates(String[] budget_estimates) {
+		this.budget_estimates = budget_estimates;
+	}
+
+	public String[] getAugust_review_estimates() {
+		return august_review_estimates;
+	}
+
+	public void setAugust_review_estimates(String[] august_review_estimates) {
+		this.august_review_estimates = august_review_estimates;
+	}
+
+	public String[] getBudgetFileNames() {
+		return budgetFileNames;
+	}
+
+	public void setBudgetFileNames(String[] budgetFileNames) {
+		this.budgetFileNames = budgetFileNames;
+	}
+
+	public String[] getRevised_estimates() {
+		return revised_estimates;
+	}
+
+	public void setRevised_estimates(String[] revised_estimates) {
+		this.revised_estimates = revised_estimates;
+	}
+
+	public String[] getFinal_estimates() {
+		return final_estimates;
+	}
+
+	public void setFinal_estimates(String[] final_estimates) {
+		this.final_estimates = final_estimates;
+	}
+
+	public String[] getBudget_grants() {
+		return budget_grants;
+	}
+
+	public void setBudget_grants(String[] budget_grants) {
+		this.budget_grants = budget_grants;
+	}
+
+	public String[] getRevised_grants() {
+		return revised_grants;
+	}
+
+	public void setRevised_grants(String[] revised_grants) {
+		this.revised_grants = revised_grants;
+	}
+
+	public String[] getFinal_grants() {
+		return final_grants;
+	}
+
+	public void setFinal_grants(String[] final_grants) {
+		this.final_grants = final_grants;
+	}
+
+
+	public MultipartFile[] getBudgetFile() {
+		return budgetFile;
+	}
+
+	public void setBudgetFile(MultipartFile[] budgetFile) {
+		this.budgetFile = budgetFile;
+	}
+
 	public List<Budget> getBudget() {
 		return budget;
 	}
@@ -59,7 +153,6 @@ public class Budget {
 		this.work_id = work_id;
 	}
 
-	private MultipartFile budgetFile;
 	
 	public String getWork_name() {
 		return work_name;
@@ -70,14 +163,6 @@ public class Budget {
 	}
 
 	
-	public MultipartFile getBudgetFile() {
-		return budgetFile;
-	}
-
-	public void setBudgetFile(MultipartFile budgetFile) {
-		this.budgetFile = budgetFile;
-	}
-
 	public String getProject_id_fk() {
 		return project_id_fk;
 	}

@@ -187,22 +187,13 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                <p><label>Project</label></p>
-	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
-	                                    onchange="getWorksList(this.value);">
-	                                        <option value="" >Select</option>
-	                                         <c:forEach var="obj" items="${projectsList }">
-	                                            <option value="${obj.project_id }" <c:if test="${contractDeatils.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-	                                         </c:forEach>
-	                                    </select>
-	                                    <span id="project_id_fkError" class="error-msg" ></span>
+	                                  			 <input type="text"  value="${contractDeatils.project_id_fk}- ${contractDeatils.project_name}" readonly />
+	                                         	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <p><label>Work</label></p>
-	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
-	                                        <option value="" selected>Select</option>
-	                                    </select>
-	                              		 <span id="work_id_fkError" class="error-msg" ></span>
-	                                    
+	                                    	<input type="text"  value="${contractDeatils.work_id_fk}- ${contractDeatils.work_name}" readonly />
+	                                        <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
 	                                </div>
 	
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -1386,42 +1377,9 @@
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#remarks').characterCounter();
-            var projectId = "${contractDeatils.project_id_fk}";
-            if($.trim(projectId) != ''){
-            	getWorksList(projectId);
-            }
+           
         });
-        function getWorksList(projectId) {
-        	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
-
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                                var workId = "${contractDeatils.work_id_fk}";
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
-        
+       
         function updateContract(){
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	

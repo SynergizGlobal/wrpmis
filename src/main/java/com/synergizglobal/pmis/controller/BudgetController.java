@@ -27,18 +27,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.BudgetService;
 import com.synergizglobal.pmis.Iservice.WorkService;
-import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Work;
 
 @Controller
 public class BudgetController {
@@ -73,7 +68,7 @@ public class BudgetController {
 	public String dataExportNoData;
 	
 	
-	@RequestMapping(value="/budget",method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/budget",method={RequestMethod.GET})
 	public ModelAndView budget(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.budgetGrid);
 		try {
@@ -142,7 +137,7 @@ public class BudgetController {
 		return financialYearsList;
 	}
 	
-	@RequestMapping(value = "/add-budget-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-budget-form", method = {RequestMethod.GET})
 	public ModelAndView addBudgetForm(){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -159,7 +154,7 @@ public class BudgetController {
 		return model;
 	 }
 	
-	@RequestMapping(value = "/get-budget", method = {RequestMethod.POST})
+	@RequestMapping(value = "/get-budget", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getBudgetForm(@ModelAttribute Budget budget ){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -180,17 +175,10 @@ public class BudgetController {
 	 }
 	
 	@RequestMapping(value = "/add-budget", method = {RequestMethod.POST})
-	@ResponseBody
 	public ModelAndView addBudget(@ModelAttribute Budget budget,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/budget");
-			 MultipartFile file = budget.getBudgetFile(); 
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
 			boolean flag =  budgetService.addBudget(budget);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Budget Added Succesfully.");
@@ -210,12 +198,6 @@ public class BudgetController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/budget");
-			  MultipartFile file = budget.getBudgetFile(); 
-				if (null != file && !file.isEmpty()){
-					String saveDirectory = CommonConstants.BUDGET_FILE_SAVING_PATH ;
-					String fileName = file.getOriginalFilename();
-					FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				}
 			boolean flag =  budgetService.updateBudget(budget);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Budget Updated Succesfully.");
@@ -255,7 +237,7 @@ public class BudgetController {
 		        XSSFSheet sheet = workBook.createSheet();
 		        XSSFRow headingRow = sheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("Work");
-	            headingRow.createCell((short)1).setCellValue("Financial Year");
+	            headingRow.createCell((short)1).setCellValue("Current Financial Year");
 	         	headingRow.createCell((short)2).setCellValue("Budget Estimate");
 	            headingRow.createCell((short)3).setCellValue("Budget Grant");
 	            headingRow.createCell((short)4).setCellValue("Reivised Estimate");

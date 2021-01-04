@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.Idao.AlertsDao;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
 @Repository
 public class AlertsDaoImpl implements AlertsDao{
@@ -271,8 +272,8 @@ public class AlertsDaoImpl implements AlertsDao{
 	}
 
 	@Override
-	public List<Alerts> getAlertsList() throws Exception {
-		List<Alerts> objsList = null;
+	public boolean sendMailAlerts() throws Exception {
+		boolean flag = false;
 		try {
 			/*String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
 					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";*/
@@ -284,12 +285,27 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 			
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			List<Alerts> objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			String emailSubject = "Upcoming alerts";
+			
+			Mail mail = new Mail();
+			mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
+			mail.setMailSubject(emailSubject);
+			mail.setTemplateName("alerts.vm");
+			
+			if(objsList != null && objsList.size() > 0){
+				EMailSender emailSender = new EMailSender();
+				logger.error("sendMailAlerts() >> Sending mail : Start ");	
+				emailSender.sendEmailWithAlerts(mail,objsList); 
+				logger.error("sendMailAlerts() >> Sending mail : End ");	
+				//System.out.println("Sending mail : End "+ new Date());
+			}
 
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
-		return objsList;
+		return flag;
 	}
 
 	@Override

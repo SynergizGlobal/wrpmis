@@ -1,7 +1,6 @@
 package com.synergizglobal.pmis.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
-import com.synergizglobal.pmis.common.EMailSender;
-import com.synergizglobal.pmis.common.Mail;
-import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Alerts;
 
 @Controller
 public class AlertsController {
@@ -45,25 +40,11 @@ public class AlertsController {
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAtertsByCronJob : "+flag);
 	    	 
-			/*List<Alerts> alerts = service.getAlertsList();
+			flag = service.sendMailAlerts();
+			logger.error("generateAtertsByCronJob >> sendMailAlerts >> Sending mails : "+ flag); 
 			
-			String emailSubject = "Upcoming alerts";
-			
-			Mail mail = new Mail();
-			mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
-			mail.setMailSubject(emailSubject);
-			mail.setTemplateName("alerts.vm");
-			
-			if(alerts != null && alerts.size() > 0){
-				EMailSender emailSender = new EMailSender();
-				logger.error("generateAtertsByCronJob() >> Sending mail : Start ");	
-				emailSender.sendEmailWithAlerts(mail,alerts); 
-				logger.error("generateAtertsByCronJob() >> Sending mail : End ");	
-				//System.out.println("Sending mail : End "+ new Date());
-			}*/
-		     
-		    flag = service.sendNotificationAlertMails();
-		    logger.error("generateAtertsByCronJob >> Sending mails : "+ flag); 
+		    //flag = service.sendNotificationAlertMails();
+		    //logger.error("generateAtertsByCronJob >> sendNotificationAlertMails >> Sending mails : "+ flag); 
 		    //System.out.println("Sending mails : "+ flag); 
 		 } catch (Exception e) {
 			 e.printStackTrace();

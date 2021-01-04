@@ -40,30 +40,29 @@ public class AlertsController {
 	     logger.error("generateDPRReportsByCronJob : "+message);	    
 	     try {
 	    	 
-	    	 EMailSender emailSender = new EMailSender();
-	    	 
 	    	 //System.out.println("Start "+ new Date());
              boolean flag = service.generateAtertsByCronJob();
              //System.out.println("End "+ new Date());
 	    	 logger.error("generateAtertsByCronJob : "+flag);
 	    	 
-	    	 List<Alerts> alerts = service.getAlertsList();
-
-             String emailSubject = "Upcoming alerts";
-             
-             Mail mail = new Mail();
-		     mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
-		     mail.setMailSubject(emailSubject);
-		     mail.setTemplateName("alerts.vm");
+			/*List<Alerts> alerts = service.getAlertsList();
+			
+			String emailSubject = "Upcoming alerts";
+			
+			Mail mail = new Mail();
+			mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
+			mail.setMailSubject(emailSubject);
+			mail.setTemplateName("alerts.vm");
+			
+			if(alerts != null && alerts.size() > 0){
+				EMailSender emailSender = new EMailSender();
+				logger.error("generateAtertsByCronJob() >> Sending mail : Start ");	
+				emailSender.sendEmailWithAlerts(mail,alerts); 
+				logger.error("generateAtertsByCronJob() >> Sending mail : End ");	
+				//System.out.println("Sending mail : End "+ new Date());
+			}*/
 		     
-		     if(alerts != null && alerts.size() > 0){
-            	 logger.error("generateAtertsByCronJob() >> Sending mail : Start ");	
-            	 emailSender.sendEmailWithAlerts(mail,alerts); 
-            	 logger.error("generateAtertsByCronJob() >> Sending mail : End ");	
-            	 //System.out.println("Sending mail : End "+ new Date());
-             }
-		     
-		     //flag = service.sendNotificationAlertMails();
+		     flag = service.sendNotificationAlertMails();
 		     
 		 } catch (Exception e) {
 			 e.printStackTrace();

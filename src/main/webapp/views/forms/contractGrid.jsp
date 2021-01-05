@@ -22,6 +22,9 @@
         .row.no-mar {
             margin-bottom: 0;
         }
+        .input-field .searchable_label{
+        	font-size:0.85rem;
+        }
 
         p a {
             color: blue;
@@ -118,11 +121,21 @@
                             </div>
                         </div>
                            <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12 ">
+                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col m10 s12 ">
                                 <div class="row" style="margin-bottom: 0;">
-                                    <div class="col s12 m3 input-field">
-                                      <p><label>Work</label></p>
+                                <div class="col m1 hide-on-small-only"></div>
+                                 <div class="col s12 m2 input-field">
+                                     <p class="searchable_label">Project</p>
+                                        <select id="project_id_fk" name="project_id_fk" onchange="getContractList();" class="searchable">
+                                            <option value="">Select</option>
+	                                          <%--   <c:forEach var="obj" items="${worksList }">
+                                                    <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                                </c:forEach>  --%>
+                                        </select>
+                                    </div>
+                                    <div class="col s12 m2 input-field">
+                                     <p class="searchable_label">Work</p>
                                         <select id="work_id_fk" name="work_id_fk" onchange="getContractList();" class="searchable">
                                             <option value="">Select</option>
 	                                          <%--   <c:forEach var="obj" items="${worksList }">
@@ -130,8 +143,8 @@
                                                 </c:forEach>  --%>
                                         </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
-                                      <p><label>Department</label></p>
+                                    <div class="col s12 m2 input-field">
+                                     <p class="searchable_label">Department</p>
                                         <select id="department_fk" name="department_fk" onchange="getContractList();" class="searchable">
                                             <option value="">Select</option>
 	                                           <%--  <c:forEach var="obj" items="${departmentList }">
@@ -139,8 +152,8 @@
                                                 </c:forEach>  --%>
                                          </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
-                                    <p><label>Contractor</label></p>
+                                    <div class="col s12 m2 input-field">
+                                   <p class="searchable_label">Contractor</p>
                                         <select id="contractor_id_fk" name="contractor_id_fk" onchange="getContractList();" class="searchable">
                                             <option value="">Select</option>
 		                                       <%--  <c:forEach var="obj" items="${contractorsList }">
@@ -149,13 +162,13 @@
                                         </select>
                                     </div>
                                     
-                                    <div class="col s12 m3">
+                                    <div class="col s12 m2">
                                         <button class="btn bg-m waves-effect waves-light t-c"
-                                            style="margin-top: 30px;" onclick="clearFilter();">Clear Filters</button>
+                                            style="margin-top: 20px;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m1 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">
@@ -164,6 +177,7 @@
                                 <table id="datatable-contract" class="mdl-data-table">
                                     <thead >
                                         <tr>
+                                        
                                             <th class="fw-150">Work</th>
                                             <th>Contract ID</th>
                                             <th class="fw-250">Contract Name </th>

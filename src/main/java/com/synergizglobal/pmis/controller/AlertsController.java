@@ -65,7 +65,7 @@ public class AlertsController {
 	public ModelAndView generateAlertsByManual(){		
 		 ModelAndView model = new ModelAndView("redirect:/home");	    
 	     try {
-	    	 
+	    	logger.error("generateAlertsByManual : start");
 	    	//System.out.println("Start "+ new Date());
             boolean flag = service.generateAtertsByCronJob();
             //System.out.println("End "+ new Date());

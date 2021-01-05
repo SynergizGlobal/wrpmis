@@ -67,6 +67,10 @@
            .primary-text {
             color: #118AB2;
         }
+        #budgetTableBody tr td .select2-container{
+        	width:140px !important;
+        	max-width:140px;
+        }
          .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;

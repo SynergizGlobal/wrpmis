@@ -48,12 +48,12 @@ public class AlertsController {
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
 	    	 
-			flag = service.sendMailAlerts();
-			logger.error("generateAlertsByCronJob >> sendMailAlerts >> Sending mails : "+ flag); 
+			//flag = service.sendMailAlerts();
+			//logger.error("generateAlertsByCronJob >> sendMailAlerts >> Sending mails : "+ flag); 
 			//System.out.println("Sending mails : "+ flag); 
 			
-		    //flag = service.sendNotificationAlertMails();
-		    //logger.error("generateAtertsByCronJob >> sendNotificationAlertMails >> Sending mails : "+ flag); 
+		    flag = service.sendNotificationAlertMails();
+		    logger.error("generateAtertsByCronJob >> sendNotificationAlertMails >> Sending mails : "+ flag); 
 		    //System.out.println("Sending mails : "+ flag); 
 		 } catch (Exception e) {
 			 e.printStackTrace();

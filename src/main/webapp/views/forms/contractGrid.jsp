@@ -45,7 +45,7 @@
     	 	width:150px !important;
     	 	max-width:150px;
     	 }
-       .page-loader {
+       .page-loader,.page-loader-2 {
 		    background: #332e2ec2!important;
 		    position: fixed;
 		    width: 100%;
@@ -54,15 +54,7 @@
 		    left: 0;
 		    z-index: 1000;
 		}		
-		 .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
+			
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
@@ -310,6 +302,7 @@
     	$("#contractor_id_fk").val("");
     	$("#department_fk").val("");
     	$("#work_id_fk").val("");
+    	$("#project_id_fk").val("");
     	$('.searchable').select2();
     	getContractList();
     }
@@ -319,9 +312,11 @@
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
+    	var project_id_fk = $("#project_id_fk").val();
     	getContractorsFilterList();
     	getDeptFilterList();
     	getWorkFilterList();
+    	getProjectFilterList();
 
      	table = $('#datatable-contract').DataTable();
 		 
@@ -357,7 +352,7 @@
 		
 		table.state.clear();		
 	 
-	 	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk};
+	 	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContract",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
@@ -396,10 +391,11 @@
     	$(".page-loader").show();
     	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
+    	var project_id_fk = $("#project_id_fk").val();
     	var contractor_id_fk = $("#contractor_id_fk").val();
         if ($.trim(contractor_id_fk) == "") {
         	$("#contractor_id_fk option:not(:first)").remove();
-            var myParams = { work_id_fk: work_id_fk,department_fk : department_fk,contractor_id_fk : contractor_id_fk};
+        	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInContract",
                 data: myParams, cache: false,
@@ -427,10 +423,11 @@
 	    	$(".page-loader").show();
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var department_fk = $("#department_fk").val();
+	    	var project_id_fk = $("#project_id_fk").val();
 	    	var contractor_id_fk = $("#contractor_id_fk").val();
 	        if ($.trim(department_fk) == "") {
 	        	$("#department_fk option:not(:first)").remove();
-	        	var myParams = { work_id_fk: work_id_fk, contractor_id_fk : contractor_id_fk,department_fk : department_fk};
+	        	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsFilterListInContract",
 	                data: myParams, cache: false,
@@ -455,11 +452,12 @@
 	 function getWorkFilterList(){
 	 	$(".page-loader").show();
 	 	var work_id_fk = $("#work_id_fk").val();
+	 	var project_id_fk = $("#project_id_fk").val();
 	 	var department_fk = $("#department_fk").val();
 	 	var contractor_id_fk = $("#contractor_id_fk").val();
 	    if ($.trim(work_id_fk) == "") {
 	    	$("#work_id_fk option:not(:first)").remove();
-        	  var myParams = { work_id_fk: work_id_fk, contractor_id_fk : contractor_id_fk,department_fk : department_fk};
+	    	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
                 data: myParams, cache: false,
@@ -482,6 +480,38 @@
         	  $(".page-loader").hide();
         }
     }
+	 
+	 function getProjectFilterList(){
+		 	$(".page-loader").show();
+		 	var work_id_fk = $("#work_id_fk").val();
+		 	var project_id_fk = $("#project_id_fk").val();
+		 	var department_fk = $("#department_fk").val();
+		 	var contractor_id_fk = $("#contractor_id_fk").val();
+		    if ($.trim(project_id_fk) == "") {
+		    	$("#project_id_fk option:not(:first)").remove();
+		    	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInContract",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	 var workShortName = '';
+	                             if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+		                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)   + projectName +'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
 	
   	//This function is used to get error message for all ajax calls
     function getErrorMessage(jqXHR, exception) {

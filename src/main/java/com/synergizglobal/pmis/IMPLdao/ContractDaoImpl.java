@@ -54,6 +54,7 @@ public class ContractDaoImpl implements ContractDao {
 							"left join contractor cr on c.contractor_id_fk = cr.contractor_id "
 							+"left join user u on c.hod_user_id_fk = u.user_id "
 							+"left join department dt on c.department_fk = dt.department " + 
+							"left join project p on w.project_id_fk = p.project_id " + 
 							"where contract_id is not null ";
 				
 				int arrSize = 0;
@@ -69,6 +70,10 @@ public class ContractDaoImpl implements ContractDao {
 					qry = qry + " and c. work_id_fk = ?";
 					arrSize++;
 				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
+					arrSize++;
+				}
 				Object[] pValues = new Object[arrSize];
 				int i = 0;
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -79,6 +84,9 @@ public class ContractDaoImpl implements ContractDao {
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 					pValues[i++] = obj.getWork_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] = obj.getProject_id_fk();
 				}
 				
 			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
@@ -1428,6 +1436,8 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry = "SELECT contractor_id_fk,cr.contractor_name from contract c "+
 					 "LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id "+
+					 "LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					 "LEFT JOIN project p on w.project_id_fk = p.project_id " + 
 					 "where contractor_id_fk is not null AND contractor_id_fk <> '' ";	
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1442,6 +1452,10 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + " GROUP BY contractor_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1453,6 +1467,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1467,6 +1484,8 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry = "SELECT department_fk,d.department_name from contract c "+
 					 "LEFT JOIN department d on c.department_fk = d.department " +
+					 "LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					 "LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					 "where department_fk is not null and department_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1481,6 +1500,10 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.department_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + " GROUP BY department_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1492,6 +1515,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1506,6 +1532,7 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"LEFT JOIN project p on w.project_id_fk = p.project_id " + 
 					"where work_id_fk is not null and work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1520,6 +1547,10 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.contractor_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
 			qry = qry + "GROUP BY work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1531,6 +1562,56 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getProjectsFilterList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "SELECT project_id_fk,p.project_name from contract c " + 
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"LEFT JOIN project p on w.project_id_fk = p.project_id " + 
+					"where project_id_fk is not null and project_id_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and c.department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY project_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
 			}
 			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 

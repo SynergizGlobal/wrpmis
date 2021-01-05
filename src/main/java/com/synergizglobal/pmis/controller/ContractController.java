@@ -145,9 +145,22 @@ public class ContractController {
 			worksFilterList = contractservice.worksFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getWorksList : " + e.getMessage());
+			logger.error("getWorksFilterList : " + e.getMessage());
 		}
 		return worksFilterList;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getProjectsFilterList(@ModelAttribute Contract obj) {
+		List<Contract> projectsFilterList = null;
+		try {
+			projectsFilterList = contractservice.getProjectsFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsFilterList : " + e.getMessage());
+		}
+		return projectsFilterList;
 	}
 	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})

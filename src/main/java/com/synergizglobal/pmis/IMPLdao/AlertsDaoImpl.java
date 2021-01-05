@@ -321,9 +321,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			String hodQry ="select group_concat(distinct hod_email) from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
 			pValues = new Object[] {CommonConstants.ACTIVE};
 			String hodEmailsList = jdbcTemplate.queryForObject( hodQry,pValues, new BeanPropertyRowMapper<String>(String.class));
-			
-			String alertMailIdForAlertLevel3 = "cmd@mrvc.gov.in";
-			
+						
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name  " + 
 					"from alerts a " + 
 					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
@@ -333,18 +331,41 @@ public class AlertsDaoImpl implements AlertsDao{
 			pValues = new Object[] {CommonConstants.ACTIVE};
 			List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
+			/*dyfacao1@mrvc.gov.in - 1st 2nd 3rd of BG & Insurance
+			facao2@mrvc.gov.in - 2nd 3rd of BG & Insurance
+			df@mrvc.gov.in - 3rd of BG & Insurance
+			
+			dy HOD - 1st, 2nd 3rd alert of their contracts
+			HOD - 2nd, 3rd alerts of their contracts
+			cmd@mrvc.gov.in - only 3rd alerts of al contracts..*/
+			
 			List<Alerts> secondAnd3rdAlertsList = new ArrayList<Alerts>();
 			List<Alerts> thirdAlertsList = new ArrayList<Alerts>();
+			
+			List<Alerts> dyfacao1AlertsList = new ArrayList<Alerts>();
+			List<Alerts> facao2AlertsList = new ArrayList<Alerts>();
+			List<Alerts> dfAlertsList = new ArrayList<Alerts>();
+			
 			if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0) {
 				for (Alerts alerts : allAlertsList) {
 					if(alerts.getAlert_level().equals("3rd Alert")) {
-						thirdAlertsList.add(alerts);
+						thirdAlertsList.add(alerts);						
 					}else {
 						secondAnd3rdAlertsList.add(alerts);
+					}
+					
+					if(alerts.getAlert_type_fk().equals("Bank Guarantee") || alerts.getAlert_type_fk().equals("Insurance")) {
+						dyfacao1AlertsList.add(alerts);
+						if(alerts.getAlert_level().equals("3rd Alert")) {
+							dfAlertsList.add(alerts);						
+						}else {
+							facao2AlertsList.add(alerts);
+						}
 					}
 				}
 			}
 			
+			/***************************************************************************/
 			if(!StringUtils.isEmpty(dyHODEmailsList)) {
 				String emailSubject = "Upcoming alerts";
 				
@@ -358,11 +379,12 @@ public class AlertsDaoImpl implements AlertsDao{
 					logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD: Start ");	
 					emailSender.sendEmailWithAlerts(mail,allAlertsList); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD : End ");	
-					//System.out.println("Sending mail : End "+ new Date());
 					flag = true;
 				}
 			}
+			/***************************************************************************/
 			
+			/***************************************************************************/
 			if(!StringUtils.isEmpty(hodEmailsList)) {
 				String emailSubject = "Upcoming alerts";
 				
@@ -375,27 +397,90 @@ public class AlertsDaoImpl implements AlertsDao{
 					logger.error("sendNotificationAlertMails() >> Sending mail to HOD : Start ");	
 					emailSender.sendEmailWithAlerts(mail,secondAnd3rdAlertsList); 
 					logger.error("sendNotificationAlertMails() >> Sending mail to HOD : End ");	
-					//System.out.println("Sending mail : End "+ new Date());
 					flag = true;
 				}
 			}
+			/***************************************************************************/
 			
-			if(!StringUtils.isEmpty(alertMailIdForAlertLevel3)) {
+			/***************************************************************************/			
+			if(!StringUtils.isEmpty(thirdAlertsList) && thirdAlertsList.size() > 0){
 				String emailSubject = "Upcoming alerts";
 				
 				Mail mail = new Mail();
-				mail.setMailTo(alertMailIdForAlertLevel3);
+				mail.setMailTo("cmd@mrvc.gov.in");
 				mail.setMailSubject(emailSubject);
 				mail.setTemplateName("alerts.vm");
 				
-				if(!StringUtils.isEmpty(thirdAlertsList) && thirdAlertsList.size() > 0){
-					logger.error("sendNotificationAlertMails() >> Sending mail to CMD : Start ");	
-					emailSender.sendEmailWithAlerts(mail,thirdAlertsList); 
-					logger.error("sendNotificationAlertMails() >> Sending mail to CMD : End ");	
-					//System.out.println("Sending mail : End "+ new Date());
-					flag = true;
-				}
+				logger.error("sendNotificationAlertMails() >> Sending mail to cmd@mrvc.gov.in: Start ");	
+				emailSender.sendEmailWithAlerts(mail,thirdAlertsList); 
+				logger.error("sendNotificationAlertMails() >> Sending mail to cmd@mrvc.gov.in: End ");	
+				flag = true;
 			}
+			/***************************************************************************/
+			
+			/***************************************************************************/
+			if(!StringUtils.isEmpty(dyfacao1AlertsList) && dyfacao1AlertsList.size() > 0){
+				String emailSubject = "Upcoming alerts";
+				
+				Mail mail = new Mail();
+				mail.setMailTo("dyfacao1@mrvc.gov.in");
+				mail.setMailSubject(emailSubject);
+				mail.setTemplateName("alerts.vm");
+				
+				logger.error("sendNotificationAlertMails() >> Sending mail to dyfacao1@mrvc.gov.in: Start ");	
+				emailSender.sendEmailWithAlerts(mail,dyfacao1AlertsList); 
+				logger.error("sendNotificationAlertMails() >> Sending mail to dyfacao1@mrvc.gov.in: End ");	
+				flag = true;
+			}
+			/***************************************************************************/
+			
+			/***************************************************************************/
+			if(!StringUtils.isEmpty(facao2AlertsList) && facao2AlertsList.size() > 0){
+				String emailSubject = "Upcoming alerts";
+				
+				Mail mail = new Mail();
+				mail.setMailTo("facao2@mrvc.gov.in");
+				mail.setMailSubject(emailSubject);
+				mail.setTemplateName("alerts.vm");
+				
+				logger.error("sendNotificationAlertMails() >> Sending mail to facao2@mrvc.gov.in: Start ");	
+				emailSender.sendEmailWithAlerts(mail,facao2AlertsList); 
+				logger.error("sendNotificationAlertMails() >> Sending mail to facao2@mrvc.gov.in: End ");	
+				flag = true;
+			}
+			/***************************************************************************/
+			
+			/***************************************************************************/
+			if(!StringUtils.isEmpty(dfAlertsList) && dfAlertsList.size() > 0){
+				String emailSubject = "Upcoming alerts";
+				
+				Mail mail = new Mail();
+				mail.setMailTo("df@mrvc.gov.in");
+				mail.setMailSubject(emailSubject);
+				mail.setTemplateName("alerts.vm");
+				
+				logger.error("sendNotificationAlertMails() >> Sending mail to df@mrvc.gov.in: Start ");	
+				emailSender.sendEmailWithAlerts(mail,dfAlertsList); 
+				logger.error("sendNotificationAlertMails() >> Sending mail to df@mrvc.gov.in: End ");	
+				flag = true;
+			}
+			/***************************************************************************/
+			
+			/***************************************************************************/
+			if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0){
+				String emailSubject = "Upcoming alerts";
+				
+				Mail mail = new Mail();
+				mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
+				mail.setMailSubject(emailSubject);
+				mail.setTemplateName("alerts.vm");
+					
+				logger.error("sendNotificationAlertMails() >> Sending mail to rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com: Start ");	
+				emailSender.sendEmailWithAlerts(mail,allAlertsList); 
+				logger.error("sendNotificationAlertMails() >> Sending mail to rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com: End ");	
+				flag = true;
+			}
+			/***************************************************************************/
 
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

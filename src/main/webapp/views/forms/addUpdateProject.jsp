@@ -28,21 +28,7 @@
 		.my-valid-class {
 			color: green;
 		}
-		
-		.page-loader {
-			background: #332e2ec2 !important;
-			position: fixed;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			z-index: 1000;
-		}
-		
-		.preloader-wrapper {
-			top: 45% !important;
-			left: 47% !important;
-		}
+
 	</style>
 </head>
 

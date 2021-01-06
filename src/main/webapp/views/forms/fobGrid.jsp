@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	 <style>
-       p a {
+ /*       p a {
             color: blue;
        }
        td{
@@ -28,12 +28,12 @@
      	}
      	td:last-child,td:last-of-type{
      		white-space:inherit;
-     	}
+     	} */
      	.fw-400{
      		max-width:400px;
      		width:400px;
      	}
-       .page-loader {
+      /*  .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
 		    width: 100%;
@@ -42,7 +42,7 @@
 		    left: 0;
 		    z-index: 1000;
 		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.preloader-wrapper{top: 45%!important;left:47%!important;} */
     </style>
 </head>
 <body>

@@ -72,16 +72,7 @@
             width: 100%;
             overflow: auto;
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        
 	    @media only screen and (max-width: 600px) {
           .no-float-small {
               float: none !important;
@@ -93,7 +84,7 @@
 		.my-valid-class {
    			 color:green;
 		}
-		#newButton{
+		/* #newButton{
 			position: relative;
 			float: right;
 			right: 24px;
@@ -104,7 +95,7 @@
 			float: right;
 			right: -34px;
 			top: 5px;
-		}
+		} */
 		
 		#insurenceTableBody .select2-container{
 			max-width:134px

@@ -14,8 +14,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-     
-     
+          
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
@@ -25,7 +24,6 @@
         #example3 input[type="text"]::-webkit-input-placeholder,
         #example3 input[type="text"]:-ms-input-placeholder,
         #example3 input[type="text"]::placeholder {
-            /* Edge */
             color: #777;
         }
         .fixed-width {
@@ -46,27 +44,11 @@
 		}
 		.my-valid-class {
    			 color:green;
-		}
-		#newButton{
-			position: relative;
-			float: right;
-			right: 24px;
-			top: 5px;
-		}
-		 .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
 		}		
 		#revisionsTableBody .select2-container{
 			text-align:left;
 			max-width:127px;
 		}
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 <body>
@@ -736,7 +718,7 @@
 				     </c:forEach>
 		   		   +'</select></div></td>'
 				   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
-				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost"></td>'
+				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
 				   +'<td> <div>'
 				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'
 				   +'<option value="" selected>select</option>'
@@ -772,19 +754,7 @@
 		              }); */
      } 
         
- 
- 
-   	/*  $('#newButton').on('click', function () {
-         $('tbody').append(html);
-         $('select').formSelect();
-        // $('#clone').clone(true);
-        
-     }); */
-   /* 	$(document).on('click', '#remove', function() {
-        $(this).parents('tr').remove();
-    }); */
-    
-    function removeRevision(rowNo){
+     function removeRevision(rowNo){
     	//alert("#revisionRow"+rowNo);
     	$("#revisionRow"+rowNo).remove();
     }

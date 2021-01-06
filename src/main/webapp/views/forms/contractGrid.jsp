@@ -18,25 +18,10 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 
-    <style>
-        .row.no-mar {
-            margin-bottom: 0;
-        }
+    <style>        
         .input-field .searchable_label{
         	font-size:0.85rem;
         }
-
-        p a {
-            color: blue;
-        }
-         td{
-       		 word-break: break-word;
-    		 word-wrap: break-word;
-   			 white-space: initial;
-    	 }
-    	 td:last-child{
-    	 	word-break:inherit;
-    	 }  
     	 .fw-250{
     	 	width:250px !important;
     	 	max-width:250px;
@@ -44,18 +29,7 @@
     	 .fw-150{
     	 	width:150px !important;
     	 	max-width:150px;
-    	 }
-       .page-loader,.page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-			
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+    	 }     
     </style>
 </head>
 

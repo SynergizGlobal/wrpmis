@@ -12,10 +12,8 @@
 		<c:if test="${action eq 'add'}"> Add FOB</c:if>
 	</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	 	
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	 
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 	
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		
 	 <style>
@@ -27,15 +25,7 @@
             width: 100%;
             overflow: auto;
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
+       
 		/*table with fixed header & height start */
 		.max-h{
 			max-height:400px;
@@ -51,13 +41,14 @@
 			z-index:1;
 			background-color:#003049;
 		}
+		td .btn.red{
+			z-index:0;
+		}
 		.input-field>label.small{
 			font-size: 0.88rem !important;
 		}
 		/*table with fixed header & height ends */
-		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-        .error-msg label{color:red!important;}
+		.error-msg label{color:red!important;}
     </style>
 </head>
 <body>
@@ -157,8 +148,8 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8">
-	                                <div class="row">
+                                <!-- <div class="col s12 m8">
+	                                <div class="row"> -->
 	                                	  <div class="col s12 m4 input-field">
                                     <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${fob.target_date }">
                                     <label for="target_date">Target Date </label>
@@ -167,18 +158,18 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
-                                    <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }">
+                                    <input id="estimated_cost" name="estimated_cost" type="number" class="validate" value="${fob.estimated_cost }" min="0.01" step="0.01">
                                     <label for="estimated_cost">Estimated Cost (in Cr)</label>
                                     <span id="estimated_costError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s12 m4 input-field">
+                                <!--  <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
                                     <input id="last_sanctioned_cost" name="last_sanctioned_cost" type="number" class="validate" value="${fob.last_sanctioned_cost }">
                                     <label for="last_sanctioned_cost" class="small">Last Sanctioned Cost (in Cr)</label>
                                     <span id="last_sanctioned_costError" class="error-msg" ></span>
-                                </div>                                
-	                                </div>
-                                </div>
+                                </div>  -->                               
+	                               <!--  </div>
+                                </div> -->
                               <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">

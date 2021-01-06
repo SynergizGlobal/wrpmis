@@ -13,27 +13,13 @@
     <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-     
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
      
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    <style>
-        p a {
-            color: blue;
-        }
-       td{
-       		 word-break: break-word;
-    		 word-wrap: break-word;
-   			 white-space: initial;
-    	 }
-    	 td:last-child,td:last-of-type{
-     		white-space:inherit;
-     	}
-    </style>
-   
+    
 </head>
 <body>
 

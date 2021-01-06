@@ -30,13 +30,11 @@ public class AlertsController {
 	@Value("${common.error.message}")
 	public String commonError;
 	
-	@Value("${cron.expression}")
-	public String cronExpression;
 	
 	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
 	//@Scheduled(cron = "0 50 10 * * *")	//  = every day 2:10 am.
 	//@Scheduled(cron = "0 10 16 * * *")	//  = every day 4:10 pm.
-	@Scheduled(cron = "${cron.expression}")
+	//@Scheduled(cron = "${cron.expression}")
 	public void generateAlertsByCronJob(){		
 	     String message = "Method executed every day at 02:01 am. Current time is :: "+ new Date();
 	     

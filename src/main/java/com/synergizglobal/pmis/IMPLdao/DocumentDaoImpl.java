@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -15,8 +12,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,11 +22,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Document;
-import com.synergizglobal.pmis.model.SafetyEquipment;
-import com.synergizglobal.pmis.model.Work;
 
 @Repository
 public class DocumentDaoImpl implements DocumentDao{
@@ -46,7 +37,8 @@ public class DocumentDaoImpl implements DocumentDao{
 	public List<Document> getDocumentsList(Document obj) throws Exception {
 		List<Document> objsList = null;
 		try {
-			String qry ="select document_no,d.work_id_fk,w.work_name,contract_id_fk,c.contract_name,project_priority_fk,document_type_fk,document_name,responsible_for_approval from documents d "
+			String qry ="select document_no,d.work_id_fk,w.work_name,d.project_id_fk,p.project_name,contract_id_fk,c.contract_name,project_priority_fk,document_type_fk,document_name,responsible_for_approval from documents d "
+					+ "LEFT JOIN project p on d.project_id_fk = p.project_id "
 					+ "LEFT JOIN work w on d.work_id_fk = w.work_id "
 					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
 					+ "where document_no is not null ";

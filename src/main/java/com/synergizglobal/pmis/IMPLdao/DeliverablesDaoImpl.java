@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DeliverablesDao;
 import com.synergizglobal.pmis.model.DataGathering;
-import com.synergizglobal.pmis.model.DataGathering;
 
 @Repository
 public class DeliverablesDaoImpl implements DeliverablesDao{
@@ -30,7 +29,8 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public List<DataGathering> getDeliverablesList(DataGathering obj) throws Exception {
 		List<DataGathering> objsList = null;
 		try {
-			String qry ="select id, d.project_id_fk,p.project_name,contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,deliverable_description, status_fk"
+			String qry ="select id,project_priority_fk, d.project_id_fk,p.project_name,contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
+					+ "deliverable_description, status_fk,target_date,start_date,finish_date,d.remarks"
 					+ " from deliverables d " + 
 					"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id  "

@@ -55,5 +55,9 @@ public class SafetyEquipmentServiceImpl implements SafetyEquipmentService {
 	public List<SafetyEquipment> contractListFilterInSafetyEquipment() throws Exception {
 		return safetyEquipmentDao.contractListFilterInSafetyEquipment();
 	}
+	@Override
+	public List<SafetyEquipment> getSafetyEquipmentExportList(SafetyEquipment obj) throws Exception {
+		return safetyEquipmentDao.getSafetyEquipmentExportList(obj);
+	}
 
 }

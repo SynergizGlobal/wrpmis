@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -31,17 +32,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.BudgetService;
 import com.synergizglobal.pmis.Iservice.SourceOfFundService;
-import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.SourceOfFund;
-import com.synergizglobal.pmis.model.Work;
 
 @Controller
 public class SourceOfFundController {
@@ -249,27 +245,45 @@ public class SourceOfFundController {
 			dataList =   sofService.fundsList(sObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
+		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Source_of_Funds"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Work");
-	            headingRow.createCell((short)1).setCellValue("Source of Fund");
-	         	headingRow.createCell((short)2).setCellValue("Railway");
-	            headingRow.createCell((short)3).setCellValue("Funding Date");
-	            headingRow.createCell((short)4).setCellValue("Fund Amount ");
-	            headingRow.createCell((short)5).setCellValue("Ledger Account");
+	            headingRow.createCell((short)0).setCellValue("Fund ID");
+	            headingRow.createCell((short)1).setCellValue("Work");
+	            headingRow.createCell((short)2).setCellValue("Source of Fund");
+	         	headingRow.createCell((short)3).setCellValue("Railway");
+	            headingRow.createCell((short)4).setCellValue("Funding Date");
+	            headingRow.createCell((short)5).setCellValue("Fund Amount ");
+	            headingRow.createCell((short)6).setCellValue("Ledger Account");
+	            headingRow.createCell((short)7).setCellValue("Bank Account");
+	            headingRow.createCell((short)8).setCellValue("Voucher Type");
+	            headingRow.createCell((short)9).setCellValue("Voucher No");
+	            headingRow.createCell((short)10).setCellValue("Narration");
+	            headingRow.createCell((short)11).setCellValue("Remarks");
 	          
 
 	            short rowNo = 1;
 	            for (SourceOfFund obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getWork_id_fk());
-	                row.createCell((short)1).setCellValue(obj.getSource_of_funds_fk());
-	                row.createCell((short)2).setCellValue(obj.getSub_category_railway_id_fk());
-	                row.createCell((short)3).setCellValue(obj.getFunding_date());
-	                row.createCell((short)4).setCellValue(obj.getFund_amount());
-	                row.createCell((short)5).setCellValue(obj.getLedger_account());
+	                row.createCell((short)0).setCellValue(obj.getFunds_id());
+	                row.createCell((short)1).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
+	                row.createCell((short)2).setCellValue(obj.getSource_of_funds_fk());
+	                row.createCell((short)3).setCellValue(obj.getSub_category_railway_id_fk());
+	                row.createCell((short)4).setCellValue(obj.getFunding_date());
+	                row.createCell((short)5).setCellValue(obj.getFund_amount());
+	                row.createCell((short)6).setCellValue(obj.getLedger_account());
+	                row.createCell((short)7).setCellValue(obj.getBank_account());
+	                row.createCell((short)8).setCellValue(obj.getVoucher_type());
+	                row.createCell((short)9).setCellValue(obj.getVoucher_no());
+	                row.createCell((short)10).setCellValue(obj.getNarration());
+	                row.createCell((short)11).setCellValue(obj.getRemarks());
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//sheet.autoSizeColumn(columnIndex);
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Funds_"+dateFormat.format(date);
                 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -260,27 +261,37 @@ public class DocumentController {
 			dataList =   documentService.getDocumentsList(dObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
+		        XSSFSheet sheet =  workBook.createSheet(WorkbookUtil.createSafeSheetName("Documents"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Work");
-	            headingRow.createCell((short)1).setCellValue("Contarct");
-	         	headingRow.createCell((short)2).setCellValue("Priority");
-	            headingRow.createCell((short)3).setCellValue("Document Type");
-	            headingRow.createCell((short)4).setCellValue("Document Name");
-	            headingRow.createCell((short)5).setCellValue("Responsible For Approval");
+		        headingRow.createCell((short)0).setCellValue("Document No");
+		        headingRow.createCell((short)1).setCellValue("Project Priority");
+		        headingRow.createCell((short)2).setCellValue("Project");
+	            headingRow.createCell((short)3).setCellValue("Work");
+	            headingRow.createCell((short)4).setCellValue("Contarct");
+	            headingRow.createCell((short)5).setCellValue("Document Type");
+	            headingRow.createCell((short)6).setCellValue("Document Name");
+	            headingRow.createCell((short)7).setCellValue("Responsible For Approval");
 
 	            short rowNo = 1;
 	            for (Document obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_name());
-	                row.createCell((short)1).setCellValue(obj.getContract_id_fk()+"-"+ obj.getContract_name());
-	                row.createCell((short)2).setCellValue(obj.getProject_priority_fk());
-	                row.createCell((short)3).setCellValue(obj.getDocument_type_fk());
-	                row.createCell((short)4).setCellValue(obj.getDocument_name());
-	                row.createCell((short)5).setCellValue(obj.getResponsible_for_approval());
+	                row.createCell((short)0).setCellValue(obj.getDocument_no());
+	                row.createCell((short)1).setCellValue(obj.getProject_priority_fk());
+	                row.createCell((short)2).setCellValue(obj.getProject_id_fk() +" - "+ obj.getProject_name());
+	                row.createCell((short)3).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_name());
+	                row.createCell((short)4).setCellValue(obj.getContract_id_fk()+"-"+ obj.getContract_name());
+	                row.createCell((short)5).setCellValue(obj.getDocument_type_fk());
+	                row.createCell((short)6).setCellValue(obj.getDocument_name());
+	                row.createCell((short)7).setCellValue(obj.getResponsible_for_approval());
 	          
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//sheet.autoSizeColumn(columnIndex);
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Document_"+dateFormat.format(date);
                 

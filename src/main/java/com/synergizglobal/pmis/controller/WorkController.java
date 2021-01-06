@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -218,16 +219,26 @@ public class WorkController {
 			dataList = workService.getWorkList(work); 
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
+		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Work"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("Project ID");
 	            headingRow.createCell((short)1).setCellValue("Project Name");
 	         	headingRow.createCell((short)2).setCellValue("Work ID");
 	            headingRow.createCell((short)3).setCellValue("Work Name");
-	            headingRow.createCell((short)4).setCellValue("Sanctioned Year");
-	            headingRow.createCell((short)5).setCellValue("Railway Agency");
-	            headingRow.createCell((short)6).setCellValue("Executed By");
-	            headingRow.createCell((short)7).setCellValue("Remarks");
+	            headingRow.createCell((short)4).setCellValue("Work Short Name");
+	            headingRow.createCell((short)5).setCellValue("Sanctioned Year");
+	            headingRow.createCell((short)6).setCellValue("Railway Agency");
+	            headingRow.createCell((short)7).setCellValue("Executed By");
+	            headingRow.createCell((short)8).setCellValue("Sanctioned Estimated Cost");
+	            headingRow.createCell((short)9).setCellValue("Sanctioned Completion Cost");
+	            headingRow.createCell((short)10).setCellValue("Completeion Period Months");
+	            headingRow.createCell((short)11).setCellValue("Anticipated Cost");
+	            headingRow.createCell((short)12).setCellValue("Year of Completion");
+	            headingRow.createCell((short)13).setCellValue("Projected Completion");
+	            headingRow.createCell((short)14).setCellValue("Completion Cost");
+	            headingRow.createCell((short)15).setCellValue("Pink Book Item Number");
+	            headingRow.createCell((short)16).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (Work obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
@@ -235,12 +246,26 @@ public class WorkController {
 	                row.createCell((short)1).setCellValue(obj.getProject_name());
 	                row.createCell((short)2).setCellValue(obj.getWork_id());
 	                row.createCell((short)3).setCellValue(obj.getWork_name());
-	                row.createCell((short)4).setCellValue(obj.getSanctioned_year());
-	                row.createCell((short)5).setCellValue(obj.getRailway_name());
-	                row.createCell((short)6).setCellValue(obj.getExecuted_by_id_fk());
-	                row.createCell((short)7).setCellValue(obj.getRemarks());
+	                row.createCell((short)4).setCellValue(obj.getWork_short_name());
+	                row.createCell((short)5).setCellValue(obj.getSanctioned_year_fk());
+	                row.createCell((short)6).setCellValue(obj.getRailway());
+	                row.createCell((short)7).setCellValue(obj.getExecuted_by());
+	                row.createCell((short)8).setCellValue(obj.getSanctioned_estimated_cost());
+	                row.createCell((short)9).setCellValue(obj.getSanctioned_completion_cost());
+	                row.createCell((short)10).setCellValue(obj.getCompleteion_period_months());
+	                row.createCell((short)11).setCellValue(obj.getAnticipated_cost());
+	                row.createCell((short)12).setCellValue(obj.getYear_of_completion());
+	                row.createCell((short)13).setCellValue(obj.getProjected_completion());
+	                row.createCell((short)14).setCellValue(obj.getCompletion_cost());
+	                row.createCell((short)15).setCellValue(obj.getPink_book_item_number());
+	                row.createCell((short)16).setCellValue(obj.getRemarks());
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//Budgetsheet.autoSizeColumn(columnIndex);
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Work_"+dateFormat.format(date);
                 

@@ -94,10 +94,10 @@
  									 <c:forEach var="obj" items="${workList }">
                                         <tr>
                                        
-                                            <td>${ obj.project_name } </td>
+                                            <td>${ obj.project_id_fk} - ${obj.project_name } </td>
                                             <td>${ obj.work_id }</td>
                                             <td>${ obj.work_name }</td>
-                                            <td>${ obj.sanctioned_year }</td>
+                                            <td>${ obj.sanctioned_year_fk }</td>
                                             <td>${ obj.railway }</td>
                                             <td>${ obj.executed_by }</td>
                                             <td>&nbsp;${ obj.remarks }</td>

@@ -23,4 +23,6 @@ public interface SafetyEquipmentService {
 
 	public List<SafetyEquipment> contractListFilterInSafetyEquipment()throws Exception;
 
+	public List<SafetyEquipment> getSafetyEquipmentExportList(SafetyEquipment obj) throws Exception;; 
+
 }

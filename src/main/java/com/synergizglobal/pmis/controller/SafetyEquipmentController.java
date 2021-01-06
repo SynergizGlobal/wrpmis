@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -93,8 +94,10 @@ public class SafetyEquipmentController {
 	@ResponseBody
 	public List<SafetyEquipment> getSafetyEquipments(@ModelAttribute SafetyEquipment obj) {
 		List<SafetyEquipment> safetyEquipment = null;
+		List<SafetyEquipment> safetyEquipmentExportList = null;
 		try {
 			safetyEquipment = service.getSafetyEquipment(obj);
+			safetyEquipmentExportList = service.getSafetyEquipmentExportList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getSafetyEquipments : " + e.getMessage());
@@ -194,26 +197,40 @@ public class SafetyEquipmentController {
 		List<SafetyEquipment> dataList = new ArrayList<SafetyEquipment>();
 		try {
 			view.setViewName("redirect:/safety-equipment");
-			dataList =  service.getSafetyEquipment(sObj);
+			dataList =  service.getSafetyEquipmentExportList(sObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
+		        XSSFSheet sheet =  workBook.createSheet(WorkbookUtil.createSafeSheetName("Safety_Equipment"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Contract");
-	            headingRow.createCell((short)1).setCellValue("Equipment No");
-	         	headingRow.createCell((short)2).setCellValue("Equipment Details");
-	            headingRow.createCell((short)3).setCellValue("Validity of Equipm");
-	            headingRow.createCell((short)4).setCellValue("Remarks");
+		        headingRow.createCell((short)0).setCellValue("Safety Equipment ID");
+	            headingRow.createCell((short)1).setCellValue("Contract");
+	            headingRow.createCell((short)2).setCellValue("Equipment No");
+	         	headingRow.createCell((short)3).setCellValue("Equipment Details");
+	            headingRow.createCell((short)4).setCellValue("Validity of Equipment");
+	            headingRow.createCell((short)5).setCellValue("Inspecting Official");
+	            headingRow.createCell((short)6).setCellValue("Last Inspection Date");
+	            headingRow.createCell((short)7).setCellValue("Next Inspection Date");
+	            headingRow.createCell((short)8).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (SafetyEquipment obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getContract_id_fk());
-	                row.createCell((short)1).setCellValue(obj.getSafety_equipment_number());
-	                row.createCell((short)2).setCellValue(obj.getSafety_equipment_detail());
-	                row.createCell((short)3).setCellValue(obj.getValidity_date());
-	                row.createCell((short)4).setCellValue(obj.getRemarks());
+	                row.createCell((short)0).setCellValue(obj.getSafety_equipment_id());
+	                row.createCell((short)1).setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_name());
+	                row.createCell((short)2).setCellValue(obj.getSafety_equipment_number());
+	                row.createCell((short)3).setCellValue(obj.getSafety_equipment_detail());
+	                row.createCell((short)4).setCellValue(obj.getValidity_date());
+	                row.createCell((short)5).setCellValue(obj.getInspecting_official());
+	                row.createCell((short)6).setCellValue(obj.getLast_inspection_date());
+	                row.createCell((short)7).setCellValue(obj.getNext_inspection_due());
+	                row.createCell((short)8).setCellValue(obj.getRemarks());
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//sheet.autoSizeColumn(columnIndex);
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "SafetyEquipment_"+dateFormat.format(date);
                 

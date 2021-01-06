@@ -34,8 +34,10 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	public List<Expenditure> expendituresList(Expenditure obj) throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry  ="SELECT expenditure_id,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type "
-					+ "from expenditure e "
+			String qry  ="SELECT expenditure_id,c.work_id_fk,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type,voucher_no, "
+					+ "narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"
+					+ "cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(igst_tds as CHAR) as igst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,"
+					+ "cast(`interest on_mob_adv` as CHAR) as interest_on_mob_adv,cast(amount_withheld as CHAR) as amount_withheld,e.remarks from  expenditure e "
 					+ "LEFT JOIN contract c on e.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN contractor cr on e.contractor_name = cr.contractor_name where expenditure_id is not null ";

@@ -13,9 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DataGatheringsDao;
-import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.DataGathering;
-import com.synergizglobal.pmis.model.Document;
 
 @Repository
 public class DataGatheringsDaoImpl implements DataGatheringsDao{
@@ -31,9 +29,10 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 	public List<DataGathering> getDataGatheringsList(DataGathering obj) throws Exception {
 		List<DataGathering> objsList = null;
 		try {
-			String qry ="select id, project_priority_fk, work_id_fk,w.work_name, target_date, start_date, finish_date, status_fk"
+			String qry ="select id,contract_id_fk,contract_name, project_priority_fk, dg.work_id_fk,w.work_name, target_date, start_date, finish_date, status_fk,dg.remarks"
 					+ " from data_gathering dg " + 
-					"left join work w on dg.work_id_fk = w.work_id where id is not null ";
+					"left join work w on dg.work_id_fk = w.work_id "
+					+"left join contract c on dg.contract_id_fk = c.contract_id where id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
 				qry = qry + " and project_priority_fk = ?";

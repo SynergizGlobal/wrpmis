@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -254,27 +255,45 @@ public class DeliverablesController {
 			dataList =  deliverablesService.getDeliverablesList(dObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
+		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Deliverables"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-		        headingRow.createCell((short)0).setCellValue("Project");
-	            headingRow.createCell((short)1).setCellValue("Work");
-	            headingRow.createCell((short)2).setCellValue("Contarct");
-	            headingRow.createCell((short)3).setCellValue("Deliverable Type");
-	            headingRow.createCell((short)4).setCellValue("Description");
-	            headingRow.createCell((short)5).setCellValue("Status");
-
+		        headingRow.createCell((short)0).setCellValue("ID");
+		        headingRow.createCell((short)1).setCellValue("Project Priority");
+		        headingRow.createCell((short)2).setCellValue("Project");
+	            headingRow.createCell((short)3).setCellValue("Work");
+	            headingRow.createCell((short)4).setCellValue("Contarct");
+	            headingRow.createCell((short)5).setCellValue("Deliverable Type");
+	            headingRow.createCell((short)6).setCellValue("Description");
+	            headingRow.createCell((short)7).setCellValue("Target Date");
+		        headingRow.createCell((short)8).setCellValue("Star Date");
+		        headingRow.createCell((short)9).setCellValue("Finish Date");
+	            headingRow.createCell((short)10).setCellValue("Status");
+	            headingRow.createCell((short)11).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (DataGathering obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getProject_id_fk() +" - "+ obj.getProject_name());
-	                row.createCell((short)1).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
-	                row.createCell((short)2).setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_name());
-	                row.createCell((short)3).setCellValue(obj.getDeliverable_type_fk());
-	                row.createCell((short)4).setCellValue(obj.getDeliverable_description());
-	                row.createCell((short)5).setCellValue(obj.getStatus_fk());
+	                row.createCell((short)0).setCellValue(obj.getId());
+	                row.createCell((short)1).setCellValue(obj.getProject_priority_fk());
+	                row.createCell((short)2).setCellValue(obj.getProject_id_fk() +" - "+ obj.getProject_name());
+	                row.createCell((short)3).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
+	                row.createCell((short)4).setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_name());
+	                row.createCell((short)5).setCellValue(obj.getDeliverable_type_fk());
+	                row.createCell((short)6).setCellValue(obj.getDeliverable_description());
+	                row.createCell((short)7).setCellValue(obj.getTarget_date());
+	                row.createCell((short)8).setCellValue(obj.getStart_date());
+	                row.createCell((short)9).setCellValue(obj.getFinish_date());
+	                row.createCell((short)10).setCellValue(obj.getStatus_fk());
+	                row.createCell((short)11).setCellValue(obj.getRemarks());
+	               
 	          
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//sheet.autoSizeColumn(columnIndex);
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Deliverables_"+dateFormat.format(date);
                 

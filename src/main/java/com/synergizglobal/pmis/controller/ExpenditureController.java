@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -27,19 +28,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ExpenditureService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.common.DateParser;
-import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.SourceOfFund;
 import com.synergizglobal.pmis.model.Expenditure;
 
 @Controller
@@ -260,28 +256,64 @@ public class ExpenditureController {
 			dataList =  expenditureService.expendituresList(obj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
+		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Expenditure"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Work");
-	            headingRow.createCell((short)1).setCellValue("Contract");
-	         	headingRow.createCell((short)2).setCellValue("Ledger Account");
-	            headingRow.createCell((short)3).setCellValue("Contractor Name");
-	            headingRow.createCell((short)4).setCellValue("Date");
-	            headingRow.createCell((short)5).setCellValue("Vocher Type");
+	            headingRow.createCell((short)0).setCellValue("Expenditure ID");
+	            headingRow.createCell((short)1).setCellValue("Work");
+	            headingRow.createCell((short)2).setCellValue("Contract");
+	         	headingRow.createCell((short)3).setCellValue("Ledger Account");
+	         	headingRow.createCell((short)4).setCellValue("Date");
+	            headingRow.createCell((short)5).setCellValue("Contractor Name");
+	            headingRow.createCell((short)6).setCellValue("Vocher Type");
+	            headingRow.createCell((short)7).setCellValue("Vocher No");
+	            headingRow.createCell((short)8).setCellValue("Narration");
+	            headingRow.createCell((short)9).setCellValue("Net Paid");
+	            headingRow.createCell((short)10).setCellValue("Gross Work Done");
+	            headingRow.createCell((short)11).setCellValue("sd Payable");
+	            headingRow.createCell((short)12).setCellValue("Contractor Income Tax");
+	            headingRow.createCell((short)13).setCellValue("CGST TDS");
+	            headingRow.createCell((short)14).setCellValue("SGST TDS");
+	            headingRow.createCell((short)15).setCellValue("IGST TDS");
+	            headingRow.createCell((short)16).setCellValue("VAT WCT");
+	            headingRow.createCell((short)17).setCellValue("Mob Advance");
+	            headingRow.createCell((short)18).setCellValue("Interest on Mob Advance");
+	            headingRow.createCell((short)19).setCellValue("Amount Withheld");
+	            headingRow.createCell((short)20).setCellValue("Remarks");
 	           
 
 	            short rowNo = 1;
 	            for (Expenditure eObj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(eObj.getWork_id_fk());
-	                row.createCell((short)1).setCellValue(eObj.getContract_id_fk());
-	                row.createCell((short)2).setCellValue(eObj.getLedger_account());
-	                row.createCell((short)3).setCellValue(eObj.getContract_name());
+	                row.createCell((short)0).setCellValue(eObj.getExpenditure_id());
+	                row.createCell((short)1).setCellValue(eObj.getWork_id_fk() +" - "+eObj.getWork_name());
+	                row.createCell((short)2).setCellValue(eObj.getContract_id_fk()+" - "+ eObj.getContract_name());
+	                row.createCell((short)3).setCellValue(eObj.getLedger_account());
 	                row.createCell((short)4).setCellValue(eObj.getDate());
-	                row.createCell((short)5).setCellValue(eObj.getVoucher_type());
+	                row.createCell((short)5).setCellValue(eObj.getContract_name());
+	                row.createCell((short)6).setCellValue(eObj.getVoucher_type());
+	                row.createCell((short)7).setCellValue(eObj.getVoucher_no());
+	                row.createCell((short)8).setCellValue(eObj.getNarration());
+	                row.createCell((short)9).setCellValue(eObj.getNet_paid());
+	                row.createCell((short)10).setCellValue(eObj.getGross_work_done());
+	                row.createCell((short)11).setCellValue(eObj.getSd_payable());
+	                row.createCell((short)12).setCellValue(eObj.getContractor_income_tax());
+	                row.createCell((short)13).setCellValue(eObj.getCgst_tds());
+	                row.createCell((short)14).setCellValue(eObj.getSgst_tds());
+	                row.createCell((short)15).setCellValue(eObj.getIgst_tds());
+	                row.createCell((short)16).setCellValue(eObj.getVat_wct());
+	                row.createCell((short)17).setCellValue(eObj.getMob_advance());
+	                row.createCell((short)18).setCellValue(eObj.getInterest_on_mob_adv());
+	                row.createCell((short)19).setCellValue(eObj.getAmount_withheld());
+	                row.createCell((short)20).setCellValue(eObj.getRemarks());
 	             
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//sheet.autoSizeColumn(columnIndex);
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Expenditure_"+dateFormat.format(date);
                 

@@ -29,6 +29,8 @@ public interface BudgetDao {
 
 	public List<Budget> getFinancialYearsList(Budget obj)throws Exception;
 
+	public List<Budget> getBudgetExportList(Budget obj) throws Exception;;
+
 
 
 

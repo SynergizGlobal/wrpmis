@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -89,8 +90,10 @@ public class BudgetController {
 	@ResponseBody
 	public List<Budget> getBudgetList(@ModelAttribute Budget obj) {
 		List<Budget> budgetList = null;
+		List<Budget> budgetExportList = null;
 		try {
 			budgetList = budgetService.budgetList(obj);
+			budgetExportList = budgetService.getBudgetExportList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("budgetList : " + e.getMessage());
@@ -231,33 +234,43 @@ public class BudgetController {
 		List<Budget> dataList = new ArrayList<Budget>();
 		try {
 			view.setViewName("redirect:/budget");
-			dataList =   budgetService.budgetList(budget);
+			dataList =   budgetService.getBudgetExportList(budget);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
-		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Work");
-	            headingRow.createCell((short)1).setCellValue("Current Financial Year");
-	         	headingRow.createCell((short)2).setCellValue("Budget Estimate");
-	            headingRow.createCell((short)3).setCellValue("Budget Grant");
-	            headingRow.createCell((short)4).setCellValue("Reivised Estimate");
-	            headingRow.createCell((short)5).setCellValue("Reivised Grant");
-	            headingRow.createCell((short)6).setCellValue("Final Estimate");
-	            headingRow.createCell((short)7).setCellValue("Final Grant");
+		        XSSFSheet Budgetsheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Budget"));
+		        workBook.setSheetOrder(Budgetsheet.getSheetName(), 0);
+		        XSSFRow headingRow = Budgetsheet.createRow(0);
+	            headingRow.createCell((short)0).setCellValue("Budget ID");
+	            headingRow.createCell((short)1).setCellValue("Work");
+	            headingRow.createCell((short)2).setCellValue("Latest Financial Year");
+	         	headingRow.createCell((short)3).setCellValue("Budget Estimate");
+	            headingRow.createCell((short)4).setCellValue("Budget Grant");
+	            headingRow.createCell((short)5).setCellValue("Reivised Estimate");
+	            headingRow.createCell((short)6).setCellValue("Reivised Grant");
+	            headingRow.createCell((short)7).setCellValue("Final Estimate");
+	            headingRow.createCell((short)8).setCellValue("Final Grant");
+	            headingRow.createCell((short)9).setCellValue("Remarks");
 
 	            short rowNo = 1;
 	            for (Budget obj : dataList) {
-	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getWork_id_fk());
-	                row.createCell((short)1).setCellValue(obj.getFinancial_year_fk());
-	                row.createCell((short)2).setCellValue(obj.getBudget_estimate());
-	                row.createCell((short)3).setCellValue(obj.getBudget_grant());
-	                row.createCell((short)4).setCellValue(obj.getRevised_estimate());
-	                row.createCell((short)5).setCellValue(obj.getRevised_grant());
-	                row.createCell((short)6).setCellValue(obj.getBudget_estimate());
-	                row.createCell((short)7).setCellValue(obj.getFinal_grant());
+	                XSSFRow row = Budgetsheet.createRow(rowNo);
+	                row.createCell((short)0).setCellValue(obj.getBudget_id());
+	                row.createCell((short)1).setCellValue(obj.getWork_id_fk());
+	                row.createCell((short)2).setCellValue(obj.getFinancial_year_fk());
+	                row.createCell((short)3).setCellValue(obj.getBudget_estimate());
+	                row.createCell((short)4).setCellValue(obj.getBudget_grant());
+	                row.createCell((short)5).setCellValue(obj.getRevised_estimate());
+	                row.createCell((short)6).setCellValue(obj.getRevised_grant());
+	                row.createCell((short)7).setCellValue(obj.getBudget_estimate());
+	                row.createCell((short)8).setCellValue(obj.getFinal_grant());
+	                row.createCell((short)9).setCellValue(obj.getRemarks());
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//Budgetsheet.autoSizeColumn(columnIndex);
+	        		Budgetsheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Budget_"+dateFormat.format(date);
                 

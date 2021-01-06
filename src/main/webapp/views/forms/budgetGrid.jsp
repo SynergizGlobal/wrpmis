@@ -121,7 +121,7 @@
                                     <thead>
                                         <tr>
                                             <th class="fw-300">Work </th>
-                                            <th>Current <br>Financial Year</th>
+                                            <th>Latest <br>Financial Year</th>
                                             <th>Budget Estimate</th>
                                             <th>Budget Grant </th>
                                             <th>Reivised Estimate</th>

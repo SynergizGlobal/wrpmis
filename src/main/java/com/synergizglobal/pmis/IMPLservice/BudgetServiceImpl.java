@@ -83,6 +83,11 @@ public class BudgetServiceImpl implements BudgetService{
 		return budgetDao.getFinancialYearsList(obj);
 	}
 
+	@Override
+	public List<Budget> getBudgetExportList(Budget obj) throws Exception {
+		return budgetDao.getBudgetExportList(obj);
+	}
+
 
 	
 

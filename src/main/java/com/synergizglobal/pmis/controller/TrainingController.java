@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -266,11 +267,13 @@ public class TrainingController {
 		try {
 			view.setViewName("redirect:/training");
 			dataList =   trainingService.getTrainingList(dObj);
-			
+			XSSFWorkbook  workBook = new XSSFWorkbook();
+		   
 			if(dataList != null && dataList.size() > 0){
-				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet training = workBook.createSheet();
-		        XSSFRow headingRow = training.createRow(0);
+				//XSSFWorkbook  workBook = new XSSFWorkbook ();
+		        XSSFSheet trainingSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Training"));
+		        workBook.setSheetOrder(trainingSheet.getSheetName(), 0);
+		        XSSFRow headingRow = trainingSheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("Training ID");
 	            headingRow.createCell((short)1).setCellValue("Training Type");
 	         	headingRow.createCell((short)2).setCellValue("Category");
@@ -284,7 +287,7 @@ public class TrainingController {
 
 	            short rowNo = 1;
 	            for (Training obj : dataList) {
-	                XSSFRow row = training.createRow(rowNo);
+	                XSSFRow row = trainingSheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getTraining_id());
 	                row.createCell((short)1).setCellValue(obj.getTraining_type_fk());
 	                row.createCell((short)2).setCellValue(obj.getTraining_category_fk());
@@ -298,25 +301,30 @@ public class TrainingController {
 	          
 	                rowNo++;
 	            }
-		        XSSFSheet sessions = workBook.createSheet();
-		        XSSFRow headingRow1 = sessions.createRow(0);
-		        headingRow1.createCell((short)0).setCellValue("Training ID");
-	            headingRow1.createCell((short)1).setCellValue("Session No");
-	         	headingRow1.createCell((short)2).setCellValue("Date");
-	            headingRow1.createCell((short)3).setCellValue("Start Time");
-	            headingRow1.createCell((short)4).setCellValue("End Time");
-	            headingRow1.createCell((short)5).setCellValue("Remark");
+		        XSSFSheet sessionsSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Sessions"));
+		        workBook.setSheetOrder(sessionsSheet.getSheetName(), 1);
+		        XSSFRow headingRow1 = sessionsSheet.createRow(0);
+		        headingRow1.createCell((short)0).setCellValue("Training Session ID");
+		        headingRow1.createCell((short)1).setCellValue("Training ID");
+	            headingRow1.createCell((short)2).setCellValue("Session No");
+	         	headingRow1.createCell((short)3).setCellValue("Date");
+	            headingRow1.createCell((short)4).setCellValue("Start Time");
+	            headingRow1.createCell((short)5).setCellValue("End Time");
+	            headingRow1.createCell((short)6).setCellValue("Remark");
 	            
-	            XSSFSheet attendees = workBook.createSheet();
-		        XSSFRow headingRow2 = attendees.createRow(0);
-		        headingRow2.createCell((short)0).setCellValue("Training ID");
-		        headingRow2.createCell((short)1).setCellValue("Session No");
-		        headingRow2.createCell((short)2).setCellValue("Department");
-		        headingRow2.createCell((short)3).setCellValue("Name of attendee in the meenting");
-		        headingRow2.createCell((short)4).setCellValue("HOD");
-		        headingRow2.createCell((short)5).setCellValue("Mobile No");
-		        headingRow2.createCell((short)6).setCellValue("Required (Yes / No)");
-		        headingRow2.createCell((short)7).setCellValue("Participated (Yes/No)");
+	            XSSFSheet attendeesSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Attendees"));
+	            workBook.setSheetOrder(attendeesSheet.getSheetName(), 2);
+		        XSSFRow headingRow2 = attendeesSheet.createRow(0);
+		        headingRow2.createCell((short)0).setCellValue("Training Attendees ID");
+		        headingRow2.createCell((short)1).setCellValue("Training Session ID");
+		        headingRow2.createCell((short)2).setCellValue("Training ID");
+		        headingRow2.createCell((short)3).setCellValue("Session No");
+		        headingRow2.createCell((short)4).setCellValue("Department");
+		        headingRow2.createCell((short)5).setCellValue("Name of attendee in the meenting");
+		        headingRow2.createCell((short)6).setCellValue("HOD");
+		        headingRow2.createCell((short)7).setCellValue("Mobile No");
+		        headingRow2.createCell((short)8).setCellValue("Required (Yes / No)");
+		        headingRow2.createCell((short)9).setCellValue("Participated (Yes/No)");
 	            
 	            short rowNo2 = 1;
 	        	for (Training tariningSessions : dataList) { 
@@ -324,13 +332,14 @@ public class TrainingController {
 	        		sessionsList = trainingService.getTrainingSessionsList(id);
 		           
 		            for (Training sObj : sessionsList) {
-		                XSSFRow row2 = sessions.createRow(rowNo2);
-		                row2.createCell((short)0).setCellValue(sObj.getTraining_id());
-		                row2.createCell((short)1).setCellValue(sObj.getSession_no());
-		                row2.createCell((short)2).setCellValue(sObj.getDate());
-		                row2.createCell((short)3).setCellValue(sObj.getStart_time());
-		                row2.createCell((short)4).setCellValue(sObj.getEnd_time());
-		                row2.createCell((short)5).setCellValue(sObj.getSession_remarks());
+		                XSSFRow row2 = sessionsSheet.createRow(rowNo2);
+		                row2.createCell((short)0).setCellValue(sObj.getTraining_session_id());
+		                row2.createCell((short)1).setCellValue(sObj.getTraining_id());
+		                row2.createCell((short)2).setCellValue(sObj.getSession_no());
+		                row2.createCell((short)3).setCellValue(sObj.getDate());
+		                row2.createCell((short)4).setCellValue(sObj.getStart_time());
+		                row2.createCell((short)5).setCellValue(sObj.getEnd_time());
+		                row2.createCell((short)6).setCellValue(sObj.getSession_remarks());
 		          
 		                rowNo2++;
 		            }
@@ -341,20 +350,33 @@ public class TrainingController {
 		        		attendeesList = trainingService.getTrainingAttendeesList(trainingId);
 		        	
 			            for (Training aObj : attendeesList) {
-			                XSSFRow row3 = attendees.createRow(rowNo3);
-			                row3.createCell((short)0).setCellValue(aObj.getTraining_id());
-			                row3.createCell((short)1).setCellValue(aObj.getSession_no());
-			                row3.createCell((short)2).setCellValue(aObj.getDepartment_fk());
-			                row3.createCell((short)3).setCellValue(aObj.getAttendee());
-			                row3.createCell((short)4).setCellValue(aObj.getHod_user_id_fk());
-			                row3.createCell((short)5).setCellValue(aObj.getMobile_no());
-			                row3.createCell((short)6).setCellValue(aObj.getRequired_fk());
-			                row3.createCell((short)7).setCellValue(aObj.getParticipated_fk());
+			                XSSFRow row3 = attendeesSheet.createRow(rowNo3);
+			                row3.createCell((short)0).setCellValue(aObj.getTraining_attendees_id());
+			                row3.createCell((short)1).setCellValue(aObj.getTraining_session_id());
+			                row3.createCell((short)2).setCellValue(aObj.getTraining_id());
+			                row3.createCell((short)3).setCellValue(aObj.getSession_no());
+			                row3.createCell((short)4).setCellValue(aObj.getDepartment_fk());
+			                row3.createCell((short)5).setCellValue(aObj.getAttendee());
+			                row3.createCell((short)6).setCellValue(aObj.getHod_user_id_fk());
+			                row3.createCell((short)7).setCellValue(aObj.getMobile_no());
+			                row3.createCell((short)8).setCellValue(aObj.getRequired_fk());
+			                row3.createCell((short)9).setCellValue(aObj.getParticipated_fk());
 			          
 			                rowNo3++;
 			            }
 		        	}
-		        	
+	        	for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+				     trainingSheet.autoSizeColumn(columnIndex);
+	        		//trainingSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	        	for(int columnIndex = 0; columnIndex < sessionsList.size(); columnIndex++) {
+	        		sessionsSheet.autoSizeColumn(columnIndex);
+	        		//trainingSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	        	for(int columnIndex = 0; columnIndex < attendeesList.size(); columnIndex++) {
+	        		attendeesSheet.autoSizeColumn(columnIndex);
+	        		//trainingSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
 	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Training_"+dateFormat.format(date);

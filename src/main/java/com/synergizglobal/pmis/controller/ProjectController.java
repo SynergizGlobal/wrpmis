@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -192,23 +193,31 @@ public class ProjectController {
 			dataList = projectService.getProjectList(); 
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet();
-		        XSSFRow headingRow = sheet.createRow(0);
+		        XSSFSheet projectSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Project"));
+		        workBook.setSheetOrder(projectSheet.getSheetName(), 0);
+		        XSSFRow headingRow = projectSheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("Project ID");
 	            headingRow.createCell((short)1).setCellValue("Project Name");
 	         	headingRow.createCell((short)2).setCellValue("Plan Head Number");
 	            headingRow.createCell((short)3).setCellValue("PB Item Number");
 	            headingRow.createCell((short)4).setCellValue("Remarks");
+	            headingRow.createCell((short)5).setCellValue("Project Status");
 	            short rowNo = 1;
 	            for (Project obj : dataList) {
-	                XSSFRow row = sheet.createRow(rowNo);
+	                XSSFRow row = projectSheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getProject_id());
 	                row.createCell((short)1).setCellValue(obj.getProject_name());
 	                row.createCell((short)2).setCellValue(obj.getPlan_head_number());
 	                row.createCell((short)3).setCellValue(obj.getPink_book_item_number());
 	                row.createCell((short)4).setCellValue(obj.getRemarks());
+	                row.createCell((short)5).setCellValue(obj.getProject_status());
 	                rowNo++;
-	            }DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            }
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	            	//projectSheet.autoSizeColumn(columnIndex);
+	        		projectSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "Project_"+dateFormat.format(date);
                 

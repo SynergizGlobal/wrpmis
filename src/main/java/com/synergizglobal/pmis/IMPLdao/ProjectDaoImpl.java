@@ -33,7 +33,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<Project> getProjectList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry ="SELECT project_id,project_name,plan_head_number,pink_book_item_number,remarks FROM project";
+			String qry ="SELECT project_id, project_name, plan_head_number, pink_book_item_number, remarks, project_status, attachment FROM project";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

@@ -366,7 +366,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				for (String emailId : dyHODEmailsList) {
 					List<Alerts> dyHodAlertsList = new ArrayList<Alerts>();
 					for (Alerts alerts : allAlertsList) {
-						if(!alerts.getDy_hod_email().equals(emailId)) {
+						if(alerts.getDy_hod_email().equals(emailId)) {
 							dyHodAlertsList.add(alerts);						
 						}
 					}
@@ -379,9 +379,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setTemplateName("alerts.vm");
 					
 					if(!StringUtils.isEmpty(dyHodAlertsList) && dyHodAlertsList.size() > 0){					
-						logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD: Start ");	
+						logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD "+emailId+"> : Start ");	
 						emailSender.sendEmailWithAlerts(mail,dyHodAlertsList); 
-						logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD : End ");	
+						logger.error("sendNotificationAlertMails() >> Sending mail to Dy HOD "+emailId+"> : End ");	
 						flag = true;
 					}
 				}
@@ -395,7 +395,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				for (String emailId : hodEmailsList) {
 					List<Alerts> hodAlertsList = new ArrayList<Alerts>();
 					for (Alerts alerts : allAlertsList) {
-						if(!alerts.getHod_email().equals(emailId)) {
+						if(alerts.getHod_email().equals(emailId)) {
 							hodAlertsList.add(alerts);						
 						}
 					}
@@ -407,9 +407,9 @@ public class AlertsDaoImpl implements AlertsDao{
 					mail.setTemplateName("alerts.vm");
 					
 					if(!StringUtils.isEmpty(hodAlertsList) && hodAlertsList.size() > 0){
-						logger.error("sendNotificationAlertMails() >> Sending mail to HOD : Start ");	
+						logger.error("sendNotificationAlertMails() >> Sending mail to HOD "+emailId+"> : Start ");	
 						emailSender.sendEmailWithAlerts(mail,hodAlertsList); 
-						logger.error("sendNotificationAlertMails() >> Sending mail to HOD : End ");	
+						logger.error("sendNotificationAlertMails() >> Sending mail to HOD "+emailId+"> : End ");	
 						flag = true;
 					}
 				}

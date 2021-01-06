@@ -47,10 +47,6 @@ public class AlertsController {
             boolean flag = service.generateAtertsByCronJob();
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
-	    	 
-			//flag = service.sendMailAlerts();
-			//logger.error("generateAlertsByCronJob >> sendMailAlerts >> Sending mails : "+ flag); 
-			//System.out.println("Sending mails : "+ flag); 
 			
 		    flag = service.sendNotificationAlertMails();
 		    logger.error("generateAtertsByCronJob >> sendNotificationAlertMails >> Sending mails : "+ flag); 
@@ -61,23 +57,55 @@ public class AlertsController {
 		 }
 	}
 	
-	@RequestMapping(value="/generate-alerts",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateAlertsByManual(){		
+	@RequestMapping(value="/generate-and-send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateAndSendAlertsToAllByManual(){		
 		 ModelAndView model = new ModelAndView("redirect:/home");	    
 	     try {
-	    	logger.error("generateAlertsByManual : start");
+	    	logger.error("generateAndSendAlertsToAllByManual : start");
 	    	//System.out.println("Start "+ new Date());
             boolean flag = service.generateAtertsByCronJob();
             //System.out.println("End "+ new Date());
-	    	logger.error("generateAlertsByManual : "+flag);
+	    	logger.error("generateAndSendAlertsToAllByManual : "+flag);
+			
+		    flag = service.sendNotificationAlertMails();
+		    logger.error("generateAndSendAlertsToAllByManual >> Sending mails : "+ flag); 
+		    //System.out.println("Sending mails : "+ flag); 
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("generateAndSendAlertsToAllByManual() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
+	@RequestMapping(value="/send-alerts-to-hod-dyhod",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendAlertsToHodDyHodByManual(){		
+		 ModelAndView model = new ModelAndView("redirect:/home");	    
+	     try {
+	    	boolean flag = service.sendAlertsToHodDyHodByManual();
+			logger.error("sendAlertsToHodDyHodByManual >> sendMailAlerts >> Sending mails : "+ flag); 
+			
+		 } catch (Exception e) {
+			logger.error("sendAlertsToHodDyHodByManual() : "+e);
+		 }
+	     return model;
+	}
+	
+
+	
+	@RequestMapping(value="/generate-and-send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateAndSendAlertsToRajivRaviByManual(){		
+		 ModelAndView model = new ModelAndView("redirect:/home");	    
+	     try {
+	    	logger.error("generateAndSendAlertsToRajivRaviByManual : start");
+	    	//System.out.println("Start "+ new Date());
+            boolean flag = service.generateAtertsByCronJob();
+            //System.out.println("End "+ new Date());
+	    	logger.error("generateAndSendAlertsToRajivRaviByManual : "+flag);
 	    	 
-			flag = service.sendMailAlerts();
-			logger.error("generateAlertsByManual >> sendMailAlerts >> Sending mails : "+ flag); 
+			flag = service.generateAndSendAlertsToRajivRaviByManual();
+			logger.error("generateAndSendAlertsToRajivRaviByManual >> sendMailAlerts >> Sending mails : "+ flag); 
 			//System.out.println("Sending mails : "+ flag); 
 			
-		    //flag = service.sendNotificationAlertMails();
-		    //logger.error("generateAtertsByCronJob >> sendNotificationAlertMails >> Sending mails : "+ flag); 
-		    //System.out.println("Sending mails : "+ flag); 
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("generateAlertsByManual() : "+e.getMessage());

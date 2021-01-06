@@ -131,16 +131,7 @@
         .mdl-data-table tbody td .datepicker-table .datepicker-row{
         	bottom-border:none;
         }
-          .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        
 	    .error-msg label{color:red!important;}   
 		
     </style>
@@ -219,18 +210,7 @@
                                     <input id="risk_id" name="risk_id" type="text" class="validate" value="${riskDetails.risk_id }">
                                     <label for="riskid">Risk ID </label>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <input type="text" class="datepicker" id="date_of_identification" name="date_of_identification" value="${riskDetails.date_of_identification }">
-                                    <label for="date_of_identification">Date of Identification</label>
-                                    <button id="date_of_identification_icon"><i class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row">
-                                <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Area</p>
                                     <select class="searchable validate-dropdown" id="area" name="area"  onchange="getSubAreasList();">
                                  	     <option value="" >Select</option>
@@ -238,6 +218,18 @@
                                      </select>
                             		 <span id="areaError" class="error-msg" ></span>
                                 </div>
+                               <!--  <div class="col s12 m4 input-field">
+                                    <input type="text" class="datepicker" id="date_of_identification" name="date_of_identification" value="${riskDetails.date_of_identification }">
+                                    <label for="date_of_identification">Date of Identification</label>
+                                    <button id="date_of_identification_icon"><i class="fa fa-calendar"></i></button>
+                                </div> -->
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+
+                            <div class="row">
+                                <!-- row 2 -->
+                                <div class="col m2 hide-on-small-only"></div>
+                               
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Sub Area</p>
                                     <select class="searchable validate-dropdown" id="sub_area_fk" name="sub_area_fk" onchange="getAreasList();" >

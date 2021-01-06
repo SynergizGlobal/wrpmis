@@ -22,11 +22,12 @@
         p a {
             color: blue;
         }
-          td{
-	        word-break: break-word;
-	    	word-wrap: break-word;
-	   		white-space: initial;
-   		}
+     .input-field .searchable_label{
+        	font-size:0.85rem;
+        } 
+          td,th{
+     	box-sizing:content-box !important;
+     }
    		.fw-300{
     	 	width:300px !important;
     	 	max-width:300px;
@@ -35,16 +36,7 @@
     	 	width:110px !important;
     	 	max-width:110px;
     	 }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
     </style>
 </head>
 <body>
@@ -96,9 +88,15 @@
                         </div>
                     
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col m2 s12 input-field">
+                            	<p class="searchable_label">Work</p>
+                                 <select id="work_id_fk" name="work_id_fk" onchange="getSafetyList();" class="searchable">
+                                     <option value="" >Select</option>
+                                     
+                                 </select>  
+                            </div>
                             <div class="col s12 m2 input-field">
-                            	<p><label>Contract</label></p>
+                            	<p class="searchable_label">Contract</p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${contracts }">
@@ -107,7 +105,7 @@
                                  </select>                                
                             </div>
                             <div class="col s12 m2 input-field">
-                            <p><label>Department</label></p>
+                            <p class="searchable_label">Department</p>
                                 <select id="department_fk" name="department_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${departments }">
@@ -116,7 +114,7 @@
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
-                            <p><label>Category</label></p>
+                            <p class="searchable_label">Category</p>
                                  <select id="category_fk" name="category_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${categorys }">
@@ -125,7 +123,7 @@
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
-                            <p><label>Status</label></p>
+                            <p class="searchable_label">Status</p>
                                  <select id="status_fk" name="status_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${statuses }">
@@ -135,9 +133,8 @@
                             </div>
                             <div class="col s12 m2">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
-                                    style="margin-top: 30px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+                                    style="margin-top: 20px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                             </div>
-                            <div class="col m1 hide-on-small-only"></div>
                         </div>
                         
                         <div class="row">

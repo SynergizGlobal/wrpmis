@@ -19,17 +19,7 @@
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
-        }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        }       
 		.error-msg label{color:red!important;}
     </style>
 </head>

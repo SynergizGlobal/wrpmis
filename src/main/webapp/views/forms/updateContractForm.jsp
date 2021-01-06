@@ -1000,6 +1000,7 @@
                                                 <th>Revised Amount </th>
                                                 <th>Revised DOC </th>
                                                 <th>Remarks </th>
+                                                <th>Active </th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -1024,6 +1025,10 @@
                                                 <td> 
                                                     <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" value="${revObj.remarks }"
                                                         placeholder="Remarks">
+                                                </td>
+                                                <td> 
+                                                   <label><input type="hidden" id="revision_status${index.count }" name="revision_status" value="No" />
+                                                 <input type="checkbox" id="revision_status${index.count }" /> <span></span> </label>
                                                 </td>
                                                 <td><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1057,6 +1062,10 @@
                                                 <td> 
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
+                                                </td>
+                                                <td> 
+                                                   <label><input type="hidden" id="revision_status0" name="revision_status" value="No" />
+                                                 <input type="checkbox" id="revision_status0" /> <span></span> </label>
                                                 </td>
                                                 <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
@@ -1862,6 +1871,7 @@
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
+			   +'<td><label><input type="hidden" id="revision_status'+rNo+'" name="revision_status" value="No" /> <input type="checkbox" id="revision_status'+rNo+'" /> <span></span> </label> </td>'
 		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
 		

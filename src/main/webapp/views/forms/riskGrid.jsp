@@ -17,19 +17,6 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
-        p a {
-            color: blue;
-            text-decoration: none;
-        }
-
-        td:last-child,
-        td:last-of-type {
-            white-space: inherit;
-        }
-
-        .last-column a+a {
-            margin-left: 20px;
-        }
 
         .input-field .searchable_label {
             font-size: 0.9rem;
@@ -80,25 +67,7 @@
         	width:250px;
         	max-width:250px;
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		 .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}			
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+      
 		
     </style>
 </head>
@@ -136,15 +105,15 @@
                                 <div class="m-1">
                                     <a href="javascript:void(0);" onclick="openUploadRiskModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Risk Data</strong></a>
-                                        <p style="padding-top:1rem"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p>
+                                        <!-- <p style="padding-top:1rem"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p> -->
                                 </div>
                             </div>
 
                             <div class="col s12 m4 c-align">
-                                <div class="m-1 ">
+                               <!--  <div class="m-1 ">
                                     <a  href="<%=request.getContextPath() %>/add-risk-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Risks</strong></a>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col s12 m4 r-align">

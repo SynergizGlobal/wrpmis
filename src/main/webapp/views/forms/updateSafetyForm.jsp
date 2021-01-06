@@ -22,19 +22,13 @@
         .hidden{
         	display:none;
         }
+         .input-field .searchable_label{
+        	font-size:0.85rem;
+        } 
         .mti-5 p{
         	margin-top:5px;
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -60,7 +54,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                 <p> <label> Project </label></p>
+                                 <p class="searchable_label"> Project </p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -71,7 +65,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p> <label> Work </label></p>
+                                 <p class="searchable_label"> Work </p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
@@ -90,7 +84,7 @@
                                     <br><br>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p> <label> Contract </label></p>
+                                 <p class="searchable_label"> Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
@@ -103,7 +97,7 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                     <p> <label> Department </label></p>
+                                     <p class="searchable_label"> Department </p>
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
@@ -115,7 +109,7 @@
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Category </label></p>
+                                <p class="searchable_label"> Category </p>
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyCategoryList }">
@@ -130,7 +124,7 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Impact </label></p>
+                                <p class="searchable_label"> Impact </p>
                                     <select class="searchable validate-dropdown" id="impact_fk" name="impact_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyImpactList }">
@@ -140,7 +134,7 @@
                                     <span id="impact_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">    
-                                <p> <label> Root Cause </label></p>                            
+                                <p class="searchable_label"> Root Cause </p>                            
                                     <select class="searchable validate-dropdown" id="root_cause_fk" name="root_cause_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyRootCauseList }">
@@ -155,7 +149,7 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Status </label></p>
+                                <p class="searchable_label"> Status </p>
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyStatusList }">
@@ -184,7 +178,7 @@
 								    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
 							    </div>
                                 <%-- <div class="col s12 m4 input-field">
-                                 <p> <label> Committee formed </label></p>
+                                 <p class="searchable_label"> Committee formed </p>
                                     <select id="committee_formed_fk" name="committee_formed_fk" class="searchable">
                                         <option value="">Select</option>
                                         <option value="Yes" <c:if test="${safety.committee_formed_fk eq 'Yes'}">selected</c:if>>Yes</option>

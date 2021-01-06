@@ -12,55 +12,28 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
      
-     
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>
-        p a {
+         p a {
             color: blue;
         }
-         td{
-       		 word-break: break-word;
-    		 word-wrap: break-word;
-   			 white-space: initial;
-    	 }
-    	 td:last-child{
-    	 	word-break:inherit;
-    	 }
+        .input-field .searchable_label{
+        	font-size:0.85rem;
+        }     
     	 .fw-400{
     	 	width:400px !important;
     	 	max-width:400px;
     	 }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		
-		.page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		
+         
     </style>
 </head>
 <body>
 
    <!-- header  starts-->
-         <jsp:include page="../layout/header.jsp"></jsp:include>
-         
+         <jsp:include page="../layout/header.jsp"></jsp:include>         
          
     <div class="row">
         <div class="col s12 m12">
@@ -109,8 +82,17 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col s12 m12">
                                 <div class="row">
+                                    <div class="col s12 m1 input-field">
+                                    <p class="searchable_label">Work </p>
+                                        <select id="work_id_fk" name="work_id_fk" onchange="getDesignList();" class="searchable">
+                                            <option value="">Select</option>
+                                           <%--  <c:forEach var="obj" items="${contractList}">
+	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
+	                                        </c:forEach> --%>
+                                        </select>
+                                    </div>
                                     <div class="col s12 m2 input-field">
-                                     <p> <label>Contract </label></p>
+                                    <p class="searchable_label">Contract </p>
                                         <select id="contract_id_fk" name="contract_id_fk" onchange="getDesignList();" class="searchable">
                                             <option value="">Select</option>
                                             <c:forEach var="obj" items="${contractList}">
@@ -119,7 +101,7 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <p> <label>Department </label></p>
+                                       <p class="searchable_label">Department </p>
                                         <select id="department_id_fk" name="department_id_fk" onchange="getDesignList();" class="searchable">
                                             <option value="">Select</option>
                                            		 <c:forEach var="obj" items="${departmentList}">
@@ -128,7 +110,7 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <p> <label>HOD </label></p>
+                                       <p class="searchable_label">HOD </p>
                                         <select id="hod" name="hod" onchange="getDesignList();" class="searchable">
                                             <option value="">Select</option>
                                            		<c:forEach var="obj" items="${hodList}">
@@ -137,7 +119,7 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                        <p> <label>Structure </label></p>
+                                       <p class="searchable_label">Structure </p>
                                         <select id="structure_type_fk" name="structure_type_fk" onchange="getDesignList();" class="searchable">
                                             <option value="">Select</option>
                                            		 <c:forEach var="obj" items="${structureTypeList}">
@@ -146,7 +128,7 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m2 input-field">
-                                       <p> <label>Drawing Type </label></p>
+                                      <p class="searchable_label">Drawing Type </p>
                                         <select id="drawing_type_fk" name="drawing_type_fk" onchange="getDesignList();" class="searchable">
                                             <option value="">Select </option>
                                            		  <c:forEach var="obj" items="${drawingTypeList}">
@@ -154,9 +136,9 @@
 	                                              </c:forEach>
                                         </select>
                                     </div>
-                                    <div class="col s12 m2 input-field">
+                                    <div class="col s12 m1 input-field">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 18px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+                                            style="margin-top: 8px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>

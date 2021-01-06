@@ -9,11 +9,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Issues</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	 
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
 	
-	 
 	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/issues.css">
@@ -23,14 +21,12 @@
         p a {
             color: blue;
         }
-         td{
-	        word-break: break-word;
-	    	word-wrap: break-word;
-	   		white-space: initial;
-     	}
-     	td:last-child,td:last-of-type{
-     		white-space:inherit;
-     	}
+         .input-field .searchable_label{
+        	font-size:0.85rem;
+        }  
+      td,th{
+     	box-sizing:content-box !important;
+     } 
         .fw-350{
     	 	width:350px !important;
     	 	max-width:350px;
@@ -39,16 +35,7 @@
 			width:200px !important;
 			max-width:200px;
 		}
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+      
     </style>
 </head>
 <body>
@@ -101,8 +88,17 @@
                         </div>
                         
                         <div class="row no-mar" style="margin-bottom: 0;">
+                         <div class="col s12 m1 input-field">
+                                    <p class="searchable_label">Work </p>
+                                        <select id="work_id_fk" name="work_id_fk" onchange="getDesignList();" class="searchable">
+                                            <option value="">Select</option>
+                                           <%--  <c:forEach var="obj" items="${contractList}">
+	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
+	                                        </c:forEach> --%>
+                                        </select>
+                                    </div>
                             <div class="col s12 m2 input-field">
-                             <p> <label>Contract</label></p>
+                             <p class="searchable_label">Contract</p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${contracts }">
@@ -112,7 +108,7 @@
                                                                
                             </div>
                             <div class="col s12 m2 input-field">
-                                <p><label>Department</label></p>
+                                <p class="searchable_label">Department</p>
                                 <select id="department_fk" name="department_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${departments }">
@@ -121,7 +117,7 @@
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
-                             <p><label>Category</label></p>
+                             <p class="searchable_label">Category</p>
                                  <select id="category_fk" name="category_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${categorys }">
@@ -130,7 +126,7 @@
                                  </select>
                             </div>
                             <div class="col s12 m2 input-field">
-								 <p><label>Status</label></p>                            
+								 <p class="searchable_label">Status</p>                           
                                  <select id="status_fk" name="status_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${statuses }">
@@ -139,7 +135,7 @@
                                  </select>
                             </div>
                              <div class="col s12 m2 input-field">
-								 <p><label>Responsible Organization</label></p>                            
+								 <p class="searchable_label">Responsible Organization</p>                           
                                  <select id="responsible_Organization_fk" name="responsible_Organization_fk" onchange="getIssues();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${statuses }">
@@ -147,9 +143,9 @@
 		                             </c:forEach> --%>
                                  </select>
                             </div>
-                            <div class="col s12 m2">
+                            <div class="col s12 m1">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 30px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+                                    style="margin-top: 20px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                             </div>
                         </div>
                         

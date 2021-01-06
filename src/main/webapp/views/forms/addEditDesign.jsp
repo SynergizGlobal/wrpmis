@@ -9,8 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design & Drawing</title>
     <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-     
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
      
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
@@ -21,6 +20,9 @@
         #example4 .datepicker~button {
             top: 30px;
             right:2px;
+        }
+        .mdl-data-table{
+        	border:1px solid #ccc;	
         }
 
         .datepicker-table thead tr,
@@ -46,7 +48,6 @@
         #example3 input[type="text"]::-webkit-input-placeholder,
         #example3 input[type="text"]:-ms-input-placeholder,
         #example3 input[type="text"]::placeholder {
-            /* Edge */
             color: #777;
         }
 

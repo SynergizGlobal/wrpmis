@@ -281,11 +281,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, String.class);
 			
 			String hodQry ="select group_concat(distinct hod_email) from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
 			pValues = new Object[] {CommonConstants.ACTIVE};
-			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
 						
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  " + 
 					"from alerts a " + 
@@ -322,19 +322,16 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 			}
 			
-			/***************************************************************************/
 			if(!StringUtils.isEmpty(dyHODEmails)) {
 				
-				List<String> dyHODEmailsList = Arrays.asList(dyHODEmails);
-				
+				List<String> dyHODEmailsList = Arrays.asList(dyHODEmails.split(",", -1));
 				for (String emailId : dyHODEmailsList) {
 					List<Alerts> dyHodAlertsList = new ArrayList<Alerts>();
 					for (Alerts alerts : allAlertsList) {
-						if(alerts.getDy_hod_email().equals(emailId)) {
+						if(!StringUtils.isEmpty(alerts.getDy_hod_email()) && alerts.getDy_hod_email().equals(emailId)) {
 							dyHodAlertsList.add(alerts);						
 						}
 					}
-					
 					String emailSubject = "Upcoming alerts";
 					
 					Mail mail = new Mail();
@@ -354,12 +351,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************************************************************/
 			if(!StringUtils.isEmpty(hodEmails)) {
-				List<String> hodEmailsList = Arrays.asList(hodEmails);
-				
+				List<String> hodEmailsList = Arrays.asList(hodEmails.split(",", -1));
 				for (String emailId : hodEmailsList) {
 					List<Alerts> hodAlertsList = new ArrayList<Alerts>();
 					for (Alerts alerts : allAlertsList) {
-						if(alerts.getHod_email().equals(emailId)) {
+						if(!StringUtils.isEmpty(alerts.getHod_email()) && alerts.getHod_email().equals(emailId)) {
 							hodAlertsList.add(alerts);						
 						}
 					}
@@ -482,11 +478,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, String.class);
 			
 			String hodQry ="select group_concat(distinct hod_email) from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
 			pValues = new Object[] {CommonConstants.ACTIVE};
-			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
 						
 			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  " + 
 					"from alerts a " + 
@@ -508,16 +504,14 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************************************************************/
 			if(!StringUtils.isEmpty(dyHODEmails)) {
 				
-				List<String> dyHODEmailsList = Arrays.asList(dyHODEmails);
-				
+				List<String> dyHODEmailsList = Arrays.asList(dyHODEmails.split(",", -1));
 				for (String emailId : dyHODEmailsList) {
 					List<Alerts> dyHodAlertsList = new ArrayList<Alerts>();
 					for (Alerts alerts : allAlertsList) {
-						if(alerts.getDy_hod_email().equals(emailId)) {
+						if(!StringUtils.isEmpty(alerts.getDy_hod_email()) && alerts.getDy_hod_email().equals(emailId)) {
 							dyHodAlertsList.add(alerts);						
 						}
 					}
-					
 					String emailSubject = "Upcoming alerts";
 					
 					Mail mail = new Mail();
@@ -537,12 +531,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************************************************************/
 			if(!StringUtils.isEmpty(hodEmails)) {
-				List<String> hodEmailsList = Arrays.asList(hodEmails);
-				
+				List<String> hodEmailsList = Arrays.asList(hodEmails.split(",", -1));
 				for (String emailId : hodEmailsList) {
 					List<Alerts> hodAlertsList = new ArrayList<Alerts>();
 					for (Alerts alerts : allAlertsList) {
-						if(alerts.getHod_email().equals(emailId)) {
+						if(!StringUtils.isEmpty(alerts.getHod_email()) && alerts.getHod_email().equals(emailId)) {
 							hodAlertsList.add(alerts);						
 						}
 					}
@@ -564,7 +557,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************************************************************/
 			
 		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
+			throw new Exception(e);
 		}
 		return flag;
 	}

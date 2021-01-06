@@ -85,8 +85,7 @@ public class AlertsController {
 			logger.error("sendAlertsToHodDyHodByManual >> sendMailAlerts >> Sending mails : "+ flag); 
 			
 		 } catch (Exception e) {
-			 e.printStackTrace();
-			logger.error("sendAlertsToHodDyHodByManual() : "+e.getMessage());
+			logger.error("sendAlertsToHodDyHodByManual() : "+e);
 		 }
 	     return model;
 	}

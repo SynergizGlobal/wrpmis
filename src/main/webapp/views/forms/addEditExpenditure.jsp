@@ -14,8 +14,7 @@
  	</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-     
-     
+          
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -23,24 +22,9 @@
         p a {
             color: blue
         }
-
-        td:last-child,
-        td:last-of-type {
-            white-space: inherit;
-        }
-          .input-field .searchable_label {
-            font-size: 0.8rem;
-        }
-          .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        .input-field .searchable_label {
+            font-size: 0.85rem;
+        }        
 		.error-msg label{color:red!important;}
     </style>
 </head>

@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
      
-     
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -22,34 +21,14 @@
     <style>
         p a {
             color: blue
-        }
-
-        td:last-child,
-        td:last-of-type {
-            white-space: inherit;
-        }
-        td{
-       		 word-break: break-word;
-    		 word-wrap: break-word;
-   			 white-space: initial;
-    	 }
-    	  td:last-child{
-    	 	word-break:inherit;
-    	 }
+        }     
+        .input-field .searchable_label {
+            font-size: 0.85rem;
+        }  
     	 .fw-450{
     	 	width:450px !important;
     	 	max-width:450px;
-    	 }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+    	 }        
     </style>
 </head>
 
@@ -106,26 +85,26 @@
                             <div class="col m8 s12">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
-                                        <p><label>Work</label></p>
+                                       <p class="searchable_label">Work</p>
                                          <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                        <p><label>Source of Fund</label></p>
+                                       <p class="searchable_label">Source of Fund</p>
                                          <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                        <p><label> Railway</label></p>
+                                       <p class="searchable_label"> Railway</p>
                                         <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 18px;width: 100%;" onclick="clearFilter();" >Clear Filters</button>
+                                            style="margin-top: 8px;width: 100%;" onclick="clearFilter();" >Clear Filters</button>
                                     </div>
                                 </div>
                             </div>

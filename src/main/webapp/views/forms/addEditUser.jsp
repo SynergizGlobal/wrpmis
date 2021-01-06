@@ -39,7 +39,6 @@
             padding: 0 !important;
         }
 
-
         .datepicker-table th,
         .datepicker-table td {
             padding: 0;
@@ -67,16 +66,7 @@
             width: 100%;
             overflow: auto;
         }
-        .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+      
         .error-msg label{color:red!important;}
         /*table with fixed header & height start */
 		.max-h{
@@ -98,6 +88,12 @@
         	max-width:290px;
         	text-align:left;
         }
+        .mdl-data-table {
+        	border:1px solid #ccc;
+        }
+          .input-field .searchable_label{
+        	font-size:0.85rem;
+        } 
     </style>
 </head>
 <body>
@@ -133,7 +129,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                     <p>User Role</p>
+                                     <p class="searchable_label">User Role</p>
                                       <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">
                                           <option value="">Select</option>
                                           <c:forEach var="obj" items="${roles }">
@@ -164,7 +160,7 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                   <p>Department</p>
+                                   <p class="searchable_label">Department</p>
                                     <select id="department_fk" name="department_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departments }">
@@ -174,7 +170,7 @@
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                   <p>Reporting To</p>
+                                   <p class="searchable_label">Reporting To</p>
                                    <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
                                        <option value="">Select</option>
                                        <c:forEach var="obj" items="${reportingToList }">
@@ -357,7 +353,7 @@
                                     <table class="mdl-data-table">
                                         <tbody>                                          
                                             <tr>
-                                                <td colspan="3" style="text-align: right;"><a href="javascript:void(0);" onclick="addUserPermissions()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
+                                                <td colspan="3" style="text-align: center !important;"><a href="javascript:void(0);" onclick="addUserPermissions()"class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-plus"></i></a> </td>
 											</tr>
                                         </tbody>
                                     </table>

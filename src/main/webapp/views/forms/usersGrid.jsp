@@ -17,34 +17,14 @@
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<style>
-        <style>
-      	p a{            color:#ff0000;       	}
-       td{
-	        word-break: break-word;
-	    	word-wrap: break-word;
-	   		white-space: initial;
-     	}
-     	td:last-child,td:last-of-type{
-     		white-space:inherit;
-     	}
-       .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}.page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}				
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+      	
+      	p a{
+      		color:blue;
+      	}
+      	  .input-field .searchable_label{
+        	font-size:0.85rem;
+        } 
+      
     </style>
 </head>
 <body>
@@ -100,7 +80,7 @@
                             <div class="col m8 s12">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m3 input-field">
-                                    	 <p>User Role</p>
+                                    	 <p class="searchable_label">User Role</p>
                                         <select id="user_role_name_fk" name="user_role_name_fk" class="searchable" onchange="getUsersList();">
                                             <option value="">Select</option>
                                             <%-- <c:forEach var="obj" items="${roles }">
@@ -109,7 +89,7 @@
                                         </select>                                       
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                    	<p>Department</p>
+                                    	<p class="searchable_label">Department</p>
                                         <select id="department_fk" name="department_fk" class="searchable" onchange="getUsersList();">
                                             <option value="">Select</option>
                                             <%-- <c:forEach var="obj" items="${departments }">
@@ -118,7 +98,7 @@
                                         </select>                                        
                                     </div>
                                     <div class="col s12 m3 input-field">
-                                    	<p>Reporting To</p>
+                                    	<p class="searchable_label">Reporting To</p>
                                         <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable" onchange="getUsersList();">
                                             <option value="">Select</option>
                                             <%-- <c:forEach var="obj" items="${reportingToList }">
@@ -128,7 +108,7 @@
                                     </div>
                                     <div class="col s12 m3">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 30px;width:100%" onclick="clearFilter();">Clear Filters</button>
+                                            style="margin-top: 20px;width:100%" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>

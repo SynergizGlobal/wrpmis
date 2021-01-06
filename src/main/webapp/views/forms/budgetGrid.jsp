@@ -24,41 +24,17 @@
         p a {
             color: blue
         }
- 		td{
-       		 word-break: break-word;
-    		 word-wrap: break-word;
-   			 white-space: initial;
-    	 }
-    	  td:last-child{
-    	 	word-break:inherit;
-    	 }
-        td:last-child,
-        td:last-of-type {
-            white-space: inherit;
+        .input-field .searchable_label{
+      		font-size:0.85rem;
+        } 
+        td,th{
+        	box-sizing:content-box !important;
         }
+ 		
         .fw-300{
         	width:300px !important;
         	max-width:300px;
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		 .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}			
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
     </style>
 </head>
 
@@ -110,21 +86,21 @@
                             <div class="col m6 s12">
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col s12 m4 input-field">
-                                        <p><label>Project</label></p>
+                                        <p class="searchable_label">Project</p>
                                         <select class="searchable" name="project_id_fk" id="project_id_fk" onchange="getBudgetList();">
                                             <option value="" selected>Select</option>
                                             	
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <p><label>Work</label></p>
+                                        <p class="searchable_label">Work</p>
                                         <select id="work_id_fk" name="work_id_fk" onchange="getBudgetList();" class="searchable">
                                             <option value="" >Select</option>
 	                                           
                                         </select>
                                     </div>
                                     <!-- <div class="col s12 m3 input-field">
-                                        <p><label>Financial Year</label></p>
+                                        <p class="searchable_label">Financial Year</p>
                                         <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList();">
                                             <option value="" >Select</option>
                                             	 
@@ -132,7 +108,7 @@
                                     </div> -->
                                     <div class="col s12 m4">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 30px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+                                            style="margin-top: 20px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>

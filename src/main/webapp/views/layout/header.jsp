@@ -10,7 +10,12 @@
    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-   
+   <style>
+   	.preloader-wrapper{
+        top: 45%!important;
+        left:47%!important;
+    }
+   </style>
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />
 

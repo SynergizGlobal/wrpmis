@@ -272,43 +272,7 @@ public class AlertsDaoImpl implements AlertsDao{
 		return flag;
 	}
 
-	@Override
-	public boolean sendMailAlerts() throws Exception {
-		boolean flag = false;
-		try {
-			/*String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
-					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";*/
-			
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name  " + 
-					"from alerts a " + 
-					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
-					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
-			
-			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
-			List<Alerts> objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
-			
-			String emailSubject = "Upcoming alerts";
-			
-			Mail mail = new Mail();
-			mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
-			mail.setMailSubject(emailSubject);
-			mail.setTemplateName("alerts.vm");
-			
-			if(objsList != null && objsList.size() > 0){
-				EMailSender emailSender = new EMailSender();
-				logger.error("sendMailAlerts() >> Sending mail : Start ");	
-				emailSender.sendEmailWithAlerts(mail,objsList); 
-				logger.error("sendMailAlerts() >> Sending mail : End ");
-				flag = true;
-			}
-
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return flag;
-	}
-
+	
 	@Override
 	public boolean sendNotificationAlertMails() throws Exception {
 		boolean flag = false;
@@ -508,5 +472,141 @@ public class AlertsDaoImpl implements AlertsDao{
 		}
 		return flag;
 	}
+
+
+	@Override
+	public boolean sendAlertsToHodDyHodByManual() throws Exception {
+		boolean flag = false;
+		try {
+			EMailSender emailSender = new EMailSender();
+			
+			String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
+			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+			
+			String hodQry ="select group_concat(distinct hod_email) from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
+			pValues = new Object[] {CommonConstants.ACTIVE};
+			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, new BeanPropertyRowMapper<String>(String.class));
+						
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  " + 
+					"from alerts a " + 
+					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
+					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+			
+			pValues = new Object[] {CommonConstants.ACTIVE};
+			List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			/*dyfacao1@mrvc.gov.in - 1st 2nd 3rd of BG & Insurance
+			facao2@mrvc.gov.in - 2nd 3rd of BG & Insurance
+			df@mrvc.gov.in - 3rd of BG & Insurance
+			
+			dy HOD - 1st, 2nd 3rd alert of their contracts
+			HOD - 2nd, 3rd alerts of their contracts
+			cmd@mrvc.gov.in - only 3rd alerts of all contracts..*/
+			
+			/***************************************************************************/
+			if(!StringUtils.isEmpty(dyHODEmails)) {
+				
+				List<String> dyHODEmailsList = Arrays.asList(dyHODEmails);
+				
+				for (String emailId : dyHODEmailsList) {
+					List<Alerts> dyHodAlertsList = new ArrayList<Alerts>();
+					for (Alerts alerts : allAlertsList) {
+						if(alerts.getDy_hod_email().equals(emailId)) {
+							dyHodAlertsList.add(alerts);						
+						}
+					}
+					
+					String emailSubject = "Upcoming alerts";
+					
+					Mail mail = new Mail();
+					mail.setMailTo(emailId);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("alerts.vm");
+					
+					if(!StringUtils.isEmpty(dyHodAlertsList) && dyHodAlertsList.size() > 0){					
+						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to Dy HOD "+emailId+"> : Start ");	
+						emailSender.sendEmailWithAlerts(mail,dyHodAlertsList); 
+						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to Dy HOD "+emailId+"> : End ");	
+						flag = true;
+					}
+				}
+			}
+			/***************************************************************************/
+			
+			/***************************************************************************/
+			if(!StringUtils.isEmpty(hodEmails)) {
+				List<String> hodEmailsList = Arrays.asList(hodEmails);
+				
+				for (String emailId : hodEmailsList) {
+					List<Alerts> hodAlertsList = new ArrayList<Alerts>();
+					for (Alerts alerts : allAlertsList) {
+						if(alerts.getHod_email().equals(emailId)) {
+							hodAlertsList.add(alerts);						
+						}
+					}
+					String emailSubject = "Upcoming alerts";
+					
+					Mail mail = new Mail();
+					mail.setMailTo(emailId);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("alerts.vm");
+					
+					if(!StringUtils.isEmpty(hodAlertsList) && hodAlertsList.size() > 0){
+						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to HOD "+emailId+"> : Start ");	
+						emailSender.sendEmailWithAlerts(mail,hodAlertsList); 
+						logger.error("sendAlertsToHodDyHodByManual() >> Sending mail to HOD "+emailId+"> : End ");	
+						flag = true;
+					}
+				}
+			}
+			/***************************************************************************/
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+	
+
+	
+	@Override
+	public boolean generateAndSendAlertsToRajivRaviByManual() throws Exception {
+		boolean flag = false;
+		try {
+			/*String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
+					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";*/
+			
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name  " + 
+					"from alerts a " + 
+					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
+					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+			
+			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+			List<Alerts> objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			String emailSubject = "Upcoming alerts";
+			
+			Mail mail = new Mail();
+			mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
+			mail.setMailSubject(emailSubject);
+			mail.setTemplateName("alerts.vm");
+			
+			if(objsList != null && objsList.size() > 0){
+				EMailSender emailSender = new EMailSender();
+				logger.error("sendMailAlerts() >> Sending mail : Start ");	
+				emailSender.sendEmailWithAlerts(mail,objsList); 
+				logger.error("sendMailAlerts() >> Sending mail : End ");
+				flag = true;
+			}
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+
 	
 }

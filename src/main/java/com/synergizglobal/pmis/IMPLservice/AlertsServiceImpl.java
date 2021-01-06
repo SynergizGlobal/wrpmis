@@ -17,13 +17,18 @@ public class AlertsServiceImpl implements AlertsService{
 	}
 
 	@Override
-	public boolean sendMailAlerts() throws Exception {
-		return dao.sendMailAlerts();
+	public boolean sendNotificationAlertMails() throws Exception {
+		return dao.sendNotificationAlertMails();
 	}
 
 	@Override
-	public boolean sendNotificationAlertMails() throws Exception {
-		return dao.sendNotificationAlertMails();
+	public boolean sendAlertsToHodDyHodByManual() throws Exception {
+		return dao.sendAlertsToHodDyHodByManual();
+	}
+
+	@Override
+	public boolean generateAndSendAlertsToRajivRaviByManual() throws Exception {
+		return dao.generateAndSendAlertsToRajivRaviByManual();
 	}
 
 }

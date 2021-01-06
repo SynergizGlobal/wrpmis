@@ -56,16 +56,7 @@
             width: 100%;
             overflow: auto;
         }
-          .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -99,7 +90,7 @@
 						</c:if>
                         <div class="container container-no-margin">
                          <c:if test="${action eq 'add'}">	
-                            <div class="row">
+                            <div class="row" style="margin-bottom: 0;">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Work </p>
@@ -125,18 +116,16 @@
                         </div>
                          <div>
                        		<c:if test="${action eq 'edit'}">	
-                       		 <div class="row">
-                       	      <div class="col m2 hide-on-small-only">
-                       	      </div>
+                       		 <div class="row" style="margin-bottom: 0;">
+                       	      <div class="col m2 hide-on-small-only">	      </div>
                        		  <div class="col s12 m4 input-field">
-									<p><label> Work </label></p>
-                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_name}" readonly />
+                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_name}" readonly />
+                                    <label for="work_id_fk"> Work</label>
 							  </div> 
 							  <div class="col s12 m4 input-field"> 
-								    <p><label> Contract </label></p>
-                                         	 	<input type="text" value="${taFinancialDetails.contract_id_fk}- ${taFinancialDetails.contract_name}" readonly />
-                                         	 	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${taFinancialDetails.contract_id_fk}" readonly />
-                                         	 	
+                                    <input type="text" value="${taFinancialDetails.contract_id_fk}-${taFinancialDetails.contract_name}" readonly />
+                                    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${taFinancialDetails.contract_id_fk}" readonly />      
+                                    <label for="contract_id_fk"> Contract</label>           	 	
                               </div>
                         	  </div> 
                            </c:if>

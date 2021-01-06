@@ -76,16 +76,7 @@
                 max-width: 147px;
             }
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
 		.my-error-class {
    			 color:red;
 		}
@@ -152,12 +143,12 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                
                                 <div class="col s12 m4 input-field">
-									<p class="searchable_label">Project</p>
-                                         	 	<input type="text" name="project_id_fk" id="project_id_fk" value="${documentDetails.project_id_fk}- ${documentDetails.project_name}" readonly />
+                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${documentDetails.project_id_fk}- ${documentDetails.project_name}" readonly />
+									<label for="project_id_fk">Project</label>     
 							    </div> 
                                 <div class="col s12 m4 input-field"> 
-								    <p class="searchable_label"> Work </p>
-                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_name}" readonly />
+                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_name}" readonly />
+								    <label for="work_id_fk">Work</label>     
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -166,8 +157,8 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <c:if test="${action eq 'edit'}">	
                                  <div class="col s12 m4 input-field"> 
-                                 	<p class="searchable_label">Contract</p>        
                               	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_name}" readonly />
+                                 	<label for="contract_id_fk">Contract</label>           
                               	    </div>
                                  </c:if>
                                 <c:if test="${action eq 'add'}">	

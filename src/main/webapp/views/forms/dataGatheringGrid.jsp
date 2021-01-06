@@ -12,8 +12,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-     
-     
+          
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -24,40 +23,18 @@
             text-decoration: none;
         }
 
-        td:last-child {
-            white-space: inherit;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 15px;
+        td,th{
+        	box-sizing: content-box !important;
         }
 
         .input-field .searchable_label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
           .fw-350{
     	 	width:350px !important;
     	 	max-width:350px;
     	 }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		 .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}			
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
     </style>
 </head>
 

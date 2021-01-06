@@ -21,50 +21,15 @@
         .row.no-mar {
             margin-bottom: 0;
         }
-
-       
-        .last-column .btn+.btn {
-            margin-left: 20px;
-        }
-
         .input-field .searchable_label {
             font-size: 0.85rem;
-        }
-
-        .last-column {
-            word-break: break-all;
-            white-space: inherit;
-        }
-         td{
-	       white-space: break-spaces;
-	       word-break: break-word;
-	     } 
+        }       
        .fw-300{
 	       	width:300px;
 	       	min-width:300px;
 	       	max-width:300px;
        }
-          .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
-		
-		.page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		
+         
     </style>
 </head>
 

@@ -12,8 +12,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-     
-     
+          
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/training.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -26,37 +25,15 @@
         	white-space:pre-line;
         	word-break:break-word;
         }
-          td:last-child,
-        td:last-of-type {
-            white-space: inherit;
-        }
-       
+    
          .input-field .searchable_label{
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .fw-350{
         	width:350px;
         	max-width:350px;
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		 .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}			
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+       
     </style>
 </head>
 
@@ -87,11 +64,11 @@
 						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                                 <div class="m-1 l-align">
+                                 <!-- <div class="m-1 l-align">
                                     <a href="javascript:void(0);" onclick="openUploadTrainingModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="/pmis/Training_Template.xlsx">here</a> for the template</p>
-                                </div> 
+                                </div>  -->
                             </div>
 
                             <div class="col s12 m4">

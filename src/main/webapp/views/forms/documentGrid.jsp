@@ -23,38 +23,12 @@
         p a {
             color: blue;
             text-decoration: none;
-        }
-
-        td:last-child {
-            white-space: inherit;
-        }
-
-        .last-column .btn+.btn {
-            margin-left: 15px;
-        }
+        }     
 
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
-         .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		 .page-loader-2 {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}			
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+        
     </style>
 </head>
 <body>

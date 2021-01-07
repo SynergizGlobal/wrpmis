@@ -374,7 +374,7 @@
     	                   	rowArray.push($.trim(val.user_id));
     	                   	rowArray.push($.trim(val.user_name));
     	                   	rowArray.push($.trim(val.designation));
-    	                   	rowArray.push($.trim(val.department_fk));
+    	                   	rowArray.push($.trim(val.department_name));
     	                   	rowArray.push($.trim(val.reporting_to_name));
     	                   	rowArray.push($.trim(val.user_role_name_fk));
     	                   	

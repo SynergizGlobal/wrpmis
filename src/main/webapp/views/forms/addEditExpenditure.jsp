@@ -379,6 +379,11 @@
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
+            $("#contract_id_fk option:not(:first)").remove();
+            
+            $("#contractor_name").attr("readonly", false); 
+        	$("#contractor_name").val("");
+        	$("#contractor_name").attr("readonly", true);
 
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
@@ -404,6 +409,11 @@
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
+            
+            $("#contractor_name").attr("readonly", false); 
+        	$("#contractor_name").val("");
+        	$("#contractor_name").attr("readonly", true);
+        	
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({

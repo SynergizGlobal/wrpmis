@@ -107,22 +107,22 @@
 		                       	 	  <div class="col m2 hide-on-small-only"></div>
 		                       		  <div class="col s12 m4 input-field">
 											<p><label> Project </label></p>
-		                                    <input type="text" value="${expenditureDetails.project_id_fk}- ${expenditureDetails.project_name}" readonly />
+		                                    <input type="text" value="${expenditureDetails.project_id_fk} - ${expenditureDetails.project_name}" readonly />
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
 										    <p><label> Work </label></p>
-		                                    <input type="text" value="${expenditureDetails.work_id_fk}- ${expenditureDetails.work_name}" readonly />
+		                                    <input type="text" value="${expenditureDetails.work_id_fk} - ${expenditureDetails.work_name}" readonly />
 		                              </div>
 	                             </div> 
 	                             <div class="row">
 		                       	 	  <div class="col m2 hide-on-small-only"></div>
 		                       		  <div class="col s12 m4 input-field">
 											<p><label>Contract </label></p>        
-	                              			<input type="text" value="${expenditureDetails.contract_id_fk}- ${expenditureDetails.contract_name}" readonly /><br><br>
+	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly /><br><br>
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
 										    <p><label>Contractor name </label></p>
-		                                    <input type="text" value="${expenditureDetails.contractor_name}" readonly />
+		                                    <input type="text" id="contractor_name" name="contractor_name" value="${expenditureDetails.contractor_name}" readonly />
 		                              </div>
 		                              <div class="col m2 hide-on-small-only"></div>
 	                             </div>	                            

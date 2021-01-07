@@ -86,10 +86,10 @@ public class FOBDaoImpl implements FOBDao {
 			
 			String qry = "INSERT INTO fob"
 					+ "(fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,commissioning_date,"
-					+ "estimated_cost,last_sanctioned_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment) "
+					+ "estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment) "
 					+ "VALUES "
 					+ "(:fob_id,fob_name,:contract_id_fk,:date_of_approval,:target_date,:construction_start_date,:actual_completion_date,:commissioning_date,:" 
-					+ "estimated_cost,:last_sanctioned_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:remarks,:attachment)";		 
+					+ "estimated_cost,:completion_cost,:work_status_fk,:latitude,:longitude,:remarks,:attachment)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
 			if(count > 0) {
@@ -198,7 +198,7 @@ public class FOBDaoImpl implements FOBDao {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE fob set "
 					+ "fob_name = :fob_name,contract_id_fk = :contract_id_fk,date_of_approval = :date_of_approval,target_date = :target_date,construction_start_date = :construction_start_date,actual_completion_date = :actual_completion_date,commissioning_date = :commissioning_date,"
-					+"estimated_cost = :estimated_cost,last_sanctioned_cost = :last_sanctioned_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,remarks = :remarks,attachment=:attachment "
+					+"estimated_cost = :estimated_cost,completion_cost = :completion_cost,work_status_fk = :work_status_fk,latitude = :latitude,longitude = :longitude,remarks = :remarks,attachment=:attachment "
 					+ "where fob_id = :fob_id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			

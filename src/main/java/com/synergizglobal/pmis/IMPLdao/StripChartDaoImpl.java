@@ -54,7 +54,7 @@ public class StripChartDaoImpl implements StripChartDao {
 					+ "from contract c "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) "
-					+ "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk";			
+					+ "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk ORDER BY wr.project_id_fk ASC";			
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
@@ -80,7 +80,7 @@ public class StripChartDaoImpl implements StripChartDao {
 				qry = qry + " and w.project_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY c.work_id_fk";
+			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -110,7 +110,7 @@ public class StripChartDaoImpl implements StripChartDao {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by scv.contract_id_fk ";
+			qry = qry + " group by scv.contract_id_fk ORDER BY scv.contract_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			

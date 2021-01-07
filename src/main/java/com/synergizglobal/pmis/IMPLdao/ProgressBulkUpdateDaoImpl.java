@@ -3,24 +3,20 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.synergizglobal.pmis.common.CommonMethods;
-import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.Idao.ProgressBulkUpdateDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.StripChart;
@@ -50,7 +46,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 					+ "from contract c "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) "
-					+ "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk";			
+					+ "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk ORDER BY wr.project_id_fk ASC";			
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		}catch(Exception e){ 
@@ -74,7 +70,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 				qry = qry + " and w.project_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY c.work_id_fk";
+			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -104,7 +100,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by scv.contract_id_fk ";
+			qry = qry + " group by scv.contract_id_fk ORDER BY scv.contract_id_fk ASC ";
 			
 			Object[] pValues = new Object[arrSize];
 			

@@ -376,9 +376,9 @@ public class ContractController {
 			            headingRow.createCell((short)23).setCellValue("Final Takeover");
 			            headingRow.createCell((short)24).setCellValue("Final Release");
 			            headingRow.createCell((short)25).setCellValue("Contract Status");
-			            headingRow.createCell((short)25).setCellValue("Defect Liability Period");
-			            headingRow.createCell((short)26).setCellValue("Retention Money Release");
-			            headingRow.createCell((short)27).setCellValue("PBG Release");
+			            headingRow.createCell((short)26).setCellValue("Defect Liability Period");
+			            headingRow.createCell((short)27).setCellValue("Retention Money Release");
+			            headingRow.createCell((short)28).setCellValue("PBG Release");
 			            headingRow.createCell((short)29).setCellValue("Contract Closure");
 			            headingRow.createCell((short)30).setCellValue("Bank Guarantee Requried");
 			            headingRow.createCell((short)31).setCellValue("Insurance Requried");

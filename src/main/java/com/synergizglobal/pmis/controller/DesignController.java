@@ -428,8 +428,8 @@ public class DesignController {
 			                row.createCell((short)29).setCellValue(obj.getHq_approval());
 			                row.createCell((short)30).setCellValue(obj.getGfc_released());
 			                row.createCell((short)31).setCellValue(obj.getAs_built_status());
-			                row.createCell((short)31).setCellValue(obj.getAs_built_date());
-			                row.createCell((short)31).setCellValue(obj.getRemarks());
+			                row.createCell((short)32).setCellValue(obj.getAs_built_date());
+			                row.createCell((short)33).setCellValue(obj.getRemarks());
 			                rowNo++;
 			            }
 			            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {

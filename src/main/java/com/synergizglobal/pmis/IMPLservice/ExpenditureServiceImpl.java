@@ -71,6 +71,21 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	public List<Expenditure> getVoucherTypesFilterList(Expenditure obj) throws Exception {
 		return dao.getVoucherTypesFilterList(obj);
 	}
+
+	@Override
+	public List<Expenditure> getProjectsListForExpenditureForm(Expenditure obj) throws Exception {
+		return dao.getProjectsListForExpenditureForm(obj);
+	}
+
+	@Override
+	public List<Expenditure> getWorkListForExpenditureForm(Expenditure obj) throws Exception {
+		return dao.getWorkListForExpenditureForm(obj);
+	}
+
+	@Override
+	public List<Expenditure> getContractsListForExpenditureForm(Expenditure obj) throws Exception {
+		return dao.getContractsListForExpenditureForm(obj);
+	}
 	
 	
 

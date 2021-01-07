@@ -27,6 +27,12 @@ public interface ExpenditureDao {
 
 	public List<Expenditure> getContractorNamesFilterList(Expenditure obj)throws Exception;
 
-	public List<Expenditure> getVoucherTypesFilterList(Expenditure obj)throws Exception;
+	public List<Expenditure> getVoucherTypesFilterList(Expenditure obj) throws Exception;
+
+	public List<Expenditure> getProjectsListForExpenditureForm(Expenditure obj) throws Exception;
+
+	public List<Expenditure> getWorkListForExpenditureForm(Expenditure obj) throws Exception;
+
+	public List<Expenditure> getContractsListForExpenditureForm(Expenditure obj) throws Exception;
 
 }

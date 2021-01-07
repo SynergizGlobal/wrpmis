@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -18,7 +19,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.ExpenditureDao;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Expenditure;
-import com.synergizglobal.pmis.model.SourceOfFund;
+import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Work;
 
 @Repository
@@ -533,6 +534,82 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				pValues[i++] = obj.getVoucher_type();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Expenditure> getProjectsListForExpenditureForm(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = null;
+		try {
+			String qry = "select project_id,project_name from `project` order by project_id asc";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Expenditure> getWorkListForExpenditureForm(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = new ArrayList<Expenditure>();
+		try {
+			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + "order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Expenditure> getContractsListForExpenditureForm(Expenditure obj) throws Exception {
+		List<Expenditure> objsList = null;
+		try {
+			String qry ="select c.contract_id,c.contract_name,c.contract_short_name,c.contractor_id_fk,cr.contractor_name,c.work_id_fk "
+					+ "from contract c "
+					+ "left join contractor cr on c.contractor_id_fk = cr.contractor_id "
+					+ "where c.contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + "order by c.contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

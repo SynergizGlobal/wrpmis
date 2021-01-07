@@ -34,4 +34,8 @@ public interface IssueDao {
 
 	List<Issue> getStatusListFilter(Issue obj) throws Exception;
 
+	List<Issue> getWorksListFilter(Issue obj) throws Exception;
+
+	List<Issue> getResponsiblePersonsListFilter(Issue obj) throws Exception;
+
 }

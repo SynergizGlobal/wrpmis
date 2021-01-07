@@ -89,7 +89,18 @@ public class IssueController {
 		}
 		return model;
 	}
-	
+	@RequestMapping(value = "/ajax/getWorksListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getWorksListFilterInIssue(@ModelAttribute Issue obj) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getWorksListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilterInIssue : " + e.getMessage());
+		}
+		return objList;
+	}
 	@RequestMapping(value = "/ajax/getContractsListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Issue> getContractsListFilterInIssue(@ModelAttribute Issue obj) {
@@ -125,6 +136,19 @@ public class IssueController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getCategoryListFilterInIssue : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getResponsiblePersonsListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getResponsiblePersonsListFilterInIssue(@ModelAttribute Issue obj) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getResponsiblePersonsListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getResponsiblePersonsListFilterInIssue : " + e.getMessage());
 		}
 		return objList;
 	}

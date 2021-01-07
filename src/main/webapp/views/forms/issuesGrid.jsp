@@ -90,11 +90,9 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                          <div class="col s12 m1 input-field">
                                     <p class="searchable_label">Work </p>
-                                        <select id="work_id_fk" name="work_id_fk" onchange="getDesignList();" class="searchable">
+                                        <select id="work_id_fk" name="work_id_fk" onchange="getIssues();" class="searchable">
                                             <option value="">Select</option>
-                                           <%--  <c:forEach var="obj" items="${contractList}">
-	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
-	                                        </c:forEach> --%>
+                                           
                                         </select>
                                     </div>
                             <div class="col s12 m2 input-field">
@@ -135,12 +133,10 @@
                                  </select>
                             </div>
                              <div class="col s12 m2 input-field">
-								 <p class="searchable_label">Responsible Organization</p>                           
-                                 <select id="responsible_Organization_fk" name="responsible_Organization_fk" onchange="getIssues();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%-- <c:forEach var="obj" items="${statuses }">
-		                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
-		                             </c:forEach> --%>
+								 <p class="searchable_label">Responsible Person</p>                           
+                                 <select id="responsible_person" name="responsible_person" onchange="getIssues();" class="searchable">
+                                 <option value="" >Select</option>
+                                    
                                  </select>
                             </div>
                             <div class="col s12 m1">
@@ -285,25 +281,31 @@
         
         
         function clearFilter(){
+        	$("#work_id_fk").val("");
         	$("#contract_id_fk").val("");
         	$("#department_fk").val("");
         	$("#category_fk").val("");
-        	$("#status_fk").val("");        	
+        	$("#status_fk").val("");  
+        	$("#responsible_person").val("");  
         	$(".searchable").select2();
         	getIssues();
         }
             
         function getIssues(){
-        	$(".page-loader").show();
+        	$(".page-loader-2").show();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var responsible_person = $("#responsible_person").val();
         	
+        	getWorksListFilter();
         	getContractsListFilter();
         	getDepartmentsListFilter();
         	getCategoryListFilter();
         	getStatusListFilter();
+        	getResponsiblePersonsListFilter();
          	
          	table = $('#datatable-issues').DataTable();
     		 
@@ -340,7 +342,7 @@
     		
     		table.state.clear();		
     	 
-    	 	var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",type:"POST",data:myParams,success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
@@ -363,7 +365,7 @@
     	                   	rowArray.push($.trim(val.location));
     	                   	/* rowArray.push($.trim(val.reported_by)); */
     	                   	rowArray.push($.trim(val.responsible_person));
-    	                   	rowArray.push($.trim(val.department_fk));
+    	                   	rowArray.push($.trim(val.department_name));
     	                   	/* rowArray.push($.trim(val.category_fk)); */
     	                   	rowArray.push($.trim(val.status_fk));
     	                   	
@@ -373,13 +375,13 @@
     	                    		                       
     					});
     	         		
-    	         		$(".page-loader").hide();
+    	         		$(".page-loader-2").hide();
     				}else{
-    					$(".page-loader").hide();
+    					$(".page-loader-2").hide();
     				}
     				
     			},error: function (jqXHR, exception) {
-    				$(".page-loader").hide();
+    				$(".page-loader-2").hide();
     	         	getErrorMessage(jqXHR, exception);
     	     }});
         }
@@ -404,18 +406,54 @@
         	    }
         	    console.log(msg);
          }
-        
-        function getContractsListFilter() {
+      	
+        function getWorksListFilter() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-  	       
-         	$(".page-loader").show();
+        	var responsible_person = $("#responsible_person").val();
+         	
+            if ($.trim(work_id_fk) == "") {
+                $("#work_id_fk option:not(:first)").remove();
+         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInIssue",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var work_short_name = '';
+                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getContractsListFilter() {
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+        	var responsible_person = $("#responsible_person").val();
 
             if ($.trim(contract_id_fk) == "") {
-                 $("#contract_id_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                $("#contract_id_fk option:not(:first)").remove();
+        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInIssue",
                     data: myParams, cache: false,
@@ -442,16 +480,18 @@
        
         
         function getDepartmentsListFilter() {
+         	$(".page-loader").show();
+
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-  	       
-         	$(".page-loader").show();
+        	var responsible_person = $("#responsible_person").val();
 
             if ($.trim(department_fk) == "") {
-                 $("#department_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                $("#department_fk option:not(:first)").remove();
+        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInIssue",
                     data: myParams, cache: false,
@@ -474,16 +514,18 @@
         }
         
         function getCategoryListFilter() {
+         	$(".page-loader").show();
+
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-  	       
-         	$(".page-loader").show();
+        	var responsible_person = $("#responsible_person").val();
 
             if ($.trim(category_fk) == "") {
                  $("#category_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInIssue",
                      data: myParams, cache: false,
@@ -506,16 +548,18 @@
         }
         
         function getStatusListFilter() {
+         	$(".page-loader").show();
+
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-  	       
-         	$(".page-loader").show();
+        	var responsible_person = $("#responsible_person").val();
 
             if ($.trim(status_fk) == "") {
                  $("#status_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInIssue",
                      data: myParams, cache: false,
@@ -523,6 +567,42 @@
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
                            	 	$("#status_fk").append('<option value="' + val.status_fk + '">' + $.trim(val.status_fk) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }
+        
+        function getResponsiblePersonsListFilter() {
+         	$(".page-loader").show();
+
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+        	var responsible_person = $("#responsible_person").val();
+
+            if ($.trim(responsible_person) == "") {
+                 $("#responsible_person option:not(:first)").remove();
+         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsListFilterInIssue",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                            	 var user_name = '';
+                             	if ($.trim(val.user_name) != '') { user_name = ' - ' + $.trim(val.user_name) } 
+                           	 	$("#responsible_person").append('<option value="' + val.responsible_person + '">' + $.trim(val.responsible_person) + user_name +'</option>');
                              });
                          }
                          $('.searchable').select2();

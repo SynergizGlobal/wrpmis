@@ -83,5 +83,15 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getStatusListFilter(Issue obj) throws Exception {
 		return issueDao.getStatusListFilter(obj);
 	}
+
+	@Override
+	public List<Issue> getWorksListFilter(Issue obj) throws Exception {
+		return issueDao.getWorksListFilter(obj);
+	}
+
+	@Override
+	public List<Issue> getResponsiblePersonsListFilter(Issue obj) throws Exception {
+		return issueDao.getResponsiblePersonsListFilter(obj);
+	}
 	
 }

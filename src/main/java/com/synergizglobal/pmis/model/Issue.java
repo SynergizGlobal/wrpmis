@@ -3,12 +3,28 @@ package com.synergizglobal.pmis.model;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Issue {
-	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
-	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,
+	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,user_name,
+	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,work_short_name,
 	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name;
 
 	private MultipartFile issueFile;
 	
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
 	public String getContract_id() {
 		return contract_id;
 	}

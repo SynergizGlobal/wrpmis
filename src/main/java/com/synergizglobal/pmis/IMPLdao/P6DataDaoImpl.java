@@ -252,14 +252,19 @@ public class P6DataDaoImpl implements P6DataDao {
 			
 			con.setAutoCommit(false);
 			String updateQry ="update p6_activity_data set soft_delete_status_fk  = ? "
-					+ "where contract_id_fk = ? and fob_id_fk = ?";
+					+ "where contract_id_fk = ?";
+			
+			if(!StringUtils.isEmpty((pobj.getFob_id_fk()))) {
+				updateQry = updateQry + " and fob_id_fk = ?";
+			}
 			
 			stmt = con.prepareStatement(updateQry);
 			int p = 1;
 			stmt.setString(p++,(CommonConstants.INACTIVE));
 			stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
-			stmt.setString(p++,!StringUtils.isEmpty((pobj.getFob_id_fk()))?pobj.getFob_id_fk():null);
-			
+			if(!StringUtils.isEmpty((pobj.getFob_id_fk()))) {
+				stmt.setString(p++,pobj.getFob_id_fk());
+			}
 			stmt.executeUpdate();	
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 	
@@ -374,13 +379,19 @@ public class P6DataDaoImpl implements P6DataDao {
 			
 			con.setAutoCommit(false);
 			String updateQry ="update p6_activity_data set soft_delete_status_fk  = ? "
-					+ "where contract_id_fk = ? and fob_id_fk = ?";
+					+ "where contract_id_fk = ?";
+			
+			if(!StringUtils.isEmpty((pobj.getFob_id_fk()))) {
+				updateQry = updateQry + " and fob_id_fk = ?";
+			}
 			
 			stmt = con.prepareStatement(updateQry);
 			int p = 1;
 			stmt.setString(p++,(CommonConstants.INACTIVE));
-			stmt.setString(p++,(!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null));
-			stmt.setString(p++,(!StringUtils.isEmpty((pobj.getFob_id_fk()))?pobj.getFob_id_fk():null));
+			stmt.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
+			if(!StringUtils.isEmpty((pobj.getFob_id_fk()))) {
+				stmt.setString(p++,pobj.getFob_id_fk());
+			}
 			
 			stmt.executeUpdate();	
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);

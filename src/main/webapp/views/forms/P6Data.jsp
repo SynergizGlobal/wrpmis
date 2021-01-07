@@ -119,7 +119,7 @@
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label">Contract</p>
-				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate');">
+				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${contractsList}">
 				                       						  <option value="${obj.contract_id }">${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
@@ -127,9 +127,9 @@
 				                                     </select>
 				                                     <span id="contract_id_fkUpdateError" class="error-msg" ></span>
 				                                </div>
-				                                <div class="col s12 m6 input-field">
+				                                <div class="col s12 m6 input-field" id="fobDropDownUpdate" style="display: none;">
 				                                   <p class="searchable_label"> FOB</p>
-				                                   <select id="fob_id_fkUpdate" name="fob_id_fk"  class="searchable validate-dropdown">
+				                                   <select id="fob_id_fkUpdate" name="fob_id_fk"  class="browser-default searchable">
 				                                        <option value="">Select</option>
 				                                   </select>
 				                                   <span id="fob_id_fkUpdateError" class="error-msg" ></span>
@@ -185,7 +185,7 @@
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <p  class="searchable_label"> Contract</p>
-				                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload');">
+				                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload','fobDropDownUpload');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${contractsList}">
 				                       						  <option value="${obj.contract_id }" >${obj.contract_id }<c:if test="${not empty obj.contract_name }"> - ${obj.contract_name }</c:if></option>
@@ -193,9 +193,9 @@
 				                                     </select>
 				                                     <span id="contract_id_fkUploadError" class="error-msg" ></span>
 				                                </div>
-				                                <div class="col s12 m6 input-field">
+				                                <div class="col s12 m6 input-field" id="fobDropDownUpload" style="display: none;">
 				                                    <p  class="searchable_label">FOB</p>
-				                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="searchable validate-dropdown">
+				                                     <select id="fob_id_fkUpload" name="fob_id_fk"  class="browser-default searchable">
 				                                            <option value="" >Select</option>
 				                                     </select>
 				                                     <span id="fob_id_fkUploadError" class="error-msg" ></span>
@@ -383,6 +383,8 @@
     <script>
 	    
         $(document).ready(function () {
+        	$('#fob_id_fkUpdate').formSelect();
+        	$('#fob_id_fkUpload').formSelect();
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
           
@@ -431,7 +433,7 @@
             getP6ActivityDataList();
         });
         
-        function getFobList(contract_id_fk,fob_id_attr) {
+        function getFobList(contract_id_fk,fob_id_attr,fobHideShowId) {
         	$(".page-loader").show();
             $("#"+fob_id_attr+" option:not(:first)").remove();
 
@@ -445,10 +447,13 @@
                             $.each(data, function (i, val) {
                             	var fobName = '';
                                 if ($.trim(val.fob_name) != '') { fobName = ' - ' + $.trim(val.fob_name) }
-                               $("#"+fob_id_attr).append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + fobName +'</option>');
+                                $("#"+fob_id_attr).append('<option value="' + val.fob_id + '">' + $.trim(val.fob_id)  + fobName +'</option>');
                             });
-                        }
-                        $('.searchable').select2();
+                            $("#"+fobHideShowId).show();
+                        }else{
+                        	$("#"+fobHideShowId).hide();
+                        }                     
+                        $('#'+fob_id_attr).formSelect();
                         $(".page-loader").hide();
                     },error: function (jqXHR, exception) {
       	   				$(".page-loader").hide();

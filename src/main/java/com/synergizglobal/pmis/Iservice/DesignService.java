@@ -37,6 +37,8 @@ public interface DesignService {
 	public List<Design> getStructureListFilter(Design obj) throws Exception;
 
 	public List<Design> getDrawingTypeListFilter(Design obj) throws Exception;
+
+	public List<Design> getWorksListFilter(Design obj) throws Exception;
 	
 
 }

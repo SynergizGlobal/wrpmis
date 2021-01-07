@@ -223,6 +223,7 @@
         <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+        <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
 	</form>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -517,7 +518,9 @@
      	 var contractor_id_fk = $("#contractor_id_fk").val();
      	 var department_fk = $("#department_fk").val();
      	 var work_id_fk = $("#work_id_fk").val();
+     	 var project_id_fk = $("#project_id_fk").val();
      	 
+     	$("#exportProject_id_fk").val(project_id_fk);
      	 $("#exportContractor_id_fk").val(contractor_id_fk);
      	 $("#exportDepartment_fk").val(department_fk);
      	 $("#exportWork_id_fk").val(work_id_fk);

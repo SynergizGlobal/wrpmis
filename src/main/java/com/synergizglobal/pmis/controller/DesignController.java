@@ -125,7 +125,7 @@ public class DesignController {
 			design = designService.getHodListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getHodListFilterInDesign : " + e.getMessage());
+			logger.error("getHodListFilter : " + e.getMessage());
 		}
 		return design;
 	}
@@ -138,10 +138,24 @@ public class DesignController {
 			design = designService.getDepartmentListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getDepartmentListFilterInDesign : " + e.getMessage());
+			logger.error("getDepartmentListFilter : " + e.getMessage());
 		}
 		return design;
 	}
+	
+	@RequestMapping(value = "/ajax/getWorksListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getWorksListFilter(@ModelAttribute Design obj) {
+		List<Design> design = null;
+		try {
+			design = designService.getWorksListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilter : " + e.getMessage());
+		}
+		return design;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/getContractListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -151,7 +165,7 @@ public class DesignController {
 			design = designService.getContractListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractListFilterInDesign : " + e.getMessage());
+			logger.error("getContractListFilter : " + e.getMessage());
 		}
 		return design;
 	}
@@ -164,7 +178,7 @@ public class DesignController {
 			design = designService.getStructureListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getStructureListFilterInDesign : " + e.getMessage());
+			logger.error("getStructureListFilter : " + e.getMessage());
 		}
 		return design;
 	}
@@ -177,7 +191,7 @@ public class DesignController {
 			design = designService.getDrawingTypeListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getDrawingTypeListFilterInDesign : " + e.getMessage());
+			logger.error("getDrawingTypeListFilter : " + e.getMessage());
 		}
 		return design;
 	}

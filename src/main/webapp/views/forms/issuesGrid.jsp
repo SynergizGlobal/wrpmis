@@ -231,6 +231,8 @@
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
+         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+          <input type="hidden" name="responsible_person" id="exportResponsible_person" />
 	</form>
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -627,7 +629,11 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var responsible_person = $("#responsible_person").val();
           	 
+        	$("#exportWork_id_fk").val(work_id_fk);
+          	$("#exportResponsible_person").val(responsible_person);
           	$("#exportContract_id_fk").val(contract_id_fk);
           	$("#exportDepartment_fk").val(department_fk);
           	$("#exportCategory_fk").val(category_fk);

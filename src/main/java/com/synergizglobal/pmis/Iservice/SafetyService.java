@@ -32,4 +32,6 @@ public interface SafetyService {
 	List<Safety> getCategoryListFilter(Safety obj) throws Exception;
 
 	List<Safety> getStatusListFilter(Safety obj) throws Exception;
+
+	List<Safety> getWorksListFilter(Safety obj) throws Exception;
 }

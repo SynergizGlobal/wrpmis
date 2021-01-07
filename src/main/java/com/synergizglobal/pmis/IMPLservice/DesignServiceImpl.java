@@ -93,4 +93,9 @@ public class DesignServiceImpl implements DesignService{
 		return designDao.getDrawingTypeListFilter(obj);
 	}
 
+	@Override
+	public List<Design> getWorksListFilter(Design obj) throws Exception {
+		return designDao.getWorksListFilter(obj);
+	}
+
 }

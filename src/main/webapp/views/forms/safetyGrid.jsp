@@ -238,10 +238,11 @@
   
   
 	<form action="<%=request.getContextPath() %>/export-safety" name="exportSafetyForm" id="exportSafetyForm" target="_blank" method="post">	
-        <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
+        <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" /> 
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
+        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
 	</form>
 
 
@@ -292,6 +293,7 @@
         
         
         function clearFilter(){
+        	$("#work_id_fk").val("");
         	$("#contract_id_fk").val("");
         	$("#department_fk").val("");
         	$("#category_fk").val("");
@@ -300,12 +302,14 @@
         }
             
         function getSafetyList(){
-        	$(".page-loader").show();
+        	$(".page-loader-2").show();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
         	
+        	getWorksListFilter();
         	getContractsListFilter();
         	getDepartmentsListFilter();
         	getCategoryListFilter();
@@ -346,7 +350,7 @@
     		
     		table.state.clear();		
     	 
-    		var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+    		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getSafetyList",type:"POST",data:myParams,success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
@@ -378,13 +382,13 @@
     	                    		                       
     					});
     	         		
-    	         		$(".page-loader").hide();
+    	         		$(".page-loader-2").hide();
     				}else{
-    					$(".page-loader").hide();
+    					$(".page-loader-2").hide();
     				}
     				
     			},error: function (jqXHR, exception) {
-    				$(".page-loader").hide();
+    				$(".page-loader-2").hide();
     	         	getErrorMessage(jqXHR, exception);
     	     }});
         }
@@ -410,8 +414,43 @@
         	    console.log(msg);
          }
       	
-      	
+        function getWorksListFilter() {
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(work_id_fk) == "") {
+                $("#work_id_fk option:not(:first)").remove();
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInSafety",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var work_short_name = '';
+                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
         function getContractsListFilter() {
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -420,8 +459,8 @@
          	$(".page-loader").show();
 
             if ($.trim(contract_id_fk) == "") {
-                 $("#contract_id_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                $("#contract_id_fk option:not(:first)").remove();
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInSafety",
                     data: myParams, cache: false,
@@ -448,6 +487,7 @@
        
         
         function getDepartmentsListFilter() {
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -456,8 +496,8 @@
          	$(".page-loader").show();
 
             if ($.trim(department_fk) == "") {
-                 $("#department_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+                $("#department_fk option:not(:first)").remove();
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInSafety",
                     data: myParams, cache: false,
@@ -480,6 +520,7 @@
         }
         
         function getCategoryListFilter() {
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -489,7 +530,7 @@
 
             if ($.trim(category_fk) == "") {
                  $("#category_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInSafety",
                      data: myParams, cache: false,
@@ -512,6 +553,7 @@
         }
         
         function getStatusListFilter() {
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -521,7 +563,7 @@
 
             if ($.trim(status_fk) == "") {
                  $("#status_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInSafety",
                      data: myParams, cache: false,
@@ -554,8 +596,10 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
           	 
           	$("#exportContract_id_fk").val(contract_id_fk);
+          	$("#exportWork_id_fk").val(work_id_fk);
           	$("#exportDepartment_fk").val(department_fk);
           	$("#exportCategory_fk").val(category_fk);
           	$("#exportStatus_fk").val(status_fk);

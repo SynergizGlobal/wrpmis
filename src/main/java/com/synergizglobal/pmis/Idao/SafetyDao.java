@@ -5,6 +5,7 @@ import java.util.List;
 import com.synergizglobal.pmis.model.Safety;
 
 public interface SafetyDao {
+	
 	List<Safety> getSafetyList(Safety obj) throws Exception;
 
 	List<Safety> getSafetyStatusList() throws Exception;
@@ -32,4 +33,6 @@ public interface SafetyDao {
 	List<Safety> getCategoryListFilter(Safety obj) throws Exception;
 
 	List<Safety> getStatusListFilter(Safety obj) throws Exception;
+
+	List<Safety> getWorksListFilter(Safety obj) throws Exception;
 }

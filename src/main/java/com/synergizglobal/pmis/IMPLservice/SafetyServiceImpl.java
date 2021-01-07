@@ -83,5 +83,10 @@ public class SafetyServiceImpl implements SafetyService {
 	public List<Safety> getStatusListFilter(Safety obj) throws Exception {
 		return safetyDao.getStatusListFilter(obj);
 	}
+
+	@Override
+	public List<Safety> getWorksListFilter(Safety obj) throws Exception {
+		return safetyDao.getWorksListFilter(obj);
+	}
 	
 }

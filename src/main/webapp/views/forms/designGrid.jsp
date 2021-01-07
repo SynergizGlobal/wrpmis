@@ -275,6 +275,7 @@
     
   <form action="<%=request.getContextPath() %>/export-design" name="exportDesignForm" id="exportDesignForm" target="_blank" method="post">	
         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
+        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="department_id_fk" id="exportDepartment_id_fk" />
         <input type="hidden" name="hod" id="exportHod" />
         <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
@@ -337,6 +338,7 @@
 	 });
 	 
 	 function clearFilter(){
+		$("#work_id_fk").val('');
      	$("#contract_id_fk").val('');
      	$("#department_id_fk").val('');
      	$("#hod").val('');
@@ -348,12 +350,14 @@
 
 	 function getDesignList(){
 	    	$(".page-loader-2").show();
+	    	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
 	    	var hod = $("#hod").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
 	    	var drawing_type_fk = $("#drawing_type_fk").val();
 
+	    	getWorksListFilter();
 	    	getHodListFilter();
 	    	getDepartmentListFilter();
 	    	getContractListFilter();
@@ -393,7 +397,7 @@
 			
 			table.state.clear();		
 		 
-		 	var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
 			$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesigns",type:"POST",data:myParams,success : function(data){    				
 					if(data != null && data != '' && data.length > 0){    					
 		         		$.each(data,function(key,val){
@@ -450,8 +454,44 @@
 	    	    console.log(msg);
 	     }
 	  	
+	    function getWorksListFilter() {
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(work_id_fk) == "") {
+                $("#work_id_fk option:not(:first)").remove();
+     		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInDesign",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_short_name = '';
+                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
 	  	
 	    function getContractListFilter() {
+	    	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
 	    	var hod = $("#hod").val();
@@ -461,8 +501,8 @@
          	$(".page-loader").show();
 
             if ($.trim(contract_id_fk) == "") {
-                 $("#contract_id_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                $("#contract_id_fk option:not(:first)").remove();
+     		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractListFilterInDesign",
                     data: myParams, cache: false,
@@ -489,7 +529,8 @@
        
         
         function getHodListFilter() {
-        	var contract_id_fk = $("#contract_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
 	    	var hod = $("#hod").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
@@ -498,8 +539,8 @@
          	$(".page-loader").show();
 
             if ($.trim(hod) == "") {
-                 $("#hod option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                $("#hod option:not(:first)").remove();
+     		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHodListFilterInDesign",
                     data: myParams, cache: false,
@@ -522,7 +563,8 @@
         }
         
         function getDepartmentListFilter() {
-        	var contract_id_fk = $("#contract_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
 	    	var hod = $("#hod").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
@@ -531,8 +573,8 @@
          	$(".page-loader").show();
 
             if ($.trim(department_id_fk) == "") {
-                 $("#department_id_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+                $("#department_id_fk option:not(:first)").remove();
+     		  	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getDepartmentListFilterInDesign",
                      data: myParams, cache: false,
@@ -555,7 +597,8 @@
         }
         
         function getStructureListFilter() {
-        	var contract_id_fk = $("#contract_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
 	    	var hod = $("#hod").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
@@ -565,7 +608,7 @@
 
             if ($.trim(structure_type_fk) == "") {
                  $("#structure_type_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+     		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStructureListFilterInDesign",
                      data: myParams, cache: false,
@@ -588,17 +631,18 @@
         }
         
         function getDrawingTypeListFilter() {
-        	var contract_id_fk = $("#contract_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
 	    	var hod = $("#hod").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
 	    	var drawing_type_fk = $("#drawing_type_fk").val();
-  	       
+	    	
          	$(".page-loader").show();
 
             if ($.trim(drawing_type_fk) == "") {
                  $("#drawing_type_fk option:not(:first)").remove();
-                 var myParams = {contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
+     		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getDrawingTypeListFilterInDesign",
                      data: myParams, cache: false,
@@ -627,12 +671,14 @@
 		}
 	
 	    function exportDesign(){
-	     	 var contract_id_fk  = $("#contract_id_fk ").val();
-	     	 var department_id_fk  = $("#department_id_fk ").val();
-	     	 var hod  = $("#hod ").val();
-	     	 var structure_type_fk  = $("#structure_type_fk ").val();
-	     	 var drawing_type_fk  = $("#drawing_type_fk ").val();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
 	     	 
+	    	 $("#exportWork_id_fk").val(work_id_fk);
 	     	 $("#exportContract_id_fk").val(contract_id_fk);
 	     	 $("#exportDepartment_id_fk").val(department_id_fk);
 	     	 $("#exportHod").val(hod);

@@ -38,4 +38,6 @@ public interface DesignDao {
 
 	public List<Design> getDrawingTypeListFilter(Design obj) throws Exception;
 
+	public List<Design> getWorksListFilter(Design obj) throws Exception;
+
 }

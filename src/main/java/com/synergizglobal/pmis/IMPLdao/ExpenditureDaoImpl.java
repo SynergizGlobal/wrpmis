@@ -567,7 +567,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				arrSize++;
 			}
 			
-			qry = qry + "order by work_id asc";
+			qry = qry + " order by work_id asc";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -599,7 +599,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + "order by c.contract_id asc";
+			qry = qry + " order by c.contract_id asc";
 			
 			Object[] pValues = new Object[arrSize];
 			

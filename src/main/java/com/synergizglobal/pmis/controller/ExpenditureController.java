@@ -160,20 +160,67 @@ public class ExpenditureController {
 	}
 
 	@RequestMapping(value = "/add-expenditure-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addExpenditureForm(){
+	public ModelAndView addExpenditureForm(@ModelAttribute Expenditure obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditExpenditure);
 			model.addObject("action", "add");
-			List<Project> projectsList = homeService.getProjectsList();
+			
+			List<Expenditure> projectsList = expenditureService.getProjectsListForExpenditureForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Expenditure> worksList = expenditureService.getWorkListForExpenditureForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Expenditure> contractsList = expenditureService.getContractsListForExpenditureForm(obj);
+			model.addObject("contractsList", contractsList);
+			
 			List<Expenditure> voucherList = expenditureService.getVoucherList();
 			model.addObject("voucherList", voucherList);
 		}catch (Exception e) {
 				logger.error("Expenditure : " + e.getMessage());
 		}
 		return model;
-	 }
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsListForExpenditureForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getProjectsListForExpenditureForm(@ModelAttribute Expenditure obj) {
+		List<Expenditure> objsList = null;
+		try {
+			objsList = expenditureService.getProjectsListForExpenditureForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForExpenditureForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForExpenditureForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getWorkListForExpenditureForm(@ModelAttribute Expenditure obj) {
+		List<Expenditure> objsList = null;
+		try {
+			objsList = expenditureService.getWorkListForExpenditureForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForExpenditureForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForExpenditureForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Expenditure> getContractsListForExpenditureForm(@ModelAttribute Expenditure obj) {
+		List<Expenditure> objsList = null;
+		try {
+			objsList = expenditureService.getContractsListForExpenditureForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForExpenditureForm : " + e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@RequestMapping(value = "/get-expenditure", method = {RequestMethod.POST})
 	public ModelAndView getExpenditure(@ModelAttribute Expenditure obj){

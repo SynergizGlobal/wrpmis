@@ -5,7 +5,7 @@ public class Expenditure {
 
 	private String expenditure_id, contract_id_fk,contract_name,contract_id,work_id_fk,work_name,work_id, igst_tds,ledger_account, date, contractor_name, voucher_type, voucher_no, 
 	narration, net_paid, gross_work_done, sd_payable, contractor_income_tax, cgst_tds, sgst_tds, vat_wct, mob_advance 
-	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name,work_short_name,contract_short_name;
+	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name,work_short_name,contract_short_name,project_id;
 
 	public String getIgst_tds() {
 		return igst_tds;
@@ -253,6 +253,14 @@ public class Expenditure {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
 	}
 
 }

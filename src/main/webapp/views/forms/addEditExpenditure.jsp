@@ -64,7 +64,7 @@
                                    		 onchange="getWorksList(this.value);">
                                          <option value="" >Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
-                                      	   <option value= "${ obj.project_id}" <c:if test="${expenditureDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                      	   <option value= "${ obj.project_id}">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
                                      </select>
                                      <span id="project_id_fkError" class="error-msg" ></span>
@@ -74,6 +74,9 @@
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${worksList }">
+                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                         </c:forEach>
                                     </select>
                                      <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -81,34 +84,50 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract</p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
+                                        <c:forEach var="obj" items="${contractsList }">
+                                      	   <option contractorName="${obj.contractor_name }" workId="${obj.work_id_fk }" value= "${ obj.contract_id}">${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
+                                         </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" readonly="readonly">
+                                    <label for="contractor_name">Contractor Name</label>
+                                    <span id="contractor_nameError" class="error-msg" ></span>
+                                </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                             </c:if>
+                           </c:if>
                            <c:if test="${action eq 'edit'}">	
 	                       	 	<div class="row">
-		                       	 	<div class="col m2 hide-on-small-only">
-		                       	 	</div>
-	                       		  <div class="col s12 m4 input-field">
-										<p><label> Project </label></p>
-	                                         	 	<input type="text" name="project_id" id="project_id" value="${expenditureDetails.project_id_fk}- ${expenditureDetails.project_name}" readonly />
-								  </div> 
-								  <div class="col s12 m4 input-field"> 
-									    <p><label> Work </label></p>
-	                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${expenditureDetails.work_id_fk}- ${expenditureDetails.work_name}" readonly />
-	                              </div>
+		                       	 	  <div class="col m2 hide-on-small-only"></div>
+		                       		  <div class="col s12 m4 input-field">
+											<p><label> Project </label></p>
+		                                    <input type="text" value="${expenditureDetails.project_id_fk}- ${expenditureDetails.project_name}" readonly />
+									  </div> 
+									  <div class="col s12 m4 input-field"> 
+										    <p><label> Work </label></p>
+		                                    <input type="text" value="${expenditureDetails.work_id_fk}- ${expenditureDetails.work_name}" readonly />
+		                              </div>
 	                             </div> 
-	                     				<p><label>Contract </label></p>        
-	                              				   <input type="text" name="contract_id_fk" id="contract_id_fk" value="${expenditureDetails.contract_id_fk}- ${expenditureDetails.contract_name}" readonly /><br><br>
-	                            
-                             </c:if>
-                            <div class="row">
+	                             <div class="row">
+		                       	 	  <div class="col m2 hide-on-small-only"></div>
+		                       		  <div class="col s12 m4 input-field">
+											<p><label>Contract </label></p>        
+	                              			<input type="text" value="${expenditureDetails.contract_id_fk}- ${expenditureDetails.contract_name}" readonly /><br><br>
+									  </div> 
+									  <div class="col s12 m4 input-field"> 
+										    <p><label>Contractor name </label></p>
+		                                    <input type="text" value="${expenditureDetails.contractor_name}" readonly />
+		                              </div>
+		                              <div class="col m2 hide-on-small-only"></div>
+	                             </div>	                            
+                            </c:if>
+                            <%-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="ledger_account" name="ledger_account" class="materialize-textarea">${expenditureDetails.ledger_account }</textarea>
@@ -116,14 +135,19 @@
                                     <span id="ledger_accountError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <%-- <div class="col s12 m4 input-field">
                                     <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${expenditureDetails.contractor_name }">
                                     <label for="contractor_name">Contractor Name</label>
                                     <span id="contractor_nameError" class="error-msg" ></span>
+                                </div> --%>
+                                <div class="col s12 m4 input-field">
+                                    <textarea id="ledger_account" name="ledger_account" class="materialize-textarea">${expenditureDetails.ledger_account }</textarea>
+                                    <label for="ledger_account">Ledger Account</label>
+                                    <span id="ledger_accountError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="date" type="text" name="date" class="validate datepicker" value="${expenditureDetails.date }">
@@ -359,19 +383,14 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForExpenditureForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
                                 if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                                var workId = "${expenditureDetails.work_id_fk}";
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
+                                $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -388,19 +407,14 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContract",
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForExpenditureForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
                                 if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
-                                var contract_id_fk = "${expenditureDetails.contract_id_fk }";
-                                if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
-                                } else {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
-                                }
+                                $("#contract_id_fk").append('<option contractorName="'+val.contractor_name +'" workId="'+val.work_id_fk +'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -412,17 +426,62 @@
             }
         }
         
+        function resetWorksAndProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+        	var workId = ''
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){        			
+       			var contractor_name = $("#contract_id_fk").find('option:selected').attr("contractorName");
+       			$("#contractor_name").attr("readonly", false); 
+            	$("#contractor_name").val(contractor_name).focus();
+            	$("#contractor_name").attr("readonly", true);
+            	
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+            	projectId = workId.substring(0, 3);    
+       			//workId = workId.substring(3, work_id.length);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
+       		if ($.trim(projectId) != "") {
+       			$("#work_id_fk option:not(:first)").remove();
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForExpenditureForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+                $('.searchable').select2();
+            }
+       		
+        }
+        
         function addExpenditure(){
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
 	   			document.getElementById("expenditureForm").submit();			
-  	 	 }
+  	 	 	}
         }
        function updateExpenditure(){
-    	   if(validator.form()){ // validation perform
+    	    if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
 	   			document.getElementById("expenditureForm").submit();	
-       	}
+       		}
        }	   
        
        

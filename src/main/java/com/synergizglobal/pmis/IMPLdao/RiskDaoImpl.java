@@ -800,7 +800,7 @@ public class RiskDaoImpl implements RiskDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-			String qry = "UPDATE risk SET risk_id=:risk_id,sub_area_fk=:sub_area_fk,date_of_identification=:date_of_identification  "
+			String qry = "UPDATE risk SET risk_id=:risk_id,sub_area_fk=:sub_area_fk  "
 					+ "WHERE risk_id_pk = :risk_id_pk";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			

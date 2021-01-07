@@ -368,7 +368,7 @@
     	                   	rowArray.push($.trim(val.location));
     	                   	/* rowArray.push($.trim(val.reported_by)); */
     	                   	rowArray.push($.trim(val.responsible_person));
-    	                   	rowArray.push($.trim(val.department_fk));
+    	                   	rowArray.push($.trim(val.department_name));
     	                   	rowArray.push($.trim(val.category_fk));
     	                   	rowArray.push($.trim(val.status_fk));
     	                   	

@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FOB {
 	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
-	detail_name,value,work_id_fk,project_id_fk,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost;
+	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost;
 
 	public String getContract_short_name() {
 		return contract_short_name;
@@ -24,6 +24,14 @@ public class FOB {
 	
 	
 	
+	public String getRevised_completion() {
+		return revised_completion;
+	}
+
+	public void setRevised_completion(String revised_completion) {
+		this.revised_completion = revised_completion;
+	}
+
 	public String getRemarks() {
 		return remarks;
 	}

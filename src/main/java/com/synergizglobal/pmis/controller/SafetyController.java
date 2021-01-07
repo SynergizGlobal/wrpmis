@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -339,20 +340,39 @@ public class SafetyController {
 			dataList = safetyService.getSafetyList(safety);  
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
-			            XSSFSheet sheet = workBook.createSheet();
+			            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Safety"));
+				        workBook.setSheetOrder(sheet.getSheetName(), 0);
 			            XSSFRow headingRow = sheet.createRow(0);
 			            headingRow.createCell((short)0).setCellValue("Safety ID");
 			            headingRow.createCell((short)1).setCellValue("Project ID");
 			            headingRow.createCell((short)2).setCellValue("Work ID");
 			            headingRow.createCell((short)3).setCellValue("Contract ID");
-			            headingRow.createCell((short)5).setCellValue("Title");
+			            headingRow.createCell((short)4).setCellValue("Title");
+			            headingRow.createCell((short)5).setCellValue("Description");
 			            headingRow.createCell((short)6).setCellValue("Date");
 			            headingRow.createCell((short)7).setCellValue("Location");
-			            headingRow.createCell((short)8).setCellValue("Reported By");
-			            headingRow.createCell((short)9).setCellValue("Responsible Person");
-			            headingRow.createCell((short)10).setCellValue("Department");
-			            headingRow.createCell((short)11).setCellValue("Category");
-			            headingRow.createCell((short)12).setCellValue("Status");
+			            headingRow.createCell((short)8).setCellValue("Latitude");
+			            headingRow.createCell((short)9).setCellValue("Longitude");
+			            headingRow.createCell((short)10).setCellValue("Reported By");
+			            headingRow.createCell((short)11).setCellValue("Responsible Person");
+			            headingRow.createCell((short)12).setCellValue("Department");
+			            headingRow.createCell((short)13).setCellValue("Category");
+			            headingRow.createCell((short)14).setCellValue("Status");
+			            headingRow.createCell((short)15).setCellValue("Impact");
+			            headingRow.createCell((short)16).setCellValue("Root Cause");
+			            headingRow.createCell((short)17).setCellValue("LTI Hours");
+			            headingRow.createCell((short)18).setCellValue("Equipment Impact");
+			            headingRow.createCell((short)19).setCellValue("People Impact");
+			            headingRow.createCell((short)20).setCellValue("Work Impact");
+			            headingRow.createCell((short)21).setCellValue("Committee Formed");
+			            headingRow.createCell((short)22).setCellValue("Committee Requried");
+			            headingRow.createCell((short)23).setCellValue("Investigation Completed");
+			            headingRow.createCell((short)24).setCellValue("Corrective Measure Short Term");
+			            headingRow.createCell((short)25).setCellValue("Corrective Measure long Term");
+			            headingRow.createCell((short)26).setCellValue("Status Remark");
+			            headingRow.createCell((short)27).setCellValue("Compensation");
+			            headingRow.createCell((short)28).setCellValue("Payment Date");
+			            headingRow.createCell((short)29).setCellValue("Remarks");
 			            short rowNo = 1;
 			            for (Safety obj : dataList) {
 			                XSSFRow row = sheet.createRow(rowNo);
@@ -360,18 +380,38 @@ public class SafetyController {
 			                row.createCell((short)1).setCellValue(obj.getProject_id_fk());
 			                row.createCell((short)2).setCellValue(obj.getWork_id_fk());
 			                row.createCell((short)3).setCellValue(obj.getContract_id_fk());
-			                row.createCell((short)5).setCellValue(obj.getTitle());
+			                row.createCell((short)4).setCellValue(obj.getTitle());
+			                row.createCell((short)5).setCellValue(obj.getDescription());
 			                row.createCell((short)6).setCellValue(obj.getDate());
 			                row.createCell((short)7).setCellValue(obj.getLocation());
-			                row.createCell((short)8).setCellValue(obj.getReported_by());
-			                row.createCell((short)9).setCellValue(obj.getResponsible_person());
-			                row.createCell((short)10).setCellValue(obj.getDepartment_fk());
-			                row.createCell((short)11).setCellValue(obj.getCategory_fk());
-			                row.createCell((short)12).setCellValue(obj.getStatus_fk());
+			                row.createCell((short)8).setCellValue(obj.getLatitude());
+			                row.createCell((short)9).setCellValue(obj.getLongitude());
+			                row.createCell((short)10).setCellValue(obj.getReported_by());
+			                row.createCell((short)11).setCellValue(obj.getResponsible_person());
+			                row.createCell((short)12).setCellValue(obj.getDepartment_name());
+			                row.createCell((short)13).setCellValue(obj.getCategory_fk());
+			                row.createCell((short)14).setCellValue(obj.getStatus_fk());
+			                row.createCell((short)15).setCellValue(obj.getImpact_fk());
+			                row.createCell((short)16).setCellValue(obj.getRoot_cause_fk());
+			                row.createCell((short)17).setCellValue(obj.getLti_hours());
+			                row.createCell((short)18).setCellValue(obj.getEquipment_impact());
+			                row.createCell((short)19).setCellValue(obj.getPeople_impact());
+			                row.createCell((short)20).setCellValue(obj.getWork_impact());
+			                row.createCell((short)21).setCellValue(obj.getCommittee_formed_fk());
+			                row.createCell((short)22).setCellValue(obj.getCommittee_required_fk());
+			                row.createCell((short)23).setCellValue(obj.getInvestigation_completed());
+			                row.createCell((short)24).setCellValue(obj.getCorrective_measure_short_term());
+			                row.createCell((short)25).setCellValue(obj.getCorrective_measure_long_term());
+			                row.createCell((short)26).setCellValue(obj.getStatus_remark_fk());
+			                row.createCell((short)27).setCellValue(obj.getCompensation());
+			                row.createCell((short)28).setCellValue(obj.getPayment_date());
+			                row.createCell((short)29).setCellValue(obj.getRemarks());
 			                
 			                rowNo++;
 			            }
-		                
+			            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+			        		sheet.setColumnWidth(columnIndex, 25 * 200);
+						}
 		                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
 		                Date date = new Date();
 		                String fileName = "Safety_"+dateFormat.format(date);

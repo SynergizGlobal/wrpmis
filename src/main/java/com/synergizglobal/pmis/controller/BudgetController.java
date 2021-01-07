@@ -237,9 +237,9 @@ public class BudgetController {
 			dataList =   budgetService.getBudgetExportList(budget);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet Budgetsheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Budget"));
-		        workBook.setSheetOrder(Budgetsheet.getSheetName(), 0);
-		        XSSFRow headingRow = Budgetsheet.createRow(0);
+		        XSSFSheet budgetSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Budget"));
+		        workBook.setSheetOrder(budgetSheet.getSheetName(), 0);
+		        XSSFRow headingRow = budgetSheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("Budget ID");
 	            headingRow.createCell((short)1).setCellValue("Work");
 	            headingRow.createCell((short)2).setCellValue("Latest Financial Year");
@@ -253,7 +253,7 @@ public class BudgetController {
 
 	            short rowNo = 1;
 	            for (Budget obj : dataList) {
-	                XSSFRow row = Budgetsheet.createRow(rowNo);
+	                XSSFRow row = budgetSheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getBudget_id());
 	                row.createCell((short)1).setCellValue(obj.getWork_id_fk());
 	                row.createCell((short)2).setCellValue(obj.getFinancial_year_fk());
@@ -268,7 +268,7 @@ public class BudgetController {
 	            }
 	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
 	            	//Budgetsheet.autoSizeColumn(columnIndex);
-	        		Budgetsheet.setColumnWidth(columnIndex, 25 * 200);
+	            	budgetSheet.setColumnWidth(columnIndex, 25 * 200);
 				}
 	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();

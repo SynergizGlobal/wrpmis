@@ -13,6 +13,7 @@ public class CommonConstants {
 	public final static String  ADMIN_ROLE_NAME = "Admin";
 	public final static String  ACTIVE = "Active";
 	public final static String  INACTIVE = "Inactive";
+	public final static String  USER = "Synergiz";
 	
 	public final static String SAFETY_EQUIPMENT_FILES = "/pmis/SAFETY_EQUIPMENT_FILES/";
 	public final static String BUDGET_FILES = "/pmis/BUDGET_FILES/";

@@ -401,10 +401,10 @@
 		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';    	                   	
 		                   	var rowArray = [];    	                 
 		                   	
-		                	/* var workName = '';
-	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) } */
+		                	 var contractName = '';
+	                        if ($.trim(val.contract_name) != '') { contractName = ' - ' + $.trim(val.contract_name) }
 	                        
-		                   	rowArray.push($.trim(val.contract_id_fk));
+		                   	rowArray.push($.trim(val.contract_id_fk)+ contractName);
 		                   	rowArray.push($.trim(val.drawing_title));
 		                   	rowArray.push($.trim(val.structure_type_fk));
 		                   	rowArray.push($.trim(val.drawing_type_fk));

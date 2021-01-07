@@ -6,9 +6,18 @@ public class Safety {
 	private String safety_id,contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,
 	category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,
 	investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,payment_date,remarks,short_description,
-	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,department,department_name,attachment,contract_short_name;
+	category,impact,root_cause,status,contract_id,contract_name,work_id_fk,work_name,project_id_fk,project_name,status_remark_fk,department,department_name,attachment,contract_short_name;
 
 	private MultipartFile safetyFile;
+	
+	public String getStatus_remark_fk() {
+		return status_remark_fk;
+	}
+
+	public void setStatus_remark_fk(String status_remark_fk) {
+		this.status_remark_fk = status_remark_fk;
+	}
+
 	public String getContract_name() {
 		return contract_name;
 	}

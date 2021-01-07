@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.util.StringUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -272,13 +273,26 @@ public class FOBController {
 			dataList = fobService.getFOBList(fob);  
 			if(dataList != null && dataList.size() > 0){
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
-	            XSSFSheet sheet = workBook.createSheet();
+	            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("FOB"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 	            XSSFRow headingRow = sheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("FOB ID");
 	            headingRow.createCell((short)1).setCellValue("Work ID");
 	            headingRow.createCell((short)2).setCellValue("Contract ID");
 	            headingRow.createCell((short)3).setCellValue("FOB Name");
 	            headingRow.createCell((short)4).setCellValue("Work Status");
+	            headingRow.createCell((short)5).setCellValue("Date of Approval");
+	            headingRow.createCell((short)6).setCellValue("Target Date");
+	            headingRow.createCell((short)7).setCellValue("Construction Start Date");
+	            headingRow.createCell((short)8).setCellValue("Revised Completion");
+	            headingRow.createCell((short)9).setCellValue("Actual Completion Date");
+	            headingRow.createCell((short)10).setCellValue("Commissioning Date");
+	            headingRow.createCell((short)11).setCellValue("Estimated Cost");
+	            headingRow.createCell((short)12).setCellValue("Last Sanctioned Cost");
+	            headingRow.createCell((short)13).setCellValue("Completion Cost");
+	            headingRow.createCell((short)14).setCellValue("Latitude");
+	            headingRow.createCell((short)15).setCellValue("Longitude");
+	            headingRow.createCell((short)16).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (FOB obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
@@ -287,10 +301,24 @@ public class FOBController {
 	                row.createCell((short)2).setCellValue(obj.getContract_id_fk());
 	                row.createCell((short)3).setCellValue(obj.getFob_name());
 	                row.createCell((short)4).setCellValue(obj.getWork_status_fk());
+	                row.createCell((short)5).setCellValue(obj.getDate_of_approval());
+	                row.createCell((short)6).setCellValue(obj.getTarget_date());
+	                row.createCell((short)7).setCellValue(obj.getConstruction_start_date());
+	                row.createCell((short)8).setCellValue(obj.getRevised_completion());
+	                row.createCell((short)9).setCellValue(obj.getActual_completion_date());
+	                row.createCell((short)10).setCellValue(obj.getCommissioning_date());
+	                row.createCell((short)11).setCellValue(obj.getEstimated_cost());
+	                row.createCell((short)12).setCellValue(obj.getLast_sanctioned_cost());
+	                row.createCell((short)13).setCellValue(obj.getCompletion_cost());
+	                row.createCell((short)14).setCellValue(obj.getLatitude());
+	                row.createCell((short)15).setCellValue(obj.getLongitude());
+	                row.createCell((short)16).setCellValue(obj.getRemarks());
 	                
 	                rowNo++;
 	            }
-                
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "FOB_"+dateFormat.format(date);

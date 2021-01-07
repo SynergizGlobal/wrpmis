@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -140,8 +141,10 @@ public class UserController {
 	@ResponseBody
 	public List<User> getUsersList(@ModelAttribute User obj) {
 		List<User> users = null;
+		List<User> usersExport = null;
 		try {
 			users = userService.getUsersList(obj);
+			usersExport = userService.getUsersExportList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getUsersList : " + e.getMessage());
@@ -381,28 +384,49 @@ public class UserController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/users");
-			dataList = userService.getUsersList(user);  
+			dataList = userService.getUsersExportList(user);  
 			if(dataList != null && dataList.size() > 0){
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
-	            XSSFSheet sheet = workBook.createSheet();
+	            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("User"));
+		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 	            XSSFRow headingRow = sheet.createRow(0);
 	            headingRow.createCell((short)0).setCellValue("User ID");
 	            headingRow.createCell((short)1).setCellValue("User Name");
 	            headingRow.createCell((short)2).setCellValue("Department");
 	            headingRow.createCell((short)3).setCellValue("Reporting to");
 	            headingRow.createCell((short)4).setCellValue("Role");
+	            headingRow.createCell((short)5).setCellValue("Designation");
+	            headingRow.createCell((short)6).setCellValue("Email-Id");
+	            headingRow.createCell((short)7).setCellValue("Mobile Number");
+	            headingRow.createCell((short)8).setCellValue("Personal Contact Number");
+	            headingRow.createCell((short)9).setCellValue("Landline Number");
+	            headingRow.createCell((short)10).setCellValue("Extension");
+	            headingRow.createCell((short)11).setCellValue("Reporting to Id SRFK");
+	            headingRow.createCell((short)12).setCellValue("PMIS Key");
+	            headingRow.createCell((short)13).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (User obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getUser_id());
 	                row.createCell((short)1).setCellValue(obj.getUser_name());
-	                row.createCell((short)2).setCellValue(obj.getDepartment_fk());
+	                row.createCell((short)2).setCellValue(obj.getDepartment_name());
 	                row.createCell((short)3).setCellValue(obj.getReporting_to_name());
 	                row.createCell((short)4).setCellValue(obj.getUser_role_name_fk());
+	                row.createCell((short)5).setCellValue(obj.getDesignation());
+	                row.createCell((short)6).setCellValue(obj.getEmail_id());
+	                row.createCell((short)7).setCellValue(obj.getMobile_number());
+	                row.createCell((short)8).setCellValue(obj.getPersonal_contact_number());
+	                row.createCell((short)9).setCellValue(obj.getLandline());
+	                row.createCell((short)10).setCellValue(obj.getExtension());
+	                row.createCell((short)11).setCellValue(obj.getReporting_to_id_srfk());
+	                row.createCell((short)12).setCellValue(obj.getPmis_key_fk());
+	                row.createCell((short)13).setCellValue(obj.getRemarks());
 	                
 	                rowNo++;
 	            }
-                
+	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
                 String fileName = "User_"+dateFormat.format(date);

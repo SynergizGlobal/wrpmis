@@ -108,4 +108,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUserReportingToListFilter(obj);
 	}
 
+	@Override
+	public List<User> getUsersExportList(User obj) throws Exception {
+		return userDao.getUsersExportList(obj);
+	}
+
 }

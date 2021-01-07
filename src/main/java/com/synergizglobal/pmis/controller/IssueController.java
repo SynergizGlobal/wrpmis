@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -325,7 +326,8 @@ public class IssueController {
 			dataList = issueService.getIssuesList(issue);  
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
-			            XSSFSheet sheet = workBook.createSheet();
+			            XSSFSheet sheet =  workBook.createSheet(WorkbookUtil.createSafeSheetName("Issues"));
+				        workBook.setSheetOrder(sheet.getSheetName(), 0);
 			            XSSFRow headingRow = sheet.createRow(0);
 			            headingRow.createCell((short)0).setCellValue("Issue ID");
 			            headingRow.createCell((short)1).setCellValue("Project ID");
@@ -333,13 +335,22 @@ public class IssueController {
 			            headingRow.createCell((short)3).setCellValue("Contract ID");
 			            headingRow.createCell((short)4).setCellValue("Activity");
 			            headingRow.createCell((short)5).setCellValue("Title");
-			            headingRow.createCell((short)6).setCellValue("Date");
-			            headingRow.createCell((short)7).setCellValue("Location");
-			            headingRow.createCell((short)8).setCellValue("Reported By");
-			            headingRow.createCell((short)9).setCellValue("Responsible Person");
-			            headingRow.createCell((short)10).setCellValue("Department");
-			            headingRow.createCell((short)11).setCellValue("Issue Category");
-			            headingRow.createCell((short)12).setCellValue("Issue Status");
+			            headingRow.createCell((short)6).setCellValue("Description");
+			            headingRow.createCell((short)7).setCellValue("Date");
+			            headingRow.createCell((short)8).setCellValue("Location");
+			            headingRow.createCell((short)9).setCellValue("Latitude");
+			            headingRow.createCell((short)10).setCellValue("Longitude");
+			            headingRow.createCell((short)11).setCellValue("Reported By");
+			            headingRow.createCell((short)12).setCellValue("Responsible Person");
+			            headingRow.createCell((short)13).setCellValue("Department");
+			            headingRow.createCell((short)14).setCellValue("Issue Category");
+			            headingRow.createCell((short)15).setCellValue("Issue Status");
+			            headingRow.createCell((short)16).setCellValue("Zonal Railway");
+			            headingRow.createCell((short)17).setCellValue("Priority");
+			            headingRow.createCell((short)18).setCellValue("Corrective Measure");
+			            headingRow.createCell((short)19).setCellValue("Resolved Date");
+			            headingRow.createCell((short)20).setCellValue("Escalated to");
+			            headingRow.createCell((short)21).setCellValue("remarks");
 			            short rowNo = 1;
 			            for (Issue obj : dataList) {
 			                XSSFRow row = sheet.createRow(rowNo);
@@ -349,17 +360,28 @@ public class IssueController {
 			                row.createCell((short)3).setCellValue(obj.getContract_id_fk());
 			                row.createCell((short)4).setCellValue(obj.getActivity());
 			                row.createCell((short)5).setCellValue(obj.getTitle());
-			                row.createCell((short)6).setCellValue(obj.getDate());
-			                row.createCell((short)7).setCellValue(obj.getLocation());
-			                row.createCell((short)8).setCellValue(obj.getReported_by());
-			                row.createCell((short)9).setCellValue(obj.getResponsible_person());
-			                row.createCell((short)10).setCellValue(obj.getDepartment_fk());
-			                row.createCell((short)11).setCellValue(obj.getCategory_fk());
-			                row.createCell((short)12).setCellValue(obj.getStatus_fk());
+			                row.createCell((short)6).setCellValue(obj.getDescription());
+			                row.createCell((short)7).setCellValue(obj.getDate());
+			                row.createCell((short)8).setCellValue(obj.getLocation());
+			                row.createCell((short)9).setCellValue(obj.getLatitude());
+			                row.createCell((short)10).setCellValue(obj.getLongitude());
+			                row.createCell((short)11).setCellValue(obj.getReported_by());
+			                row.createCell((short)12).setCellValue(obj.getResponsible_person());
+			                row.createCell((short)13).setCellValue(obj.getDepartment_name());
+			                row.createCell((short)14).setCellValue(obj.getCategory_fk());
+			                row.createCell((short)15).setCellValue(obj.getStatus_fk());
+			                row.createCell((short)16).setCellValue(obj.getZonal_railway_fk());
+			                row.createCell((short)17).setCellValue(obj.getPriority_fk());
+			                row.createCell((short)18).setCellValue(obj.getCorrective_measure());
+			                row.createCell((short)19).setCellValue(obj.getResolved_date());
+			                row.createCell((short)20).setCellValue(obj.getEscalated_to());
+			                row.createCell((short)21).setCellValue(obj.getRemarks());
 			                
 			                rowNo++;
 			            }
-		                
+			            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+			        		sheet.setColumnWidth(columnIndex, 25 * 200);
+						}
 		                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
 		                Date date = new Date();
 		                String fileName = "Issues_"+dateFormat.format(date);

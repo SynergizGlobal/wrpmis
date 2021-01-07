@@ -166,12 +166,12 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                <p><label>Project</label></p>
-	                                  			 <input type="text"  value="${contractDeatils.project_id_fk}- ${contractDeatils.project_name}" readonly />
+	                                  			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
 	                                         	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <p><label>Work</label></p>
-	                                    	<input type="text"  value="${contractDeatils.work_id_fk}- ${contractDeatils.work_name}" readonly />
+	                                    	<input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
 	                                        <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
 	                                </div>
 	
@@ -1026,10 +1026,9 @@
                                                     <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" value="${revObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td> 
-                                                   <label><input type="hidden" id="revision_status${index.count }" name="revision_status" value="No" />
-                                                 <input type="checkbox" id="revision_status${index.count }" /> <span></span> </label>
-                                                </td>
+                                                 <td>	<label> <input type="hidden" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
+                                                <input type="checkbox" id="revision_status${index.count }" <c:if test="${revObj.revision_status == 'Yes'}">checked
+                                            </c:if>/> <span></span> </label>	</td> 
                                                 <td><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
@@ -1042,6 +1041,17 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 }); */
+	                                                 $('#revision_status${index.count }').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#revision_statuss${index.count }').val('Yes');
+							                             } else{
+							                              	 
+							                            	  $("#revision_statuss${index.count }").prop('checked',false).removeAttr('checked');
+							                            	  $("#revision_statuss${index.count }").val('No')
+							                              }
+							                   	    });
                                                 </script>
                                           </c:forEach>
                                            </c:when>
@@ -1063,10 +1073,8 @@
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td> 
-                                                   <label><input type="hidden" id="revision_status0" name="revision_status" value="No" />
-                                                 <input type="checkbox" id="revision_status0" /> <span></span> </label>
-                                                </td>
+                                                 <td><label><input type="hidden" id="revision_statuss0" name="revision_statuss" value="No" />
+                                                 <input type="checkbox" id="revision_status0" /> <span></span> </label>	</td>      
                                                 <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
@@ -1079,6 +1087,17 @@
 	                                          	    	     $('.confirmation-btns .datepicker-done').click();
 	                                          	    	  }
 	                                                 });
+	                                                $('#revision_status0').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#revision_statuss0').val('Yes');
+							                             } else{
+							                              	 
+							                            	  $("#revision_statuss0").prop('checked',false).removeAttr('checked');
+							                            	  $("#revision_statuss0").val('No')
+							                              }
+							                   	    });
                                                 </script>
                                              </c:otherwise>
                                             </c:choose> 
@@ -1871,7 +1890,8 @@
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label><input type="hidden" id="revision_status'+rNo+'" name="revision_status" value="No" /> <input type="checkbox" id="revision_status'+rNo+'" /> <span></span> </label> </td>'
+			   +'<td><label> <input type="hidden" id="revision_status'+rNo+'" name="revision_statuss" value="No" /><input type="checkbox" id="revision_statuss'+rNo+'" /> <span></span> </label></td>'
+
 		 	   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
 		
@@ -1885,6 +1905,17 @@
 				    	     $('.confirmation-btns .datepicker-done').click();
 				    	  }
 			      });
+			 $("#revision_statuss"+rNo).on('change', function(e){
+                 if($(this).prop('checked'))
+                 {
+                	// $(".part").prop('disabled', true);
+                     $("#revision_status"+rNo).val('Yes');
+                 } else{
+                  	 
+                	  $("#revision_status"+rNo).prop('checked',false).removeAttr('checked');
+                	  $("#revision_status"+rNo).val('No')
+                  }
+       	    });
 		
 		} 
 		

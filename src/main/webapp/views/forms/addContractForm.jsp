@@ -789,14 +789,27 @@
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                 <td> 
-                                                   <label><input type="hidden" id="revision_status0" name="revision_status" value="No" />
-                                                 <input type="checkbox" id="revision_status0" /> <span></span> </label>
-                                                </td>
+                                                 <td><label><input type="hidden" id="revision_statuss0" name="revision_statuss" value="No" />
+                                                 <input type="checkbox" id="revision_status0" /> <span></span> </label>	</td>       
+                                                
                                                 <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
+                                            <script type="text/javascript">
+	                                              
+	                                                $('#revision_status0').on('change', function(e){
+							                             if($(this).prop('checked'))
+							                             {
+							                            	// $(".part").prop('disabled', true);
+							                                 $('#revision_statuss0').val('Yes');
+							                             } else{
+							                              	 
+							                            	  $("#revision_statuss0").prop('checked',false).removeAttr('checked');
+							                            	  $("#revision_statuss0").val('No')
+							                              }
+							                   	    });
+                                                </script>
                                         </tbody>
                                     </table>
                                     <table class="mdl-data-table">
@@ -1529,7 +1542,7 @@
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
-			   +'<td><label><input type="hidden" id="revision_status'+rNo+'" name="revision_status" value="No" /> <input type="checkbox" id="revision_status'+rNo+'" /> <span></span> </label> </td>'
+			   +'<td><label> <input type="hidden" id="revision_status'+rNo+'" name="revision_statuss" value="No" /><input type="checkbox" id="revision_statuss'+rNo+'" /> <span></span> </label></td>'
 			   +'<td><a  class="btn waves-effect waves-light red t-c " onclick="removeRev('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 			   +'</tr>';
 		
@@ -1542,6 +1555,17 @@
 			    	     $('.confirmation-btns .datepicker-done').click();
 			    	  }
 		      });
+			 $("#revision_statuss"+rNo).on('change', function(e){
+                 if($(this).prop('checked'))
+                 {
+                	// $(".part").prop('disabled', true);
+                     $("#revision_status"+rNo).val('Yes');
+                 } else{
+                  	 
+                	  $("#revision_status"+rNo).prop('checked',false).removeAttr('checked');
+                	  $("#revision_status"+rNo).val('No')
+                  }
+       	    });
 	} 	
 
 

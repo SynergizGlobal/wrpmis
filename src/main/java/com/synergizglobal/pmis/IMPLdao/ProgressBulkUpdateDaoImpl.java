@@ -88,7 +88,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 
 	@Override
 	public List<StripChart> getProgressBulkUpdateContractsList(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
+		List<StripChart> objsList = new ArrayList<StripChart>();
 		try {
 			String qry = "select scv.contract_id_fk as contract_id,c.work_id_fk,c.contract_name "
 					+ "from strip_chart_general scv "
@@ -109,7 +109,27 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			List<StripChart> list = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+			for (StripChart contractObj : list) {
+				String structures_count_qry = "select count(*) from strip_chart_general s "
+						+ "where s.fob_id_fk is not null and s.fob_id_fk <> '' and s.contract_id_fk = ? "
+						+ "and (select count(*) from strip_chart_general s1 where s1.status <> ? "
+						+ "and s1.contract_id_fk = ? and s1.fob_id_fk = s.fob_id_fk) > 0 ";
+				
+				
+				arrSize = 3;			
+				pValues = new Object[arrSize];
+				i = 0;
+				pValues[i++] = contractObj.getContract_id();
+				pValues[i++] = CommonConstants2.STATUS_COMPLETED;
+				pValues[i++] = contractObj.getContract_id();
+				
+				int c = jdbcTemplate.queryForObject( structures_count_qry, pValues ,Integer.class);	
+				if(c > 0) {
+					objsList.add(contractObj);
+				}
+			}	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

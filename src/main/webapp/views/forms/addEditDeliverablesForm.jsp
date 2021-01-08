@@ -121,7 +121,7 @@
 	                                 </div>
                               	 </c:if>
                                  <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Document Type </p>
+                                    <p class="searchable_label">Deliverable Type </p>
                                     <select class="searchable validate-dropdown" name="deliverable_type_fk" id="deliverable_type_fk">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${deliverablesTypeList }">
@@ -190,8 +190,27 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <div class="row">
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col m8 s12">
+								<div class="file-field input-field">
+									<div class="btn bg-m">
+										<span>Attachment</span> <input type="file" id="deliverableFile"
+											name=""deliverableFile"">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text"	name="attachment" ">
+									</div>
+								</div>
+								<%-- <c:if test="${not empty "deliverableDetails.attachment }">
+									<a
+										href="<%=CommonConstants2.DELIVERABLE_FILES %>${deliverableDetails.attachment }"
+										class="filevalue" download>${deliverableDetails.attachment }</a>
+								</c:if> --%>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+						<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${deliverablesDetails.remarks }</textarea>

@@ -38,9 +38,6 @@
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
-
-
-
     <div class="row">
         <div class="col s12 m12">
             <div class="card">

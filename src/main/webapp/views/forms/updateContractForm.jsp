@@ -1000,7 +1000,7 @@
                                                 <th>Revised Amount </th>
                                                 <th>Revised DOC </th>
                                                 <th>Remarks </th>
-                                                <th>Active </th>
+                                                <th>Current</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>

@@ -33,7 +33,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.DesignService;
 import com.synergizglobal.pmis.Iservice.DocumentService;
-import com.synergizglobal.pmis.Iservice.SafetyEquipmentService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Document;
@@ -51,7 +50,7 @@ public class DocumentController {
 	DocumentService documentService;
 	
 	@Autowired
-	SafetyEquipmentService service;
+	DocumentService service;
 
 	@Autowired
 	DesignService designService;
@@ -150,7 +149,7 @@ public class DocumentController {
 	}
 	
 	@RequestMapping(value = "/add-document-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addDocumentForm(){
+	public ModelAndView addDocumentForm(@ModelAttribute Document obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDocumentForm);
@@ -163,8 +162,15 @@ public class DocumentController {
 			model.addObject("priorityList", priorityList);
 			List<Document> userList = documentService.getUserList();
 			model.addObject("userList", userList);
-			List<Document> projectsList = documentService.getProjectsList();
+			
+			List<Document> projectsList = documentService.getProjectsListForDocumentForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Document> worksList = documentService.getWorkListForDocumentForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Document> contractsList = documentService.getContractsListForDocumentForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 		}catch (Exception e) {
 				logger.error("addDocumentForm : " + e.getMessage());
@@ -172,14 +178,52 @@ public class DocumentController {
 		return model;
 	 }
 	
+	@RequestMapping(value = "/ajax/getProjectsListForDocumentForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Document> getProjectsListForDocumentForm(@ModelAttribute Document obj) {
+		List<Document> objsList = null;
+		try {
+			objsList = documentService.getProjectsListForDocumentForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForDocumentForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForDocumentForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Document> getWorkListForDocumentForm(@ModelAttribute Document obj) {
+		List<Document> objsList = null;
+		try {
+			objsList = documentService.getWorkListForDocumentForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForDocumentForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForDocumentForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Document> getContractsListForDocumentForm(@ModelAttribute Document obj) {
+		List<Document> objsList = null;
+		try {
+			objsList = documentService.getContractsListForDocumentForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForDocumentForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/get-document", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDocument(@ModelAttribute Document obj ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDocumentForm);
 			model.addObject("action", "edit");
-			List<Document> projectsList = documentService.getProjectsList();
-			model.addObject("projectsList", projectsList);
+			
 			List<Document> statusList = documentService.getStatusList();
 			model.addObject("statusList", statusList);
 			List<Document> documentTypeList = documentService.getDocumentTypeList();

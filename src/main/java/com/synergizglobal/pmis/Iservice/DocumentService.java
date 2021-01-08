@@ -28,13 +28,17 @@ public interface DocumentService {
 
 	public List<Document> getUserList() throws Exception;
 
-	public List<Document> getProjectsList() throws Exception;
+	public List<Document> getProjectsListForDocumentForm(Document obj) throws Exception;
 
 	public boolean addDocument(Document obj) throws Exception;
 
 	public boolean updateDocument(Document obj) throws Exception;
 
 	public boolean deleteDocument(Document obj) throws Exception;
+
+	public List<Document> getWorkListForDocumentForm(Document obj) throws Exception;
+
+	public List<Document> getContractsListForDocumentForm(Document obj) throws Exception;
 
 
 

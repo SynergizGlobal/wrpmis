@@ -34,7 +34,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	public List<TAFinancials> taFinancialsList(TAFinancials obj) throws Exception {
 		List<TAFinancials> objsList = null;
 		try {
-			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
+			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_name,w.work_short_name,c.contract_short_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
 					" FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
 					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and status = ? ";

@@ -365,7 +365,7 @@
              		$.each(data,function(key,val){
              			var training_id = "'"+val.training_id+"'";
                         var actions = '<a href="javascript:void(0);"  onclick="getTraining('+training_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-                        			  +'<a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c"><i class="fa fa-download"></i></a>'
+                        			  +'<a href="javascript:void(0);" onclick="getTrainingDetails('+training_id+');" class="btn waves-effect waves-light bg-s t-c"><i class="fa fa-download"></i></a>'
     /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
      */                   	var rowArray = [];    	                                       	
                                           
@@ -493,6 +493,12 @@
          	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-training');
          	$('#getForm').submit();
          }
+         
+         function getTrainingDetails(training_id){
+          	$("#training_id").val(training_id);
+          	$('#getForm').attr('action', '<%=request.getContextPath()%>/export-training-details');
+          	$('#getForm').submit();
+          }
          function deleteTraining(training_id){
          	$("#training_id").val(training_id);
          	showCancelMessage();

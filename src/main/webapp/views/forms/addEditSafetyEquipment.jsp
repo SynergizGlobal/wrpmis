@@ -116,11 +116,11 @@
                                     <div class="row">
                                         <div class="col s12 m4 input-field">
                                             <p><label> Project </label></p>
-		                                           <select class="searchable validate-dropdown" id="project_id" name="project_id"  
+		                                           <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 		                                 	  		 onchange="getWorksList(this.value);">
 		                                      		  <option value="" >Select</option>
 		                                        		 <c:forEach var="obj" items="${projectsList }">
-		                                           			 <option value="${obj.project_id }" <c:if test="${safetyEquipmentDetails.project_id eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+		                                           			 <option value="${obj.project_id_fk }" <c:if test="${safetyEquipmentDetails.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
 		                                        		 </c:forEach>
 		                                          </select>
                                    			 <span id="project_idError" class="error-msg" ></span>
@@ -130,6 +130,9 @@
 	                                           <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
 	                                      		  onchange="getContractsList(this.value);">
 	                                      		  <option value="">Select</option>
+	                                      		  <c:forEach var="obj" items="${worksList }">
+	                                      	   			<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                      		  </c:forEach>
 	                                   		 	</select>
                                    		   
                                      		 <span id="work_id_fkError" class="error-msg" ></span>
@@ -137,8 +140,11 @@
                                         <div class="col s12 m4 input-field">
                                           
                                             <p> <label>Contract </label></p>
-                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                            <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                        			 <option value="">Select</option>
+                                       			  <c:forEach var="obj" items="${contractsList }">
+                                      	    		<option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                        		 </c:forEach>
                                   			 </select>
                                   			
                                    			 <span id="contract_id_fkError" class="error-msg" ></span>
@@ -411,11 +417,11 @@
             });
             
            
-            var projectId = "${safetyEquipmentDetails.project_id}";
+            var projectId = "${safetyEquipmentDetails.project_id_fk}";
             if($.trim(projectId) != ''){
             	getWorksList(projectId);
             }
-            var work_id_fk = "${safetyEquipmentDetails.work_id}";
+            var work_id_fk = "${safetyEquipmentDetails.work_id_fk}";
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
             }
@@ -424,23 +430,23 @@
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
+            $("#contract_id_fk option:not(:first)").remove();
 
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyEquipmentForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                var workId = "${safetyEquipmentDetails.work_id}";
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                                
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                var work_id_fk = "${safetyEquipmentDetails.work_id_fk }";
+                                if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                                 }
                             });
                         }
@@ -452,25 +458,25 @@
             	$(".page-loader").hide();
             }
         }
+        
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContract",
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForSafetyEquipmentForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
-                            	var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
-                                if ($.trim(val.contract_name) != '') { contract_name = val.contract_id+' - ' + $.trim(val.contract_name) }
+                                if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
                                 var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
-                                if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                                }else {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
+                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                } else {
+                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }
@@ -482,6 +488,47 @@
             	$(".page-loader").hide();
             }
         }
+        
+        function resetWorksAndProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+        	var workId = ''
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){  
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+            	projectId = workId.substring(0, 3);    
+       			//workId = workId.substring(3, work_id.length);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
+       		if ($.trim(projectId) != "") {
+       			$("#work_id_fk option:not(:first)").remove();
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyEquipmentForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+                $('.searchable').select2();
+            }
+       		
+        }
+        
         
         function addSafetyRow(){
       		

@@ -24,6 +24,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Document;
 
+
 @Repository
 public class DocumentDaoImpl implements DocumentDao{
 
@@ -37,7 +38,7 @@ public class DocumentDaoImpl implements DocumentDao{
 	public List<Document> getDocumentsList(Document obj) throws Exception {
 		List<Document> objsList = null;
 		try {
-			String qry ="select document_no,d.work_id_fk,w.work_name,d.project_id_fk,p.project_name,contract_id_fk,c.contract_name,project_priority_fk,document_type_fk,document_name,responsible_for_approval from documents d "
+			String qry ="select document_no,d.work_id_fk,w.work_name,w.work_short_name,d.project_id_fk,p.project_name,contract_id_fk,c.contract_short_name,project_priority_fk,document_type_fk,document_name,responsible_for_approval from documents d "
 					+ "LEFT JOIN project p on d.project_id_fk = p.project_id "
 					+ "LEFT JOIN work w on d.work_id_fk = w.work_id "
 					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
@@ -360,10 +361,10 @@ public class DocumentDaoImpl implements DocumentDao{
 	}
 
 	@Override
-	public List<Document> getProjectsList() throws Exception {
+	public List<Document> getProjectsListForDocumentForm(Document obj) throws Exception {
 		List<Document> objsList = null;
 		try {
-			String qry ="select project_id as project_id_fk  ,project_name from project ";
+			String qry ="select project_id as project_id_fk  ,project_name from project order by project_id asc ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Document>(Document.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -664,6 +665,69 @@ public class DocumentDaoImpl implements DocumentDao{
 	public boolean deleteDocument(Document obj) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Document> getWorkListForDocumentForm(Document obj) throws Exception {
+		List<Document> objsList = new ArrayList<Document>();
+		try {
+			String qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Document>(Document.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Document> getContractsListForDocumentForm(Document obj) throws Exception {
+		List<Document> objsList = null;
+		try {
+			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk "
+					+ "from contract "
+					+ "where contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

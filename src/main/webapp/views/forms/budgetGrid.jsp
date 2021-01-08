@@ -304,7 +304,7 @@
  */                   	var rowArray = [];    	                 
                    	
                 	var workName = '';
-                    if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                    if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                     
                    	rowArray.push($.trim(val.work_id_fk) + workName);
                    	rowArray.push($.trim(val.financial_year_fk));

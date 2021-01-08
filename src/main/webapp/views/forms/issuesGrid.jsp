@@ -355,7 +355,7 @@
     	                   	var workName = '';
                             if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
                             var contract_name = '';
-                            if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+                            if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
     	                   	
     	                   	rowArray.push($.trim(val.issue_id));
     	                   	/* rowArray.push($.trim(val.project_id_fk)); */

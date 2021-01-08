@@ -41,8 +41,6 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.DataGathering;
 import com.synergizglobal.pmis.model.Document;
-import com.synergizglobal.pmis.model.DataGathering;
-import com.synergizglobal.pmis.model.DataGathering;
 
 @Controller
 public class DataGatheringsController {
@@ -111,37 +109,113 @@ public class DataGatheringsController {
 		return statusList;
 	}
 	
-	@RequestMapping(value = "/ajax/getProjectPriorityFilterListInDataGathering", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectsFilterListInDataGathering", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<DataGathering>getProjectPriorityList(@ModelAttribute DataGathering obj) {
-		List<DataGathering> projectPriorityList = null;
+	public List<DataGathering>getProjectsList(@ModelAttribute DataGathering obj) {
+		List<DataGathering> projectsList = null;
 		try {
-			projectPriorityList = dataGatheringsService.getDataGatherigsProjectPriorityList(obj);
+			projectsList = dataGatheringsService.getDataGatherigsProjectsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getDataGatherigsProjectPriorityList : " + e.getMessage());
 		}
-		return projectPriorityList;
+		return projectsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksFilterListInDataGathering", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering>getWorksList(@ModelAttribute DataGathering obj) {
+		List<DataGathering> worksList = null;
+		try {
+			worksList = dataGatheringsService.getDataGatherigsWorksList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDataGatherigsWorksList : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsFilterListInDataGathering", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering>getContractsList(@ModelAttribute DataGathering obj) {
+		List<DataGathering> contractsList = null;
+		try {
+			contractsList = dataGatheringsService.getDataGatherigsContractsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDataGatherigsContractsList : " + e.getMessage());
+		}
+		return contractsList;
 	}
 	
 	@RequestMapping(value = "/add-data-gathering-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addDataGatherigForm(){
+	public ModelAndView addDataGatherigForm(@ModelAttribute DataGathering obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDataGatheringForm);
 			model.addObject("action", "add");
 			List<DataGathering> statusList = dataGatheringsService.getStatusList();
+			
 			model.addObject("statusList", statusList);
 			List<DataGathering> priorityList = dataGatheringsService.getPriorityList();
 			model.addObject("priorityList", priorityList);
+			
 			List<DataGathering> worksList = dataGatheringsService.getWorksList();
 			model.addObject("worksList", worksList);
+			
+			List<DataGathering> projectsList = dataGatheringsService.getProjectsListForDataGatheringForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<DataGathering> formWorksList = dataGatheringsService.getWorkListForDataGatheringForm(obj);
+			model.addObject("formWorksList", formWorksList);
+			
+			List<DataGathering> contractsList = dataGatheringsService.getContractsListForDataGatheringForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 		}catch (Exception e) {
 				logger.error("addDataGatherigForm : " + e.getMessage());
 		}
 		return model;
 	 }
+	
+	@RequestMapping(value = "/ajax/getProjectsListForDataGatheringForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getProjectsListForDataGatheringForm(@ModelAttribute DataGathering obj) {
+		List<DataGathering> objsList = null;
+		try {
+			objsList = dataGatheringsService.getProjectsListForDataGatheringForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForDataGatheringForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForDataGatheringForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getWorkListForDataGatheringForm(@ModelAttribute DataGathering obj) {
+		List<DataGathering> objsList = null;
+		try {
+			objsList = dataGatheringsService.getWorkListForDataGatheringForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForDataGatheringForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForDataGatheringForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DataGathering> getContractsListForDataGatheringForm(@ModelAttribute DataGathering obj) {
+		List<DataGathering> objsList = null;
+		try {
+			objsList = dataGatheringsService.getContractsListForDataGatheringForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForDataGatheringForm : " + e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@RequestMapping(value = "/get-data-gathering", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDataGatherigForm(@ModelAttribute DataGathering obj ){
@@ -151,10 +225,10 @@ public class DataGatheringsController {
 			model.addObject("action", "edit");
 			List<DataGathering> statusList = dataGatheringsService.getStatusList();
 			model.addObject("statusList", statusList);
+			
 			List<DataGathering> priorityList = dataGatheringsService.getPriorityList();
 			model.addObject("priorityList", priorityList);
-			List<DataGathering> worksList = dataGatheringsService.getWorksList();
-			model.addObject("worksList", worksList);
+			
 			DataGathering dataGatheringDetails = dataGatheringsService.getDataGathering(obj);
 			model.addObject("dataGatheringDetails", dataGatheringDetails);
 		
@@ -238,9 +312,9 @@ public class DataGatheringsController {
 		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
 		        headingRow.createCell((short)0).setCellValue("ID");
-		        headingRow.createCell((short)1).setCellValue("Contract");
-		        headingRow.createCell((short)2).setCellValue("Project Priority");
-	            headingRow.createCell((short)3).setCellValue("Work");
+		        headingRow.createCell((short)1).setCellValue("Project");
+	            headingRow.createCell((short)2).setCellValue("Work");
+	            headingRow.createCell((short)3).setCellValue("Contract");
 	            headingRow.createCell((short)4).setCellValue("Target Date");
 	            headingRow.createCell((short)5).setCellValue("Start Date");
 	            headingRow.createCell((short)6).setCellValue("Finish Date");
@@ -251,9 +325,9 @@ public class DataGatheringsController {
 	            for (DataGathering obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getId());
-	                row.createCell((short)1).setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_name());
-	                row.createCell((short)2).setCellValue(obj.getProject_priority_fk());
-	                row.createCell((short)3).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
+	                row.createCell((short)1).setCellValue(obj.getProject_id_fk() +" - "+ obj.getProject_name());
+	                row.createCell((short)2).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_short_name());
+	                row.createCell((short)3).setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_short_name());
 	                row.createCell((short)4).setCellValue(obj.getTarget_date());
 	                row.createCell((short)5).setCellValue(obj.getStart_date());
 	                row.createCell((short)6).setCellValue(obj.getFinish_date());

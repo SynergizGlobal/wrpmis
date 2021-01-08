@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class SafetyEquipment {
 	private String safety_equipment_id, safety_equipment_number, safety_equipment_detail, validity_date,contract_id_fk,
 	project_id_fk,work_id_fk,project_name,work_name,contract_name,attachment,remarks,work_id,project_id,contract_id,
-	contract_short_name,inspecting_official,last_inspection_date,next_inspection_due,safety_instructions_id, document_name, document_url;
+	contract_short_name,inspecting_official,last_inspection_date,next_inspection_due,safety_instructions_id, document_name, document_url,work_short_name;
 	
 	private String[] safety_equipment_ids,safety_equipment_numbers, safety_equipment_details, validity_dates,contract_id_fks,
 	attachments,remarkss,safetyEquipmentFileNames,inspecting_officials,last_inspection_dates,next_inspection_dues,safety_instructions_ids, document_names, document_urls;
@@ -22,6 +22,14 @@ public class SafetyEquipment {
 	
 	
 	
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
 	public MultipartFile[] getSafetyFile() {
 		return safetyFile;
 	}

@@ -336,11 +336,11 @@
 	                   	var rowArray = [];    	                 
 	                   	
 	                	var workName = '';
-                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                         
 	                   	rowArray.push($.trim(val.work_id_fk) + workName);
 	                   	rowArray.push($.trim(val.contract_id));
-	                   	rowArray.push($.trim(val.contract_name));
+	                   	rowArray.push($.trim(val.contract_short_name));
 	                   	rowArray.push($.trim(val.contractor_name));
 	                   	rowArray.push($.trim(val.department_name));
 	                   	rowArray.push($.trim(val.designation));

@@ -19,10 +19,14 @@ public interface SafetyEquipmentService {
 
 	public List<Work> getworkList()throws Exception;
 
-	public List<SafetyEquipment> getProjectsList()throws Exception;
+	public List<SafetyEquipment> getProjectsListForSafetyEquipmentForm(SafetyEquipment obj)throws Exception;
 
 	public List<SafetyEquipment> contractListFilterInSafetyEquipment()throws Exception;
 
-	public List<SafetyEquipment> getSafetyEquipmentExportList(SafetyEquipment obj) throws Exception;; 
+	public List<SafetyEquipment> getSafetyEquipmentExportList(SafetyEquipment obj) throws Exception;
+
+	public List<SafetyEquipment> getWorkListForSafetyEquipmentForm(SafetyEquipment obj) throws Exception;
+
+	public List<SafetyEquipment> getContractsListForSafetyEquipmentForm(SafetyEquipment obj) throws Exception;
 
 }

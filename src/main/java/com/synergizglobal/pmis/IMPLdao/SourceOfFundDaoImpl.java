@@ -42,7 +42,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 	public List<SourceOfFund> fundsList(SourceOfFund obj) throws Exception {
 		List<SourceOfFund> objsList = null;
 		
-		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
+		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,w.work_short_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
 				+ "bank_account,voucher_type,voucher_no,narration,f.remarks from funds f "
 				+ "LEFT JOIN work w on f.work_id_fk = w.work_id  "
 				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "

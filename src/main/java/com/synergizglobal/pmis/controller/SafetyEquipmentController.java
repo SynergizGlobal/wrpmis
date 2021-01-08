@@ -41,6 +41,8 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.SafetyEquipment;
+import com.synergizglobal.pmis.model.SafetyEquipment;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.SafetyEquipment;
 
@@ -106,20 +108,63 @@ public class SafetyEquipmentController {
 	}
 	
 	@RequestMapping(value = "/add-safety-equipment-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addSafetyEquipmentForm(){
+	public ModelAndView addSafetyEquipmentForm(@ModelAttribute SafetyEquipment obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditSafetyEquipment);
 			model.addObject("action", "add");
-			List<SafetyEquipment> projectsList = service.getProjectsList();
+			List<SafetyEquipment> projectsList = service.getProjectsListForSafetyEquipmentForm(obj);
 			model.addObject("projectsList", projectsList);
-			List<Design> contractList = designService.getContractList();
-			model.addObject("contractList", contractList);
+			
+			List<SafetyEquipment> worksList = service.getWorkListForSafetyEquipmentForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<SafetyEquipment> contractsList = service.getContractsListForSafetyEquipmentForm(obj);
+			model.addObject("contractsList", contractsList);
 		}catch (Exception e) {
 			logger.error("addSafetyEquipmentForm : " + e.getMessage());
 		}
 		return model;
      }
+	
+	@RequestMapping(value = "/ajax/getProjectsListForSafetyEquipmentForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SafetyEquipment> getProjectsListForSafetyEquipmentForm(@ModelAttribute SafetyEquipment obj) {
+		List<SafetyEquipment> objsList = null;
+		try {
+			objsList = service.getProjectsListForSafetyEquipmentForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForSafetyEquipmentForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForSafetyEquipmentForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SafetyEquipment> getWorkListForSafetyEquipmentForm(@ModelAttribute SafetyEquipment obj) {
+		List<SafetyEquipment> objsList = null;
+		try {
+			objsList = service.getWorkListForSafetyEquipmentForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForSafetyEquipmentForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForSafetyEquipmentForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SafetyEquipment> getContractsListForSafetyEquipmentForm(@ModelAttribute SafetyEquipment obj) {
+		List<SafetyEquipment> objsList = null;
+		try {
+			objsList = service.getContractsListForSafetyEquipmentForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForSafetyEquipmentForm : " + e.getMessage());
+		}
+		return objsList;
+	}
 
 	@RequestMapping(value = "/get-safety-equipment", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getSafetyEquipment(@ModelAttribute SafetyEquipment obj){
@@ -127,10 +172,7 @@ public class SafetyEquipmentController {
 		try{
 			model.setViewName(PageConstants.addEditSafetyEquipment);
 			model.addObject("action", "edit");
-			List<SafetyEquipment> projectsList = service.getProjectsList();
-			model.addObject("projectsList", projectsList);
-			List<Design> contractList = designService.getContractList();
-			model.addObject("contractList", contractList);
+			
 			SafetyEquipment safetyEquipmentDetails = service.getSafetyEquipmentDetails(obj);
 			model.addObject("safetyEquipmentDetails", safetyEquipmentDetails);
 		}catch (Exception e) {

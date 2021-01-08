@@ -47,8 +47,8 @@ public class SafetyEquipmentServiceImpl implements SafetyEquipmentService {
 
 	}
 	@Override
-	public List<SafetyEquipment> getProjectsList()throws Exception{
-		return safetyEquipmentDao.getProjectsList();
+	public List<SafetyEquipment> getProjectsListForSafetyEquipmentForm(SafetyEquipment obj)throws Exception{
+		return safetyEquipmentDao.getProjectsListForSafetyEquipmentForm(obj);
 
 	}
 	@Override
@@ -58,6 +58,14 @@ public class SafetyEquipmentServiceImpl implements SafetyEquipmentService {
 	@Override
 	public List<SafetyEquipment> getSafetyEquipmentExportList(SafetyEquipment obj) throws Exception {
 		return safetyEquipmentDao.getSafetyEquipmentExportList(obj);
+	}
+	@Override
+	public List<SafetyEquipment> getWorkListForSafetyEquipmentForm(SafetyEquipment obj) throws Exception {
+		return safetyEquipmentDao.getWorkListForSafetyEquipmentForm(obj);
+	}
+	@Override
+	public List<SafetyEquipment> getContractsListForSafetyEquipmentForm(SafetyEquipment obj) throws Exception {
+		return safetyEquipmentDao.getContractsListForSafetyEquipmentForm(obj);
 	}
 
 }

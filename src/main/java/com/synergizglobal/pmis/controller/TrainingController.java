@@ -423,6 +423,134 @@ public class TrainingController {
 		}
 	}
 
+	@RequestMapping(value = "/export-training-details", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportTrainingDetails(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Training dObj,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants.trainingGrid);
+		List<Training> sessionsList = new ArrayList<Training>();
+		List<Training> attendeesList = new ArrayList<Training>();
+		try {
+			view.setViewName("redirect:/training");
+			String id = dObj.getTraining_id();
+    		sessionsList = trainingService.getTrainingSessionsList(id);
+			XSSFWorkbook  workBook = new XSSFWorkbook();
+		   
+			if(sessionsList != null && sessionsList.size() > 0){
+				//XSSFWorkbook  workBook = new XSSFWorkbook ();
+				 XSSFSheet sessionsSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Sessions"));
+			        workBook.setSheetOrder(sessionsSheet.getSheetName(), 0);
+			        XSSFRow headingRow1 = sessionsSheet.createRow(0);
+			        headingRow1.createCell((short)0).setCellValue("Training Session ID");
+			        headingRow1.createCell((short)1).setCellValue("Training ID");
+		            headingRow1.createCell((short)2).setCellValue("Session No");
+		         	headingRow1.createCell((short)3).setCellValue("Date");
+		            headingRow1.createCell((short)4).setCellValue("Start Time");
+		            headingRow1.createCell((short)5).setCellValue("End Time");
+		            headingRow1.createCell((short)6).setCellValue("Remark");
+
+	            short rowNo = 1;
+	            for (Training sObj : sessionsList) {
+	                XSSFRow row = sessionsSheet.createRow(rowNo);
+	                row.createCell((short)0).setCellValue(sObj.getTraining_session_id());
+	                row.createCell((short)1).setCellValue(sObj.getTraining_id());
+	                row.createCell((short)2).setCellValue(sObj.getSession_no());
+	                row.createCell((short)3).setCellValue(sObj.getDate());
+	                row.createCell((short)4).setCellValue(sObj.getStart_time());
+	                row.createCell((short)5).setCellValue(sObj.getEnd_time());
+	                row.createCell((short)6).setCellValue(sObj.getSession_remarks());
+	          
+	                rowNo++;
+	            }
+		       
+	            XSSFSheet attendeesSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Attendees"));
+	            workBook.setSheetOrder(attendeesSheet.getSheetName(), 1);
+		        XSSFRow headingRow2 = attendeesSheet.createRow(0);
+		        headingRow2.createCell((short)0).setCellValue("Training Attendees ID");
+		        headingRow2.createCell((short)1).setCellValue("Training Session ID");
+		        headingRow2.createCell((short)2).setCellValue("Training ID");
+		        headingRow2.createCell((short)3).setCellValue("Session No");
+		        headingRow2.createCell((short)4).setCellValue("Department");
+		        headingRow2.createCell((short)5).setCellValue("Name of attendee in the meenting");
+		        headingRow2.createCell((short)6).setCellValue("HOD");
+		        headingRow2.createCell((short)7).setCellValue("Mobile No");
+		        headingRow2.createCell((short)8).setCellValue("Required (Yes / No)");
+		        headingRow2.createCell((short)9).setCellValue("Participated (Yes / No)");
+	            
+	        	short rowNo1 = 1;
+		        	for (Training tariningAttendees : sessionsList) { 
+		        		String trainingId = tariningAttendees.getTraining_id();
+		        		attendeesList = trainingService.getTrainingAttendeesList(trainingId);
+		        	
+			            for (Training aObj : attendeesList) {
+			                XSSFRow row3 = attendeesSheet.createRow(rowNo1);
+			                row3.createCell((short)0).setCellValue(aObj.getTraining_attendees_id());
+			                row3.createCell((short)1).setCellValue(aObj.getTraining_session_id());
+			                row3.createCell((short)2).setCellValue(aObj.getTraining_id());
+			                row3.createCell((short)3).setCellValue(aObj.getSession_no());
+			                row3.createCell((short)4).setCellValue(aObj.getDepartment_fk());
+			                row3.createCell((short)5).setCellValue(aObj.getAttendee());
+			                row3.createCell((short)6).setCellValue(aObj.getHod_user_id_fk());
+			                row3.createCell((short)7).setCellValue(aObj.getMobile_no());
+			                row3.createCell((short)8).setCellValue(aObj.getRequired_fk());
+			                row3.createCell((short)9).setCellValue(aObj.getParticipated_fk());
+			          
+			                rowNo1++;
+			            }
+		        	}
+	        	for(int columnIndex = 0; columnIndex < sessionsList.size(); columnIndex++) {
+	        		sessionsSheet.autoSizeColumn(columnIndex);
+	        		//trainingSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	        	for(int columnIndex = 0; columnIndex < attendeesList.size(); columnIndex++) {
+	        		attendeesSheet.autoSizeColumn(columnIndex);
+	        		//trainingSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+                Date date = new Date();
+                String fileName = "Training_"+dateFormat.format(date);
+                
+                try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+			}else{
+				attributes.addFlashAttribute("error",dataExportNoData);
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	
 	@RequestMapping(value = "/upload-training", method = {RequestMethod.POST})
 	public ModelAndView uploadTraining(@ModelAttribute Training training,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();

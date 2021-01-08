@@ -307,9 +307,9 @@
      */                 var rowArray = [];    	                 
                        	
                     	var workName = '';
-                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                         var contarctName = '';
-                        if ($.trim(val.contarct_name) != '') { contarctName = ' - ' + $.trim(val.contarct_name) }
+                        if ($.trim(val.contract_short_name) != '') { contarctName = ' - ' + $.trim(val.contract_short_name) }
                         
                        	rowArray.push($.trim(val.work_id_fk) + workName);
                        	rowArray.push($.trim(val.contract_id_fk) + contarctName);

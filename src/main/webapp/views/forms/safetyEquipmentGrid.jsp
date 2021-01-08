@@ -268,8 +268,9 @@
 /* 	                    			  +'<a onclick="deleteSafetyEquipment('+safety_equipment_id +');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>';
  */
 	                   	var rowArray = [];    	                 
-	                   
-	                   	rowArray.push($.trim(val.contract_id_fk));
+						 var contract_name = '';
+						 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
+	                   	rowArray.push($.trim(val.contract_id_fk) + contract_name);
 	                   	rowArray.push($.trim(val.safety_equipment_number));
 	                   	rowArray.push($.trim(val.safety_equipment_detail));
 	                   	rowArray.push($.trim(val.validity_date));

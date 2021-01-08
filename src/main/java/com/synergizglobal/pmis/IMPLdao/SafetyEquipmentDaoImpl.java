@@ -29,6 +29,8 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.SafetyEquipment;
+import com.synergizglobal.pmis.model.SafetyEquipment;
+import com.synergizglobal.pmis.model.SafetyEquipment;
 import com.synergizglobal.pmis.model.Work;
 
 @Repository
@@ -47,7 +49,7 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 	public List<SafetyEquipment> getSafetyEquipment(SafetyEquipment obj)throws Exception{
 		List<SafetyEquipment> objsList = null;
 		try {
-			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name, safety_equipment_number,safety_equipment_detail, "
+			String qry = "select safety_equipment_id,contract_id_fk,c.contract_name,c.contract_short_name, safety_equipment_number,safety_equipment_detail, "
 					+ "DATE_FORMAT(max(validity_date),'%d-%m-%Y') AS validity_date, "
 					+ "inspecting_official,DATE_FORMAT(max(last_inspection_date),'%d-%m-%Y') AS last_inspection_date,DATE_FORMAT(max(next_inspection_due),'%d-%m-%Y') AS next_inspection_due "
 					+ "from safety_equipment s "  
@@ -485,10 +487,10 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 		return objsList;
 	}
 	@Override
-	public List<SafetyEquipment> getProjectsList()throws Exception{
+	public List<SafetyEquipment> getProjectsListForSafetyEquipmentForm(SafetyEquipment obj)throws Exception{
 		List<SafetyEquipment> objsList = null;
 		try {
-			String qry ="select project_id ,project_name from project ";
+			String qry ="select project_id as project_id_fk,project_name from project order by project_id asc ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -540,6 +542,69 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			throw new Exception(e.getMessage());
 		}
 			return objsList;
+	}
+
+	@Override
+	public List<SafetyEquipment> getWorkListForSafetyEquipmentForm(SafetyEquipment obj) throws Exception {
+		List<SafetyEquipment> objsList = new ArrayList<SafetyEquipment>();
+		try {
+			String qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<SafetyEquipment> getContractsListForSafetyEquipmentForm(SafetyEquipment obj) throws Exception {
+		List<SafetyEquipment> objsList = null;
+		try {
+			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk "
+					+ "from contract "
+					+ "where contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<SafetyEquipment>(SafetyEquipment.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

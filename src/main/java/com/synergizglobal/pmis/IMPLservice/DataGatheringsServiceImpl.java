@@ -27,8 +27,8 @@ public class DataGatheringsServiceImpl implements DataGatheringsService {
 	}
 
 	@Override
-	public List<DataGathering> getDataGatherigsProjectPriorityList(DataGathering obj) throws Exception {
-		return dao.getDataGatherigsProjectPriorityList(obj);
+	public List<DataGathering> getDataGatherigsProjectsList(DataGathering obj) throws Exception {
+		return dao.getDataGatherigsProjectsList(obj);
 	}
 
 	@Override
@@ -64,6 +64,31 @@ public class DataGatheringsServiceImpl implements DataGatheringsService {
 	@Override
 	public boolean deleteDataGathering(DataGathering obj) throws Exception {
 		return dao.deleteDataGathering(obj);
+	}
+
+	@Override
+	public List<DataGathering> getDataGatherigsWorksList(DataGathering obj) throws Exception {
+		return dao.getDataGatherigsWorksList(obj);
+	}
+
+	@Override
+	public List<DataGathering> getDataGatherigsContractsList(DataGathering obj) throws Exception {
+		return dao.getDataGatherigsContractsList(obj);
+	}
+
+	@Override
+	public List<DataGathering> getProjectsListForDataGatheringForm(DataGathering obj) throws Exception {
+		return dao.getProjectsListForDataGatheringForm(obj);
+	}
+
+	@Override
+	public List<DataGathering> getWorkListForDataGatheringForm(DataGathering obj) throws Exception {
+		return dao.getWorkListForDataGatheringForm(obj);
+	}
+
+	@Override
+	public List<DataGathering> getContractsListForDataGatheringForm(DataGathering obj) throws Exception {
+		return dao.getContractsListForDataGatheringForm(obj);
 	}
 	
 }

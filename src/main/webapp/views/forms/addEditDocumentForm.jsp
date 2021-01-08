@@ -121,7 +121,7 @@
                                	  		 onchange="getWorksList(this.value);">
                                     		 <option value="" >Select</option>
                                       		 <c:forEach var="obj" items="${projectsList }">
-                                         			 <option value="${obj.project_id_fk }" <c:if test="${documentDetails.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                         			 <option value="${obj.project_id_fk }">${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                       		 </c:forEach>
 		                             </select>
                                		 <span id="project_idError" class="error-msg" ></span>
@@ -130,6 +130,10 @@
                                     <p class="searchable_label"> Work </p>
                                      <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                    		  onchange="getContractsList(this.value);">
+                                   		  <option value="" >Select</option>
+                                   		  	 <c:forEach var="obj" items="${worksList }">
+	                                      	   		<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                      	 </c:forEach>
                                    		  <option value="">Select</option>
 	                                  </select>
                                    		   
@@ -147,7 +151,7 @@
 									<label for="project_id_fk">Project</label>     
 							    </div> 
                                 <div class="col s12 m4 input-field"> 
-                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_name}" readonly />
+                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${documentDetails.work_id_fk}- ${documentDetails.work_short_name}" readonly />
 								    <label for="work_id_fk">Work</label>     
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -157,15 +161,18 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <c:if test="${action eq 'edit'}">	
                                  <div class="col s12 m4 input-field"> 
-                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_name}" readonly />
+                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${documentDetails.contract_id_fk} - ${documentDetails.contract_short_name}" readonly />
                                  	<label for="contract_id_fk">Contract</label>           
                               	    </div>
                                  </c:if>
                                 <c:if test="${action eq 'add'}">	
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract </p>
-                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                        	<option value="">Select</option>
+                                       	     <c:forEach var="obj" items="${contractsList }">
+                                      	    	<option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                        	</c:forEach>
                                   	</select>
                                    	<span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -453,26 +460,26 @@
             }
         });
        
-        function getWorksList(project_id_fk) {
+        function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
+            $("#contract_id_fk option:not(:first)").remove();
 
-            if ($.trim(project_id_fk) != "") {
-                var myParams = { project_id_fk: project_id_fk };
+            if ($.trim(projectId) != "") {
+                var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDocumentForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                var workId = "${documentDetails.work_id_fk}";
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                                
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                var work_id_fk = "${documentDetails.work_id_fk }";
+                                if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                                 }
                             });
                         }
@@ -490,19 +497,18 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContract",
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForDocumentForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
-                            	var contract_id_fk = "${documentDetails.contract_id_fk }";
-                                if ($.trim(val.contract_name) != '') { contract_name = val.contract_id+' - ' + $.trim(val.contract_name) }
+                                if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
                                 var contract_id_fk = "${documentDetails.contract_id_fk }";
-                                if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                                }else {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
+                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                } else {
+                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }
@@ -514,6 +520,47 @@
             	$(".page-loader").hide();
             }
         }
+        
+        function resetWorksAndProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+        	var workId = ''
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){  
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+            	projectId = workId.substring(0, 3);    
+       			//workId = workId.substring(3, work_id.length);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
+       		if ($.trim(projectId) != "") {
+       			$("#work_id_fk option:not(:first)").remove();
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDocumentForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+                $('.searchable').select2();
+            }
+       		
+        }
+        
         
         function addDocument(){
         	if(validator.form()){ // validation perform

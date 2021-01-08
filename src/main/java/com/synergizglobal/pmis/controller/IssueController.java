@@ -41,8 +41,11 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.Issue;
 
 @Controller
 public class IssueController {
@@ -180,13 +183,19 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value="/add-issue-form",method=RequestMethod.GET)
-	public ModelAndView addIssueForm(HttpSession session) {
+	public ModelAndView addIssueForm(HttpSession session,@ModelAttribute Issue obj) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.addIssueForm);
 			
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Issue> projectsList = issueService.getProjectsListForIssueForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Issue> worksList = issueService.getWorkListForIssueForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Issue> contractsList = issueService.getContractsListForIssueForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 			List<Issue> issuesStatusList = issueService.getIssuesStatusList();
 			model.addObject("issuesStatusList", issuesStatusList);
@@ -207,6 +216,45 @@ public class IssueController {
 			logger.error("addIssueForm : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getProjectsListForIssueForm(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getProjectsListForIssueForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForIssueForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getWorkListForIssueForm(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getWorkListForIssueForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForIssueForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getContractsListForIssueForm(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getContractsListForIssueForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForIssueForm : " + e.getMessage());
+		}
+		return objsList;
 	}
 	
 	@RequestMapping(value="/add-issue",method=RequestMethod.POST)
@@ -239,8 +287,14 @@ public class IssueController {
 		try {
 			model.setViewName(PageConstants2.updateIssueForm);
 			
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Issue> projectsList = issueService.getProjectsListForIssueForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Issue> worksList = issueService.getWorkListForIssueForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Issue> contractsList = issueService.getContractsListForIssueForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 			List<Issue> issuesStatusList = issueService.getIssuesStatusList();
 			model.addObject("issuesStatusList", issuesStatusList);

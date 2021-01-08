@@ -120,8 +120,8 @@
 	                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
 	                                       	<option value="">Select</option>
 	                                       	 <c:forEach var="obj" items="${contractsList }">
-                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
-                                         </c:forEach>
+                                      	  			 <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                        	 </c:forEach>
 	                                  	</select>
 	                                   	<span id="contract_id_fkError" class="error-msg" ></span>
 	                                 </div>

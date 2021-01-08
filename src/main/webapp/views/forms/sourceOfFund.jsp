@@ -291,7 +291,7 @@
  */                   	var rowArray = [];    	                 
                    	
                 	var workName = '';
-                    if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                    if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                     var railwayName = '';
                     if ($.trim(val.railway_name) != '') { railwayName = ' - ' + $.trim(val.railway_name) }
                     

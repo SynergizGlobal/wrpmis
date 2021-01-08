@@ -93,5 +93,20 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getResponsiblePersonsListFilter(Issue obj) throws Exception {
 		return issueDao.getResponsiblePersonsListFilter(obj);
 	}
+
+	@Override
+	public List<Issue> getProjectsListForIssueForm(Issue obj) throws Exception {
+		return issueDao.getProjectsListForIssueForm(obj);
+	}
+
+	@Override
+	public List<Issue> getWorkListForIssueForm(Issue obj) throws Exception {
+		return issueDao.getWorkListForIssueForm(obj);
+	}
+
+	@Override
+	public List<Issue> getContractsListForIssueForm(Issue obj) throws Exception {
+		return issueDao.getContractsListForIssueForm(obj);
+	}
 	
 }

@@ -301,7 +301,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public List<Deliverables> getProjectsListForDeliverablesForm(Deliverables obj) throws Exception {
 		List<Deliverables> objsList = null;
 		try {
-			String qry ="select project_id as project_id_fk  ,project_name from project ";
+			String qry ="select project_id as project_id_fk  ,project_name from project order by project_id asc";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

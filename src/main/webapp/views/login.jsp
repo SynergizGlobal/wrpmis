@@ -24,10 +24,16 @@
 		input:-webkit-autofill:active  {
 		    -webkit-box-shadow: 0 0 0 30px rgba(2, 36, 202, 0.70) inset !important;
 		}		
+		.row.homepage{
+			-webkit-box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
+			-moz-box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
+			box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
+		}
     </style>
 </head>
 
-<body style="background: black url(<%=CommonConstants.LOGIN_BACKGROUND_IMAGE_URL%>) no-repeat center center;background-size: cover;">
+<body style="background: black url(<%=CommonConstants.LOGIN_BACKGROUND_IMAGE_URL%>) no-repeat center center;background-size: cover;  background-color: rgba(125,0,0,0.32);
+    background-blend-mode: overlay;">
  	       <!-- header starts -->
  	  	  <nav>
 	        <div class="nav-wrapper bg">
@@ -93,7 +99,7 @@
 		    </div>
         
     		<div class="row mar-top">
-     			<div id="support" class="col"></div>
+     			<div id="support" class="col m5"></div>
 		        <form class="col s12 m3 " action="<%=request.getContextPath()%>/login" id="loginForm" name="loginForm" method="post" >
 		        	<div class="row homepage">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">

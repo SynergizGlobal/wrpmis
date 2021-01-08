@@ -33,6 +33,13 @@
         	width:350px;
         	max-width:350px;
         }
+        tbody tr td:last-of-type,thead tr th:last-of-type{
+        	white-space:inherit;
+        	text-align:center !important;
+        }
+        tbody tr td:last-of-type a+a{
+        	margin-left:20px;
+        }
        
     </style>
 </head>
@@ -40,7 +47,6 @@
 <body>
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
-
 
     <div class="row">
         <div class="col s12 m12">
@@ -134,7 +140,7 @@
                                             <th>End Date</th>
                                             <th>Hours</th>
                                             <th>Status </th>
-                                            <th class="no-sort">Action</th>
+                                            <th class="nosort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -359,11 +365,10 @@
              		$.each(data,function(key,val){
              			var training_id = "'"+val.training_id+"'";
                         var actions = '<a href="javascript:void(0);"  onclick="getTraining('+training_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
+                        			  +'<a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c"><i class="fa fa-download"></i></a>'
     /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
-     */                   	var rowArray = [];    	                 
-                       	
-                  
-                        
+     */                   	var rowArray = [];    	                                       	
+                                          
                        	rowArray.push($.trim(val.training_id));
                        	rowArray.push($.trim(val.training_type_fk));
                        	rowArray.push($.trim(val.training_category_fk));

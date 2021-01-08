@@ -43,6 +43,7 @@
             </select>
           </li>
           </c:if> --%>
+          <li class="blue darken-3"><a href="<%=request.getContextPath() %>/home"><span class="material-icons-outlined">home</span>Home</a></li>
           <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
 	          <!-- 1st level Dropdown starts -->
 	          <!-- img src="/pmis/resources/images/dashboard-white.png"--> 
@@ -275,7 +276,8 @@
       <select id="mobileSearchWorkId" name="searchWorkId">
         <option>Select Work</option>
       </select>
-    </li> -->				
+    </li> -->	
+    <li><a href="<%=request.getContextPath() %>/home"><span class="material-icons-outlined">home</span>Home</a></li>			
     <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Modules</a>
 		<!-- Mobile dropdown stars here -->
           <ul class="dropdown-data collapsible collapsible-body second-lvl">         

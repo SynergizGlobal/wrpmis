@@ -7,7 +7,40 @@ import org.springframework.web.multipart.MultipartFile;
 public class FOB {
 	private String fob_id,fob_name,contract_id_fk,date_of_approval,target_date,construction_start_date,actual_completion_date,
 	commissioning_date,estimated_cost,completion_cost,work_status_fk,latitude,longitude,remarks,attachment,fob_detail_id,fob_id_fk,
-	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost;
+	detail_name,value,work_id_fk,project_id_fk,revised_completion,project_name,contract_id,contract_name,contract_short_name,last_sanctioned_cost,
+	project_id,work_id,work_name,work_short_name;
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+	public String getWork_name() {
+		return work_name;
+	}
+
+	public void setWork_name(String work_name) {
+		this.work_name = work_name;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
 
 	public String getContract_short_name() {
 		return contract_short_name;

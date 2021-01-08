@@ -43,6 +43,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.FOB;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.Project;
 
 @Controller
@@ -132,16 +133,22 @@ public class FOBController {
 		return contractsList;
 	}
 	
-	@RequestMapping(value="/add-fob-form",method=RequestMethod.GET)
-	public ModelAndView addFOBForm(HttpSession session) {
+	@RequestMapping(value="/add-fob-form",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addFOBForm(@ModelAttribute FOB obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.addEditFob);
 			
 			model.addObject("action", "add");
 			
-			List<Project> projectsList = homeService.getProjectsList();
+			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<FOB> worksList = fobService.getWorkListForFOBForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<FOB> contractsList = fobService.getContractsListForFOBForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 			List<String> generalStatusList = homeService.getGeneralStatusList();
 			model.addObject("generalStatusList", generalStatusList);
@@ -150,6 +157,45 @@ public class FOBController {
 			logger.error("addFOBForm : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsListForFOBForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getProjectsListForFOBForm(@ModelAttribute FOB obj) {
+		List<FOB> objsList = null;
+		try {
+			objsList = fobService.getProjectsListForFOBForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForFOBForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForFOBForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getWorkListForFOBForm(@ModelAttribute FOB obj) {
+		List<FOB> objsList = null;
+		try {
+			objsList = fobService.getWorkListForFOBForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForFOBForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForFOBForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FOB> getContractsListForFOBForm(@ModelAttribute FOB obj) {
+		List<FOB> objsList = null;
+		try {
+			objsList = fobService.getContractsListForFOBForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForFOBForm : " + e.getMessage());
+		}
+		return objsList;
 	}
 	
 	@RequestMapping(value="/add-fob",method=RequestMethod.POST)

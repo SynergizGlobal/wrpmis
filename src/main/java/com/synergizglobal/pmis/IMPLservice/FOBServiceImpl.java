@@ -54,4 +54,19 @@ public class FOBServiceImpl implements FOBService {
 		return fobDao.getContractsList(obj);
 	}
 
+	@Override
+	public List<FOB> getProjectsListForFOBForm(FOB obj) throws Exception {
+		return fobDao.getProjectsListForFOBForm(obj);
+	}
+
+	@Override
+	public List<FOB> getWorkListForFOBForm(FOB obj) throws Exception {
+		return fobDao.getWorkListForFOBForm(obj);
+	}
+
+	@Override
+	public List<FOB> getContractsListForFOBForm(FOB obj) throws Exception {
+		return fobDao.getContractsListForFOBForm(obj);
+	}
+
 }

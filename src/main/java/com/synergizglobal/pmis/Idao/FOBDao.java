@@ -21,5 +21,11 @@ public interface FOBDao {
 	List<FOB> getWorkStatusList(FOB obj)throws Exception;
 
 	List<FOB> getContractsList(FOB obj)throws Exception;
+	
+	List<FOB> getProjectsListForFOBForm(FOB obj) throws Exception;
+
+	List<FOB> getWorkListForFOBForm(FOB obj) throws Exception;
+
+	List<FOB> getContractsListForFOBForm(FOB obj) throws Exception;
 
 }

@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.FOBDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FOB;
 
 @Repository
@@ -323,6 +325,81 @@ public class FOBDaoImpl implements FOBDao {
 				pValues[i++] = obj.getContract_id_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FOB> getProjectsListForFOBForm(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry = "select project_id,project_name from `project` order by project_id asc";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FOB>(FOB.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FOB> getWorkListForFOBForm(FOB obj) throws Exception {
+		List<FOB> objsList = new ArrayList<FOB>();
+		try {
+			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FOB> getContractsListForFOBForm(FOB obj) throws Exception {
+		List<FOB> objsList = null;
+		try {
+			String qry ="select contract_id,contract_name,contract_short_name,work_id_fk "
+					+ "from contract "
+					+ "where contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<FOB>(FOB.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

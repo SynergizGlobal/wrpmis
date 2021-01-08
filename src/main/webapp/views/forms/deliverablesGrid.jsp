@@ -306,14 +306,14 @@
    */                   var rowArray = [];    	                 
 					    var projectName = '';
 					    if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-					    var workName = '';
-					    if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-					    var contarctName = '';
-					    if ($.trim(val.contract_name) != '') { contarctName = ' - ' + $.trim(val.contract_name) }
+					    var work_short_name = '';
+					    if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
+					    var contract_short_name = '';
+					    if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
  					 
  					    rowArray.push($.trim(val.project_id_fk) + projectName);
- 					 	rowArray.push($.trim(val.work_name) + workName);
- 					 	rowArray.push($.trim(val.contract_id_fk) + contarctName);
+ 					 	rowArray.push($.trim(val.work_id_fk) + work_short_name);
+ 					 	rowArray.push($.trim(val.contract_id_fk) + contract_short_name);
  					 	rowArray.push($.trim(val.deliverable_type_fk));
  					 	rowArray.push($.trim(val.deliverable_description));
  					 	rowArray.push($.trim(val.status_fk));

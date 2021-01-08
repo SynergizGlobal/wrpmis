@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.Idao.DataGatheringsDao;
 import com.synergizglobal.pmis.Idao.DeliverablesDao;
 import com.synergizglobal.pmis.Iservice.DeliverablesService;
-import com.synergizglobal.pmis.model.DataGathering;
+import com.synergizglobal.pmis.model.Deliverables;
+import com.synergizglobal.pmis.model.Safety;
 
 @Service
 public class DeliverablesServiceImpl implements DeliverablesService{
@@ -17,68 +17,78 @@ public class DeliverablesServiceImpl implements DeliverablesService{
 	DeliverablesDao dao;
 
 	@Override
-	public List<DataGathering> getDeliverablesList(DataGathering obj) throws Exception {
+	public List<Deliverables> getDeliverablesList(Deliverables obj) throws Exception {
 		return dao.getDeliverablesList(obj);
 	}
 
 	@Override
-	public List<DataGathering> getDeliverablesStatusList(DataGathering obj) throws Exception {
+	public List<Deliverables> getDeliverablesStatusList(Deliverables obj) throws Exception {
 		return dao.getDeliverablesStatusList(obj);
 	}
 
 	@Override
-	public List<DataGathering> getDeliverablesProjectsList(DataGathering obj) throws Exception {
+	public List<Deliverables> getDeliverablesProjectsList(Deliverables obj) throws Exception {
 		return dao.getDeliverablesProjectsList(obj);
 	}
 
 	@Override
-	public List<DataGathering> getDeliverablesWorksList(DataGathering obj) throws Exception {
+	public List<Deliverables> getDeliverablesWorksList(Deliverables obj) throws Exception {
 		return dao.getDeliverablesWorksList(obj);
 	}
 
 	@Override
-	public List<DataGathering> getDeliverablesContarctsList(DataGathering obj) throws Exception {
+	public List<Deliverables> getDeliverablesContarctsList(Deliverables obj) throws Exception {
 		return dao.getDeliverablesContarctsList(obj);
 	}
 
 	@Override
-	public List<DataGathering> getStatusList() throws Exception {
+	public List<Deliverables> getStatusList() throws Exception {
 		return dao.getStatusList();
 	}
 
 	@Override
-	public List<DataGathering> getDeliverableTypeList() throws Exception {
+	public List<Deliverables> getDeliverableTypeList() throws Exception {
 		return dao.getDeliverableTypeList();
 	}
 
 	@Override
-	public List<DataGathering> getPriorityList() throws Exception {
+	public List<Deliverables> getPriorityList() throws Exception {
 		return dao.getPriorityList();
 	}
 
 	@Override
-	public List<DataGathering> getProjectsList() throws Exception {
-		return dao.getProjectsList();
+	public List<Deliverables> getProjectsListForDeliverablesForm(Deliverables obj) throws Exception {
+		return dao.getProjectsListForDeliverablesForm(obj);
 	}
 
 	@Override
-	public DataGathering getDeliverables(DataGathering obj) throws Exception {
+	public Deliverables getDeliverables(Deliverables obj) throws Exception {
 		return dao.getDeliverables(obj);
 	}
 
 	@Override
-	public boolean addDeliverables(DataGathering obj) throws Exception {
+	public boolean addDeliverables(Deliverables obj) throws Exception {
 		return dao.addDeliverables(obj);
 	}
 
 	@Override
-	public boolean updateDeliverables(DataGathering obj) throws Exception {
+	public boolean updateDeliverables(Deliverables obj) throws Exception {
 		return dao.updateDeliverables(obj);
 	}
 
 	@Override
-	public boolean deleteDeliverables(DataGathering obj) throws Exception {
+	public boolean deleteDeliverables(Deliverables obj) throws Exception {
 		return dao.deleteDeliverables(obj);
+	}
+
+	@Override
+	public List<Deliverables> getWorkListForDeliverablesForm(Deliverables obj) throws Exception {
+		return dao.getWorkListForDeliverablesForm(obj);
+	}
+
+	@Override
+	public List<Deliverables> getContractsListForDeliverablesForm(Deliverables obj) throws Exception {
+		return dao.getContractsListForDeliverablesForm(obj);
 	}
 
 }

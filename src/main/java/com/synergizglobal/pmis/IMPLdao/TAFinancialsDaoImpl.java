@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -16,6 +17,7 @@ import com.synergizglobal.pmis.Idao.TAFinancialsDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.TAFinancials;
 
 
@@ -354,10 +356,84 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	  }		
 	   return flag;	
    }
+
+	@Override
+	public List<TAFinancials> getContractsList() throws Exception {
+		List<TAFinancials> objsList = null;
+		try {
+			String qry ="select work_id as work_id_fk,contract_id as contract_id_fk,contract_name from contract c "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<TAFinancials> getWorkListForFinancialsForm(TAFinancials obj) throws Exception {
+		List<TAFinancials> objsList = new ArrayList<TAFinancials>();
+		try {
+			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
 		
+	}
+
+	@Override
+	public List<TAFinancials> getContractsListForFinancialsForm(TAFinancials obj) throws Exception {
+		List<TAFinancials> objsList = null;
+		try {
+			String qry ="select contract_id as contract_id_fk,work_id_fk,contract_name,contract_short_name "
+					+ "from contract c "
+					+ "where contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 		
-		
-		
+
 		
 		
 		

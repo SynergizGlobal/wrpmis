@@ -20,4 +20,10 @@ public interface TAFinancialsDao {
 
 	public boolean updateTAFinancials(TAFinancials obj) throws Exception;
 
+	public List<TAFinancials> getContractsList() throws Exception;
+
+	public List<TAFinancials> getWorkListForFinancialsForm(TAFinancials obj) throws Exception;
+
+	public List<TAFinancials> getContractsListForFinancialsForm(TAFinancials obj) throws Exception;
+
 }

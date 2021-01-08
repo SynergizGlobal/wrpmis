@@ -28,14 +28,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.DeliverablesService;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.DataGathering;
+import com.synergizglobal.pmis.model.Deliverables;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.Deliverables;
 
 
 @Controller
@@ -80,8 +84,8 @@ public class DeliverablesController {
 	
 	@RequestMapping(value = "/ajax/get-deliverables-list", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<DataGathering> getDataGatherings(@ModelAttribute DataGathering obj) {
-		List<DataGathering> dataGatheringsList = null;
+	public List<Deliverables> getDeliverabless(@ModelAttribute Deliverables obj) {
+		List<Deliverables> dataGatheringsList = null;
 		try {
 			dataGatheringsList = deliverablesService.getDeliverablesList(obj);
 		}catch (Exception e) {
@@ -93,8 +97,8 @@ public class DeliverablesController {
 	
 	@RequestMapping(value = "/ajax/getStatusFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<DataGathering> getStatusList(@ModelAttribute DataGathering obj) {
-		List<DataGathering> statusList = null;
+	public List<Deliverables> getStatusList(@ModelAttribute Deliverables obj) {
+		List<Deliverables> statusList = null;
 		try {
 			statusList = deliverablesService.getDeliverablesStatusList(obj);
 		}catch (Exception e) {
@@ -106,8 +110,8 @@ public class DeliverablesController {
 	
 	@RequestMapping(value = "/ajax/getProjectFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<DataGathering> getProjectsList(@ModelAttribute DataGathering obj) {
-		List<DataGathering> projectsList = null;
+	public List<Deliverables> getProjectsList(@ModelAttribute Deliverables obj) {
+		List<Deliverables> projectsList = null;
 		try {
 			projectsList = deliverablesService.getDeliverablesProjectsList(obj);
 		}catch (Exception e) {
@@ -119,8 +123,8 @@ public class DeliverablesController {
 	
 	@RequestMapping(value = "/ajax/getWorkFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<DataGathering> getWorksList(@ModelAttribute DataGathering obj) {
-		List<DataGathering> worksList = null;
+	public List<Deliverables> getWorksList(@ModelAttribute Deliverables obj) {
+		List<Deliverables> worksList = null;
 		try {
 			worksList = deliverablesService.getDeliverablesWorksList(obj);
 		}catch (Exception e) {
@@ -132,8 +136,8 @@ public class DeliverablesController {
 	
 	@RequestMapping(value = "/ajax/getContarctFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<DataGathering> getContarctsList(@ModelAttribute DataGathering obj) {
-		List<DataGathering> contractsList = null;
+	public List<Deliverables> getContarctsList(@ModelAttribute Deliverables obj) {
+		List<Deliverables> contractsList = null;
 		try {
 			contractsList = deliverablesService.getDeliverablesContarctsList(obj);
 		}catch (Exception e) {
@@ -144,18 +148,27 @@ public class DeliverablesController {
 	}
 	
 	@RequestMapping(value = "/add-deliverables-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addDeliverablesForm(){
+	public ModelAndView addDeliverablesForm(@ModelAttribute Deliverables obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDeliverablesForm);
 			model.addObject("action", "add");
-			List<DataGathering> statusList = deliverablesService.getStatusList();
+			List<Deliverables> statusList = deliverablesService.getStatusList();
 			model.addObject("statusList", statusList);
-			List<DataGathering> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
+			
+			List<Deliverables> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
 			model.addObject("deliverablesTypeList", deliverablesTypeList);
-			List<DataGathering> priorityList = deliverablesService.getPriorityList();
+			
+			List<Deliverables> priorityList = deliverablesService.getPriorityList();
 			model.addObject("priorityList", priorityList);
-			List<DataGathering> projectsList = deliverablesService.getProjectsList();
+			
+			List<Deliverables> worksList = deliverablesService.getWorkListForDeliverablesForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Deliverables> contractsList = deliverablesService.getContractsListForDeliverablesForm(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<Deliverables> projectsList = deliverablesService.getProjectsListForDeliverablesForm(obj);
 			model.addObject("projectsList", projectsList);
 			
 		}catch (Exception e) {
@@ -163,21 +176,62 @@ public class DeliverablesController {
 		}
 		return model;
 	 }
+	
+	@RequestMapping(value = "/ajax/getProjectsListForDeliverablesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Deliverables> getProjectsListForDeliverablesForm(@ModelAttribute Deliverables obj) {
+		List<Deliverables> objsList = null;
+		try {
+			objsList = deliverablesService.getProjectsListForDeliverablesForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForDeliverablesForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForDeliverablesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Deliverables> getWorkListForDeliverablesForm(@ModelAttribute Deliverables obj) {
+		List<Deliverables> objsList = null;
+		try {
+			objsList = deliverablesService.getWorkListForDeliverablesForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForDeliverablesForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForDeliverablesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Deliverables> getContractsListForDeliverablesForm(@ModelAttribute Deliverables obj) {
+		List<Deliverables> objsList = null;
+		try {
+			objsList = deliverablesService.getContractsListForDeliverablesForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForDeliverablesForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	
 	@RequestMapping(value = "/get-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getDeliverablesForm(@ModelAttribute DataGathering obj ){
+	public ModelAndView getDeliverablesForm(@ModelAttribute Deliverables obj ){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditDeliverablesForm);
 			model.addObject("action", "edit");
-			List<DataGathering> statusList = deliverablesService.getStatusList();
+			List<Deliverables> statusList = deliverablesService.getStatusList();
 			model.addObject("statusList", statusList);
-			List<DataGathering> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
+			List<Deliverables> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
 			model.addObject("deliverablesTypeList", deliverablesTypeList);
-			List<DataGathering> priorityList = deliverablesService.getPriorityList();
+			List<Deliverables> priorityList = deliverablesService.getPriorityList();
 			model.addObject("priorityList", priorityList);
-			List<DataGathering> projectsList = deliverablesService.getProjectsList();
+			List<Deliverables> projectsList = deliverablesService.getProjectsListForDeliverablesForm(obj);
 			model.addObject("projectsList", projectsList);
-			DataGathering deliverablesDetails = deliverablesService.getDeliverables(obj);
+			Deliverables deliverablesDetails = deliverablesService.getDeliverables(obj);
 			model.addObject("deliverablesDetails", deliverablesDetails);
 		
 		}catch (Exception e) {
@@ -189,14 +243,20 @@ public class DeliverablesController {
 	
 	@RequestMapping(value = "/add-deliverables", method = {RequestMethod.POST})
 	@ResponseBody
-	public ModelAndView addDeliverables(@ModelAttribute DataGathering obj,RedirectAttributes attributes){
+	public ModelAndView addDeliverables(@ModelAttribute Deliverables obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/deliverables");
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
 			obj.setStart_date(DateParser.parse(obj.getStart_date()));
 			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
-
+			MultipartFile file = obj.getDeliverablesFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
+			}	
 			boolean flag =  deliverablesService.addDeliverables(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Deliverables Added Succesfully.");
@@ -212,14 +272,20 @@ public class DeliverablesController {
 	}
 	
 	@RequestMapping(value = "/update-deliverables", method = {RequestMethod.POST})
-	public ModelAndView updateDeliverables(@ModelAttribute DataGathering obj,RedirectAttributes attributes){
+	public ModelAndView updateDeliverables(@ModelAttribute Deliverables obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/deliverables");
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
 			obj.setStart_date(DateParser.parse(obj.getStart_date()));
 			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
-
+			MultipartFile file = obj.getDeliverablesFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment(fileName);
+			}	
 			boolean flag =  deliverablesService.updateDeliverables(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Deliverables Updated Succesfully.");
@@ -235,7 +301,7 @@ public class DeliverablesController {
 	}
 	
 	@RequestMapping(value = "/delete-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView deleteDeliverables(@ModelAttribute DataGathering obj){
+	public ModelAndView deleteDeliverables(@ModelAttribute Deliverables obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName("redirect:/deliverables");
@@ -247,9 +313,9 @@ public class DeliverablesController {
 	}
 	
 	@RequestMapping(value = "/export-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
-	public void exportDeliverables(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute DataGathering dObj,RedirectAttributes attributes){
+	public void exportDeliverables(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Deliverables dObj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.deliverablesGrid);
-		List<DataGathering> dataList = new ArrayList<DataGathering>();
+		List<Deliverables> dataList = new ArrayList<Deliverables>();
 		try {
 			view.setViewName("redirect:/deliverables");
 			dataList =  deliverablesService.getDeliverablesList(dObj);
@@ -271,7 +337,7 @@ public class DeliverablesController {
 	            headingRow.createCell((short)10).setCellValue("Status");
 	            headingRow.createCell((short)11).setCellValue("Remarks");
 	            short rowNo = 1;
-	            for (DataGathering obj : dataList) {
+	            for (Deliverables obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getId());
 	                row.createCell((short)1).setCellValue(obj.getProject_priority_fk());

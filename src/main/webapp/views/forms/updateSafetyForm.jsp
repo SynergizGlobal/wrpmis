@@ -55,22 +55,26 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                  <p class="searchable_label"> Project </p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
+                                   <%--  <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
                                             <option value="${obj.project_id }" <c:if test="${safety.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
-                                    </select>
+                                    </select> --%>
+                                    <input type="text"  value ="${safety.project_id_fk } - ${safety.project_name}" readonly/>
+                                    <input type="hidden" name="project_id_fk" id="project_id_fk" value ="${safety.project_id_fk }" />
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                  <p class="searchable_label"> Work </p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                  <!--   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
                                     </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
+                                    <span id="work_id_fkError" class="error-msg" ></span> -->
+                                    <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly/>
+                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -85,10 +89,12 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                  <p class="searchable_label"> Contract </p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                    <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
-                                    <span id="contract_id_fkError" class="error-msg" ></span>
+                                    <span id="contract_id_fkError" class="error-msg" ></span> -->
+                                    <input type="text"  value ="${safety.contract_id_fk } - ${safety.contract_short_name}" readonly/>
+                                    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value ="${safety.contract_id_fk }" />
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>

@@ -105,8 +105,11 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract </p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"  onchange="resetWorksList();">
                                         <option value="">Select</option>
+                                        <c:forEach var="obj" items="${contractsList }">
+                                            <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }" >${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
+                                        </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -319,20 +322,14 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContract",
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForFinancialsForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
-                            	var contract_id_fk = "${taFinancialDetails.contract_id_fk }";
-                                if ($.trim(val.contract_name) != '') { contract_name = val.contract_id+' - ' + $.trim(val.contract_name) }
-                                var contract_id_fk = "${taFinancialDetails.contract_id_fk }";
-                                if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                                }else {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
-                                }
+                                if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+                                $("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -344,8 +341,46 @@
             }
         }
         
+        function resetWorksList(){
+        	$(".page-loader").show();        	
+        	var workId = ''
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){        			
+       		
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+       			//workId = workId.substring(3, work_id.length);
+       			projectId = workId.substring(0, 3);
+       			$("#work_id_fk").val(workId);
+       			$("#work_id_fk").select2();
+       		}
+       		
+       		if ($.trim(projectId) != "") {
+       			$("#work_id_fk option:not(:first)").remove();
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForFinancialsForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+                $('.searchable').select2();
+            }
+       		
+        }
         
-        No = 1
         function addFinancialRow() {
         	var rowNo = $("#rowNo").val();
             var No = Number(rowNo)+1;

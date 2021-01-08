@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.TAFinancialsService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.TAFinancials;
 
 
@@ -88,6 +89,32 @@ public class TAFinancialsController {
 		return contractsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getWorkListForFinancialsForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TAFinancials> getWorkListForFinancialsForm(@ModelAttribute TAFinancials obj) {
+		List<TAFinancials> objsList = null;
+		try {
+			objsList = service.getWorkListForFinancialsForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForFinancialsForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForFinancialsForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TAFinancials> getContractsListForFinancialsForm(@ModelAttribute TAFinancials obj) {
+		List<TAFinancials> objsList = null;
+		try {
+			objsList = service.getContractsListForFinancialsForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForFinancialsForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/add-ta-financials-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addTAFinancialsForm(){
 		ModelAndView model = new ModelAndView();
@@ -96,6 +123,8 @@ public class TAFinancialsController {
 			model.addObject("action", "add");
 			List<TAFinancials> worksList = service.getWorksList();
 			model.addObject("worksList", worksList);
+			List<TAFinancials> contractsList = service.getContractsList();
+			model.addObject("contractsList", contractsList);
 			
 		}catch (Exception e) {
 				logger.error("addTAFinancialsForm : " + e.getMessage());
@@ -111,6 +140,8 @@ public class TAFinancialsController {
 			model.addObject("action", "edit");
 			List<TAFinancials> worksList = service.getWorksList();
 			model.addObject("worksList", worksList);
+			List<TAFinancials> contractsList = service.getContractsList();
+			model.addObject("contractsList", contractsList);
 			TAFinancials taFinancialDetails = service.getTAFinancials(obj);
 			model.addObject("taFinancialDetails", taFinancialDetails);
 		

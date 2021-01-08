@@ -40,6 +40,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Safety;
 
@@ -179,14 +180,21 @@ public class SafetyController {
 	}
 	
 	
+	
 	@RequestMapping(value="/add-safety-form",method=RequestMethod.GET)
-	public ModelAndView addSafetyForm(HttpSession session) {
+	public ModelAndView addSafetyForm(HttpSession session,@ModelAttribute Safety obj) {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.addSafetyForm);
 			
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Safety> projectsList = safetyService.getProjectsListForSafetyForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Safety> worksList = safetyService.getWorkListForSafetyForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Safety> contractsList = safetyService.getContractsListForSafetyForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 			List<Safety> safetyStatusList = safetyService.getSafetyStatusList();
 			model.addObject("safetyStatusList", safetyStatusList);
@@ -208,6 +216,45 @@ public class SafetyController {
 			logger.error("addSafetyForm : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsListForSafetyForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getProjectsListForSafetyForm(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getProjectsListForSafetyForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForSafetyForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForSafetyForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getWorkListForSafetyForm(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getWorkListForSafetyForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForSafetyForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForSafetyForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getContractsListForSafetyForm(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getContractsListForSafetyForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForSafetyForm : " + e.getMessage());
+		}
+		return objsList;
 	}
 	
 	@RequestMapping(value="/add-safety",method=RequestMethod.POST)

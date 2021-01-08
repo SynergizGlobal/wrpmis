@@ -49,4 +49,19 @@ public class TAFinancialsServiceImpl implements TAFinancialsService{
 	public boolean updateTAFinancials(TAFinancials obj) throws Exception {
 		return dao.updateTAFinancials(obj);
 	}
+
+	@Override
+	public List<TAFinancials> getContractsList() throws Exception {
+		return dao.getContractsList();
+	}
+
+	@Override
+	public List<TAFinancials> getWorkListForFinancialsForm(TAFinancials obj) throws Exception {
+		return dao.getWorkListForFinancialsForm(obj);
+	}
+
+	@Override
+	public List<TAFinancials> getContractsListForFinancialsForm(TAFinancials obj) throws Exception {
+		return dao.getContractsListForFinancialsForm(obj);
+	}
 }

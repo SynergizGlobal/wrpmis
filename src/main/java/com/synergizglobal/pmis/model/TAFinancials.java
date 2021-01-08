@@ -4,12 +4,20 @@ import java.util.List;
 
 public class TAFinancials {
 	
-	private String work_id_fk, ID, work_name,contract_name,contract_id_fk,contract_short_name,work_short_name,financial_id, contract_id,month, planned, actual, ta_contract_id_fk,payment_received;
+	private String work_id_fk, ID,project_id_fk, work_name,contract_name,contract_id_fk,contract_short_name,work_short_name,financial_id, contract_id,month, planned, actual, ta_contract_id_fk,payment_received;
 
 	private String[] IDs, months, planneds, actuals, payment_receiveds;
 	
 	private List<TAFinancials> taFinancials;
 	
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
+
 	public String getFinancial_id() {
 		return financial_id;
 	}

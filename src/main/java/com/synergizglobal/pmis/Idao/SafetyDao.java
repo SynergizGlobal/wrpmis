@@ -35,4 +35,10 @@ public interface SafetyDao {
 	List<Safety> getStatusListFilter(Safety obj) throws Exception;
 
 	List<Safety> getWorksListFilter(Safety obj) throws Exception;
+
+	List<Safety> getProjectsListForSafetyForm(Safety obj) throws Exception;
+
+	List<Safety> getWorkListForSafetyForm(Safety obj) throws Exception;
+
+	List<Safety> getContractsListForSafetyForm(Safety obj) throws Exception;
 }

@@ -2,34 +2,39 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
-import com.synergizglobal.pmis.model.DataGathering;
+import com.synergizglobal.pmis.model.Deliverables;
+import com.synergizglobal.pmis.model.Safety;
 
 public interface DeliverablesService {
 
-	public List<DataGathering> getDeliverablesList(DataGathering obj) throws Exception;
+	public List<Deliverables> getDeliverablesList(Deliverables obj) throws Exception;
 
-	public List<DataGathering> getDeliverablesStatusList(DataGathering obj) throws Exception;
+	public List<Deliverables> getDeliverablesStatusList(Deliverables obj) throws Exception;
 
-	public List<DataGathering> getDeliverablesProjectsList(DataGathering obj) throws Exception;
+	public List<Deliverables> getDeliverablesProjectsList(Deliverables obj) throws Exception;
 
-	public List<DataGathering> getDeliverablesWorksList(DataGathering obj) throws Exception;
+	public List<Deliverables> getDeliverablesWorksList(Deliverables obj) throws Exception;
 
-	public List<DataGathering> getDeliverablesContarctsList(DataGathering obj) throws Exception;
+	public List<Deliverables> getDeliverablesContarctsList(Deliverables obj) throws Exception;
 
-	public List<DataGathering> getStatusList() throws Exception;
+	public List<Deliverables> getStatusList() throws Exception;
 
-	public List<DataGathering> getDeliverableTypeList() throws Exception;
+	public List<Deliverables> getDeliverableTypeList() throws Exception;
 
-	public List<DataGathering> getPriorityList() throws Exception;
+	public List<Deliverables> getPriorityList() throws Exception;
 
-	public List<DataGathering> getProjectsList() throws Exception;
+	public List<Deliverables> getProjectsListForDeliverablesForm(Deliverables obj) throws Exception;
 
-	public DataGathering getDeliverables(DataGathering obj) throws Exception;
+	public Deliverables getDeliverables(Deliverables obj) throws Exception;
 
-	public boolean addDeliverables(DataGathering obj) throws Exception;
+	public boolean addDeliverables(Deliverables obj) throws Exception;
 
-	public boolean updateDeliverables(DataGathering obj) throws Exception;
+	public boolean updateDeliverables(Deliverables obj) throws Exception;
 
-	public boolean deleteDeliverables(DataGathering obj) throws Exception;
+	public boolean deleteDeliverables(Deliverables obj) throws Exception;
+
+	public List<Deliverables> getWorkListForDeliverablesForm(Deliverables obj) throws Exception;
+
+	public List<Deliverables> getContractsListForDeliverablesForm(Deliverables obj) throws Exception;
 
 }

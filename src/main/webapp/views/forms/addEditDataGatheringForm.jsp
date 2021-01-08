@@ -61,9 +61,37 @@
 				                <c:if test="${action eq 'add'}">				                
 				                	<form action="<%=request.getContextPath() %>/add-data-gathering" id="dataGatherigForm" name="dataGatherigForm" method="post" class="form-horizontal" role="form" >
 							    </c:if>
-	                            <div class="row">
+						<div class="row">
 	                            <input type="hidden" name="id" id="id" value="${dataGatheringDetails.id }" />
-                                <!-- row 1  -->
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m4 input-field">
+								<p class="searchable_label">Project</p>
+								<select class="searchable validate-dropdown" name="project_fk"
+									id="project_fk">
+									<option value="">Select</option>
+								</select> <span id="project_fkError" class="error-msg"></span>
+							</div>
+							<div class="col s12 m4 input-field">
+								<p class="searchable_label">Work</p>
+								<select class="searchable validate-dropdown" name="work_fk"
+									id="work_fk">
+									<option value="">Select</option>
+								</select> <span id="work_fkError" class="error-msg"></span>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m8 input-field">
+								<p class="searchable_label">Contract</p>
+								<select class="searchable validate-dropdown" name="contract_fk"
+									id="contract_fk">
+									<option value="">Select</option>
+								</select> <span id="contract_fkError" class="error-msg"></span>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+						<%--   <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Project Priority</p>
@@ -74,17 +102,7 @@
 		                                </c:forEach>
                                     </select>
                                     <span id="project_priority_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Status</p>
-                                    <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
-                                        <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${statusList }">
-		                                     <option value="${obj.status_fk }" <c:if test="${dataGatheringDetails.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
-		                                </c:forEach>
-                                    </select>
-                                    <span id="status_fkError" class="error-msg" ></span>
-                                </div>
+                                </div>   --%>                             
                                 <!-- <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Work Name</p>
                                     <select class="searchable">
@@ -94,21 +112,20 @@
                                         <option value="3">Agency 3</option>
                                     </select>
                                 </div> -->
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                               <!--  <div class="col m2 hide-on-small-only"></div>
+                            </div> -->
 							<c:if test="${action eq 'add'}">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                   <p class="searchable_label">Work Name</p>
+                                   <p class="searchable_label">Data Gathering Work</p>
                                    <select class="searchable validate-dropdown" name="work_id_fk" id="work_id_fk">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${worksList }">
 		                                     <option value="${obj.work_id_fk }" <c:if test="${dataGatheringDetails.work_id_fk eq obj.work_id_fk}">selected</c:if>>${obj.work_id_fk} - ${obj.work_name}</option>
 		                                </c:forEach>
                                     </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
-                                   
+                                    <span id="work_id_fkError" class="error-msg" ></span>                                   
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -117,12 +134,13 @@
 							  <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
 								<div class="col s12 m8 input-field"> 
-									    <p class="searchable_label"> Work </p>
+									    <p class="searchable_label">Data Gatherinng Work </p>
 	                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${dataGatheringDetails.work_id_fk}- ${dataGatheringDetails.work_name}" readonly />
 	                            </div>
 	                            <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 							</c:if>
+							                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -131,16 +149,26 @@
                                     <button type="button" id="target_date_icon" class="white"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${dataGatheringDetails.start_date }">
-                                    <label for="start_date">Start Date</label>
-                                    <button type="button" id="start_date_icon" class="white"><i
-                                            class="fa fa-calendar"></i></button>
+                              <div class="col s12 m4 input-field">
+                                    <p class="searchable_label">Status</p>
+                                    <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${statusList }">
+		                                     <option value="${obj.status_fk }" <c:if test="${dataGatheringDetails.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
+		                                </c:forEach>
+                                    </select>
+                                    <span id="status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
+                                   <div class="col s12 m4 input-field">
+                                    <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${dataGatheringDetails.start_date }">
+                                    <label for="start_date">Start Date</label>
+                                    <button type="button" id="start_date_icon" class="white"><i
+                                            class="fa fa-calendar"></i></button>
+                                </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="finish_date" name="finish_date" type="text" class="validate datepicker" value="${dataGatheringDetails.finish_date }">
                                     <label for="finish_date">Finish Date</label>
@@ -167,6 +195,13 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> -->
+                             <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="description" name="remarks" class="materialize-textarea" data-length="1000">${dataGatheringDetails.description }</textarea>
+                                    <label for="description">Description</label>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">

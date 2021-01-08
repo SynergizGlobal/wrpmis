@@ -84,19 +84,35 @@
                             </div>
                         </div>
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Priority</p>
-                                <select id="project_priority_fk" name="project_priority_fk" class="searchable" onchange="getDataGatheringList();">
-                                    <option value=""  >Select</option>
-                                    
+                            <div class="col m1 hide-on-small-only"></div>
+                             <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Project</p>
+                                <select id="project_id_fk" name="project_id_fk" class="searchable" onchange="getDataGatheringList();">
+                                    <option value="">Select</option>                                    
                                 </select>
                             </div>
+                             <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Work</p>
+                                <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getDataGatheringList();">
+                                    <option value=""  >Select</option>                                    
+                                </select>
+                            </div>
+                             <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Contract</p>
+                                <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getDataGatheringList();">
+                                    <option value=""  >Select</option>                                    
+                                </select>
+                            </div>
+                            <!-- <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Priority</p>
+                                <select id="project_priority_fk" name="project_priority_fk" class="searchable" onchange="getDataGatheringList();">
+                                    <option value=""  >Select</option>                                    
+                                </select>
+                            </div> -->
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Status</p>
                                 <select id="status_fk" name="status_fk" class="searchable" onchange="getDataGatheringList();">
-                                    <option value=""  >Select</option>
-                                    
+                                    <option value=""  >Select</option>                                    
                                 </select>
                             </div>
                             <div class="col s12 m2">
@@ -104,7 +120,7 @@
                                     style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
                                     Filters</button>
                             </div>
-                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col m1 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">
@@ -112,10 +128,10 @@
                                 <table id="datatable-data-gathering" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th> Project Priority</th>
-                                            <th class="fw-350"> Work Name</th>
-                                            <th> Target Date</th>
-                                            <th> Start Date</th>
+                                            <th> Contract</th>
+                                            <th class="fw-350"> Data Gathering Work</th>
+                                            <!-- <th> Target Date</th>
+                                            <th> Start Date</th> -->
                                             <th> Finish Date</th>
                                             <th> Status</th>
                                             <th class="no-sort">Action</th>
@@ -193,7 +209,10 @@
     </form>
     
      <form action="<%=request.getContextPath() %>/export-data-gathering" name="exportDataGatheringForm" id="exportDataGatheringForm" target="_blank" method="post">	
-         <input type="hidden" name="project_priority_fk" id="exportProject_priority_fk" />
+        
+         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
+         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
          <input type="hidden" name="status_fk" id="exportStatus_fk" />
 	</form>
 
@@ -236,7 +255,9 @@
         
      function clearFilters() {
          $('#status_fk').val("");
-         $('#project_priority_fk').val("");
+         $('#project_id_fk').val("");
+         $('#work_id_fk').val("");
+         $('#contract_id_fk').val("");
          $('.searchable').select2();
          getDataGatheringList();
      }
@@ -244,8 +265,15 @@
      function getDataGatheringList(){
      	$(".page-loader-2").show();
      	var status_fk = $("#status_fk").val();
-     	var project_priority_fk = $("#project_priority_fk").val();
-      	getProjectPriorityFilterList();
+     	var project_id_fk = $("#project_id_fk").val();
+     	var work_id_fk = $("#work_id_fk").val();
+     	var contract_id_fk = $("#contract_id_fk").val();
+     	/*var project_priority_fk = $("#project_priority_fk").val();
+      	getProjectPriorityFilterList(); */
+      	
+      	//getProjectFilterList();
+      	//getWorkFilterList();
+      	//getContractFilterList();
       	getStatusFilterList();
      	table = $('#datatable-data-gathering').DataTable();
  		 
@@ -278,7 +306,7 @@
          }).rows().remove().draw();
  		
  		table.state.clear();		
- 	 	var myParams = {project_priority_fk : project_priority_fk, status_fk : status_fk};
+ 	 	var myParams = {project_id_fk : project_id_fk, status_fk : status_fk,work_id_fk:work_id_fk,contract_id_fk:contract_id_fk};
  	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-data-gathering-list",type:"POST",data:myParams,success : function(data){    				
  			if(data != null && data != '' && data.length > 0){    					
           		$.each(data,function(key,val){
@@ -317,7 +345,9 @@
      function getStatusFilterList() {
      	$(".page-loader").show();
      	var status_fk = $("#status_fk").val();
-     	var project_priority_fk = $("#project_priority_fk").val();
+     	var work_id_fk = $("#work_id_fk").val();
+     	var contract_id_fk = $("#contract_id_fk").val();
+     	var project_id_fk = $("#project_id_fk").val();
      
          if ($.trim(status_fk) == "") {
          	$("#status_fk option:not(:first)").remove();
@@ -342,7 +372,96 @@
          	  $(".page-loader").hide();
          }
      }
-     
+     function getProjectFilterList() {
+      	$(".page-loader").show();
+      	var status_fk = $("#status_fk").val();
+      	var project_id_fk = $("#project_id_fk").val();     	
+      	var work_id_fk = $("#work_id_fk").val();
+     	var contract_id_fk = $("#contract_id_fk").val();
+      
+          if ($.trim(project_id_fk) == "") {
+          	$("#project_id_fk option:not(:first)").remove();
+      	 	var myParams = {project_id_fk : project_id_fk, status_fk : status_fk,work_id_fk:work_id_fk,contract_id_fk:contract_id_fk};
+              $.ajax({
+                  url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInDataGathering",
+                  data: myParams, cache: false,
+                  success: function (data) {
+                      if (data.length > 0) {
+                          $.each(data, function (i, val) {
+  	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)  +'</option>');
+                          });
+                      }
+                      $('.searchable').select2();
+                      $(".page-loader").hide();
+                  },error: function (jqXHR, exception) {
+   	   			      $(".page-loader").hide();
+  	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+              });
+          }else{
+          	  $(".page-loader").hide();
+          }
+      }
+     function getWorkFilterList() {
+      	$(".page-loader").show();
+      	var status_fk = $("#status_fk").val();
+      	var project_id_fk = $("#project_id_fk").val();     	
+      	var work_id_fk = $("#work_id_fk").val();
+     	var contract_id_fk = $("#contract_id_fk").val();
+      
+          if ($.trim(status_fk) == "") {
+          	$("#work_id_fk option:not(:first)").remove();
+      	 	var myParams = {project_id_fk : project_id_fk, status_fk : status_fk,work_id_fk:work_id_fk,contract_id_fk:contract_id_fk};
+              $.ajax({
+                  url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInDataGathering",
+                  data: myParams, cache: false,
+                  success: function (data) {
+                      if (data.length > 0) {
+                          $.each(data, function (i, val) {
+  	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)  +'</option>');
+                          });
+                      }
+                      $('.searchable').select2();
+                      $(".page-loader").hide();
+                  },error: function (jqXHR, exception) {
+   	   			      $(".page-loader").hide();
+  	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+              });
+          }else{
+          	  $(".page-loader").hide();
+          }
+      }
+     function getContractFilterList() {
+      	$(".page-loader").show();
+      	var status_fk = $("#status_fk").val();
+      	var project_id_fk = $("#project_id_fk").val();     	
+      	var work_id_fk = $("#work_id_fk").val();
+     	var contract_id_fk = $("#contract_id_fk").val();
+      
+          if ($.trim(status_fk) == "") {
+          	$("#contract_id_fk option:not(:first)").remove();
+      	 	var myParams = {contract_id_fk : contract_id_fk, status_fk : status_fk,project_id_fk:project_id_fk,work_id_fk:work_id_fk};
+              $.ajax({
+                  url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInDataGathering",
+                  data: myParams, cache: false,
+                  success: function (data) {
+                      if (data.length > 0) {
+                          $.each(data, function (i, val) {
+  	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk)  +'</option>');
+                          });
+                      }
+                      $('.searchable').select2();
+                      $(".page-loader").hide();
+                  },error: function (jqXHR, exception) {
+   	   			      $(".page-loader").hide();
+  	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+              });
+          }else{
+          	  $(".page-loader").hide();
+          }
+      }
      function getProjectPriorityFilterList() {
      	$(".page-loader").show();
      	var status_fk = $("#status_fk").val();
@@ -370,7 +489,7 @@
          }else{
          	  $(".page-loader").hide();
          }
-     }
+     } 
      
      
      function getDataGathering(id){
@@ -430,10 +549,15 @@
      }
      
      function exportDataGatherings(){
-    	 var project_priority_fk = $("#project_priority_fk").val();
+    	 //var project_priority_fk = $("#project_priority_fk").val();
+    	 var project_id_fk = $("#project_id_fk").val();
+    	 var work_id_fk = $("#work_id_fk").val();
+    	 var contract_id_fk = $("#contract_id_fk").val();
     	 var status_fk = $("#status_fk").val();
-    	 $("#exportProject_priority_fk").val(project_priority_fk);
+    	 $("#exportProject_id_fk").val(project_id_fk);
     	$("#exportStatus_fk").val(status_fk);
+    	$("#exportWork_id_fk").val(work_id_fk);
+    	$("#exportContract_id_fk").val(contract_id_fk);
     	 $("#exportDataGatheringForm").submit();
  	}
      

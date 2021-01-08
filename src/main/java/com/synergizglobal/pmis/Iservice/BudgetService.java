@@ -3,9 +3,6 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Work;
-import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 public interface BudgetService {
 
@@ -21,7 +18,6 @@ public interface BudgetService {
 
 	public List<Budget> getFinancialYearList()throws Exception;
 
-	public List<Budget> getProjectList()throws Exception;
 
 	public List<Budget> getBudgetWorksList(Budget obj)throws Exception;
 
@@ -29,9 +25,10 @@ public interface BudgetService {
 
 	public List<Budget> getFinancialYearsList(Budget obj)throws Exception;
 
-	public List<Budget> getBudgetExportList(Budget obj) throws Exception;;
+	public List<Budget> getBudgetExportList(Budget obj) throws Exception;
 
-	
-	
+	public List<Budget> getProjectsListForBudgetForm(Budget obj) throws Exception;
+
+	public List<Budget> getWorkListForBudgetForm(Budget obj) throws Exception;	
 
 }

@@ -5,7 +5,32 @@ import org.springframework.web.multipart.MultipartFile;
 public class SourceOfFund {
 	
 	private String funds_id, work_id_fk,work_id,project_id,project_id_fk,work_name,project_name, source_of_funds_fk, sub_category_railway_id_fk,railway_name, funding_date,
-					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,railway_id,attachment,work_short_name;
+					fund_amount, remarks, bank_account, voucher_type, voucher_no, narration, ledger_account,railway_id,attachment,work_short_name,
+					contract_id,contract_name,contract_short_name;
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
+	}
 
 	public String getWork_short_name() {
 		return work_short_name;

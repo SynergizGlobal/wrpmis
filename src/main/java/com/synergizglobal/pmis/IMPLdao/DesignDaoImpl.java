@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,10 +34,8 @@ import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.StripChart;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -90,7 +89,7 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			//qry = qry + " limit 10";
+			qry = qry + " limit 10";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1009,6 +1008,81 @@ public class DesignDaoImpl implements DesignDao{
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getProjectsListForDesignForm(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "select project_id,project_name from `project` order by project_id asc";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getWorkListForDesignForm(Design obj) throws Exception {
+		List<Design> objsList = new ArrayList<Design>();
+		try {
+			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Design>(Design.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getContractsListForDesignForm(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select contract_id,contract_name,contract_short_name,work_id_fk "
+					+ "from contract "
+					+ "where contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.BudgetDao;
 import com.synergizglobal.pmis.Iservice.BudgetService;
 import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Work;
-import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 @Service
 public class BudgetServiceImpl implements BudgetService{
@@ -64,11 +61,6 @@ public class BudgetServiceImpl implements BudgetService{
 	}
 
 	@Override
-	public List<Budget> getProjectList() throws Exception {
-		return budgetDao.getProjectList();
-	}
-
-	@Override
 	public List<Budget> getBudgetWorksList(Budget obj) throws Exception {
 		return budgetDao.getBudgetWorksList(obj);
 	}
@@ -88,8 +80,14 @@ public class BudgetServiceImpl implements BudgetService{
 		return budgetDao.getBudgetExportList(obj);
 	}
 
+	@Override
+	public List<Budget> getProjectsListForBudgetForm(Budget obj) throws Exception {
+		return budgetDao.getProjectsListForBudgetForm(obj);
+	}
 
-	
-
+	@Override
+	public List<Budget> getWorkListForBudgetForm(Budget obj) throws Exception {
+		return budgetDao.getWorkListForBudgetForm(obj);
+	}
 
 }

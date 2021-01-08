@@ -13,7 +13,8 @@ public class Design {
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,work_short_name,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
-	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq;
+	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,
+	 project_id,work_id,project_name,contract_id;
 	
 	
 	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
@@ -22,6 +23,38 @@ public class Design {
 	
 	private List<Design> designRevisions;
 	
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+	public String getProject_name() {
+		return project_name;
+	}
+
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
+	}
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
 
 	public String getWork_short_name() {
 		return work_short_name;

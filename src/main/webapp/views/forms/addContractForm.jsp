@@ -179,15 +179,19 @@
 	                                    onchange="getWorksList(this.value);">
 	                                        <option value="">Select</option>
 	                                         <c:forEach var="obj" items="${projectsList }">
-	                                      	   <option value= "${ obj.project_id}" >${ obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+	                                      	   <option value= "${obj.project_id}" >${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
 	                                         </c:forEach>
 	                                    </select>                                    
 	                                     <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                <p><label>Work</label></p>
-	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
+	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
+	                                    	onchange="resetProjectsDropdowns(this.value);">
 	                                        <option value="">Select</option>
+	                                        <c:forEach var="obj" items="${worksList }">
+	                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                         </c:forEach>
 	                                    </select>
 	                                     <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
@@ -1024,13 +1028,13 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForContractForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                             });
                         }
@@ -1040,6 +1044,16 @@
             }else{
             	$(".page-loader").hide();
             }
+        }
+        
+        function resetProjectsDropdowns(workId){
+        	var projectId = '';
+        	if($.trim(workId) != ''){  
+            	projectId = workId.substring(0, 3); 
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
         }
         
         function addContract(){

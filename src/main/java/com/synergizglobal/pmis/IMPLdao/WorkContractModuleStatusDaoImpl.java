@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -11,21 +12,10 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Idao.WorkContractModuleStatusDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
-import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 
 @Repository
@@ -39,15 +29,78 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<WorkContractModuleStatus> getContractsList() throws Exception {
-		List<WorkContractModuleStatus> objList = null;
+	public List<WorkContractModuleStatus> getProjectsListForWorkContractModuleStatusForm(WorkContractModuleStatus obj) throws Exception {
+		List<WorkContractModuleStatus> objsList = null;
 		try {
-			String qry ="select contract_id as contract_id_fk,contract_name from contract";
-				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
+			String qry = "select project_id,project_name from `project` order by project_id asc";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));			
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
-		return objList;
+		return objsList;
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getWorkListForWorkContractModuleStatusForm(WorkContractModuleStatus obj) throws Exception {
+		List<WorkContractModuleStatus> objsList = new ArrayList<WorkContractModuleStatus>();
+		try {
+			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<WorkContractModuleStatus> getContractsListForWorkContractModuleStatusForm(WorkContractModuleStatus obj) throws Exception {
+		List<WorkContractModuleStatus> objsList = null;
+		try {
+			String qry ="select contract_id,contract_name,contract_short_name,work_id_fk "
+					+ "from contract "
+					+ "where contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 	@Override
@@ -218,18 +271,6 @@ public class WorkContractModuleStatusDaoImpl implements WorkContractModuleStatus
 		List<WorkContractModuleStatus> objList = null;
 		try {
 			String qry ="select module_name as module_name_fk from module";
-				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objList;
-	}
-
-	@Override
-	public List<WorkContractModuleStatus> getProjectsList() throws Exception {
-		List<WorkContractModuleStatus> objList = null;
-		try {
-			String qry ="select project_id as project_id_fk,project_name from project";
 				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkContractModuleStatus>(WorkContractModuleStatus.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());

@@ -239,7 +239,7 @@ public class FOBController {
 			
 			model.addObject("action", "edit");
 			
-			List<Project> projectsList = homeService.getProjectsList();
+			List<FOB> projectsList = fobService.getProjectsListForFOBForm(obj);
 			model.addObject("projectsList", projectsList);
 			
 			List<String> generalStatusList = homeService.getGeneralStatusList();

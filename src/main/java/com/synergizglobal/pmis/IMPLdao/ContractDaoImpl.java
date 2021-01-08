@@ -1636,6 +1636,51 @@ public class ContractDaoImpl implements ContractDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<Contract> getProjectsListForContractForm(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "select project_id,project_name from `project` order by project_id asc";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getWorkListForContractForm(Contract obj) throws Exception {
+		List<Contract> objsList = new ArrayList<Contract>();
+		try {
+			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
 	
 
 

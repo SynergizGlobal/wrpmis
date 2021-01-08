@@ -412,18 +412,6 @@ public class BudgetDaoImpl implements BudgetDao {
 	}
 
 	@Override
-	public List<Budget> getProjectList() throws Exception {
-		List<Budget> objsList = null;
-		try {
-			String qry ="select project_id,project_name from project ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
 	public List<Budget> getBudgetWorksList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
@@ -577,6 +565,51 @@ public class BudgetDaoImpl implements BudgetDao {
 
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Budget> getProjectsListForBudgetForm(Budget obj) throws Exception {
+		List<Budget> objsList = null;
+		try {
+			String qry = "select project_id,project_name from `project` order by project_id asc";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Budget>(Budget.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Budget> getWorkListForBudgetForm(Budget obj) throws Exception {
+		List<Budget> objsList = new ArrayList<Budget>();
+		try {
+			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
 		}
 		return objsList;
 	}

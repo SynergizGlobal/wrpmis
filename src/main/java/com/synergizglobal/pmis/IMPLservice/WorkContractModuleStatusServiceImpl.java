@@ -16,10 +16,6 @@ public class WorkContractModuleStatusServiceImpl implements WorkContractModuleSt
 	@Autowired
 	WorkContractModuleStatusDao dao;
 	
-	@Override
-	public List<WorkContractModuleStatus> getContractsList() throws Exception {
-		return dao.getContractsList();
-	}
 
 	@Override
 	public List<WorkContractModuleStatus> workStatusList(WorkContractModuleStatus obj) throws Exception {
@@ -47,8 +43,18 @@ public class WorkContractModuleStatusServiceImpl implements WorkContractModuleSt
 	}
 
 	@Override
-	public List<WorkContractModuleStatus> getProjectsList() throws Exception {
-		return dao.getProjectsList();
+	public List<WorkContractModuleStatus> getProjectsListForWorkContractModuleStatusForm(WorkContractModuleStatus obj) throws Exception {
+		return dao.getProjectsListForWorkContractModuleStatusForm(obj);
+	}
+	
+	@Override
+	public List<WorkContractModuleStatus> getWorkListForWorkContractModuleStatusForm(WorkContractModuleStatus obj) throws Exception {
+		return dao.getWorkListForWorkContractModuleStatusForm(obj);
+	}
+	
+	@Override
+	public List<WorkContractModuleStatus> getContractsListForWorkContractModuleStatusForm(WorkContractModuleStatus obj) throws Exception {
+		return dao.getContractsListForWorkContractModuleStatusForm(obj);
 	}
 
 	@Override

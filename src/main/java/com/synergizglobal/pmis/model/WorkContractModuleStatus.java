@@ -5,12 +5,36 @@ import java.util.List;
 public class WorkContractModuleStatus {
 	
 	private String work_status_id, work_id_fk,work_name,contract_name,project_id_fk,project_name, contract_id_fk, module_name_fk, month, status_as_on_month,
-	work_short_name,contract_short_name;
+	work_short_name,contract_short_name,project_id,work_id,contract_id;
 	
 	private List<WorkContractModuleStatus> workContractStatus;
 	
 	private String [] status_as_on_months,module_name_fks,work_status_ids;
 	
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
 	public String[] getWork_status_ids() {
 		return work_status_ids;
 	}

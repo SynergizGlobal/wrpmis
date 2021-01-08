@@ -42,9 +42,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.BankGuarantee;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Insurence;
-import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.model.Work;
 
 
 @Controller
@@ -58,7 +56,7 @@ public class ContractController {
 	Logger logger = Logger.getLogger(ContractController.class);
 	
 	@Autowired
-	ContractService contractservice;
+	ContractService contractService;
 	
 	@Autowired
 	WorkService workService;
@@ -90,7 +88,7 @@ public class ContractController {
 	public ModelAndView Contract(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractGrid);
 		try {
-			List<User> hodList = contractservice.setHodList();
+			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -104,7 +102,7 @@ public class ContractController {
 	public List<Contract> getContractList(@ModelAttribute Contract obj) {
 		List<Contract> contractList = null;
 		try {
-			contractList = contractservice.contractList(obj);
+			contractList = contractService.contractList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("contractList : " + e.getMessage());
@@ -117,7 +115,7 @@ public class ContractController {
 	public List<Contract> getContractorsFilterList(@ModelAttribute Contract obj) {
 		List<Contract> contractorsFilterList = null;  
 		try {
-			 contractorsFilterList = contractservice.contractorsFilterList(obj);
+			 contractorsFilterList = contractService.contractorsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractorsFilterList : " + e.getMessage());
@@ -130,7 +128,7 @@ public class ContractController {
 	public List<Contract> getDepartmentsFilterList(@ModelAttribute Contract obj) {
 		List<Contract> departmentFilterList = null;
 		try {
-			 departmentFilterList = contractservice.departmentsFilterList(obj);
+			 departmentFilterList = contractService.departmentsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getDepartmentsFilterList : " + e.getMessage());
@@ -143,7 +141,7 @@ public class ContractController {
 	public List<Contract> getWorksFilterList(@ModelAttribute Contract obj) {
 		List<Contract> worksFilterList = null;
 		try {
-			worksFilterList = contractservice.worksFilterList(obj);
+			worksFilterList = contractService.worksFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getWorksFilterList : " + e.getMessage());
@@ -156,7 +154,7 @@ public class ContractController {
 	public List<Contract> getProjectsFilterList(@ModelAttribute Contract obj) {
 		List<Contract> projectsFilterList = null;
 		try {
-			projectsFilterList = contractservice.getProjectsFilterList(obj);
+			projectsFilterList = contractService.getProjectsFilterList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getProjectsFilterList : " + e.getMessage());
@@ -169,32 +167,58 @@ public class ContractController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addContractForm);	
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getWorkList(null);
-			model.addObject("workList", workList);
-			List<Contract> departmentList = contractservice.getDepartmentList();
+			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
+			model.addObject("worksList", worksList);
+			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
-			List<User> hodList = contractservice.setHodList();
+			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contractors = contractservice.getContractorsList();
+			List<Contract> contractors = contractService.getContractorsList();
 			model.addObject("contractors", contractors);
-			List<Contract> contract_type = contractservice.getContractTypeList();
+			List<Contract> contract_type = contractService.getContractTypeList();
 			model.addObject("contract_type", contract_type);
-			List<Contract> insurance_type = contractservice.getInsurenceTypeList();
+			List<Contract> insurance_type = contractService.getInsurenceTypeList();
 			model.addObject("insurance_type", insurance_type);
-			List<Contract> contractList = contractservice.contractList(obj);
+			List<Contract> contractList = contractService.contractList(obj);
 			model.addObject("contractList", contractList);
-			List<BankGuarantee> bankGuaranteeTYpe = contractservice.bankGuarantee();
+			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
-			List<Insurence> InsurenceType = contractservice.insurenceType();
+			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
-			List<Contract> contract_Statustype = contractservice.getContractStatusType();
+			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
 		}catch (Exception e) {
 			logger.error("Contract : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getProjectsListForContractForm(@ModelAttribute Contract obj) {
+		List<Contract> objsList = null;
+		try {
+			objsList = contractService.getProjectsListForContractForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForContractForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getWorkListForContractForm(@ModelAttribute Contract obj) {
+		List<Contract> objsList = null;
+		try {
+			objsList = contractService.getWorkListForContractForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForContractForm : " + e.getMessage());
+		}
+		return objsList;
 	}
 	
 	@RequestMapping(value = "/add-contract", method = {RequestMethod.GET,RequestMethod.POST})
@@ -217,7 +241,7 @@ public class ContractController {
 			contract.setBg_date(DateParser.parse(contract.getBg_date()));
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
 		
-			boolean flag =  contractservice.addContract(contract);			
+			boolean flag =  contractService.addContract(contract);			
 			if(flag) {
 				attributes.addFlashAttribute("success", "Contract Added Succesfully."); 
 			} else {
@@ -235,27 +259,27 @@ public class ContractController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.updateContractForm);
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getWorkList(null);
-			model.addObject("workList", workList);
-			List<Contract> departmentList = contractservice.getDepartmentList();
+			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
+			model.addObject("worksList", worksList);
+			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
-			List<User> hodList = contractservice.setHodList();
+			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contractor = contractservice.getContractorsList();
+			List<Contract> contractor = contractService.getContractorsList();
 			model.addObject("contractor", contractor);
-			List<Contract> contract_type = contractservice.getContractTypeList();
+			List<Contract> contract_type = contractService.getContractTypeList();
 			model.addObject("contract_type", contract_type);
-			List<Contract> insurance_type = contractservice.getInsurenceTypeList();
+			List<Contract> insurance_type = contractService.getInsurenceTypeList();
 			model.addObject("insurance_type", insurance_type);
-			List<BankGuarantee> bankGuaranteeTYpe = contractservice.bankGuarantee();
+			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
-			List<Insurence> InsurenceType = contractservice.insurenceType();
+			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
-			List<Contract> contract_Statustype = contractservice.getContractStatusType();
+			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
-			Contract contractDeatils = contractservice.getContract(obj);
+			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -269,29 +293,29 @@ public class ContractController {
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.updateContractForm);
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
-			List<Work> workList = workService.getWorkList(null);
-			model.addObject("workList", workList);
-			List<Contract> departmentList = contractservice.getDepartmentList();
+			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
+			model.addObject("worksList", worksList);
+			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
-			List<User> hodList = contractservice.setHodList();
+			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
-			List<Contract> contractor = contractservice.getContractorsList();
+			List<Contract> contractor = contractService.getContractorsList();
 			model.addObject("contractor", contractor);
-			List<Contract> contract_type = contractservice.getContractTypeList();
+			List<Contract> contract_type = contractService.getContractTypeList();
 			model.addObject("contract_type", contract_type);
-			List<Contract> insurance_type = contractservice.getInsurenceTypeList();
+			List<Contract> insurance_type = contractService.getInsurenceTypeList();
 			model.addObject("insurance_type", insurance_type);
-			List<BankGuarantee> bankGuaranteeTYpe = contractservice.bankGuarantee();
+			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
-			List<Insurence> InsurenceType = contractservice.insurenceType();
+			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
-			List<Contract> contract_Statustype = contractservice.getContractStatusType();
+			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
 			
 			obj.setContract_id(contract_id);
-			Contract contractDeatils = contractservice.getContract(obj);
+			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -321,7 +345,7 @@ public class ContractController {
 			contract.setBg_date(DateParser.parse(contract.getBg_date()));
 			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
 		
-			boolean flag =  contractservice.updateContract(contract);
+			boolean flag =  contractService.updateContract(contract);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Contract Updated Succesfully.");
 			}else {
@@ -344,7 +368,7 @@ public class ContractController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/contract");
-			dataList = contractservice.contractList(contract);  
+			dataList = contractService.contractList(contract);  
 			if(dataList != null && dataList.size() > 0){
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
 			            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Contract"));

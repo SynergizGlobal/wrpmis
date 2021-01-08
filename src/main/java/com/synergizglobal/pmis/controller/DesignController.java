@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.util.WorkbookUtil;
@@ -48,7 +47,6 @@ import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Issue;
-import com.synergizglobal.pmis.model.Project;
 
 @Controller
 public class DesignController {
@@ -215,7 +213,8 @@ public class DesignController {
 		try{
 			model.setViewName(PageConstants.addEditDesign);
 			model.addObject("action", "edit");
-			List<Project> projectsList = homeService.getProjectsList();
+			
+			List<Design> projectsList = designService.getProjectsListForDesignForm(obj);
 			model.addObject("projectsList", projectsList);
 			
 			List<Contract> departmentList = contractservice.getDepartmentList();
@@ -259,8 +258,14 @@ public class DesignController {
 			model.setViewName(PageConstants.addEditDesign);	
 			model.addObject("action", "add");
 			
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Design> projectsList = designService.getProjectsListForDesignForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Design> worksList = designService.getWorkListForDesignForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Design> contractsList = designService.getContractsListForDesignForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 			List<Contract> departmentList = contractservice.getDepartmentList();
 			model.addObject("departmentList", departmentList);
@@ -291,6 +296,46 @@ public class DesignController {
 		}
 		return model;
 	}	
+	
+	
+	@RequestMapping(value = "/ajax/getProjectsListForDesignForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getProjectsListForDesignForm(@ModelAttribute Design obj) {
+		List<Design> objsList = null;
+		try {
+			objsList = designService.getProjectsListForDesignForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForDesignForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForDesignForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getWorkListForDesignForm(@ModelAttribute Design obj) {
+		List<Design> objsList = null;
+		try {
+			objsList = designService.getWorkListForDesignForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForDesignForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForDesignForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getContractsListForDesignForm(@ModelAttribute Design obj) {
+		List<Design> objsList = null;
+		try {
+			objsList = designService.getContractsListForDesignForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForDesignForm : " + e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@RequestMapping(value = "/add-design", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody

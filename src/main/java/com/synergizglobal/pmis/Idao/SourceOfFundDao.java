@@ -2,9 +2,7 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
-import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.SourceOfFund;
-import com.synergizglobal.pmis.model.Work;
 
 public interface SourceOfFundDao {
 
@@ -27,9 +25,9 @@ public interface SourceOfFundDao {
 	public List<SourceOfFund> getFundWorksList(SourceOfFund obj)throws Exception;
 
 	public List<SourceOfFund> getSourceOfFundList()throws Exception;
+	
+	public List<SourceOfFund> getProjectsListForSourceOfFundForm(SourceOfFund obj) throws Exception;
 
-	public List<SourceOfFund> getProjectList()throws Exception;
-
-
+	public List<SourceOfFund> getWorkListForSourceOfFundForm(SourceOfFund obj) throws Exception;
 
 }

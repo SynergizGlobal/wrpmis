@@ -131,23 +131,54 @@ public class SourceOfFundController {
 	}
 	
 	@RequestMapping(value = "/add-fund-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addFundForm(){
+	public ModelAndView addFundForm(@ModelAttribute SourceOfFund obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditSourceOfFund);
 			model.addObject("action", "add");
-			List<SourceOfFund> projectsList = sofService.getProjectList();
+			
+			List<SourceOfFund> projectsList = sofService.getProjectsListForSourceOfFundForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<SourceOfFund> worksList = sofService.getWorkListForSourceOfFundForm(obj);
+			model.addObject("worksList", worksList);
+			
 			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
 			model.addObject("sourceOfFundList", sourceOfFundList);
+			
 			List<SourceOfFund> railwaysList = sofService.getRailwaysList();
 			model.addObject("railwaysList", railwaysList);
 		}catch (Exception e) {
 				logger.error("addFundForm : " + e.getMessage());
 		}
 		return model;
-	 }
+	}
 	
+	@RequestMapping(value = "/ajax/getProjectsListForSourceOfFundForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SourceOfFund> getProjectsListForSourceOfFundForm(@ModelAttribute SourceOfFund obj) {
+		List<SourceOfFund> objsList = null;
+		try {
+			objsList = sofService.getProjectsListForSourceOfFundForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForSourceOfFundForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForSourceOfFundForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<SourceOfFund> getWorkListForSourceOfFundForm(@ModelAttribute SourceOfFund obj) {
+		List<SourceOfFund> objsList = null;
+		try {
+			objsList = sofService.getWorkListForSourceOfFundForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForSourceOfFundForm : " + e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@RequestMapping(value = "/get-funds", method = {RequestMethod.POST})
 	public ModelAndView getFunds(@ModelAttribute SourceOfFund obj){
@@ -155,8 +186,7 @@ public class SourceOfFundController {
 		try{
 			model.setViewName(PageConstants.addEditSourceOfFund);
 			model.addObject("action", "edit");
-			List<SourceOfFund> projectsList = sofService.getProjectList();
-			model.addObject("projectsList", projectsList);
+			
 			List<SourceOfFund> sourceOfFundList = sofService.getSourceOfFundList();
 			model.addObject("sourceOfFundList", sourceOfFundList);
 			List<SourceOfFund> railwaysList = sofService.getRailwaysList();

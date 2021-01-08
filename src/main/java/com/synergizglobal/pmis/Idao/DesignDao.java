@@ -40,4 +40,10 @@ public interface DesignDao {
 
 	public List<Design> getWorksListFilter(Design obj) throws Exception;
 
+	List<Design> getProjectsListForDesignForm(Design obj) throws Exception;
+
+	List<Design> getWorkListForDesignForm(Design obj) throws Exception;
+
+	List<Design> getContractsListForDesignForm(Design obj) throws Exception;
+
 }

@@ -98,4 +98,19 @@ public class DesignServiceImpl implements DesignService{
 		return designDao.getWorksListFilter(obj);
 	}
 
+	@Override
+	public List<Design> getProjectsListForDesignForm(Design obj) throws Exception {
+		return designDao.getProjectsListForDesignForm(obj);
+	}
+
+	@Override
+	public List<Design> getWorkListForDesignForm(Design obj) throws Exception {
+		return designDao.getWorkListForDesignForm(obj);
+	}
+
+	@Override
+	public List<Design> getContractsListForDesignForm(Design obj) throws Exception {
+		return designDao.getContractsListForDesignForm(obj);
+	}
+
 }

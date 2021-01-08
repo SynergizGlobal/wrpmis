@@ -39,8 +39,10 @@ public interface ContractDao {
 
 	public List<Contract> worksFilterList(Contract obj)throws Exception;
 
-	public List<Contract> getProjectsFilterList(Contract obj) throws Exception;;
+	public List<Contract> getProjectsFilterList(Contract obj) throws Exception;
 
+	public List<Contract> getProjectsListForContractForm(Contract obj) throws Exception;
 
+	public List<Contract> getWorkListForContractForm(Contract obj) throws Exception;
 
 }

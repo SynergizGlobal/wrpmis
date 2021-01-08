@@ -28,6 +28,8 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contractor;
+import com.synergizglobal.pmis.model.WorkContractModuleStatus;
+import com.synergizglobal.pmis.model.WorkContractModuleStatus;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.Work;
 import com.synergizglobal.pmis.model.WorkContractModuleStatus;
@@ -116,20 +118,68 @@ public class WorkContractModuleStatusController {
 	}
 	
 	@RequestMapping(value = "/add-work-status-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addWorkStatusForm(){
+	public ModelAndView addWorkStatusForm(@ModelAttribute WorkContractModuleStatus obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditWorkContractModuleStatus);
 			model.addObject("action", "add");
 			List<WorkContractModuleStatus> modulesList = service.getModulesList();
 			model.addObject("modulesList", modulesList);
-			List<WorkContractModuleStatus> projectsList = service.getProjectsList();
+
+			List<WorkContractModuleStatus> projectsList = service.getProjectsListForWorkContractModuleStatusForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<WorkContractModuleStatus> worksList = service.getWorkListForWorkContractModuleStatusForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<WorkContractModuleStatus> contractsList = service.getContractsListForWorkContractModuleStatusForm(obj);
+			model.addObject("contractsList", contractsList);
+			
 		}catch (Exception e) {
 				logger.error("addWorkStatusForm : " + e.getMessage());
 		}
 		return model;
-	 }
+	}
+	
+	
+	@RequestMapping(value = "/ajax/getProjectsListForWorkContractModuleStatusForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkContractModuleStatus> getProjectsListForWorkContractModuleStatusForm(@ModelAttribute WorkContractModuleStatus obj) {
+		List<WorkContractModuleStatus> objsList = null;
+		try {
+			objsList = service.getProjectsListForWorkContractModuleStatusForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForWorkContractModuleStatusForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForWorkContractModuleStatusForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkContractModuleStatus> getWorkListForWorkContractModuleStatusForm(@ModelAttribute WorkContractModuleStatus obj) {
+		List<WorkContractModuleStatus> objsList = null;
+		try {
+			objsList = service.getWorkListForWorkContractModuleStatusForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForWorkContractModuleStatusForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractsListForWorkContractModuleStatusForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkContractModuleStatus> getContractsListForWorkContractModuleStatusForm(@ModelAttribute WorkContractModuleStatus obj) {
+		List<WorkContractModuleStatus> objsList = null;
+		try {
+			objsList = service.getContractsListForWorkContractModuleStatusForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListForWorkContractModuleStatusForm : " + e.getMessage());
+		}
+		return objsList;
+	}
 
 	@RequestMapping(value = "/get-work-status", method = {RequestMethod.POST})
 	public ModelAndView getWorkstatus(@ModelAttribute WorkContractModuleStatus wObj ){
@@ -137,7 +187,7 @@ public class WorkContractModuleStatusController {
 		try{
 			model.setViewName(PageConstants.addEditWorkContractModuleStatus);
 			model.addObject("action", "edit");
-			List<WorkContractModuleStatus> projectsList = service.getProjectsList();
+			List<WorkContractModuleStatus> projectsList = service.getProjectsListForWorkContractModuleStatusForm(wObj);
 			model.addObject("projectsList", projectsList);
 			WorkContractModuleStatus workStatusDetails = service.getWorkStatus(wObj);
 			model.addObject("workStatusDetails", workStatusDetails);

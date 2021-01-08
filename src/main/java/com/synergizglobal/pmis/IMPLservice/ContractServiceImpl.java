@@ -85,6 +85,14 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getProjectsFilterList(Contract obj) throws Exception {
 		return contractDao.getProjectsFilterList(obj);
 	}
+	@Override
+	public List<Contract> getProjectsListForContractForm(Contract obj) throws Exception {
+		return contractDao.getProjectsListForContractForm(obj);
+	}
+	@Override
+	public List<Contract> getWorkListForContractForm(Contract obj) throws Exception {
+		return contractDao.getWorkListForContractForm(obj);
+	}
 	
 
 }

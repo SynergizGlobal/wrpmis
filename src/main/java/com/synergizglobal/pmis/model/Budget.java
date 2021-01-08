@@ -7,7 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class Budget {
 	
 	private String budget_id, work_id_fk,work_id, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
-					final_grant, remarks, attachment,project_id_fk,work_name,project_name,project_id,financial_year,work_short_name;
+					final_grant, remarks, attachment,project_id_fk,work_name,project_name,project_id,financial_year,work_short_name,
+					contract_id,contract_name,contract_short_name;
 
 	
 	private String[] financial_year_fks,budget_ids, budget_estimates, august_review_estimates,budgetFileNames, revised_estimates, final_estimates, budget_grants, revised_grants, final_grants;
@@ -16,6 +17,32 @@ public class Budget {
 
 	private MultipartFile[] budgetFile;
 	
+	
+	
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
+	}
+
+	public String getContract_short_name() {
+		return contract_short_name;
+	}
+
+	public void setContract_short_name(String contract_short_name) {
+		this.contract_short_name = contract_short_name;
+	}
+
 	public String[] getBudget_ids() {
 		return budget_ids;
 	}

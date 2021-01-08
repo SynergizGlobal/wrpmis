@@ -141,21 +141,51 @@ public class BudgetController {
 	}
 	
 	@RequestMapping(value = "/add-budget-form", method = {RequestMethod.GET})
-	public ModelAndView addBudgetForm(){
+	public ModelAndView addBudgetForm(@ModelAttribute Budget obj){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.addEditBudget);
 			model.addObject("action", "add");
 			List<Budget> financialYearList = budgetService.getFinancialYearList();
 			model.addObject("financialYearList", financialYearList);
-			List<Budget> projectsList = budgetService.getProjectList();
+			
+			List<Budget> projectsList = budgetService.getProjectsListForBudgetForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Budget> worksList = budgetService.getWorkListForBudgetForm(obj);
+			model.addObject("worksList", worksList);
 			
 		}catch (Exception e) {
 				logger.error("addBudgetForm : " + e.getMessage());
 		}
 		return model;
-	 }
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsListForBudgetForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Budget> getProjectsListForBudgetForm(@ModelAttribute Budget obj) {
+		List<Budget> objsList = null;
+		try {
+			objsList = budgetService.getProjectsListForBudgetForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsListForBudgetForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorkListForBudgetForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Budget> getWorkListForBudgetForm(@ModelAttribute Budget obj) {
+		List<Budget> objsList = null;
+		try {
+			objsList = budgetService.getWorkListForBudgetForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForBudgetForm : " + e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@RequestMapping(value = "/get-budget", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getBudgetForm(@ModelAttribute Budget budget ){
@@ -163,10 +193,10 @@ public class BudgetController {
 		try{
 			model.setViewName(PageConstants.addEditBudget);
 			model.addObject("action", "edit");
+			
 			List<Budget> financialYearList = budgetService.getFinancialYearList();
 			model.addObject("financialYearList", financialYearList);
-			List<Budget> projectsList = budgetService.getProjectList();
-			model.addObject("projectsList", projectsList);
+			
 			Budget budgetDetails = budgetService.getBudget(budget);
 			model.addObject("budgetDetails", budgetDetails);
 		

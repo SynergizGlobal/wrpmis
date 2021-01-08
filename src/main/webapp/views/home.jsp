@@ -9,16 +9,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to PMIS</title>
   <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-   <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-   
+   <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">   
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
            
-     <style>
-     body{
-     	background-color:#f2f2f2;
+     <style>     
+		#bg {
+		  position: fixed; 
+		  top: 0; 
+		  left: 0; 
+		  width: 100%; 
+		  height: 100%;
+		}
+		#bg img {
+		  position: absolute; 
+		  top: 0; 
+		  left: 0; 
+		  right: 0; 
+		  bottom: 0; 
+		  margin: auto; 
+		  opacity:0.7;
+		  min-width: 100%;
+		  max-width: 100%;
+		  min-height: 100%;
+		}
+     .card-title .right span{
+     	padding: 5px 15px;
+	    background-image: linear-gradient(to right, #16D58A, #00BDE7);
+	    font-size: 2rem;
+	    color: #fff;
+	    border-radius: 5px;
      }
         nav {
             box-shadow: none !important;
@@ -39,7 +61,11 @@
 
         .card.main-clr.active,
         .card.sec-clr {
-            background-color: #DAE8F9;
+            background-color: #DAE8F9;            
+        }
+        .projects-filter .card.sec-clr {        	
+        	background-color: transparent;
+        	box-shadow:none;
         }
 
         .card.main-clr.active {
@@ -262,6 +288,9 @@
 </head>
 
 <body>
+<div id="bg">
+	<img src="/pmis/resources/images/login-background.jpg" alt="">
+</div>
   <!-- header included -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
   
@@ -360,7 +389,7 @@
 	                            <div class="card-content">
 	                                <div class="card-title"> &nbsp;
 	                                    <span class="right">
-	                                        <span class="material-icons" onclick="closeDiv('${index.count }')">close</span>
+	                                        <span class="material-icons" onclick="closeDiv('${index.count }')">keyboard_backspace</span>
 	                                    </span>
 	                                </div>
 	                                <div class="row">
@@ -508,8 +537,7 @@
                }
             });
         });
-        
-        
+                
 
     	/*function showWorkData(indexNo) {
             $('.result').each(function () {
@@ -530,7 +558,7 @@
 
         function closeDiv(no) {
             $('.card.main-clr.active').each(function () {
-                $(this).removeClass('active');
+                $(this).removeClass('active hidden');
             });
             $('#result' + no).addClass('hidden');
             $('[id^="project_data"].card.main-clr:not(.active)').each(function () {               
@@ -548,7 +576,7 @@
                    $(this).removeClass('active');
                });
         	          	   
-        	   $("#project_data_"+no).addClass('active');
+        	   $("#project_data_"+no).addClass('active hidden');
         	                
                $('[id^="project_data"].card.main-clr:not(.active)').each(function () {
                   $(this).parent().addClass('hidden');

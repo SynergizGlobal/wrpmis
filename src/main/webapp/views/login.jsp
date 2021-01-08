@@ -24,10 +24,18 @@
 		input:-webkit-autofill:active  {
 		    -webkit-box-shadow: 0 0 0 30px rgba(2, 36, 202, 0.70) inset !important;
 		}		
+		.setting-icon{
+			color:inherit;
+		}
 		.row.homepage{
 			-webkit-box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
 			-moz-box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
 			box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
+		}
+		@media screen and (min-width: 480px) {
+		  #support {
+		    width:38%;
+		  }
 		}
     </style>
 </head>
@@ -99,7 +107,7 @@
 		    </div>
         
     		<div class="row mar-top">
-     			<div id="support" class="col m5"></div>
+     			<div id="support" class="col"></div>
 		        <form class="col s12 m3 " action="<%=request.getContextPath()%>/login" id="loginForm" name="loginForm" method="post" >
 		        	<div class="row homepage">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">

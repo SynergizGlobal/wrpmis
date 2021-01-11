@@ -37,7 +37,6 @@
 
         #example4 .datepicker~button {
             top: 26px;
-/*             top: 34px; */
         }
 
         .datepicker-table thead tr,
@@ -63,7 +62,7 @@
             display: block;
             margin-top: 10px;
         }
-         .page-loader {
+         /* .page-loader {
 		    background: #332e2ec2!important;
 		    position: fixed;
 		    width: 100%;
@@ -72,10 +71,13 @@
 		    left: 0;
 		    z-index: 1000;
 		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		.preloader-wrapper{top: 45%!important;left:47%!important;} */
 		.my-error-class {
    			 color:red;
 		}
+		.input-field .searchable_label {
+            font-size: 0.85rem;
+        }
 		.my-valid-class {
    			 color:green;
 		}
@@ -109,13 +111,13 @@
 				                	<form action="<%=request.getContextPath() %>/add-safety-equipment" id="safetyEquipmentForm" name="safetyEquipmentForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							 </c:if>
 							<div class="container container-no-margin">
+                                <c:if test="${action eq 'add'}">	
                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <c:if test="${action eq 'add'}">	
-                                <div class="col s12 m8 input-field">
-                                    <div class="row">
+                                <!-- <div class="col s12 m8 input-field"> 
+                                    <div class="row">-->
                                         <div class="col s12 m4 input-field">
-                                            <p><label> Project </label></p>
+                                            <p class="searchable_label"> Project </p>
 		                                           <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 		                                 	  		 onchange="getWorksList(this.value);">
 		                                      		  <option value="" >Select</option>
@@ -126,7 +128,7 @@
                                    			 <span id="project_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
-                                            <p><label> Work </label></p>
+                                            <p class="searchable_label"> Work </p>
 	                                           <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
 	                                      		  onchange="getContractsList(this.value);">
 	                                      		  <option value="">Select</option>
@@ -137,42 +139,50 @@
                                    		   
                                      		 <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col s12 m4 input-field">
-                                          
-                                            <p> <label>Contract </label></p>
+                               			<div class="col m2 hide-on-small-only"></div>
+                               			</div>
+                                     <div class="row">
+                                        <div class="col m2 hide-on-small-only"></div>
+                                        <div class="col s12 m8 input-field">                                          
+                                            <p> <label>Contract </p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                        			 <option value="">Select</option>
                                        			  <c:forEach var="obj" items="${contractsList }">
                                       	    		<option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                         		 </c:forEach>
-                                  			 </select>
-                                  			
+                                  			 </select>                                  			
                                    			 <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
+                                        <div class="col m2 hide-on-small-only"></div>
                                     </div>
                                 </div>
                                  </c:if>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                                <!-- <div class="col m2 hide-on-small-only"></div>
+                            </div> -->
                             <div>
                        		 <c:if test="${action eq 'edit'}">	
                        	 <div class="row">
-                       	      <div class="col m2 hide-on-small-only">
-                       	      </div>
+                       	      <div class="col m2 hide-on-small-only">	</div>
                        		  <div class="col s12 m4 input-field">
-									<p><label> Project </label></p>
-                                         	 	<input type="text" name="project_id" id="project_id" value="${safetyEquipmentDetails.project_id}- ${safetyEquipmentDetails.project_name}" readonly />
+									<p class="searchable_label"> Project </p>
+                                      <input type="text" name="project_id" id="project_id" value="${safetyEquipmentDetails.project_id}- ${safetyEquipmentDetails.project_name}" readonly />
 							  </div> 
 							  <div class="col s12 m4 input-field"> 
-								    <p><label> Work </label></p>
-                                         	 	<input type="text"  value="${safetyEquipmentDetails.work_id}- ${safetyEquipmentDetails.work_name}" readonly />
-                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${safetyEquipmentDetails.work_id}" readonly />
+								    <p class="searchable_label"> Work </p>
+                                  	 	<input type="text"  value="${safetyEquipmentDetails.work_id}- ${safetyEquipmentDetails.work_name}" readonly />
+                                  	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${safetyEquipmentDetails.work_id}" readonly />
                               </div>
+                               <div class="col m2 hide-on-small-only">     </div>
                           </div> 
-                     				<p><label>Contract </label></p>        
-                              	    <span>${safetyEquipmentDetails.contract_id_fk}- ${safetyEquipmentDetails.contract_name}"</span>
-                            
+                           <div class="row">
+                       	      <div class="col m2 hide-on-small-only">	</div>
+                       	      <div class="col s12 m8 input-field">
+                     				<p class="searchable_label">Contract </p>        
+                              	    <input type="text"  value="${safetyEquipmentDetails.contract_id_fk}- ${safetyEquipmentDetails.contract_name}"   readonly />                         
                              		<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${safetyEquipmentDetails.contract_id_fk}" readonly />
+                             </div>
+                             <div class="col m2 hide-on-small-only">	</div>
+                           </div>
                              </c:if>
                             </div>
 <%--                             <input type="hidden" name= "safety_equipment_id" id="safety_equipment_id" value="${safetyEquipmentDetails.safety_equipment_id}" />--%>                       

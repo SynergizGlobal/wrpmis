@@ -31,6 +31,17 @@
         }
        
 		.error-msg label{color:red!important;}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+				
     </style>
 </head>
 <body>
@@ -316,7 +327,7 @@
                                 </div>
                                <div class="col s12 m4 input-field">
                                		<i class="material-icons prefix center-align">₹</i>
-                                    <input id="compensation" name="compensation" type="text" class="validate">
+                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" class="validate">
                                     <label for="compensation"> Compensation </label>
                                     <span id="compensationError" class="error-msg" ></span>
                                 </div>

@@ -80,9 +80,15 @@
             position: relative;
             display: inline-block;
         }
+        .dot-container{
+			min-width:55px;
+		}		  
+		 #component_circles .dot-container:first-of-type a{
+            margin-left: -10px;
+        }  
 
         #dotgroup1 .dot-line {
-            width: 30px;
+            width: inherit;
             border: 2px solid #777;
             position: absolute;
             top: 14px;
@@ -971,9 +977,9 @@
                              	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
                                  + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getProgressBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
                                  + '<span class="project '+className+'" >'+val.strip_chart_component_id_name+'</span></a>';
-                                 if(i != 0){
+                                // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
-                                 }
+                                // }
                                  html = html + '</div>';
                              	
                              	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id_name) + '</option>');
@@ -982,9 +988,9 @@
                              	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
                                  + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getProgressBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
                                  + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
-                                 if(i != 0){
+                                // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
-                                 }
+                                // }
                                  html = html + '</div>';
                              	
                              	if ($.trim(id2) != '' && val.strip_chart_component_id == $.trim(id2)) {
@@ -1002,6 +1008,10 @@
                      $("#component_circles").html(html);
                      $("#component_circles_row").show();
                      $('#legends').show();
+                     //dynamic width based on content
+                     $.each($('.dot-container'), function (i, val) {
+                     	$(val).css("width",$(val).find('a').children().width());
+                     });
                      $(".page-loader-3").hide();
                      
                      

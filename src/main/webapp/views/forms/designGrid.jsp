@@ -406,7 +406,7 @@
 		                   	var rowArray = [];    	                 
 		                   	
 		                	 var contractName = '';
-	                        if ($.trim(val.contract_name) != '') { contractName = ' - ' + $.trim(val.contract_name) }
+	                        if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
 	                        
 		                   	rowArray.push($.trim(val.contract_id_fk)+ contractName);
 		                   	rowArray.push($.trim(val.drawing_title));

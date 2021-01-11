@@ -221,12 +221,13 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 			
 			if(insertCount.length > 0) {
 				flag = true;
+				int arrSize =0;
 				if(!StringUtils.isEmpty(obj.getSafetyEquipmentFile()) && obj.getSafetyEquipmentFile().length > 0) {
-					if(arraySize < obj.getSafetyEquipmentFile().length) {
-						arraySize = obj.getSafetyEquipmentFile().length;
+					if(arrSize < obj.getSafetyEquipmentFile().length) {
+						arrSize = obj.getSafetyEquipmentFile().length;
 					}
 					String saveDirectory = CommonConstants.SAFETYEQUIPMENT_FILE_SAVING_PATH ;
-					documentNames = new String[arraySize];
+					documentNames = new String[arrSize];
 					for (int i = 0; i < documentNames.length; i++) {
 						if (rs.next()) {
 							String id = rs.getString(1);
@@ -240,15 +241,15 @@ public class SafetyEquipmentDaoImpl implements SafetyEquipmentDao {
 							documentNames[i] = fileName_new;
 							FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
 							obj.setAttachment(fileName_new);
-						} else if (!StringUtils.isEmpty(obj.getSafetyEquipmentFileNames()[i])){
-							documentNames[i] = obj.getSafetyEquipmentFileNames()[i];
-						} else {
+							
+							NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);		
+							String updateQry = "UPDATE safety_equipment set attachment= :attachment where safety_equipment_id= :safety_equipment_id ";
+							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+							template.update(updateQry, paramSource1);
+						}else {
 							documentNames[i] = null;
 						}
-						NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);		
-						String updateQry = "UPDATE safety_equipment set attachment= :attachment where safety_equipment_id= :safety_equipment_id ";
-						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
-						template.update(updateQry, paramSource1);
+						
 					}
 				}
 			}

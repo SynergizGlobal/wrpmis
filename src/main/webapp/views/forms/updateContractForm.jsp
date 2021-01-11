@@ -137,6 +137,16 @@
 	     #insurenceTable tbody td{
 	     	padding:12px;
 	     }
+	     /* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
     </style>
 </head>
 
@@ -304,7 +314,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                	<i class="material-icons prefix center-align">₹</i>
-	                                    <input id="awarded_cost" name="awarded_cost" type="text" class="validate" value="${contractDeatils.awarded_cost }" />
+	                                    <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />
 	                                    <label for="awarded_cost">Awarded cost</label>
 	                                    <span id="awarded_costError" class="error-msg" ></span>
 	                                </div>
@@ -320,7 +330,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <i class="material-icons prefix center-align">₹</i>
-	                                    <input id="estimated_cost" name="estimated_cost" type="text" class="validate" value="${contractDeatils.estimated_cost }">
+	                                    <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }">
 	                                    <label for="estimated_cost">Estimated cost</label>
 	                                    <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
@@ -365,7 +375,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                	<i class="material-icons prefix center-align">₹</i>
-	                                    <input id="completed_cost" name="completed_cost" type="text" class="validate" value="${contractDeatils.completed_cost }">
+	                                    <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }">
 	                                    <label for="completed_cost">Completed Cost</label>
 	                                     <span id="completed_costError" class="error-msg" ></span>
 	                                </div>                              
@@ -531,7 +541,7 @@
                                                         placeholder="BG / FDR Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="bg_values${index.count }" name="bg_values" type="text" class="validate" value="${bankObj.bg_value }"
+                                                    <input id="bg_values${index.count }" name="bg_values" min="0.01" step="0.01" type="number" class="validate" value="${bankObj.bg_value }"
                                                         placeholder="Amount">
                                                 </td>
                                                <td>
@@ -1014,7 +1024,7 @@
                                                         placeholder="Revision Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="revised_amounts${index.count }" name="revised_amounts" type="text" class="validate" value="${revObj.revised_amount }"
+                                                    <input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
                                                 </td>
                                                 <td>
@@ -1061,7 +1071,7 @@
                                                         placeholder="Revision Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="revised_amounts0" name="revised_amounts" type="text" class="validate"
+                                                    <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
                                                 <td>
@@ -1765,7 +1775,7 @@
 				   +'<td> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
 				  // +'<td><input id="bank_addresss'+rNo+'" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
 				   +'<td><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
-				   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="text" class="validate"  placeholder="Amount"></td>'
+				   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
 				   +'<td><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
 				   //+'<td><input id="bank_revisions'+rNo+'" name="bank_revisions" type="text" class="validate"  placeholder="Revision"></td>'
 				   +'<td><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
@@ -1886,7 +1896,7 @@
 		    var total = 0;
 		    var html = '<tr id="revRow'+rNo+'">'
 			   +'<td><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
-			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
+			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"></td>'
 			   +'<td><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'

@@ -94,6 +94,17 @@
           .input-field .searchable_label{
         	font-size:0.85rem;
         } 
+        /* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+		        
     </style>
 </head>
 <body>
@@ -204,7 +215,7 @@
                                     <span id="email_idError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="mobile_number" name="mobile_number" type="text" class="validate" value="${usrObj.mobile_number }">
+                                    <input id="mobile_number" name="mobile_number" type="number" class="validate" value="${usrObj.mobile_number }">
                                     <label for="mobile_number"> Mobile Number </label>
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
@@ -216,7 +227,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 
                                 <div class="col s12 m4 input-field ">
-                                    <input id="personal_contact_number " name="personal_contact_number" type="text" class="validate" value="${usrObj.personal_contact_number }">
+                                    <input id="personal_contact_number " name="personal_contact_number" type="number" class="validate" value="${usrObj.personal_contact_number }">
                                     <label for="personal_contact_number"> Personal Contact Number </label>
                                     <span id="personal_contact_numberError" class="error-msg" ></span>
                                 </div>

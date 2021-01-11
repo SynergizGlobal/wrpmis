@@ -346,7 +346,8 @@
                         targets: [0, 1, 2],
                         className: 'mdl-data-table__cell--non-numeric'
                     },
-                    { orderable: false, 'aTargets': ['nosort'] }
+                    { orderable: false, 'aTargets': ['nosort'] },
+                    { "width": "20px", "targets": [6] },
                 ],
                 // "ScrollX": true,
                 //"scrollCollapse": true,

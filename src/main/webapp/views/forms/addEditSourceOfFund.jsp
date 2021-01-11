@@ -22,8 +22,21 @@
         p a {
             color: blue
         }
-
+        .input-field .searchable_label {
+            font-size: 0.85rem;
+        } 
 		.error-msg label{color:red!important;}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+				
     </style>
 </head>
 
@@ -82,15 +95,15 @@
                             </div>
                            </c:if>
                             <c:if test="${action eq 'edit'}">	
-                              <div class="row" id="center" style="text-align:center;">
+                              <div class="row" id="center" >
 	                              <div class="col m2 hide-on-small-only">
 	                              </div>
 	                       		  <div class="col s12 m4 input-field">
-										<p><label> Project </label></p>
+										 <p class="searchable_label">Project</p>
 	                                         	 	<input type="text" value="${fundDetails.project_id} - ${fundDetails.project_name}" readonly />
 								  </div> 
 								  <div class="col s12 m4 input-field"> 
-									    <p><label> Work </label></p>
+									    <p class="searchable_label">Work</p>
 	                                         	 	<input type="text" value="${fundDetails.work_id_fk} - ${fundDetails.work_name}" readonly />
 	                              </div>
                               </div> 
@@ -131,7 +144,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="fund_amount" type="text" class="validate" name="fund_amount" value="${fundDetails.fund_amount }">
+                                    <input id="fund_amount" min="0.01" step="0.01" type="number" class="validate" name="fund_amount" value="${fundDetails.fund_amount }">
                                     <label for="fund_amount"> Fund Amount </label>
                                     <span id="fund_amountError" class="error-msg" ></span>
                                 </div>

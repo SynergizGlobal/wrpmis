@@ -26,6 +26,17 @@
             font-size: 0.85rem;
         }        
 		.error-msg label{color:red!important;}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+				
     </style>
 </head>
 
@@ -172,7 +183,7 @@
                                 </div>
                                 <input type="hidden" name="expenditure_id" value="${expenditureDetails.expenditure_id }" />
                                 <div class="col s12 m4 input-field">
-                                    <input id="voucher_no" type="text" class="validate" name="voucher_no" value="${expenditureDetails.voucher_no }">
+                                    <input id="voucher_no" type="number" class="validate" name="voucher_no" value="${expenditureDetails.voucher_no }">
                                     <label for="voucher_no">Voucher No </label>
                                     <span id="voucher_noError" class="error-msg" ></span>
                                 </div>
@@ -191,13 +202,13 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="net_paid" type="text" class="validate" name="net_paid" value="${expenditureDetails.net_paid }">
+                                    <input id="net_paid" min="0.01" step="0.01" type="number" class="validate" name="net_paid" value="${expenditureDetails.net_paid }">
                                     <label for="net_paid"> Net Paid </label>
                                     <span id="net_paidError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="gross_work_done" type="text" class="validate" name="gross_work_done" value="${expenditureDetails.gross_work_done }"> 
+                                    <input id="gross_work_done" min="0.01" step="0.01" type="number" class="validate" name="gross_work_done" value="${expenditureDetails.gross_work_done }"> 
                                     <label for="gross_work_done"> Gross Work Done </label>
                                     <span id="gross_work_doneError" class="error-msg" ></span>
                                 </div>
@@ -207,13 +218,13 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="sd_payable" type="text" class="validate" name="sd_payable" value="${expenditureDetails.sd_payable }">
+                                    <input id="sd_payable" min="0.01" step="0.01" type="number" class="validate" name="sd_payable" value="${expenditureDetails.sd_payable }">
                                     <label for="sd_payable">SD Payable</label>
                                     <span id="sd_payableError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="contractor_income_tax" type="text" class="validate" name="contractor_income_tax" value="${expenditureDetails.contractor_income_tax }">
+                                    <input id="contractor_income_tax" min="0.01" step="0.01" type="number" class="validate" name="contractor_income_tax" value="${expenditureDetails.contractor_income_tax }">
                                     <label for="contractor_income_tax">Contractor Income Tax</label>
                                     <span id="contractor_income_taxError" class="error-msg" ></span>
                                 </div>
@@ -225,21 +236,21 @@
 									<div class="row">
 										<div class="col s12 m4 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
-												id="cgst_tds" type="text" class="validate" name="cgst_tds"
+												id="cgst_tds" min="0.01" step="0.01" type="number" class="validate" name="cgst_tds"
 												value="${expenditureDetails.cgst_tds }"> <label
 												for="cgst_tds">CGST TDS</label> <span id="cgst_tdsError"
 												class="error-msg"></span>
 										</div>
 										<div class="col s12 m4 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
-												id="sgst_tds" type="text" class="validate" name="sgst_tds"
+												id="sgst_tds" min="0.01" step="0.01" type="number" class="validate" name="sgst_tds"
 												value="${expenditureDetails.sgst_tds }"> <label
 												for="sgst_tds">SGST TDS</label> <span id="sgst_tdsError"
 												class="error-msg"></span>
 										</div>
 										<div class="col s12 m4 input-field">
 											<i class="material-icons prefix center-align">₹</i> <input
-												id="igst_tds" type="text" class="validate" name="igst_tds"
+												id="igst_tds" min="0.01" step="0.01" type="number" class="validate" name="igst_tds"
 												value="${expenditureDetails.igst_tds }"> <label
 												for="igst_tds">IGST TDS</label> <span id="igst_tdsError"
 												class="error-msg"></span>
@@ -252,13 +263,13 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="mob_advance" type="text" class="validate" name="mob_advance" value="${expenditureDetails.mob_advance }">
+                                    <input id="mob_advance" min="0.01" step="0.01" type="number" class="validate" name="mob_advance" value="${expenditureDetails.mob_advance }">
                                     <label for="mob_advance">Mobilization Advance</label>
                                     <span id="mob_advanceError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="interest_on_mob_adv" type="text" class="validate" name="interest_on_mob_adv" value="${expenditureDetails.interest_on_mob_adv }">
+                                    <input id="interest_on_mob_adv" min="0.01" step="0.01" type="number" class="validate" name="interest_on_mob_adv" value="${expenditureDetails.interest_on_mob_adv }">
                                     <label for="interest_on_mob_adv">Interest on Mobilization
                                         Advance</label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
@@ -269,13 +280,13 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="vat_wct" type="text" class="validate" name="vat_wct" value="${expenditureDetails.vat_wct }">
+                                    <input id="vat_wct" min="0.01" step="0.01" type="number" class="validate" name="vat_wct" value="${expenditureDetails.vat_wct }">
                                     <label for="vat_wct">VAT WCT</label>
                                     <span id="vat_wctError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="amount_withheld" type="text" class="validate" name="amount_withheld" value="${expenditureDetails.amount_withheld }">
+                                    <input id="amount_withheld" min="0.01" step="0.01" type="number" class="validate" name="amount_withheld" value="${expenditureDetails.amount_withheld }">
                                     <label for="amount_withheld">Amount WithHeld</label>
                                     <span id="amount_withheldError" class="error-msg" ></span>
                                 </div>

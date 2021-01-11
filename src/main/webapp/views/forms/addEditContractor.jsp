@@ -18,7 +18,22 @@
     <link rel="stylesheet" href="/pmis/resources/css/contractor.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <style>		.error-msg label{color:red!important;    </style>
+    <style>		
+    	.error-msg label{
+    		color:red!important;   
+    	}
+    	/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+    	
+    </style>
 </head>
 
 <body>
@@ -123,7 +138,7 @@
                                             <span id="bank_nameError" class="error-msg" ></span>
                                         </div>
                                         <div class="col s12 m4 input-field">
-                                            <input id="ac_no" name="account_number" type="text" class="validate" value="${contractorDetails.account_number }">
+                                            <input id="ac_no" name="account_number" type="number" class="validate" value="${contractorDetails.account_number }">
                                             <label for="ac_no">Account No </label>
                                             <span id="ac_noError" class="error-msg" ></span>
                                         </div>

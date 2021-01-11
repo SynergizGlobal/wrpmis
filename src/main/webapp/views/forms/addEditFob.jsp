@@ -49,6 +49,17 @@
 		}
 		/*table with fixed header & height ends */
 		.error-msg label{color:red!important;}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+		
     </style>
 </head>
 <body>
@@ -206,7 +217,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                 	<i class="material-icons prefix center-align">₹</i>   
-                                    <input id="completion_cost" name="completion_cost" type="text" class="validate" value="${fob.completion_cost }">
+                                    <input id="completion_cost" name="completion_cost" type="number" class="validate" min="0.01" step="0.01" value="${fob.completion_cost }">
                                     <label for="completion_cost">Completion Cost (in Cr)</label>
                                     <span id="completion_costError" class="error-msg" ></span>
                                 </div>

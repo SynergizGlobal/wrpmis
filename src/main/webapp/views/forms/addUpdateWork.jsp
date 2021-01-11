@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
+
     <style>
         #example3 input[type="text"]::-webkit-input-placeholder,
         #example3 input[type="text"]:-ms-input-placeholder,
@@ -49,6 +49,17 @@
 			text-align:left;
 			max-width:127px;
 		}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}		
+		
     </style>
 </head>
 <body>
@@ -166,7 +177,7 @@
                                     <span id="sanctioned_yearError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                   <input id="completeion_period_months" type="text" class="validate" name="completeion_period_months" value="${workDeatils.completeion_period_months }">
+                                   <input id="completeion_period_months" type="number" class="validate" name="completeion_period_months" value="${workDeatils.completeion_period_months }">
                                    <label for="completeion_period_months">Completion Period (in Months)</label>
                                    <span id="completeion_period_monthsError"></span>
                                 </div>
@@ -261,7 +272,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                       				<p> <label for="year_of_completion">Year of Completion </label></p>
+                       				<p class="searchable_label">Year of Completion</p>
                                     <select id="year_of_completion" name="year_of_completion" class="searchable">
                                           <option value="">Select</option>
                                            <c:forEach var="obj" items="${yearList}">

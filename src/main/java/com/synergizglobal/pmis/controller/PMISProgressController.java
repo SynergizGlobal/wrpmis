@@ -62,6 +62,32 @@ public class PMISProgressController {
 		return fileterData;
 	}
 	
+	@RequestMapping(value = "/ajax/getProjectsFilterListInPMISStripChart", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getProjectsList(@ModelAttribute StripChart obj){
+		List<StripChart> fileterData = null;
+		try{
+			fileterData = service.getProjectsFilterList(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getProjectsFilterList() : "+e.getMessage());
+		}
+		return fileterData;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksFilterListInPMISStripChart", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getWorksList(@ModelAttribute StripChart obj){
+		List<StripChart> fileterData = null;
+		try{
+			fileterData = service.getWorksFilterList(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getWorksFilterList() : "+e.getMessage());
+		}
+		return fileterData;
+	}
+	
 	@RequestMapping(value = "/ajax/getContractsFilterListInPMISStripChart", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getContarctsList(@ModelAttribute StripChart obj){

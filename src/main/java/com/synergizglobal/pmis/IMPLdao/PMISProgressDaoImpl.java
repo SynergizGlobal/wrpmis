@@ -36,9 +36,20 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 			String qry = "select id,milestone_fk,cm.milestone_name,activity_description,DATE_FORMAT(planned_start_date,'%d-%m-%Y') as planned_start "  
 					+",DATE_FORMAT(planned_finish_date,'%d-%m-%Y') as planned_finish,DATE_FORMAT(actual_start_date,'%d-%m-%Y') as actual_start,DATE_FORMAT(actual_finish_date,'%d-%m-%Y') as actual_finish,"
 					+ "IFNULL(NULLIF(total_scope, '' ), 0) as total_scope,IFNULL(NULLIF(completed, '' ), 0) as completed from pmis_strip_chart psc "
-					+ "LEFT JOIN contract_milestones cm on milestone_fk = contract_milestones_id " 
-					+ " where id is not null and (total_scope - completed) > 0 ";
+					+ "LEFT JOIN contract_milestones cm on milestone_fk = contract_milestones_id "
+					+ "LEFT JOIN contract c  on psc.contract_id_fk = c.contract_id  "  
+					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  "  
+					+"LEFT JOIN project p  on w.project_id_fk = p.project_id  " 
+					+"where id is not null and (total_scope - completed) > 0 ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and w.project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + "and psc.contract_id_fk = ?";
 				arrSize++;
@@ -51,6 +62,12 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
@@ -70,9 +87,20 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 		List<StripChart> objsList = null;
 		try {
 			String qry = "SELECT milestone_fk,milestone_name from pmis_strip_chart  psc " + 
-					"LEFT JOIN contract_milestones cm on milestone_fk = contract_milestones_id  " + 
+					"LEFT JOIN contract_milestones cm on milestone_fk = contract_milestones_id  "  
+					+"LEFT JOIN contract c on psc.contract_id_fk = contract_id  "
+					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  " + 
+					"LEFT JOIN project p  on w.project_id_fk = p.project_id " + 
 					"where milestone_fk is not null and milestone_fk <> '' and (total_scope - completed) > 0 ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and w.project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and psc.contract_id_fk = ? ";
 				arrSize++;
@@ -85,6 +113,12 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 			qry = qry + "GROUP BY milestone_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
@@ -151,10 +185,20 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,c.contract_short_name from pmis_strip_chart  psc " + 
-					"LEFT JOIN contract c on contract_id_fk = contract_id  " + 
-					"where contract_id_fk is not null and contract_id_fk <> '' and (total_scope - completed) > 0 ";
+			String qry = "SELECT psc.contract_id_fk,c.contract_short_name from pmis_strip_chart  psc " + 
+					"LEFT JOIN contract c on psc.contract_id_fk = contract_id  "
+					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  " + 
+					"LEFT JOIN project p  on w.project_id_fk = p.project_id " + 
+					"where psc.contract_id_fk is not null and psc.contract_id_fk <> '' and (total_scope - completed) > 0 ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and w.project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and psc.contract_id_fk = ? ";
 				arrSize++;
@@ -164,9 +208,113 @@ public class PMISProgressDaoImpl implements PMISProgressDao{
 				arrSize++;
 			}
 			
-			qry = qry + "GROUP BY contract_id_fk ";
+			qry = qry + "GROUP BY psc.contract_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				pValues[i++] = obj.getMilestone_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getProjectsFilterList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT project_id as project_id_fk,p.project_name from pmis_strip_chart  psc " + 
+					"LEFT JOIN contract c on psc.contract_id_fk = contract_id  "
+					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  " + 
+					"LEFT JOIN project p  on w.project_id_fk = p.project_id " + 
+					"where project_id is not null and project_id <> '' and (total_scope - completed) > 0 ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and w.project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and psc.contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				qry = qry + " and milestone_fk = ? ";
+				arrSize++;
+			}
+			
+			qry = qry + "GROUP BY project_id ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				pValues[i++] = obj.getMilestone_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getWorksFilterList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT c.work_id_fk,w.work_short_name from pmis_strip_chart  psc " + 
+					"LEFT JOIN contract c on psc.contract_id_fk = contract_id  "
+					+"LEFT JOIN work w  on c.work_id_fk = w.work_id  " + 
+					"LEFT JOIN project p  on w.project_id_fk = p.project_id " + 
+					"where work_id_fk is not null and work_id_fk <> '' and (total_scope - completed) > 0 ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and w.project_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and psc.contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getMilestone_fk())) {
+				qry = qry + " and milestone_fk = ? ";
+				arrSize++;
+			}
+			
+			qry = qry + "GROUP BY work_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}

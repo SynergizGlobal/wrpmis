@@ -167,13 +167,13 @@
                                         <div class="row" style="margin-bottom: 0;"> -->
                                             <div class="col s12 m2 input-field">
                                                 <p class="searchable_label">Project</p>
-                                                <select name="project_fk" id="project_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                                <select name="project_id_fk" id="project_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
                                                     <option value="">Select</option>                                                    
                                                 </select>
                                             </div> 
                                              <div class="col s12 m2 input-field">
                                                 <p class="searchable_label">Work</p>
-                                                <select name="work_fk" id="work_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                                <select name="work_id_fk" id="work_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
                                                     <option value="">Select</option>                                                    
                                                 </select>
                                             </div> 
@@ -429,6 +429,8 @@
         	$(".page-loader").show();
             $("#contract_id_fk").val("");
             $("#milestone_fk").val("");
+            $("#project_id_fk").val("");
+            $("#work_id_fk").val("");
         	$('.searchable').select2();
         	getMileStoneList();
         }
@@ -437,10 +439,11 @@
         	$(".page-loader").show();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var milestone_fk = $("#milestone_fk").val();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
     		if ($.trim(milestone_fk) == "") {
             	$("#milestone_fk option:not(:first)").remove();
-            	
-            	var myParams = { contract_id_fk: contract_id_fk ,milestone_fk : milestone_fk};
+         	    var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getMileStonesFilterListInMilestone",
                     data: myParams, cache: false,
@@ -466,9 +469,11 @@
         	$(".page-loader").show();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var milestone_fk = $("#milestone_fk").val();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
     		if ($.trim(contract_id_fk) == "") {
             	$("#contract_id_fk option:not(:first)").remove();
-            	var myParams = { contract_id_fk: contract_id_fk,milestone_fk : milestone_fk };
+         	    var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInPMISStripChart",
                     data: myParams, cache: false,
@@ -492,14 +497,82 @@
             }
        }
         
+        function getProjectsFilterList() {
+        	$(".page-loader").show();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var milestone_fk = $("#milestone_fk").val();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+    		if ($.trim(project_id_fk) == "") {
+            	$("#project_id_fk option:not(:first)").remove();
+         	    var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInPMISStripChart",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var projectName = '';
+                            	 if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+    	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' +$.trim(val.project_id_fk)+ projectName   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+       }
+        
+        function getWorksFilterList() {
+        	$(".page-loader").show();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var milestone_fk = $("#milestone_fk").val();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+    		if ($.trim(work_id_fk) == "") {
+            	$("#work_id_fk option:not(:first)").remove();
+         	    var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInPMISStripChart",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var workShortName = '';
+                            	 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' +$.trim(val.work_id_fk)+ workShortName   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+       }
+        
        function getMileStoneList(){
        	 $(".page-loader-2").show();
        	 var html = '';
        	 var s =0;
        	 getMileStoneFilterList();
        	 getContractFilterList();
+       	 getProjectsFilterList();
+       	 getWorksFilterList();
        	 $("#filerList").html('');
        	 $("#select-all").prop('checked', false);
+       	var project_id_fk = $("#project_id_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
        	 var contract_id_fk = $("#contract_id_fk").val();
        	 var milestone_fk = $("#milestone_fk").val();
        	 table = $('#datatable-table').DataTable();
@@ -542,7 +615,7 @@
         }).rows().remove().draw();
 		
 		table.state.clear();		
-  	     var myParams = {contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
+  	     var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
   	     $.ajax({
             url: "<%=request.getContextPath()%>/ajax/getMileStoneFilterList",
             data: myParams, cache: false,

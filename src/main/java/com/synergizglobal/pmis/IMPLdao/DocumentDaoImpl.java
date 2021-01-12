@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.Training;
 
 
 @Repository
@@ -44,6 +45,14 @@ public class DocumentDaoImpl implements DocumentDao{
 					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
 					+ "where document_no is not null ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and d.project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and d.work_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
@@ -62,7 +71,12 @@ public class DocumentDaoImpl implements DocumentDao{
 			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
@@ -91,6 +105,14 @@ public class DocumentDaoImpl implements DocumentDao{
 					+ "LEFT JOIN contract c on d.contract_id_fk = c.contract_id  " + 
 					"where contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and d.project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and d.work_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
 				qry = qry + " and project_priority_fk = ?";
 				arrSize++;
@@ -110,7 +132,12 @@ public class DocumentDaoImpl implements DocumentDao{
 			qry = qry + "GROUP BY contract_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
 				pValues[i++] = obj.getProject_priority_fk();
 			}
@@ -138,6 +165,14 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry = "SELECT project_priority_fk from documents "
 					+"where project_priority_fk is not null and project_priority_fk <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
@@ -158,7 +193,12 @@ public class DocumentDaoImpl implements DocumentDao{
 			qry = qry + "GROUP BY project_priority_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
@@ -185,6 +225,14 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry = "SELECT document_type_fk from documents "
 					+ "where document_type_fk is not null and document_type_fk <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
@@ -204,7 +252,12 @@ public class DocumentDaoImpl implements DocumentDao{
 			qry = qry + "GROUP BY document_type_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
@@ -231,6 +284,14 @@ public class DocumentDaoImpl implements DocumentDao{
 			String qry = "SELECT responsible_for_approval from documents "
 					+ "where responsible_for_approval is not null and responsible_for_approval <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
@@ -250,7 +311,12 @@ public class DocumentDaoImpl implements DocumentDao{
 			qry = qry + "GROUP BY responsible_for_approval ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
@@ -728,6 +794,144 @@ public class DocumentDaoImpl implements DocumentDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<Document> getDocumentProjectsList(Document obj) throws Exception {
+		List<Document> objsList = null;
+		try {
+			String qry = "SELECT  project_id_fk,p.project_name from documents d"
+					+ "LEFT JOIN project p on project_id_fk = p.project_id "
+					+ "where project_id_fk is not null and project_id_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				qry = qry + " and project_priority_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				qry = qry + " and document_type_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				qry = qry + " and responsible_for_approval = ?";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY project_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				pValues[i++] = obj.getProject_priority_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				pValues[i++] = obj.getDocument_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				pValues[i++] = obj.getResponsible_for_approval();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Document> getDocumentWorksList(Document obj) throws Exception {
+		List<Document> objsList = null;
+		try {
+			String qry = "SELECT work_id_fk,w.work_short_name from documents d"
+					+ "LEFT JOIN work w on work_id_fk = w.work_id "
+					+ "where work_id_fk is not null and work_id_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ? ";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				qry = qry + " and project_priority_fk = ? ";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				qry = qry + " and document_type_fk = ? ";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				qry = qry + " and responsible_for_approval = ? ";
+				arrSize++;
+			}
+			qry = qry + "GROUP BY work_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
+				pValues[i++] = obj.getProject_priority_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDocument_type_fk())) {
+				pValues[i++] = obj.getDocument_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_for_approval())) {
+				pValues[i++] = obj.getResponsible_for_approval();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Document>(Document.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Document> getDocumentWorksList(String id) throws Exception {
+		List<Document> sessionsList = null;
+		try {
+			  String qry = "select id, document_no_fk, revision_no, status_fk, submission_date, approval_date, remarks, document_attachment from documents_revisions "
+	  					+"where document_no_fk is not null and document_no_fk = ? ";
+			
+			Object[] pValues = new Object[] {id};
+			
+			sessionsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Document>(Document.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return sessionsList;
 	}
 
 }

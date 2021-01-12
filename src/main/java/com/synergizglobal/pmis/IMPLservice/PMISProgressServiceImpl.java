@@ -36,4 +36,14 @@ public class PMISProgressServiceImpl implements PMISProgressService{
 	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception {
 		return dao.getContractsFilterList(obj);
 	}
+
+	@Override
+	public List<StripChart> getProjectsFilterList(StripChart obj) throws Exception {
+		return dao.getProjectsFilterList(obj);
+	}
+
+	@Override
+	public List<StripChart> getWorksFilterList(StripChart obj) throws Exception {
+		return dao.getWorksFilterList(obj);
+	}
 }

@@ -36,6 +36,7 @@ import com.synergizglobal.pmis.Iservice.DocumentService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.Training;
 
 @Controller
 public class DocumentController {
@@ -107,6 +108,32 @@ public class DocumentController {
 			logger.error("getDocumentContractsList : " + e.getMessage());
 		}
 		return contractsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getProjectsFilterListInDocuments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Document> getProjectsList(@ModelAttribute Document obj) {
+		List<Document> projectsList = null;
+		try {
+			projectsList = documentService.getDocumentProjectsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDocumentProjectsList : " + e.getMessage());
+		}
+		return projectsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksFilterListInDocuments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Document> getWorksList(@ModelAttribute Document obj) {
+		List<Document> worksList = null;
+		try {
+			worksList = documentService.getDocumentWorksList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDocumentWorksList : " + e.getMessage());
+		}
+		return worksList;
 	}
 	
 	@RequestMapping(value = "/ajax/getProjectPriorityFilterListInDocuments", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
@@ -300,6 +327,7 @@ public class DocumentController {
 	public void exportDocument(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Document dObj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.documentGrid);
 		List<Document> dataList = new ArrayList<Document>();
+		List<Document> revisionList = new ArrayList<Document>();
 		try {
 			view.setViewName("redirect:/documents");
 			dataList =   documentService.getDocumentsList(dObj);
@@ -323,17 +351,50 @@ public class DocumentController {
 	                row.createCell((short)0).setCellValue(obj.getDocument_no());
 	                row.createCell((short)1).setCellValue(obj.getProject_priority_fk());
 	                row.createCell((short)2).setCellValue(obj.getProject_id_fk() +" - "+ obj.getProject_name());
-	                row.createCell((short)3).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_name());
-	                row.createCell((short)4).setCellValue(obj.getContract_id_fk()+"-"+ obj.getContract_name());
+	                row.createCell((short)3).setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_short_name());
+	                row.createCell((short)4).setCellValue(obj.getContract_id_fk()+"-"+ obj.getContract_short_name());
 	                row.createCell((short)5).setCellValue(obj.getDocument_type_fk());
 	                row.createCell((short)6).setCellValue(obj.getDocument_name());
 	                row.createCell((short)7).setCellValue(obj.getResponsible_for_approval());
 	          
 	                rowNo++;
 	            }
-	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
-	            	//sheet.autoSizeColumn(columnIndex);
-	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+	           
+	            XSSFSheet revisionSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Revisions"));
+		        workBook.setSheetOrder(revisionSheet.getSheetName(), 1);
+		        XSSFRow headingRow1 = revisionSheet.createRow(0);
+		        headingRow1.createCell((short)0).setCellValue("Revision ID");
+		        headingRow1.createCell((short)1).setCellValue("Document No");
+	            headingRow1.createCell((short)2).setCellValue("Revision No");
+	         	headingRow1.createCell((short)3).setCellValue("Status");
+	            headingRow1.createCell((short)4).setCellValue("Submission Date");
+	            headingRow1.createCell((short)5).setCellValue("Approval Date");
+	            headingRow1.createCell((short)6).setCellValue("Remark");
+	            short rowNo2 = 1;
+	        	for (Document revisions : dataList) { 
+	        		String id = revisions.getDocument_no();
+	        		revisionList = documentService.getRevisionsList(id);
+		           
+		            for (Document sObj : revisionList) {
+		                XSSFRow row2 = revisionSheet.createRow(rowNo2);
+		                row2.createCell((short)0).setCellValue(sObj.getId());
+		                row2.createCell((short)1).setCellValue(sObj.getDocument_no_fk());
+		                row2.createCell((short)2).setCellValue(sObj.getRevision_no());
+		                row2.createCell((short)3).setCellValue(sObj.getStatus_fk());
+		                row2.createCell((short)4).setCellValue(sObj.getSubmission_date());
+		                row2.createCell((short)5).setCellValue(sObj.getApproval_date());
+		                row2.createCell((short)6).setCellValue(sObj.getRemarks());
+		          
+		                rowNo2++;
+		            }
+	        	}
+	        	for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+		            	//sheet.autoSizeColumn(columnIndex);
+		        		sheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	        	for(int columnIndex = 0; columnIndex < revisionList.size(); columnIndex++) {
+	        		//revisionSheet.autoSizeColumn(columnIndex);
+	        		revisionSheet.setColumnWidth(columnIndex, 25 * 200);
 				}
 	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();

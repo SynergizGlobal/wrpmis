@@ -15,4 +15,8 @@ public interface PMISProgressService {
 
 	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception;
 
+	public List<StripChart> getProjectsFilterList(StripChart obj) throws Exception;
+
+	public List<StripChart> getWorksFilterList(StripChart obj) throws Exception;
+
 }

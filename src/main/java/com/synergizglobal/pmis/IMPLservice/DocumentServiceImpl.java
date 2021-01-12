@@ -98,4 +98,19 @@ public class DocumentServiceImpl implements DocumentService{
 		return dao.getContractsListForDocumentForm(obj);
 	}
 
+	@Override
+	public List<Document> getDocumentProjectsList(Document obj) throws Exception {
+		return dao.getDocumentProjectsList(obj);
+	}
+
+	@Override
+	public List<Document> getDocumentWorksList(Document obj) throws Exception {
+		return dao.getDocumentWorksList(obj);
+	}
+
+	@Override
+	public List<Document> getRevisionsList(String id) throws Exception {
+		return dao.getDocumentWorksList(id);
+	}
+
 }

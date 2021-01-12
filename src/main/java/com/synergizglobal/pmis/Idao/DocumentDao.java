@@ -2,9 +2,7 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
-import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.Document;
-import com.synergizglobal.pmis.model.SafetyEquipment;
 
 public interface DocumentDao {
 
@@ -39,6 +37,12 @@ public interface DocumentDao {
 	public List<Document> getWorkListForDocumentForm(Document obj) throws Exception;
 
 	public List<Document> getContractsListForDocumentForm(Document obj) throws Exception;
+
+	public List<Document> getDocumentProjectsList(Document obj) throws Exception;
+
+	public List<Document> getDocumentWorksList(Document obj) throws Exception;
+
+	public List<Document> getDocumentWorksList(String id) throws Exception;
 
 
 

@@ -81,13 +81,13 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col s12 m1 input-field">
                                  <p class="searchable_label">Project</p>
-                                 <select name="project_fk" id="project_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                 <select name="project_id_fk" id="project_id_fk" onchange="getDocumentList();" class="searchable validate-dropdown">
                                      <option value="">Select</option>                                                    
                                  </select>
                              </div> 
                              <div class="col s12 m1 input-field">
                                  <p class="searchable_label">Work</p>
-                                 <select name="work_fk" id="work_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                 <select name="work_id_fk" id="work_id_fk" onchange="getDocumentList();" class="searchable validate-dropdown">
                                      <option value="">Select</option>                                                    
                                  </select>
                              </div> 
@@ -258,6 +258,8 @@
         });
         
         function clearFilters(){
+        	$("#project_id_fk").val("");
+        	$("#work_id_fk").val("");
         	$("#contract_id_fk").val("");
         	$("#project_priority_fk").val("");
         	$("#document_type_fk").val("");
@@ -268,10 +270,14 @@
         
         function getDocumentList(){
         	$(".page-loader-2").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var project_priority_fk = $("#project_priority_fk").val();
         	var document_type_fk = $("#document_type_fk").val();
         	var responsible_for_approval = $("#responsible_for_approval").val();
+        	getProjectsFilterList();
+        	getWorksFilterList();
         	getContractsFilterList();
          	getProjectPriorityFilterList();
          	getDocumentTypesFilterList();
@@ -307,7 +313,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
+    	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
     	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-documents-list",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
@@ -346,13 +352,15 @@
         
         function getContractsFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var project_priority_fk = $("#project_priority_fk").val();
         	var document_type_fk = $("#document_type_fk").val();
         	var responsible_for_approval = $("#responsible_for_approval").val();
             if ($.trim(contract_id_fk) == "") {
             	$("#contract_id_fk option:not(:first)").remove();
-        	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
+        	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInDocuments",
                     data: myParams, cache: false,
@@ -378,13 +386,15 @@
         
         function getDocumentTypesFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var project_priority_fk = $("#project_priority_fk").val();
         	var document_type_fk = $("#document_type_fk").val();
         	var responsible_for_approval = $("#responsible_for_approval").val();
             if ($.trim(document_type_fk) == "") {
             	$("#document_type_fk option:not(:first)").remove();
-        	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
+        	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDocumentTypesFilterListInDocuments",
                     data: myParams, cache: false,
@@ -408,13 +418,15 @@
         
         function getProjectPriorityFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var project_priority_fk = $("#project_priority_fk").val();
         	var document_type_fk = $("#document_type_fk").val();
         	var responsible_for_approval = $("#responsible_for_approval").val();
             if ($.trim(project_priority_fk) == "") {
             	$("#project_priority_fk option:not(:first)").remove();
-        	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
+        	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getProjectPriorityFilterListInDocuments",
                     data: myParams, cache: false,
@@ -438,13 +450,15 @@
         
         function getResponsibleForApprovalFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var project_priority_fk = $("#project_priority_fk").val();
         	var document_type_fk = $("#document_type_fk").val();
         	var responsible_for_approval = $("#responsible_for_approval").val();
             if ($.trim(responsible_for_approval) == "") {
             	$("#responsible_for_approval option:not(:first)").remove();
-        	 	var myParams = {contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
+        	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getResponsibleForApprovalFilterListInDocuments",
                     data: myParams, cache: false,
@@ -466,6 +480,73 @@
             }
         }
         
+        function getProjectsFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var project_priority_fk = $("#project_priority_fk").val();
+        	var document_type_fk = $("#document_type_fk").val();
+        	var responsible_for_approval = $("#responsible_for_approval").val();
+    		if ($.trim(project_id_fk) == "") {
+            	$("#project_id_fk option:not(:first)").remove();
+        	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInDocuments",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var projectName = '';
+                            	 if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+    	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' +$.trim(val.project_id_fk)+ projectName   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+       }
+        
+        function getWorksFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var project_priority_fk = $("#project_priority_fk").val();
+        	var document_type_fk = $("#document_type_fk").val();
+        	var responsible_for_approval = $("#responsible_for_approval").val();
+    		if ($.trim(work_id_fk) == "") {
+            	$("#work_id_fk option:not(:first)").remove();
+        	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInDocuments",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var workShortName = '';
+                            	 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' +$.trim(val.work_id_fk)+ workShortName   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+       }
         function getDocument(document_no){
         	$("#document_no").val(document_no);
         	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-document');

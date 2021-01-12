@@ -79,7 +79,18 @@
                             </div>
                         </div>
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col s12 m1 input-field">
+                                 <p class="searchable_label">Project</p>
+                                 <select name="project_fk" id="project_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                     <option value="">Select</option>                                                    
+                                 </select>
+                             </div> 
+                             <div class="col s12 m1 input-field">
+                                 <p class="searchable_label">Work</p>
+                                 <select name="work_fk" id="work_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                     <option value="">Select</option>                                                    
+                                 </select>
+                             </div> 
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Contract</p>
                                 <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getDocumentList();">
@@ -113,7 +124,6 @@
                                     style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
                                     Filters</button>
                             </div>
-                            <div class="col m1 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">

@@ -124,6 +124,19 @@
 		    z-index: 1000;
 		}			
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+		.actualScopesError{
+			display:block;
+		}
     </style>
 </head>
 <body>
@@ -149,30 +162,41 @@
                             <div class="col m1 hide-on-small-only"></div>
                             <div class="col m10 s12">
                                 <div class="row ">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col m8 s12">
-                                        <div class="row" style="margin-bottom: 0;">
-                                           
-                                            <div class="col s12 m4 input-field">
+                                    <div class="col m1 hide-on-small-only"></div>
+                                   <!--  <div class="col m8 s12">
+                                        <div class="row" style="margin-bottom: 0;"> -->
+                                            <div class="col s12 m2 input-field">
+                                                <p class="searchable_label">Project</p>
+                                                <select name="project_fk" id="project_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                                    <option value="">Select</option>                                                    
+                                                </select>
+                                            </div> 
+                                             <div class="col s12 m2 input-field">
+                                                <p class="searchable_label">Work</p>
+                                                <select name="work_fk" id="work_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
+                                                    <option value="">Select</option>                                                    
+                                                </select>
+                                            </div> 
+                                            <div class="col s12 m2 input-field">
                                                 <p class="searchable_label">Milestone</p>
                                                 <select name="milestone_fk" id="milestone_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
                                                     <option value="">Select</option>                                                    
                                                 </select>
                                             </div>          
-                                               <div class="col s12 m4 input-field">
+                                               <div class="col s12 m2 input-field">
                                                 <p class="searchable_label">Contract</p>
                                                 <select  name="contract_id_fk" id="contract_id_fk"  onchange="getMileStoneList();" class="searchable validate-dropdown">
                                                     <option value="">Select</option>                                                    
                                                 </select>
                                             </div>                                 
-                                            <div class="col s12 m4 input-field">
+                                            <div class="col s12 m2 input-field">
                                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters "  onclick="clearFilter();"
                                                     style="margin-top: 8px;width: 100%;">Clear Filters</button>
                                             </div>
-                                        </div>
-                                    </div>
+                                       <!--  </div>
+                                    </div> -->
                                     
-                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col m1 hide-on-small-only"></div>
                                 </div>
                                 <div class="row" style="margin-bottom: 0;">
                                     <div class="col m2 hide-on-small-only"></div>
@@ -210,7 +234,13 @@
                                                     <th>Actual <br> Finish Date</th>
                                                     <th>Scope</th>
                                                     <th>Completed</th>
-                                                    <th class="no-sort">Actual</th>
+                                                    <th class="no-sort">
+                                                    	Actual 
+                                                    	<i class="fa fa-info-circle tooltipped" data-position="bottom" 
+                                                    	   data-tooltip="Enter Actual Quantity for the day. Do not enter cumulative value."
+                                                    	   style="font-size: 1.25rem; margin-left: 10px;"></i>
+                                                    </th>
+                                                    
                                                 </tr>
                                             </thead>
                                             <tbody id="filerList">
@@ -366,7 +396,7 @@
                 event.stopPropagation();
                 $('#finish_date').click();
             });
-         
+            $('.tooltipped').tooltip();
              $('#datatable-table').DataTable({
             	//"sPaginationType": "full_numbers",
             	 "paging": false,
@@ -548,11 +578,12 @@
                    			rowArray.push(totalScope);
                    			rowArray.push(completed);
                    			rowArray.push(actual);
+                   			//rowArray.push(icon);
   	                    			 
                     			 
                     		//$("#filerList").append(html);
                     		 table.row.add(rowArray).draw( true );
-                    	 	
+                    		 
                     	 	$("#check_"+num).change(function() {
                     	 		//alert("#actualScopes"+num)
                     	 		$("#actualScopes"+num).val('');

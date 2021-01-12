@@ -202,7 +202,7 @@
 				   	  "work_id": {
 				 		required: false
 				 	  },"contract_id": {
-				 		required: true
+				 		required: false
 				 	  },"reporting_date": {
 				 		required: true
 			 	  	  }

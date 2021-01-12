@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,12 @@ public class StripChartReportsServiceImpl implements StripChartReportsService{
 	@Override
 	public StripChartReport getStripChartDPRReportDetails(StripChartReport obj) throws Exception {
 		return dao.getStripChartDPRReportDetails(obj);
+	}
+
+	@Override
+	public Map<StripChartReport, List<StripChartReport>> getStripChartReportData(StripChartReport obj)
+			throws Exception {
+		return dao.getStripChartReportData(obj);
 	}
 
 }

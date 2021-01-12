@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 public class DateParser {
 
-	public static Logger logger = Logger.getLogger(CommonMethods.class);
+	public static Logger logger = Logger.getLogger(DateParser.class);
 	public static SimpleDateFormat mySQLDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	public static SimpleDateFormat mySQLDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private static final Map<String, String> DATE_FORMAT_REGEXPS = new HashMap<String, String>() {        

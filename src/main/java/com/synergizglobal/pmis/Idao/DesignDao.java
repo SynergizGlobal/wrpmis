@@ -7,8 +7,12 @@ import com.synergizglobal.pmis.model.Design;
 public interface DesignDao {
 
 	public List<Design> structureList() throws Exception;
-
+	
 	public List<Design> getDesigns(Design obj) throws Exception;
+
+	public List<Design> getDesignsList(Design obj, int startIndex, int offset, String searchParameter) throws Exception;
+	
+	public int getTotalRecords(Design obj, String searchParameter) throws Exception;
 
 	public List<Design> drawingTypeList() throws Exception;
 

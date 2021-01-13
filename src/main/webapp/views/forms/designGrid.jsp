@@ -161,23 +161,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       <!--  <tr>
-                                           
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="design&drawing.html"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr> -->
+                                    
                                     </tbody>
                                 </table>
 
@@ -282,13 +266,14 @@
         <input type="hidden" name="drawing_type_fk" id="exportDrawing_type_fk" />
 	</form>
 	
-     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script>
 	
 	function  openUploadDesignsModal() {
@@ -305,36 +290,9 @@
 		 $('.modal').modal();
 		 $('select:not(.searchable)').formSelect();
          $('.searchable').select2();
-	       	var table = $('#datatable-design').DataTable({
-	    		"bStateSave": true,
-	    		fixedHeader: true,
-	            "fnStateSave": function (oSettings, oData) {
-	                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	            },
-	            "fnStateLoad": function (oSettings) {
-	                return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	            },
-	            columnDefs: [
-	                {
-	                    targets: [0, 1, 2],
-	                    className: 'mdl-data-table__cell--non-numeric'
-	                },
-	                { orderable: false, 'aTargets': ['nosort'] },
-	               // { "width": "100px", "targets": [1] }, to get 100px width in title column
-	            ],
-	            "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-	            initComplete: function () {
-	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	            }
-	        });
-	    	table.state.clear(); 
-			
-	    	
-	    	$('.close-message').delay(3000).fadeOut('slow');
-	    	
-	    	getDesignList();
+    	 $('.close-message').delay(3000).fadeOut('slow');
+    	
+    	 getDesignList();
 	 });
 	 
 	 function clearFilter(){
@@ -349,6 +307,136 @@
      }
 
 	 function getDesignList(){
+		 	$(".page-loader-2").show();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	var department_id_fk = $("#department_id_fk").val();
+	    	var hod = $("#hod").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var drawing_type_fk = $("#drawing_type_fk").val();
+
+	    	getWorksListFilter();
+	    	getHodListFilter();
+	    	getDepartmentListFilter();
+	    	getContractListFilter();
+	    	getStructureListFilter();
+	    	getDrawingTypeListFilter();
+	     	
+	     	table = $('#datatable-design').DataTable();
+			 
+			table.destroy();
+			
+			$.fn.dataTable.moment('DD-MMM-YYYY');
+      	
+			var myParams = "work_id_fk="+ work_id_fk+"&contract_id_fk="+ contract_id_fk+"&department_id_fk="+ department_id_fk+"&hod="+ hod+"&structure_type_fk="+ structure_type_fk+"&drawing_type_fk="+ drawing_type_fk ;
+  		 
+		    /***************************************************************************************************/   
+		        
+	        $("#datatable-design").DataTable( {
+			        "bProcessing": true,
+			        "bServerSide": true,
+			        "sort": "position",
+			        //bStateSave variable you can use to save state on client cookies: set value "true" 
+			        "bStateSave": false,
+			        //Default: Page display length
+			        "iDisplayLength": 10,
+			        "iData":{"start":52},
+			        //We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+			        "iDisplayStart": 0,
+			        "fnDrawCallback": function () {
+			            //Get page numer on client. Please note: number start from 0 So
+			            //for the first page you will see 0 second page 1 third page 2...
+			            //Un-comment below alert to see page number
+			        	//alert("Current page number: "+this.fnPagingInfo().iPage);
+			        },   				        
+			        //"sDom": 'l<"toolbar">frtip',
+   	                "initComplete": function () {
+   	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px ', 'display': 'inline-block' });
+   	                   
+   	                  var input = $('.dataTables_filter input').unbind(),
+		   	            self = this.api(),
+		   	            $searchButton = $('<button class="btn-small bg-m t-c">')
+		   	                       .text('Go')
+		   	                       .click(function() {
+		   	                          self.search(input.val()).draw();
+		   	                       }),
+		   	            $clearButton = $('<button class="btn-small bg-m t-c" style="margin-left:10px">')
+		   	                       .text('X')
+		   	                       .click(function() {
+		   	                          input.val('');
+		   	                          $searchButton.click(); 
+		   	                       }) 
+		   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
+			   	          $('.dataTables_filter div').append($searchButton, $clearButton);
+			   	          
+   	                    /* var input = $('.dataTables_filter input').unbind(),
+		   	            self = this.api(),
+		   	            $searchButton = $('<i class="fa fa-search">')
+		   	                       //.text('Go')
+		   	                       .click(function() {			   	                    	 
+		   	                          self.search(input.val()).draw();
+		   	                       })			   	        
+			   	          $('.dataTables_filter label').append($searchButton); */	
+   	                },
+	   	            columnDefs: [
+	                     {
+	                         "targets": 'no-sort',
+	                         "orderable": false,
+	                     }
+	                ],
+	   	            "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                "language": {
+	                	 "info": "_START_ - _END_ of _TOTAL_",
+	                	 paginate: {
+	                		 next: '<i class="fa fa-angle-right"></i>', // or '→'
+	                		 previous: '<i class="fa fa-angle-left"></i>' // or '←' 
+	                	 }
+	                },
+		            "bDestroy": true,
+			        "sAjaxSource": "<%=request.getContextPath()%>/ajax/getDesignsList?"+myParams,
+			        "aoColumns": [
+			            { "mData": function(data,type,row){
+			            	var contract_short_name = '';
+	                        if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
+	                     	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contract_short_name; }
+            			} },   				            
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.drawing_title) == ''){ return '-'; }else{ return data.drawing_title; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.drawing_type_fk) == ''){ return '-'; }else{ return data.drawing_type_fk; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.contractor_drawing_no) == ''){ return '-'; }else{ return data.contractor_drawing_no; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.mrvc_drawing_no) == ''){ return '-'; }else{ return data.mrvc_drawing_no; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.division_drawing_no) == ''){ return '-'; }else{ return data.division_drawing_no; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.hq_drawing_no) == ''){ return '-'; }else{ return data.hq_drawing_no; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			         		var design_id = "'"+data.design_id+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+			            	return actions;
+			            } }
+			            
+			        ]
+			    });
+		    
+		  $(".page-loader-2").hide();  		     
+      	
+     }
+	 
+	 function getDesignList2(){
 	    	$(".page-loader-2").show();
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();

@@ -9,6 +9,10 @@ public interface DesignService {
 	public List<Design> structureList() throws Exception;
 
 	public List<Design> getDesigns(Design obj) throws Exception;
+	
+	public List<Design> getDesignsList(Design obj, int startIndex, int offset, String searchParameter) throws Exception;
+
+	public int getTotalRecords(Design obj, String searchParameter) throws Exception;
 
 	public List<Design> drawingTypeList() throws Exception;
 
@@ -45,5 +49,6 @@ public interface DesignService {
 	List<Design> getWorkListForDesignForm(Design obj) throws Exception;
 
 	List<Design> getContractsListForDesignForm(Design obj) throws Exception;
+	
 
 }

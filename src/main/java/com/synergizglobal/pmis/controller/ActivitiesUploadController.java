@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -43,7 +42,7 @@ import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.ActivitiesUploadService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.ActivityObject;
+import com.synergizglobal.pmis.model.ActivitiesPaginationObject;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.StripChart;
 
@@ -211,7 +210,7 @@ public class ActivitiesUploadController {
 
 			int totalRecords = getTotalRecords(obj, searchParameter);
 
-			ActivityObject personJsonObject = new ActivityObject();
+			ActivitiesPaginationObject personJsonObject = new ActivitiesPaginationObject();
 			//Set Total display record
 			personJsonObject.setiTotalDisplayRecords(totalRecords);
 			//Set Total record

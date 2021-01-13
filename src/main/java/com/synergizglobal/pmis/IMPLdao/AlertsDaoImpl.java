@@ -137,10 +137,12 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************** Contract Period alerts*******************************************************/
 			String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null and doc is null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
-					+ "when contract_revised_date is null and doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else null end ) as alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' and ((contract_revised_date is not null and doc is null and DATEDIFF(contract_revised_date ,NOW()) <= 30 and DATEDIFF(contract_revised_date ,NOW()) > 15) or (contract_revised_date is null and doc is not null and DATEDIFF(doc ,NOW()) <= 30 and DATEDIFF(doc ,NOW()) > 15))";
+					+ "(case when contract_revised_date is not null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value,hod_email,dy_hod_email"
+					+ " from contract_view " 
+					+ "where contract_status = 'In Progress' and (contract_revised_date is not null OR doc is not null) "
+					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
+					+ "and DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 15)";
 			
 			List<Alerts> cpQryAlert1List = jdbcTemplate.query( cpQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert1List) && cpQryAlert1List.size() > 0) {
@@ -148,10 +150,12 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null and doc is null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
-					+ "when contract_revised_date is null and doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else null end ) as alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' and ((contract_revised_date is not null and doc is null and DATEDIFF(contract_revised_date ,NOW()) <= 15 and DATEDIFF(contract_revised_date ,NOW()) > 7) or (contract_revised_date is null and doc is not null and DATEDIFF(doc ,NOW()) <= 15 and DATEDIFF(doc ,NOW()) > 7))";
+					+ "(case when contract_revised_date is not null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value,hod_email,dy_hod_email"
+					+ " from contract_view "
+					+ "where contract_status = 'In Progress' and (contract_revised_date is not null OR doc is not null) "
+					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 15 " 
+					+ "and DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 7)";
 			
 			List<Alerts> cpQryAlert2List = jdbcTemplate.query( cpQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert2List) && cpQryAlert2List.size() > 0) {
@@ -159,10 +163,11 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null and doc is null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
-					+ "when contract_revised_date is null and doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else null end ) as alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' and ((contract_revised_date is not null and doc is null and DATEDIFF(contract_revised_date ,NOW()) <= 7) or (contract_revised_date is null and doc is not null and DATEDIFF(doc ,NOW()) <= 7))";
+					+ "(case when contract_revised_date is not null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
+					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value,hod_email,dy_hod_email"
+					+ " from contract_view " 
+					+ "where contract_status = 'In Progress' and (contract_revised_date is not null OR doc is not null) "
+					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7 ";
 			
 			List<Alerts> cpQryAlert3List = jdbcTemplate.query( cpQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert3List) && cpQryAlert3List.size() > 0) {

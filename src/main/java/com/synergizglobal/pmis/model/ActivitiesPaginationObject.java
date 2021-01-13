@@ -2,7 +2,7 @@ package com.synergizglobal.pmis.model;
 
 import java.util.List;
 
-public class ActivityObject {
+public class ActivitiesPaginationObject {
 	private int iTotalDisplayRecords; 
 	private int iTotalRecords;
 	private List<StripChart> aaData;

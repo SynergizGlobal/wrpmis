@@ -19,10 +19,20 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> structureList() throws Exception{
 		return designDao.structureList();
 	}
-	
+
 	@Override
-	public List<Design> getDesigns(Design obj) throws Exception{
+	public List<Design> getDesigns(Design obj) throws Exception {
 		return designDao.getDesigns(obj);
+	}
+
+	@Override
+	public List<Design> getDesignsList(Design obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return designDao.getDesignsList(obj,startIndex,offset,searchParameter);
+	}
+
+	@Override
+	public int getTotalRecords(Design obj, String searchParameter) throws Exception {
+		return designDao.getTotalRecords(obj,searchParameter);
 	}
 	
 	@Override

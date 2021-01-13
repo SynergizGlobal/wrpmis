@@ -341,7 +341,7 @@ public class DocumentDaoImpl implements DocumentDao{
 		Document sObj =null;
 		
 		try {
-			String qry = "select d.work_id_fk,document_no,c.contract_name,d.project_id_fk,p.project_name,w.work_name,contract_id_fk,document_type_fk,document_name,project_priority_fk,responsible_for_approval "
+			String qry = "select d.work_id_fk,document_no,c.contract_name,d.project_id_fk,p.project_name,w.work_name,work_short_name,contract_short_name,contract_id_fk,document_type_fk,document_name,project_priority_fk,responsible_for_approval "
 					+ "from documents d "
 					+"LEFT OUTER join contract c on contract_id_fk =c.contract_id " 
 					+"LEFT OUTER join work w on d.work_id_fk = w.work_id "  

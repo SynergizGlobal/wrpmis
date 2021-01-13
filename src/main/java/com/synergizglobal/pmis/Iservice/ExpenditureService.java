@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Expenditure;
-import com.synergizglobal.pmis.model.SourceOfFund;
 
 public interface ExpenditureService {
 
@@ -35,5 +34,7 @@ public interface ExpenditureService {
 	public List<Expenditure> getWorkListForExpenditureForm(Expenditure obj) throws Exception;
 
 	public List<Expenditure> getContractsListForExpenditureForm(Expenditure obj) throws Exception;
+
+	public int uploadExpenditures(List<Expenditure> expendituresList) throws Exception;
 
 }

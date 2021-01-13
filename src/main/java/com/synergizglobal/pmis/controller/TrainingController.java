@@ -304,13 +304,14 @@ public class TrainingController {
 		        XSSFSheet sessionsSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Sessions"));
 		        workBook.setSheetOrder(sessionsSheet.getSheetName(), 1);
 		        XSSFRow headingRow1 = sessionsSheet.createRow(0);
-		        headingRow1.createCell((short)0).setCellValue("Training Session ID");
-		        headingRow1.createCell((short)1).setCellValue("Training ID");
-	            headingRow1.createCell((short)2).setCellValue("Session No");
-	         	headingRow1.createCell((short)3).setCellValue("Date");
-	            headingRow1.createCell((short)4).setCellValue("Start Time");
-	            headingRow1.createCell((short)5).setCellValue("End Time");
-	            headingRow1.createCell((short)6).setCellValue("Remark");
+		        headingRow1.createCell((short)0).setCellValue("Training ID");
+	            headingRow1.createCell((short)1).setCellValue("Session No");
+	         	headingRow1.createCell((short)2).setCellValue("Date");
+	            headingRow1.createCell((short)3).setCellValue("Start Time");
+	            headingRow1.createCell((short)4).setCellValue("End Time");
+	            headingRow1.createCell((short)5).setCellValue("Remark");
+	            headingRow1.createCell((short)6).setCellValue("Nominated");
+	            headingRow1.createCell((short)7).setCellValue("Attended");
 	            
 	            XSSFSheet attendeesSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Attendees"));
 	            workBook.setSheetOrder(attendeesSheet.getSheetName(), 2);
@@ -333,13 +334,14 @@ public class TrainingController {
 		           
 		            for (Training sObj : sessionsList) {
 		                XSSFRow row2 = sessionsSheet.createRow(rowNo2);
-		                row2.createCell((short)0).setCellValue(sObj.getTraining_session_id());
-		                row2.createCell((short)1).setCellValue(sObj.getTraining_id());
-		                row2.createCell((short)2).setCellValue(sObj.getSession_no());
-		                row2.createCell((short)3).setCellValue(sObj.getDate());
-		                row2.createCell((short)4).setCellValue(sObj.getStart_time());
-		                row2.createCell((short)5).setCellValue(sObj.getEnd_time());
-		                row2.createCell((short)6).setCellValue(sObj.getSession_remarks());
+		                row2.createCell((short)0).setCellValue(sObj.getTraining_id());
+		                row2.createCell((short)1).setCellValue(sObj.getSession_no());
+		                row2.createCell((short)2).setCellValue(sObj.getDate());
+		                row2.createCell((short)3).setCellValue(sObj.getStart_time());
+		                row2.createCell((short)4).setCellValue(sObj.getEnd_time());
+		                row2.createCell((short)5).setCellValue(sObj.getSession_remarks());
+		                row2.createCell((short)6).setCellValue(sObj.getNominated());
+		                row2.createCell((short)7).setCellValue(sObj.getAttended());
 		          
 		                rowNo2++;
 		            }
@@ -439,24 +441,26 @@ public class TrainingController {
 				 XSSFSheet sessionsSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Sessions"));
 			        workBook.setSheetOrder(sessionsSheet.getSheetName(), 0);
 			        XSSFRow headingRow1 = sessionsSheet.createRow(0);
-			        headingRow1.createCell((short)0).setCellValue("Training Session ID");
-			        headingRow1.createCell((short)1).setCellValue("Training ID");
-		            headingRow1.createCell((short)2).setCellValue("Session No");
-		         	headingRow1.createCell((short)3).setCellValue("Date");
-		            headingRow1.createCell((short)4).setCellValue("Start Time");
-		            headingRow1.createCell((short)5).setCellValue("End Time");
-		            headingRow1.createCell((short)6).setCellValue("Remark");
+			        headingRow1.createCell((short)0).setCellValue("Training ID");
+		            headingRow1.createCell((short)1).setCellValue("Session No");
+		         	headingRow1.createCell((short)2).setCellValue("Date");
+		            headingRow1.createCell((short)3).setCellValue("Start Time");
+		            headingRow1.createCell((short)4).setCellValue("End Time");
+		            headingRow1.createCell((short)5).setCellValue("Remark");
+		            headingRow1.createCell((short)6).setCellValue("Nominated");
+		            headingRow1.createCell((short)7).setCellValue("Attended");
 
 	            short rowNo = 1;
 	            for (Training sObj : sessionsList) {
 	                XSSFRow row = sessionsSheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(sObj.getTraining_session_id());
-	                row.createCell((short)1).setCellValue(sObj.getTraining_id());
-	                row.createCell((short)2).setCellValue(sObj.getSession_no());
-	                row.createCell((short)3).setCellValue(sObj.getDate());
-	                row.createCell((short)4).setCellValue(sObj.getStart_time());
-	                row.createCell((short)5).setCellValue(sObj.getEnd_time());
-	                row.createCell((short)6).setCellValue(sObj.getSession_remarks());
+	                row.createCell((short)0).setCellValue(sObj.getTraining_id());
+	                row.createCell((short)1).setCellValue(sObj.getSession_no());
+	                row.createCell((short)2).setCellValue(sObj.getDate());
+	                row.createCell((short)3).setCellValue(sObj.getStart_time());
+	                row.createCell((short)4).setCellValue(sObj.getEnd_time());
+	                row.createCell((short)5).setCellValue(sObj.getSession_remarks());
+	                row.createCell((short)6).setCellValue(sObj.getNominated());
+	                row.createCell((short)7).setCellValue(sObj.getAttended());
 	          
 	                rowNo++;
 	            }

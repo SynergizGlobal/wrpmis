@@ -218,6 +218,8 @@
          <input type="hidden" name="document_type_fk" id="exportDocument_type_fk" />
          <input type="hidden" name="project_priority_fk" id="exportProject_priority_fk" />
          <input type="hidden" name="responsible_for_approval" id="exportResponsible_for_approval" />
+         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
 	</form>
 	
      <script>
@@ -608,10 +610,15 @@
          var document_type_fk = $("#document_type_fk").val();
        	 var project_priority_fk = $("#project_priority_fk").val();
        	 var responsible_for_approval = $("#responsible_for_approval").val();
+       	 var work_id_fk = $("#work_id_fk").val();
+     	 var project_id_fk = $("#project_id_fk").val();
+     	 
+     	 $("#exportProject_id_fk").val(project_id_fk);
+     	 $("#exportWork_id_fk").val(work_id_fk);
        	 $("#exportContract_id_fk").val(contract_id_fk);
        	 $("#exportDocument_type_fk").val(document_type_fk);
        	 $("#exportProject_priority_fk").val(project_priority_fk);
-       	$("#exportResponsible_for_approval").val(responsible_for_approval);
+         $("#exportResponsible_for_approval").val(responsible_for_approval);
        	 $("#exportDocumentForm").submit();
     	}
         

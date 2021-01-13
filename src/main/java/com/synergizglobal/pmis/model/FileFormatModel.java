@@ -113,4 +113,16 @@ public class FileFormatModel {
 		}		
 		return fileFormat;
 	}
+	
+	public static List<String> getExpenditureFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Project ID,Work ID,Contract ID,Contractor Name,Ledger Account,Date,Voucher Type,Voucher No.,Narration,Net Paid,Gross Work Done,SD Payable,"
+				+ "Contractor Income Tax,CGST TDS,SGST TDS,IGST TDS,Mobilization Advance,Interest on Mobilization Advance,VAT WCT"
+				+ ",Amount Withheld,Remarks";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}		
+		return fileFormat;
+	}
 }

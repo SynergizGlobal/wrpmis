@@ -61,11 +61,12 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getTrainingList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select training_id,training_type_fk,training_category_fk,title,faculty_name,status_fk,designation, description, training_center, status_fk, t.remarks,"
+			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,designation, description, training_center, status_fk, t.remarks,"
 					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))),'%H:%i') as hours from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
-					+ " where training_id_fk  = training_id ";
-			int arrSize = 0;
+					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
+					+ " where ts.training_id_fk  = training_id ";
+			int arrSize = 2;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " and training_type_fk = ?";
 				arrSize++;
@@ -78,10 +79,11 @@ public class TrainingDaoImpl implements TrainingDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + "  group by training_id_fk";
+			qry = qry + "  group by ts.training_id_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
+			pValues[i++] = CommonConstants.YES;
+			pValues[i++] = CommonConstants.YES;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				pValues[i++] = obj.getTraining_type_fk();
 			}
@@ -892,16 +894,17 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getTrainingSessionsList(String id) throws Exception {
 		List<Training> sessionsList = null;
 		try {
-			  String qry = "select training_session_id,training_id_fk as training_id,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
+			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
 	  					+" time_format(start_time,'%h:%i:%s') as start_time,remarks,time_format(end_time,'%h:%i:%s') as end_time,remarks as session_remarks "
-	  					+ "from training_session "
-	  					+"where training_id_fk is not null and training_id_fk = ? ";
-			
-			Object[] pValues = new Object[] {id};
+	  					+ "from training_session ts "
+	  					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
+	  					+"where ts.training_id_fk = ? group by session_no,training_session_id_fk";
+			Object[] pValues = new Object[] { CommonConstants.YES, CommonConstants.YES,id};
 			
 			sessionsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));
 			
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return sessionsList;
@@ -912,14 +915,15 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> attendeesList = null;
 		try {
 			String qry = "select training_attendees_id,d.department_name,ts.session_no, ta.training_id_fk as training_id, training_session_id_fk as training_session_id, ta.department_fk, attendee, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
-					"from pmis_dev.training_attendees ta " + 
-					"LEFT JOIN pmis_dev.department d on ta.department_fk = d.department  " + 
-					"LEFT JOIN pmis_dev.training_session ts on ta.training_session_id_fk = ts.training_session_id " + 
+					"from training_attendees ta " + 
+					"LEFT JOIN department d on ta.department_fk = d.department  " + 
+					"LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id " + 
 					"where ta.training_id_fk = ? ";
 			
 			attendeesList = jdbcTemplate.query( qry, new Object[] {trainingId}, new BeanPropertyRowMapper<Training>(Training.class));
 			
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return attendeesList;

@@ -193,7 +193,7 @@
     <div id="upload_template" class="modal">
         <div class="modal-content">
             <div class="center-align p-2 bg-m modal-title">
-                <h6>Upload Users</h6>
+                <h6>Upload Designs</h6>
             </div>
             <!-- form start-->
             <div class="container">

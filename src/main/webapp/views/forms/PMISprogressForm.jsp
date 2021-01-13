@@ -137,6 +137,13 @@
 		.actualScopesError{
 			display:block;
 		}
+		#checkErrMsg, #actualScopesError {
+		   text-align: center;
+		   display: block;
+		   color: red;
+		   padding-top: 10px;
+		   font-weight: 600;
+    }
     </style>
 </head>
 <body>
@@ -208,7 +215,7 @@
                                 </div>
 								<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
 								
-								<span  class="errMsg" id="errMsg" style="text-align:center">Click on Finish Activities</span>
+								<span  class="errMsg" id="checkErrMsg">select at least one check box </span>
 							</div>
 							</div>
 							<span id="actualScopesError" class="error-msg" style="color:red"></span>
@@ -685,6 +692,7 @@
                     	 		$("#select-all").on('change', function(){
 		                    	 	if( $("#select-all").prop('checked') ){
 	                    	 				 $('#actualScopes'+num).prop('readonly', false);
+	                    	 				$(".errMsg").hide();
 	                    	 		}else{
 	                    	 			 $('#actualScopes'+num).prop('readonly', true);
 	                    	 			 $('#actualScopesError'+num).html("");
@@ -704,6 +712,7 @@
                     	 		if($("#check_"+num).is(':checked') && ans != ""){
                     	 			$("#actualScopes"+num).focus();
                     	 	        $(".error-msg").hide();
+                    	 	        
                     	 		}
                     	 		/* if ($("#progressForm input:checkbox:checked").length == 0){
                     	 			alert('check any box ')
@@ -725,6 +734,7 @@
                     	 	
                     	 	if( $("#check_"+num).prop('checked') ){
                     	 		$('#actualScopesError').html("");
+                    	 		
                     	 	}
                     	 	/* $("#activities").on('click', function(){
                     	 		if($(".check").prop('checked') == true){
@@ -760,13 +770,16 @@
 	 	                        	 			updateProgress();
 	                        	 			 }
 	                        	 		 }else{
-	                        	 			document.getElementById("actualScopesError").innerHTML = "click on finish activities"; 
+	                        	 			document.getElementById("actualScopesError").innerHTML = "Click on finish activities"; 
+	                        	 			var elmnt = document.getElementById("actualScopesError");
+	                        	 			elmnt.scrollIntoView();
 	                        	 		 }
 	                   	             }
 	                    	 	})
 	                    	 	$("#check_"+num).on('change', function(){
                     	 			if($("#check_"+num).is(':checked')){
                     	 			  document.getElementById("actualScopesError").innerHTML = ""; 
+                    	 			  $(".errMsg").hide();
 	                    	 	    }
 	                    	   })
                     	  })
@@ -788,15 +801,18 @@
   		   		 }
    			});
         });
-    	 	 $('#select-all').on('click', function(){
-    	 	   var rows = table.rows({ 'search': 'applied' }).nodes();
-    	 	   $('input[type="checkbox"]', rows).prop('checked', this.checked);
-    	 	}); 
         
+   	 	 $('#select-all').on('click', function(){
+   	 	   var rows = table.rows({ 'search': 'applied' }).nodes();
+   	 	   $('input[type="checkbox"]', rows).prop('checked', this.checked);
+   	 	}); 
+        
+    	var checkedOrNot = false;
         // update actual function for single value with ids
        function updateActual(){
           $('input[name="activity_check"]').each(function(){
-             if($(this).prop('checked')){    
+             if($(this).prop('checked')){ 
+            	 checkedOrNot = true;
                  let no = $(this).attr('id').split("_")[1];
                  //alert($('#totalScopes'+no).val())
                  var scope = $('#totalScopes'+no).val();
@@ -809,7 +825,10 @@
                  
              }
           
-         })           
+         }) 
+         if(checkedOrNot == false){
+        	 $('#checkErrMsg').show();
+         }
      } 
     	 	
     

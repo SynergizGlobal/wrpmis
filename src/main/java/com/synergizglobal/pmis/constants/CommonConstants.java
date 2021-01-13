@@ -11,6 +11,7 @@ public class CommonConstants {
 	public final static int  RANDOM_NUMERIC_NUMBER_LENGTH = 5;
 	
 	public final static String  ADMIN_ROLE_NAME = "Admin";
+	public final static String  YES = "Yes";
 	public final static String  ACTIVE = "Active";
 	public final static String  INACTIVE = "Inactive";
 	public final static String  USER = "Synergiz";

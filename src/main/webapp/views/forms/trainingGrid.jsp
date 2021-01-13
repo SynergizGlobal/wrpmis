@@ -29,9 +29,9 @@
          .input-field .searchable_label{
             font-size: 0.85rem;
         }
-        .fw-350{
-        	width:350px;
-        	max-width:350px;
+        .fw-370{
+        	width:370px;
+        	max-width:370px;
         }
         tbody tr td:last-of-type,thead tr th:last-of-type{
         	white-space:inherit;
@@ -132,14 +132,16 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Type </th>
+                                            <th>Type &nbsp;</th>
                                             <th>Category</th>
-                                            <th class="fw-350">Title </th>
+                                            <th class="fw-370">Title </th>
                                             <th>Faculty</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
                                             <th>Hours</th>
-                                            <th>Status </th>
+                                            <th>Status  &nbsp; &nbsp;</th>
+                                            <th>Nominated </th>
+                                            <th>Attended </th>
                                             <th class="nosort">Action</th>
                                         </tr>
                                     </thead>
@@ -378,6 +380,8 @@
                        	rowArray.push($.trim(val.end_time));
                        	rowArray.push($.trim(val.hours));
                        	rowArray.push($.trim(val.status_fk));
+                       	rowArray.push($.trim(val.nominated));
+                       	rowArray.push($.trim(val.attended));
                        	rowArray.push($.trim(actions));   	                   	
                        	
                         table.row.add(rowArray).draw( true );

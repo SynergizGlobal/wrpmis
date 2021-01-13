@@ -13,13 +13,17 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ExpenditureDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.Work;
 
 @Repository
@@ -615,8 +619,40 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		}
 		return objsList;
 	}
-	
+
+	@Override
+	public int uploadExpenditures(List<Expenditure> expendituresList) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		int insertCount =0;
+		try{
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String insertQry = "insert into  expenditure  "
+					+ "(contract_id_fk, ledger_account, date, contractor_name, voucher_type, voucher_no, narration, net_paid, gross_work_done, sd_payable,"
+					+ " contractor_income_tax, cgst_tds, sgst_tds, igst_tds, vat_wct, mob_advance, `interest on_mob_adv`, amount_withheld, remarks) "
+					+ "VALUES(:contract_id_fk, :ledger_account, :date, :contractor_name, :voucher_type, :voucher_no, :narration, :net_paid, :gross_work_done, :sd_payable," + 
+					":contractor_income_tax, :cgst_tds, :sgst_tds, :igst_tds, :vat_wct,:mob_advance, :interest_on_mob_adv, :amount_withheld, :remarks) ";
+			for (Expenditure obj : expendituresList) {
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				KeyHolder keyHolder = new GeneratedKeyHolder();
+				count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+				if(count > 0) {
+					insertCount++;
+				}
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
+		}
+		return insertCount;
+	}
+}
 	
 	
 
-}
+

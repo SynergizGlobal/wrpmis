@@ -65,11 +65,11 @@
 						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                               <!--  <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                 <div class="m-1 l-align">
+                                    <a href="javascript:void(0);" onclick="openUploadExpendituresModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div> -->
+                                   <p style="padding-top:1rem"> Click <a href="/pmis/Expenditure_Template.xlsx" download>here</a> for the template</p>
+                                </div> 
                             </div>
 
                             <div class="col s12 m4">
@@ -180,6 +180,51 @@
             </div>
         </div>
     </div>
+     <div id="upload_template" class="modal">
+        <div class="modal-content">
+            <div class="center-align p-2 bg-m headbg modal-title">
+                <h6>Upload Expenditures</h6>
+            </div>
+            <!-- form start-->
+            <div class="container">
+               <form action="<%=request.getContextPath() %>/upload-expenditures" method="post" enctype="multipart/form-data">
+                    <div class="row no-mar">
+                        <div class="col s12 m12 input-field center-align">
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col m8 s12">
+                                    <div class="file-field input-field">
+                                        <div class="btn bg-m">
+                                            <span>Attachment</span>
+                                            <input type="file" id="expenditureFile" name="expenditureFile" required="required">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-mar">
+                        <div class="col s12 m6">
+                            <div class="center-align m-1">
+                                <button type="submit" class="btn waves-effect waves-light bg-m"
+                                    style="width: 100%;">Update</button>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="center-align m-1">
+                                <button type="button" class="btn waves-effect waves-light bg-s"
+                                    style="width: 100%;" onclick="closeUploadExpendituresModal();">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>     
  <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
@@ -233,9 +278,21 @@
 	</form>
     
     <script>
+    
+    function  openUploadExpendituresModal() {
+		$("#expenditureFile").val('');
+    	$("#upload_template").modal('open');
+	}
+
+	function  closeUploadExpendituresModal() {
+		$("#expenditureFile").val('');
+    	$("#upload_template").modal('close');
+	}
+	
     $(document).ready(function () {
-  	   $('select:not(.searchable)').formSelect();
-         $('.searchable').select2();
+   	    $('.modal').modal();
+ 	    $('select:not(.searchable)').formSelect();
+        $('.searchable').select2();
      	var table = $('#datatable-expenditure').DataTable({
   		"bStateSave": true,
   		fixedHeader: true,

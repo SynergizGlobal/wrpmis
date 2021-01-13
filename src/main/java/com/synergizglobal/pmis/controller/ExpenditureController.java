@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -22,12 +24,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,7 +40,10 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.Expenditure;
+import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.P6Data;
 
 @Controller
 public class ExpenditureController {
@@ -70,6 +77,11 @@ public class ExpenditureController {
 	@Value("${record.dataexport.nodata}")
 	public String dataExportNoData;
 	
+	@Value("${template.upload.common.error}")
+	public String uploadCommonError;
+	
+	@Value("${template.upload.formatError}")
+	public String uploadformatError;
 	@RequestMapping(value="/expenditure",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView Expenditure(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.expenditure);
@@ -406,4 +418,193 @@ public class ExpenditureController {
 		}
 	}
 
+	@RequestMapping(value = "/upload-expenditures", method = {RequestMethod.POST})
+	public ModelAndView uploadRisk(@ModelAttribute Expenditure expenditure,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String userId = null;String userName = null;
+		try {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			model.setViewName("redirect:/expenditure");
+			
+			if(!StringUtils.isEmpty(expenditure.getExpenditureFile())){
+				MultipartFile multipartFile = expenditure.getExpenditureFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(2);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = risksDrawingsSheet.getRow(1);
+						//checking given file format
+						if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getExpenditureFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							if(noOfColumns == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		return model;
+				                	}
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+		                		return model;
+							}
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}
+						
+						int count = uploadExpenditures(expenditure,userId,userName);
+					
+						attributes.addFlashAttribute("success", + count + " Expenditures updated successfully.");	
+						
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+
+	private int uploadExpenditures(Expenditure obj, String userId,String userName) throws Exception {
+		Expenditure expenditure = null;
+		List<Expenditure> expendituresList = new ArrayList<Expenditure>();
+		
+		Writer w = null;
+		int count = 0 ;
+		try {	
+			MultipartFile excelfile = obj.getExpenditureFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(2);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 2; i <= risksDrawingsSheet.getLastRowNum();i++){
+						XSSFRow row = risksDrawingsSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						expenditure = new Expenditure();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setProject_id_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setWork_id_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setContract_id_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setContractor_name(val);}
+							
+							val = formatter.formatCellValue(row.getCell(4)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setLedger_account(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setDate(val);}					
+							
+							val = formatter.formatCellValue(row.getCell(6)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setVoucher_type(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setVoucher_no(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(8)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setNarration(val);}
+							
+							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setNet_paid(val);}
+							
+							val = formatter.formatCellValue(row.getCell(10)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setGross_work_done(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(11)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setSd_payable(val);}
+							
+							val = formatter.formatCellValue(row.getCell(12)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setContractor_income_tax(val);}
+							
+							val = formatter.formatCellValue(row.getCell(13)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setCgst_tds(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(14)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setSgst_tds(val);}
+							
+							val = formatter.formatCellValue(row.getCell(15)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setIgst_tds(val);}
+							
+							val = formatter.formatCellValue(row.getCell(16)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setMob_advance(val);}
+							
+							val = formatter.formatCellValue(row.getCell(17)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setInterest_on_mob_adv(val);}
+							
+							val = formatter.formatCellValue(row.getCell(18)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setVat_wct(val);}
+							
+							val = formatter.formatCellValue(row.getCell(19)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setAmount_withheld(val);}
+							
+							val = formatter.formatCellValue(row.getCell(20)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);;}
+							
+							expenditure.setDate(DateParser.parse(expenditure.getDate()));
+						
+						}						
+						boolean flag = expenditure.checkNullOrEmpty();
+						
+						if(!flag) {
+							expendituresList.add(expenditure);
+						}
+					}
+					
+					if(!expendituresList.isEmpty()){
+						count  = expenditureService.uploadExpenditures(expendituresList);
+					}
+				}
+				workbook.close();
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadExpenditures() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadExpenditures() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return count;
+	}
 }

@@ -520,7 +520,7 @@
      	 var work_id_fk = $("#work_id_fk").val();
      	 var project_id_fk = $("#project_id_fk").val();
      	 
-     	$("#exportProject_id_fk").val(project_id_fk);
+     	 $("#exportProject_id_fk").val(project_id_fk);
      	 $("#exportContractor_id_fk").val(contractor_id_fk);
      	 $("#exportDepartment_fk").val(department_fk);
      	 $("#exportWork_id_fk").val(work_id_fk);

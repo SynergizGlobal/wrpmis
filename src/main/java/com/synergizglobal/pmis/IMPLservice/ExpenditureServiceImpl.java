@@ -86,6 +86,11 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	public List<Expenditure> getContractsListForExpenditureForm(Expenditure obj) throws Exception {
 		return dao.getContractsListForExpenditureForm(obj);
 	}
+
+	@Override
+	public int uploadExpenditures(List<Expenditure> expendituresList) throws Exception {
+		return dao.uploadExpenditures(expendituresList);
+	}
 	
 	
 

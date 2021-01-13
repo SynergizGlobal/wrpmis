@@ -106,7 +106,7 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" readonly="readonly">
+                                    <input id="contractor_name" name="contractor_name" type="text" class="validate" >
                                     <label for="contractor_name">Contractor Name</label>
                                     <span id="contractor_nameError" class="error-msg" ></span>
                                 </div>
@@ -129,7 +129,7 @@
 		                       	 	  <div class="col m2 hide-on-small-only"></div>
 		                       		  <div class="col s12 m4 input-field">
 											<p><label>Contract </label></p>        
-	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly /><br><br>
+	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly />
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
 										    <p><label>Contractor name </label></p>

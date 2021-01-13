@@ -167,7 +167,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value,hod_email,dy_hod_email"
 					+ " from contract_view " 
 					+ "where contract_status = 'In Progress' and (contract_revised_date is not null OR doc is not null) "
-					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7 ";
+					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7) ";
 			
 			List<Alerts> cpQryAlert3List = jdbcTemplate.query( cpQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cpQryAlert3List) && cpQryAlert3List.size() > 0) {

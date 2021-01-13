@@ -11,10 +11,8 @@
     <title>Work</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-     
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
@@ -86,7 +84,7 @@
                                             <th>Sanctioned Year </th>
                                             <th>Railway Agency </th>
                                             <th>Executed By </th>
-                                            <th class="no-sort">Remarks</th>
+                                            <th class="no-sort">&nbsp; Remarks &nbsp;</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>

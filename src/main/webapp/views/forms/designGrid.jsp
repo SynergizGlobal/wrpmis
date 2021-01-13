@@ -27,7 +27,16 @@
     	 	width:400px !important;
     	 	max-width:400px;
     	 }
-         
+         .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
     </style>
 </head>
 <body>
@@ -355,18 +364,18 @@
    	                   
    	                  var input = $('.dataTables_filter input').unbind(),
 		   	            self = this.api(),
-		   	            $searchButton = $('<button class="btn-small bg-m t-c">')
-		   	                       .text('Go')
+		   	            $searchButton = $('<i class="fa fa-search" title="Go">')
+		   	                       //.text('Go')
 		   	                       .click(function() {
 		   	                          self.search(input.val()).draw();
 		   	                       }),
-		   	            $clearButton = $('<button class="btn-small bg-m t-c" style="margin-left:10px">')
-		   	                       .text('X')
+		   	            $clearButton = $('<i class="fa fa-close" title="Reset">')
+		   	                       //.text('X')
 		   	                       .click(function() {
 		   	                          input.val('');
 		   	                          $searchButton.click(); 
 		   	                       }) 
-		   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
+		   	                    $('.dataTables_filter').append('<div class="right-btns"></div>');
 			   	          $('.dataTables_filter div').append($searchButton, $clearButton);
 			   	          
    	                    /* var input = $('.dataTables_filter input').unbind(),

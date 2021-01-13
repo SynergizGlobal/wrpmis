@@ -128,7 +128,7 @@
 	                                        </div>
 	                                        <div class="col s12 m6">
 	                                            <button type="submit" class="btn waves-effect waves-light bg-s t-c disabled" id="downloadWork">
-	                                            	<strong><i class="fa fa-cloud-download"></i> Download Work Data</strong>
+	                                            	<strong><i class="fa fa-cloud-download"></i> Download Risk Data</strong>
 	                                            </button>
 	                                        </div>
 	                                    </div>

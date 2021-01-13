@@ -68,7 +68,7 @@
         	max-width:250px;
         }
       
-		
+		.error-msg label{color:red!important;}
     </style>
 </head>
 
@@ -241,7 +241,7 @@
     <div id="upload_template" class="modal">
         <div class="modal-content headbg">
             <div class="center-align p-2 bg-m modal-title">
-                <h6>Upload Users</h6>
+                <h6>Upload Risks</h6>
             </div>
             <!-- form start-->
             <div class="container">
@@ -259,6 +259,7 @@
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
                                         </div>
+                                        <span id="riskFileError" class="error-msg"></span>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -326,9 +327,42 @@
     	<input type="hidden" name="work_id_fk" id="work_id_fk" />
     </form>
       <script>
-	      function  openUploadRiskModal() {
+      
+      $(document).ready(function () {
+    	  $(".modal").modal();
+          $('select:not(.searchable)').formSelect();
+          $('.searchable').select2();
+          $('.tabs').tabs();
+          $('#datatable-risk').DataTable({
+              columnDefs: [
+                  {
+                      targets: [0, 1, 2],
+                      className: 'mdl-data-table__cell--non-numeric',
+                      targets: 'no-sort', orderable: false,
+                  },
+                  { "width": "10px", "targets": [8] },
+              ],
+              "ScrollX": true,
+              "scrollCollapse": true,
+              "sScrollY": 400,
+              // paging: false,
+              initComplete: function () {
+                  $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+              }
+          });
+          
+          $("#work_id_fk").change(function () {
+              if ($("#work_id_fk").val() == '') {
+                  $("#downloadWork").addClass('disabled');
+              } else {
+                  $("#downloadWork").removeClass('disabled');
+              }
+          });
+          getRiskList();
+      });
+      
+	    function  openUploadRiskModal() { 
 	  		$("#riskFile").val('');
-	      	$("#upload_template").modal();
 	      	$("#upload_template").modal('open');
 	  	}
 	
@@ -336,44 +370,44 @@
 	  		$("#riskFile").val('');
 	      	$("#upload_template").modal('close');
 	  	}
-  	
-        $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-            $('.tabs').tabs();
-            $('#datatable-risk').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "10px", "targets": [8] },
-                ],
-                "ScrollX": true,
-                "scrollCollapse": true,
-                "sScrollY": 400,
-                // paging: false,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-            
-            $("#work_id_fk").change(function () {
-                if ($("#work_id_fk").val() == '') {
-                    $("#downloadWork").addClass('disabled');
-                } else {
-                    $("#downloadWork").removeClass('disabled');
-                }
-            });
-            getRiskList();
-        });
-        
-        function riskFileSubmit(){
-        	$(".page-loader").show();
-        	$("#upload_template").modal();
-        	$("#riskUploadForm").submit();
+	  	
+	  	function riskFileSubmit(){
+        	var flag = $("#riskUploadForm").valid();  
+        	if(flag){
+        		$(".page-loader").show();
+            	$("#riskUploadForm").submit();
+        	}      	
         }
+        
+        var validator = $('#riskUploadForm').validate({
+	    	ignore: ":hidden:not(.validate-dropdown)",
+			   rules: {
+				   	  "riskFile":{
+				   		required: true
+				   	  }	
+			 	},
+			   messages: {
+    				 "riskFile":{
+    					 required: 'Required'
+   				   	 }	      
+		       },
+			  	errorPlacement:
+			 	function(error, element){
+    				if (element.attr("id") == "riskFile" ){
+  			 		     document.getElementById("riskFileError").innerHTML="";
+  			 			 error.appendTo('#riskFileError');
+  			 	    }
+			   },submitHandler: function(form) {
+			    // do other things for a valid form
+			    //form.submit();
+			    //return true;
+			  }
+		});
+  	
+        
+        
+        
+        
         function clearFilters() {
             $('#work_id_fk').val('');
             $('#area').val('');

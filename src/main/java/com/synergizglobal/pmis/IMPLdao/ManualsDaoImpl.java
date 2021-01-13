@@ -34,8 +34,8 @@ public class ManualsDaoImpl implements ManualsDao {
 		try {
 			String qry ="select manual_folders as manual_folder_fk from manual_folders ";
 			
-			String qryDetails ="select manual_folders as manual_folder_fk ,m.manual_folder_fk,m.manual_name,m.attachment from pmis_dev.manual_folders mf " + 
-					"left join pmis_dev.manuals m on mf.manual_folders = m.manual_folder_fk where manual_folder_fk = ?" ;
+			String qryDetails ="select manual_folders as manual_folder_fk ,m.manual_folder_fk,m.manual_name,m.attachment from manual_folders mf " + 
+					"left join manuals m on mf.manual_folders = m.manual_folder_fk where manual_folder_fk = ?" ;
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Manuals>(Manuals.class));	
 			for (Manuals manual : objsList) {

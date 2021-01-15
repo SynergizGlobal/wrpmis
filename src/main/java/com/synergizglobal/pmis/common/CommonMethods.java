@@ -17,4 +17,15 @@ public class CommonMethods {
 		}
 		return _array;
 	}
+	
+	
+	public static String[] replaceEmptyByNullInSringArraySecond(String[] _array) {
+		for (int i = 0; i < _array.length; i++){
+		    if (StringUtils.isEmpty(_array[i])) {
+		        _array[i] = null;
+		    }
+		}
+		return _array;
+	}
+	
 }

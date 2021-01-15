@@ -88,7 +88,7 @@
         .timepicker~button {
             position: absolute;
             right: 15px;
-            top: 25px;
+            top: 32px;
             border: 0;
             opacity: 0.7;
             cursor: pointer;
@@ -161,7 +161,11 @@
         	width: 400px;
     		max-width: 400px;
     	}
-    
+     .filevalue {
+            display: block;
+            margin-top: 10px;
+            max-width:250px;
+        }
         .error-msg label{color:red!important;}   
        
         
@@ -297,9 +301,8 @@
 					</div>
 					
 				<div class="row">
-   				 <div class="col m1 hide-on-small-only"></div>
-    				<div class="col m10 s12">
-        
+   				 <!-- <div class="col m1 hide-on-small-only"></div> -->
+    				<div class="col m12 s12">        
 						<div class="row fixed-width">
 							<h5 class="center-align">Sessions</h5>
 							<div class="table-inside">
@@ -311,6 +314,7 @@
 											<th>End Time</th>
 											<th>Attendees</th>
 											<th class="fw-400">Remaks</th>
+											<th>Attachment</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -348,7 +352,7 @@
 																						<th>HOD</th>
 																						<th>Mobile</th>
 																						<th>Required</th>
-																						<th>Participated</th>
+																						<th>Participated</th>																						
 																						<th>Action</th>
 																					</tr>
 																				</thead>
@@ -511,6 +515,15 @@
 																</div>
 															</div></td>
 														<td><textarea id="remarkss${index.count }" name="remarkss" class="materialize-textarea" placeholder="Remarks">${tObj.remarks }</textarea></td>
+														  <td>
+                                                            <div class="">
+                                                                <input type="file" name="myfile" id="myFile0"
+                                                                    onchange="getFileName(0)" style="display:none" />
+                                                                <label for="myFile0" class="btn bg-m"><i
+                                                                        class="fa fa-paperclip"></i></label>
+                                                                <span id="fileVal0" class="filevalue"></span>
+                                                            </div>
+                                                        </td>
 														<td><a onclick="removeTraining('${index.count }');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 													</tr>
 													<script>
@@ -624,6 +637,15 @@
 														</div></td>
 													<td><textarea id="remarkss0" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea>
 													</td>
+													  <td>
+                                                            <div class="">
+                                                                <input type="file" name="myfile" id="myFile0"
+                                                                    onchange="getFileName(0)" style="display:none" />
+                                                                <label for="myFile0" class="btn bg-m"><i
+                                                                        class="fa fa-paperclip"></i></label>
+                                                                <span id="fileVal0" class="filevalue"></span>
+                                                            </div>
+                                                        </td>
 													<td><a onclick="removeTraining('0');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 												</tr>
 											</c:otherwise>
@@ -651,7 +673,7 @@
 						</div>
 										
 				    </div>
-				    <div class="col m1 hide-on-small-only"></div>
+				  <!--   <div class="col m1 hide-on-small-only"></div> -->
 				</div>
 					
 						<div class="container container-no-margin">						
@@ -974,7 +996,9 @@
 	                            '<tr><td colspan="7" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div></div> </td>'+
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
-          '<td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
+          '<td><div class=""><input type="file" name="myfile" id="myFile'+rNo+1+'"onchange="getFileName('+rNo+1+')" style="display:none" />'+
+          '<label for="myFile'+rNo+1+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+1+'" class="filevalue"></span>'+
+          '</div> </td><td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
           $('#trainingTableBody').append(html);
            
           $('#session-update-modal'+rNo).modal();
@@ -1015,6 +1039,10 @@
      function removeTraining(rowNo){
      	//alert("#trainingRow"+rowNo);
      	$("#trainingRow"+rowNo).remove();
+     }
+     function getFileName(rowNo) {
+         var filename = $('#myFile' + rowNo)[0].files[0].name;
+         $('#fileVal' + rowNo).html(filename);
      }
      function removeTrainingAttendees(rowNo){
     	 $("#attendeesRow"+rowNo).remove();

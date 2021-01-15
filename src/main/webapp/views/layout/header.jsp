@@ -15,6 +15,10 @@
         top: 45%!important;
         left:47%!important;
     }
+    .fourth-level-menu>li, .third-level-menu>li, .second-level-menu>li {
+    	max-width:250px;
+    	line-height:40px;
+    }
    </style>
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -180,8 +184,118 @@
 	          <span class="material-icons-outlined">assignment</span> Reports</a>
           </li>
           
-          <li class="blue"><a href="<%=request.getContextPath()%>/manuals" class='head-img'>
+          <%-- <li class="blue"><a href="<%=request.getContextPath()%>/manuals" class='head-img'>
 	          <span class="material-icons-outlined">assignment</span> Manuals</a>
+          </li> --%>
+           <li class="blue lighten-1"><a href="#" class='head-img'>
+	          <span class="material-icons-outlined">description</span> Documents</a>
+	          <ul class="second-level-menu">
+              	<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/manuals.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Manuals</span>
+		 			</a>
+		 		</li>
+		 		<!--  delete start-->
+		 		<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/codes.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Codes</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/policies.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Policies</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/circulars.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Circulars</span>
+		 			</a>
+		 		</li>
+		 		<!--  delete end-->
+		 		</ul>
+          </li>
+          <li class="blue lighten-2"><a href="#" class='head-img'>
+	          <span class="material-icons-outlined">link</span> Links</a>
+	          <ul class="second-level-menu">
+              	<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/webLinks.jsp">
+		 				<span class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Web Links</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="https://www.indianrailways.gov.in/railwayboard/">
+		 				<span class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Railway Board</span>
+		 			</a>
+		 		</li>
+		 		<!--  delete start-->
+		 		<li>
+              		<a href="https://rdso.indianrailways.gov.in/">
+		 				<span class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">RDSO</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="https://cr.indianrailways.gov.in/">
+		 				<span  class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">CR</span>
+		 			</a>
+		 		</li>		 	
+		 		<li>
+				    <a href="https://wr.indianrailways.gov.in/">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">WR</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://www.iricen.gov.in/iricen/Home">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">IRICEN</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="https://rdso.indianrailways.gov.in/view_section.jsp?lang=0&id=0,5,269">
+				       <spanclass="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">RDSO's vendor directory</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://10.100.2.4/drawing/frmLink.aspx">
+				       <span class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">RDSO's Bridges & Structures directorat</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://www.shramikkalyan.indianrailways.gov.in/">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">Raliway's Shramik Kalyan Portal</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://www.mrvc.indianrailways.gov.in/">
+				       <span class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">MRVC</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="https://labour.gov.in/">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">Ministry of labour & employment</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="https://shramsuvidha.gov.in/home">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">Shram suvidha unified portal for labour law compliance</span>
+				   </a>
+				</li>	
+		 		<!--  delete end-->
+		 		</ul>
           </li>
           
           <%-- <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img notification' id="notification">
@@ -402,7 +516,117 @@
          </ul>
     </li>
     <li><a href="<%=request.getContextPath()%>/dpr" class='head-img'><span class="material-icons-outlined">assignment</span> Reports</a></li>
-    <li><a href="<%=request.getContextPath()%>/manuals" class='head-img'><span class="material-icons-outlined">assignment</span> Manuals</a></li>
+    <%-- <li><a href="<%=request.getContextPath()%>/manuals" class='head-img'><span class="material-icons-outlined">assignment</span> Manuals</a></li> --%>
+     <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
+	          <span class="material-icons-outlined">description</span> Documents</a>
+	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
+              	<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/manuals.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Manuals</span>
+		 			</a>
+		 		</li>
+		 		<!--  delete start-->
+		 		<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/codes.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Codes</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/policies.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Policies</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/circulars.jsp">
+		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Circulars</span>
+		 			</a>
+		 		</li>
+		 		<!--  delete end-->
+		 		</ul>
+          </li>
+           <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
+	          <span class="material-icons-outlined">link</span> Links</a>
+	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
+              	<li>
+              		<a href="<%=request.getContextPath()%>/views/forms/webLinks.jsp">
+		 				<span class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Web Links</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="https://www.indianrailways.gov.in/railwayboard/">
+		 				<span class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">Railway Board</span>
+		 			</a>
+		 		</li>
+		 		<!--  delete start-->
+		 		<li>
+              		<a href="https://rdso.indianrailways.gov.in/">
+		 				<span class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">RDSO</span>
+		 			</a>
+		 		</li>
+		 		<li>
+              		<a href="https://cr.indianrailways.gov.in/">
+		 				<span  class="fa fa-${category.imagePath}"></span>
+		 				<span class="nav-label">CR</span>
+		 			</a>
+		 		</li>		 	
+		 		<li>
+				    <a href="https://wr.indianrailways.gov.in/">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">WR</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://www.iricen.gov.in/iricen/Home">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">IRICEN</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="https://rdso.indianrailways.gov.in/view_section.jsp?lang=0&id=0,5,269">
+				       <spanclass="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">RDSO's vendor directory</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://10.100.2.4/drawing/frmLink.aspx">
+				       <span class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">RDSO's Bridges & Structures directorat</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://www.shramikkalyan.indianrailways.gov.in/">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">Raliway's Shramik Kalyan Portal</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="http://www.mrvc.indianrailways.gov.in/">
+				       <span class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">MRVC</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="https://labour.gov.in/">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">Ministry of labour & employment</span>
+				   </a>
+				</li>		
+				<li>
+				    <a href="https://shramsuvidha.gov.in/home">
+				       <span  class="fa fa-${category.imagePath}"></span>
+				       <span class="nav-label">Shram suvidha unified portal for labour law compliance</span>
+				   </a>
+				</li>	
+		 		<!--  delete end-->
+		 		</ul>
+          </li>
     <li>
    		<!-- a class='dropdown-trigger' data-target='dropdown1'-->
    		<a href="<%=request.getContextPath() %>/home" data-target="notification-demo" class="sidenav-trigger">

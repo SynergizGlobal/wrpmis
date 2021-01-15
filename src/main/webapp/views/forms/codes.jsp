@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Manuals</title>
+	<title>Codes</title>
 	<link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -27,7 +27,7 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m">
-								<h5>Manuals</h5>
+								<h5>Codes</h5>
 							</div>
 						</span>
 					</div>
@@ -52,11 +52,11 @@
 									placeholder="Search ...">
 							</div>
 
-							<c:if test="${action eq 'Yes'}">	
+							<%--  <c:if test="${action eq 'Yes'}">	 --%>
 							     <div class="col m2 s4 input-field">
 								<a class="btn t-t-i bg-m modal-trigger file-upload-btn" href="#upload-modal">Upload</a>							
 								</div>
-							</c:if>
+							<%-- </c:if> --%>
 					</div>
 					
 						<div class="row files-filter">
@@ -71,22 +71,22 @@
 									<div class="collapsible-body">
 										<div class="files-collection">
 										<c:choose>   
-										 <c:when test="${not empty rows.manualsList && fn:length(rows.manualsList) gt 0 }">
-										  <c:forEach var="data" items="${rows.manualsList}" varStatus="indexx"> 
+										 <c:when test="${not empty rows.codesList && fn:length(rows.codessList) gt 0 }">
+										  <c:forEach var="data" items="${rows.codesList}" varStatus="indexx"> 
 											<div class="card card-file files-filter-data"  id="row${indexx.count }${index.count }">
 												<div class="card-content center-align ">
 													<img src="/pmis/resources/images/document.svg"> 
-													<span class="card-title">${data.manual_name }</span>
+													<span class="card-title">${data.codes_name }</span>
 												</div>
 												<div class="card-action flex">
 													<a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
-													<a href="<%=CommonConstants.MANUAL_FILES %>${data.attachment }" download><i class="fa fa-download"></i></a>
+													<a href="<%=CommonConstants.MANUAL_FILES%>${data.attachment }" download><i class="fa fa-download"></i></a>
 												</div>
 												 <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">
 												    <div class="modal-content">
 												      <h5 class="modal-header">File Preview <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
 												      <div class="center-align" style="margin-top:50px">
-												      	<embed src="<%=CommonConstants.MANUAL_FILES %>${data.attachment }#toolbar=0" width="800px" height="2100px" />
+												      	<embed src="#" width="800px" height="2100px" />
 												      </div>
 												    </div>
 												 </div>
@@ -94,7 +94,7 @@
 										  </c:forEach>
 									  </c:when>
 	                               	  <c:otherwise>
-	                                	<span style="width: 100%;text-align: center">No files available in ${rows.manual_folder_fk }</span>
+	                                	<span style="width: 100%;text-align: center">No files available in ${rows.codes_folder_fk }</span>
 	                                  </c:otherwise>
                                    </c:choose>
 								</div>
@@ -103,8 +103,40 @@
 							</c:forEach>
 	                       </c:when>
                            <c:otherwise>
-                           	<li style="text-align: center!important;">No folders available</li>
-                           </c:otherwise>
+	                        <!-- 	<li style="text-align: center!important;">No folders available</li> -->
+								<li class="files-filter">
+									<div class="collapsible-header  " id="folder1">
+										<i class="fa fa-folder open"></i> <i
+											class="fa fa-folder-open close"></i> folder-name
+									</div>
+									<div class="collapsible-body">
+										<div class="files-collection">	
+											<div class="card card-file files-filter-data"	id="row1">
+												<div class="card-content center-align ">
+													<img src="/pmis/resources/images/document.svg"> <span
+														class="card-title">title-name</span>
+												</div>
+												<div class="card-action flex">
+													<a href="#modal11"	class="modal-trigger"><i class="fa fa-eye"></i></a> 
+													<a	href="#"	download><i class="fa fa-download"></i></a>
+												</div>
+												<div id="modal1"
+													class="modal preview-modal">
+													<div class="modal-content">
+														<h5 class="modal-header">	File Preview <span	class="right modal-action modal-close">
+														<span	class="material-icons">close</span></span>
+														</h5>
+														<div class="center-align" style="margin-top: 50px">
+															<embed src="#" width="800px" height="2100px" />
+														</div>
+													</div>
+												</div>
+											</div>
+	
+										</div>
+									</div>
+								</li>
+							</c:otherwise>
                          </c:choose>
 					    </ul>
 					  </div>
@@ -138,7 +170,7 @@
 	<div id="upload-modal" class="modal preview-modal"> 
 		<div class="modal-content">
 			<h6 class="modal-header">
-				Manuals File Upload<span class="right modal-action modal-close"><span
+				Codes File Upload<span class="right modal-action modal-close"><span
 					class="material-icons">close</span></span>
 			</h6>
 
@@ -154,7 +186,7 @@
 						<select class="searchable" name="manual_folder_fk" id="manual_folder_fk">
 							<option disabled selected>Choose your option</option>
 							<c:forEach var="obj" items="${foldersList }">
-                                   <option value="${obj.manual_folder_fk }">${obj.manual_folder_fk}</option>
+                                   <option value="${obj.codes_folder_fk }">${obj.codes_folder_fk}</option>
                             </c:forEach>
 						</select>
 					</div>
@@ -210,7 +242,7 @@
 			  var searchData = {};
 	            
 	            <c:forEach var="mObj" items="${foldersList}" varStatus="index">
-	            searchData['${mObj.manual_name}'] = null;
+	            searchData['${mObj.codes_name}'] = null;
 	            </c:forEach>
 	            
 	            $('input.autocomplete').autocomplete({
@@ -242,11 +274,7 @@
 	        	$("#upload_template").modal();
 	        	$("#manualUploadForm").submit();
 	        }
-		 <%--  function folderList(manual_folder_fk){
-			  $("#manual_folder_fk").val(manual_folder_fk);
-	        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-list');
-	        	$('#getForm').submit();  
-		  } --%>
+		
 	</script>
 </body>
 </html>

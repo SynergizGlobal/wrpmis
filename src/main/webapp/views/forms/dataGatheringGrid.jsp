@@ -129,7 +129,7 @@
                                     <thead>
                                         <tr>
                                             <th> Contract</th>
-                                            <th class="fw-350"> Data Gathering Work</th>
+                                            <th class="fw-350"> Description</th>
                                             <!-- <th> Target Date</th>
                                             <th> Start Date</th> -->
                                             <th> Finish Date</th>

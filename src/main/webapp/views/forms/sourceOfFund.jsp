@@ -25,9 +25,9 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }  
-    	 .fw-450{
-    	 	width:450px !important;
-    	 	max-width:450px;
+    	 .fw-400{
+    	 	width:400px !important;
+    	 	max-width:400px;
     	 }        
     </style>
 </head>
@@ -81,34 +81,34 @@
                             </div>
                         </div>
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
+                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col m6 s12">
                                 <div class="row" style="margin-bottom: 0;">
-                                    <div class="col s12 m3 input-field">
+                                    <!-- <div class="col s12 m3 input-field">
                                        <p class="searchable_label">Work</p>
                                          <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
-                                    </div>
-                                    <div class="col s12 m3 input-field">
+                                    </div> -->
+                                    <div class="col s12 m4 input-field">
                                        <p class="searchable_label">Source of Fund</p>
                                          <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
+                                    <div class="col s12 m4 input-field">
                                        <p class="searchable_label"> Railway</p>
                                         <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div>
-                                    <div class="col s12 m3 input-field">
+                                    <div class="col s12 m4 input-field">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                             style="margin-top: 8px;width: 100%;" onclick="clearFilter();" >Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m3 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">
@@ -117,7 +117,7 @@
                                 <table id="datatable-fund" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th class="fw-450">Work</th>
+                                            <th class="fw-400">Project</th>
                                             <th>Source of Fund</th>
                                             <th>Railway</th>
                                             <th>Funding Date </th>

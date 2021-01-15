@@ -125,7 +125,7 @@
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
-                        <div class="row">
+                      <!--   <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                    <p class="searchable_label">Data Gathering Work</p>
@@ -138,7 +138,7 @@
                                     <span id="work_id_fkError" class="error-msg" ></span>                                   
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                          </div>
+                          </div> -->
                        </c:if>
 					   <c:if test="${action eq 'edit'}">
 						 <div class="row">
@@ -161,14 +161,14 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                           <div class="row">
+                          <!--  <div class="row">
 							  <div class="col m2 hide-on-small-only"></div>
 								<div class="col s12 m8 input-field"> 
 									    <p class="searchable_label">Data Gatherinng Work </p>
 	                                    <input type="text"  value="${dataGatheringDetails.DGwork_id_fk}- ${dataGatheringDetails.DGwork_name}" readonly />
 	                            </div>
 	                            <div class="col m2 hide-on-small-only"></div>
-	                       </div>
+	                       </div> -->
 						</c:if>
 							                            
                             <div class="row">

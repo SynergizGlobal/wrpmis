@@ -69,7 +69,7 @@
 							 <c:if test="${action eq 'add'}">	
                               <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m8 input-field">
                                     <p class="searchable_label">Project</p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
@@ -80,7 +80,7 @@
                                      </select>
                                      <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                              <!--   <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Work</p>
                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
                                    			onchange="resetProjectsDropdowns(this.value);">
@@ -90,7 +90,7 @@
 	                                         </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
-                                </div>
+                                </div> -->
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                            </c:if>
@@ -98,14 +98,14 @@
                               <div class="row" id="center" >
 	                              <div class="col m2 hide-on-small-only">
 	                              </div>
-	                       		  <div class="col s12 m4 input-field">
+	                       		  <div class="col s12 m8 input-field">
 										 <p class="searchable_label">Project</p>
 	                                         	 	<input type="text" value="${fundDetails.project_id} - ${fundDetails.project_name}" readonly />
 								  </div> 
-								  <div class="col s12 m4 input-field"> 
+								  <!-- <div class="col s12 m4 input-field"> 
 									    <p class="searchable_label">Work</p>
 	                                         	 	<input type="text" value="${fundDetails.work_id_fk} - ${fundDetails.work_name}" readonly />
-	                              </div>
+	                              </div> -->
                               </div> 
                              </c:if>
                              <input type="hidden" name="funds_id" value="${fundDetails.funds_id }" />

@@ -139,19 +139,33 @@
             width: 38.33333%;
             text-align: right;
         }
+        .card-content .button{
+        	display:flex;        	
+        }
         .button .btn{
        		position: relative;
-		    float:right;
 		    margin: 5px 0;
-		    border-radius: 0 10px 10px 0;
 		    text-transform:capitalize;
 		    padding:0 10px;	
 		    background-color:#1565C0cc;
        	}
+       	.button span{
+       		line-height:inherit;
+       	}
+       	.button .btn-center{
+       		position:relative;
+       		margin:auto;
+       		padding:0 10px;
+       	}	
        	.button .btn.btn-left{
        		position:relative;
        		float:left;  
        		border-radius: 10px 0 0 10px;   		
+       	}	
+       	.button .btn.btn-right{
+       		position:relative;
+       		float:right;  
+       		border-radius: 0 10px 10px 0;;   		
        	}	
 		 .button .btn:hover, 
 		 .button .btn:focus{
@@ -194,6 +208,20 @@
             max-height: 100%;
             top: 0 !important;
         }
+        .media-modal{
+        	max-height:90%;
+        	top:10px !important;
+        }
+        .media-modal .carousel .carousel-item{
+        	text-align:center;
+        	background-color:#f2f2f2;
+        }
+        .media-modal .carousel .carousel-item>img ,
+        .media-modal .carousel .carousel-item>video{
+		    width: auto;
+		    height: 80vh;
+		    max-width:100%;
+		}
 
         .map-btn-holder {
             text-align: center;
@@ -378,8 +406,33 @@
 	                           <c:otherwise>
 	                           	 <a ></a>
 	                           </c:otherwise>
-	                        </c:choose>	                        
-		                        <a class="btn" onclick="closeOther('${index.count }')">More</a>
+	                        </c:choose>	               
+	                         <a class="btn btn-center modal-trigger" href="#mediamodal${index.count }">Media</a>   	                 
+	                        <div id="mediamodal${index.count }" class="modal media-modal">
+	                            <div class="modal-content">
+	                                <h5 class="modal-header">${pObj.project_name } Media <span class="right modal-action modal-close">
+	                                	<span  class="material-icons">close</span></span>
+	                                </h5>
+	                                	<div class="row">
+	                                		<div class="col s12 m12">
+	                                			<div class="carousel carousel-slider">
+												    <a class="carousel-item active" href="#one!"><img src="/pmis/resources/images/final_map.png"></a>
+												    <a class="carousel-item" href="#two!"><img src="/pmis/resources/images/mrvc.png"></a>												    
+												    <a class="carousel-item" href="#three!"><img src="/pmis/resources/images/final_map.png"></a>
+												    <a class="carousel-item" href="#four!">
+			                                            <video class="" preload="true" controls loop="loop" >
+			                                                <source src="/iifcl/sitevisits/CC Road.mp4" type="video/mp4" title="video">
+			                                            </video>
+			                                        </a>
+												</div>
+	                                		</div>
+	                                	</div>
+	                                
+	                            </div>
+	                        </div>
+	                          <a class="btn btn-center tooltipped" data-position="top" data-tooltip="tooltip text goes here">	                        
+	                          	Benefits	</a>   
+		                        <a class="btn btn-right" onclick="closeOther('${index.count }')">More</a>
 	                        </div>
 	                    </div>
 	                </div>
@@ -461,7 +514,7 @@
 								                           	   <div></div>
 								                           </c:otherwise>
 								                        </c:choose>	     	                        
-									                        <!-- <a class="btn" onclick="closeOther('${index.count }')">More</a> -->
+									                        <!-- <a class="btn btn-right" onclick="closeOther('${index.count }')">More</a> -->
 								                        </div>
 		                                            </div>
 		                                        </div>
@@ -504,8 +557,17 @@
             $('.collapsible').collapsible();
             $('.modal').modal({
                 dismissible: false,
+                'onOpenEnd': initCarousel
             });
-            
+            $('.tooltipped').tooltip();
+            $('.carousel').carousel({
+                fullWidth: true
+              });
+            function initCarousel() {
+            	$('.carousel').carousel({
+                    fullWidth: true
+                  });
+            }
             var searchData = {};
             
             <c:forEach var="pObj" items="${projectsInfo}" varStatus="index">

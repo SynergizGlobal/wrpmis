@@ -28,6 +28,27 @@
 		.my-valid-class {
 			color: green;
 		}
+		.images-show{
+			display: flex;
+		    flex-wrap: wrap;
+		    justify-content: flex-start;
+		}
+		.images-show img,.images-show video{
+			width:100px;
+			height:100px;
+			margin:5px;
+		}
+		.images-show img:first-of-type{			
+			margin-left:0;
+		}
+		.images-show img:last-of-type{
+			margin-right:0;
+		}
+		@media only screen and (max-width: 600px) {
+		  .images-show{
+		    justify-content: space-evenly;
+		  }
+		}
 
 	</style>
 </head>
@@ -158,7 +179,14 @@
 						</div>
 
 						<div class="row">
-                                <!-- row 10 -->
+                              <div class="col m2 hide-on-small-only"></div>
+                              <div class="col s12 m8 input-field">
+                                  <textarea id="benefits" class="materialize-textarea" data-length="1000"  name="benefits">${projectDeatils.remarks }</textarea>
+                                  <label for="benefits">Benefits</label>
+                                   <span id="benefitsError"></span>
+                              </div>
+                         </div>
+						<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" class="materialize-textarea" data-length="1000"  name="remarks">${projectDeatils.remarks }</textarea>
@@ -166,6 +194,33 @@
                                      <span id="remarksError"></span>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m8 s12">
+								<div class="file-field input-field">
+									<div class="btn bg-m t-c">
+										<span>Images</span> <input type="file" id="projectMultipleFile"	name="projectMultipleFile" multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/x-m4v,video/avi,video/mkv" >
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text" name="attachment" >
+									</div>
+								</div>
+								<!-- have to hide this div, if images are 0
+								<div class="images-show">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">
+									<img src="/pmis/resources/images/mrvc.png">																
+								</div> -->
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+							</div>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>

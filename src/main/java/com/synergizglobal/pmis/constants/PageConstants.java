@@ -79,4 +79,6 @@ public class PageConstants {
 	
 	public static final String taFinancialsGrid = "forms/taFinancialsGrid";
 	public static final String addEditTaFinancialsForm = "forms/addEditTaFinancialsForm";
+	
+	public static final String landAcquisition = "forms/la";
 }

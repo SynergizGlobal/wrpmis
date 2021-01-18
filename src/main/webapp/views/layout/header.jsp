@@ -201,17 +201,17 @@
 			 	  </c:forEach>
 		 	  </ul>
           </li>
-          <li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
+         <%--<li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
 	          <span class="material-icons-outlined">link</span> Web Links</a>
-          </li>
-          <%-- <li class="blue lighten-2"><a href="#" class='head-img'>
+          </li>--%>
+           <li class="blue lighten-2"><a href="#" class='head-img'>
 	          <span class="material-icons-outlined">link</span> Links</a>
 	          <ul class="second-level-menu">
-              	<li>
+              	<!-- <li>
               		<a href="<%=request.getContextPath()%>/views/forms/webLinks.jsp">
 		 				<span class="nav-label">Web Links</span>
 		 			</a>
-		 		</li>
+		 		</li> -->
 		 		<li>
               		<a href="https://www.indianrailways.gov.in/railwayboard/">
 		 				<span class="nav-label">Railway Board</span>
@@ -270,7 +270,7 @@
 				</li>	
 		 		<!--  delete end-->
 		 		</ul>
-          </li> --%>
+          </li> 
           
           <%-- <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img notification' id="notification">
                   <span class="material-icons-outlined">notifications</span>
@@ -506,19 +506,19 @@
 		 	  </ul>
           </li>
           
-          <li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
+        <%--  <li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
 	          <span class="material-icons-outlined">link</span> Web Links</a>
-          </li>
+          </li> --%>
           
-           <%-- <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
+            <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
 	          <span class="material-icons-outlined">link</span> Links</a>
 	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
-              	<li>
+              <%-- 	<li>
               		<a href="<%=request.getContextPath()%>/views/forms/webLinks.jsp">
 		 				<span class="fa fa-${category.imagePath}"></span>
 		 				<span class="nav-label">Web Links</span>
 		 			</a>
-		 		</li>
+		 		</li> --%>
 		 		<li>
               		<a href="https://www.indianrailways.gov.in/railwayboard/">
 		 				<span class="fa fa-${category.imagePath}"></span>
@@ -588,7 +588,7 @@
 				</li>	
 		 		<!--  delete end-->
 		 		</ul>
-          </li> --%>
+          </li> 
     <li>
    		<!-- a class='dropdown-trigger' data-target='dropdown1'-->
    		<a href="<%=request.getContextPath() %>/home" data-target="notification-demo" class="sidenav-trigger">

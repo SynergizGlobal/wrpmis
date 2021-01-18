@@ -82,7 +82,7 @@ public class CommonConstants {
 	public final static String MANUAL_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
 	public final static String PROJECT_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"PROJECT_FILES"+File.separator;
 	public final static String DELIVERABLES_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DELIVERABLES_FILES"+File.separator;
-	public final static String TRAINING_SESSION_FILE_SAVING_PATH = "D:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TRAINING_SESSIONS"+File.separator;
+	public final static String TRAINING_SESSION_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TRAINING_SESSIONS"+File.separator;
 	*/
 	
 }

@@ -32,6 +32,15 @@
 			-moz-box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
 			box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
 		}
+		.toggle-password{
+			position: absolute;
+		    color: #f0f0f0;
+		    right: 10px;
+		    top: 14px;
+		    font-size: 1.35rem;
+		    cursor:pointer;
+		}
+		
 		@media screen and (min-width: 480px) {
 		  #support {
 		    width:38%;
@@ -119,6 +128,9 @@
 			            <div class="input-field col offset-s1 s10">
 			              <input type="password" name="password" id="password" class="validate" autocomplete="off">
 			              <label for="password">Password</label>
+			             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
+			              <span class="material-icons toggle-password">visibility_off</span>
+			              
 			            </div>
 			            <div class="msg">
 			             	<p id="message" class="error">${message}</p>
@@ -249,6 +261,22 @@
 		        }
 		    });
 		   
+		    $(".toggle-password").on('click', function() {
+		    	 // $(this).toggleClass("fa-eye fa-eye-slash");
+		    	  if($(this).text()=='visibility_off'){
+		    		  $(this).text('visibility');
+		    	  }
+		    	  else{
+		    		  $(this).text('visibility_off');
+		    	  }
+		    	  var input = $("#password");
+		    	  if (input.attr("type") === "password") {
+		    	    input.attr("type", "text");
+		    	  } else {
+		    	    input.attr("type", "password");
+		    	  }
+
+		    	});
 		    
 </script>
 </body>

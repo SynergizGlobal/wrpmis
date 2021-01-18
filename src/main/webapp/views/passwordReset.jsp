@@ -16,6 +16,14 @@
   <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
   <style type="text/css">
   	.error{color:red;}
+  	.toggle-password{
+			position: absolute;
+		    color: #777;
+		    right: 10px;
+		    top: 14px;
+		    font-size: 1.35rem;
+		    cursor:pointer;
+		}
   </style>
 </head>
 
@@ -53,6 +61,7 @@
                                 <div class="col s12 m4 input-field">
                                     <input type="password" id="oldPassword" name="oldPassword" class="validate" autocomplete="off">
                                     <label for="oldPassword">Old Password</label>
+                                     <span class="material-icons toggle-password old-pass">visibility_off</span>
                                     <span id="oldPasswordError" ></span>
                                 </div>
                                 <div class="col m4 hide-on-small-only"></div>
@@ -62,6 +71,7 @@
                                 <div class="col s12 m4 input-field">
                                     <input type="password" id="newPassword" name="newPassword"  class="validate" autocomplete="off" step="any" pattern="^\d*(\.\d{0,2})?$">
                                     <label for="newPassword">New Password</label>
+                                    <span class="material-icons toggle-password new-pass">visibility_off</span>
                                     <span id="newPasswordError" ></span>
                                 </div>
                                 <div class="col m4 hide-on-small-only"></div>
@@ -72,6 +82,7 @@
                                 <div class="col s12 m4 input-field">
                                     <input type="password" id="confirmPassword" name="confirmPassword" class="validate" autocomplete="off">
                                     <label for="confirmPassword">Confirm Password</label>
+                                    <span class="material-icons toggle-password conf-pass">visibility_off</span>
                                     <span id="confirmPasswordError" ></span>
                                 </div>
                                 <div class="col m4 hide-on-small-only"></div>
@@ -188,8 +199,45 @@
 	    	        $(this).valid();
 	    	    }
 	    	});
-					
-		    
+	        $(".old-pass").on('click', function() {
+		    	  if($(this).text()=='visibility_off'){
+		    		  $(this).text('visibility');
+		    	  } else{
+		    		  $(this).text('visibility_off');
+		    	  }
+		    	  var input = $("#oldPassword");
+		    	  if (input.attr("type") === "password") {
+		    	     input.attr("type", "text");
+		    	  } else {
+		    		 input.attr("type", "password");		    	 
+		    	  }	
+		    });	
+	        $(".new-pass").on('click', function() {
+		    	  if($(this).text()=='visibility_off'){
+		    		  $(this).text('visibility');
+		    	  } else{
+		    		  $(this).text('visibility_off');
+		    	  }
+		    	  var input = $("#newPassword");
+		    	  if (input.attr("type") === "password") {
+		    	     input.attr("type", "text");
+		    	  } else {
+		    		 input.attr("type", "password");		    	 
+		    	  }	
+		    });		        
+	        $(".conf-pass").on('click', function() {
+		    	  if($(this).text()=='visibility_off'){
+		    		  $(this).text('visibility');
+		    	  } else{
+		    		  $(this).text('visibility_off');
+		    	  }
+		    	  var input = $("#confirmPassword");
+		    	  if (input.attr("type") === "password") {
+		    	     input.attr("type", "text");
+		    	  } else {
+		    		 input.attr("type", "password");		    	 
+		    	  }	
+		    });	
 		</script>
 </body>
 

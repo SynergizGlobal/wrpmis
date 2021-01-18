@@ -165,6 +165,7 @@
        	}	
        	.button .btn.btn-right{
        		position:relative;
+       		margin-left:auto;
        		float:right;  
        		border-radius: 0 10px 10px 0;;   		
        	}	

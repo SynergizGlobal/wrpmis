@@ -432,7 +432,7 @@
 			                        <div id="mediamodal${index.count }" class="modal media-modal">
 			                            <div class="modal-content">
 			                                <h5 class="modal-header">${pObj.project_name } Media <span class="right modal-action modal-close">
-			                                	<span  class="material-icons">close</span></span>
+			                                	<span  class="material-icons" onclick="pauseVideo${index.count }();">close</span></span>
 			                                </h5>
 		                                	<div class="row">
 		                                		<div class="col s12 m12">
@@ -485,6 +485,12 @@
 				                           // $('.carousel').carousel('next');
 				                        	$(this).parent().parent().carousel('next');
 				                        });
+				                        
+				                        function pauseVideo${index.count }(){
+				                        	$("video").each(function() {
+				                        	    $(this).get(0).pause();
+				                        	});
+				                        }
 			                        </script>
 		                        </c:if>
 		                        <c:if test="${not empty pObj.benefits }">

@@ -26,6 +26,7 @@ public class CommonConstants {
 	public static final String PROJECT_FILES = "/pmis/PROJECT_FILES/";
 	public static final String WORK_FILES = "/pmis/WORK_FILES/";
 	public static final String DELIVERABLES_FILES = "/pmis/DELIVERABLES_FILES/";
+	public static final String TRAINING_SESSIONS = "/pmis/TRAINING_SESSIONS/";
 	
 	/*********** LOCAL ****************************************************/
 	
@@ -44,7 +45,7 @@ public class CommonConstants {
 	public final static String MANUAL_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
 	public final static String PROJECT_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"PROJECT_FILES"+File.separator;
 	public final static String DELIVERABLES_FILE_SAVING_PATH = "C:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DELIVERABLES_FILES"+File.separator;
-
+	public final static String TRAINING_SESSION_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TRAINING_SESSIONS"+File.separator;
 		
 	/*********** PRODUCTION ****************************************************/
 	
@@ -62,7 +63,8 @@ public class CommonConstants {
 	public final static String SAFETY_INSTRUCTIONS_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/SAFETY_INSTRUCTIONS_FILES/";
 	public final static String MANUAL_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/MANUAL_FILES/";
 	public final static String PROJECT_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/PROJECT_FILES/";
-	public final static String DELIVERABLES_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/DELIVERABLES_FILES/";*/
+	public final static String DELIVERABLES_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/DELIVERABLES_FILES/";
+	public final static String TRAINING_SESSION_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/TRAINING_SESSIONS/";*/
 	
 	
 	/*public final static String LOGIN_BACKGROUND_IMAGE = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"resources"+File.separator+"images"+File.separator;
@@ -80,7 +82,7 @@ public class CommonConstants {
 	public final static String MANUAL_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"MANUAL_FILES"+File.separator;
 	public final static String PROJECT_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"PROJECT_FILES"+File.separator;
 	public final static String DELIVERABLES_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DELIVERABLES_FILES"+File.separator;
-
+	public final static String TRAINING_SESSION_FILE_SAVING_PATH = "D:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"TRAINING_SESSIONS"+File.separator;
 	*/
 	
 }

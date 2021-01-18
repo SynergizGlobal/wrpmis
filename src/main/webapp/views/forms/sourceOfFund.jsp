@@ -295,7 +295,8 @@
                     var railwayName = '';
                     if ($.trim(val.railway_name) != '') { railwayName = ' - ' + $.trim(val.railway_name) }
                     
-                   	rowArray.push($.trim(val.work_id_fk) + workName);
+                   	//rowArray.push($.trim(val.work_id_fk) + workName);
+                   	rowArray.push($.trim(val.project_id) + " - " + val.project_name);
                    	rowArray.push($.trim(val.source_of_funds_fk));
                    	rowArray.push($.trim(val.sub_category_railway_id_fk) + railwayName);
                    	rowArray.push($.trim(val.funding_date));

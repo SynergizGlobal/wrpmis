@@ -313,14 +313,15 @@
           		$.each(data,function(key,val){
           			var id = "'"+val.id+"'";
                      var actions = '<a href="javascript:void(0);"  onclick="getDataGathering('+id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
- /*                     			  +'<a onclick="deleteDataGathering('+id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
-  */                   	var rowArray = [];    	                 
+                     			  /* +'<a onclick="deleteDataGathering('+id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>' */
+                   	 var rowArray = [];    	                 
 	
 						var contract_short_name = '';
 					    if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
 					 
 					    rowArray.push($.trim(val.contract_id_fk)+contract_short_name);
-					 	rowArray.push($.trim(val.work_short_name));
+					    rowArray.push($.trim(val.description));
+					 	//rowArray.push($.trim(val.work_short_name));
 					 	rowArray.push($.trim(val.finish_date));
 					 	rowArray.push($.trim(val.status_fk));
 					 	rowArray.push($.trim(actions));   	                   	

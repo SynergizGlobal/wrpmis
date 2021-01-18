@@ -43,8 +43,10 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		List<SourceOfFund> objsList = null;
 		
 		String qry = "SELECT funds_id, f.work_id_fk,w.work_name,w.work_short_name,f.source_of_funds_fk,f.sub_category_railway_id_fk,r.railway_name,DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date,cast(fund_amount as CHAR) as fund_amount,ledger_account, "
-				+ "bank_account,voucher_type,voucher_no,narration,f.remarks from funds f "
-				+ "LEFT JOIN work w on f.work_id_fk = w.work_id  "
+				+ "bank_account,voucher_type,voucher_no,narration,f.remarks,w.project_id_fk,p.project_id,p.project_name "
+				+ "from funds f "
+				+ "LEFT JOIN work w on f.work_id_fk = w.work_id "
+				+ "LEFT JOIN project p on w.project_id_fk = p.project_id  "
 				+ "LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds "
 				+ "LEFT JOIN railway r on f.sub_category_railway_id_fk = r.railway_id where funds_id is not null ";
 		int arrSize = 0;
@@ -108,7 +110,8 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 		SourceOfFund funds = null;
 		try {
 			String qry = "SELECT funds_id, f.work_id_fk,w.work_name,p.project_id,w.project_id_fk,p.project_name, source_of_funds_fk, sub_category_railway_id_fk, DATE_FORMAT(funding_date,'%d-%m-%Y') AS funding_date, "+
-					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account, f.attachment from funds f " + 
+					"cast(fund_amount as CHAR) as fund_amount, f.remarks, bank_account, voucher_type, voucher_no,narration, ledger_account, f.attachment "
+					+ "from funds f " + 
 					"LEFT JOIN work w on f.work_id_fk = w.work_id  " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " + 
 					"LEFT JOIN source_of_funds sf on f.source_of_funds_fk = sf.source_of_funds " + 

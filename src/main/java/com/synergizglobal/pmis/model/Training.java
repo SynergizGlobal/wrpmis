@@ -11,15 +11,16 @@ public class Training {
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
-	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,date,session_remarks,nominated,attended;
+	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,date,session_remarks,nominated,attended,attachment;
 
 	private MultipartFile trainingFile;
 	
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
+	private MultipartFile[] trainingSessionFiles;
 	
 	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
-	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks;
+	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames;
 
     public String getNominated() {
 		return nominated;
@@ -477,5 +478,29 @@ public class Training {
 		}
 	    
 	    return flag;            
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	public MultipartFile[] getTrainingSessionFiles() {
+		return trainingSessionFiles;
+	}
+
+	public void setTrainingSessionFiles(MultipartFile[] trainingSessionFiles) {
+		this.trainingSessionFiles = trainingSessionFiles;
+	}
+
+	public String[] getTrainingSessionFileNames() {
+		return trainingSessionFileNames;
+	}
+
+	public void setTrainingSessionFileNames(String[] trainingSessionFileNames) {
+		this.trainingSessionFileNames = trainingSessionFileNames;
 	}
 }

@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -195,10 +196,10 @@
 					</div>
 					<!-- form start-->
 						<c:if test="${action eq 'edit'}">
-							<form action="<%=request.getContextPath() %>/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form">
+							<form action="<%=request.getContextPath() %>/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						</c:if>
 						<c:if test="${action eq 'add'}">
-							<form action="<%=request.getContextPath() %>/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form">
+							<form action="<%=request.getContextPath() %>/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						</c:if>
 					<div class="container container-no-margin">
 						<div class="row">
@@ -516,13 +517,19 @@
 															</div></td>
 														<td><textarea id="remarkss${index.count }" name="remarkss" class="materialize-textarea" placeholder="Remarks">${tObj.remarks }</textarea></td>
 														  <td>
-                                                            <div class="">
+                                                            <!-- <div class="">
                                                                 <input type="file" name="myfile" id="myFile0"
                                                                     onchange="getFileName(0)" style="display:none" />
                                                                 <label for="myFile0" class="btn bg-m"><i
                                                                         class="fa fa-paperclip"></i></label>
                                                                 <span id="fileVal0" class="filevalue"></span>
-                                                            </div>
+                                                            </div> -->
+                                                            <div class="">
+			                                                   	<input type="file" name="trainingSessionFiles" id="trainingSessionFiles${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
+			                                                   	<label for="trainingSessionFiles${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+																<a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.TRAINING_SESSIONS %>${tObj.attachment }" download>${tObj.attachment }</a> 
+															 </div>                                              
+													         <input type="hidden" id="trainingSessionFileNames${index.count }" name="trainingSessionFileNames" value="${tObj.attachment }">
                                                         </td>
 														<td><a onclick="removeTraining('${index.count }');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 													</tr>
@@ -638,13 +645,18 @@
 													<td><textarea id="remarkss0" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea>
 													</td>
 													  <td>
-                                                            <div class="">
+                                                            <!-- <div class="">
                                                                 <input type="file" name="myfile" id="myFile0"
                                                                     onchange="getFileName(0)" style="display:none" />
                                                                 <label for="myFile0" class="btn bg-m"><i
                                                                         class="fa fa-paperclip"></i></label>
                                                                 <span id="fileVal0" class="filevalue"></span>
-                                                            </div>
+                                                            </div> -->
+                                                            <div class="">
+			                                                   	<input type="file" name="trainingSessionFiles" id="trainingSessionFiles0"  onchange="getFileName('0')"  style="display:none"  />
+			                                                   	<label for="trainingSessionFiles0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+			                                                   	<span id="fileVal0" class="filevalue"></span>
+															 </div>          
                                                         </td>
 													<td><a onclick="removeTraining('0');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 												</tr>
@@ -748,7 +760,7 @@
 							<!-- row 10 -->
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m8 input-field">
-								<textarea id="remarks" class="materialize-textarea" name="remarks" id="remarks" data-length="1000"></textarea>
+								<textarea id="remarks" class="materialize-textarea" name="remarks" id="remarks" data-length="1000">${trainingDetails.remarks }</textarea>
 								<label for="remarks">Remarks</label>
 							</div>
 						</div>
@@ -996,8 +1008,8 @@
 	                            '<tr><td colspan="7" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c " onclick="addTrainingUpdateRow(\''+sessionId+'\',\''+ rNo +'\')"> <i class="fa fa-plus"></i></a> </tr>'+
 	                          '</tbody></table></div></div></div></div> </td>'+
           '<td> <textarea id="remarkss'+ rNo +'" name="remarkss" class="materialize-textarea" placeholder="Remarks"></textarea> </td>' +
-          '<td><div class=""><input type="file" name="myfile" id="myFile'+rNo+1+'"onchange="getFileName('+rNo+1+')" style="display:none" />'+
-          '<label for="myFile'+rNo+1+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+1+'" class="filevalue"></span>'+
+          '<td><div class=""><input type="file" name="trainingSessionFiles" id="trainingSessionFiles'+rNo+'" onchange="getFileName('+rNo+')" style="display:none" />'+
+          '<label for="trainingSessionFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label> <span id="fileVal'+rNo+'" class="filevalue"></span>'+
           '</div> </td><td> <a onclick="removeTraining('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
           $('#trainingTableBody').append(html);
            
@@ -1041,7 +1053,7 @@
      	$("#trainingRow"+rowNo).remove();
      }
      function getFileName(rowNo) {
-         var filename = $('#myFile' + rowNo)[0].files[0].name;
+         var filename = $('#trainingSessionFiles' + rowNo)[0].files[0].name;
          $('#fileVal' + rowNo).html(filename);
      }
      function removeTrainingAttendees(rowNo){

@@ -240,11 +240,11 @@
 											<td>
 												
 												 <div class="">
-                                                    <input type="file" name="budgetFile" id="budgetFile${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
-                                                    <label for="budgetFile${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+                                                   	<input type="file" name="budgetFile" id="budgetFile${index.count }"  onchange="getFileName('${index.count }')"  style="display:none"  />
+                                                   	<label for="budgetFile${index.count }" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 													<a id="fileVal${index.count }" class="filevalue" href="<%=CommonConstants.BUDGET_FILES %>${bObj.attachment }" download>${bObj.attachment }</a> 
-													</div>                                              
-											        <input type="hidden" id="budgetFileNames${index.count }" name="budgetFileNames" value="${bObj.attachment }">
+												 </div>                                              
+										         <input type="hidden" id="budgetFileNames${index.count }" name="budgetFileNames" value="${bObj.attachment }">
 											</td>
 											<td><a onclick="removeBudget('${index.count }');"
 												class="btn waves-effect waves-light red t-c "> <i

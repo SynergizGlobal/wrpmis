@@ -278,7 +278,7 @@ public class SourceOfFundController {
 		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Source_of_Funds"));
 		        workBook.setSheetOrder(sheet.getSheetName(), 0);
 		        XSSFRow headingRow = sheet.createRow(0);
-	            headingRow.createCell((short)0).setCellValue("Fund ID");
+	            headingRow.createCell((short)0).setCellValue("Project");
 	            headingRow.createCell((short)1).setCellValue("Work");
 	            headingRow.createCell((short)2).setCellValue("Source of Fund");
 	         	headingRow.createCell((short)3).setCellValue("Railway");
@@ -295,7 +295,7 @@ public class SourceOfFundController {
 	            short rowNo = 1;
 	            for (SourceOfFund obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getFunds_id());
+	                row.createCell((short)0).setCellValue(obj.getProject_id() +" - "+obj.getProject_name());
 	                row.createCell((short)1).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
 	                row.createCell((short)2).setCellValue(obj.getSource_of_funds_fk());
 	                row.createCell((short)3).setCellValue(obj.getSub_category_railway_id_fk());

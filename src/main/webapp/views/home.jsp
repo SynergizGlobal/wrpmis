@@ -2,6 +2,7 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -184,15 +185,37 @@
 				}
 		}
 		
+		i[id^="prev"],i[id^="next"]{
+			position: absolute;
+		    color: #fff;
+		    top:46%;
+		    font-size: 4rem;
+		    cursor: pointer;
+		    -webkit-filter: drop-shadow(3px 6px 3px #444);
+    		filter: drop-shadow(3px 6px 3px #444);
+		}
+		i[id^="next"] {
+		    right: 10px;		   
+		}
+		i[id^="prev"] {
+		    left: 20px;		    
+		}
         @media only screen and (max-width: 600px) {
             .result {
                 width: 90vw;
                 margin-left:-0.75rem !important;
             }
+            i[id^="next"] {
+		   		right: -15px;		   
+			}
+			i[id^="prev"] {
+			    left: -15px;		    
+			}
         }
        .projects-filter-work {
 		    margin-left: initial !important;
 		}
+		
     </style>
       <style>
         .modal-header {
@@ -219,7 +242,8 @@
         .media-modal .carousel .carousel-item>img ,
         .media-modal .carousel .carousel-item>video{
 		    width: auto;
-		    height: 80vh;
+		    /*height: 80vh;*/
+		    height: 51vh;
 		    max-width:100%;
 		}
 
@@ -399,40 +423,74 @@
                                 <p class="alignright">${pObj.plan_head_number }</p>
 		                    </div> 
 	                        <div class="button">
-	                        <c:choose>
-	                           <c:when test="${not empty pObj.attachment}">
-	                              <a class="btn btn-left" href="<%=CommonConstants.PROJECT_FILES %>${pObj.attachment }" download><i class="fa fa-download" ></i></a> 
-	                           </c:when>
-	                           <c:otherwise>
-	                           	 <a ></a>
-	                           </c:otherwise>
-	                        </c:choose>	               
-	                         <a class="btn btn-center modal-trigger" href="#mediamodal${index.count }">Media</a>   	                 
-	                        <div id="mediamodal${index.count }" class="modal media-modal">
-	                            <div class="modal-content">
-	                                <h5 class="modal-header">${pObj.project_name } Media <span class="right modal-action modal-close">
-	                                	<span  class="material-icons">close</span></span>
-	                                </h5>
-	                                	<div class="row">
-	                                		<div class="col s12 m12">
-	                                			<div class="carousel carousel-slider">
-												    <a class="carousel-item active" href="#one!"><img src="/pmis/resources/images/final_map.png"></a>
-												    <a class="carousel-item" href="#two!"><img src="/pmis/resources/images/mrvc.png"></a>												    
-												    <a class="carousel-item" href="#three!"><img src="/pmis/resources/images/final_map.png"></a>
-												    <a class="carousel-item" href="#four!">
-			                                            <video class="" preload="true" controls loop="loop" >
-			                                                <source src="/iifcl/sitevisits/CC Road.mp4" type="video/mp4" title="video">
-			                                            </video>
-			                                        </a>
-												</div>
-	                                		</div>
-	                                	</div>
-	                                
-	                            </div>
-	                        </div>
-	                          <a class="btn btn-center tooltipped" data-position="top" data-tooltip="tooltip text goes here">	                        
-	                          	Benefits	</a>   
-		                        <a class="btn btn-right" onclick="closeOther('${index.count }')">More</a>
+		                        <c:if test="${not empty pObj.attachment }">
+		                              <a class="btn btn-left" href="<%=CommonConstants.PROJECT_FILES %>${pObj.attachment }" download><i class="fa fa-download" ></i></a> 
+		                        </c:if>         
+		                        <c:if test="${not empty pObj.projectGallery and fn:length(pObj.projectGallery) gt 0}">
+			                        <a class="btn btn-center modal-trigger" href="#mediamodal${index.count }">Gallery</a>   	                 
+			                        <div id="mediamodal${index.count }" class="modal media-modal">
+			                            <div class="modal-content">
+			                                <h5 class="modal-header">${pObj.project_name } Media <span class="right modal-action modal-close">
+			                                	<span  class="material-icons">close</span></span>
+			                                </h5>
+		                                	<div class="row">
+		                                		<div class="col s12 m12">
+		                                			<div class="carousel carousel-slider">
+		                                				<c:forEach var="fObj" items="${pObj.projectGallery }">
+			                                				<c:choose>
+			                                					<c:when test="${fn:endsWith(fObj.file_name, '.jpeg')==true or fn:endsWith(fObj.file_name, '.jpg')==true or fn:endsWith(fObj.file_name, '.png')==true or fn:endsWith(fObj.file_name, '.gif')==true}">
+			                                						<a class="carousel-item" href="javascript:void(0);">
+			                                							<img src="<%=CommonConstants2.PROJECT_GALLERY%>${fObj.project_id_fk}/${fObj.file_name}">
+			                                						</a>
+			                                					</c:when>
+			                                					<c:otherwise>
+			                                						<a class="carousel-item" href="<%=CommonConstants2.PROJECT_GALLERY%>${fObj.project_id_fk}/${fObj.file_name}">
+			                                							<c:if test="${fn:endsWith(fObj.file_name, '.mp4')==true}">
+								                                            <video class="" preload="true" controls loop="loop" >
+								                                                <source src="<%=CommonConstants2.PROJECT_GALLERY%>${fObj.project_id_fk}/${fObj.file_name}" type="video/mp4" title="video">
+								                                            </video>
+							                                            </c:if>
+							                                            <c:if test="${fn:endsWith(fObj.file_name, '.avi')==true}">
+								                                            <video class="" preload="true" controls loop="loop" >
+								                                                <source src="<%=CommonConstants2.PROJECT_GALLERY%>${fObj.project_id_fk}/${fObj.file_name}" type="video/avi" title="video">
+								                                            </video>
+							                                            </c:if>
+							                                            <c:if test="${fn:endsWith(fObj.file_name, '.mkv')==true}">
+								                                            <video class="" preload="true" controls loop="loop" >
+								                                                <source src="<%=CommonConstants2.PROJECT_GALLERY%>${fObj.project_id_fk}/${fObj.file_name}" type="video/mkv" title="video">
+								                                            </video>
+							                                            </c:if>
+							                                            <c:if test="${fn:endsWith(fObj.file_name, '.webm')==true}">
+								                                            <video class="" preload="true" controls loop="loop" >
+								                                                <source src="<%=CommonConstants2.PROJECT_GALLERY%>${fObj.project_id_fk}/${fObj.file_name}" type="video/webm" title="video">
+								                                            </video>
+							                                            </c:if>
+							                                        </a>
+			                                					</c:otherwise>
+			                                				</c:choose>
+		                                				</c:forEach>
+				                                        <div class="row slider-center"><i id="next${index.count }" class="material-icons">chevron_right</i> <i id="prev${index.count }" class="material-icons">chevron_left</i></div>
+													</div>
+		                                		</div>
+		                                	</div>
+			                            </div>
+			                        </div>
+			                        <script type="text/javascript">
+				                        $('i#prev${index.count }').click(function() {
+				                        	$(this).parent().parent().carousel('prev');
+				                        });
+			
+				                        $('i#next${index.count }').click(function() {
+				                           // $('.carousel').carousel('next');
+				                        	$(this).parent().parent().carousel('next');
+				                        });
+			                        </script>
+		                        </c:if>
+		                        <c:if test="${not empty pObj.benefits }">
+		                        	<a class="btn btn-center tooltipped" data-position="top" data-tooltip="${pObj.benefits }">Benefits</a>
+		                        </c:if>
+		                             
+			                    <a class="btn btn-right" onclick="closeOther('${index.count }')">More</a>
 	                        </div>
 	                    </div>
 	                </div>
@@ -490,11 +548,13 @@
 							                                <p class="aligncenter">:</p>
 							                                <p class="alignright">${wObj.work_id}</p>
 									                    </div> 
-	                        							<div class="line">
-							                                <p class="alignleft">PB Item No</p>
-							                                <p class="aligncenter">:</p>
-							                                <p class="alignright">${wObj.pink_book_item_number}</p>
-									                    </div> 
+									                    <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">
+		                        							<div class="line">
+								                                <p class="alignleft">PB Item No</p>
+								                                <p class="aligncenter">:</p>
+								                                <p class="alignright">${wObj.pink_book_item_number}</p>
+										                    </div> 
+									                    </c:if>
 									                    <div class="line">
 							                                <p class="alignleft">Railway</p>
 							                                <p class="aligncenter">:</p>
@@ -568,6 +628,7 @@
                     fullWidth: true
                   });
             }
+           
             var searchData = {};
             
             <c:forEach var="pObj" items="${projectsInfo}" varStatus="index">

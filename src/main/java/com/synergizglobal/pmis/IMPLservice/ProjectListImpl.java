@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.ProjectDao;
 import com.synergizglobal.pmis.Iservice.ProjectService;
 import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Work;
 
 @Service
 public class ProjectListImpl implements ProjectService{
@@ -22,8 +21,8 @@ public class ProjectListImpl implements ProjectService{
 	
 	
 	@Override
-	public Project editProject(String projectId, Project project)throws Exception{
-		return projectDao.editProject(projectId,project);}
+	public Project getProject(String projectId, Project project)throws Exception{
+		return projectDao.getProject(projectId,project);}
 
 	@Override
 	public boolean updateProject(Project project)throws Exception{

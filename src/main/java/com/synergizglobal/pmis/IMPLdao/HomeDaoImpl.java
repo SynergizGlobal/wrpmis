@@ -310,7 +310,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Project> objsList = new ArrayList<Project>();
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String projectQry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_status,attachment "
+			String projectQry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_status,attachment,benefits "
 					+ "from `project`";
 			
 			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
@@ -324,6 +324,8 @@ public class HomeDaoImpl implements HomeDao {
 					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year, wr.attachment as work_attachment,"
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? order by wr.work_short_name";
+			
+			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ?";
 			
 			objsList = jdbcTemplate.query( projectQry, new BeanPropertyRowMapper<Project>(Project.class));
 			
@@ -364,6 +366,9 @@ public class HomeDaoImpl implements HomeDao {
 				}
 				
 				project.setWorksInfo(worksInfo);
+				
+				List<Project> projectGallery = jdbcTemplate.query( projectGalleryQry, new Object[] {project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
+				project.setProjectGallery(projectGallery);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

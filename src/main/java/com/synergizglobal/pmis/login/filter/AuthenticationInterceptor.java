@@ -13,10 +13,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.LoginService;
+import com.synergizglobal.pmis.Iservice.WebDocumentsService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.WebDocuments;
 
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	Logger logger = Logger.getLogger(AuthenticationInterceptor.class);
@@ -53,6 +55,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	@Autowired
 	HomeService service;
 	
+	@Autowired
+	WebDocumentsService webDocumentsService;
+	
 	@Override
     public void postHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler,
@@ -81,6 +86,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				String base = "web";
 				List<Forms> forms = service.getFormsList(base);
 				model.addObject("forms", forms);
+				
+				List<WebDocuments> webDocumentTypes = webDocumentsService.getWebDocumentTypes(null);
+				model.addObject("webDocumentTypes", webDocumentTypes);
 			}
 			
 			

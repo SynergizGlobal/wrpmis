@@ -6,11 +6,82 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Project {
 	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status,attachment
-	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,completion_cost,work_short_name;
+	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
+	completion_cost,work_short_name,benefits,galleryFileNames;
+	
+	private String id,file_name,project_id_fk,created_date,created_by;
 	
 	private MultipartFile projectFile;
 	
+	private List<MultipartFile> projectGalleryFiles;
+	
 	private List<Work> worksInfo;
+	
+	private List<Project> projectGallery;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getFile_name() {
+		return file_name;
+	}
+
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
+
+	public String getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(String created_date) {
+		this.created_date = created_date;
+	}
+
+	public String getCreated_by() {
+		return created_by;
+	}
+
+	public void setCreated_by(String created_by) {
+		this.created_by = created_by;
+	}
+
+	public String getBenefits() {
+		return benefits;
+	}
+
+	public void setBenefits(String benefits) {
+		this.benefits = benefits;
+	}
+
+	public String getGalleryFileNames() {
+		return galleryFileNames;
+	}
+
+	public void setGalleryFileNames(String galleryFileNames) {
+		this.galleryFileNames = galleryFileNames;
+	}
+
+	public List<MultipartFile> getProjectGalleryFiles() {
+		return projectGalleryFiles;
+	}
+
+	public void setProjectGalleryFiles(List<MultipartFile> projectGalleryFiles) {
+		this.projectGalleryFiles = projectGalleryFiles;
+	}
 
 	public String getAttachment() {
 		return attachment;
@@ -154,6 +225,14 @@ public class Project {
 
 	public void setWorksInfo(List<Work> worksInfo) {
 		this.worksInfo = worksInfo;
+	}
+
+	public List<Project> getProjectGallery() {
+		return projectGallery;
+	}
+
+	public void setProjectGallery(List<Project> projectGallery) {
+		this.projectGallery = projectGallery;
 	}
 	
 }

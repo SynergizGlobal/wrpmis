@@ -89,7 +89,7 @@ public class ProjectController {
 			model.setViewName(PageConstants.addUpdateProject);
 			model.addObject("action", "edit");
 			projectId= project.getProject_id();
-			Project projectDeatils = projectService.editProject(projectId, project);
+			Project projectDeatils = projectService.getProject(projectId, project);
 			model.addObject("projectDeatils", projectDeatils);
 			
 		}catch (Exception e) {
@@ -100,9 +100,12 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "/update-Project", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView updateProject(@ModelAttribute Project project,RedirectAttributes attributes){
+	public ModelAndView updateProject(@ModelAttribute Project project,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
+		String user_Id = null;String userName = null;
 		try{
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			project.setCreated_by(userName);
 			model.setViewName("redirect:/project");
 			MultipartFile file = project.getProjectFile();
 			if (null != file && !file.isEmpty()){
@@ -143,9 +146,12 @@ public class ProjectController {
 	 }
 	
 	@RequestMapping(value = "/add-Project", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addProject(@ModelAttribute  Project project,RedirectAttributes attributes){
+	public ModelAndView addProject(@ModelAttribute  Project project,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
+		String user_Id = null;String userName = null;
 		try{
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			project.setCreated_by(userName);
 			model.setViewName("redirect:/project");
 			MultipartFile file = project.getProjectFile();
 			if (null != file && !file.isEmpty()){

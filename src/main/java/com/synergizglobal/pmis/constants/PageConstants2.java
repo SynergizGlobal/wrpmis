@@ -13,4 +13,6 @@ public class PageConstants2 {
 	public static final String progressUploadGrid = "forms/progressUploadGrid";
 	
 	public static final String webLinks = "forms/webLinks";
+	
+	public static final String webDocuments = "forms/webDocuments";
 }

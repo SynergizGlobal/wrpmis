@@ -36,7 +36,8 @@ public class ManualsController {
 	Logger logger = Logger.getLogger(ManualsController.class);
 
 	@Autowired
-	 ManualsService service;
+	ManualsService service;
+	
 	
 	
 	@RequestMapping(value="/manuals",method={RequestMethod.GET,RequestMethod.POST})

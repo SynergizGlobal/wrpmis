@@ -25,41 +25,46 @@ public class FileUploads {
 	            File directory = new File(saveDirectory);
                 if (!directory.exists()) {
                 	directory.mkdirs();
-                	String perm = "rwxrwxrwx";
-	            	Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(perm);
-	            	Files.setPosixFilePermissions(directory.toPath(), permissions);
+                	boolean flag = OSValidator.isUnix();
+                	if(flag) {
+                    	String perm = "rwxrwxrwx";
+    	            	Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(perm);
+    	            	Files.setPosixFilePermissions(directory.toPath(), permissions);
+                	}
                 }
                 
                 File file = new File(saveDirectory + fileName);
                 
                 multipartFile.transferTo(file);
                 
-                if(file.exists()) {
-                    //Setting file permissions for owner, group and others using PosixFilePermission
-                     
-                    HashSet<PosixFilePermission> permissions = new HashSet<PosixFilePermission>();
-                     
-                    //Adding owner's file permissions
-                     
-                    permissions.add(PosixFilePermission.OWNER_EXECUTE);
-                    permissions.add(PosixFilePermission.OWNER_READ);
-                    permissions.add(PosixFilePermission.OWNER_WRITE);
-                     
-                    //Adding group's file permissions
-                     
-                    permissions.add(PosixFilePermission.GROUP_EXECUTE);
-                    permissions.add(PosixFilePermission.GROUP_READ);
-                    permissions.add(PosixFilePermission.GROUP_WRITE);
-                     
-                    //Adding other's file permissions
-                     
-                    permissions.add(PosixFilePermission.OTHERS_EXECUTE);
-                    permissions.add(PosixFilePermission.OTHERS_READ);
-                    permissions.add(PosixFilePermission.OTHERS_WRITE);
-                     
-                    Files.setPosixFilePermissions(Paths.get(saveDirectory + fileName), permissions);
-                }
-                
+                boolean flag = OSValidator.isUnix();
+            	if(flag) {
+	                if(file.exists()) {
+	                    //Setting file permissions for owner, group and others using PosixFilePermission
+	                     
+	                    HashSet<PosixFilePermission> permissions = new HashSet<PosixFilePermission>();
+	                     
+	                    //Adding owner's file permissions
+	                     
+	                    permissions.add(PosixFilePermission.OWNER_EXECUTE);
+	                    permissions.add(PosixFilePermission.OWNER_READ);
+	                    permissions.add(PosixFilePermission.OWNER_WRITE);
+	                     
+	                    //Adding group's file permissions
+	                     
+	                    permissions.add(PosixFilePermission.GROUP_EXECUTE);
+	                    permissions.add(PosixFilePermission.GROUP_READ);
+	                    permissions.add(PosixFilePermission.GROUP_WRITE);
+	                     
+	                    //Adding other's file permissions
+	                     
+	                    permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+	                    permissions.add(PosixFilePermission.OTHERS_READ);
+	                    permissions.add(PosixFilePermission.OTHERS_WRITE);
+	                     
+	                    Files.setPosixFilePermissions(Paths.get(saveDirectory + fileName), permissions);
+	                }
+            	}
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,40 +81,45 @@ public class FileUploads {
 		                File directory = new File(saveDirectory);	                
 		                if (!directory.exists()) {
 		                	directory.mkdirs();
-		                	String perm = "rwxrwxrwx";
-			            	Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(perm);
-			            	Files.setPosixFilePermissions(directory.toPath(), permissions);
+		                	boolean flag = OSValidator.isUnix();
+		                	if(flag) {
+		                    	String perm = "rwxrwxrwx";
+		    	            	Set<PosixFilePermission> permissions = PosixFilePermissions.fromString(perm);
+		    	            	Files.setPosixFilePermissions(directory.toPath(), permissions);
+		                	}
 		                }
 		                
 		                File file = new File(saveDirectory + fileName);
 		                
 		                multipartFile.transferTo(file);
-		                
-		                if(file.exists()) {
-		                    //Setting file permissions for owner, group and others using PosixFilePermission
-		                     
-		                    HashSet<PosixFilePermission> permissions = new HashSet<PosixFilePermission>();
-		                     
-		                    //Adding owner's file permissions
-		                     
-		                    permissions.add(PosixFilePermission.OWNER_EXECUTE);
-		                    permissions.add(PosixFilePermission.OWNER_READ);
-		                    permissions.add(PosixFilePermission.OWNER_WRITE);
-		                     
-		                    //Adding group's file permissions
-		                     
-		                    permissions.add(PosixFilePermission.GROUP_EXECUTE);
-		                    permissions.add(PosixFilePermission.GROUP_READ);
-		                    permissions.add(PosixFilePermission.GROUP_WRITE);
-		                     
-		                    //Adding other's file permissions
-		                     
-		                    permissions.add(PosixFilePermission.OTHERS_EXECUTE);
-		                    permissions.add(PosixFilePermission.OTHERS_READ);
-		                    permissions.add(PosixFilePermission.OTHERS_WRITE);
-		                     
-		                    Files.setPosixFilePermissions(Paths.get(saveDirectory + fileName), permissions);
-		                }
+		                boolean flag = OSValidator.isUnix();
+	                	if(flag) {
+			                if(file.exists()) {
+			                    //Setting file permissions for owner, group and others using PosixFilePermission
+			                     
+			                    HashSet<PosixFilePermission> permissions = new HashSet<PosixFilePermission>();
+			                     
+			                    //Adding owner's file permissions
+			                     
+			                    permissions.add(PosixFilePermission.OWNER_EXECUTE);
+			                    permissions.add(PosixFilePermission.OWNER_READ);
+			                    permissions.add(PosixFilePermission.OWNER_WRITE);
+			                     
+			                    //Adding group's file permissions
+			                     
+			                    permissions.add(PosixFilePermission.GROUP_EXECUTE);
+			                    permissions.add(PosixFilePermission.GROUP_READ);
+			                    permissions.add(PosixFilePermission.GROUP_WRITE);
+			                     
+			                    //Adding other's file permissions
+			                     
+			                    permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+			                    permissions.add(PosixFilePermission.OTHERS_READ);
+			                    permissions.add(PosixFilePermission.OTHERS_WRITE);
+			                     
+			                    Files.setPosixFilePermissions(Paths.get(saveDirectory + fileName), permissions);
+			                }
+	                	}
 	            	}
 	            }
 	        }

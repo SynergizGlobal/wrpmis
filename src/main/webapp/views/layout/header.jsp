@@ -187,36 +187,19 @@
           <%-- <li class="blue"><a href="<%=request.getContextPath()%>/manuals" class='head-img'>
 	          <span class="material-icons-outlined">assignment</span> Manuals</a>
           </li> --%>
-           <li class="blue lighten-1"><a href="#" class='head-img'>
+           <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img'>
 	          <span class="material-icons-outlined">description</span> Documents</a>
 	          <ul class="second-level-menu">
-              	<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/manuals.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Manuals</span>
-		 			</a>
-		 		</li>
-		 		<!--  delete start-->
-		 		<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/codes.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Codes</span>
-		 			</a>
-		 		</li>
-		 		<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/policies.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Policies</span>
-		 			</a>
-		 		</li>
-		 		<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/circulars.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Circulars</span>
-		 			</a>
-		 		</li>
-		 		<!--  delete end-->
-		 		</ul>
+		          <c:forEach var="obj" items="${webDocumentTypes}">
+		          		<c:set var="tempWebDocType" value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}"></c:set>
+         				<c:set var="webDocType" value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}"></c:set>
+		              	<li>
+		              		<a href="<%=request.getContextPath()%>/web-documents/${webDocType}">
+				 				<span class="nav-label">${obj.type}</span>
+				 			</a>
+				 		</li>
+			 	  </c:forEach>
+		 	  </ul>
           </li>
           <li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
 	          <span class="material-icons-outlined">link</span> Web Links</a>
@@ -511,33 +494,16 @@
      <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
 	          <span class="material-icons-outlined">description</span> Documents</a>
 	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
-              	<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/manuals.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Manuals</span>
-		 			</a>
-		 		</li>
-		 		<!--  delete start-->
-		 		<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/codes.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Codes</span>
-		 			</a>
-		 		</li>
-		 		<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/policies.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Policies</span>
-		 			</a>
-		 		</li>
-		 		<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/circulars.jsp">
-		 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Circulars</span>
-		 			</a>
-		 		</li>
-		 		<!--  delete end-->
-		 		</ul>
+		 		<c:forEach var="obj" items="${webDocumentTypes}">
+	          		<c:set var="tempWebDocType" value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}"></c:set>
+        				<c:set var="webDocType" value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}"></c:set>
+	              	<li>
+	              		<a href="<%=request.getContextPath()%>/web-documents/${webDocType}">
+			 				<span class="nav-label">${obj.type}</span>
+			 			</a>
+			 		</li>
+			 	</c:forEach>
+		 	  </ul>
           </li>
           
           <li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>

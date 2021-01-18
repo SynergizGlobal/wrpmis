@@ -19,6 +19,8 @@ public class CommonConstants2 {
 	public static final String DESIGN_FILES = "/pmis/DESIGN_FILES/";
 	public static final String P6_FILES = "/pmis/P6_FILES/";
 	public static final String STRIPCHART_FILES = "/pmis/STRIPCHART_FILES/";
+	public final static String WEB_DOCUMENTS = "/pmis/WEB_DOCUMENTS/";
+	public final static String PROJECT_GALLERY = "/pmis/PROJECT_GALLERY/";
 	
 	
 	
@@ -32,6 +34,8 @@ public class CommonConstants2 {
 	public static final String DESIGN_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
 	public static final String P6_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"P6_FILES"+File.separator;
 	public static final String DOCX_LOGO = "E:/Development/nginx-1.9.9/html/pmis/resources/images";
+	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
+	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
 	
 	/*********** PRODUCTION ****************************************************/
 	
@@ -42,7 +46,9 @@ public class CommonConstants2 {
 	public final static String USER_IMAGE_SAVING_PATH = "usr/share/nginx/html/pmis/USER_IMAGES/";
 	public final static String DESIGN_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/DESIGN_FILES/";
 	public final static String P6_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/P6_FILES/";
-	public static final String DOCX_LOGO = "usr/share/nginx/html/pmis/resources/images";*/
+	public static final String DOCX_LOGO = "usr/share/nginx/html/pmis/resources/images";
+	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/WEB_DOCUMENTS/";
+	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/PROJECT_GALLERY/";*/
 	
 	/*public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
 	public final static String ISSUE_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"ISSUE_FILES"+File.separator;
@@ -52,6 +58,8 @@ public class CommonConstants2 {
 	public static final String DESIGN_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"DESIGN_FILES"+File.separator;
 	public static final String P6_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"P6_FILES"+File.separator;
 	public static final String DOCX_LOGO = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/resources/images";
+	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "D:/Development/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
+	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "D:/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
 	*/
 	
 }

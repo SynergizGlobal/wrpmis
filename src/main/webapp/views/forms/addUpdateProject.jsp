@@ -181,7 +181,7 @@
 						<div class="row">
                               <div class="col m2 hide-on-small-only"></div>
                               <div class="col s12 m8 input-field">
-                                  <textarea id="benefits" class="materialize-textarea" data-length="1000"  name="benefits">${projectDeatils.remarks }</textarea>
+                                  <textarea id="benefits"  name="benefits" class="materialize-textarea" data-length="1000">${projectDeatils.benefits }</textarea>
                                   <label for="benefits">Benefits</label>
                                    <span id="benefitsError"></span>
                               </div>
@@ -196,30 +196,30 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
-								<div class="file-field input-field">
-									<div class="btn bg-m t-c">
-										<span>Images</span> <input type="file" id="projectMultipleFile"	name="projectMultipleFile" multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/x-m4v,video/avi,video/mkv" >
+	                            <div class="col m8 s12">
+									<div class="file-field input-field">
+										<div class="btn bg-m t-c">
+											<span>Images</span> <input type="file" id="projectGalleryFiles"	name="projectGalleryFiles" multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/webm,video/avi,video/mkv" >
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text" id="galleryFileNames" name="galleryFileNames" value="${projectDeatils.galleryFileNames}" >
+										</div>
 									</div>
-									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text" name="attachment" >
-									</div>
+									<!-- have to hide this div, if images are 0
+									<div class="images-show">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">
+										<img src="/pmis/resources/images/mrvc.png">																
+									</div> -->
 								</div>
-								<!-- have to hide this div, if images are 0
-								<div class="images-show">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">
-									<img src="/pmis/resources/images/mrvc.png">																
-								</div> -->
-							</div>
-							<div class="col m2 hide-on-small-only"></div>
+								<div class="col m2 hide-on-small-only"></div>
 							</div>
 
                             <div class="row">

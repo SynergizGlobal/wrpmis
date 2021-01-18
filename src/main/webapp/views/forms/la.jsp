@@ -25,6 +25,7 @@
         td:last-child {
             white-space: inherit;
         }
+        
 
         .last-column .btn+.btn {
             margin-left: 20px;
@@ -33,6 +34,10 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
+        .fs-350 {
+		    width: 350px;
+		    max-width: 350px;
+		}
     </style>
 </head>
 
@@ -128,11 +133,11 @@
                                 <table id="land-acquisition-datatable" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th> Survey Number</th>
-                                            <th> Work</th>
+                                            <th> Survey <br>Number</th>
+                                            <th class="fs-350"> Work </th>
                                             <th> Village</th>
                                             <th> Type of Land</th>
-                                            <th> Sub Category of Land</th>
+                                            <th> Sub Category <br>of Land</th>
                                             <th> Area of Plot</th>                                           
                                             <th class="no-sort">Action</th>
                                         </tr>

@@ -204,72 +204,17 @@
          <%--<li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
 	          <span class="material-icons-outlined">link</span> Web Links</a>
           </li>--%>
-           <li class="blue lighten-2"><a href="#" class='head-img'>
+           <li class="blue lighten-2"><a href="javascript:void(0);" class='head-img'>
 	          <span class="material-icons-outlined">link</span> Links</a>
-	          <ul class="second-level-menu">
-              	<!-- <li>
-              		<a href="<%=request.getContextPath()%>/views/forms/webLinks.jsp">
-		 				<span class="nav-label">Web Links</span>
-		 			</a>
-		 		</li> -->
-		 		<li>
-              		<a href="https://www.indianrailways.gov.in/railwayboard/">
-		 				<span class="nav-label">Railway Board</span>
-		 			</a>
-		 		</li>
-		 		<!--  delete start-->
-		 		<li>
-              		<a href="https://rdso.indianrailways.gov.in/">
-		 				<span class="nav-label">RDSO</span>
-		 			</a>
-		 		</li>
-		 		<li>
-              		<a href="https://cr.indianrailways.gov.in/">
-		 				<span class="nav-label">CR</span>
-		 			</a>
-		 		</li>		 	
-		 		<li>
-				    <a href="https://wr.indianrailways.gov.in/">
-				       <span class="nav-label">WR</span>
+	          <ul class="second-level-menu">	
+	          <c:forEach var="lObj" items="${webLinksList }">
+	          	<li>
+				    <a href="${lObj.link }" target="_blank">
+				       <span class="nav-label">${lObj.name}</span>
 				   </a>
-				</li>		
-				<li>
-				    <a href="http://www.iricen.gov.in/iricen/Home">
-				       <span class="nav-label">IRICEN</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="https://rdso.indianrailways.gov.in/view_section.jsp?lang=0&id=0,5,269">
-				       <span class="nav-label">RDSO's vendor directory</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="http://10.100.2.4/drawing/frmLink.aspx">
-				       <span class="nav-label">RDSO's Bridges & Structures directorat</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="http://www.shramikkalyan.indianrailways.gov.in/">
-				       <span class="nav-label">Raliway's Shramik Kalyan Portal</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="http://www.mrvc.indianrailways.gov.in/">
-				       <span class="nav-label">MRVC</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="https://labour.gov.in/">
-				       <span class="nav-label">Ministry of labour & employment</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="https://shramsuvidha.gov.in/home">
-				       <span class="nav-label">Shram suvidha unified portal for labour law compliance</span>
-				   </a>
-				</li>	
-		 		<!--  delete end-->
-		 		</ul>
+				</li>
+	          </c:forEach>
+		 	 </ul>
           </li> 
           
           <%-- <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img notification' id="notification">
@@ -510,84 +455,17 @@
 	          <span class="material-icons-outlined">link</span> Web Links</a>
           </li> --%>
           
-            <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
+            <li class="sub-menu"><a href="javascript:void(0);" class='head-img collapsible-header'>
 	          <span class="material-icons-outlined">link</span> Links</a>
 	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
-              <%-- 	<li>
-              		<a href="<%=request.getContextPath()%>/views/forms/webLinks.jsp">
-		 				<span class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Web Links</span>
-		 			</a>
-		 		</li> --%>
-		 		<li>
-              		<a href="https://www.indianrailways.gov.in/railwayboard/">
-		 				<span class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">Railway Board</span>
-		 			</a>
-		 		</li>
-		 		<!--  delete start-->
-		 		<li>
-              		<a href="https://rdso.indianrailways.gov.in/">
-		 				<span class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">RDSO</span>
-		 			</a>
-		 		</li>
-		 		<li>
-              		<a href="https://cr.indianrailways.gov.in/">
-		 				<span  class="fa fa-${category.imagePath}"></span>
-		 				<span class="nav-label">CR</span>
-		 			</a>
-		 		</li>		 	
-		 		<li>
-				    <a href="https://wr.indianrailways.gov.in/">
-				       <span  class="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">WR</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="http://www.iricen.gov.in/iricen/Home">
-				       <span  class="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">IRICEN</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="https://rdso.indianrailways.gov.in/view_section.jsp?lang=0&id=0,5,269">
-				       <spanclass="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">RDSO's vendor directory</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="http://10.100.2.4/drawing/frmLink.aspx">
-				       <span class="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">RDSO's Bridges & Structures directorat</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="http://www.shramikkalyan.indianrailways.gov.in/">
-				       <span  class="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">Raliway's Shramik Kalyan Portal</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="http://www.mrvc.indianrailways.gov.in/">
-				       <span class="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">MRVC</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="https://labour.gov.in/">
-				       <span  class="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">Ministry of labour & employment</span>
-				   </a>
-				</li>		
-				<li>
-				    <a href="https://shramsuvidha.gov.in/home">
-				       <span  class="fa fa-${category.imagePath}"></span>
-				       <span class="nav-label">Shram suvidha unified portal for labour law compliance</span>
-				   </a>
-				</li>	
-		 		<!--  delete end-->
-		 		</ul>
+	              <c:forEach var="lObj" items="${webLinksList }">
+		          	<li>
+					    <a href="${lObj.link }" target="_blank">
+					       <span class="nav-label">${lObj.name}</span>
+					   </a>
+					</li>
+		          </c:forEach>
+		 	</ul>
           </li> 
     <li>
    		<!-- a class='dropdown-trigger' data-target='dropdown1'-->

@@ -16,4 +16,8 @@ public interface LandAcquisitionDao {
 
 	public List<LandAcquisition> getLandAcquisitionSubCategoryList(LandAcquisition obj) throws Exception;
 
+	public List<LandAcquisition> getStatusList() throws Exception;
+
+	public LandAcquisition getLandAcquisitionForm(LandAcquisition obj) throws Exception;
+
 }

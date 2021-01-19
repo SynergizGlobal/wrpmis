@@ -1,5 +1,5 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,7 +8,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add / Edit Land Aquisition</title>
+    <title>
+    	 <c:if test="${action eq 'edit'}">Update Land Acquisition</c:if>
+		 <c:if test="${action eq 'add'}"> Add Land Acquisition</c:if>
+    </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
@@ -71,41 +74,43 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Land Aquisition</h6>
+                                <h6>
+                                	 <c:if test="${action eq 'edit'}">Update Land Acquisition</c:if>
+									 <c:if test="${action eq 'add'}"> Add Land Acquisition</c:if>
+                                </h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <form action="#">
-                            <div class="row" style="margin-bottom: 20px;">
+                            <div class="row" >
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m2 input-field">
                                     <!-- <select class="searchable">
                                         <option value="0" selected>Select</option>
                                         <option value="1">Agency 1</option>
                                         <option value="2">Agency 2</option>
                                         <option value="3">Agency 3</option>
                                     </select> -->
-                                    <label class="primary-text-bold"> Land Aquisition ID :</label>
+                                    
+                                    <label for="la_id"> Land Acquisition ID :</label>
                                 </div>
+                                 <div class="col s12 m6 input-field">
+                                  <input id="la_id" name="la_id" type="text" class="validate mt-10">
+                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="survey_no" name="survey_no" type="text" class="validate mt-10">
-                                    <label for="survey_no">Survey Number </label>
+                                    <input id="survey_number" name="survey_number" type="text" class="validate mt-10">
+                                    <label for="survey_number">Survey Number </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Village ID </p>
-                                    <select class="searchable" id="village_id" name="village_id">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
+                                    <input id="village_id" name="village_id" type="text" class="validate mt-10">
+                                    <label for="village_id">Village ID </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -165,7 +170,7 @@
                                     <label for="collector">Collector </label>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="submission_date" name="submission_date" type="text"
+                                    <input id="submission_date" name="proposal_submission_date_to_collector" type="text"
                                         class="validate datepicker">
                                     <label for="submission_date">Proposal submission Date to collector</label>
                                     <button type="button" id="submission_date__icon" class="datepicker-button"><i
@@ -204,16 +209,16 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="fee_received_date" name="fee_received_date" type="text"
+                                    <input id="jm_fee_letter_received_date" name="jm_fee_letter_received_date" type="text"
                                         class="validate datepicker">
-                                    <label for="fee_received_date"> JM Fee Letter received Date </label>
+                                    <label for="jm_fee_letter_received_date"> JM Fee Letter received Date </label>
                                     <button type="button" id="fee_received_date__icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="fee_paid_date" name="fee_paid_date" type="text"
+                                    <input id="jm_fee_paid_date" name="jm_fee_paid_date" type="text"
                                         class="validate datepicker">
-                                    <label for="fee_paid_date">JM Fee Paid Date </label>
+                                    <label for="jm_fee_paid_date">JM Fee Paid Date </label>
                                     <button type="button" id="fee_paid_date__icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
@@ -223,14 +228,14 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="jm_start" type="text" name="jm_start" class="validate datepicker">
-                                    <label for="jm_start">JM Start Date </label>
+                                    <input id="jm_start_date" type="text" name="jm_start_date" class="validate datepicker">
+                                    <label for="jm_start_date">JM Start Date </label>
                                     <button type="button" id="jm_start__icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="jm_end" name="jm_end" type="text" class="validate datepicker">
-                                    <label for="jm_end"> JM Completion Date</label>
+                                    <input id="jm_completion_date" name="jm_completion_date" type="text" class="validate datepicker">
+                                    <label for="jm_completion_date"> JM Completion Date</label>
                                     <button type="button" id="jm_end__icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
@@ -240,8 +245,8 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="jm_to_sdo" name="jm_to_sdo" type="text" class="validate datepicker">
-                                    <label for="jm_to_sdo">JM Sheet Date to SDO </label>
+                                    <input id="jm_sheet_date_to_sdo" name="jm_sheet_date_to_sdo" type="text" class="validate datepicker">
+                                    <label for="jm_sheet_date_to_sdo">JM Sheet Date to SDO </label>
                                     <button type="button" id="jm_to_sdo__icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
@@ -318,15 +323,15 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="govt_area_acquired" name="govt_area_acquired" type="text"
+                                        <input id="area_to_be_acquired" name="area_to_be_acquired" type="text"
                                             class="validate">
-                                        <label for="govt_area_acquired"> Area to be Acquired </label>
+                                        <label for="area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="govt_proposal_submission_date" type="text"
-                                            name="govt_proposal_submission_date" class="validate datepicker">
-                                        <label for="govt_proposal_submission_date">Proposal submission</label>
+                                        <input id="proposal_submission" type="text"
+                                            name="proposal_submission" class="validate datepicker">
+                                        <label for="proposal_submission">Proposal submission</label>
                                         <button type="button" id="govt_proposal_submission_date__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
@@ -336,18 +341,19 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label"> Proposal Submission Status </p>
-                                        <select class="searchable" id="govt_proposal_submission_status"
-                                            name="govt_proposal_submission_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                        <select class="searchable" id="proposal_submission_status_fk"
+                                            name="proposal_submission_status_fk">
+                                            <option value="" >Select</option>
+                                            <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.proposal_submission_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="govt_valuation_date" type="text"
-                                            name="govt_valuation_date" class="validate datepicker mt-10">
-                                        <label for="govt_valuation_date">Valuation Date</label>
+                                        <input id="valuation_date" type="text"
+                                            name="valuation_date" class="validate datepicker mt-10">
+                                        <label for="valuation_date">Valuation Date</label>
                                         <button type="button" id="govt_valuation_date__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
@@ -356,17 +362,17 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="govt_letter_for_payment" type="text" class="validate datepicker"
-                                            name="govt_letter_for_payment">
-                                        <label for="govt_letter_for_payment">Letter for Payment</label>
+                                        <input id="letter_for_payment" type="text" class="validate datepicker"
+                                            name="letter_for_payment">
+                                        <label for="letter_for_payment">Letter for Payment</label>
                                         <button type="button" id="govt_letter_for_payment__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
-                                        <input id="govt_amount_demanded" name="govt_amount_demanded" type="text"
+                                        <input id="amount_demanded" name="amount_demanded" type="text"
                                             class="validate">
-                                        <label for="govt_amount_demanded">Amount Demanded</label>
+                                        <label for="amount_demanded">Amount Demanded</label>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -374,16 +380,17 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label"> LFP Status </p>
-                                        <select class="searchable" id="govt_lfp_status" name="govt_lfp_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                        <select class="searchable" id="lfp_status_fk" name="lfp_status_fk">
+                                            <option value="" selected>Select</option>
+                                            <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.lfp_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="govt_payment_approval_date" type="text"
-                                            name="govt_payment_approval_date" class="validate datepicker mt-10">
+                                        <input id="approval_for_payment" type="text"
+                                            name="approval_for_payment" class="validate datepicker mt-10">
                                         <label for="govt_payment_approval_date">Approval for Payment </label>
                                         <button type="button" id="govt_payment_approval_date__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
@@ -393,9 +400,9 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="govt_payment_date" name="govt_payment_date" type="text"
+                                        <input id="payment_date" name="payment_date" type="text"
                                             class="validate datepicker">
-                                        <label for="govt_payment_date">Payment date </label>
+                                        <label for="payment_date">Payment date </label>
                                         <button type="button" id="govt_payment_date__icon" class="datepicker-button"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
@@ -411,17 +418,18 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label"> Payment Status </p>
-                                        <select class="searchable" id="govt_payment_status" name="govt_payment_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                        <select class="searchable" id="payment_status_fk" name="payment_status_fk">
+                                            <option value="" selected>Select</option>
+                                           <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.payment_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="govt_possession_date" name="govt_possession_date" type="text"
+                                        <input id="possession_date" name="possession_date" type="text"
                                             class="validate datepicker mt-10">
-                                        <label for="govt_possession_date">Possession Date </label>
+                                        <label for="possession_date">Possession Date </label>
                                         <button type="button" id="govt_possession_date__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
@@ -431,12 +439,13 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Possession Status </p>
-                                        <select class="searchable" id="govt_possession_status"
-                                            name="govt_possession_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                        <select class="searchable" id="possession_status_fk"
+                                            name="possession_status_fk">
+                                            <option value="" selected>Select</option>
+                                            <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.possession_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field ">
@@ -1181,16 +1190,22 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
+                              
                                 <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button style="width: 100%;" class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+                                   <div class="center-align m-1">
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateLA();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addLA();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
+                                
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                            <a href="<%=request.getContextPath()%>/land-acquisition" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

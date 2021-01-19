@@ -112,4 +112,41 @@ public class LandAcquisitionController {
 		}
 		return subCategoryList;
 	}
+	
+	@RequestMapping(value = "/add-land-acquisition-form", method = {RequestMethod.GET})
+	public ModelAndView addLandAcquisitionForm(@ModelAttribute LandAcquisition obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.landAcquisitionForm);
+			model.addObject("action", "add");
+			List<LandAcquisition> statusList = service.getStatusList();
+			model.addObject("statusList", statusList);
+			
+		}catch (Exception e) {
+				logger.error("addLandAcquisitionForm : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/get-land-acquisition", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getLandAcquisitionForm(@ModelAttribute LandAcquisition obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.landAcquisitionForm);
+			model.addObject("action", "edit");
+			
+			List<LandAcquisition> statusList = service.getStatusList();
+			model.addObject("statusList", statusList);
+			
+			LandAcquisition LADetails = service.getLandAcquisitionForm(obj);
+			model.addObject("LADetails", LADetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getLandAcquisitionForm : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	
 }

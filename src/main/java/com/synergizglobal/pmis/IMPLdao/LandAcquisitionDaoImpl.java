@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.LandAcquisitionDao;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.LandAcquisition;
 
@@ -252,6 +253,43 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<LandAcquisition> getStatusList() throws Exception {
+		List<LandAcquisition> objsList = null;
+		try {
+			String qry ="select status,status_of from la_status ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public LandAcquisition getLandAcquisitionForm(LandAcquisition obj) throws Exception {
+		LandAcquisition LADetails = null;
+		try {
+			String qry = "select la_id, work_id as work_id_fk, survey_number, village_id, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, jm_start_date, jm_completion_date, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues"
+					+ " from la_land_identification li" + 
+					" where la_id is not null" ; 
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_id())) {
+				qry = qry + " and la_id = ?";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_id())) {
+				pValues[i++] = obj.getLa_id();
+			}
+			LADetails = (LandAcquisition)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+		
+	}catch(Exception e) {
+		throw new Exception(e.getMessage());
+	}
+	return LADetails;
 	}
 	
 }

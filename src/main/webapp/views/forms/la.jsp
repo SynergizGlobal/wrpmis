@@ -53,7 +53,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Land Aquisition</h6>
+                            <h6>Land Acquisition</h6>
                         </div>
                     </span>
                     <div class="">
@@ -67,13 +67,13 @@
 							   ${error}
 							</div>
 						</c:if>
-                        <!-- <div class="row plr-1">
+                         <div class="row plr-1">
                             <div class="col s12 m4">
-                                <div class="m-1 l-align">
+                               <!--  <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem">Click <a href="#"> here </a>for the template</p>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col s12 m4">
@@ -84,12 +84,12 @@
                             </div>
 
                             <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
+                             <!--    <div class="m-1 ">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
+                                </div> -->
                             </div>
-                        </div> -->
+                        </div> 
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m1 hide-on-small-only"></div>
                             <div class="col s12 m2 input-field">
@@ -205,6 +205,9 @@
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="la_id" id="la_id" />
+    </form>
     <script>
         $(document).ready(function () {
         	  $('select:not(.searchable)').formSelect();
@@ -451,6 +454,63 @@
             }else{
             	  $(".page-loader").hide();
             }
+        }
+        
+        
+        function getLandAcquisition(la_id){
+        	$("#la_id").val(la_id);
+        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-land-acquisition');
+        	$('#getForm').submit();
+        }
+        function deleteLandAcquisition(la_id){
+        	$("#la_id").val(la_id);
+        	showCancelMessage();
+        }
+        	
+        
+      	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        
+      	
+        function showCancelMessage() {
+        	swal({
+                title: "Are you sure?",
+                text: "You will be able to change the status of record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                   // swal("Deleted!", "Record has been deleted", "success");
+                	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-land-acquisition');
+        	    	$('#getForm').submit();
+               }else {
+                    swal("Cancelled", "Record is safe :)", "error");
+                }
+            });
         }
     </script>
 </body>

@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.LandAcquisition;
 
 public interface LandAcquisitionService {
@@ -15,6 +16,10 @@ public interface LandAcquisitionService {
 	public List<LandAcquisition> getLandAcquisitionTypesOfLandsList(LandAcquisition obj) throws Exception;
 
 	public List<LandAcquisition> getLandAcquisitionSubCategoryList(LandAcquisition obj) throws Exception;
+
+	public List<LandAcquisition> getStatusList() throws Exception;
+
+	public LandAcquisition getLandAcquisitionForm(LandAcquisition obj) throws Exception;
 
 	
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.LandAcquisitionDao;
 import com.synergizglobal.pmis.Iservice.LandAcquisitionService;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.LandAcquisition;
 
 @Service
@@ -38,5 +39,15 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	@Override
 	public List<LandAcquisition> getLandAcquisitionSubCategoryList(LandAcquisition obj) throws Exception {
 		return dao.getLandAcquisitionSubCategoryList(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getStatusList() throws Exception {
+		return dao.getStatusList();
+	}
+
+	@Override
+	public LandAcquisition getLandAcquisitionForm(LandAcquisition obj) throws Exception {
+		return dao.getLandAcquisitionForm(obj);
 	}
 }

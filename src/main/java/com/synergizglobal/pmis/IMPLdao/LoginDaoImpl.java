@@ -42,8 +42,10 @@ public class LoginDaoImpl implements LoginDao{
 		try{  
 			con = dataSource.getConnection();
 			
-			String qry = "select user_id,user_name,password,designation,email_id,cast(mobile_number as CHAR) as mobile_number,cast(landline as CHAR) as landline,cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image "
-					+ "from user "
+			String qry = "select user_id,user_name,password,designation,email_id,cast(mobile_number as CHAR) as mobile_number,cast(landline as CHAR) as landline,"
+					+ "cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image,user_role_code "
+					+ "from user u "
+					+ "LEFT JOIN user_role ur ON user_role_name_fk = user_role_name "
 					+ "where password = BINARY ? and (user_id = BINARY ? OR mobile_number = ? OR email_id = ?)";
 			
 			
@@ -69,6 +71,7 @@ public class LoginDaoImpl implements LoginDao{
 				userDetails.setReporting_to_id_srfk(rs.getString("reporting_to_id_srfk"));
 				userDetails.setPmis_key_fk(rs.getString("pmis_key_fk"));
 				userDetails.setUser_role_name_fk(rs.getString("user_role_name_fk"));
+				userDetails.setUser_role_code(rs.getString("user_role_code"));
 				userDetails.setRemarks(rs.getString("remarks"));
 				userDetails.setUser_image(rs.getString("user_image"));
 				

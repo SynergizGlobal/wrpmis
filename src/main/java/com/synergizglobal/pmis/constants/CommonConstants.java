@@ -10,10 +10,16 @@ public class CommonConstants {
 	
 	public final static int  RANDOM_NUMERIC_NUMBER_LENGTH = 5;
 	
-	public final static String  ADMIN_ROLE_NAME = "Admin";
-	public final static String  YES = "Yes";
+	public final static String  ROLE_CODE_DATA_ADMIN = "DA";
+	public final static String  ROLE_CODE_INPUT_USER = "IU";
+	public final static String  ROLE_CODE_IT_ADMIN = "IT";
+	public final static String  ROLE_CODE_REGULAR_USER = "RU";
+	public final static String  ROLE_CODE_SUPER_USER = "SU";
+	
 	public final static String  ACTIVE = "Active";
 	public final static String  INACTIVE = "Inactive";
+	
+	public final static String  YES = "Yes";
 	public final static String  USER = "Synergiz";
 	
 	public final static String SAFETY_EQUIPMENT_FILES = "/pmis/SAFETY_EQUIPMENT_FILES/";

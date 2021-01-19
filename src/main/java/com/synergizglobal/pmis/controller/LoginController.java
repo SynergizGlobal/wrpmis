@@ -93,6 +93,7 @@ public class LoginController {
 					session.setAttribute("USER_ID", userDetails.getUser_id());
 					session.setAttribute("USER_NAME", userDetails.getUser_name());
 					session.setAttribute("USER_ROLE_NAME", userDetails.getUser_role_name_fk());
+					session.setAttribute("USER_ROLE_CODE", userDetails.getUser_role_code());
 					
 					if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
 						model.setViewName("redirect:/reset-password");

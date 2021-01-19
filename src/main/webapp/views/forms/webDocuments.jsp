@@ -1,7 +1,10 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="ROLE_CODE_DATA_ADMIN" value="<%=CommonConstants.ROLE_CODE_DATA_ADMIN %>"></c:set>
+<c:set var="ROLE_CODE_IT_ADMIN" value="<%=CommonConstants.ROLE_CODE_IT_ADMIN %>"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,10 +62,11 @@
 								<i class="material-icons prefix right-side">search</i> 
 								<input id="fileSearch" type="text" class="validate autocomplete" placeholder="Search ...">
 							</div>
-								
-						    <div class="col m2 s4 input-field">
-								<a class="btn t-t-i bg-m modal-trigger file-upload-btn" href="#upload-modal">Upload</a>							
-							</div>
+							<c:if test="${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}">	
+							    <div class="col m2 s4 input-field">
+									<a class="btn t-t-i bg-m modal-trigger file-upload-btn" href="#upload-modal">Upload</a>							
+								</div>
+							</c:if>
 						</div>
 					
 						<div class="row files-filter">

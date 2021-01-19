@@ -41,7 +41,7 @@ public class AlertsDaoImpl implements AlertsDao{
 	DataSourceTransactionManager transactionManager;
 
 	@Override
-	public boolean generateAtertsByCronJob() throws Exception {
+	public boolean generateAterts() throws Exception {
 		boolean flag = false;
 		List<Alerts> list = new ArrayList<Alerts>();
 		TransactionDefinition def = new DefaultTransactionDefinition();
@@ -467,7 +467,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************************************************************/
 			
 			/***************************************************************************/
-			if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0){
+			/*if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0){
 				String emailSubject = "Upcoming alerts";
 				
 				Mail mail = new Mail();
@@ -479,7 +479,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				emailSender.sendEmailWithAlerts(mail,allAlertsList); 
 				logger.error("sendNotificationAlertMails() >> Sending mail to rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com: End ");	
 				flag = true;
-			}
+			}*/
 			/***************************************************************************/
 
 		}catch(Exception e){ 
@@ -584,7 +584,7 @@ public class AlertsDaoImpl implements AlertsDao{
 
 	
 	@Override
-	public boolean generateAndSendAlertsToRajivRaviByManual() throws Exception {
+	public boolean sendAlertsToRajivRavi() throws Exception {
 		boolean flag = false;
 		try {
 			/*String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
@@ -608,9 +608,9 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			if(objsList != null && objsList.size() > 0){
 				EMailSender emailSender = new EMailSender();
-				logger.error("sendMailAlerts() >> Sending mail : Start ");	
+				logger.error("sendAlertsToRajivRavi() >> Sending mail : Start ");	
 				emailSender.sendEmailWithAlerts(mail,objsList); 
-				logger.error("sendMailAlerts() >> Sending mail : End ");
+				logger.error("sendAlertsToRajivRavi() >> Sending mail : End ");
 				flag = true;
 			}
 

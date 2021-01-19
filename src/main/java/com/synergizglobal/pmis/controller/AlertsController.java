@@ -34,24 +34,40 @@ public class AlertsController {
 	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
 	//@Scheduled(cron = "0 50 10 * * *")	//  = every day 2:10 am.
 	//@Scheduled(cron = "0 10 16 * * *")	//  = every day 4:10 pm.
-	@Scheduled(cron = "${cron.expression}")
+	@Scheduled(cron = "${cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){		
-	     String message = "Method executed every day at 02:01 am. Current time is :: "+ new Date();
+	     String message = "Method executed every day. Current time is :: "+ new Date();
 	     
 	     logger.error("generateAlertsByCronJob : "+message);	    
 	     try {
 	    	 
 	    	//System.out.println("Start "+ new Date());
-            boolean flag = service.generateAtertsByCronJob();
+            boolean flag = service.generateAterts();
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAlertsByCronJob : "+flag);
 			
-		    //flag = service.sendNotificationAlertMails();
-		    //logger.error("generateAtertsByCronJob >> sendNotificationAlertMails >> Sending mails : "+ flag); 
-		    //System.out.println("Sending mails : "+ flag); 
+	    	flag = service.sendAlertsToRajivRavi();
+			logger.error("generateAlertsByCronJob >> Sending mails : "+ flag); 
+			
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("generateAlertsByCronJob() : "+e.getMessage());
+		 }
+	}
+	
+	//@Scheduled(cron = "0 25 15 * * MON")
+	@Scheduled(cron = "${cron.expression.sending.alert.mails}")
+	public void sendNotificationAlertMailsToAllByCronJob(){		
+	     String message = "Method executed every Monday. Current time is :: "+ new Date();
+	     
+	     logger.error("sendNotificationAlertMailsToAllByCronJob : "+message);	    
+	     try {
+	    	boolean flag = service.sendNotificationAlertMails();
+		    logger.error("sendNotificationAlertMailsToAllByCronJob >> Sending mails : "+ flag);
+		    //System.out.println("Sending mails : "+ flag); 
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendNotificationAlertMailsToAllByCronJob() : "+e.getMessage());
 		 }
 	}
 	
@@ -61,7 +77,7 @@ public class AlertsController {
 	     try {
 	    	logger.error("generateAndSendAlertsToAllByManual : start");
 	    	//System.out.println("Start "+ new Date());
-            boolean flag = service.generateAtertsByCronJob();
+            boolean flag = service.generateAterts();
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAndSendAlertsToAllByManual : "+flag);
 			
@@ -96,12 +112,12 @@ public class AlertsController {
 	     try {
 	    	logger.error("generateAndSendAlertsToRajivRaviByManual : start");
 	    	//System.out.println("Start "+ new Date());
-            boolean flag = service.generateAtertsByCronJob();
+            boolean flag = service.generateAterts();
             //System.out.println("End "+ new Date());
 	    	logger.error("generateAndSendAlertsToRajivRaviByManual : "+flag);
 	    	 
-			flag = service.generateAndSendAlertsToRajivRaviByManual();
-			logger.error("generateAndSendAlertsToRajivRaviByManual >> sendMailAlerts >> Sending mails : "+ flag); 
+			flag = service.sendAlertsToRajivRavi();
+			logger.error("generateAndSendAlertsToRajivRaviByManual >> Sending mails : "+ flag); 
 			//System.out.println("Sending mails : "+ flag); 
 			
 		 } catch (Exception e) {
@@ -110,4 +126,22 @@ public class AlertsController {
 		 }
 	     return model;
 	}
+	
+	@RequestMapping(value="/send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView sendAlertsToRajivRaviByManual(){		
+		 ModelAndView model = new ModelAndView("redirect:/home");	    
+	     try {
+	    	logger.error("sendAlertsToRajivRaviByManual : start");
+	    	 
+			boolean flag = service.sendAlertsToRajivRavi();
+			logger.error("sendAlertsToRajivRaviByManual >> Sending mails : "+ flag); 
+			//System.out.println("Sending mails : "+ flag); 
+			
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("sendAlertsToRajivRaviByManual() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
 }

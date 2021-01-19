@@ -103,11 +103,6 @@
 
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<!-- <div class="col s12 m4 input-field">
-									<input id="reporting_date" name="reporting_date" type="text" class="validate datepicker"> <label for="reporting_date">Date</label>
-									<button type="button" id="date_icon" class="white"><i class="fa fa-calendar"></i></button>
-									<span id="reporting_dateError" class="error-msg"></span>
-								</div> -->
 								<div class="col s12 m4 input-field">
 									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date</label>
 									<button type="button" id="from_date_icon" class="white"><i class="fa fa-calendar"></i></button>
@@ -259,7 +254,7 @@
 				 		required: false
 				 	  },"contract_id": {
 				 		required: false
-				 	  },"reporting_date": {
+				 	  },"from_date": {
 				 		required: true
 			 	  	  }
 				 				
@@ -269,16 +264,16 @@
 			 			required: 'Required'
 			 	  	 },"contract_id": {
 			 			required: 'Required'
-			 	  	 },"reporting_date": {
+			 	  	 },"from_date": {
   			 			required: 'Required'
   			 	  	 }
 			 				      
 		    },
 			  errorPlacement:
 			 	function(error, element){
-				    if (element.attr("id") == "reporting_date" ){
-			 		     document.getElementById("reporting_dateError").innerHTML="";
-			 			 error.appendTo('#reporting_dateError');
+				    if (element.attr("id") == "from_date" ){
+			 		     document.getElementById("from_dateError").innerHTML="";
+			 			 error.appendTo('#from_dateError');
 			 	    }else if (element.attr("id") == "work_id" ){
 			 		     document.getElementById("work_idError").innerHTML="";
 			 			 error.appendTo('#work_idError');

@@ -12,8 +12,8 @@ public class AlertsServiceImpl implements AlertsService{
 	AlertsDao dao;
 	
 	@Override
-	public boolean generateAtertsByCronJob() throws Exception {
-		return dao.generateAtertsByCronJob();
+	public boolean generateAterts() throws Exception {
+		return dao.generateAterts();
 	}
 
 	@Override
@@ -27,8 +27,8 @@ public class AlertsServiceImpl implements AlertsService{
 	}
 
 	@Override
-	public boolean generateAndSendAlertsToRajivRaviByManual() throws Exception {
-		return dao.generateAndSendAlertsToRajivRaviByManual();
+	public boolean sendAlertsToRajivRavi() throws Exception {
+		return dao.sendAlertsToRajivRavi();
 	}
 
 }

@@ -3,7 +3,23 @@ package com.synergizglobal.pmis.model;
 public class StripChartReport {
 	private String progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name, 
 	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,
-	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope;
+	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date;
+
+	public String getFrom_date() {
+		return from_date;
+	}
+
+	public void setFrom_date(String from_date) {
+		this.from_date = from_date;
+	}
+
+	public String getTo_date() {
+		return to_date;
+	}
+
+	public void setTo_date(String to_date) {
+		this.to_date = to_date;
+	}
 
 	public String getProgress_date() {
 		return progress_date;

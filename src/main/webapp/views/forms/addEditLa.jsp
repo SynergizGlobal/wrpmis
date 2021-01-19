@@ -57,6 +57,17 @@
         .input-field .searchable_label {
             font-size: 0.85rem;
         }
+          /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 
@@ -286,55 +297,21 @@
                             <!-- if selected govt this div shown  -->
                             <div id="govt_div" style="display: none; ">
                                 <h6 class="center-align primary-text-bold">Government Land Details </h6>
-                                <!-- <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m4 input-field">
-                                        <input id="govt_survey_no" type="text" class="validate">
-                                        <label for="govt_survey_no">Survey Number </label>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label>Sub Category of Land </label>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div> -->
-                                <!-- <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label> Village ID </label>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <input id="govt_survey_no" type="text" class="validate">
-                                        <label for="govt_survey_no"> Govt Land Classification </label>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div> -->
+                               
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="area_to_be_acquired" name="area_to_be_acquired" type="text"
+                                        <input id="govt_area_to_be_acquired" name="govt_area_to_be_acquired" type="text"
                                             class="validate">
-                                        <label for="area_to_be_acquired"> Area to be Acquired </label>
+                                        <label for="govt_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
-                                    </div>
-                                    <div class="col s12 m4 input-field ">
-                                        <input id="proposal_submission" type="text"
-                                            name="proposal_submission" class="validate datepicker">
-                                        <label for="proposal_submission">Proposal submission</label>
-                                        <button type="button" id="govt_proposal_submission_date__icon"
-                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                    </div>
+                                    </div>      
+                                    <div class="col s12 m4 input-field">
+                                        <input id="govt_area_acquired" name="govt_area_acquired" type="text"
+                                            class="validate">
+                                        <label for="govt_area_acquired"> Area Acquired </label>
+                                        <span class="units">units</span>
+                                    </div>   
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
                                 <div class="row">
@@ -351,10 +328,10 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="valuation_date" type="text"
-                                            name="valuation_date" class="validate datepicker mt-10">
-                                        <label for="valuation_date">Valuation Date</label>
-                                        <button type="button" id="govt_valuation_date__icon"
+                                        <input id="proposal_submission" type="text"
+                                            name="proposal_submission" class="validate datepicker">
+                                        <label for="proposal_submission">Proposal submission</label>
+                                        <button type="button" id="govt_proposal_submission_date__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
@@ -426,17 +403,6 @@
 											</c:forEach>
                                         </select>
                                     </div>
-                                    <div class="col s12 m4 input-field ">
-                                        <input id="possession_date" name="possession_date" type="text"
-                                            class="validate datepicker mt-10">
-                                        <label for="possession_date">Possession Date </label>
-                                        <button type="button" id="govt_possession_date__icon"
-                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Possession Status </p>
                                         <select class="searchable" id="possession_status_fk"
@@ -447,12 +413,34 @@
 													<c:if test="${LADetails.possession_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>
+                                    </div>                                    
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                   <div class="col m2 hide-on-small-only"></div>
+                                   <div class="col s12 m4 input-field ">
+                                        <input id="possession_date" name="possession_date" type="text"
+                                            class="validate datepicker mt-10">
+                                        <label for="possession_date">Possession Date </label>
+                                        <button type="button" id="govt_possession_date__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>                                    
                                     <div class="col s12 m4 input-field ">
-                                        <input id="govt_special_feature" name="govt_special_feature" type="text"
-                                            class="validate mt-10">
-                                        <label for="govt_special_feature"> Special Feature</label>
+                                        <input id="valuation_date" type="text"
+                                            name="valuation_date" class="validate datepicker mt-10">
+                                        <label for="valuation_date">Valuation Date</label>
+                                        <button type="button" id="govt_valuation_date__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                   <div class="col m2 hide-on-small-only"></div>
+                                   <div class="col s12 m4 input-field ">
+                                       <input id="govt_special_feature" name="govt_special_feature" type="text"
+                                           class="validate mt-10">
+                                       <label for="govt_special_feature"> Special Feature</label>
+                                   </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
                             </div>
@@ -460,38 +448,18 @@
                             <!-- if selected forest this div shown  -->
                             <div id="forest_div" style="display: none;">
                                 <h6 class="center-align primary-text-bold">Forest Land Details </h6>
-                                <!-- <div class="row">
+                               <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="forest_survey_no" type="text" class="validate">
-                                        <label for="forest_survey_no">Survey Number </label>
+                                        <input id="forest_area_to_be_acquired" name="forest_area_to_be_acquired" type="text"
+                                            class="validate">
+                                        <label for="forest_area_to_be_acquired"> Area to be Acquired </label>
+                                        <span class="units">units</span>
                                     </div>
-                                    <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label>Sub Category of Land </label>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div> -->
-                                <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <!-- <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label> Village ID </label>
-                                    </div> -->
-                                    <div class="col s12 m8 input-field">
+                                     <div class="col s12 m4 input-field">
                                         <input id="forest_area_acquired" name="forest_area_acquired" type="text"
                                             class="validate">
-                                        <label for="forest_area_acquired"> Area to be Acquired </label>
+                                        <label for="forest_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
@@ -655,44 +623,26 @@
 
                             <!-- if selected private this div shown  -->
                             <div id="private_div" style="display: none;">
-                                <h6 class="center-align primary-text-bold">Private Land Details
-                                </h6>
-                                <!-- <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
+                                <h6 class="center-align primary-text-bold">Private Land Details                                </h6>   
+                                 <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>                            
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_owner_name" type="text" class="validate">
-                                        <label for="private_owner_name"> Name of Owner </label>
+                                        <input id="private_area_to_be_acquired" name="private_area_to_be_acquired" type="text"
+                                            class="validate">
+                                        <label for="private_area_to_be_acquired"> Area to be Acquired </label>
+                                        <span class="units">units</span>
                                     </div>
-                                    <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label>Type of Land</label>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div> -->
-                                <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <!-- <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label>Land Class</label>
-                                    </div> -->
-                                    <div class="col s12 m4 input-field">
+                                     <div class="col s12 m4 input-field">
                                         <input id="private_area_acquired" name="private_area_acquired" type="text"
                                             class="validate">
-                                        <label for="private_area_acquired"> Area to be Acquired </label>
+                                        <label for="private_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
-                                        <label> Area to be Acquired </label>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
+                                    </div>                                   
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>    
+                                 	<div class="col s12 m8 input-field">
                                         <input id="private_name_of_owner" name="private_name_of_owner" type="text"
                                             class="validate">
                                         <label for="private_name_of_owner">Name of Owner</label>
@@ -714,31 +664,7 @@
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
-                                <!-- <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m4 input-field">
-                                        <input id="private_solatium" type="text" class="validate">
-                                        <label for="private_solatium">100% Solatium</label>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <input id="private_extra" type="text" class="validate">
-                                        <label for="private_extra">Extra 25% </label>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m4 input-field">
-                                        <input id="private_total_rate" type="text" class="validate">
-                                        <label for="private_total_rate"> Total Rate</label>
-                                        <span class="units">m<sup>2</sup></span>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <input id="private_land_compensation" type="text" class="validate">
-                                        <label for="private_land_compensation">Land Compensation </label>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div> -->
+                              
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <!-- <div class="col s12 m8 input-field">
@@ -755,13 +681,7 @@
                                         <label for="private_agri_tree_rate"> Agriculture tree rate </label>
                                         </label>
                                     </div>
-                                    <!-- <div class="col s12 m4 input-field">
-                                                <input id="private_agri_tree_compensation" type="text" class="validate">
-                                                <label for="private_agri_tree_compensation"> Agriculture tree
-                                                    compensation</label>
-                                            </div> -->
-                                    <!-- </div>
-                                    </div> -->
+                                   
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
                                 <div class="row">
@@ -780,38 +700,10 @@
                                         <label for="private_forest_tree_rate"> Forest tree rate </label>
                                         </label>
                                     </div>
-                                    <!-- <div class="col s12 m4 input-field">
-                                                <input id="private_forest_tree_compensation" type="text"
-                                                    class="validate">
-                                                <label for="private_forest_tree_compensation"> Forest tree
-                                                    compensation</label>
-                                            </div> -->
-                                    <!-- </div>
-                                    </div> -->
+                                   
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
-                                <!-- <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m8 input-field">
-                                        <div class="row">
-                                            <div class="col s12 m4 input-field">
-                                                <input id="private_structure_compensation" type="text" class="validate">
-                                                <label for="private_structure_compensation">Structure
-                                                    compensation</label>
-                                            </div>
-                                            <div class="col s12 m4 input-field">
-                                                <input id="private_borewell_compensation" type="text" class="validate">
-                                                <label for="private_borewell_compensation"> Borewell compensation
-                                                </label>
-                                            </div>
-                                            <div class="col s12 m4 input-field">
-                                                <input id="private_total_compensation" type="text" class="validate">
-                                                <label for="private_total_compensation"> Total Compensation</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div> -->
+                               
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field ">
@@ -866,34 +758,10 @@
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
-                                <!-- <div class="row">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m4 input-field">
-                                        <input id="private_survey_no" type="text" class="validate">
-                                        <label for="private_survey_no">Survey Number </label>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label>Sub Category of Land </label>
-                                    </div>
-                                    <div class="col m2 hide-on-small-only"></div>
-                                </div> -->
+                               
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
-                                    <!-- <div class="col s12 m4 input-field">
-                                        <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select>
-                                        <label> Village ID </label>
-                                    </div> -->
+                                   
                                     <div class="col s12 m4 input-field">
                                         <input id="private_forest_tree_survey" name="private_forest_tree_survey"
                                             type="text" class="validate datepicker">
@@ -1085,7 +953,183 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
                             </div>
+                            
+ 							<div id="railway_div" style="display: none; ">
+                                <h6 class="center-align primary-text-bold">Railway Land Details </h6>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_area_to_be_acquired" name="railway_area_to_be_acquired"
+                                            type="text" class="validate">
+                                        <label for="railway_area_to_be_acquired"> Area to be Acquired </label>
+                                        <span class="units">units</span>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_area_acquired" name="railway_area_acquired" type="text"
+                                            class="validate">
+                                        <label for="railway_area_acquired"> Area Acquired </label>
+                                        <span class="units">units</span>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    
+                                    <div class="col s12 m4 input-field ">
+                                        <input id="railway_online_submission" type="text"
+                                            name="railway_online_submission" class="validate datepicker">
+                                        <label for="railway_online_submission">Online Submission</label>
+                                        <button type="button" id="railway_online_submission__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col s12 m4 input-field ">
+                                        <input id="railway_submission_dycfo" type="text" name="railway_submission_dycfo"
+                                            class="validate datepicker">
+                                        <label for="railway_submission_dycfo">Submission to DyCFO</label>
+                                        <button type="button" id="railway_submission_dycfo__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_submission_ccf" name="railway_submission_ccf" type="text"
+                                            class="validate datepicker">
+                                        <label for="railway_submission_ccf"> Submission Date to CCF Thane </label>
+                                        <button type="button" id="railway_submission_ccf__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_submission_nodal_officer"
+                                            name="railway_submission_nodal_officer" type="text"
+                                            class="validate datepicker">
+                                        <label for="railway_submission_nodal_officer"> Submission Date to Nodal
+                                            Officer / CCF Nagpur </label>
+                                        <button type="button" id="railway_submission_nodal_officer__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_submission_revenue_sec" name="railway_submission_revenue_sec"
+                                            type="text" class="validate datepicker">
+                                        <label for="railway_submission_revenue_sec"> Submission Date to Revenue
+                                            Secretary
+                                            Mantralaya </label>
+                                        <button type="button" id="railway_submission_revenue_sec__icon"
+                                            class="datepicker-button" class="white"><i
+                                                class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_submission_regional_office"
+                                            name="railway_submission_regional_office" type="text"
+                                            class="validate datepicker">
+                                        <label for="railway_submission_regional_office"> Submission Date to Regional
+                                            Office Nagpur
+                                        </label>
+                                        <button type="button" id="railway_submission_regional_office__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_approval_regional_office"
+                                            name="railway_approval_regional_office" type="text"
+                                            class="validate datepicker">
+                                        <label for="railway_approval_regional_office"> Date of Approval by Regional
+                                            Office</label>
+                                        <button type="button" id="railway_approval_regional_office__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_valuation_dycfo" name="railway_valuation_dycfo" type="text"
+                                            class="validate datepicker">
+                                        <label for="railway_valuation_dycfo">Valuation by DyCFO </label>
+                                        <button type="button" id="railway_valuation_dycfo__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <i class="material-icons prefix center-align">₹</i>
+                                        <input id="railway_demanded_amount" name="railway_demanded_amount" type="number"
+                                            class="validate">
+                                        <label for="railway_demanded_amount">Demanded Amount </label>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <i class="material-icons prefix center-align">₹</i>
+                                        <input id="railway_payment_amount" name="railway_payment_amount" type="number"
+                                            class="validate">
+                                        <label for="railway_payment_amount"> Payment Amount </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_payment_approval_date" name="railway_payment_approval_date"
+                                            type="text" class="validate datepicker">
+                                        <label for="railway_payment_approval_date"> Approval for Payment</label>
+                                        <button type="button" id="railway_payment_approval_date__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_payment_date" name="railway_payment_date" type="text"
+                                            class="validate datepicker">
+                                        <label for="railway_payment_date"> Payment Date </label>
+                                        <button type="button" id="railway_payment_date__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_possession_date" name="railway_possession_date" type="text"
+                                            class="validate datepicker mt-10">
+                                        <label for="railway_possession_date"> Possession Date</label>
+                                        <button type="button" id="railway_possession_date__icon"
+                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <p class="searchable_label">Possession Status </p>
+                                        <select class="searchable" id="railway_possession_status"
+                                            name="railway_possession_status">
+                                            <option value="0" selected>Select</option>
+                                            <option value="1">Agency 1</option>
+                                            <option value="2">Agency 2</option>
+                                        </select>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                    <div class="col s12 m4 input-field">
+                                        <p class="searchable_label">Payment Status </p>
+                                        <select class="searchable" id="railway_searchable_label"
+                                            name="railway_searchable_label">
+                                            <option value="0" selected>Select</option>
+                                            <option value="1">Agency 1</option>
+                                            <option value="2">Agency 2</option>
+                                            <option value="3">Agency 3</option>
+                                        </select>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="railway_special_feature" name="railway_special_feature" type="text"
+                                            class="validate mt-10">
+                                        <label for="railway_special_feature"> Special Feature </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
 
+                            </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
@@ -1285,6 +1329,12 @@
                         $('#govt_div').css("display", "none");
                         $('#forest_div').css("display", "none");
                     }
+                    else if (landtype == 'Railway') {
+                        $('#private_div').css("display", "none");
+                        $('#govt_div').css("display", "none");
+                        $('#forest_div').css("display", "none");
+                        $('#railway_div').css("display", "block");
+                    }
                     else {
                         $('#govt_div').css("display", "none");
                         $('#forest_div').css("display", "none");
@@ -1295,6 +1345,7 @@
                     $('#govt_div').css("display", "none");
                     $('#forest_div').css("display", "none");
                     $('#private_div').css("display", "none");
+                    $('#railway_div').css("display", "none");
                 }
             }
         });

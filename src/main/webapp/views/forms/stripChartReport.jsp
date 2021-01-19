@@ -47,14 +47,25 @@
 					<form action="<%=request.getContextPath() %>/generate-strip-chart-dpr-report" id="stripChartReportForm" name="stripChartReportForm" method="post" target="_blank">
 						<div class="container container-no-margin">
 							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>								
+								<div class="col m2 hide-on-small-only"></div>	
+								<div class="col s12 m4 input-field">
+									<p class="searchable_label">Project</p>
+									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="getContractsList(this.value)">
+										<option value="">Select</option>
+									</select> 
+									<span id="project_idError" class="error-msg"></span>
+								</div>							
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="getContractsList(this.value)">
 										<option value="">Select</option>
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
-								</div>
+								</div>								
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>	
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id">
@@ -62,17 +73,56 @@
 									</select> 
 									<span id="contract_idError" class="error-msg"></span>
 								</div>
-								<div class="col m2 hide-on-small-only"></div>
-							</div>
+								<div class="col s12 m4 input-field">
+									<p class="searchable_label">Contractor</p>
+									<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id">
+										<option value="">Select</option>
+									</select> 
+									<span id="contractor_idError" class="error-msg"></span>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>	
+							</div>	
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>	
+								<div class="col s12 m4 input-field">
+									<p class="searchable_label">HOD</p>
+									<select class="searchable validate-dropdown" id="hod_id" name="hod_id">
+										<option value="">Select</option>
+									</select> 
+									<span id="hod_idError" class="error-msg"></span>
+								</div>
+								<div class="col s12 m4 input-field">
+									<p class="searchable_label">DyHOD</p>
+									<select class="searchable validate-dropdown" id="dyhod_id" name="dyhod_id">
+										<option value="">Select</option>
+									</select> 
+									<span id="dyhod_idError" class="error-msg"></span>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>	
+						</div>
 
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<!-- <div class="col s12 m4 input-field">
 									<input id="reporting_date" name="reporting_date" type="text" class="validate datepicker"> <label for="reporting_date">Date</label>
 									<button type="button" id="date_icon" class="white"><i class="fa fa-calendar"></i></button>
 									<span id="reporting_dateError" class="error-msg"></span>
-								</div>
+								</div> -->
 								<div class="col s12 m4 input-field">
+									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date</label>
+									<button type="button" id="from_date_icon" class="white"><i class="fa fa-calendar"></i></button>
+									<span id="from_dateError" class="error-msg"></span>
+								</div>
+								<div class="col s12 m4 input-field" id="to_date_holder" style="display:none;">
+									<input id="to_date" name="to_date" type="text" class="validate datepicker"> <label for="to_date"> To Date</label>
+									<button type="button" id="to_date_icon" class="white"><i class="fa fa-calendar"></i></button>
+									<span id="to_dateError" class="error-msg"></span>
+								</div>								
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col s12 m8 input-field">
 									<div class="center-align m-1">
 										<button type="submit"
 											class="btn waves-effect waves-light bg-m t-c"
@@ -145,6 +195,12 @@
             
             getWorksList();
             getContractsList("");
+        });
+        $('#from_date').change(function(){
+        	if($('#from_date').val()==''){        		
+        	} else{
+        		$('#to_date_holder').css("display", "block");
+        	}
         });
         
         

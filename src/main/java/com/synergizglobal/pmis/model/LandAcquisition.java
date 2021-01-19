@@ -2,7 +2,7 @@ package com.synergizglobal.pmis.model;
 
 public class LandAcquisition {
 	
-	private String work_id, la_id, work_id_fk,work_name,work_short_name,survey_number, village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
+	private String work_id, la_id, work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
 	jm_start_date, jm_completion_date, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,
 	
 	//gov
@@ -14,45 +14,110 @@ public class LandAcquisition {
     private_possession_status_fk, private_special_feature, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2, land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation
     
     //forest
-    , forest_area_to_be_acquired, on_line_submission, submission_date_to_dycfo, submission_date_to_ccf_thane, submission_date_to_nodal_officer, submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur, valuation_by_dycfo, demanded_amount, payment_amount,
-    forest_approval_for_payment, forest_payment_date, forest_possession_date, forest_possession_status_fk, forest_payment_status_fk, forest_special_feature, attachment_No,
+    , forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
+    forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,
+    forest_approval_for_payment, forest_payment_date, forest_possession_date, forest_possession_status_fk, forest_payment_status_fk, forest_special_feature, forest_attachment_No,
    
     //railway
-    railway_area_to_be_acquired, online_submission, submission_date_to_DyCFO, submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
-    railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, payment_status, railway_possession_date, possession_status, railway_special_feature, railway_attachment_no
+    railway_area_to_be_acquired,  railway_online_submission,railway_area_acquired,  railway_submission_date_to_DyCFO,  railway_submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
+    railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
     ;
+
+
+
+	public String getForest_valuation_by_dycfo() {
+		return forest_valuation_by_dycfo;
+	}
+
+	public void setForest_valuation_by_dycfo(String forest_valuation_by_dycfo) {
+		this.forest_valuation_by_dycfo = forest_valuation_by_dycfo;
+	}
+
+	public String getForest_demanded_amount() {
+		return forest_demanded_amount;
+	}
+
+	public void setForest_demanded_amount(String forest_demanded_amount) {
+		this.forest_demanded_amount = forest_demanded_amount;
+	}
+
+	public String getForest_payment_amount() {
+		return forest_payment_amount;
+	}
+
+	public void setForest_payment_amount(String forest_payment_amount) {
+		this.forest_payment_amount = forest_payment_amount;
+	}
+
+	public String getForest_attachment_No() {
+		return forest_attachment_No;
+	}
+
+	public void setForest_attachment_No(String forest_attachment_No) {
+		this.forest_attachment_No = forest_attachment_No;
+	}
+
+	public String getForest_submission_date_to_dycfo() {
+		return forest_submission_date_to_dycfo;
+	}
+
+	public void setForest_submission_date_to_dycfo(String forest_submission_date_to_dycfo) {
+		this.forest_submission_date_to_dycfo = forest_submission_date_to_dycfo;
+	}
+
+	public String getForest_submission_date_to_ccf_thane() {
+		return forest_submission_date_to_ccf_thane;
+	}
+
+	public void setForest_submission_date_to_ccf_thane(String forest_submission_date_to_ccf_thane) {
+		this.forest_submission_date_to_ccf_thane = forest_submission_date_to_ccf_thane;
+	}
+
+	public String getForest_online_submission() {
+		return forest_online_submission;
+	}
+
+	public void setForest_online_submission(String forest_online_submission) {
+		this.forest_online_submission = forest_online_submission;
+	}
+
+	public String getForest_area_acquired() {
+		return forest_area_acquired;
+	}
+
+	public void setForest_area_acquired(String forest_area_acquired) {
+		this.forest_area_acquired = forest_area_acquired;
+	}
+
+	public String getLa_sub_category_fk() {
+		return la_sub_category_fk;
+	}
+
+	public void setLa_sub_category_fk(String la_sub_category_fk) {
+		this.la_sub_category_fk = la_sub_category_fk;
+	}
+
+	public String getLa_sub_category() {
+		return la_sub_category;
+	}
+
+	public void setLa_sub_category(String la_sub_category) {
+		this.la_sub_category = la_sub_category;
+	}
+
+	public String getLa_category() {
+		return la_category;
+	}
+
+	public void setLa_category(String la_category) {
+		this.la_category = la_category;
+	}
 
 	public String getRailway_area_to_be_acquired() {
 		return railway_area_to_be_acquired;
 	}
 
-	public void setRailway_area_to_be_acquired(String railway_area_to_be_acquired) {
-		this.railway_area_to_be_acquired = railway_area_to_be_acquired;
-	}
-
-	public String getOnline_submission() {
-		return online_submission;
-	}
-
-	public void setOnline_submission(String online_submission) {
-		this.online_submission = online_submission;
-	}
-
-	public String getSubmission_date_to_DyCFO() {
-		return submission_date_to_DyCFO;
-	}
-
-	public void setSubmission_date_to_DyCFO(String submission_date_to_DyCFO) {
-		this.submission_date_to_DyCFO = submission_date_to_DyCFO;
-	}
-
-	public String getSubmission_date_to_CCF_Thane() {
-		return submission_date_to_CCF_Thane;
-	}
-
-	public void setSubmission_date_to_CCF_Thane(String submission_date_to_CCF_Thane) {
-		this.submission_date_to_CCF_Thane = submission_date_to_CCF_Thane;
-	}
+	
 
 	public String getRailway_submission_date_to_nodal_officer_CCF_Nagpur() {
 		return railway_submission_date_to_nodal_officer_CCF_Nagpur;
@@ -81,21 +146,6 @@ public class LandAcquisition {
 		this.railway_submission_date_to_regional_office_nagpur = railway_submission_date_to_regional_office_nagpur;
 	}
 
-	public String getDate_of_approval_by_Rregional_Office_agpur() {
-		return date_of_approval_by_Rregional_Office_agpur;
-	}
-
-	public void setDate_of_approval_by_Rregional_Office_agpur(String date_of_approval_by_Rregional_Office_agpur) {
-		this.date_of_approval_by_Rregional_Office_agpur = date_of_approval_by_Rregional_Office_agpur;
-	}
-
-	public String getValuation_by_DyCFO() {
-		return valuation_by_DyCFO;
-	}
-
-	public void setValuation_by_DyCFO(String valuation_by_DyCFO) {
-		this.valuation_by_DyCFO = valuation_by_DyCFO;
-	}
 
 	public String getRailway_demanded_amount() {
 		return railway_demanded_amount;
@@ -129,12 +179,74 @@ public class LandAcquisition {
 		this.railway_payment_amount = railway_payment_amount;
 	}
 
-	public String getPayment_status() {
-		return payment_status;
+	
+	public String getRailway_online_submission() {
+		return railway_online_submission;
 	}
 
-	public void setPayment_status(String payment_status) {
-		this.payment_status = payment_status;
+	public void setRailway_online_submission(String railway_online_submission) {
+		this.railway_online_submission = railway_online_submission;
+	}
+
+	public String getRailway_area_acquired() {
+		return railway_area_acquired;
+	}
+
+	public void setRailway_area_acquired(String railway_area_acquired) {
+		this.railway_area_acquired = railway_area_acquired;
+	}
+
+	public String getRailway_submission_date_to_DyCFO() {
+		return railway_submission_date_to_DyCFO;
+	}
+
+	public void setRailway_submission_date_to_DyCFO(String railway_submission_date_to_DyCFO) {
+		this.railway_submission_date_to_DyCFO = railway_submission_date_to_DyCFO;
+	}
+
+	public String getRailway_submission_date_to_CCF_Thane() {
+		return railway_submission_date_to_CCF_Thane;
+	}
+
+	public void setRailway_submission_date_to_CCF_Thane(String railway_submission_date_to_CCF_Thane) {
+		this.railway_submission_date_to_CCF_Thane = railway_submission_date_to_CCF_Thane;
+	}
+
+	public String getRailway_date_of_approval_by_Rregional_Office_agpur() {
+		return railway_date_of_approval_by_Rregional_Office_agpur;
+	}
+
+	public void setRailway_date_of_approval_by_Rregional_Office_agpur(
+			String railway_date_of_approval_by_Rregional_Office_agpur) {
+		this.railway_date_of_approval_by_Rregional_Office_agpur = railway_date_of_approval_by_Rregional_Office_agpur;
+	}
+
+	public String getRailway_valuation_by_DyCFO() {
+		return railway_valuation_by_DyCFO;
+	}
+
+	public void setRailway_valuation_by_DyCFO(String railway_valuation_by_DyCFO) {
+		this.railway_valuation_by_DyCFO = railway_valuation_by_DyCFO;
+	}
+
+	public String getRailway_payment_status() {
+		return railway_payment_status;
+	}
+
+	public void setRailway_payment_status(String railway_payment_status) {
+		this.railway_payment_status = railway_payment_status;
+	}
+
+	public String getRailway_possession_status() {
+		return railway_possession_status;
+	}
+
+	public void setRailway_possession_status(String railway_possession_status) {
+		this.railway_possession_status = railway_possession_status;
+	}
+
+	public void setRailway_area_to_be_acquired(String railway_area_to_be_acquired) {
+		this.railway_area_to_be_acquired = railway_area_to_be_acquired;
 	}
 
 	public String getRailway_possession_date() {
@@ -145,14 +257,7 @@ public class LandAcquisition {
 		this.railway_possession_date = railway_possession_date;
 	}
 
-	public String getPossession_status() {
-		return possession_status;
-	}
-
-	public void setPossession_status(String possession_status) {
-		this.possession_status = possession_status;
-	}
-
+	
 	public String getRailway_special_feature() {
 		return railway_special_feature;
 	}
@@ -185,85 +290,47 @@ public class LandAcquisition {
 		this.forest_area_to_be_acquired = forest_area_to_be_acquired;
 	}
 
-	public String getOn_line_submission() {
-		return on_line_submission;
+	
+
+	public String getForest_submission_date_to_nodal_officer() {
+		return forest_submission_date_to_nodal_officer;
 	}
 
-	public void setOn_line_submission(String on_line_submission) {
-		this.on_line_submission = on_line_submission;
+	public void setForest_submission_date_to_nodal_officer(String forest_submission_date_to_nodal_officer) {
+		this.forest_submission_date_to_nodal_officer = forest_submission_date_to_nodal_officer;
 	}
 
-	public String getSubmission_date_to_dycfo() {
-		return submission_date_to_dycfo;
+
+	public String getForest_submission_date_to_revenue_secretary_mantralaya() {
+		return forest_submission_date_to_revenue_secretary_mantralaya;
 	}
 
-	public void setSubmission_date_to_dycfo(String submission_date_to_dycfo) {
-		this.submission_date_to_dycfo = submission_date_to_dycfo;
+	public void setForest_submission_date_to_revenue_secretary_mantralaya(
+			String forest_submission_date_to_revenue_secretary_mantralaya) {
+		this.forest_submission_date_to_revenue_secretary_mantralaya = forest_submission_date_to_revenue_secretary_mantralaya;
 	}
 
-	public String getSubmission_date_to_ccf_thane() {
-		return submission_date_to_ccf_thane;
+	public String getForest_submission_date_to_regional_office_nagpur() {
+		return forest_submission_date_to_regional_office_nagpur;
 	}
 
-	public void setSubmission_date_to_ccf_thane(String submission_date_to_ccf_thane) {
-		this.submission_date_to_ccf_thane = submission_date_to_ccf_thane;
+	public void setForest_submission_date_to_regional_office_nagpur(
+			String forest_submission_date_to_regional_office_nagpur) {
+		this.forest_submission_date_to_regional_office_nagpur = forest_submission_date_to_regional_office_nagpur;
 	}
 
-	public String getSubmission_date_to_nodal_officer() {
-		return submission_date_to_nodal_officer;
+	
+	public String getForest_date_of_approval_by_regional_office_nagpur() {
+		return forest_date_of_approval_by_regional_office_nagpur;
 	}
 
-	public void setSubmission_date_to_nodal_officer(String submission_date_to_nodal_officer) {
-		this.submission_date_to_nodal_officer = submission_date_to_nodal_officer;
+	public void setForest_date_of_approval_by_regional_office_nagpur(
+			String forest_date_of_approval_by_regional_office_nagpur) {
+		this.forest_date_of_approval_by_regional_office_nagpur = forest_date_of_approval_by_regional_office_nagpur;
 	}
 
-	public String getSubmission_date_to_revenue_secretary_mantralaya() {
-		return submission_date_to_revenue_secretary_mantralaya;
-	}
-
-	public void setSubmission_date_to_revenue_secretary_mantralaya(String submission_date_to_revenue_secretary_mantralaya) {
-		this.submission_date_to_revenue_secretary_mantralaya = submission_date_to_revenue_secretary_mantralaya;
-	}
-
-	public String getSubmission_date_to_regional_office_nagpur() {
-		return submission_date_to_regional_office_nagpur;
-	}
-
-	public void setSubmission_date_to_regional_office_nagpur(String submission_date_to_regional_office_nagpur) {
-		this.submission_date_to_regional_office_nagpur = submission_date_to_regional_office_nagpur;
-	}
-
-	public String getDate_of_approval_by_regional_office_nagpur() {
-		return date_of_approval_by_regional_office_nagpur;
-	}
-
-	public void setDate_of_approval_by_regional_office_nagpur(String date_of_approval_by_regional_office_nagpur) {
-		this.date_of_approval_by_regional_office_nagpur = date_of_approval_by_regional_office_nagpur;
-	}
-
-	public String getValuation_by_dycfo() {
-		return valuation_by_dycfo;
-	}
-
-	public void setValuation_by_dycfo(String valuation_by_dycfo) {
-		this.valuation_by_dycfo = valuation_by_dycfo;
-	}
-
-	public String getDemanded_amount() {
-		return demanded_amount;
-	}
-
-	public void setDemanded_amount(String demanded_amount) {
-		this.demanded_amount = demanded_amount;
-	}
-
-	public String getPayment_amount() {
-		return payment_amount;
-	}
-
-	public void setPayment_amount(String payment_amount) {
-		this.payment_amount = payment_amount;
-	}
+	
+	
 
 	public String getForest_approval_for_payment() {
 		return forest_approval_for_payment;
@@ -313,13 +380,6 @@ public class LandAcquisition {
 		this.forest_special_feature = forest_special_feature;
 	}
 
-	public String getAttachment_No() {
-		return attachment_No;
-	}
-
-	public void setAttachment_No(String attachment_No) {
-		this.attachment_No = attachment_No;
-	}
 
 	public String getName_of_the_owner() {
 		return name_of_the_owner;

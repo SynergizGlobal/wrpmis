@@ -642,7 +642,7 @@
                                                         placeholder="Insurance Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="insurance_values0" name="insurance_values" type="text" class="validate" 
+                                                    <input id="insurance_values0" name="insurance_values" type="number" class="validate"  min="0.01" step="0.01" 
                                                         placeholder="Insurance Value">
                                                 </td>
                                                 <td>
@@ -1118,7 +1118,10 @@
 		   		 		required: true
 		   		 	  },"contract_name": {
 		   		 		required: true
-		   		 	  },"contract_type_fk": {
+		   		 	  },"contract_short_name":{
+        		 		 required: false,
+        		 		 maxlength: 100
+        		 	  },"contract_type_fk": {
 		   		 		required: true
 		   		 	  },"contractor_id_fk": {
 		   	 		    required: true,
@@ -1183,8 +1186,11 @@
 		   	 			required: 'Required'
 		   	 	  	 },"contract_name": {
 		   	 			required: 'Required'
-		   	 	  	 },"contract_type_fk": {
+		   	 	  	 },"contract_name": {
 		   	 			required: 'Required'
+		   	 	  	 },"contract_short_name": {
+		   	 			required: 'Required',
+		   	 			maxlength : 'Contract short name must be less than or equal to 100 characters'
 		   	 	  	 },"contractor_id_fk": {
 		   	 			required: 'Required'
 		   	 	  	 },"scope_of_contract": {
@@ -1250,6 +1256,9 @@
 		   	 	    }else if (element.attr("id") == "contract_name" ){
 		   	 		     document.getElementById("contract_nameError").innerHTML="";
 		   	 			 error.appendTo('#contract_nameError');
+		   	 	    }else if (element.attr("id") == "contract_short_name" ){
+		   	 		     document.getElementById("contract_short_nameError").innerHTML="";
+		   	 			 error.appendTo('#contract_short_nameError');
 		   	 	    }else if (element.attr("id") == "contract_type_fk" ){
 		   	 		     document.getElementById("contract_type_fkError").innerHTML="";
 		   	 			 error.appendTo('#contract_type_fkError');
@@ -1475,7 +1484,7 @@
 		   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
 		   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 		   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
+		   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
 		   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 		   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
 		   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'

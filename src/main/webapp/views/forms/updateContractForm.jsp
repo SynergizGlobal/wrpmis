@@ -224,7 +224,7 @@
 	                                <!-- row 4 -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" value="${contractDeatils.contract_short_name }" >
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" value="${contractDeatils.contract_short_name }">
 	                                    <label for="contract_short_name">Contract Short Name</label>
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
@@ -607,7 +607,7 @@
                                                         placeholder="BG / FDR Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="bg_values0" name="bg_values" type="text" class="validate"
+                                                    <input id="bg_values0" name="bg_values" type="number" class="validate" min="0.01" step="0.01"
                                                         placeholder="Amount">
                                                 </td>
                                                 <td>
@@ -734,7 +734,7 @@
                                                         placeholder="Insurance Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="insurance_values${index.count }" name="insurance_values" type="text" class="validate" value="${insurenceObj.insurance_value }"
+                                                    <input id="insurance_values${index.count }" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
                                                 </td>
                                                  <td>
@@ -805,7 +805,7 @@
                                                         placeholder="Insurance Number">
                                                 </td>
                                                 <td class="input-field"><i class="material-icons prefix center-align">₹</i>
-                                                    <input id="insurance_values0" name="insurance_values" type="text" class="validate" 
+                                                    <input id="insurance_values0" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" 
                                                         placeholder="Insurance Value">
                                                 </td>
                                                  <td>
@@ -1462,7 +1462,8 @@
         		 	  },"contract_name": {
         		 		required: true
         		 	  },"contract_short_name":{
-        		 		 required: true
+        		 		 required: true,
+        		 		 maxlength: 100
         		 	  },"contract_type_fk": {
         		 		required: true
         		 	  },"contractor_id_fk": {
@@ -1529,7 +1530,8 @@
         	 	  	 },"contract_name": {
         	 			required: 'Required'
         	 	  	 },"contract_short_name":{
-        	 	  		required: 'Required'
+        	 	  		required: 'Required',
+        	 	  		maxlength : 'Contract short name must be less than or equal to 100 characters'
        		 	  	 },"contract_type_fk": {
         	 			required: 'Required'
         	 	  	 },"contractor_id_fk": {
@@ -1817,7 +1819,7 @@
 			   +'<td> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
 			   +'<td><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
 			   +'<td><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
-			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
+			   +'<td class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
 			   +'<td><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
 			   +'<td><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'

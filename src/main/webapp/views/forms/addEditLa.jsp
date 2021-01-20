@@ -199,7 +199,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="jm_fee_amount" name="jm_fee_amount" type="number" class="validate" value="${LADetails.jm_fee_amount }" min="0.01" step="0.01">
+                                    <input id="jm_fee_amount" name="jm_fee_amount" type="text" class="validate" value="${LADetails.jm_fee_amount }">
                                     <label for="jm_fee_amount"> JM Fee Amount </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -632,13 +632,13 @@
                                  <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>                            
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_area_to_be_acquired" name="private_area_to_be_acquired" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_area_to_be_acquired" name="private_area_to_be_acquired" type="text" value="${LADetails.private_area_to_be_acquired }"
                                             class="validate">
                                         <label for="private_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
                                     </div>
                                      <div class="col s12 m4 input-field">
-                                        <input id="private_area_acquired" name="private_area_acquired" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_area_acquired" name="private_area_acquired" type="text" value="${LADetails.private_area_acquired }"
                                             class="validate">
                                         <label for="private_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
@@ -648,7 +648,7 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>    
                                  	<div class="col s12 m8 input-field">
-                                        <input id="private_name_of_owner" name="private_name_of_owner" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_name_of_owner" name="name_of_the_owner" type="text" value="${LADetails.name_of_the_owner }"
                                             class="validate">
                                         <label for="private_name_of_owner">Name of Owner</label>
                                     </div>
@@ -658,12 +658,12 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
-                                        <input id="private_basic_rate" name="private_basic_rate" type="number" value="${LADetails.special_feature }" min="0.01" step="0.01"
+                                        <input id="private_basic_rate" name=basic_rate type="text" value="${LADetails.basic_rate }"
                                             class="validate">
                                         <label for="private_basic_rate">Basic Rate </label>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_attachment_no" name="private_attachment_no" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_attachment_no" name="private_attachment_no" type="text" value="${LADetails.private_attachment_no }"
                                             class="validate">
                                         <label for="private_attachment_no">Attachment Number </label>
                                     </div>
@@ -675,13 +675,13 @@
                                     <!-- <div class="col s12 m8 input-field">
                                         <div class="row"> -->
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_agri_trees" name="private_agri_trees" type="number" value="${LADetails.special_feature }"
+                                        <input id="private_agri_trees" name="private_agri_trees" type="text" value="${LADetails.special_feature }"
                                             class="validate">
                                         <label for="private_agri_trees"> Agriculture tree nos</label>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
-                                        <input id="private_agri_tree_rate" name="private_agri_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.special_feature }"
+                                        <input id="private_agri_tree_rate" name="agriculture_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.agriculture_tree_rate }"
                                             class="validate">
                                         <label for="private_agri_tree_rate"> Agriculture tree rate </label>
                                         </label>
@@ -694,13 +694,13 @@
                                     <!-- <div class="col s12 m8 input-field">
                                         <div class="row"> -->
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_forest_trees" name="private_forest_trees" type="number" value="${LADetails.special_feature }"
+                                        <input id="private_forest_trees" name="forest_tree_nos" type="number" value="${LADetails.forest_tree_nos }"
                                             class="validate">
                                         <label for="private_forest_trees">Forest tree nos </label>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
-                                        <input id="private_forest_tree_rate" name="private_forest_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.special_feature }"
+                                        <input id="private_forest_tree_rate" name="forest_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.forest_tree_rate }"
                                             class="validate">
                                         <label for="private_forest_tree_rate"> Forest tree rate </label>
                                         </label>
@@ -712,14 +712,14 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="private_owner_consent" name="private_owner_consent" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_owner_consent" name="consent_from_owner" type="text" value="${LADetails.consent_from_owner }"
                                             class="validate datepicker">
                                         <label for="private_owner_consent">Consent from Owner </label>
                                         <button type="button" id="private_owner_consent__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="private_leagal_search_report" name="private_leagal_search_report" value="${LADetails.special_feature }"
+                                        <input id="private_leagal_search_report" name="legal_search_report" value="${LADetails.legal_search_report }"
                                             type="text" class="validate datepicker">
                                         <label for="private_leagal_search_report"> Legal Search Report</label>
                                         <button type="button" id="private_leagal_search_rport__icon"
@@ -730,14 +730,14 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="private_registartion_date" name="private_registartion_date" value="${LADetails.special_feature }"
+                                        <input id="private_registartion_date" name="date_of_registration" value="${LADetails.date_of_registration }"
                                             type="text" class="validate datepicker">
                                         <label for="private_registartion_date">Date of Registration </label>
                                         <button type="button" id="private_registartion_date__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="private_possession_date" name="private_possession_date" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_possession_date" name="date_of_possession" type="text" value="${LADetails.date_of_possession }"
                                             class="validate datepicker">
                                         <label for="private_possession_date">Date of Possession</label>
                                         <button type="button" id="private_possession_date__icon"
@@ -749,15 +749,17 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Possession Status</p>
-                                        <select class="searchable" id="private_possession_status"
+                                        <select class="searchable" id="possession_status_fk"
                                             name="private_possession_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
+                                            <option value="" >Select</option>
+                                            <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.possession_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="private_special_feature" name="private_special_feature" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_special_feature" name="private_special_feature" type="text" value="${LADetails.private_special_feature }"
                                             class="validate mt-10">
                                         <label for="private_special_feature"> Special Feature </label>
                                     </div>
@@ -768,7 +770,7 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                    
                                     <div class="col s12 m4 input-field"> 
-                                        <input id="private_forest_tree_survey" name="private_forest_tree_survey" value="${LADetails.special_feature }"
+                                        <input id="private_forest_tree_survey" name="forest_tree_survey" value="${LADetails.forest_tree_survey }"
                                             type="text" class="validate datepicker">
                                         <label for="private_forest_tree_survey"> Forest Tree Survey </label>
                                         <button type="button" id="private_forest_tree_survey__icon"
@@ -779,7 +781,7 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_forest_tree_valuation" name="private_forest_tree_valuation" value="${LADetails.special_feature }"
+                                        <input id="private_forest_tree_valuation" name="forest_tree_valuation" value="${LADetails.forest_tree_valuation }"
                                             type="text" class="validate datepicker mt-10">
                                         <label for="private_forest_tree_valuation"> Forest Tree Valuation </label>
                                         <button type="button" id="private_forest_tree_valuation__icon"
@@ -788,11 +790,12 @@
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label"> Forest Tree Valuation Status </p>
                                         <select class="searchable" id="private_forest_tree_valuation_status"
-                                            name="private_forest_tree_valuation_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                            name="forest_tree_valuation_status_fk">
+                                            <option value="" >Select</option>
+                                           <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.forest_tree_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
@@ -801,7 +804,7 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <input id="private_horiculture_tree_survey"
-                                            name="private_horiculture_tree_survey" type="text" value="${LADetails.special_feature }"
+                                            name="horticulture_tree_survey" type="text" value="${LADetails.horticulture_tree_survey }"
                                             class="validate datepicker">
                                         <label for="private_horiculture_tree_survey"> Horticulture Tree Survey </label>
                                         <button type="button" id="private_horiculture_tree_survey__icon"
@@ -809,7 +812,7 @@
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <input id="private_horiculture_tree_valuation"
-                                            name="private_horiculture_tree_valuation" type="text" value="${LADetails.special_feature }"
+                                            name="horticulture_tree_valuation" type="text" value="${LADetails.horticulture_tree_valuation }"
                                             class="validate datepicker">
                                         <label for="private_horiculture_tree_valuation"> Horticulture Tree Valuation
                                         </label>
@@ -821,14 +824,14 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_structure_survey" name="private_structure_survey" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_structure_survey" name="structure_survey" type="text" value="${LADetails.structure_survey }"
                                             class="validate datepicker">
                                         <label for="private_structure_survey"> Structure Survey </label>
                                         <button type="button" id="private_structure_survey__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_structure_valuation" name="private_structure_valuation" value="${LADetails.special_feature }"
+                                        <input id="private_structure_valuation" name="structure_valuation" value="${LADetails.structure_valuation }"
                                             type="text" class="validate datepicker">
                                         <label for="private_structure_valuation"> Structure Valuation </label>
                                         <button type="button" id="private_structure_valuation__icon"
@@ -839,14 +842,14 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_borewell_survey" name="private_borewell_survey" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_borewell_survey" name="borewell_survey" type="text" value="${LADetails.borewell_survey }"
                                             class="validate datepicker">
                                         <label for="private_borewell_survey"> Borewell Survey </label>
                                         <button type="button" id="private_borewell_survey__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_borewell_valuation" name="private_borewell_valuation" value="${LADetails.special_feature }"
+                                        <input id="private_borewell_valuation" name="borewell_valuation" value="${LADetails.borewell_valuation }"
                                             type="text" class="validate datepicker">
                                         <label for="private_borewell_valuation"> Borewell Valuation </label>
                                         <button type="button" id="private_borewell_valuation__icon"
@@ -859,21 +862,23 @@
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Horticulture Tree Valuation Status </p>
                                         <select class="searchable" id="private_horticulture_tree_valuation_status"
-                                            name="private_horticulture_tree_valuation_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                            name="horticulture_tree_valuation_status_fk">
+                                            <option value="" >Select</option>
+                                            <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.horticulture_tree_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label"> Structure Valuation Status </p>
                                         <select class="searchable" id="private_structure_valuation_status"
-                                            name="private_structure_valuation_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                            name="structure_valuation_status_fk">
+                                            <option value="" >Select</option>
+                                            <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.structure_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
@@ -883,21 +888,23 @@
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Borewell Valuation Status </p>
                                         <select class="searchable" id="private_borewell_valuation_status"
-                                            name="private_borewell_valuation_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                            name="borewell_valuation_status_fk">
+                                            <option value="" >Select</option>
+                                           <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.borewell_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label"> RFP to ADTP status </p>
                                         <select class="searchable" id="private_rfp_to_adtp_status"
-                                            name="private_rfp_to_adtp_status">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
+                                            name="rfp_to_adtp_status_fk">
+                                            <option value="" >Select</option>
+                                             <c:forEach var="obj" items="${statusList}">
+												<option value="${obj.status }"
+													<c:if test="${LADetails.rfp_to_adtp_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
+											</c:forEach>
                                         </select>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
@@ -905,14 +912,14 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_rfp_adtp" name="private_rfp_adtp" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_rfp_adtp" name="date_of_rfp_to_adtp" type="text" value="${LADetails.date_of_rfp_to_adtp }"
                                             class="validate datepicker">
                                         <label for="private_rfp_adtp">Date of RFP to ADTP </label>
                                         <button type="button" id="private_rfp_adtp__icon" class="datepicker-button"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_rate_fixation_date" name="private_rate_fixation_date" value="${LADetails.special_feature }"
+                                        <input id="private_rate_fixation_date" name="date_of_rate_fixation_of_land" value="${LADetails.date_of_rate_fixation_of_land }"
                                             type="text" class="validate datepicker">
                                         <label for="private_rate_fixation_date"> Date of Rate Fixation of Land </label>
                                         <button type="button" id="private_rate_fixation_date__icon"
@@ -924,14 +931,14 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <input id="private_sdo_payment_demand_date"
-                                            name="private_sdo_payment_demand_date" type="text" value="${LADetails.special_feature }"
+                                            name="sdo_demand_for_payment" type="text" value="${LADetails.sdo_demand_for_payment }"
                                             class="validate datepicker">
                                         <label for="private_sdo_payment_demand_date">SDO demand for payment </label>
                                         <button type="button" id="private_sdo_payment_demand_date__icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_payment_approval_date" name="private_payment_approval_date" value="${LADetails.special_feature }"
+                                        <input id="private_payment_approval_date" name="date_of_approval_for_payment" value="${LADetails.date_of_approval_for_payment }"
                                             type="text" class="validate datepicker">
                                         <label for="private_payment_approval_date"> Date of Approval for Payment
                                         </label>
@@ -944,12 +951,12 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
-                                        <input id="private_payment_amount" name="private_payment_amount" type="number" value="${LADetails.special_feature }" min="0.01" step="0.01"
+                                        <input id="private_payment_amount" name="payment_amount" type="text" value="${LADetails.payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="private_payment_amount">Payment Amount </label>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_payment_date" name="private_payment_date" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_payment_date" name="private_payment_date" type="text" value="${LADetails.private_payment_date }"
                                             class="validate datepicker">
                                         <label for="private_payment_date"> Payment Date </label>
                                         <button type="button" id="private_payment_date__icon"

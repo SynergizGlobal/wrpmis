@@ -10,11 +10,14 @@ public class LandAcquisition {
     area_acquired, remarks,
     
     //private
-    name_of_the_owner,private_area_to_be_acquired, basic_rate, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos, forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
-    private_possession_status_fk, private_special_feature, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2, land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation
+    name_of_the_owner,private_area_to_be_acquired,private_area_acquired, basic_rate,private_attachment_no, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos, forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
+    private_possession_status_fk, private_special_feature, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2, land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation,
+    forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, structure_survey,
+    structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, borewell_valuation_status_fk, 
+    rfp_to_adtp_status_fk, date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, date_of_approval_for_payment, payment_amount, private_payment_date
     
     //forest
-    , forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
+    ,forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
     forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,
     forest_approval_for_payment, forest_payment_date, forest_possession_date, forest_possession_status_fk, forest_payment_status_fk, forest_special_feature, forest_attachment_No,
    

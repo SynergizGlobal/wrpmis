@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class LandAcquisition {
 	
 	private String work_id, la_id, project_id,project_id_fk,project_name,work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
-	jm_start_date, jm_completion_date,is_there_issue, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name,
+	jm_start_date, jm_completion_date,is_there_issue,category_id, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name,
 	
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
@@ -28,6 +28,14 @@ public class LandAcquisition {
     railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
     ;
 	
+	public String getCategory_id() {
+		return category_id;
+	}
+
+	public void setCategory_id(String category_id) {
+		this.category_id = category_id;
+	}
+
 	public String getForest_survey_number() {
 		return forest_survey_number;
 	}

@@ -91,5 +91,10 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 		return dao.getIssueCatogoriesList();
 	}
 
+	@Override
+	public boolean updateLandAcquisition(LandAcquisition obj) throws Exception {
+		return dao.updateLandAcquisition(obj);
+	}
+
 
 }

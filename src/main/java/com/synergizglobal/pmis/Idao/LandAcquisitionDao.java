@@ -36,5 +36,7 @@ public interface LandAcquisitionDao {
 
 	public List<LandAcquisition> getIssueCatogoriesList() throws Exception;
 
+	public boolean updateLandAcquisition(LandAcquisition obj) throws Exception;
+
 
 }

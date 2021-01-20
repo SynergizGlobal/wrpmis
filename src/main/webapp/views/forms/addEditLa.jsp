@@ -208,7 +208,7 @@
                                     <select id="type_of_land" class="searchable validate-dropdown" name="type_of_land" onchange="getSubCategorysList();">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${landsList }">
-	                                      	   <option value= "${obj.type_of_land}">${obj.type_of_land}</option>
+	                                      	   <option value= "${obj.type_of_land}" <c:if test="${LADetails.type_of_land eq obj.type_of_land}">selected</c:if>>${obj.type_of_land}</option>
 	                                     </c:forEach>
                                     </select>
                                     <span id="type_of_landError" class="error-msg" ></span>
@@ -216,10 +216,11 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Sub Category of Land</p>
-                                    <select class="searchable validate-dropdown" id="sub_category_of_land" name="sub_category_of_land" onchange="getLandsList();">
+                                    <input type="hidden"  name="sub_category_of_land" value="${LADetails.sub_category_of_land }" />
+                                    <select class="searchable validate-dropdown" id="sub_category_of_land" name="id" onchange="getLandsList();">
                                         <option value="" selected>Select</option>
                                        <c:forEach var="obj" items="${subCategorysList }">
-	                                      	   <option value= "${obj.sub_category_of_land}">${obj.sub_category_of_land}</option>
+	                                      	   <option value= "${obj.id}" <c:if test="${LADetails.sub_category_of_land eq obj.sub_category_of_land}">selected</c:if>>${obj.sub_category_of_land}</option>
 	                                     </c:forEach>
                                     </select>
                                     <span id="sub_category_of_landError" class="error-msg" ></span>
@@ -1638,9 +1639,9 @@
                             	 var sub_category_of_land = "${LADetails.sub_category_of_land}";
                             	 
     	                           if ($.trim(sub_category_of_land) != '' && val.sub_category_of_land == $.trim(sub_category_of_land)) {
-                                       $("#sub_category_of_land").append('<option value="' + val.sub_category_of_land + '" selected>' + $.trim(val.sub_category_of_land) + '</option>');
+                                       $("#sub_category_of_land").append('<option value="' + val.id + '" selected>' + $.trim(val.sub_category_of_land) + '</option>');
                                    } else {
-                                       $("#sub_category_of_land").append('<option value="' + val.sub_category_of_land + '">' + $.trim(val.sub_category_of_land) + '</option>');
+                                       $("#sub_category_of_land").append('<option value="' + val.id + '">' + $.trim(val.sub_category_of_land) + '</option>');
                                    }
                             });
                         }

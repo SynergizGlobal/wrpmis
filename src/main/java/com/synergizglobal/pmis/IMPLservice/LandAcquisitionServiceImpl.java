@@ -50,4 +50,46 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	public LandAcquisition getLandAcquisitionForm(LandAcquisition obj) throws Exception {
 		return dao.getLandAcquisitionForm(obj);
 	}
+
+	@Override
+	public boolean addLandAcquisition(LandAcquisition obj) throws Exception {
+		return dao.addLandAcquisition(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getWorkListForLAForm(LandAcquisition obj) throws Exception {
+		return dao.getWorkListForLAForm(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getProjectsList(LandAcquisition obj) throws Exception {
+		return dao.getProjectsList(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getLandsListForLAForm(LandAcquisition obj) throws Exception {
+		return dao.getLandsListForLAForm(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getSubCategorysListForLAForm(LandAcquisition obj) throws Exception {
+		return dao.getSubCategorysListForLAForm(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getSubCategoryList(LandAcquisition obj) throws Exception {
+		return dao.getSubCategoryList(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getLandsList(LandAcquisition obj) throws Exception {
+		return dao.getLandsList(obj);
+	}
+
+	@Override
+	public List<LandAcquisition> getIssueCatogoriesList() throws Exception {
+		return dao.getIssueCatogoriesList();
+	}
+
+
 }

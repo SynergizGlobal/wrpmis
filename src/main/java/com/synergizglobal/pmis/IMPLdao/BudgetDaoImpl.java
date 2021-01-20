@@ -76,7 +76,7 @@ public class BudgetDaoImpl implements BudgetDao {
 	public Budget getBudget(Budget obj)throws Exception{
 		Budget budget = null;
 		try {
-			String qry = "select budget_id, work_id_fk,w.work_name,p.project_name,w.project_id_fk from budget b" + 
+			String qry = "select budget_id, work_id_fk,w.work_name,p.project_name,w.work_short_name,w.project_id_fk from budget b" + 
 					"left join work w on work_id_fk = w.work_id " + 
 					"left join project p on w.project_id_fk = p.project_id where budget_id is not null" ; 
 			int arrSize = 0;

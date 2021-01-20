@@ -1,9 +1,11 @@
 package com.synergizglobal.pmis.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class LandAcquisition {
 	
-	private String work_id, la_id, work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
-	jm_start_date, jm_completion_date, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,
+	private String work_id, la_id, project_id,project_id_fk,project_name,work_id_fk,work_name,work_short_name,survey_number, la_sub_category_fk,la_sub_category,la_category,village_id,status, status_of, type_of_land, sub_category_of_land, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector, area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, 
+	jm_start_date, jm_completion_date,is_there_issue, jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues,attachment,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name,
 	
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
@@ -18,15 +20,297 @@ public class LandAcquisition {
     
     //forest
     ,forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
-    forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,
+    forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,forest_survey_number,
     forest_approval_for_payment, forest_payment_date, forest_possession_date, forest_possession_status_fk, forest_payment_status_fk, forest_special_feature, forest_attachment_No,
    
     //railway
     railway_area_to_be_acquired,  railway_online_submission,railway_area_acquired,  railway_submission_date_to_DyCFO,  railway_submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
     railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
     ;
+	
+	public String getForest_survey_number() {
+		return forest_survey_number;
+	}
 
+	public void setForest_survey_number(String forest_survey_number) {
+		this.forest_survey_number = forest_survey_number;
+	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getIssue_description() {
+		return issue_description;
+	}
+
+	public void setIssue_description(String issue_description) {
+		this.issue_description = issue_description;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getIssue_priority_id() {
+		return issue_priority_id;
+	}
+
+	public void setIssue_priority_id(String issue_priority_id) {
+		this.issue_priority_id = issue_priority_id;
+	}
+
+	public String getIssue_category_id() {
+		return issue_category_id;
+	}
+
+	public void setIssue_category_id(String issue_category_id) {
+		this.issue_category_id = issue_category_id;
+	}
+
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	private MultipartFile landAcquisitionFile;
+	
+	
+	public String getIs_there_issue() {
+		return is_there_issue;
+	}
+
+	public void setIs_there_issue(String is_there_issue) {
+		this.is_there_issue = is_there_issue;
+	}
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
+
+	public String getProject_name() {
+		return project_name;
+	}
+
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
+	}
+
+	public MultipartFile getLandAcquisitionFile() {
+		return landAcquisitionFile;
+	}
+
+	public void setLandAcquisitionFile(MultipartFile landAcquisitionFile) {
+		this.landAcquisitionFile = landAcquisitionFile;
+	}
+
+	public String getPrivate_area_acquired() {
+		return private_area_acquired;
+	}
+
+	public void setPrivate_area_acquired(String private_area_acquired) {
+		this.private_area_acquired = private_area_acquired;
+	}
+
+	public String getPrivate_attachment_no() {
+		return private_attachment_no;
+	}
+
+	public void setPrivate_attachment_no(String private_attachment_no) {
+		this.private_attachment_no = private_attachment_no;
+	}
+
+	public String getForest_tree_survey() {
+		return forest_tree_survey;
+	}
+
+	public void setForest_tree_survey(String forest_tree_survey) {
+		this.forest_tree_survey = forest_tree_survey;
+	}
+
+	public String getForest_tree_valuation() {
+		return forest_tree_valuation;
+	}
+
+	public void setForest_tree_valuation(String forest_tree_valuation) {
+		this.forest_tree_valuation = forest_tree_valuation;
+	}
+
+	public String getForest_tree_valuation_status_fk() {
+		return forest_tree_valuation_status_fk;
+	}
+
+	public void setForest_tree_valuation_status_fk(String forest_tree_valuation_status_fk) {
+		this.forest_tree_valuation_status_fk = forest_tree_valuation_status_fk;
+	}
+
+	public String getHorticulture_tree_survey() {
+		return horticulture_tree_survey;
+	}
+
+	public void setHorticulture_tree_survey(String horticulture_tree_survey) {
+		this.horticulture_tree_survey = horticulture_tree_survey;
+	}
+
+	public String getHorticulture_tree_valuation() {
+		return horticulture_tree_valuation;
+	}
+
+	public void setHorticulture_tree_valuation(String horticulture_tree_valuation) {
+		this.horticulture_tree_valuation = horticulture_tree_valuation;
+	}
+
+	public String getStructure_survey() {
+		return structure_survey;
+	}
+
+	public void setStructure_survey(String structure_survey) {
+		this.structure_survey = structure_survey;
+	}
+
+	public String getStructure_valuation() {
+		return structure_valuation;
+	}
+
+	public void setStructure_valuation(String structure_valuation) {
+		this.structure_valuation = structure_valuation;
+	}
+
+	public String getBorewell_survey() {
+		return borewell_survey;
+	}
+
+	public void setBorewell_survey(String borewell_survey) {
+		this.borewell_survey = borewell_survey;
+	}
+
+	public String getBorewell_valuation() {
+		return borewell_valuation;
+	}
+
+	public void setBorewell_valuation(String borewell_valuation) {
+		this.borewell_valuation = borewell_valuation;
+	}
+
+	public String getHorticulture_tree_valuation_status_fk() {
+		return horticulture_tree_valuation_status_fk;
+	}
+
+	public void setHorticulture_tree_valuation_status_fk(String horticulture_tree_valuation_status_fk) {
+		this.horticulture_tree_valuation_status_fk = horticulture_tree_valuation_status_fk;
+	}
+
+	public String getStructure_valuation_status_fk() {
+		return structure_valuation_status_fk;
+	}
+
+	public void setStructure_valuation_status_fk(String structure_valuation_status_fk) {
+		this.structure_valuation_status_fk = structure_valuation_status_fk;
+	}
+
+	public String getBorewell_valuation_status_fk() {
+		return borewell_valuation_status_fk;
+	}
+
+	public void setBorewell_valuation_status_fk(String borewell_valuation_status_fk) {
+		this.borewell_valuation_status_fk = borewell_valuation_status_fk;
+	}
+
+	public String getRfp_to_adtp_status_fk() {
+		return rfp_to_adtp_status_fk;
+	}
+
+	public void setRfp_to_adtp_status_fk(String rfp_to_adtp_status_fk) {
+		this.rfp_to_adtp_status_fk = rfp_to_adtp_status_fk;
+	}
+
+	public String getDate_of_rfp_to_adtp() {
+		return date_of_rfp_to_adtp;
+	}
+
+	public void setDate_of_rfp_to_adtp(String date_of_rfp_to_adtp) {
+		this.date_of_rfp_to_adtp = date_of_rfp_to_adtp;
+	}
+
+	public String getDate_of_rate_fixation_of_land() {
+		return date_of_rate_fixation_of_land;
+	}
+
+	public void setDate_of_rate_fixation_of_land(String date_of_rate_fixation_of_land) {
+		this.date_of_rate_fixation_of_land = date_of_rate_fixation_of_land;
+	}
+
+	public String getSdo_demand_for_payment() {
+		return sdo_demand_for_payment;
+	}
+
+	public void setSdo_demand_for_payment(String sdo_demand_for_payment) {
+		this.sdo_demand_for_payment = sdo_demand_for_payment;
+	}
+
+	public String getDate_of_approval_for_payment() {
+		return date_of_approval_for_payment;
+	}
+
+	public void setDate_of_approval_for_payment(String date_of_approval_for_payment) {
+		this.date_of_approval_for_payment = date_of_approval_for_payment;
+	}
+
+	public String getPayment_amount() {
+		return payment_amount;
+	}
+
+	public void setPayment_amount(String payment_amount) {
+		this.payment_amount = payment_amount;
+	}
+
+	public String getPrivate_payment_date() {
+		return private_payment_date;
+	}
+
+	public void setPrivate_payment_date(String private_payment_date) {
+		this.private_payment_date = private_payment_date;
+	}
 
 	public String getForest_valuation_by_dycfo() {
 		return forest_valuation_by_dycfo;

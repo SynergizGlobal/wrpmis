@@ -49,7 +49,13 @@
         .input-field .prefix.active {
             color: #2e58ad;
         }
-
+		input[type="number"]~.units {
+		    position: absolute;
+		    right: 15px;
+		    top: 15px;
+		    border: 0;
+		    opacity: 0.7;
+		}
         h6.primary-text-bold.center-align {
             margin: 20px auto;
         }
@@ -68,6 +74,7 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        .error-msg label{color:red!important;}
     </style>
 </head>
 
@@ -94,25 +101,93 @@
                     </div>
                     <!-- form start-->
                     <div class="container container-no-margin">
-                        <form action="#">
-                            <div class="row" >
+                        <c:if test="${action eq 'edit'}">				                
+				                 	<form action="<%=request.getContextPath() %>/update-land-acquisition" id="landAcquisitionForm" name="landAcquisitionForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+	                 </c:if>
+				     <c:if test="${action eq 'add'}">				                
+				                	<form action="<%=request.getContextPath() %>/add-land-acquisition" id="landAcquisitionForm" name="landAcquisitionForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+				     </c:if>
+				     <c:if test="${action eq 'add'}">
+                        <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m2 input-field">
-                                    <!-- <select class="searchable">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select> -->
-                                    
-                                    <label for="la_id"> Land Acquisition ID :</label>
+                                <div class="col s12 m4 input-field">
+                                    <p class="searchable_label"> Project </p>
+                                    <select id="project_id_fk" name="project_id_fk"  class="searchable validate-dropdown"  onchange="getWorksList(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${projectsList }">
+                                      	   <option value= "${ obj.project_id}">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s12 m6 input-field">
-                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" readonly>
-                                 </div>
+                                <div class="col s12 m4 input-field">
+                                    <p class="searchable_label"> Work</p>
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);">
+                                        <option value="">Select</option>
+                                         <c:forEach var="obj" items="${worksList }">
+	                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                     </c:forEach>
+                                    </select>
+                                    <span id="work_id_fkError" class="error-msg" ></span>
+                                </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							</c:if>
+ 							<c:if test="${action eq 'edit'}">	
+                              <div class="row" >
+	                              <div class="col m2 hide-on-small-only">
+	                              </div>
+	                       		  <div class="col s12 m4 input-field">
+										<p class="searchable_label"> Project</p>
+	                                         	 	<input type="text" value="${LADetails.project_id_fk} - ${LADetails.project_name}" readonly />
+								  </div> 
+								  <div class="col s12 m4 input-field"> 
+									    <p class="searchable_label"> Work</p>
+	                                         	 	<input type="text"  value="${LADetails.work_id_fk} - ${LADetails.work_short_name}" readonly />
+	                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
+	                              </div>
+                              </div> 
+                             </c:if>
+                             <c:if test="${action eq 'add'}">
+	                            <div class="row" >
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m2 input-field">
+	                                    <!-- <select class="searchable">
+	                                        <option value="0" selected>Select</option>
+	                                        <option value="1">Agency 1</option>
+	                                        <option value="2">Agency 2</option>
+	                                        <option value="3">Agency 3</option>
+	                                    </select> -->
+	                                    
+	                                    <label for="la_id"> Land Acquisition ID :</label>
+	                                </div>
+	                                 <div class="col s12 m6 input-field">
+	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" >
+	                                  <span id="la_idError" class="error-msg" ></span>
+	                                 </div>
+	                                 
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							</c:if>
+							<c:if test="${action eq 'edit'}">
+	                            <div class="row" >
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m2 input-field">
+	                                    <!-- <select class="searchable">
+	                                        <option value="0" selected>Select</option>
+	                                        <option value="1">Agency 1</option>
+	                                        <option value="2">Agency 2</option>
+	                                        <option value="3">Agency 3</option>
+	                                    </select> -->
+	                                    
+	                                    <label for="la_id"> Land Acquisition ID :</label>
+	                                </div>
+	                                 <div class="col s12 m6 input-field">
+	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" readonly>
+	                                 </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							</c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -130,22 +205,24 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Type of Land </p>
-                                    <select id="type_of_land" class="searchable" name="type_of_land">
+                                    <select id="type_of_land" class="searchable validate-dropdown" name="type_of_land" onchange="getSubCategorysList();">
                                         <option value="" >Select</option>
-                                        <option value="Government"<c:if test="${LADetails.type_of_land eq 'Government'}">selected</c:if>>Government </option>
-                                        <option value="Forest" <c:if test="${LADetails.type_of_land eq 'Forest'}">selected</c:if>>Forest</option>
-                                        <option value="Private" <c:if test="${LADetails.type_of_land eq 'Private'}">selected</c:if>>Private</option>
-                                        <option value="Railway" <c:if test="${LADetails.type_of_land eq 'Railway'}">selected</c:if>>Railway</option>
+                                        <c:forEach var="obj" items="${landsList }">
+	                                      	   <option value= "${obj.type_of_land}">${obj.type_of_land}</option>
+	                                     </c:forEach>
                                     </select>
+                                    <span id="type_of_landError" class="error-msg" ></span>
+                                    
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Sub Category of Land</p>
-                                    <select class="searchable" name="sub_category_of_land">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <select class="searchable validate-dropdown" id="sub_category_of_land" name="sub_category_of_land" onchange="getLandsList();">
+                                        <option value="" selected>Select</option>
+                                       <c:forEach var="obj" items="${subCategorysList }">
+	                                      	   <option value= "${obj.sub_category_of_land}">${obj.sub_category_of_land}</option>
+	                                     </c:forEach>
                                     </select>
+                                    <span id="sub_category_of_landError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -262,7 +339,7 @@
                                     <button type="button" id="jm_sheet_date_to_sdo__icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
                                 </div>
-                                <div class="col s12 m4 input-field center-align">
+                                <div class="col s12 m4 center-align">
                                     <div class="row">
                                         <div class="col s4 m4 input-field ">
                                             <p style="margin-top: 8px;">JM Approval</p>
@@ -329,7 +406,7 @@
                                         </select>
                                     </div>
                                     <div class="col s12 m4 input-field ">
-                                        <input id="proposal_submission" type="text" value="${LADetails.proposal_submission }"
+                                        <input id="proposal_submission" type="text" value="${LADetails.proposal_submission }" 
                                             name="proposal_submission" class="validate datepicker">
                                         <label for="proposal_submission">Proposal submission</label>
                                         <button type="button" id="proposal_submission__icon"
@@ -509,7 +586,7 @@
                                     <div class="col s12 m4 input-field">
                                         <input id="forest_submission_revenue_sec" name="forest_submission_date_to_revenue_secretary_mantralaya" value="${LADetails.forest_submission_date_to_revenue_secretary_mantralaya }"
                                             type="text" class="validate datepicker">
-                                        <label for="forest_submission_revenue_sec"> Submission Date to Revenue Secretary
+                                        <label for="forest_submission_revenue_sec" style="font-size:0.85rem"> Submission Date to Revenue Secretary
                                             Mantralaya </label>
                                         <button type="button" id="forest_submission_revenue_sec__icon"
                                             class="datepicker-button" class="white"><i
@@ -675,7 +752,7 @@
                                     <!-- <div class="col s12 m8 input-field">
                                         <div class="row"> -->
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_agri_trees" name="private_agri_trees" type="text" value="${LADetails.special_feature }"
+                                        <input id="private_agri_trees" name="agriculture_tree_nos" type="text" value="${LADetails.agriculture_tree_nos }"
                                             class="validate">
                                         <label for="private_agri_trees"> Agriculture tree nos</label>
                                     </div>
@@ -749,8 +826,8 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Possession Status</p>
-                                        <select class="searchable" id="possession_status_fk"
-                                            name="private_possession_status">
+                                        <select class="searchable" id="private_possession_status"
+                                            name="private_possession_status_fk">
                                             <option value="" >Select</option>
                                             <c:forEach var="obj" items="${statusList}">
 												<option value="${obj.status }"
@@ -1028,8 +1105,7 @@
                                     <div class="col s12 m4 input-field">
                                         <input id="railway_submission_revenue_sec" name="railway_submission_date_to_revenue_secretary_mantralaya" value="${LADetails.railway_submission_date_to_revenue_secretary_mantralaya }"
                                             type="text" class="validate datepicker">
-                                        <label for="railway_submission_revenue_sec"> Submission Date to Revenue
-                                            Secretary
+                                        <label for="railway_submission_revenue_sec" style="font-size:0.85rem"> Submission Date to Revenue Secretary
                                             Mantralaya </label>
                                         <button type="button" id="railway_submission_revenue_sec__icon"
                                             class="datepicker-button" class="white"><i
@@ -1122,8 +1198,10 @@
                                         </select>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
-                                </div>
-                                <div class="row">
+                               <!--  </div> -->
+                               
+                            </div>
+                             <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <p class="searchable_label">Payment Status </p>
@@ -1143,8 +1221,8 @@
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
-
-                            </div>
+                              </div>
+                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
@@ -1153,13 +1231,19 @@
                                             <div class="file-field input-field">
                                                 <div class="btn bg-m">
                                                     <span>Attachment</span>
-                                                    <input type="file">
+                                                    <input type="file" id="landAcquisitionFile" name="landAcquisitionFile"  >
                                                 </div>
-                                                <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text" >
-                                                </div>
+                                             
+			                                                <div class="file-path-wrapper">
+													<input class="file-path validate" type="text"	name="attachment" value="${LADetails.attachment }">
+												</div>
+											</div>
+											 <c:if test="${not empty LADetails.attachment }">
+												<a
+													href="<%=CommonConstants.LAND_ACQUISITION_FILES %>${LADetails.attachment }"
+													class="filevalue" download>${LADetails.attachment }</a>
+											</c:if>
                                             </div>
-                                        </div>
                                         <div class="col m6 s12">
                                             <div class="row">
                                                 <!-- row 7 -->
@@ -1170,11 +1254,11 @@
                                                     <p class="radiogroup"
                                                         style="padding-bottom: 10px;padding-top: 10px;">
                                                         <label>
-                                                            <input class="with-gap" name="issue" type="radio"
+                                                            <input class="with-gap" name="is_there_issue" type="radio"
                                                                 value="yes" />
                                                             <span>Yes</span>
                                                         </label> &nbsp; <label>
-                                                            <input class="with-gap" name="issue" type="radio"
+                                                            <input class="with-gap" name="is_there_issue" type="radio"
                                                                 value="no" />
                                                             <span>No</span>
                                                         </label>
@@ -1195,30 +1279,30 @@
                                         <div class="row">
                                             <div class="col s12 m6 input-field" style="margin-top: 35px;">
                                                 <p class="searchable_label">Issue Category</p>
-                                                <select class="searchable">
-                                                    <option value="0" selected>Select</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
+                                                <select class="searchable" id="issue_category_id" name="issue_category_id">
+                                                    <option value="" selected>Select</option>
+                                                    <c:forEach var="obj" items="${issueCatogoriesList}">
+													<option value="${obj.category }">${obj.category }</option>
+												</c:forEach>
                                                 </select>
                                             </div>
                                             <div class="col s12 m6 input-field" style="padding-top: 4px;">
                                                 <p class="prio">Priority</p>
                                                 <p class="radiogroup">
                                                     <label>
-                                                        <input class="with-gap" name="priority" type="radio"
+                                                        <input class="with-gap" name="issue_priority_id" type="radio"
                                                             value="low" />
                                                         <span>Low</span>
                                                     </label>
                                                     &nbsp;
                                                     <label>
-                                                        <input class="with-gap" name="priority" type="radio"
+                                                        <input class="with-gap" name="issue_priority_id" type="radio"
                                                             value="medium" />
                                                         <span>Medium</span>
                                                     </label>
                                                     &nbsp;
                                                     <label>
-                                                        <input class="with-gap" name="priority" type="radio"
+                                                        <input class="with-gap" name="issue_priority_id" type="radio"
                                                             value="high" />
                                                         <span>High</span>
                                                     </label>
@@ -1230,7 +1314,7 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m8 input-field">
-                                        <textarea id="issueDesc" class="materialize-textarea"
+                                        <textarea  class="materialize-textarea" id="issue_description" name="issue_description"
                                             data-length="500"></textarea>
                                         <label for="issueDesc">Issue Description</label>
                                     </div>
@@ -1253,10 +1337,10 @@
                                 <div class="col s12 m4">
                                    <div class="center-align m-1">
 	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateLA();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                           <button type="button" onclick="updateLAFrom();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
 	                                         </c:if>
 											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addLA();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+						                       <button type="button" onclick="addLAForm();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
 											 </c:if>
                                     </div>
                                 </div>
@@ -1281,12 +1365,15 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-
+   <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/pmis/resources/js/datetimepicker.js"></script>
     <script>
         $(document).on('focus', '.datepicker', function () {
             $(this).datepicker({
@@ -1310,11 +1397,11 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#textarea1,#textarea2,#issueDesc,#jmremarks').characterCounter();
+            $('#issue_description,#jm_remarks').characterCounter();
             // commented code placed next script tag from here
 			forestGovernmentPrivateDivShowOrHide();
-            $('input[name=issue]').change(function () {
-                var radioval = $('input[name=issue]:checked').val();
+            $('input[name=is_there_issue]').change(function () {
+                var radioval = $('input[name=is_there_issue]:checked').val();
                 if (radioval == 'yes') {
                     $('#issue_yes').css("display", "block");
                 }
@@ -1339,16 +1426,19 @@
                         $('#govt_div').css("display", "block");
                         $('#forest_div').css("display", "none");
                         $('#private_div').css("display", "none");
+                        $('#railway_div').css("display", "none");
                     }
                     else if (landtype == 'Forest') {
                         $('#forest_div').css("display", "block");
                         $('#govt_div').css("display", "none");
                         $('#private_div').css("display", "none");
+                        $('#railway_div').css("display", "none");
                     }
                     else if (landtype == 'Private') {
                         $('#private_div').css("display", "block");
                         $('#govt_div').css("display", "none");
                         $('#forest_div').css("display", "none");
+                        $('#railway_div').css("display", "none");
                     }
                     else if (landtype == 'Railway') {
                         $('#private_div').css("display", "none");
@@ -1360,6 +1450,7 @@
                         $('#govt_div').css("display", "none");
                         $('#forest_div').css("display", "none");
                         $('#private_div').css("display", "none");
+                        $('#railway_div').css("display", "none");
                     }
                 }
                 else if (jmapproval == '') {
@@ -1369,7 +1460,236 @@
                     $('#railway_div').css("display", "none");
                 }
             }
+          
         });
+        
+        function getWorksList(projectId) {
+        	$(".page-loader").show();
+            $("#work_id_fk option:not(:first)").remove();
+
+            if ($.trim(projectId) != "") {
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForLAForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                var workId = "${LADetails.work_id_fk}";
+                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        
+        function resetProjectsDropdowns(workId){
+        	var projectId = '';
+        	if($.trim(workId) != ''){  
+            	projectId = workId.substring(0, 3); 
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
+        }
+        function getLandsList() {
+        	$(".page-loader").show();
+        	var type_of_land = $("#type_of_land").val();
+        	var sub_category_of_land = $("#sub_category_of_land").val();
+            if ($.trim(type_of_land) == "") {
+            	$("#type_of_land option:not(:first)").remove();
+            	var myParams = { sub_category_of_land: sub_category_of_land, type_of_land: type_of_land };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getLandsList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                              	 var type_of_land = "${LADetails.type_of_land}";
+                              	 
+      	                           if ($.trim(type_of_land) != '' && val.type_of_land == $.trim(type_of_land)) {
+                                         $("#type_of_land").append('<option value="' + val.type_of_land + '" selected>' + $.trim(val.type_of_land) + '</option>');
+                                     } else {
+                                         $("#type_of_land").append('<option value="' + val.type_of_land + '">' + $.trim(val.type_of_land) + '</option>');
+                                     }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getSubCategorysList() {
+        	$(".page-loader").show();
+        	var type_of_land = $("#type_of_land").val();
+        	var sub_category_of_land = $("#sub_category_of_land").val();
+            if ($.trim(sub_category_of_land) == "") {
+            	$("#sub_category_of_land option:not(:first)").remove();
+            	var myParams = { sub_category_of_land: sub_category_of_land, type_of_land: type_of_land };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getSubCategorysList",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	
+                            	 var sub_category_of_land = "${LADetails.sub_category_of_land}";
+                            	 
+    	                           if ($.trim(sub_category_of_land) != '' && val.sub_category_of_land == $.trim(sub_category_of_land)) {
+                                       $("#sub_category_of_land").append('<option value="' + val.sub_category_of_land + '" selected>' + $.trim(val.sub_category_of_land) + '</option>');
+                                   } else {
+                                       $("#sub_category_of_land").append('<option value="' + val.sub_category_of_land + '">' + $.trim(val.sub_category_of_land) + '</option>');
+                                   }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+      //This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        function addLAForm(){
+        	if(validator.form()){ // validation perform
+   	        	$(".page-loader").show();	    		
+   	  			document.getElementById("landAcquisitionForm").submit();	
+        	}
+        }
+        
+        function updateLAFrom(){
+         	if(validator.form()){ // validation perform
+    	        	$(".page-loader").show();	    		
+    	  			document.getElementById("landAcquisitionForm").submit();	
+         	}
+         }
+        
+        var validator =	$('#landAcquisitionForm').validate({
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		  "project_id_fk": {
+	  			 		required: true
+	  			 	  },"work_id_fk": {
+	  			 		required: true
+	  			 	  },"la_id": {
+	  			 		required: true
+	  			 	  },"type_of_land": {
+	  			 		required: true
+	  			 	  },"sub_category_of_land": {
+	  			 		required: true
+	  			 	  }
+	  		 	},
+	  		    messages: {
+	  		 		 "project_id_fk": {
+	  				 	required: 'This field is required',
+	  			 	  },"work_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"la_id": {
+	  			 		required: ' This field is required'
+	  			 	  },"type_of_land": {
+	  			 		required: ' This field is required'
+	  			 	  },"sub_category_of_land": {
+	  			 		required: ' This field is required'
+	  			 	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	if (element.attr("id") == "project_id_fk" ){
+						 document.getElementById("project_id_fkError").innerHTML="";
+				 		 error.appendTo('#project_id_fkError');
+					}else if(element.attr("id") == "work_id_fk" ){
+					   document.getElementById("work_id_fkError").innerHTML="";
+				 	   error.appendTo('#work_id_fkError');
+					}else if(element.attr("id") == "la_id" ){
+						   document.getElementById("la_idError").innerHTML="";
+					 	   error.appendTo('#la_idError');
+					}else if(element.attr("id") == "type_of_land" ){
+						   document.getElementById("type_of_landError").innerHTML="";
+					 	   error.appendTo('#type_of_landError');
+					}
+					else if(element.attr("id") == "sub_category_of_land" ){
+						   document.getElementById("sub_category_of_landError").innerHTML="";
+					 	   error.appendTo('#sub_category_of_landError');
+					}else{
+ 					error.insertAfter(element);
+			        } 
+		   		},invalidHandler: function (form, validator) {
+                  var errors = validator.numberOfInvalids();
+                  if (errors) {
+                      var position = validator.errorList[0].element;
+                      jQuery('html, body').animate({
+                          scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                      }, 1000);
+                  }
+              },submitHandler:function(form){
+			    	form.submit();
+			    }
+			});   
+		 
+		 $.validator.addMethod("dateFormat",
+	        	    function(value, element) {
+	        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+	        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+	        	    	//return dtRegex.test(value);
+	        	    },
+	        	    //"Date format (Aug 02,2020)"
+	        	    "Date format (DD-MM-YYYY)"
+	        	);
+	            
+	            
+	            $('select').change(function(){
+	        	    if ($(this).val() != ""){
+	        	        $(this).valid();
+	        	    }
+	        	});
+	            
+	            $('input').change(function(){
+	        	    if ($(this).val() != ""){
+	        	        $(this).valid();
+	        	    }
+	        	});
     </script>
    
 </body>

@@ -495,7 +495,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 				arrSize++;
 			}
 			
-			contractsQry = contractsQry + " GROUP BY scg.contract_id_fk ORDER BY scg.contract_id_fk ASC";
+			contractsQry = contractsQry + " GROUP BY scg.contract_id_fk ORDER BY scg.contract_id_fk DESC";
 			
 			Object[] pValues = new Object[arrSize];
 			

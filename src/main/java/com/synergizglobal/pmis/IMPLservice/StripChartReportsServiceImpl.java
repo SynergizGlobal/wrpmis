@@ -31,6 +31,21 @@ public class StripChartReportsServiceImpl implements StripChartReportsService{
 	}
 
 	@Override
+	public List<StripChartReport> getContractorsFilterListInStripChartReport(StripChartReport obj) throws Exception {
+		return dao.getContractorsFilterListInStripChartReport(obj);
+	}
+
+	@Override
+	public List<StripChartReport> getHodFilterListInStripChartReport(StripChartReport obj) throws Exception {
+		return dao.getHodFilterListInStripChartReport(obj);
+	}
+
+	@Override
+	public List<StripChartReport> getDyhodFilterListInStripChartReport(StripChartReport obj) throws Exception {
+		return dao.getDyhodFilterListInStripChartReport(obj);
+	}
+
+	@Override
 	public Map<StripChartReport, List<StripChartReport>> getStripChartReportData(StripChartReport obj)
 			throws Exception {
 		return dao.getStripChartReportData(obj);

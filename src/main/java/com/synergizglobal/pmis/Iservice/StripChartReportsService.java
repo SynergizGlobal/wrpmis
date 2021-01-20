@@ -12,6 +12,12 @@ public interface StripChartReportsService {
 	List<StripChartReport> getWorksFilterListInStripChartReport(StripChartReport obj) throws Exception;
 
 	List<StripChartReport> getContractsFilterListInStripChartReport(StripChartReport obj) throws Exception;
+	
+	List<StripChartReport> getContractorsFilterListInStripChartReport(StripChartReport obj) throws Exception;
+
+	List<StripChartReport> getHodFilterListInStripChartReport(StripChartReport obj) throws Exception;
+
+	List<StripChartReport> getDyhodFilterListInStripChartReport(StripChartReport obj) throws Exception;
 
 	Map<StripChartReport, List<StripChartReport>> getStripChartReportData(StripChartReport obj) throws Exception;
 	

@@ -3,7 +3,32 @@ package com.synergizglobal.pmis.model;
 public class StripChartReport {
 	private String progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name, 
 	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,hod,dyhod,
-	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date,project_id,project_name,project_id_fk;
+	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date,
+	project_id,project_name,project_id_fk,contractor_id,user_id,user_name,designation;
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
 	public String getHod() {
 		return hod;
@@ -251,6 +276,14 @@ public class StripChartReport {
 
 	public void setProject_id_fk(String project_id_fk) {
 		this.project_id_fk = project_id_fk;
+	}
+
+	public String getContractor_id() {
+		return contractor_id;
+	}
+
+	public void setContractor_id(String contractor_id) {
+		this.contractor_id = contractor_id;
 	}
 	
 	

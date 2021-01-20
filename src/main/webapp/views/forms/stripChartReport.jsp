@@ -71,7 +71,7 @@
 								</div>	
 								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Contractor</p>
-									<select class="searchable validate-dropdown" id="contractor_name" name="contractor_name" onchange="resetFilterDropDowns();">
+									<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id" onchange="resetFilterDropDowns();">
 										<option value="">Select</option>	
 									</select> 
 									<span id="contractor_idError" class="error-msg"></span>
@@ -192,6 +192,9 @@
         	getProjectsList();
         	getWorksList();
             getContractsList();
+            getContractorsList();
+            getHodList();
+            getDyhodList();
         }
         
         
@@ -200,12 +203,12 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var contractor_name = $("#contractor_name").val();
+        	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(project_id) == "") {
             	$("#project_id option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_name : contractor_name, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInStripChartReport",
 	                data: myParams, cache: false,
@@ -232,12 +235,12 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var contractor_name = $("#contractor_name").val();
+        	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(work_id) == "") {
             	$("#work_id option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_name : contractor_name, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInStripChartReport",
 	                data: myParams, cache: false,
@@ -267,12 +270,12 @@
         	var project_id = $("#project_id").val();
         	var work_id = $("#work_id").val();
         	var contract_id = $("#contract_id").val();
-        	var contractor_name = $("#contractor_name").val();
+        	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
             if ($.trim(contract_id) == "") {
             	$("#contract_id option:not(:first)").remove();
-            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_name : contractor_name, hod : hod, dyhod : dyhod };
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
 	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInStripChartReport",
 	                data: myParams, cache: false,
@@ -296,7 +299,103 @@
 	        }
         }
         
-      //This function is used to get error message for all ajax calls
+        function getContractorsList() {
+        	$(".page-loader").show();
+        	var project_id = $("#project_id").val();
+        	var work_id = $("#work_id").val();
+        	var contract_id = $("#contract_id").val();
+        	var contractor_id = $("#contractor_id").val();
+        	var hod = $("#hod").val();
+        	var dyhod = $("#dyhod").val();
+            if ($.trim(contractor_id) == "") {
+            	$("#contractor_id option:not(:first)").remove();
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+                $.ajax({
+	            	url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInStripChartReport",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	$("#contractor_id").append('<option value="' + val.contractor_id + '">' + $.trim(val.contractor_name) + '</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			    $(".page-loader").hide();
+		   	          	getErrorMessage(jqXHR, exception);
+		   	     	}
+	            });
+            }else{
+	        	  $(".page-loader").hide();
+	        }
+        }
+        
+        function getHodList() {
+        	$(".page-loader").show();
+        	var project_id = $("#project_id").val();
+        	var work_id = $("#work_id").val();
+        	var contract_id = $("#contract_id").val();
+        	var contractor_id = $("#contractor_id").val();
+        	var hod = $("#hod").val();
+        	var dyhod = $("#dyhod").val();
+            if ($.trim(hod) == "") {
+            	$("#hod option:not(:first)").remove();
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+                $.ajax({
+	            	url: "<%=request.getContextPath()%>/ajax/getHodFilterListInStripChartReport",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	$("#hod").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			    $(".page-loader").hide();
+		   	          	getErrorMessage(jqXHR, exception);
+		   	     	}
+	            });
+            }else{
+	        	  $(".page-loader").hide();
+	        }
+        }
+        
+        function getDyhodList() {
+        	$(".page-loader").show();
+        	var project_id = $("#project_id").val();
+        	var work_id = $("#work_id").val();
+        	var contract_id = $("#contract_id").val();
+        	var contractor_id = $("#contractor_id").val();
+        	var hod = $("#hod").val();
+        	var dyhod = $("#dyhod").val();
+            if ($.trim(dyhod) == "") {
+            	$("#dyhod option:not(:first)").remove();
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
+                $.ajax({
+	            	url: "<%=request.getContextPath()%>/ajax/getDyhodFilterListInStripChartReport",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	$("#dyhod").append('<option value="' + val.user_id + '">' + $.trim(val.designation) + ' - ' + $.trim(val.user_name) + '</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			    $(".page-loader").hide();
+		   	          	getErrorMessage(jqXHR, exception);
+		   	     	}
+	            });
+            }else{
+	        	  $(".page-loader").hide();
+	        }
+        }
+        
+      	//This function is used to get error message for all ajax calls
         function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
         	    if (jqXHR.status === 0) {
@@ -381,10 +480,12 @@
         	$('#project_id').val('');
         	$('#work_id').val('');
         	$('#contract_id').val('');
-        	$('#contractor_name').val('');
+        	$('#contractor_id').val('');
         	$('#hod').val('');
         	$('#dyhod').val('');
         	$('.searchable').select2();
+        	
+        	resetFilterDropDowns();        	
         }
     </script>
 </body>

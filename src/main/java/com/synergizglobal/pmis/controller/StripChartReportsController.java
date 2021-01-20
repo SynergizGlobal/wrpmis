@@ -45,7 +45,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.StripChartReportsService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.StripChartReport;
 
 @Controller
@@ -125,12 +124,57 @@ public class StripChartReportsController {
 		return contractsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getContractorsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChartReport> getContractorsFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
+		List<StripChartReport> contractorsList = null;
+		try {
+			contractorsList = service.getContractorsFilterListInStripChartReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractorsFilterListInStripChartReport : " + e.getMessage());
+		}
+		return contractorsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getHodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChartReport> getHodFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
+		List<StripChartReport> hodList = null;
+		try {
+			hodList = service.getHodFilterListInStripChartReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHodFilterListInStripChartReport : " + e.getMessage());
+		}
+		return hodList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDyhodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChartReport> getDyhodFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
+		List<StripChartReport> dyhodList = null;
+		try {
+			dyhodList = service.getDyhodFilterListInStripChartReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDyhodFilterListInStripChartReport : " + e.getMessage());
+		}
+		return dyhodList;
+	}
+	
 	@RequestMapping(value = "/generate-strip-chart-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateStripChartDPRReport(@ModelAttribute StripChartReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/dpr");
 		try{
 			String reporting_date = obj.getReporting_date();
-			obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
+			//obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
+			
+			String from_date = obj.getFrom_date();
+			String to_date = obj.getTo_date();
+			obj.setFrom_date(DateParser.parse(obj.getFrom_date()));
+			obj.setTo_date(DateParser.parse(obj.getTo_date()));
+			
 			//StripChartReport details = service.getStripChartDPRReportDetails(obj);
 			//List<StripChartReport> dprDataList = service.getStripChartDPRReportData(obj);
 			
@@ -197,7 +241,12 @@ public class StripChartReportsController {
 					
 					cell = deatilsRow.createCell(3);
 			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue(reporting_date);
+			        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
+			        	cell.setCellValue(from_date + " - " + to_date);
+			        }else {
+			        	cell.setCellValue(from_date);
+			        }
+					
 					
 					for (int i = 4; i < 9; i++) {		        	
 				        cell = deatilsRow.createCell(i);

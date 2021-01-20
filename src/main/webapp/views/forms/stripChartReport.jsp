@@ -48,84 +48,75 @@
 					<form action="<%=request.getContextPath() %>/generate-strip-chart-dpr-report" id="stripChartReportForm" name="stripChartReportForm" method="post" target="_blank">
 						<div class="container container-no-margin">
 							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>	
-								<div class="col s12 m4 input-field">
+								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Project</p>
 									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>
+										<option value="">Select</option>										<option>1</option>
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
-								<div class="col s12 m4 input-field">
+								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>
+										<option value="">Select</option>	<option>1</option>
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
-								</div>								
-								<div class="col m2 hide-on-small-only"></div>
-							</div>
-							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>	
-								<div class="col s12 m4 input-field">
+								</div>	
+								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>
+										<option value="">Select</option>	
 									</select> 
 									<span id="contract_idError" class="error-msg"></span>
-								</div>
-								<div class="col s12 m4 input-field">
+								</div>	
+								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Contractor</p>
 									<select class="searchable validate-dropdown" id="contractor_name" name="contractor_name" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>
+										<option value="">Select</option>	
 									</select> 
 									<span id="contractor_idError" class="error-msg"></span>
-								</div>
-								<div class="col m2 hide-on-small-only"></div>	
-							</div>	
-							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>	
-								<div class="col s12 m4 input-field">
+								</div>						
+							</div>
+							<div class="row">	
+								<div class="col s12 m3 input-field">
 									<p class="searchable_label">HOD</p>
 									<select class="searchable validate-dropdown" id="hod" name="hod" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>
+										<option value="">Select</option>	
 									</select> 
 									<span id="hod_idError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s12 m3 input-field">
 									<p class="searchable_label">Dy HOD</p>
 									<select class="searchable validate-dropdown" id="dyhod" name="dyhod" onchange="resetFilterDropDowns();">
-										<option value="">Select</option>
+										<option value="">Select</option>	
 									</select> 
 									<span id="dyhod_idError" class="error-msg"></span>
 								</div>
-								<div class="col m2 hide-on-small-only"></div>	
-						</div>
-
-							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s12 m3 input-field">
 									<input id="from_date" name="from_date" type="text" class="validate datepicker"> <label for="from_date"> From Date</label>
 									<button type="button" id="from_date_icon" class="white"><i class="fa fa-calendar"></i></button>
 									<span id="from_dateError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field" id="to_date_holder" style="display:none;">
+								<div class="col s12 m3 input-field" id="to_date_holder" style="display:none;">
 									<input id="to_date" name="to_date" type="text" class="validate datepicker"> <label for="to_date"> To Date</label>
 									<button type="button" id="to_date_icon" class="white"><i class="fa fa-calendar"></i></button>
 									<span id="to_dateError" class="error-msg"></span>
-								</div>								
-								<div class="col m2 hide-on-small-only"></div>
-							</div>
-							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m8 input-field">
+								</div>	
+							</div>								
+							
+							<div class="row">	
+								<div class="col s12 m6 input-field">
+									<div class="center-align m-1">
+										<button type="button" class="btn waves-effect waves-light bg-s t-c"	style="width: 100%" onclick="clearFilters();">Clear Filters</button>
+									</div>
+								</div>
+								<div class="col s12 m6 input-field">
 									<div class="center-align m-1">
 										<button type="submit"
 											class="btn waves-effect waves-light bg-m t-c"
-											style="width: 100%">Generate Report</button>
+											style="width: 100%"><strong>Generate Report </strong></button>
 									</div>
 								</div>
-								<div class="col m2 hide-on-small-only"></div>
 							</div>
 
 						</div>
@@ -386,7 +377,15 @@
     	        $(this).valid();
     	    }
     	});
-        
+        function clearFilters(){
+        	$('#project_id').val('');
+        	$('#work_id').val('');
+        	$('#contract_id').val('');
+        	$('#contractor_name').val('');
+        	$('#hod').val('');
+        	$('#dyhod').val('');
+        	$('.searchable').select2();
+        }
     </script>
 </body>
 </html>

@@ -328,7 +328,7 @@
 		table.state.clear();		
 	 
 	 	var myParams = {contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContract",type:"POST",data:myParams,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContracts",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	         			var contract_id = "'"+val.contract_id+"'";

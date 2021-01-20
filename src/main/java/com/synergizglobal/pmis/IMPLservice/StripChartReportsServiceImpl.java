@@ -16,14 +16,27 @@ public class StripChartReportsServiceImpl implements StripChartReportsService{
 	StripChartReportsDao dao;
 	
 	@Override
-	public List<StripChartReport> getWorksListInRiskReport(StripChartReport obj) throws Exception {
-		return dao.getWorksListInRiskReport(obj);
+	public List<StripChartReport> getProjectsFilterListInStripChartReport(StripChartReport obj) throws Exception {
+		return dao.getProjectsFilterListInStripChartReport(obj);
+	}
+	
+	@Override
+	public List<StripChartReport> getWorksFilterListInStripChartReport(StripChartReport obj) throws Exception {
+		return dao.getWorksFilterListInStripChartReport(obj);
 	}
 
 	@Override
-	public List<StripChartReport> getContractsListInStripChartReport(StripChartReport obj) throws Exception {
-		return dao.getContractsListInStripChartReport(obj);
+	public List<StripChartReport> getContractsFilterListInStripChartReport(StripChartReport obj) throws Exception {
+		return dao.getContractsFilterListInStripChartReport(obj);
 	}
+
+	@Override
+	public Map<StripChartReport, List<StripChartReport>> getStripChartReportData(StripChartReport obj)
+			throws Exception {
+		return dao.getStripChartReportData(obj);
+	}
+	
+	/*****************************************************************************************************/
 
 	@Override
 	public List<StripChartReport> getStripChartDPRReportData(StripChartReport obj) throws Exception {
@@ -33,12 +46,6 @@ public class StripChartReportsServiceImpl implements StripChartReportsService{
 	@Override
 	public StripChartReport getStripChartDPRReportDetails(StripChartReport obj) throws Exception {
 		return dao.getStripChartDPRReportDetails(obj);
-	}
-
-	@Override
-	public Map<StripChartReport, List<StripChartReport>> getStripChartReportData(StripChartReport obj)
-			throws Exception {
-		return dao.getStripChartReportData(obj);
 	}
 
 }

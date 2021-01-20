@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,14 +51,14 @@
 								<div class="col m2 hide-on-small-only"></div>	
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">Project</p>
-									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="getContractsList(this.value)">
+									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="resetFilterDropDowns();">
 										<option value="">Select</option>
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">Work</p>
-									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="getContractsList(this.value)">
+									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="resetFilterDropDowns();">
 										<option value="">Select</option>
 									</select> 
 									<span id="work_idError" class="error-msg"></span>
@@ -68,14 +69,14 @@
 								<div class="col m2 hide-on-small-only"></div>	
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">Contract</p>
-									<select class="searchable validate-dropdown" id="contract_id" name="contract_id">
+									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="resetFilterDropDowns();">
 										<option value="">Select</option>
 									</select> 
 									<span id="contract_idError" class="error-msg"></span>
 								</div>
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">Contractor</p>
-									<select class="searchable validate-dropdown" id="contractor_id" name="contractor_id">
+									<select class="searchable validate-dropdown" id="contractor_name" name="contractor_name" onchange="resetFilterDropDowns();">
 										<option value="">Select</option>
 									</select> 
 									<span id="contractor_idError" class="error-msg"></span>
@@ -86,14 +87,14 @@
 								<div class="col m2 hide-on-small-only"></div>	
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">HOD</p>
-									<select class="searchable validate-dropdown" id="hod_id" name="hod_id">
+									<select class="searchable validate-dropdown" id="hod" name="hod" onchange="resetFilterDropDowns();">
 										<option value="">Select</option>
 									</select> 
 									<span id="hod_idError" class="error-msg"></span>
 								</div>
 								<div class="col s12 m4 input-field">
-									<p class="searchable_label">DyHOD</p>
-									<select class="searchable validate-dropdown" id="dyhod_id" name="dyhod_id">
+									<p class="searchable_label">Dy HOD</p>
+									<select class="searchable validate-dropdown" id="dyhod" name="dyhod" onchange="resetFilterDropDowns();">
 										<option value="">Select</option>
 									</select> 
 									<span id="dyhod_idError" class="error-msg"></span>
@@ -187,9 +188,7 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            
-            getWorksList();
-            getContractsList("");
+            resetFilterDropDowns();           
         });
         $('#from_date').change(function(){
         	if($('#from_date').val()==''){        		
@@ -198,54 +197,134 @@
         	}
         });
         
+        function resetFilterDropDowns(){
+        	getProjectsList();
+        	getWorksList();
+            getContractsList();
+        }
         
-        function getWorksList() {
+        
+        function getProjectsList() {
         	$(".page-loader").show();
-            $("#work_id option:not(:first)").remove();
-            
-            var myParams = { };
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksListInStripChartReport",
-                data: myParams, cache: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                            var workName = '';
-                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                            $("#work_id").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                }
-            });
-           
+        	var project_id = $("#project_id").val();
+        	var work_id = $("#work_id").val();
+        	var contract_id = $("#contract_id").val();
+        	var contractor_name = $("#contractor_name").val();
+        	var hod = $("#hod").val();
+        	var dyhod = $("#dyhod").val();
+            if ($.trim(project_id) == "") {
+            	$("#project_id option:not(:first)").remove();
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_name : contractor_name, hod : hod, dyhod : dyhod };
+                $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInStripChartReport",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                            $("#project_id").append('<option value="' + val.project_id + '">' + $.trim(val.project_id) +'-'+ $.trim(val.project_name) + '</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			    $(".page-loader").hide();
+		   	          	getErrorMessage(jqXHR, exception);
+		   	     	}
+	            });
+            }else{
+	        	  $(".page-loader").hide();
+	        }
+        }
+        
+        function getWorksList(project_id) {
+        	$(".page-loader").show();
+        	var project_id = $("#project_id").val();
+        	var work_id = $("#work_id").val();
+        	var contract_id = $("#contract_id").val();
+        	var contractor_name = $("#contractor_name").val();
+        	var hod = $("#hod").val();
+        	var dyhod = $("#dyhod").val();
+            if ($.trim(work_id) == "") {
+            	$("#work_id option:not(:first)").remove();
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_name : contractor_name, hod : hod, dyhod : dyhod };
+                $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInStripChartReport",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                            var workName = '';
+	                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                            $("#work_id").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			    $(".page-loader").hide();
+		   	          	getErrorMessage(jqXHR, exception);
+		   	     	}
+	            });
+            }else{
+	        	  $(".page-loader").hide();
+	        }
         }
 
         //geting contracts list    
-        function getContractsList(work_id) {
+        function getContractsList() {
         	$(".page-loader").show();
-            $("#contract_id option:not(:first)").remove();
-            
-            var myParams = { work_id: work_id };
-            $.ajax({
-            	url: "<%=request.getContextPath()%>/ajax/getContractsListInStripChartReport",
-                data: myParams, cache: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	var contract_name = '';
-                            if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
-                            $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                }
-            });
-            
+        	var project_id = $("#project_id").val();
+        	var work_id = $("#work_id").val();
+        	var contract_id = $("#contract_id").val();
+        	var contractor_name = $("#contractor_name").val();
+        	var hod = $("#hod").val();
+        	var dyhod = $("#dyhod").val();
+            if ($.trim(contract_id) == "") {
+            	$("#contract_id option:not(:first)").remove();
+            	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, contractor_name : contractor_name, hod : hod, dyhod : dyhod };
+                $.ajax({
+	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInStripChartReport",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	var contract_name = '';
+	                            if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                            $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			    $(".page-loader").hide();
+		   	          	getErrorMessage(jqXHR, exception);
+		   	     	}
+	            });
+            }else{
+	        	  $(".page-loader").hide();
+	        }
         }
         
+      //This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
         
         var validator = $('#stripChartReportForm').validate({
 	    	ignore: ":hidden:not(.validate-dropdown)",

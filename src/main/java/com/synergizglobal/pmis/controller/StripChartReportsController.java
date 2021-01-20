@@ -45,6 +45,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.StripChartReportsService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.StripChartReport;
 
 @Controller
@@ -83,31 +84,43 @@ public class StripChartReportsController {
 			logger.error("stripChartDPRReport : " + e.getMessage());
 		}
 		return model;
-     }
+    }
 	
-	
-	@RequestMapping(value = "/ajax/getWorksListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getWorksListInStripChartReport(@ModelAttribute StripChartReport obj) {
-		List<StripChartReport> worksList = null;
+	public List<StripChartReport> getProjectsFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
+		List<StripChartReport> projectsList = null;
 		try {
-			worksList = service.getWorksListInRiskReport(obj);
+			projectsList = service.getProjectsFilterListInStripChartReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getWorksListInStripChartReport : " + e.getMessage());
+			logger.error("getProjectsFilterListInStripChartReport : " + e.getMessage());
+		}
+		return projectsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChartReport> getWorksFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
+		List<StripChartReport> worksList = null;
+		try {
+			worksList = service.getWorksFilterListInStripChartReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksFilterListInStripChartReport : " + e.getMessage());
 		}
 		return worksList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getContractsListInStripChartReport(@ModelAttribute StripChartReport obj) {
+	public List<StripChartReport> getContractsFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
 		List<StripChartReport> contractsList = null;
 		try {
-			contractsList = service.getContractsListInStripChartReport(obj);
+			contractsList = service.getContractsFilterListInStripChartReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractsListInStripChartReport : " + e.getMessage());
+			logger.error("getContractsFilterListInStripChartReport : " + e.getMessage());
 		}
 		return contractsList;
 	}

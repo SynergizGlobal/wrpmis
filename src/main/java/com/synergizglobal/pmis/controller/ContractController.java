@@ -97,7 +97,7 @@ public class ContractController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContracts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getContractList(@ModelAttribute Contract obj) {
 		List<Contract> contractList = null;

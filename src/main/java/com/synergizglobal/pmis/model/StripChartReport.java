@@ -2,8 +2,40 @@ package com.synergizglobal.pmis.model;
 
 public class StripChartReport {
 	private String progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name, 
-	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,
-	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date;
+	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,hod,dyhod,
+	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date,project_id,project_name,project_id_fk;
+
+	public String getHod() {
+		return hod;
+	}
+
+	public void setHod(String hod) {
+		this.hod = hod;
+	}
+
+	public String getDyhod() {
+		return dyhod;
+	}
+
+	public void setDyhod(String dyhod) {
+		this.dyhod = dyhod;
+	}
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+
+	public String getProject_name() {
+		return project_name;
+	}
+
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
+	}
 
 	public String getFrom_date() {
 		return from_date;
@@ -211,6 +243,14 @@ public class StripChartReport {
 
 	public void setExcluded_scope(String excluded_scope) {
 		this.excluded_scope = excluded_scope;
+	}
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
 	}
 	
 	

@@ -139,12 +139,12 @@
 	                              </div>
 	                       		  <div class="col s12 m4 input-field">
 										<p class="searchable_label"> Project</p>
-	                                         	 	<input type="text" value="${LADetails.project_id_fk} - ${LADetails.project_name}" readonly />
+	                                    <input type="text" value="${LADetails.project_id_fk} - ${LADetails.project_name}" readonly />
 								  </div> 
 								  <div class="col s12 m4 input-field"> 
 									    <p class="searchable_label"> Work</p>
-	                                         	 	<input type="text"  value="${LADetails.work_id_fk} - ${LADetails.work_short_name}" readonly />
-	                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
+                                    	<input type="text"  value="${LADetails.work_id_fk} - ${LADetails.work_short_name}" readonly />
+                                    	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
 	                              </div>
                               </div> 
                              </c:if>
@@ -276,7 +276,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="jm_fee_amount" name="jm_fee_amount" type="text" class="validate" value="${LADetails.jm_fee_amount }">
+                                    <input id="jm_fee_amount" name="jm_fee_amount" type="number" class="validate" value="${LADetails.jm_fee_amount }" min="0.01" step="0.01">
                                     <label for="jm_fee_amount"> JM Fee Amount </label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -700,6 +700,15 @@
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                  	<div class="col s12 m4 input-field">
+                                        <input id="forest_attachment_no" name="forest_attachment_no" type="text" value="${LADetails.private_attachment_no }"
+                                            class="validate">
+                                        <label for="forest_attachment_no">Attachment Number </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                 </div>
                             </div>
 
         <!-- if selected private this div shown  -->
@@ -1028,7 +1037,7 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
-                                        <input id="private_payment_amount" name="payment_amount" type="text" value="${LADetails.payment_amount }" min="0.01" step="0.01"
+                                        <input id="private_payment_amount" name="payment_amount" type="number" value="${LADetails.payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="private_payment_amount">Payment Amount </label>
                                     </div>
@@ -1041,6 +1050,72 @@
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                     <div class="col s12 m4 input-field">
+                                        <input id="hundred_percent_Solatium" name="hundred_percent_Solatium" type="number" value="${LADetails.hundred_percent_Solatium }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="hundred_percent_Solatium">Hundred Percent Solatium </label>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="extra_25_percent" name="extra_25_percent" type="number" value="${LADetails.extra_25_percent }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="extra_25_percent">Extra 25 Percent </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                     <div class="col s12 m4 input-field">
+                                        <input id="total_rate_divide_m2" name="total_rate_divide_m2" type="number" value="${LADetails.total_rate_divide_m2 }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="total_rate_divide_m2">Total Rate Divide M2 </label>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="land_compensation" name="land_compensation" type="number" value="${LADetails.land_compensation }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="land_compensation">Land Compensation </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                  <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                     <div class="col s12 m4 input-field">
+                                        <input id="agriculture_tree_compensation" name="agriculture_tree_compensation" type="number" value="${LADetails.agriculture_tree_compensation }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="agriculture_tree_compensation">Agriculture Tree Compensation </label>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="forest_tree_compensation" name="forest_tree_compensation" type="number" value="${LADetails.forest_tree_compensation }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="forest_tree_compensation">Forest Tree Compensation </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                     <div class="col s12 m4 input-field">
+                                        <input id="structure_compensation" name="structure_compensation" type="number" value="${LADetails.structure_compensation }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="structure_compensation">Structure Compensation </label>
+                                    </div>
+                                    <div class="col s12 m4 input-field">
+                                        <input id="borewell_compensation" name="borewell_compensation" type="number" value="${LADetails.borewell_compensation }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="borewell_compensation">Borewell Compensation </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                  <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                     <div class="col s12 m4 input-field">
+                                        <input id="total_compensation" name="total_compensation" type="number" value="${LADetails.total_compensation }" min="0.01" step="0.01"
+                                            class="validate">
+                                        <label for="total_compensation">Total Compensation </label>
+                                    </div>                                   
+                                    <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                
                             </div>
              <!-- //*********************************************************   -->             
  							<div id="railway_div" style="display: none; ">
@@ -1221,6 +1296,15 @@
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
+                                <div class="row">
+                                    <div class="col m2 hide-on-small-only"></div>
+                                  	<div class="col s12 m4 input-field">
+                                        <input id="railway_attachment_no" name="railway_attachment_no" type="text" value="${LADetails.private_attachment_no }"
+                                            class="validate">
+                                        <label for="railway_attachment_no">Attachment Number </label>
+                                    </div>
+                                    <div class="col m2 hide-on-small-only"></div>
+                                 </div>
                               </div>
                             
                             <div class="row">

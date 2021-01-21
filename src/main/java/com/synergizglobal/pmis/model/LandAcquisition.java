@@ -9,25 +9,57 @@ public class LandAcquisition {
 	
 	//gov
 	id, la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,
-    area_acquired, remarks,
+    area_acquired, remarks,gov_remarks,
     
     //private
     name_of_the_owner,private_area_to_be_acquired,private_area_acquired, basic_rate,private_attachment_no, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos, forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, 
     private_possession_status_fk, private_special_feature, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2, land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation,
-    forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, structure_survey,
+    forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, structure_survey,private_remarks,
     structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, borewell_valuation_status_fk, 
     rfp_to_adtp_status_fk, date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, date_of_approval_for_payment, payment_amount, private_payment_date
     
     //forest
     ,forest_area_to_be_acquired,forest_area_acquired, forest_online_submission, forest_submission_date_to_dycfo,  forest_submission_date_to_ccf_thane, forest_submission_date_to_nodal_officer, forest_submission_date_to_revenue_secretary_mantralaya, forest_submission_date_to_regional_office_nagpur, forest_date_of_approval_by_regional_office_nagpur, 
-    forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,forest_survey_number,
+    forest_valuation_by_dycfo, forest_demanded_amount, forest_payment_amount,forest_survey_number,forest_remarks,
     forest_approval_for_payment, forest_payment_date, forest_possession_date, forest_possession_status_fk, forest_payment_status_fk, forest_special_feature, forest_attachment_No,
    
     //railway
-    railway_area_to_be_acquired,  railway_online_submission,railway_area_acquired,  railway_submission_date_to_DyCFO,  railway_submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
+    railway_area_to_be_acquired,railway_remarks,  railway_online_submission,railway_area_acquired,  railway_submission_date_to_DyCFO,  railway_submission_date_to_CCF_Thane, railway_submission_date_to_nodal_officer_CCF_Nagpur, 
     railway_submission_date_to_revenue_secretary_mantralaya, railway_submission_date_to_regional_office_nagpur,  railway_date_of_approval_by_Rregional_Office_agpur,  railway_valuation_by_DyCFO, railway_demanded_amount, railway_approval_for_payment, railway_payment_date, railway_payment_amount, railway_payment_status, railway_possession_date,  railway_possession_status, railway_special_feature, railway_attachment_no
     ;
 	
+	public String getGov_remarks() {
+		return gov_remarks;
+	}
+
+	public void setGov_remarks(String gov_remarks) {
+		this.gov_remarks = gov_remarks;
+	}
+
+	public String getPrivate_remarks() {
+		return private_remarks;
+	}
+
+	public void setPrivate_remarks(String private_remarks) {
+		this.private_remarks = private_remarks;
+	}
+
+	public String getForest_remarks() {
+		return forest_remarks;
+	}
+
+	public void setForest_remarks(String forest_remarks) {
+		this.forest_remarks = forest_remarks;
+	}
+
+	public String getRailway_remarks() {
+		return railway_remarks;
+	}
+
+	public void setRailway_remarks(String railway_remarks) {
+		this.railway_remarks = railway_remarks;
+	}
+
 	public String getCategory_id() {
 		return category_id;
 	}

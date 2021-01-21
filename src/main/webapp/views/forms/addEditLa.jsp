@@ -188,6 +188,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 							</c:if>
+							
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -200,7 +201,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							<c:if test="${action eq 'add'}">
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -227,7 +228,23 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							</c:if>
+							<c:if test="${action eq 'edit'}">
+								<div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input type="text" id="type_of_land" name="type_of_land"  value="${LADetails.type_of_land }" readonly />
+	                                    <label for="type_of_land"> Type of Land </label>
+	                                    
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input type="text"  id="sub_category_of_land" value="${LADetails.sub_category_of_land }" readonly/>
+	                                    <label for="sub_category_of_land"> Sub Category of Land </label>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							
+							</c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -367,7 +384,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="jm_remarks" name="jm_remarks" class="materialize-textarea"
-                                        data-length="500"></textarea>
+                                        data-length="500">${LADetails.jm_remarks }</textarea>
                                     <label for="jm_remarks"> JM Remarks</label>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -704,7 +721,7 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                   	<div class="col s12 m4 input-field">
-                                        <input id="forest_attachment_no" name="forest_attachment_no" type="text" value="${LADetails.private_attachment_no }"
+                                        <input id="forest_attachment_no" name="forest_attachment_No" type="text" value="${LADetails.forest_attachment_No }"
                                             class="validate">
                                         <label for="forest_attachment_no">Attachment Number </label>
                                     </div>
@@ -1300,7 +1317,7 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                   	<div class="col s12 m4 input-field">
-                                        <input id="railway_attachment_no" name="railway_attachment_no" type="text" value="${LADetails.private_attachment_no }"
+                                        <input id="railway_attachment_no" name="railway_attachment_no" type="text" value="${LADetails.railway_attachment_no }"
                                             class="validate">
                                         <label for="railway_attachment_no">Attachment Number </label>
                                     </div>
@@ -1340,11 +1357,11 @@
                                                         style="padding-bottom: 10px;padding-top: 10px;">
                                                         <label>
                                                             <input class="with-gap" name="is_there_issue" type="radio"
-                                                                value="yes" />
+                                                                value="Yes" />
                                                             <span>Yes</span>
                                                         </label> &nbsp; <label>
                                                             <input class="with-gap" name="is_there_issue" type="radio"
-                                                                value="no" />
+                                                                value="No" />
                                                             <span>No</span>
                                                         </label>
                                                     </p>
@@ -1409,11 +1426,34 @@
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea"
-                                        data-length="1000"></textarea>
-                                    <label for="remarks">Remarks</label>
-                                </div>
+                                 <c:if test="${LADetails.type_of_land == 'Government'}">
+	                                <div class="col s12 m8 input-field">
+	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                        data-length="1000">${LADetails.gov_remarks } </textarea>
+	                                    <label for="remarks">Remarks</label>
+	                                </div>
+                                </c:if>
+                                 <c:if test="${LADetails.type_of_land == 'Forest'}">
+	                                <div class="col s12 m8 input-field">
+	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                        data-length="1000">${LADetails.forest_remarks } </textarea>
+	                                    <label for="remarks">Remarks</label>
+	                                </div>
+                                </c:if>
+                                 <c:if test="${LADetails.type_of_land == 'Private'}">
+	                                <div class="col s12 m8 input-field">
+	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                        data-length="1000">${LADetails.private_payment_date } </textarea>
+	                                    <label for="remarks">Remarks</label>
+	                                </div>
+                                </c:if>
+                                 <c:if test="${LADetails.type_of_land == 'Railway'}">
+	                                <div class="col s12 m8 input-field">
+	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+	                                        data-length="1000">${LADetails.railway_remarks } </textarea>
+	                                    <label for="remarks">Remarks</label>
+	                                </div>
+                                </c:if>
                             </div>
 
                             <div class="row">
@@ -1487,10 +1527,10 @@
 			forestGovernmentPrivateDivShowOrHide();
             $('input[name=is_there_issue]').change(function () {
                 var radioval = $('input[name=is_there_issue]:checked').val();
-                if (radioval == 'yes') {
+                if (radioval == 'Yes') {
                     $('#issue_yes').css("display", "block");
                 }
-                else if (radioval == 'no') {
+                else if (radioval == 'No') {
                     $('#issue_yes').css("display", "none");
                 }
             });

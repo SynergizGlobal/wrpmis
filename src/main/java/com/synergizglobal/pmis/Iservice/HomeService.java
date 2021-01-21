@@ -21,5 +21,7 @@ public interface HomeService {
 
 	public List<Project> getProjectsInformation(Project obj) throws Exception;
 
+	public List<Forms> getReportFormsList(String base) throws Exception;
+
 	
 }

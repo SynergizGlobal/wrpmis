@@ -180,9 +180,49 @@
 	          </li>          
           </c:if>
           
-          <li class="blue"><a href="<%=request.getContextPath()%>/dpr" class='head-img'>
-	          <span class="material-icons-outlined">assignment</span> Reports</a>
+         
+          <li class="blue darken-1 dropdown">
+          	<a href="#" class='head-img'>
+               <span class="material-icons-outlined">assignment</span>
+          		Reports</a>
+              <ul class="second-level-menu">
+              <!-- 1st level Dropdown starts -->
+                  <c:forEach var="form" items="${reportForms }" varStatus="index">
+           			<c:if test="${empty form.formsSubMenu}">
+		              	<li>
+		              		<a href="${form.webFormUrl }">
+				 				<span class="nav-label">${form.formName }</span>
+				 			</a>
+				 		</li>
+			 		</c:if>
+			 		<c:if test="${not empty form.formsSubMenu}">
+				 		<li class="sub-menu">
+	                         <a href="#!">
+								<span class="nav-label">${form.formName }</span>
+							 </a>
+	                         <ul class="third-level-menu">
+	                         <!-- 2nd level Dropdown starts -->
+	                             <c:forEach var="subList" items="${form.formsSubMenu }">
+				           			<li>
+      									<a href="${subList.webFormUrl }">
+      										<span class="nav-label">${subList.formName }</span>
+          								</a>
+              						</li>
+				           		</c:forEach> 
+				           		<!-- 2nd level Dropdown ends -->
+	                         </ul>
+	                     </li>
+                     </c:if>
+                            
+	              </c:forEach>
+	              <!-- 1st level Dropdown ends -->
+              </ul>
+              
           </li>
+          
+          <%-- <li class="blue"><a href="<%=request.getContextPath()%>/dpr" class='head-img'>
+	          <span class="material-icons-outlined">assignment</span> Reports</a>
+          </li> --%>
           
           <%-- <li class="blue"><a href="<%=request.getContextPath()%>/manuals" class='head-img'>
 	          <span class="material-icons-outlined">assignment</span> Manuals</a>
@@ -403,6 +443,7 @@
               </ul>
     </li>
     
+    <c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
 	<li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">post_add</span> Update Forms</a>
     	<ul class="dropdown-data collapsible-body second-lvl collapsible">          	  
           	  <c:forEach var="form" items="${forms }" varStatus="index">
@@ -434,7 +475,44 @@
 	              
          </ul>
     </li>
-    <li><a href="<%=request.getContextPath()%>/dpr" class='head-img'><span class="material-icons-outlined">assignment</span> Reports</a></li>
+    </c:if>
+    
+    <%-- <li><a href="<%=request.getContextPath()%>/dpr" class='head-img'><span class="material-icons-outlined">assignment</span> Reports</a></li> --%>
+    
+    
+    <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">assignment</span> Reports</a>
+    	<ul class="dropdown-data collapsible-body second-lvl collapsible">          	  
+          	  <c:forEach var="form" items="${reportForms }" varStatus="index">
+         			<c:if test="${empty form.formsSubMenu}">
+		              	<li>
+		              		<a href="${form.webFormUrl }">
+				 				<span class="nav-label">${form.formName }</span>
+				 			</a>
+				 		</li>
+			 		</c:if>
+			 		<c:if test="${not empty form.formsSubMenu}">
+				 		<li class="sub-menu">
+	                        <a href="#!" class="collapsible-header">
+							<span class="nav-label">${form.formName }</span>
+						 </a>
+	                        <ul class="dropdown-data collapsible-body third-lvl">
+	                            <c:forEach var="subList" items="${form.formsSubMenu }">
+			           			<li>
+	    									<a href="${subList.webFormUrl }">
+	    										<span class="nav-label">${subList.formName }</span>
+	        								</a>
+	            						</li>
+			           		</c:forEach> 
+	                        </ul>
+	                    </li>
+                   </c:if>
+                          
+             </c:forEach>
+	              
+         </ul>
+    </li>
+    
+    
     <%-- <li><a href="<%=request.getContextPath()%>/manuals" class='head-img'><span class="material-icons-outlined">assignment</span> Manuals</a></li> --%>
      <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
 	          <span class="material-icons-outlined">description</span> Documents</a>
@@ -477,10 +555,11 @@
               
     </li>   
     <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
-    <img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
-<!--     <span class="material-icons">person</span>  -->
-   ${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a>
+    	<img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
+		<!--     <span class="material-icons">person</span>  -->
+   		${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a>
     	<ul class="dropdown-data collapsible-body second-lvl">
+    		<li><a href="<%=request.getContextPath()%>/profile">Profile</a></li>	
             <li><a href="<%=request.getContextPath()%>/reset-password">Reset password</a></li>
             <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
         </ul>

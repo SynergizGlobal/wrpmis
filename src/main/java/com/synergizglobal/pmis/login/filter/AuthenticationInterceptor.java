@@ -97,6 +97,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				List<WebLinks> webLinksList = webLinksService.getWebLinks(null);
 				model.addObject("webLinksList", webLinksList);
+				
+				List<Forms> reportForms = service.getReportFormsList(base);
+				model.addObject("reportForms", reportForms);
 			}
 			
 			

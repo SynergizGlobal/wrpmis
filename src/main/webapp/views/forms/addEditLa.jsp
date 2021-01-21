@@ -194,10 +194,12 @@
                                 <div class="col s12 m4 input-field">
                                     <input id="survey_number" name="survey_number" type="text" class="validate mt-10" value="${LADetails.survey_number }">
                                     <label for="survey_number">Survey Number </label>
+									<span id="survey_numberError" class="error-msg" ></span>                                    
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="village_id" name="village_id" type="text" class="validate mt-10" value="${LADetails.village_id }">
                                     <label for="village_id">Village ID </label>
+                                    <span id="village_idError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -250,23 +252,26 @@
                                 <div class="col s12 m4 input-field">
                                     <input id="village" name="village" type="text" class="validate" value="${LADetails.village }">
                                     <label for="village"> Village </label>
+                                    <span id="villageError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="taluka" name="taluka" type="text" class="validate" value="${LADetails.taluka }">
                                     <label for="taluka"> Taluka </label>
+                                    <span id="talukaError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="dy_slr" name="dy_slr" type="text" class="validate" value="${LADetails.dy_slr }">
                                     <label for="dy_slr">Dy SLR </label>
+                                    <span id="dy_slrError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="sdo" name="sdo" type="text" class="validate" value="${LADetails.sdo }">
                                     <label for="sdo"> SDO</label>
+                                    <span id="sdoError" class="error-msg" ></span>
                                 </div>
                             </div>
 
@@ -275,6 +280,7 @@
                                 <div class="col s12 m4 input-field ">
                                     <input id="collector" name="collector" type="text" class="validate" value="${LADetails.collector }">
                                     <label for="collector">Collector </label>
+                                    <span id="collectorError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field ">
                                     <input id="submission_date" name="proposal_submission_date_to_collector" type="text" value="${LADetails.proposal_submission_date_to_collector }"
@@ -282,6 +288,7 @@
                                     <label for="submission_date">Proposal submission Date to collector</label>
                                     <button type="button" id="submission_date__icon" class="datepicker-button"><i
                                             class="fa fa-calendar"></i></button>
+                                    <span id="submission_dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -296,6 +303,7 @@
                                     <i class="material-icons prefix center-align">₹</i>
                                     <input id="jm_fee_amount" name="jm_fee_amount" type="number" class="validate" value="${LADetails.jm_fee_amount }" min="0.01" step="0.01">
                                     <label for="jm_fee_amount"> JM Fee Amount </label>
+                                    <span id="jm_fee_amountError" class="error-msg"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -397,13 +405,13 @@
                                 <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="govt_area_to_be_acquired" name="area_to_be_acquired" type="number" min="0.01" step="0.01" value="${LADetails.area_to_be_acquired }"
+                                        <input id="govt_area_to_be_acquired" name="area_to_be_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.area_to_be_acquired }"
                                             class="validate">
                                         <label for="govt_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
                                     </div>      
                                     <div class="col s12 m4 input-field">
-                                        <input id="govt_area_acquired" name="area_acquired" type="number" min="0.01" step="0.01" value="${LADetails.area_acquired }"
+                                        <input id="govt_area_acquired" name="area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.area_acquired }"
                                             class="validate">
                                         <label for="govt_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
@@ -548,13 +556,13 @@
                                <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="forest_area_to_be_acquired" name="forest_area_to_be_acquired" type="number" min="0.01" step="0.01" value="${LADetails.forest_area_to_be_acquired }"
+                                        <input id="forest_area_to_be_acquired" name="forest_area_to_be_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.forest_area_to_be_acquired }"
                                             class="validate">
                                         <label for="forest_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
                                     </div>
                                      <div class="col s12 m4 input-field">
-                                        <input id="forest_area_acquired" name="forest_area_acquired" type="number" min="0.01" step="0.01" value="${LADetails.forest_area_acquired }"
+                                        <input id="forest_area_acquired" name="forest_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.forest_area_acquired }"
                                             class="validate">
                                         <label for="forest_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
@@ -736,13 +744,13 @@
                                  <div class="row">
                                     <div class="col m2 hide-on-small-only"></div>                            
                                     <div class="col s12 m4 input-field">
-                                        <input id="private_area_to_be_acquired" name="private_area_to_be_acquired" type="text" value="${LADetails.private_area_to_be_acquired }"
+                                        <input id="private_area_to_be_acquired" name="private_area_to_be_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.private_area_to_be_acquired }"
                                             class="validate">
                                         <label for="private_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
                                     </div>
                                      <div class="col s12 m4 input-field">
-                                        <input id="private_area_acquired" name="private_area_acquired" type="text" value="${LADetails.private_area_acquired }"
+                                        <input id="private_area_acquired" name="private_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.private_area_acquired }"
                                             class="validate">
                                         <label for="private_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
@@ -1142,12 +1150,12 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <input id="railway_area_to_be_acquired" name="railway_area_to_be_acquired" value="${LADetails.railway_area_to_be_acquired }"
-                                            type="number" min="0.01" step="0.01" class="validate">
+                                            type="number" min="0.0001" step="0.0001" class="validate">
                                         <label for="railway_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
                                     </div>
                                     <div class="col s12 m4 input-field">
-                                        <input id="railway_area_acquired" name="railway_area_acquired" type="number" min="0.01" step="0.01" value="${LADetails.railway_area_acquired }"
+                                        <input id="railway_area_acquired" name="railway_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.railway_area_acquired }"
                                             class="validate">
                                         <label for="railway_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
@@ -1756,6 +1764,8 @@
 	  			 		required: true
 	  			 	  },"sub_category_of_land": {
 	  			 		required: true
+	  			 	  },"jm_fee_amount":{
+		  			 	required: false
 	  			 	  }
 	  		 	},
 	  		    messages: {
@@ -1784,8 +1794,7 @@
 					}else if(element.attr("id") == "type_of_land" ){
 						   document.getElementById("type_of_landError").innerHTML="";
 					 	   error.appendTo('#type_of_landError');
-					}
-					else if(element.attr("id") == "sub_category_of_land" ){
+					}else if(element.attr("id") == "sub_category_of_land" ){
 						   document.getElementById("sub_category_of_landError").innerHTML="";
 					 	   error.appendTo('#sub_category_of_landError');
 					}else{

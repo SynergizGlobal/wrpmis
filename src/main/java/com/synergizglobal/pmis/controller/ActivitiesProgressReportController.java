@@ -42,21 +42,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.StripChartReportsService;
+import com.synergizglobal.pmis.Iservice.ActivitiesProgressReportService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.StripChartReport;
+import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 
 @Controller
-public class StripChartReportsController {
+public class ActivitiesProgressReportController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-	public static Logger logger = Logger.getLogger(StripChartReportsController.class);
+	public static Logger logger = Logger.getLogger(ActivitiesProgressReportController.class);
 	
 	@Autowired
-	StripChartReportsService service;
+	ActivitiesProgressReportService service;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -74,7 +74,7 @@ public class StripChartReportsController {
 	public String dataExportNoData;
 	
 	@RequestMapping(value = "/dpr", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView stripChartDPRReport(@ModelAttribute StripChartReport obj,RedirectAttributes attributes){
+	public ModelAndView stripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView(PageConstants.stripChartReport);
 		try{
 			
@@ -87,8 +87,8 @@ public class StripChartReportsController {
 	
 	@RequestMapping(value = "/ajax/getProjectsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getProjectsFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
-		List<StripChartReport> projectsList = null;
+	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+		List<ActivitiesProgressReport> projectsList = null;
 		try {
 			projectsList = service.getProjectsFilterListInStripChartReport(obj);
 		}catch (Exception e) {
@@ -100,8 +100,8 @@ public class StripChartReportsController {
 	
 	@RequestMapping(value = "/ajax/getWorksFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getWorksFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
-		List<StripChartReport> worksList = null;
+	public List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+		List<ActivitiesProgressReport> worksList = null;
 		try {
 			worksList = service.getWorksFilterListInStripChartReport(obj);
 		}catch (Exception e) {
@@ -113,8 +113,8 @@ public class StripChartReportsController {
 	
 	@RequestMapping(value = "/ajax/getContractsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getContractsFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
-		List<StripChartReport> contractsList = null;
+	public List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+		List<ActivitiesProgressReport> contractsList = null;
 		try {
 			contractsList = service.getContractsFilterListInStripChartReport(obj);
 		}catch (Exception e) {
@@ -126,8 +126,8 @@ public class StripChartReportsController {
 	
 	@RequestMapping(value = "/ajax/getContractorsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getContractorsFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
-		List<StripChartReport> contractorsList = null;
+	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+		List<ActivitiesProgressReport> contractorsList = null;
 		try {
 			contractorsList = service.getContractorsFilterListInStripChartReport(obj);
 		}catch (Exception e) {
@@ -139,8 +139,8 @@ public class StripChartReportsController {
 	
 	@RequestMapping(value = "/ajax/getHodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getHodFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
-		List<StripChartReport> hodList = null;
+	public List<ActivitiesProgressReport> getHodFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+		List<ActivitiesProgressReport> hodList = null;
 		try {
 			hodList = service.getHodFilterListInStripChartReport(obj);
 		}catch (Exception e) {
@@ -152,8 +152,8 @@ public class StripChartReportsController {
 	
 	@RequestMapping(value = "/ajax/getDyhodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChartReport> getDyhodFilterListInStripChartReport(@ModelAttribute StripChartReport obj) {
-		List<StripChartReport> dyhodList = null;
+	public List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+		List<ActivitiesProgressReport> dyhodList = null;
 		try {
 			dyhodList = service.getDyhodFilterListInStripChartReport(obj);
 		}catch (Exception e) {
@@ -164,7 +164,7 @@ public class StripChartReportsController {
 	}
 	
 	@RequestMapping(value = "/generate-strip-chart-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateStripChartDPRReport(@ModelAttribute StripChartReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+	public ModelAndView generateStripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/dpr");
 		try{
 			String reporting_date = obj.getReporting_date();
@@ -178,7 +178,7 @@ public class StripChartReportsController {
 			//StripChartReport details = service.getStripChartDPRReportDetails(obj);
 			//List<StripChartReport> dprDataList = service.getStripChartDPRReportData(obj);
 			
-			Map<StripChartReport,List<StripChartReport>> reportData = service.getStripChartReportData(obj);
+			Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> reportData = service.getStripChartReportData(obj);
 			
 			
 			
@@ -209,10 +209,10 @@ public class StripChartReportsController {
             /********************************************************/
 	        int sheetNo = 0;
 	        if(!reportData.isEmpty()) {
-		        for (Map.Entry<StripChartReport,List<StripChartReport>> entry : reportData.entrySet()) {  
+		        for (Map.Entry<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> entry : reportData.entrySet()) {  
 		            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
-		            List<StripChartReport> dprDataList = entry.getValue();
-		            StripChartReport details = entry.getKey();
+		        	Map<String,List<ActivitiesProgressReport>> dprDataList = entry.getValue();
+		            ActivitiesProgressReport details = entry.getKey();
 		            
 		            
 			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(details.getContract_short_name()));
@@ -223,7 +223,7 @@ public class StripChartReportsController {
 			        
 			        Cell cell = mainHeadingRow.createCell(2);
 			        cell.setCellStyle(greenStyle);
-					cell.setCellValue("Daily Progress Report ");
+					cell.setCellValue("Activities Progress Report ");
 			        for (int i = 3; i < 9; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(greenStyle);
@@ -237,12 +237,12 @@ public class StripChartReportsController {
 			        
 			        cell = deatilsRow.createCell(2);
 			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue("Date ");
+					cell.setCellValue("Period ");
 					
 					cell = deatilsRow.createCell(3);
 			        cell.setCellStyle(indexWhiteStyle);
 			        if(!StringUtils.isEmpty(from_date) && !StringUtils.isEmpty(to_date)) {
-			        	cell.setCellValue(from_date + " - " + to_date);
+			        	cell.setCellValue(from_date + " to " + to_date);
 			        }else {
 			        	cell.setCellValue(from_date);
 			        }
@@ -261,11 +261,11 @@ public class StripChartReportsController {
 			        
 			        cell = deatilsRow.createCell(2);
 			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue("work ");
+					cell.setCellValue("Work ");
 					
 					cell = deatilsRow.createCell(3);
 			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue(!StringUtils.isEmpty(details.getWork_short_name())?details.getWork_short_name():details.getWork_name());
+					cell.setCellValue(details.getWork_id_fk() + " - " + (!StringUtils.isEmpty(details.getWork_short_name())?details.getWork_short_name():details.getWork_name()));
 					
 					for (int i = 4; i < 9; i++) {		        	
 				        cell = deatilsRow.createCell(i);
@@ -285,7 +285,7 @@ public class StripChartReportsController {
 					
 					cell = deatilsRow.createCell(3);
 			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue(!StringUtils.isEmpty(details.getContract_short_name())?details.getContract_short_name():details.getContract_name());
+					cell.setCellValue(details.getContract_id() + " - " + (!StringUtils.isEmpty(details.getContract_short_name())?details.getContract_short_name():details.getContract_name()));
 			        
 					for (int i = 4; i < 9; i++) {		        	
 				        cell = deatilsRow.createCell(i);
@@ -315,65 +315,90 @@ public class StripChartReportsController {
 					dprSheet.addMergedRegion(new CellRangeAddress(6,6, 3,8));
 			        
 					/********************************************************/
-					
 			        
-			        String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress of the day^Cumulative Completed";
-			        
-			        String[] headerStringArr = headerString.split("\\^");
-			        
-			        XSSFRow headingRow = dprSheet.createRow(8);
-			        for (int i = 0; i < headerStringArr.length; i++) {		        	
-				        cell = headingRow.createCell(i+2);
-				        cell.setCellStyle(greenStyle);
-						cell.setCellValue(headerStringArr[i]);
-					}				
-					
-					/*************************************************************************/		        
+					/*************************************************************************/				        
 					if(dprDataList != null && dprDataList.size() > 0){
-					
-						int rowNo = 9;
-					    for (StripChartReport dObj : dprDataList) {
-					        XSSFRow row = dprSheet.createRow(rowNo);
-					        int c = 2;
+						int rowNo = 8;
+						for (Map.Entry<String,List<ActivitiesProgressReport>> entry2 : dprDataList.entrySet()) {  
+				            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
+				        	List<ActivitiesProgressReport> dataList = entry2.getValue();
+				            String structure = entry2.getKey();
+				            rowNo++;
+				            int tempRowNo = rowNo;
+				            XSSFRow structureRow = dprSheet.createRow(rowNo++);
 					        
-					        cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(dObj.getFob_id_fk());
+					        cell = structureRow.createCell(2);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue("Structure ");
 							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(dObj.getComponent());
+							cell = structureRow.createCell(3);
+					        cell.setCellStyle(indexWhiteStyle);
+							cell.setCellValue(structure);
 							
-					        cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(dObj.getComponent_id_name());
+							for (int i = 4; i < 9; i++) {		        	
+						        cell = structureRow.createCell(i);
+						        cell.setCellStyle(indexWhiteStyle);
+								cell.setCellValue("");
+							}	
+							dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
+				            /**********************************************************************/
+							String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress of the day^Cumulative Completed";
+					        
+					        String[] headerStringArr = headerString.split("\\^");
+					        
+					        XSSFRow headingRow = dprSheet.createRow(rowNo++);
+					        for (int i = 0; i < headerStringArr.length; i++) {		        	
+						        cell = headingRow.createCell(i+2);
+						        cell.setCellStyle(greenStyle);
+								cell.setCellValue(headerStringArr[i]);
+							}				
 							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(dObj.getActivity_name());
+					        /***********************************************************************/
 							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(Double.parseDouble(dObj.getScope()));
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()));
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(Double.parseDouble(dObj.getCumulative_completed()));
-							
-					        rowNo++;
-					    }
-					
+						    for (ActivitiesProgressReport dObj : dataList) {
+						        XSSFRow row = dprSheet.createRow(rowNo);
+						        int c = 2;
+						        
+						        cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(dObj.getFob_id_fk());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(dObj.getComponent());
+								
+						        cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(dObj.getComponent_id_name());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(dObj.getActivity_name());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(Double.parseDouble(dObj.getScope()));
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(Double.parseDouble(dObj.getCompleted_scope()));
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(sectionStyle);
+								cell.setCellValue(Double.parseDouble(dObj.getCumulative_completed()));
+								
+						        rowNo++;
+						    }
+						    
+						    for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
+							     //sheet.autoSizeColumn(columnIndex);
+				            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
+							}
+						}
+						
+						
 					}
-		
 		            
-		            for(int columnIndex = 0; columnIndex < headerStringArr.length; columnIndex++) {
-					     //sheet.autoSizeColumn(columnIndex);
-		            	dprSheet.setColumnWidth(columnIndex+2, 25 * 200);
-					}
 		        }
 	        }else {
 	        	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Data"));
@@ -413,10 +438,10 @@ public class StripChartReportsController {
             	//workbook.write(response.getOutputStream()); // Write workbook to response.
             	//workbook.close();
             }catch(FileNotFoundException e){
-                //e.printStackTrace();
+                e.printStackTrace();
                 attributes.addFlashAttribute("error",dataExportInvalid);
             }catch(IOException e){
-                //e.printStackTrace();
+                e.printStackTrace();
                 attributes.addFlashAttribute("error",dataExportError);
             }
 		}catch (Exception e) {

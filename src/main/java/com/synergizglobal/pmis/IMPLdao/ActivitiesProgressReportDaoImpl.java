@@ -16,10 +16,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.synergizglobal.pmis.Idao.StripChartReportsDao;
-import com.synergizglobal.pmis.model.StripChartReport;
+import com.synergizglobal.pmis.Idao.ActivitiesProgressReportDao;
+import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 @Repository
-public class StripChartReportsDaoImpl implements StripChartReportsDao{
+public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReportDao{
 	@Autowired
 	DataSource dataSource;
 	
@@ -30,8 +30,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	DataSourceTransactionManager transactionManager;
 	
 	@Override
-	public List<StripChartReport> getProjectsFilterListInStripChartReport(StripChartReport obj) throws Exception {
-		List<StripChartReport> objsList = null;
+	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT project_id_fk,p.project_id,p.project_name from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -88,7 +88,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
 				pValues[i++] = obj.getDyhod();
 			}
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -97,8 +97,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	}
 	
 	@Override
-	public List<StripChartReport> getWorksFilterListInStripChartReport(StripChartReport obj) throws Exception {
-		List<StripChartReport> objsList = null;
+	public List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -156,7 +156,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 				pValues[i++] = obj.getDyhod();
 			}
 			
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -165,8 +165,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	}
 
 	@Override
-	public List<StripChartReport> getContractsFilterListInStripChartReport(StripChartReport obj) throws Exception {
-		List<StripChartReport> objsList = null;
+	public List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -224,7 +224,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 				pValues[i++] = obj.getDyhod();
 			}
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -233,8 +233,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	}
 	
 	@Override
-	public List<StripChartReport> getContractorsFilterListInStripChartReport(StripChartReport obj) throws Exception {
-		List<StripChartReport> objsList = null;
+	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.contractor_id_fk,contractor_id,contractor_name from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -293,7 +293,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 				pValues[i++] = obj.getDyhod();
 			}
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -302,8 +302,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	}
 	
 	@Override
-	public List<StripChartReport> getHodFilterListInStripChartReport(StripChartReport obj) throws Exception {
-		List<StripChartReport> objsList = null;
+	public List<ActivitiesProgressReport> getHodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT user_id,user_name,designation from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -362,7 +362,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 				pValues[i++] = obj.getDyhod();
 			}
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -371,8 +371,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	}
 	
 	@Override
-	public List<StripChartReport> getDyhodFilterListInStripChartReport(StripChartReport obj) throws Exception {
-		List<StripChartReport> objsList = null;
+	public List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT user_id,user_name,designation from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
@@ -431,7 +431,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 				pValues[i++] = obj.getDyhod();
 			}
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -440,9 +440,10 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	}
 
 	@Override
-	public Map<StripChartReport, List<StripChartReport>> getStripChartReportData(StripChartReport obj)
+	public Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> getStripChartReportData(ActivitiesProgressReport obj)
 			throws Exception {
-		Map<StripChartReport, List<StripChartReport>> mapObjsList = new HashMap<StripChartReport, List<StripChartReport>>();
+		//Map<ActivitiesProgressReport, List<ActivitiesProgressReport>> mapObjsList = new HashMap<ActivitiesProgressReport, List<ActivitiesProgressReport>>();
+		Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> mapObjsList = new HashMap<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>>();
 		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
 			/*String qry = "select strip_chart_id_fk,contract_id_fk,work_id,project_id,project_name "
@@ -526,34 +527,21 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 				pValues[i++] = obj.getDyhod();
 			}
 			
-			List<StripChartReport> contractsList = jdbcTemplate.query( contractsQry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			List<ActivitiesProgressReport> contractsList = jdbcTemplate.query( contractsQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 			
 			/***********************************************************************/
 			
-			
-			/*String progressQry = "select sp.progress_date,sp.strip_chart_id_fk,sp.completed_scope,scg.strip_chart_id,scg.contract_id_fk,scg.fob_id_fk,scg.component_id_name," + 
-					"	scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,cv.contract_name,cv.contract_short_name,cv.work_name,cv.work_short_name,cv.contractor_name," + 
-					"    (scg.completed - IFNULL((select sum(completed_scope) " + 
-					"    from scope_progress sp1 " + 
-					"    left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
-					"	left outer join contract_view cv1 on scg1.contract_id_fk = cv1.contract_id " + 
-					"    where scg1.contract_id_fk = ? and sp1.progress_date > ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
-					"	from scope_progress sp " + 
-					"	left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
-					"	left outer join contract_view cv on scg.contract_id_fk = cv.contract_id " + 
-					"	where scg.contract_id_fk = ? and sp.progress_date = ?";*/
-			
 			String progressQry = "select sp.progress_date,sp.strip_chart_id_fk,sp.completed_scope,scg.strip_chart_id,scg.contract_id_fk,scg.fob_id_fk,scg.component_id_name," + 
-					"	scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,c.contract_name,c.contract_short_name," + 
-					"    (scg.completed - IFNULL((select sum(completed_scope) " + 
-					"    from scope_progress sp1 " + 
-					"    left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
-					"	left outer join contract c1 on scg1.contract_id_fk = c1.contract_id " + 
-					"    where scg1.contract_id_fk = ? and sp1.progress_date > ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
-					"	from scope_progress sp " + 
-					"	left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
-					"	left outer join contract c on scg.contract_id_fk = c.contract_id " + 
-					"	where scg.contract_id_fk = ? and sp.progress_date = ?";
+					"scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,c.contract_name,c.contract_short_name," + 
+					"(scg.completed - IFNULL((select sum(completed_scope) " + 
+					"from scope_progress sp1 " + 
+					"left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
+					"left outer join contract c1 on scg1.contract_id_fk = c1.contract_id " + 
+					"where scg1.contract_id_fk = ? and sp1.progress_date > ? and scg1.fob_id_fk = ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
+					"from scope_progress sp " + 
+					"left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
+					"left outer join contract c on scg.contract_id_fk = c.contract_id " + 
+					"where scg.contract_id_fk = ? and sp.progress_date = ? and scg.fob_id_fk = ?";
 			
 			String sQry = "select contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name " + 
 					"from contract c " + 
@@ -563,31 +551,31 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 			
 			
 			
-			for (StripChartReport cObj : contractsList) {
-				List<StripChartReport> totalContractProgresList = new ArrayList<StripChartReport>();
+			for (ActivitiesProgressReport cObj : contractsList) {
 				
-				StripChartReport sObj = new StripChartReport();
-				
-				String contractProgressDateQry = "select progress_date,strip_chart_id_fk,contract_id_fk,work_id,project_id,project_name "
-						+ "from scope_progress sp " 
-						+ "LEFT JOIN strip_chart_general scg on strip_chart_id_fk = strip_chart_id  " 
-						+ "LEFT JOIN contract c on scg.contract_id_fk = c.contract_id "
-						+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
-						+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
+				Map<String,List<ActivitiesProgressReport>> structureProgresses = new HashMap<String, List<ActivitiesProgressReport>>();
+
+				ActivitiesProgressReport sObj = new ActivitiesProgressReport();
+				/*******************************************************************************************************************/
+				String progressStructuresQry = "select sp.strip_chart_id_fk,scg.contract_id_fk,scg.fob_id_fk "
+						+ "from scope_progress sp "  
+						+ "left join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id "  
+						+ "left join contract c on scg.contract_id_fk = c.contract_id "  
 						+ "where scg.contract_id_fk = ?";
+				
 				
 				arrSize = 1;
 				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {
-					contractProgressDateQry = contractProgressDateQry + " and progress_date >= ? and progress_date <= ?";
+					progressStructuresQry = progressStructuresQry + " and progress_date >= ? and progress_date <= ?";
 					arrSize++;
 					arrSize++;
 				}else {
-					contractProgressDateQry = contractProgressDateQry + " and progress_date = ?";
+					progressStructuresQry = progressStructuresQry + " and progress_date = ?";
 					arrSize++;
 				}
 				
-				contractProgressDateQry = contractProgressDateQry + " group by progress_date ORDER BY progress_date ASC";
+				progressStructuresQry = progressStructuresQry + " GROUP BY scg.fob_id_fk ORDER BY scg.fob_id_fk ASC";
 				
 				pValues = new Object[arrSize];
 				
@@ -600,24 +588,78 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 					pValues[i++] = obj.getFrom_date();
 				}
 				
-				List<StripChartReport> contractProgressDatesList = jdbcTemplate.query( contractProgressDateQry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+				List<ActivitiesProgressReport> contractProgressStructuresList = jdbcTemplate.query( progressStructuresQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 				
-				for (StripChartReport contractProgressDate : contractProgressDatesList) {
-					pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),cObj.getContract_id_fk(),contractProgressDate.getProgress_date()};
-					List<StripChartReport> objsList = new ArrayList<StripChartReport>();
-					objsList = jdbcTemplate.query( progressQry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+				
+				/**********************************************************************************************************************************/				
+				
+				
+				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
+					String contractProgressDatesQry = "select progress_date,strip_chart_id_fk,contract_id_fk,work_id,project_id,project_name "
+							+ "from scope_progress sp " 
+							+ "LEFT JOIN strip_chart_general scg on strip_chart_id_fk = strip_chart_id  " 
+							+ "LEFT JOIN contract c on scg.contract_id_fk = c.contract_id "
+							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
+							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
+							+ "where scg.contract_id_fk = ?";
 					
-					for (StripChartReport object : objsList) {
-						object.setCumulative_completed(numberFormatter.format(Double.parseDouble(object.getCumulative_completed())));
+					arrSize = 1;
+					
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {
+						contractProgressDatesQry = contractProgressDatesQry + " and progress_date >= ? and progress_date <= ?";
+						arrSize++;
+						arrSize++;
+					}else {
+						contractProgressDatesQry = contractProgressDatesQry + " and progress_date = ?";
+						arrSize++;
 					}
-					totalContractProgresList.addAll(objsList);
+					
+					if(!StringUtils.isEmpty(contractProgressStructure) && !StringUtils.isEmpty(contractProgressStructure.getFob_id_fk())) {
+						contractProgressDatesQry = contractProgressDatesQry + " and scg.fob_id_fk = ?";
+						arrSize++;
+					}
+					
+					contractProgressDatesQry = contractProgressDatesQry + " group by progress_date ORDER BY progress_date ASC";
+					
+					pValues = new Object[arrSize];
+					
+					i = 0;
+					pValues[i++] = cObj.getContract_id_fk();
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFrom_date()) && !StringUtils.isEmpty(obj.getTo_date())) {
+						pValues[i++] = obj.getFrom_date();
+						pValues[i++] = obj.getTo_date();
+					}else {
+						pValues[i++] = obj.getFrom_date();
+					}
+					if(!StringUtils.isEmpty(contractProgressStructure) && !StringUtils.isEmpty(contractProgressStructure.getFob_id_fk())) {
+						pValues[i++] = contractProgressStructure.getFob_id_fk();
+					}
+					
+					List<ActivitiesProgressReport> contractProgressDatesList = jdbcTemplate.query( contractProgressDatesQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
+					
+					List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
+					for (ActivitiesProgressReport contractProgressDate : contractProgressDatesList) {
+						
+						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getFob_id_fk(),cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getFob_id_fk()};
+						
+						List<ActivitiesProgressReport> pList = jdbcTemplate.query( progressQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
+						
+						for (ActivitiesProgressReport object : pList) {
+							if(!StringUtils.isEmpty(object.getCumulative_completed())) {
+								object.setCumulative_completed(numberFormatter.format(Double.parseDouble(object.getCumulative_completed())));
+							}
+						}
+						totalContractProgresList.addAll(pList);
+					}
+					
+					structureProgresses.put(contractProgressStructure.getFob_id_fk(), totalContractProgresList);
 				}
 				
 				pValues = new Object[] {cObj.getContract_id_fk()};
 				
-				sObj = jdbcTemplate.queryForObject( sQry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+				sObj = jdbcTemplate.queryForObject( sQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 				
-				mapObjsList.put(sObj, totalContractProgresList);
+				mapObjsList.put(sObj, structureProgresses);
 				
 				
 			}
@@ -634,8 +676,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 
 
 	@Override
-	public List<StripChartReport> getStripChartDPRReportData(StripChartReport obj) throws Exception {
-		List<StripChartReport> objsList = null;
+	public List<ActivitiesProgressReport> getStripChartDPRReportData(ActivitiesProgressReport obj) throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
 			/*String qry = "select progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name," + 
@@ -646,23 +688,23 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 					"where contract_id_fk = ? and progress_date = ?" ;*/
 			
 			String qry = "select sp.progress_date,sp.strip_chart_id_fk,sp.completed_scope,scg.strip_chart_id,scg.contract_id_fk,scg.fob_id_fk,scg.component_id_name," + 
-					"	scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,cv.contract_name,cv.contract_short_name,cv.work_name,cv.work_short_name,cv.contractor_name," + 
-					"    (scg.completed - IFNULL((select sum(completed_scope) " + 
-					"    from scope_progress sp1 " + 
-					"    left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
-					"	left outer join contract_view cv1 on scg1.contract_id_fk = cv1.contract_id " + 
-					"    where scg1.contract_id_fk = ? and sp1.progress_date > ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
-					"	from scope_progress sp " + 
-					"	left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
-					"	left outer join contract_view cv on scg.contract_id_fk = cv.contract_id " + 
-					"	where scg.contract_id_fk = ? and sp.progress_date = ?";
+					"scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,cv.contract_name,cv.contract_short_name,cv.work_name,cv.work_short_name,cv.contractor_name," + 
+					"(scg.completed - IFNULL((select sum(completed_scope) " + 
+					"from scope_progress sp1 " + 
+					"left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
+					"left outer join contract_view cv1 on scg1.contract_id_fk = cv1.contract_id " + 
+					"where scg1.contract_id_fk = ? and sp1.progress_date > ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
+					"from scope_progress sp " + 
+					"left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
+					"left outer join contract_view cv on scg.contract_id_fk = cv.contract_id " + 
+					"where scg.contract_id_fk = ? and sp.progress_date = ?";
 			
 			Object[] pValues = new Object[] {obj.getContract_id(),obj.getFrom_date(),obj.getContract_id(),obj.getFrom_date()};
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 			
 			
-			for (StripChartReport object : objsList) {
+			for (ActivitiesProgressReport object : objsList) {
 				object.setCumulative_completed(numberFormatter.format(Double.parseDouble(object.getCumulative_completed())));
 			}
 			
@@ -674,8 +716,8 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 	}
 
 	@Override
-	public StripChartReport getStripChartDPRReportDetails(StripChartReport obj) throws Exception {
-		StripChartReport sObj = null;
+	public ActivitiesProgressReport getStripChartDPRReportDetails(ActivitiesProgressReport obj) throws Exception {
+		ActivitiesProgressReport sObj = null;
 		try {
 			String qry = "select contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name " + 
 					"from contract c " + 
@@ -685,7 +727,7 @@ public class StripChartReportsDaoImpl implements StripChartReportsDao{
 			
 			Object[] pValues = new Object[] {obj.getContract_id()};
 			
-			sObj = jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<StripChartReport>(StripChartReport.class));
+			sObj = jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 					
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

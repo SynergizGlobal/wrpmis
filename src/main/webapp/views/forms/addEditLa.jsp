@@ -1915,6 +1915,9 @@
 			       }else if(element.attr("id") == "govt_amount_paid" ){
 					   document.getElementById("govt_amount_paidError").innerHTML="";
 				 	   error.appendTo('#govt_amount_paidError');
+			       }else if(element.attr("id") == "jm_fee_amount" ){
+					   document.getElementById("jm_fee_amountError").innerHTML="";
+				 	   error.appendTo('#jm_fee_amountError');
 			       } else{
  					error.insertAfter(element);
 			        } 

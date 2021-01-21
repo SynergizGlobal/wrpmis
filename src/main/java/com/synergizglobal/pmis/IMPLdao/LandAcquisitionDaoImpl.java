@@ -378,97 +378,99 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				flag = true;
 				String sub_category_of_land = getSubCategoryLand(obj.getId());
 				obj.setSub_category_of_land(sub_category_of_land);
-				if(obj.getType_of_land().equalsIgnoreCase("Government")) {
-					String govInsertQry = "INSERT INTO la_government_land_acquisition"
-							+ "( la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, "
-							+ "lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,"
-							+ "survey_number, type_of_land, sub_category_of_land, village_id, area_acquired, remarks)"
-							+ "VALUES"
-							+ "(:la_id, :area_to_be_acquired, :proposal_submission, :proposal_submission_status_fk, :valuation_date, :letter_for_payment,:amount_demanded, "
-							+ " :lfp_status_fk, :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk, :special_feature, "
-							+ " :survey_number, :type_of_land, :sub_category_of_land, :village_id, :area_acquired, :remarks)";
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(govInsertQry, paramSource);	
+				if(!StringUtils.isEmpty(obj.getJm_approval())) {
+					if(obj.getType_of_land().equalsIgnoreCase("Government")) {
+						String govInsertQry = "INSERT INTO la_government_land_acquisition"
+								+ "( la_id_fk, area_to_be_acquired, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, "
+								+ "lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk, special_feature,"
+								+ "survey_number, type_of_land, sub_category_of_land, village_id, area_acquired, remarks)"
+								+ "VALUES"
+								+ "(:la_id, :area_to_be_acquired, :proposal_submission, :proposal_submission_status_fk, :valuation_date, :letter_for_payment,:amount_demanded, "
+								+ " :lfp_status_fk, :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk, :special_feature, "
+								+ " :survey_number, :type_of_land, :sub_category_of_land, :village_id, :area_acquired, :remarks)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(govInsertQry, paramSource);	
+							
+					}else if(obj.getType_of_land().equalsIgnoreCase("Forest")) {
+						String forestInsertSubQry = "INSERT INTO la_forest_land_acquisition "
+						 		+ "( la_id_fk, area_to_be_acquired, on_line_submission, submission_date_to_dycfo, submission_date_to_ccf_thane, submission_date_to_nodal_officer, "
+						 		+ "submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur, valuation_by_dycfo, "
+						 		+ "demanded_amount, payment_amount, approval_for_payment, payment_date, possession_date, possession_status_fk, payment_status_fk, special_feature, survey_number,"
+						 		+ " type_of_land, sub_category_of_land, village_id, area_acquired, remarks, attachment_No, issues)"
+						 		+ "VALUES"
+						 		+ "( :la_id, :forest_area_to_be_acquired, :forest_online_submission, :forest_submission_date_to_dycfo, :forest_submission_date_to_ccf_thane, :forest_submission_date_to_nodal_officer, "
+						 		+ ":forest_submission_date_to_revenue_secretary_mantralaya, :forest_submission_date_to_regional_office_nagpur, :forest_date_of_approval_by_regional_office_nagpur, :forest_valuation_by_dycfo,"
+						 		+ ":forest_demanded_amount, :forest_payment_amount, :forest_approval_for_payment, :forest_payment_date, :forest_possession_date, :forest_possession_status_fk, :forest_payment_status_fk, :forest_special_feature, :survey_number, "
+						 		+ ":type_of_land, :sub_category_of_land, :village_id, :forest_area_acquired, :remarks, :forest_attachment_No, :is_there_issue)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(forestInsertSubQry, paramSource);	
 						
-				}else if(obj.getType_of_land().equalsIgnoreCase("Forest")) {
-					String forestInsertSubQry = "INSERT INTO la_forest_land_acquisition "
-					 		+ "( la_id_fk, area_to_be_acquired, on_line_submission, submission_date_to_dycfo, submission_date_to_ccf_thane, submission_date_to_nodal_officer, "
-					 		+ "submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur, valuation_by_dycfo, "
-					 		+ "demanded_amount, payment_amount, approval_for_payment, payment_date, possession_date, possession_status_fk, payment_status_fk, special_feature, survey_number,"
-					 		+ " type_of_land, sub_category_of_land, village_id, area_acquired, remarks, attachment_No, issues)"
-					 		+ "VALUES"
-					 		+ "( :la_id, :forest_area_to_be_acquired, :forest_online_submission, :forest_submission_date_to_dycfo, :forest_submission_date_to_ccf_thane, :forest_submission_date_to_nodal_officer, "
-					 		+ ":forest_submission_date_to_revenue_secretary_mantralaya, :forest_submission_date_to_regional_office_nagpur, :forest_date_of_approval_by_regional_office_nagpur, :forest_valuation_by_dycfo,"
-					 		+ ":forest_demanded_amount, :forest_payment_amount, :forest_approval_for_payment, :forest_payment_date, :forest_possession_date, :forest_possession_status_fk, :forest_payment_status_fk, :forest_special_feature, :survey_number, "
-					 		+ ":type_of_land, :sub_category_of_land, :village_id, :forest_area_acquired, :remarks, :forest_attachment_No, :is_there_issue)";
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(forestInsertSubQry, paramSource);	
+					}else if(obj.getType_of_land().equalsIgnoreCase("Railway")) {
+						String railwayInsertSubQry = " INSERT INTO la_railway_land_acquisition"
+						 		+ "(la_id_fk, survey_number, type_of_land, sub_category_of_land, village_id, area_to_be_acquired, area_acquired, online_submission, submission_date_to_DyCFO, "
+						 		+ "submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`, submission_date_to_revenue_secretary_mantralaya, "
+						 		+ "submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, demanded_amount, "
+						 		+ "approval_for_payment, payment_date, payment_amount, payment_status, possession_date, possession_status, special_feature, remarks, "
+						 		+ "`attachment_no.`, Issues)"
+						 		+ "VALUES"
+						 		+ "(:la_id, :survey_number, :type_of_land, :sub_category_of_land, :village_id, :railway_area_to_be_acquired, :railway_area_acquired, :railway_online_submission, :railway_submission_date_to_DyCFO, "
+						 		+ ":railway_submission_date_to_CCF_Thane, :railway_submission_date_to_nodal_officer_CCF_Nagpur, :railway_submission_date_to_revenue_secretary_mantralaya, "
+						 		+ ":railway_submission_date_to_regional_office_nagpur, :railway_date_of_approval_by_Rregional_Office_agpur, :railway_valuation_by_DyCFO, :railway_demanded_amount, "
+						 		+ ":railway_approval_for_payment, :railway_payment_date, :railway_payment_amount, :railway_payment_status, :railway_possession_date, :railway_possession_status, :railway_special_feature, :remarks, "
+						 		+ " :railway_attachment_no, :is_there_issue)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(railwayInsertSubQry, paramSource);	
+							
+					}else if(obj.getType_of_land().equalsIgnoreCase("Private")) {
+						String  privateInsertQry = "INSERT INTO la_private_land_acquisition "
+						 		+ "(la_id_fk, area_to_be_acquired, name_of_the_owner, basic_rate, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos,"
+						 		+ " forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, possession_status_fk, special_feature, "
+						 		+ "survey_number, type_of_land, sub_category_of_land, village_id, area_acquired, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2,"
+						 		+ " land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation, remarks, issues)"
+						 		+ "VALUES"
+						 		+ "(:la_id, :private_area_to_be_acquired, :name_of_the_owner, :basic_rate, :private_attachment_no, :agriculture_tree_nos, :agriculture_tree_rate, :forest_tree_nos,"
+						 		+ " :forest_tree_rate, :consent_from_owner, :legal_search_report, :date_of_registration, :date_of_possession, :private_possession_status_fk, :private_special_feature, "
+						 		+ " :survey_number, :type_of_land, :sub_category_of_land, :village_id, :private_area_acquired, :hundred_percent_Solatium, :extra_25_percent, :total_rate_divide_m2,"
+						 		+ " :land_compensation, :agriculture_tree_compensation, :forest_tree_compensation, :structure_compensation, :borewell_compensation, :total_compensation, :remarks, :is_there_issue)";
+						 
+						 	paramSource = new BeanPropertySqlParameterSource(obj);		 
+							count = namedParamJdbcTemplate.update(privateInsertQry, paramSource);
+							
+						String privateInsertSubQry = "INSERT INTO la_private_land_valuation "
+						 		+ "(la_id_fk, forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, "
+						 		+ "structure_survey, structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, "
+						 		+ "borewell_valuation_status_fk, rfp_to_adtp_status_fk, date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, "
+						 		+ "date_of_approval_for_payment, payment_amount, payment_date, survey_number, type_of_land, sub_category_of_land, village_id, remarks, issues)"
+						 		+ "VALUES"
+						 		+ "(:la_id, :forest_tree_survey, :forest_tree_valuation, :forest_tree_valuation_status_fk, :horticulture_tree_survey, :horticulture_tree_valuation,"
+						 		+ " :structure_survey, :structure_valuation, :borewell_survey, :borewell_valuation, :horticulture_tree_valuation_status_fk, :structure_valuation_status_fk,"
+						 		+ " :borewell_valuation_status_fk, :rfp_to_adtp_status_fk, :date_of_rfp_to_adtp, :date_of_rate_fixation_of_land, :sdo_demand_for_payment,"
+						 		+ " :date_of_approval_for_payment, :payment_amount, :private_payment_date, :survey_number, :type_of_land, :sub_category_of_land,:village_id,:remarks, :is_there_issue)";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);	
+						}
 					
-				}else if(obj.getType_of_land().equalsIgnoreCase("Railway")) {
-					String railwayInsertSubQry = " INSERT INTO la_railway_land_acquisition"
-					 		+ "(la_id_fk, survey_number, type_of_land, sub_category_of_land, village_id, area_to_be_acquired, area_acquired, online_submission, submission_date_to_DyCFO, "
-					 		+ "submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`, submission_date_to_revenue_secretary_mantralaya, "
-					 		+ "submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, demanded_amount, "
-					 		+ "approval_for_payment, payment_date, payment_amount, payment_status, possession_date, possession_status, special_feature, remarks, "
-					 		+ "`attachment_no.`, Issues)"
-					 		+ "VALUES"
-					 		+ "(:la_id, :survey_number, :type_of_land, :sub_category_of_land, :village_id, :railway_area_to_be_acquired, :railway_area_acquired, :railway_online_submission, :railway_submission_date_to_DyCFO, "
-					 		+ ":railway_submission_date_to_CCF_Thane, :railway_submission_date_to_nodal_officer_CCF_Nagpur, :railway_submission_date_to_revenue_secretary_mantralaya, "
-					 		+ ":railway_submission_date_to_regional_office_nagpur, :railway_date_of_approval_by_Rregional_Office_agpur, :railway_valuation_by_DyCFO, :railway_demanded_amount, "
-					 		+ ":railway_approval_for_payment, :railway_payment_date, :railway_payment_amount, :railway_payment_status, :railway_possession_date, :railway_possession_status, :railway_special_feature, :remarks, "
-					 		+ " :railway_attachment_no, :is_there_issue)";
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(railwayInsertSubQry, paramSource);	
-						
-				}else if(obj.getType_of_land().equalsIgnoreCase("Private")) {
-					String  privateInsertQry = "INSERT INTO la_private_land_acquisition "
-					 		+ "(la_id_fk, area_to_be_acquired, name_of_the_owner, basic_rate, attachment_no, agriculture_tree_nos, agriculture_tree_rate, forest_tree_nos,"
-					 		+ " forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, possession_status_fk, special_feature, "
-					 		+ "survey_number, type_of_land, sub_category_of_land, village_id, area_acquired, hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2,"
-					 		+ " land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation, remarks, issues)"
-					 		+ "VALUES"
-					 		+ "(:la_id, :private_area_to_be_acquired, :name_of_the_owner, :basic_rate, :private_attachment_no, :agriculture_tree_nos, :agriculture_tree_rate, :forest_tree_nos,"
-					 		+ " :forest_tree_rate, :consent_from_owner, :legal_search_report, :date_of_registration, :date_of_possession, :private_possession_status_fk, :private_special_feature, "
-					 		+ " :survey_number, :type_of_land, :sub_category_of_land, :village_id, :private_area_acquired, :hundred_percent_Solatium, :extra_25_percent, :total_rate_divide_m2,"
-					 		+ " :land_compensation, :agriculture_tree_compensation, :forest_tree_compensation, :structure_compensation, :borewell_compensation, :total_compensation, :remarks, :is_there_issue)";
-					 
-					 	paramSource = new BeanPropertySqlParameterSource(obj);		 
-						count = namedParamJdbcTemplate.update(privateInsertQry, paramSource);
-						
-					String privateInsertSubQry = "INSERT INTO la_private_land_valuation "
-					 		+ "(la_id_fk, forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, "
-					 		+ "structure_survey, structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, "
-					 		+ "borewell_valuation_status_fk, rfp_to_adtp_status_fk, date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, "
-					 		+ "date_of_approval_for_payment, payment_amount, payment_date, survey_number, type_of_land, sub_category_of_land, village_id, remarks, issues)"
-					 		+ "VALUES"
-					 		+ "(:la_id, :forest_tree_survey, :forest_tree_valuation, :forest_tree_valuation_status_fk, :horticulture_tree_survey, :horticulture_tree_valuation,"
-					 		+ " :structure_survey, :structure_valuation, :borewell_survey, :borewell_valuation, :horticulture_tree_valuation_status_fk, :structure_valuation_status_fk,"
-					 		+ " :borewell_valuation_status_fk, :rfp_to_adtp_status_fk, :date_of_rfp_to_adtp, :date_of_rate_fixation_of_land, :sdo_demand_for_payment,"
-					 		+ " :date_of_approval_for_payment, :payment_amount, :private_payment_date, :survey_number, :type_of_land, :sub_category_of_land,:village_id,:remarks, :is_there_issue)";
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);	
-					}
-				
-				
+				}
 				if(flag) {
 					if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-						String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CURDATE())";				
-						jdbcTemplate.update(new PreparedStatementCreator() {
-							@Override
-							public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-								PreparedStatement ps = connection.prepareStatement(issuesQry);
-								int i = 1;
-								ps.setString(i++, obj.getIssue_description());
-								ps.setString(i++, obj.getIssue_description());
-								ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
-								ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
-								ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
-								ps.setString(i++, "Raised");
-								ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
-								return ps;
-							}
-						});
-
+						if(!StringUtils.isEmpty(obj.getIssue_category_id())){
+							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CURDATE())";				
+							jdbcTemplate.update(new PreparedStatementCreator() {
+								@Override
+								public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+									PreparedStatement ps = connection.prepareStatement(issuesQry);
+									int i = 1;
+									ps.setString(i++, obj.getIssue_description());
+									ps.setString(i++, obj.getIssue_description());
+									ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
+									ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
+									ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
+									ps.setString(i++, "Raised");
+									ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
+									return ps;
+								}
+							});
+						}
 					}
 				}
 			}
@@ -672,78 +674,80 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
 				flag = true;
-				if(obj.getType_of_land().equalsIgnoreCase("Government")) {
-					String govInsertQry = "UPDATE  la_government_land_acquisition SET "
-							+ "area_to_be_acquired= :area_to_be_acquired, proposal_submission= :proposal_submission, proposal_submission_status_fk= :proposal_submission_status_fk, valuation_date= :valuation_date, letter_for_payment= :letter_for_payment, amount_demanded= :amount_demanded, "
-							+ "lfp_status_fk= :lfp_status_fk, approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid, payment_status_fk= :payment_status_fk, possession_date= :possession_date, possession_status_fk= :possession_status_fk, special_feature= :special_feature,"
-							+ "survey_number= :survey_number,village_id= :village_id, area_acquired= :area_acquired, remarks= :remarks "
-							+ "where  la_id_fk= :la_id";
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(govInsertQry, paramSource);	
+				if(!StringUtils.isEmpty(obj.getJm_approval())) {
+					if(obj.getType_of_land().equalsIgnoreCase("Government")) {
+						String govInsertQry = "UPDATE  la_government_land_acquisition SET "
+								+ "area_to_be_acquired= :area_to_be_acquired, proposal_submission= :proposal_submission, proposal_submission_status_fk= :proposal_submission_status_fk, valuation_date= :valuation_date, letter_for_payment= :letter_for_payment, amount_demanded= :amount_demanded, "
+								+ "lfp_status_fk= :lfp_status_fk, approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid, payment_status_fk= :payment_status_fk, possession_date= :possession_date, possession_status_fk= :possession_status_fk, special_feature= :special_feature,"
+								+ "survey_number= :survey_number,village_id= :village_id, area_acquired= :area_acquired, remarks= :remarks "
+								+ "where  la_id_fk= :la_id";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(govInsertQry, paramSource);	
+							
+					}else if(obj.getType_of_land().equalsIgnoreCase("Forest")) {
+						String forestInsertSubQry = "UPDATE la_forest_land_acquisition SET "
+						 		+ "area_to_be_acquired= :forest_area_to_be_acquired, on_line_submission= :forest_online_submission, submission_date_to_dycfo= :forest_submission_date_to_dycfo, submission_date_to_ccf_thane= :forest_submission_date_to_ccf_thane, submission_date_to_nodal_officer= :forest_submission_date_to_nodal_officer, "
+						 		+ "submission_date_to_revenue_secretary_mantralaya= :forest_submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur= :forest_submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur= :forest_date_of_approval_by_regional_office_nagpur, valuation_by_dycfo= :forest_valuation_by_dycfo, "
+						 		+ "demanded_amount= :forest_demanded_amount, payment_amount= :forest_payment_amount, approval_for_payment= :forest_approval_for_payment, payment_date= :forest_payment_date, possession_date= :forest_possession_date, possession_status_fk= :forest_possession_status_fk, payment_status_fk=:forest_payment_status_fk, special_feature= :forest_special_feature, survey_number= :survey_number,"
+						 		+ "village_id= :village_id, area_acquired= :forest_area_acquired, remarks= :remarks, attachment_No= :forest_attachment_No, issues= :is_there_issue   "
+						 		+ " where la_id_fk= :la_id ";
+	
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(forestInsertSubQry, paramSource);	
 						
-				}else if(obj.getType_of_land().equalsIgnoreCase("Forest")) {
-					String forestInsertSubQry = "UPDATE la_forest_land_acquisition SET "
-					 		+ "area_to_be_acquired= :forest_area_to_be_acquired, on_line_submission= :forest_online_submission, submission_date_to_dycfo= :forest_submission_date_to_dycfo, submission_date_to_ccf_thane= :forest_submission_date_to_ccf_thane, submission_date_to_nodal_officer= :forest_submission_date_to_nodal_officer, "
-					 		+ "submission_date_to_revenue_secretary_mantralaya= :forest_submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur= :forest_submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur= :forest_date_of_approval_by_regional_office_nagpur, valuation_by_dycfo= :forest_valuation_by_dycfo, "
-					 		+ "demanded_amount= :forest_demanded_amount, payment_amount= :forest_payment_amount, approval_for_payment= :forest_approval_for_payment, payment_date= :forest_payment_date, possession_date= :forest_possession_date, possession_status_fk= :forest_possession_status_fk, payment_status_fk=:forest_payment_status_fk, special_feature= :forest_special_feature, survey_number= :survey_number,"
-					 		+ "village_id= :village_id, area_acquired= :forest_area_acquired, remarks= :remarks, attachment_No= :forest_attachment_No, issues= :is_there_issue   "
-					 		+ " where la_id_fk= :la_id ";
-
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(forestInsertSubQry, paramSource);	
+					}else if(obj.getType_of_land().equalsIgnoreCase("Railway")) {
+						String railwayInsertSubQry = " UPDATE la_railway_land_acquisition SET "
+						 		+ "survey_number= :survey_number, village_id= :village_id, area_to_be_acquired= :railway_area_to_be_acquired, area_acquired= :railway_area_acquired, online_submission= :railway_online_submission, submission_date_to_DyCFO= :railway_submission_date_to_DyCFO, "
+						 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
+						 		+ "submission_date_to_regional_office_nagpur= :railway_submission_date_to_regional_office_nagpur,date_of_approval_by_Rregional_Office_agpur= :railway_date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO= :railway_valuation_by_DyCFO, demanded_amount= :railway_demanded_amount, "
+						 		+ "approval_for_payment= :railway_approval_for_payment, payment_date= :railway_payment_date, payment_amount= :railway_payment_amount, payment_status= :railway_payment_status, possession_date= :railway_possession_date, possession_status= :railway_possession_status, special_feature= :railway_special_feature, remarks= :remarks, "
+						 		+ "`attachment_no.`= :railway_attachment_no, Issues= :is_there_issue  "
+						 		+ "where la_id_fk= :la_id ";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(railwayInsertSubQry, paramSource);	
+							
+					}else if(obj.getType_of_land().equalsIgnoreCase("Private")) {
+						String  privateInsertQry = "UPDATE la_private_land_acquisition SET "
+						 		+ "area_to_be_acquired= :private_area_to_be_acquired, name_of_the_owner= :name_of_the_owner, basic_rate= :basic_rate, attachment_no= :private_attachment_no, agriculture_tree_nos= :agriculture_tree_nos, agriculture_tree_rate= :agriculture_tree_rate, forest_tree_nos= :forest_tree_nos,"
+						 		+ "forest_tree_rate= :forest_tree_rate, consent_from_owner= :consent_from_owner, legal_search_report= :legal_search_report, date_of_registration= :date_of_registration, date_of_possession= :date_of_possession, possession_status_fk= :private_possession_status_fk, special_feature= :private_special_feature, "
+						 		+ "survey_number= :survey_number,village_id= :village_id, area_acquired= :private_area_acquired, hundred_percent_Solatium= :hundred_percent_Solatium, extra_25_percent= :extra_25_percent, total_rate_divide_m2= :total_rate_divide_m2,"
+						 		+ "land_compensation= :land_compensation, agriculture_tree_compensation= :agriculture_tree_compensation, forest_tree_compensation= :forest_tree_compensation, structure_compensation= :structure_compensation, borewell_compensation= :borewell_compensation, total_compensation= :total_compensation, remarks= :remarks, issues= :is_there_issue "
+						 		+ "where la_id_fk= :la_id";
+						 
+						 	paramSource = new BeanPropertySqlParameterSource(obj);		 
+							count = namedParamJdbcTemplate.update(privateInsertQry, paramSource);
+							
+						String privateInsertSubQry = "UPDATE la_private_land_valuation SET "
+						 		+ " forest_tree_survey=:forest_tree_survey, forest_tree_valuation= :forest_tree_valuation, forest_tree_valuation_status_fk= :forest_tree_valuation_status_fk, horticulture_tree_survey= :horticulture_tree_survey, horticulture_tree_valuation= :horticulture_tree_valuation, "
+						 		+ "structure_survey= :structure_survey, structure_valuation= :structure_valuation, borewell_survey= :borewell_survey, borewell_valuation= :borewell_valuation, horticulture_tree_valuation_status_fk= :horticulture_tree_valuation_status_fk, structure_valuation_status_fk= :structure_valuation_status_fk, "
+						 		+ "borewell_valuation_status_fk=:borewell_valuation_status_fk, rfp_to_adtp_status_fk= :rfp_to_adtp_status_fk, date_of_rfp_to_adtp= :date_of_rfp_to_adtp, date_of_rate_fixation_of_land= :date_of_rate_fixation_of_land, sdo_demand_for_payment= :sdo_demand_for_payment, "
+						 		+ "date_of_approval_for_payment= :date_of_approval_for_payment, payment_amount= :payment_amount, payment_date= :private_payment_date, survey_number= :survey_number, type_of_land= :type_of_land, sub_category_of_land= :sub_category_of_land, village_id= :village_id, remarks= :remarks, issues= :is_there_issue "
+						 		+ "where la_id_fk= :la_id";
+						 paramSource = new BeanPropertySqlParameterSource(obj);		 
+						 count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);	
+						}
 					
-				}else if(obj.getType_of_land().equalsIgnoreCase("Railway")) {
-					String railwayInsertSubQry = " UPDATE la_railway_land_acquisition SET "
-					 		+ "survey_number= :survey_number, village_id= :village_id, area_to_be_acquired= :railway_area_to_be_acquired, area_acquired= :railway_area_acquired, online_submission= :railway_online_submission, submission_date_to_DyCFO= :railway_submission_date_to_DyCFO, "
-					 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, `submission_date_to_nodal_officer/CCF Nagpur`= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
-					 		+ "submission_date_to_regional_office_nagpur= :railway_submission_date_to_regional_office_nagpur,date_of_approval_by_Rregional_Office_agpur= :railway_date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO= :railway_valuation_by_DyCFO, demanded_amount= :railway_demanded_amount, "
-					 		+ "approval_for_payment= :railway_approval_for_payment, payment_date= :railway_payment_date, payment_amount= :railway_payment_amount, payment_status= :railway_payment_status, possession_date= :railway_possession_date, possession_status= :railway_possession_status, special_feature= :railway_special_feature, remarks= :remarks, "
-					 		+ "`attachment_no.`= :railway_attachment_no, Issues= :is_there_issue  "
-					 		+ "where la_id_fk= :la_id ";
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(railwayInsertSubQry, paramSource);	
-						
-				}else if(obj.getType_of_land().equalsIgnoreCase("Private")) {
-					String  privateInsertQry = "UPDATE la_private_land_acquisition SET "
-					 		+ "area_to_be_acquired= :private_area_to_be_acquired, name_of_the_owner= :name_of_the_owner, basic_rate= :basic_rate, attachment_no= :private_attachment_no, agriculture_tree_nos= :agriculture_tree_nos, agriculture_tree_rate= :agriculture_tree_rate, forest_tree_nos= :forest_tree_nos,"
-					 		+ "forest_tree_rate= :forest_tree_rate, consent_from_owner= :consent_from_owner, legal_search_report= :legal_search_report, date_of_registration= :date_of_registration, date_of_possession= :date_of_possession, possession_status_fk= :private_possession_status_fk, special_feature= :private_special_feature, "
-					 		+ "survey_number= :survey_number,village_id= :village_id, area_acquired= :private_area_acquired, hundred_percent_Solatium= :hundred_percent_Solatium, extra_25_percent= :extra_25_percent, total_rate_divide_m2= :total_rate_divide_m2,"
-					 		+ "land_compensation= :land_compensation, agriculture_tree_compensation= :agriculture_tree_compensation, forest_tree_compensation= :forest_tree_compensation, structure_compensation= :structure_compensation, borewell_compensation= :borewell_compensation, total_compensation= :total_compensation, remarks= :remarks, issues= :is_there_issue "
-					 		+ "where la_id_fk= :la_id";
-					 
-					 	paramSource = new BeanPropertySqlParameterSource(obj);		 
-						count = namedParamJdbcTemplate.update(privateInsertQry, paramSource);
-						
-					String privateInsertSubQry = "UPDATE la_private_land_valuation SET "
-					 		+ " forest_tree_survey=:forest_tree_survey, forest_tree_valuation= :forest_tree_valuation, forest_tree_valuation_status_fk= :forest_tree_valuation_status_fk, horticulture_tree_survey= :horticulture_tree_survey, horticulture_tree_valuation= :horticulture_tree_valuation, "
-					 		+ "structure_survey= :structure_survey, structure_valuation= :structure_valuation, borewell_survey= :borewell_survey, borewell_valuation= :borewell_valuation, horticulture_tree_valuation_status_fk= :horticulture_tree_valuation_status_fk, structure_valuation_status_fk= :structure_valuation_status_fk, "
-					 		+ "borewell_valuation_status_fk=:borewell_valuation_status_fk, rfp_to_adtp_status_fk= :rfp_to_adtp_status_fk, date_of_rfp_to_adtp= :date_of_rfp_to_adtp, date_of_rate_fixation_of_land= :date_of_rate_fixation_of_land, sdo_demand_for_payment= :sdo_demand_for_payment, "
-					 		+ "date_of_approval_for_payment= :date_of_approval_for_payment, payment_amount= :payment_amount, payment_date= :private_payment_date, survey_number= :survey_number, type_of_land= :type_of_land, sub_category_of_land= :sub_category_of_land, village_id= :village_id, remarks= :remarks, issues= :is_there_issue "
-					 		+ "where la_id_fk= :la_id";
-					 paramSource = new BeanPropertySqlParameterSource(obj);		 
-					 count = namedParamJdbcTemplate.update(privateInsertSubQry, paramSource);	
-					}
-				
-				
+				}
 				if(flag) {
 					if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-						String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CURDATE())";				
-						jdbcTemplate.update(new PreparedStatementCreator() {
-							@Override
-							public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-								PreparedStatement ps = connection.prepareStatement(issuesQry);
-								int i = 1;
-								ps.setString(i++, obj.getIssue_description());
-								ps.setString(i++, obj.getIssue_description());
-								ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
-								ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
-								ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
-								ps.setString(i++, "Raised");
-								ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
-								return ps;
-							}
-						});
-
+						if(!StringUtils.isEmpty(obj.getIssue_category_id())){
+							String issuesQry = "INSERT INTO issue(title,description,reported_by,priority_fk,category_fk,status_fk,remarks,date)VALUES(?,?,?,?,?,?,?,CURDATE())";				
+							jdbcTemplate.update(new PreparedStatementCreator() {
+								@Override
+								public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+									PreparedStatement ps = connection.prepareStatement(issuesQry);
+									int i = 1;
+									ps.setString(i++, obj.getIssue_description());
+									ps.setString(i++, obj.getIssue_description());
+									ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
+									ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
+									ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
+									ps.setString(i++, "Raised");
+									ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
+									return ps;
+								}
+							});
+						}
 					}
 				}
 			}

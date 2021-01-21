@@ -1422,7 +1422,18 @@
                                     </div>
                                 </div>
                             </div>
-
+ 					<c:if test="${action eq 'add'}">
+	 					 <div class="row">
+	                                <!-- row 10 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+		                                <div class="col s12 m8 input-field">
+		                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
+		                                        data-length="1000"> </textarea>
+		                                    <label for="remarks">Remarks</label>
+		                                </div>
+	                      </div>				                
+				     </c:if>
+				     <c:if test="${action eq 'edit'}">
                             <div class="row">
                                 <!-- row 10 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -1443,7 +1454,7 @@
                                  <c:if test="${LADetails.type_of_land == 'Private'}">
 	                                <div class="col s12 m8 input-field">
 	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" 
-	                                        data-length="1000">${LADetails.private_payment_date } </textarea>
+	                                        data-length="1000">${LADetails.private_remarks } </textarea>
 	                                    <label for="remarks">Remarks</label>
 	                                </div>
                                 </c:if>
@@ -1455,7 +1466,7 @@
 	                                </div>
                                 </c:if>
                             </div>
-
+ 							</c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                               

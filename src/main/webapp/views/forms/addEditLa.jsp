@@ -409,12 +409,14 @@
                                             class="validate">
                                         <label for="govt_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="govt_area_to_be_acquiredError" class="error-msg"></span>
                                     </div>      
                                     <div class="col s12 m4 input-field">
                                         <input id="govt_area_acquired" name="area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.area_acquired }"
                                             class="validate">
                                         <label for="govt_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="govt_area_acquiredError" class="error-msg"></span>
                                     </div>   
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -454,6 +456,7 @@
                                         <input id="amount_demanded" name="amount_demanded" type="number" value="${LADetails.amount_demanded }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="amount_demanded">Amount Demanded</label>
+                                        <span id="amount_demandedError" class="error-msg"></span>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -492,6 +495,7 @@
                                         <input id="govt_amount_paid" name="amount_paid" type="number" value="${LADetails.amount_paid }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="govt_amount_paid"> Amount Paid</label>
+                                        <span id="govt_amount_paidError" class="error-msg"></span>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -560,12 +564,14 @@
                                             class="validate">
                                         <label for="forest_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="forest_area_to_be_acquiredError" class="error-msg"></span>
                                     </div>
                                      <div class="col s12 m4 input-field">
                                         <input id="forest_area_acquired" name="forest_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.forest_area_acquired }"
                                             class="validate">
                                         <label for="forest_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="forest_area_acquiredError" class="error-msg"></span>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -657,12 +663,14 @@
                                         <input id="forest_demanded_amount" name="forest_demanded_amount" type="number" value="${LADetails.forest_demanded_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="forest_demanded_amount">Demanded Amount </label>
+                                        <span id="forest_demanded_amountError" class="error-msg"></span>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="forest_payment_amount" name="forest_payment_amount" type="number" value="${LADetails.forest_payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="forest_payment_amount"> Payment Amount </label>
+                                        <span id="forest_payment_amountError" class="error-msg"></span>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -748,12 +756,14 @@
                                             class="validate">
                                         <label for="private_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="private_area_to_be_acquiredError" class="error-msg"></span>
                                     </div>
                                      <div class="col s12 m4 input-field">
                                         <input id="private_area_acquired" name="private_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.private_area_acquired }"
                                             class="validate">
                                         <label for="private_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="private_area_acquiredError" class="error-msg"></span>
                                     </div>                                   
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -770,9 +780,12 @@
                                     <div class="col m2 hide-on-small-only"></div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
-                                        <input id="private_basic_rate" name=basic_rate type="text" value="${LADetails.basic_rate }"
+                                        <input id="private_basic_rate" name="basic_rate" type="number" min="0.01" step="0.01" value="${LADetails.basic_rate }"
                                             class="validate">
                                         <label for="private_basic_rate">Basic Rate </label>
+                                        <span id="private_basic_rateError" class="error-msg"></span>
+
+                                        
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <input id="private_attachment_no" name="private_attachment_no" type="text" value="${LADetails.private_attachment_no }"
@@ -790,13 +803,15 @@
                                         <input id="private_agri_trees" name="agriculture_tree_nos" type="text" value="${LADetails.agriculture_tree_nos }"
                                             class="validate">
                                         <label for="private_agri_trees"> Agriculture tree nos</label>
+                                       
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="private_agri_tree_rate" name="agriculture_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.agriculture_tree_rate }"
                                             class="validate">
                                         <label for="private_agri_tree_rate"> Agriculture tree rate </label>
-                                        </label>
+										<span id="private_agri_tree_rateError" class="error-msg"></span>
+
                                     </div>
                                    
                                     <div class="col m2 hide-on-small-only"></div>
@@ -815,7 +830,7 @@
                                         <input id="private_forest_tree_rate" name="forest_tree_rate" type="number" min="0.01" step="0.01" value="${LADetails.forest_tree_rate }"
                                             class="validate">
                                         <label for="private_forest_tree_rate"> Forest tree rate </label>
-                                        </label>
+                                         <span id="private_forest_tree_rateError" class="error-msg"></span>
                                     </div>
                                    
                                     <div class="col m2 hide-on-small-only"></div>
@@ -1066,6 +1081,9 @@
                                         <input id="private_payment_amount" name="payment_amount" type="number" value="${LADetails.payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="private_payment_amount">Payment Amount </label>
+                                        <span id="private_payment_amountError" class="error-msg"></span>
+
+                                        
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <input id="private_payment_date" name="private_payment_date" type="text" value="${LADetails.private_payment_date }"
@@ -1153,12 +1171,14 @@
                                             type="number" min="0.0001" step="0.0001" class="validate">
                                         <label for="railway_area_to_be_acquired"> Area to be Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="railway_area_to_be_acquiredError" class="error-msg"></span>
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <input id="railway_area_acquired" name="railway_area_acquired" type="number" min="0.0001" step="0.0001" value="${LADetails.railway_area_acquired }"
                                             class="validate">
                                         <label for="railway_area_acquired"> Area Acquired </label>
                                         <span class="units">units</span>
+                                        <span id="railway_area_acquiredError" class="error-msg"></span>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -1251,12 +1271,16 @@
                                         <input id="railway_demanded_amount" name="railway_demanded_amount" type="number" value="${LADetails.railway_demanded_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="railway_demanded_amount">Demanded Amount </label>
+                                        <span id="railway_demanded_amountError" class="error-msg"></span>
+
+                                        
                                     </div>
                                     <div class="col s12 m4 input-field">
                                         <i class="material-icons prefix center-align">₹</i>
                                         <input id="railway_payment_amount" name="railway_payment_amount" type="number" value="${LADetails.railway_payment_amount }" min="0.01" step="0.01"
                                             class="validate">
                                         <label for="railway_payment_amount"> Payment Amount </label>
+                                        <span id="railway_payment_amountError" class="error-msg"></span>
                                     </div>
                                     <div class="col m2 hide-on-small-only"></div>
                                 </div>
@@ -1766,6 +1790,46 @@
 	  			 		required: true
 	  			 	  },"jm_fee_amount":{
 		  			 	required: false
+	  			 	  },"area_acquired":{
+		  			 	required: false
+	  			 	  },"govt_area_to_be_acquired":{
+		  			 	required: false
+	  			 	  },"forest_area_to_be_acquired":{
+		  			 	required: false
+	  			 	  },"forest_area_acquired":{
+		  			 	required: false
+	  			 	  },"private_area_to_be_acquired":{
+		  			 	required: false
+	  			 	  },"private_area_acquired":{
+		  			 	required: false
+	  			 	  },"railway_area_to_be_acquired":{
+		  			 	required: false
+	  			 	  },"railway_area_acquired":{
+		  			 	required: false
+	  			 	  },"railway_demanded_amount":{
+		  			 	required: false
+	  			 	  },"railway_payment_amount":{
+		  			 	required: false
+	  			 	  },"private_basic_rate":{
+		  			 	required: false
+	  			 	  },"private_agri_tree_rate":{
+		  			 	required: false
+	  			 	  },"private_forest_tree_rate":{
+		  			 	required: false
+	  			 	  },"private_payment_amount":{
+		  			 	required: false
+	  			 	  },"railway_demanded_amount":{
+		  			 	required: false
+	  			 	  },"railway_payment_amount":{
+		  			 	required: false
+	  			 	  },"forest_demanded_amount":{
+		  			 	required: false
+	  			 	  },"forest_payment_amount":{
+		  			 	required: false
+	  			 	  },"amount_demanded":{
+		  			 	required: false
+	  			 	  },"govt_amount_paid":{
+		  			 	required: false
 	  			 	  }
 	  		 	},
 	  		    messages: {
@@ -1797,7 +1861,61 @@
 					}else if(element.attr("id") == "sub_category_of_land" ){
 						   document.getElementById("sub_category_of_landError").innerHTML="";
 					 	   error.appendTo('#sub_category_of_landError');
-					}else{
+					}else if(element.attr("id") == "govt_area_acquired" ){
+						   document.getElementById("govt_area_acquiredError").innerHTML="";
+					 	   error.appendTo('#govt_area_acquiredError');
+				    }else if(element.attr("id") == "govt_area_to_be_acquired" ){
+						   document.getElementById("govt_area_to_be_acquiredError").innerHTML="";
+					 	   error.appendTo('#govt_area_to_be_acquiredError');
+				   }else if(element.attr("id") == "forest_area_to_be_acquired" ){
+					   document.getElementById("forest_area_to_be_acquiredError").innerHTML="";
+				 	   error.appendTo('#forest_area_to_be_acquiredError');
+			   	   }else if(element.attr("id") == "forest_area_acquired" ){
+					   document.getElementById("forest_area_acquiredError").innerHTML="";
+				 	   error.appendTo('#forest_area_acquiredError');
+			       }else if(element.attr("id") == "private_area_to_be_acquired" ){
+					   document.getElementById("private_area_to_be_acquiredError").innerHTML="";
+				 	   error.appendTo('#private_area_to_be_acquiredError');
+			   	   }else if(element.attr("id") == "private_area_acquired" ){
+					   document.getElementById("private_area_acquiredError").innerHTML="";
+				 	   error.appendTo('#private_area_acquiredError');
+			       }else if(element.attr("id") == "railway_area_to_be_acquired" ){
+					   document.getElementById("railway_area_to_be_acquiredError").innerHTML="";
+				 	   error.appendTo('#railway_area_to_be_acquiredError');
+			   	   }else if(element.attr("id") == "railway_area_acquired" ){
+					   document.getElementById("railway_area_acquiredError").innerHTML="";
+				 	   error.appendTo('#railway_area_acquiredError');
+			       }else if(element.attr("id") == "railway_demanded_amount" ){
+					   document.getElementById("railway_demanded_amountError").innerHTML="";
+				 	   error.appendTo('#railway_demanded_amountError');
+			   	   }else if(element.attr("id") == "railway_payment_amount" ){
+					   document.getElementById("railway_payment_amountError").innerHTML="";
+				 	   error.appendTo('#railway_payment_amountError');
+			       }else if(element.attr("id") == "private_basic_rate" ){
+					   document.getElementById("private_basic_rateError").innerHTML="";
+				 	   error.appendTo('#private_basic_rateError');
+			       }else if(element.attr("id") == "private_agri_tree_rate" ){
+					   document.getElementById("private_agri_tree_rateError").innerHTML="";
+				 	   error.appendTo('#private_agri_tree_rateError');
+			       }else if(element.attr("id") == "private_forest_tree_rate" ){
+					   document.getElementById("private_forest_tree_rateError").innerHTML="";
+				 	   error.appendTo('#private_forest_tree_rateError');
+			       }else if(element.attr("id") == "private_payment_amount" ){
+					   document.getElementById("private_payment_amountError").innerHTML="";
+				 	   error.appendTo('#private_payment_amountError');
+			       }else if(element.attr("id") == "forest_demanded_amount" ){
+					   document.getElementById("forest_demanded_amountError").innerHTML="";
+				 	   error.appendTo('#forest_demanded_amountError');
+			       }else if(element.attr("id") == "forest_payment_amount" ){
+					   document.getElementById("forest_payment_amountError").innerHTML="";
+				 	   error.appendTo('#forest_payment_amountError');
+			       }else if(element.attr("id") == "amount_demanded" ){
+					   document.getElementById("amount_demandedError").innerHTML="";
+				 	   error.appendTo('#amount_demandedError');
+			       }else if(element.attr("id") == "govt_amount_paid" ){
+					   document.getElementById("govt_amount_paidError").innerHTML="";
+				 	   error.appendTo('#govt_amount_paidError');
+			       } else{
  					error.insertAfter(element);
 			        } 
 		   		},invalidHandler: function (form, validator) {

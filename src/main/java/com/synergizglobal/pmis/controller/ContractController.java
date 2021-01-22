@@ -162,6 +162,32 @@ public class ContractController {
 		return projectsFilterList;
 	}
 	
+	@RequestMapping(value = "/ajax/getDesignationsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDesignationsFilterList(@ModelAttribute Contract obj) {
+		List<Contract> designationsFilterList = null;  
+		try {
+			designationsFilterList = contractService.getDesignationsFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDesignationsFilterList : " + e.getMessage());
+		}
+		return designationsFilterList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDyHODDesignationsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDyHODDesignationsFilterList(@ModelAttribute Contract obj) {
+		List<Contract> dyHODDesignationsFilterList = null;  
+		try {
+			dyHODDesignationsFilterList = contractService.getDyHODDesignationsFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDyHODDesignationsFilterList : " + e.getMessage());
+		}
+		return dyHODDesignationsFilterList;
+	}
+	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContractForm(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();

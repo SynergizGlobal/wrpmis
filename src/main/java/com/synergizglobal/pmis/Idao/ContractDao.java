@@ -45,4 +45,8 @@ public interface ContractDao {
 
 	public List<Contract> getWorkListForContractForm(Contract obj) throws Exception;
 
+	public List<Contract> getDesignationsFilterList(Contract obj) throws Exception;
+
+	public List<Contract> getDyHODDesignationsFilterList(Contract obj) throws Exception;
+
 }

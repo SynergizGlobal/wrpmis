@@ -46,14 +46,19 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="select la_id,survey_number,li.work_id_fk,w.work_name,c.la_category as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,area_of_plot " + 
+			String qry ="select la_id,survey_number,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,c.la_category as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,area_of_plot " + 
 					" from la_land_identification li " + 
-					"left join work w on li.work_id_fk = w.work_id "
+					"left join work w on li.work_id_fk = w.work_id "+
+					"left join project p on w.project_id_fk = p.project_id "
 					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "
 					+"where la_id is not null  ";
 			int arrSize = 0;
 			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and li.work_id_fk = ?";
 				arrSize++;
@@ -75,6 +80,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -100,11 +108,16 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		List<LandAcquisition> objsList = null;
 		try {
 			String qry = "SELECT li.work_id_fk,w.work_name,w.work_short_name from la_land_identification li " + 
-					"LEFT JOIN work w on li.work_id_fk = w.work_id "
+					"LEFT JOIN work w on li.work_id_fk = w.work_id "+
+					"left join project p on w.project_id_fk = p.project_id "
 					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where li.work_id_fk is not null and li.work_id_fk <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and li.work_id_fk = ?";
 				arrSize++;
@@ -124,6 +137,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			qry = qry + "GROUP BY li.work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -148,12 +164,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		List<LandAcquisition> objsList = null;
 		try {
 			String qry = "SELECT village from la_land_identification li " + 
+					"LEFT JOIN work w on li.work_id_fk = w.work_id "+
+					"left join project p on w.project_id_fk = p.project_id "+
 					"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where village is not null and village <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
@@ -167,10 +189,13 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
 				qry = qry + " and la_sub_category = ?";
 				arrSize++;
-			}	
+			}		
 			qry = qry + "GROUP BY village ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -195,12 +220,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		List<LandAcquisition> objsList = null;
 		try {
 			String qry = "SELECT c.la_category as type_of_land from la_land_identification li " + 
+					"LEFT JOIN work w on li.work_id_fk = w.work_id "+
+					"left join project p on w.project_id_fk = p.project_id "+
 					"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where c.la_category is not null and c.la_category <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
@@ -214,10 +245,13 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
 				qry = qry + " and la_sub_category = ?";
 				arrSize++;
-			}	
+			}		
 			qry = qry + "GROUP BY la_category ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -242,12 +276,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		List<LandAcquisition> objsList = null;
 		try {
 			String qry = "SELECT sc.la_sub_category as sub_category_of_land from la_land_identification li " + 
+					"LEFT JOIN work w on li.work_id_fk = w.work_id "+
+					"left join project p on w.project_id_fk = p.project_id "+
 					"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "+
 					"where la_sub_category is not null and la_sub_category <> '' ";
 			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
@@ -265,6 +305,9 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			qry = qry + "GROUP BY la_sub_category ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -614,6 +657,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandsList(LandAcquisition obj) throws Exception {
 		List<LandAcquisition> objsList = new ArrayList<LandAcquisition>();
 		try {
+			String sub_category_of_land = getSubCategoryLand(obj.getSub_category_of_land());
+			obj.setSub_category_of_land(sub_category_of_land);
 			String qry = "select id as category_id,la_category as type_of_land, ls.la_sub_category as sub_category_of_land from `la_category` lc "
 					+ "LEFT OUTER JOIN `la_sub_category` ls ON la_category  = la_category_fk ";
 					
@@ -758,6 +803,64 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+
+	@Override
+	public List<LandAcquisition> getLandAcquisitionProjectsList(LandAcquisition obj) throws Exception {
+		List<LandAcquisition> objsList = null;
+		try {
+			String qry = "SELECT w.project_id_fk,p.project_name from la_land_identification li " + 
+					"LEFT JOIN work w on li.work_id_fk = w.work_id "+
+					"left join project p on w.project_id_fk = p.project_id "
+					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
+					+"left join la_category c on sc.la_category_fk = c.la_category "+
+					"where li.work_id_fk is not null and li.work_id_fk <> '' ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and li.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
+				qry = qry + " and village = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
+				qry = qry + " and la_category = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
+				qry = qry + " and la_sub_category = ?";
+				arrSize++;
+			}	
+			qry = qry + "GROUP BY w.project_id_fk ";
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
+				pValues[i++] = obj.getVillage();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
+				pValues[i++] = obj.getType_of_land();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
+				pValues[i++] = obj.getSub_category_of_land();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 

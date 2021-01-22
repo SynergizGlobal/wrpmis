@@ -187,7 +187,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             </c:if>
-                               <c:if test="${action eq 'edit'}">	
+                            <c:if test="${action eq 'edit'}">	
                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                
@@ -202,6 +202,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                              </c:if>
+                            <c:if test="${action eq 'add'}">
                             <div class="row">
                             <input  type="hidden"   name="risk_id_pk" value="${riskDetails.risk_id_pk }" />
                                 <!-- row 1  -->
@@ -209,6 +210,7 @@
                                 <div class="col s12 m4 input-field">
                                     <input id="risk_id" name="risk_id" type="text" class="validate" value="${riskDetails.risk_id }">
                                     <label for="riskid">Risk ID </label>
+                                    <span id="risk_idError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Area</p>
@@ -225,7 +227,39 @@
                                 </div> -->
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+                            </c:if>
+                            <c:if test="${action eq 'edit'}">
+                            <div class="row">
+                            <input  type="hidden"   name="risk_id_pk" value="${riskDetails.risk_id_pk }" />
+                                <!-- row 1  -->
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="risk_id" name="risk_id" type="text" class="validate" value="${riskDetails.risk_id }" readonly>
+                                    <label for="riskid">Risk ID </label>
+                                    <span id="risk_idError" class="error-msg" ></span>
+                                </div>
+                                 <div class="col s12 m4 input-field">
+                                    <p class="searchable_label">Area</p>
+                                      <input id="area" name="area" type="text" class="validate" value="${riskDetails.area }" readonly>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            </c:if>
+                            
+                            
+ 							<c:if test="${action eq 'edit'}">
+                            <div class="row">
+                                <!-- row 2 -->
+                                <div class="col m2 hide-on-small-only"></div>
+                               
+                                <div class="col s12 m4 input-field">
+                                    <p class="searchable_label">Sub Area</p>
+                                   	<input id="sub_area_fk" name="sub_area_fk" type="text" class="validate" value="${riskDetails.sub_area_fk }" readonly>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            </c:if>
+                            <c:if test="${action eq 'add'}">
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -240,6 +274,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            </c:if>
                         </div>
                         <div class="row fixed-width" style="margin-bottom: 40px;">
                             <h5 class="center-align">Risk Review</h5>
@@ -1006,12 +1041,16 @@
 	  			 		required: true
 	  			 	  },"work_id_fk": {
 	  			 		required: true
+	  			 	  },"risk_id": {
+	  			 		required: true
 	  			 	  }
 	  		 	},
 	  		    messages: {
 	  		 		 "project_id_fk": {
 	  				 	required: 'This field is required',
 	  			 	  },"work_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"risk_id": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
@@ -1022,8 +1061,11 @@
 					}else if(element.attr("id") == "work_id_fk" ){
 					   document.getElementById("work_id_fkError").innerHTML="";
 				 	   error.appendTo('#work_id_fkError');
+					}else if(element.attr("id") == "risk_id" ){
+						   document.getElementById("risk_idError").innerHTML="";
+					 	   error.appendTo('#risk_idError');
 					}else{
-	 					error.insertAfter(element);
+ 					error.insertAfter(element);
 			        } 
 		   		},submitHandler:function(form){
 			    	//form.submit();

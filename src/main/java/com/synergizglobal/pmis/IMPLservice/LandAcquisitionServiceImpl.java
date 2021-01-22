@@ -96,5 +96,10 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 		return dao.updateLandAcquisition(obj);
 	}
 
+	@Override
+	public List<LandAcquisition> getLandAcquisitionProjectsList(LandAcquisition obj) throws Exception {
+		return dao.getLandAcquisitionProjectsList(obj);
+	}
+
 
 }

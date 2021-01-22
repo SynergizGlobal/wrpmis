@@ -38,6 +38,8 @@ public interface LandAcquisitionService {
 
 	public boolean updateLandAcquisition(LandAcquisition obj) throws Exception;
 
+	public List<LandAcquisition> getLandAcquisitionProjectsList(LandAcquisition obj) throws Exception;
+
 
 	
 

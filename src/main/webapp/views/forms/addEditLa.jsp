@@ -219,7 +219,6 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Sub Category of Land</p>
-                                    <input type="hidden"  name="sub_category_of_land" value="${LADetails.sub_category_of_land }" />
                                     <select class="searchable validate-dropdown" id="sub_category_of_land" name="id" onchange="getLandsList();">
                                         <option value="" selected>Select</option>
                                        <c:forEach var="obj" items="${subCategorysList }">
@@ -1786,7 +1785,7 @@
 	  			 		required: true
 	  			 	  },"type_of_land": {
 	  			 		required: true
-	  			 	  },"sub_category_of_land": {
+	  			 	  },"id": {
 	  			 		required: true
 	  			 	  },"jm_fee_amount":{
 		  			 	required: false
@@ -1841,7 +1840,7 @@
 	  			 		required: ' This field is required'
 	  			 	  },"type_of_land": {
 	  			 		required: ' This field is required'
-	  			 	  },"sub_category_of_land": {
+	  			 	  },"id": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
@@ -1946,6 +1945,12 @@
 	            
 	            
 	            $('select').change(function(){
+	        	    if ($(this).val() != ""){
+	        	        $(this).valid();
+	        	    }
+	        	});
+	            
+	            $('select').keyup(function(){
 	        	    if ($(this).val() != ""){
 	        	        $(this).valid();
 	        	    }

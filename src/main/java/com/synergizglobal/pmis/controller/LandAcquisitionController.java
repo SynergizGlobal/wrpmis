@@ -67,6 +67,19 @@ public class LandAcquisitionController {
 		return landAcquisitionList;
 	}
 	
+	@RequestMapping(value = "/ajax/getProjectsFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<LandAcquisition> getProjectsList(@ModelAttribute LandAcquisition obj) {
+		List<LandAcquisition> projectsList = null;
+		try {
+			projectsList = service.getLandAcquisitionProjectsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getProjectsList : " + e.getMessage());
+		}
+		return projectsList;
+	}
+	
 	@RequestMapping(value = "/ajax/getWorksFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<LandAcquisition> getWorksList(@ModelAttribute LandAcquisition obj) {

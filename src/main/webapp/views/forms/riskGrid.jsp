@@ -245,7 +245,7 @@
             </div>
             <!-- form start-->
             <div class="container">
-               <form action="<%=request.getContextPath() %>/upload-risk" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
+               <form action="<%=request.getContextPath() %>/upload-risk" method="post" enctype="multipart/form-data">
                     <div class="row no-mar">
                         <div class="col s12 m12 input-field center-align">
                             <div class="row">
@@ -269,7 +269,7 @@
                     <div class="row no-mar">
                         <div class="col s12 m6">
                             <div class="center-align m-1">
-                                <button type="button" onclick="riskFileSubmit();" class="btn waves-effect waves-light bg-m"
+                                <button type="submit"  class="btn waves-effect waves-light bg-m"
                                     style="width: 100%;">Update</button>
                             </div>
                         </div>
@@ -371,12 +371,12 @@
 	      	$("#upload_template").modal('close');
 	  	}
 	  	
-	  	function riskFileSubmit(){
-        	var flag = $("#riskUploadForm").valid();  
+	  	 function riskFileSubmit(){
+        	/* var flag = $("#riskUploadForm").valid();  
         	if(flag){
         		$(".page-loader").show();
             	$("#riskUploadForm").submit();
-        	}      	
+        	}      	 */
         }
         
         var validator = $('#riskUploadForm').validate({

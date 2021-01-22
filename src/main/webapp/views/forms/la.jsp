@@ -79,7 +79,7 @@
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
                                     <a href="<%=request.getContextPath() %>/add-land-acquisition-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Land Aquisition</strong></a>
+                                        <strong><i class="fa fa-plus-circle"></i> Add Land Acquisition</strong></a>
                                 </div>
                             </div>
 
@@ -91,8 +91,14 @@
                             </div>
                         </div> 
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m1 hide-on-small-only"></div>
                             <div class="col s12 m2 input-field">
+                                <p class="searchable_label">Select Project</p>
+                                <select id="project_id_fk" class="searchable" name="project_id_fk" onchange="getLandAcquisitionList();">
+                                    <option value="" disabled selected>Select Project</option>
+                                   
+                                </select>
+                            </div>
+                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Work</p>
                                 <select id="work_id_fk" class="searchable" name="work_id_fk" onchange="getLandAcquisitionList();">
                                     <option value="" disabled selected>Select Work</option>
@@ -125,7 +131,6 @@
                                     style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
                                     Filters</button>
                             </div>
-                            <div class="col m1 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">
@@ -247,6 +252,7 @@
         });
 
         function clearFilters() {
+        	$("#project_id_fk").val("");
             $('#work_id_fk').val("");
             $('#village').val("");
             $('#type_of_land').val("");
@@ -257,10 +263,12 @@
         
         function getLandAcquisitionList(){
         	$(".page-loader-2").show();
+        	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
+        	getProjectsFilterList();
         	getWorksFilterList();
          	getvillagesFilterList();
          	getTypesOfLandsFilterList();
@@ -296,7 +304,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    	 	var myParams = {village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+    	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
     	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-land-acquisition",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
@@ -331,15 +339,49 @@
          }});
        }
         
+        function getProjectsFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var village = $("#village").val();
+        	var type_of_land = $("#type_of_land").val();
+        	var sub_category_of_land = $("#sub_category_of_land").val();
+            if ($.trim(project_id_fk) == "") {
+            	$("#project_id_fk option:not(:first)").remove();
+        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInLandAcquisition",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var projectName = '';
+                                 if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+    	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)   + projectName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
         function getWorksFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(work_id_fk) == "") {
             	$("#work_id_fk option:not(:first)").remove();
-        	 	var myParams = {village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInLandAcquisition",
                     data: myParams, cache: false,
@@ -365,13 +407,14 @@
         
         function getvillagesFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(village) == "") {
             	$("#village option:not(:first)").remove();
-        	 	var myParams = {village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getVillagesFilterListInLandAcquisition",
                     data: myParams, cache: false,
@@ -396,13 +439,14 @@
         
         function getTypesOfLandsFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(type_of_land) == "") {
             	$("#type_of_land option:not(:first)").remove();
-        	 	var myParams = {village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getTypesOfLandsFilterListInLandAcquisition",
                     data: myParams, cache: false,
@@ -427,13 +471,14 @@
         
         function getSubCatogoryFilterList() {
         	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
             if ($.trim(sub_category_of_land) == "") {
             	$("#sub_category_of_land option:not(:first)").remove();
-        	 	var myParams = {village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
+        	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getSubCategoryFilterListInLandAcquisition",
                     data: myParams, cache: false,

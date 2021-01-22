@@ -420,7 +420,7 @@
                                     <p> <label for="rivision_no">As Built Drawing Status</p>
                                     <select name="as_built_status" id="as_built_status" class="searchable">
                                         <option value="" selected>Select</option>
-                                        	 <c:forEach var="obj" items="${revisionStatuses }">
+                                        	 <c:forEach var="obj" items="${asBuiltStatuses }">
 		                                    	<option value="${obj.as_built_status }" <c:if test="${designDetails.as_built_status eq obj.as_built_status}">selected</c:if>>${obj.as_built_status }</option>
 		                                    </c:forEach>
                                     </select>
@@ -489,7 +489,7 @@
 		                                                    <select class="searchable" id="revision_status_fks${index.count }" name="revision_status_fks">
 		                                                        <option value="" selected>Select </option>
 		                                                          <c:forEach var="obj" items="${revisionStatuses }">
-				                                    				<option value="${obj.as_built_status }" <c:if test="${revObj.revision_status_fk eq obj.as_built_status}">selected</c:if>>${obj.as_built_status }</option>
+				                                    				<option value="${obj.revision_status }" <c:if test="${revObj.revision_status_fk eq obj.revision_status}">selected</c:if>>${obj.revision_status }</option>
 				                                  				  </c:forEach>
 		                                                    </select>
 		                                                </td>
@@ -538,7 +538,7 @@
 	                                                    <select class="searchable" id="revision_status_fks0" name="revision_status_fks">
 	                                                        <option value="" selected>Select </option>
 	                                                          <c:forEach var="obj" items="${revisionStatuses }">
-			                                    				<option value="${obj.as_built_status }">${obj.as_built_status }</option>
+			                                    				<option value="${obj.revision_status }">${obj.revision_status }</option>
 			                                  				  </c:forEach>
 	                                                    </select>
 	                                                </td>
@@ -1274,7 +1274,7 @@
 			  +'<select class="searchable" id="revision_status_fks'+rNo+'" name="revision_status_fks">'
 		      +'<option value="" selected>Select </option>'
 		        <c:forEach var="obj" items="${revisionStatuses }">
-			  	  +'<option value="${obj.as_built_status }">${obj.as_built_status }</option>'
+			  	  +'<option value="${obj.revision_status }">${obj.revision_status }</option>'
 				</c:forEach>
 			  +'</select></td>'
 			  +'<td> <input id="remarkss'+rNo+'" name="remarkss" type="text" class="validate" placeholder="Remarks"></td>'

@@ -378,7 +378,7 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getRevisionStatuses()throws Exception{
 		List<Design> objList = null;
 		try {
-			String qry ="select revision_status as as_built_status from revision_status";
+			String qry ="select revision_status from revision_status";
 				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -386,7 +386,17 @@ public class DesignDaoImpl implements DesignDao{
 		return objList;
 	}
 	
-
+	@Override
+	public List<Design> getAsBuiltStatuses()throws Exception{
+		List<Design> objList = null;
+		try {
+			String qry ="select as_built_status from as_built_status";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objList;
+	}
 
 
 	@Override

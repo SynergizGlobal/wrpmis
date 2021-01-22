@@ -222,10 +222,10 @@
                                     </select>
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field" id="organization_name_holder" style="display:none;">
-                                    <input id="organization_name" name="organization_name" type="text" class="validate">
-                                    <label for="organization_name">Organization Name </label>
-                                    <span id="organization_nameError" class="error-msg" ></span>
+                                <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
+                                    <input id="other_organization" name="other_organization" type="text" class="validate" value="${issue.other_organization}">
+                                    <label for="other_organization">Organization Name </label>
+                                    <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
                             </div>
 
@@ -254,11 +254,11 @@
 	                                    <span id="escalated_toError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <input id="escalated_date" name="escalated_date" type="text" class="validate datepicker">
-	                                    <label for="escalated_date"> Escalated Date</label>
-	                                    <button type="button" id="escalated_date_icon"><i
+	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
+	                                    <label for="escalation_date"> Escalated Date</label>
+	                                    <button type="button" id="escalation_date_icon"><i
 	                                            class="fa fa-calendar"></i></button>
-	                                    <span id="escalated_dateError" class="error-msg" ></span>
+	                                    <span id="escalation_dateError" class="error-msg" ></span>
 		                             </div>
 	                             </div>
                             </div>
@@ -365,12 +365,12 @@
                 event.stopPropagation();
                 $('#resolved_date').click();
             });
-            $('#escalated_date_icon').click(function () {
+            $('#escalation_date_icon').click(function () {
                 event.stopPropagation();
-                $('#escalated_date').click();
+                $('#escalation_date').click();
             });
             
-            $('#escalated_date').datepicker({ 
+            $('#escalation_date').datepicker({ 
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
@@ -691,13 +691,20 @@
         	        $(this).valid();
         	    }
         	}); */
-        	  $("#zonal_railway_fk").change(function () {
-                  if($('#zonal_railway_fk').val()=='Others'){
-                  	$('#organization_name_holder').show();
-                  } else{
-                  	$('#organization_name_holder').hide();
-                  }
-              });
+       	  	$("#zonal_railway_fk").change(function () {
+       		  	 $('#other_organization').val("");
+                 if($('#zonal_railway_fk').val()=='Others'){
+                 	$('#other_organization_holder').show();
+                 } else{
+                 	$('#other_organization_holder').hide();
+                 }
+            });
+        	
+        	var responsibleOrganization = '${issue.zonal_railway_fk}';
+        	
+        	if($.trim(responsibleOrganization) == 'Others'){
+        		$('#other_organization_holder').show();
+        	}
             
     </script>
 </body>

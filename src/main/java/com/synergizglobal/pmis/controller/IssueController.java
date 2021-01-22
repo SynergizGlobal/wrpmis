@@ -266,7 +266,8 @@ public class IssueController {
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			
 			obj.setDate(DateParser.parse(obj.getDate()));			
-			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
+			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));			
+			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
 			
 			boolean flag = issueService.addIssue(obj);
 			if(flag) {
@@ -360,6 +361,7 @@ public class IssueController {
 			
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
+			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
 			
 			boolean flag = issueService.updateIssue(obj);
 			if(flag) {

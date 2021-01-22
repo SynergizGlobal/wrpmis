@@ -14,7 +14,7 @@ public class Design {
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
 	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,
-	 project_id,work_id,project_name,contract_id;
+	 project_id,work_id,project_name,contract_id,revision_status;
 	
 	
 	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
@@ -548,6 +548,14 @@ public class Design {
 		}
 	    
 	    return flag;            
+	}
+
+	public String getRevision_status() {
+		return revision_status;
+	}
+
+	public void setRevision_status(String revision_status) {
+		this.revision_status = revision_status;
 	}
 
 }

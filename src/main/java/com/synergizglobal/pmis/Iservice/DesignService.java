@@ -25,6 +25,8 @@ public interface DesignService {
 	public List<Design> getPreparedByList() throws Exception;
 
 	public List<Design> getRevisionStatuses() throws Exception;
+	
+	public List<Design> getAsBuiltStatuses()throws Exception;
 
 	public boolean addDesign(Design obj) throws Exception;
 

@@ -339,6 +339,9 @@ public class DesignController {
 			List<Design> revisionStatuses = designService.getRevisionStatuses();
 			model.addObject("revisionStatuses", revisionStatuses);
 			
+			List<Design> asBuiltStatuses = designService.getAsBuiltStatuses();
+			model.addObject("asBuiltStatuses", asBuiltStatuses);
+			
 			List<Issue> issueCategoryList = issueService.getIssuesCategoryList();	
 			model.addObject("issueCategoryList", issueCategoryList);
 			
@@ -388,6 +391,9 @@ public class DesignController {
 			
 			List<Design> revisionStatuses = designService.getRevisionStatuses();
 			model.addObject("revisionStatuses", revisionStatuses);
+			
+			List<Design> asBuiltStatuses = designService.getAsBuiltStatuses();
+			model.addObject("asBuiltStatuses", asBuiltStatuses);
 			
 			List<Issue> issueCategoryList = issueService.getIssuesCategoryList();	
 			model.addObject("issueCategoryList", issueCategoryList);

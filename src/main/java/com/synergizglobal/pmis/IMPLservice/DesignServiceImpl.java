@@ -62,6 +62,11 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> getRevisionStatuses() throws Exception{
 		return designDao.getRevisionStatuses();
 	}
+	
+	@Override
+	public List<Design> getAsBuiltStatuses()throws Exception{
+		return designDao.getAsBuiltStatuses();
+	}
 
 	@Override
 	public boolean addDesign(Design obj) throws Exception {

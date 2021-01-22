@@ -22,6 +22,10 @@
         .no-mar .row {
             margin-bottom: 0;
         }        
+        .input-field .searchable_label{
+			font-size:0.85rem;
+			margin-bottom:5px !important;
+		}
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -46,7 +50,7 @@
                         	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                  <p><label> Project </label></p>    
+                                 <p class="searchable_label"> Project </p>    
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -57,7 +61,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p><label> Work </label></p> 
+                                <p class="searchable_label"> Work </p> 
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
@@ -70,7 +74,7 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                   <p><label> Contract </label></p> 
+                                  <p class="searchable_label"> Contract </p> 
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
@@ -86,7 +90,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 
                                 <div class="col s12 m4 input-field">
-                                 <p><label>Department </label></p> 
+                                <p class="searchable_label">Department </p> 
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
@@ -107,7 +111,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p><label>Issue Category </label></p>                                 
+                               <p class="searchable_label">Issue Category </p>                                 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesCategoryList }">
@@ -117,7 +121,7 @@
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p><label>Issue Priority </label></p> 
+                                <p class="searchable_label">Issue Priority </p> 
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesPriorityList }">
@@ -132,7 +136,7 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                 <p><label>Issue Status </label></p> 
+                                <p class="searchable_label">Issue Status </p> 
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesStatusList }">
@@ -209,7 +213,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p><label> Responsible Organization</label></p>
+                                   <p class="searchable_label"> Responsible Organization</p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">
@@ -217,6 +221,11 @@
                                         </c:forEach>
                                     </select>
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field" id="organization_name_holder" style="display:none;">
+                                    <input id="organization_name" name="organization_name" type="text" class="validate">
+                                    <label for="organization_name">Organization Name </label>
+                                    <span id="organization_nameError" class="error-msg" ></span>
                                 </div>
                             </div>
 
@@ -231,19 +240,27 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
-                                    <label for="resolved_date"> Resolved Date</label>
-                                    <button type="button" id="resolved_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="resolved_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
-                                    <label for="escalated_to">Escalated To </label>
-                                    <span id="escalated_toError" class="error-msg" ></span>
-                                </div>
-
+                                 <div class="col m8 ">
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
+	                                    <label for="resolved_date"> Resolved Date</label>
+	                                    <button type="button" id="resolved_date_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="resolved_dateError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
+	                                    <label for="escalated_to">Escalated To </label>
+	                                    <span id="escalated_toError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="escalated_date" name="escalated_date" type="text" class="validate datepicker">
+	                                    <label for="escalated_date"> Escalated Date</label>
+	                                    <button type="button" id="escalated_date_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="escalated_dateError" class="error-msg" ></span>
+		                             </div>
+	                             </div>
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -348,6 +365,18 @@
                 event.stopPropagation();
                 $('#resolved_date').click();
             });
+            $('#escalated_date_icon').click(function () {
+                event.stopPropagation();
+                $('#escalated_date').click();
+            });
+            
+            $('#escalated_date').datepicker({ 
+  	    	    format:'dd-mm-yyyy',
+  	    	    //perform click event on done button
+  	    	    onSelect: function () {
+  	    	       $('.confirmation-btns .datepicker-done').click();
+  	    	    }
+  	        });
                       
             var project_id_fk = "${issue.project_id_fk}";
             if ($.trim(project_id_fk) != '') {
@@ -662,6 +691,13 @@
         	        $(this).valid();
         	    }
         	}); */
+        	  $("#zonal_railway_fk").change(function () {
+                  if($('#zonal_railway_fk').val()=='Others'){
+                  	$('#organization_name_holder').show();
+                  } else{
+                  	$('#organization_name_holder').hide();
+                  }
+              });
             
     </script>
 </body>

@@ -464,7 +464,7 @@ public class ExpenditureController {
 						
 						int count = uploadExpenditures(expenditure,userId,userName);
 					
-						attributes.addFlashAttribute("success", + count + " Expenditures updated successfully.");	
+						attributes.addFlashAttribute("success", + count + " Expenditures uploaded successfully.");	
 						
 					}
 					workbook.close();

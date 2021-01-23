@@ -551,7 +551,9 @@
 	  			 		  required: false
 	  			 	  },"amount_withheld": {
 	  			 		  required: false
-	  			 	  }		
+	  			 	  },"igst_tds": {
+	  			 		  required: false
+	  			 	  }	
 	  		 	},
 	  		    messages: {
 	  		 		   "project_id_fk": {
@@ -583,6 +585,8 @@
 	  			 	  },"contractor_income_tax": {
 	  			 		required: 'Required'
 	  			 	  },"cgst_tds": {
+	  			 		required: 'Required'
+	  			 	  },"igst_tds": {
 	  			 		required: 'Required'
 	  			 	  },"sgst_tds": {
 	  			 		required: 'Required'
@@ -642,6 +646,27 @@
 					 }else if(element.attr("id") == "remarks" ){
 					     document.getElementById("remarksError").innerHTML="";
 				 	     error.appendTo('#remarksError');
+					 }else if(element.attr("id") == "cgst_tds" ){
+					     document.getElementById("cgst_tdsError").innerHTML="";
+				 	     error.appendTo('#cgst_tdsError');
+					 }else if(element.attr("id") == "sgst_tds" ){
+					     document.getElementById("sgst_tdsError").innerHTML="";
+				 	     error.appendTo('#sgst_tdsError');
+					 }else if(element.attr("id") == "vat_wct" ){
+					     document.getElementById("vat_wctError").innerHTML="";
+				 	     error.appendTo('#vat_wctError');
+					 }else if(element.attr("id") == "igst_tds" ){
+					     document.getElementById("igst_tdsError").innerHTML="";
+				 	     error.appendTo('#igst_tdsError');
+					 }else if(element.attr("id") == "mob_advance" ){
+					     document.getElementById("mob_advanceError").innerHTML="";
+				 	     error.appendTo('#mob_advanceError');
+					 }else if(element.attr("id") == "interest_on_mob_adv" ){
+					     document.getElementById("interest_on_mob_advError").innerHTML="";
+				 	     error.appendTo('#interest_on_mob_advError');
+					 }else if(element.attr("id") == "amount_withheld" ){
+					     document.getElementById("amount_withheldError").innerHTML="";
+				 	     error.appendTo('#amount_withheldError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

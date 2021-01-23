@@ -78,7 +78,15 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		
+		.my-error-class{
+		color:red!important; 
+		}
 				
+		.input-field>label:not(.label-icon).active {
+		    -webkit-transform: translateY(-24px) scale(0.8);
+		    transform: translateY(-24px) scale(0.8);
+		}
     </style>
 </head>
 

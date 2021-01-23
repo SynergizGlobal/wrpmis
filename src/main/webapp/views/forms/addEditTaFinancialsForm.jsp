@@ -78,6 +78,10 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		label.my-error-class{
+			position: relative;
+    		font-size: 0.85rem;
+		}
 		
     </style>
 </head>

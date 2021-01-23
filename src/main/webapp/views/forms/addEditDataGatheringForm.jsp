@@ -97,7 +97,7 @@
 											<c:forEach var="obj" items="${projectsList }">
 		                                         <option value="${obj.project_id_fk }" >${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
 		                                    </c:forEach>
-									</select> <span id="project_fkError" class="error-msg"></span>
+									</select> <span id="project_id_fkError" class="error-msg"></span>
 								</div>
 								<div class="col s12 m4 input-field">
 									<p class="searchable_label">Work</p>
@@ -107,7 +107,7 @@
 										 	<c:forEach var="obj" items="${formWorksList }">
 	                                      	   	<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
 	                                        </c:forEach>
-									</select> <span id="work_fkError" class="error-msg"></span>
+									</select> <span id="work_id_fkError" class="error-msg"></span>
 								</div>
 								<div class="col m2 hide-on-small-only"></div>
 						</div>
@@ -121,7 +121,7 @@
 										 <c:forEach var="obj" items="${contractsList }">
                                       	    <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                          </c:forEach>
-								</select> <span id="contract_fkError" class="error-msg"></span>
+								</select> <span id="contract_id_fkError" class="error-msg"></span>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
@@ -454,6 +454,10 @@
   			 		required: false
   			 	  },"work_id_fk": {
   			 		required: true
+  			 	  },"project_id_fk": {
+  			 		required: true
+  			 	  },"contract_id_fk": {
+  			 		required: true
   			 	  },"status_fk": {
   		 		    required: false
   			 	  }
@@ -462,6 +466,10 @@
   		 		 "project_priority_fk": {
   				 	required: 'This field is required',
   			 	  },"work_id_fk": {
+  			 		required: ' This field is required'
+  			 	  },"project_id_fk": {
+  			 		required: ' This field is required'
+  			 	  },"contract_id_fk": {
   			 		required: ' This field is required'
   			 	  },"status_fk": {
   		 			required: ' This field is required'
@@ -474,9 +482,15 @@
 				}else if(element.attr("id") == "work_id_fk" ){
 				   document.getElementById("work_id_fkError").innerHTML="";
 			 	   error.appendTo('#work_id_fkError');
+				}else if(element.attr("id") == "project_id_fk" ){
+					   document.getElementById("project_id_fkError").innerHTML="";
+				 	   error.appendTo('#project_id_fkError');
 				}else if(element.attr("id") == "status_fk" ){
 					document.getElementById("status_fkError").innerHTML="";
 				 	error.appendTo('#status_fkError');
+				}else if(element.attr("id") == "contract_id_fk" ){
+					   document.getElementById("contract_id_fkError").innerHTML="";
+				 	   error.appendTo('#contract_id_fkError');
 				}else{
  					error.insertAfter(element);
 		        } 

@@ -435,7 +435,7 @@
 	  			 	  },"contract_id_fk": {
 	  		 		    required: true
 	  			 	  },"deliverable_type_fk": {
-	  		 		    required: false
+	  		 		    required: true
 	  			 	  },"project_priority_fk": {
 	  		 		    required: false
 	  			 	  },"status_fk": {

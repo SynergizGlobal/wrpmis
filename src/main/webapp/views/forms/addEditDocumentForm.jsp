@@ -180,12 +180,13 @@
                                  
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Document Type </p>
-                                    <select class="searchable" name="document_type_fk" id="document_type_fk">
+                                    <select class="searchable validate-dropdown" name="document_type_fk" id="document_type_fk">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${documentTypeList }">
 		                                     <option value="${obj.document_type_fk }" <c:if test="${documentDetails.document_type_fk eq obj.document_type_fk}">selected</c:if>>${obj.document_type_fk}</option>
 		                                </c:forEach>
                                     </select>
+                                    <span id="document_type_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -644,9 +645,11 @@
 		  		    rules: {
 		  		 		  "project_id_fk": {
 		  			 		required: true
-		  			 	  },"work_id_fk": {
+		  			 	  },"work_id_fk": {										
 		  			 		required: true
 		  			 	  },"contract_id_fk": {
+		  		 		    required: true
+		  			 	  },"document_type_fk": {
 		  		 		    required: true
 		  			 	  }
 		  		 	},
@@ -656,6 +659,8 @@
 		  			 	  },"work_id_fk": {
 		  			 		required: ' This field is required'
 		  			 	  },"contract_id_fk": {
+		  		 			required: ' This field is required'
+		  		 	  	  },"document_type_fk": {
 		  		 			required: ' This field is required'
 		  		 	  	  }
 			   		},
@@ -669,6 +674,9 @@
 						}else if(element.attr("id") == "contract_id_fk" ){
 							document.getElementById("contract_id_fkError").innerHTML="";
 						 	error.appendTo('#contract_id_fkError');
+						}else if(element.attr("id") == "document_type_fk" ){
+							document.getElementById("document_type_fkError").innerHTML="";
+						 	error.appendTo('#document_type_fkError');
 						}else{
 		 					error.insertAfter(element);
 				        } 

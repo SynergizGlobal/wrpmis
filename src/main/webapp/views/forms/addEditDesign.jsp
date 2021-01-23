@@ -130,6 +130,7 @@
 						  
 						   <input type="hidden" id="design_id" name="design_id" value="${designDetails.design_id }">
 						    <div class="container container-no-margin">
+						    <c:if test="${action eq 'add'}">	
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -156,9 +157,25 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+                            </c:if>
+ 							<c:if test="${action eq 'edit'}">	
+	                             <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                               
+	                                <div class="col s12 m4 input-field">
+										<p class="searchable_label">Project</p>
+	                                         	 	<input type="text" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
+								    </div> 
+	                                <div class="col s12 m4 input-field"> 
+									    <p class="searchable_label"> Work </p>
+	                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+                            </c:if>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
+                                <c:if test="${action eq 'add'}">
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract </p>
                                      <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
@@ -170,6 +187,13 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
+                                </c:if>
+                                <c:if test="${action eq 'edit'}">
+                                <div class="col s12 m4 input-field"> 
+									    <p class="searchable_label"> Contract </p>
+	                                         	 	<input type="text" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
+	                                </div>
+                                 </c:if>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Department </p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">

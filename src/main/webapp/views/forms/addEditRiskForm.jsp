@@ -197,7 +197,7 @@
 							    </div> 
                                 <div class="col s12 m4 input-field"> 
 								    <p class="searchable_label"> Work </p>
-                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${riskDetails.work_id_fk}- ${riskDetails.work_name}" readonly />
+                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${riskDetails.work_id_fk}- ${riskDetails.work_short_name}" readonly />
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>

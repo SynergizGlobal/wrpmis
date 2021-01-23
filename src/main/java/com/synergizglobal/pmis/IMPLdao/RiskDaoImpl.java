@@ -587,7 +587,7 @@ public class RiskDaoImpl implements RiskDao{
 		Risk sObj =null;
 		
 		try {
-			String qry = "SELECT risk_id_pk,w.work_id,work_id_fk,w.work_name,project_id_fk,ra.area,p.project_name,risk_id,date_of_identification,sub_area_fk from risk r  "+
+			String qry = "SELECT risk_id_pk,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,ra.area,p.project_name,risk_id,date_of_identification,sub_area_fk from risk r  "+
 					"LEFT OUTER join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
 					"left join risk_area ra on rsa.risk_area_fk = ra.area "+

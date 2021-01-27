@@ -150,7 +150,7 @@ public class RiskReportController {
 	
 	@RequestMapping(value = "/generate-risk-analysis-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateRiskAnalysisReport(@ModelAttribute RiskReport obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView(PageConstants.riskGrid);
+		ModelAndView model = new ModelAndView("redirect:/risk-analysis-report");
 		try{
             //String directory = CommonConstants.EARTH_WORK_REPORTS_FILE_SAVING_PATH;
 			

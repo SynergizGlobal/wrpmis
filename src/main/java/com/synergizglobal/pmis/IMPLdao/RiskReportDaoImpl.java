@@ -64,12 +64,15 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		RiskReport riskObject = null;
 		List<RiskReport> areaList = null;
 		try {
-			String qry = "select work_id_fk,DATE_FORMAT(assessment_date,'%d-%m-%Y') AS assessment_date,work_id,work_name,work_short_name,project_id,project_name,owner "
+			String qry = "select work_id_fk,DATE_FORMAT(assessment_date,'%d-%m-%Y') AS assessment_date,work_id,work_name,work_short_name,"
+					+ "project_id,project_name,owner,"
+					+ "(select IFNULL((select latest_revised_cost from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc limit 1),sanctioned_estimated_cost) from work where work_id = ?) as estimatedOrRevisedCost,"
+					+ "(select IFNULL((select financial_year from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc limit 1),sanctioned_year_fk) from work where work_id = ?) as estimatedOrRevisedDate "
 					+ "from risk_view rv " 
 					+ "left outer join work_view wv on rv.work_id_fk = wv.work_id "
 					+ "where work_id_fk = ? and assessment_date = ? limit 1";
 			
-			Object[] pValues = new Object[] {obj.getWork_id(),obj.getAssessment_date()};
+			Object[] pValues = new Object[] {obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getAssessment_date()};
 			
 			riskObject = (RiskReport)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			

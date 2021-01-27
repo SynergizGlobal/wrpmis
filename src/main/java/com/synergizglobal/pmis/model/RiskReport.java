@@ -5,7 +5,7 @@ import java.util.List;
 public class RiskReport {
 	private String id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,
 	priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date,
-	work_id,work_short_name,project_id,project_name,work_name,project_id_fk;
+	work_id,work_short_name,project_id,project_name,work_name,project_id_fk,estimatedOrRevisedCost,estimatedOrRevisedDate;
 	
 	private List<RiskReport> areaList;
 	private List<RiskReport> subAreaList; 
@@ -251,6 +251,22 @@ public class RiskReport {
 
 	public void setAreaList(List<RiskReport> areaList) {
 		this.areaList = areaList;
+	}
+
+	public String getEstimatedOrRevisedCost() {
+		return estimatedOrRevisedCost;
+	}
+
+	public void setEstimatedOrRevisedCost(String estimatedOrRevisedCost) {
+		this.estimatedOrRevisedCost = estimatedOrRevisedCost;
+	}
+
+	public String getEstimatedOrRevisedDate() {
+		return estimatedOrRevisedDate;
+	}
+
+	public void setEstimatedOrRevisedDate(String estimatedOrRevisedDate) {
+		this.estimatedOrRevisedDate = estimatedOrRevisedDate;
 	}
 
 }

@@ -78,8 +78,13 @@ public class DocxTableCreation {
 			/******************************* Headers *********************************************/
 			Tr titleRow1 = factory.createTr();		
 			List<String> tableHeader1 = new ArrayList<String>();
-		  	tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()+"\nDate of Risk Assessment - "+obj.getAssessment_date());
-		  	tableHeader1.add("");
+		  	//tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()+"\nDate of Risk Assessment - "+obj.getAssessment_date());
+			tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()
+			+"\nSanction Details: "
+			+ "\nEstimated/Revised Cost : "+obj.getEstimatedOrRevisedCost() + " Cr"
+			+ "\nEstimated/Revised Sanction Year : "+obj.getEstimatedOrRevisedDate()
+			);
+			tableHeader1.add("");
 		  	tableHeader1.add("");
 		  	tableHeader1.add("");
 		  	tableHeader1.add("");
@@ -98,7 +103,7 @@ public class DocxTableCreation {
 			/****************************************************************************/
 			Tr titleRow2 = factory.createTr();		
 			List<String> tableHeader2 = new ArrayList<String>();
-		  	tableHeader2.add("RISK ANALYSIS" );
+		  	tableHeader2.add("RISK ANALYSIS               " + "Date of assessment: "+obj.getAssessment_date() );
 		  	tableHeader2.add("");
 		  	tableHeader2.add("");
 		  	tableHeader2.add("");
@@ -107,7 +112,7 @@ public class DocxTableCreation {
 			
 			for (String headerValue : tableHeader2) {
 				addTableCell(factory, wordMLPackage, titleRow2, headerValue, titleRpr,
-						JcEnumeration.CENTER, true, "ecf2ff");
+						JcEnumeration.RIGHT, true, "ecf2ff");
 			}		
 			reportTable.getContent().add(titleRow2);	
 			mergeCellsHorizontal(reportTable, 1, 0, 5);

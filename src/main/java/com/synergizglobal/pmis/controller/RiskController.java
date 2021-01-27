@@ -92,7 +92,7 @@ public class RiskController {
 	
 	@RequestMapping(value="/risk",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView risk(HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants.riskGrid);
+		ModelAndView model = new ModelAndView(PageConstants.updateRiskGrid);
 		try {
 			
 		}catch (Exception e) {
@@ -320,6 +320,18 @@ public class RiskController {
 		return model;
 	}
 	
+	@RequestMapping(value="/upload-download-risk",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView uploadDownloadRisk(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.uploadDownloadRiskGrid);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadDownloadRisk : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	@RequestMapping(value = "/upload-risk", method = {RequestMethod.POST})
 	public ModelAndView uploadRisk(@ModelAttribute Risk risk,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
@@ -327,8 +339,8 @@ public class RiskController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
-			model.setViewName("redirect:/risk");
-			
+			//model.setViewName("redirect:/risk");
+			model.setViewName("redirect:/upload-download-risk");
 			if(!StringUtils.isEmpty(risk.getRiskFile())){
 				MultipartFile multipartFile = risk.getRiskFile();
 				// Creates a workbook object from the uploaded excelfile
@@ -583,7 +595,8 @@ public class RiskController {
 		List<RiskReport> riskDataList = new ArrayList<RiskReport>();
 		List<RiskReport> atrRevisionDataList = new ArrayList<RiskReport>();
 		try {
-			view.setViewName("redirect:/risk");
+			view.setViewName("redirect:/upload-download-risk");
+			risk.setAssessment_date(DateParser.parse(risk.getAssessment_date()));
 			riskDataList =   riskService.getExportRiskList(risk);
 			atrRevisionDataList =   riskService.getATRRevisionDataList(risk);
 				
@@ -599,9 +612,12 @@ public class RiskController {
 	        
 	        XSSFSheet riskSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Risk"));
 	        workBook.setSheetOrder(riskSheet.getSheetName(), 2);
+	        workBook.setActiveSheet(2);
 	        
 	        XSSFSheet revisionSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("ATR Revision"));
 	        workBook.setSheetOrder(revisionSheet.getSheetName(), 3);
+	        
+	       
 	        
 	        /***************************************************************************/
 	        

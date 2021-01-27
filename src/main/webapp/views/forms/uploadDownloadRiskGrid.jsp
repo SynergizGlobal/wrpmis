@@ -87,10 +87,13 @@
                         </div>
                     </span>
                     <div class="">
-                    <c:if test="${not empty success }">
+                    	<c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
 							   ${success}
 							</div>
+						</c:if>
+						<c:if test="${not empty updateSuccess }">
+					      
 							<div class="center-align m-1 close-message">	
 							   ${updateSuccess}
 							</div>
@@ -122,13 +125,13 @@
 	                                    <div class="row">
 	                                        <div class="col s12 m4 input-field" style="margin-top:0">
 	                                        	<p class="searchable_label left-align">Work</p>
-	                                            <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable" required="required">
+	                                            <select id="work_id_fk" name="work_id_fk" onchange="getAssessmentDates(this.value);"  class="searchable" required="required">
 	                                            	<option value="" >Select</option>	                                           
 	                                            </select>
 	                                        </div>
 	                                        <div class="col s12 m4 input-field" style="margin-top:0">
 				                                <p class="searchable_label left-align">Assessment Date</p>
-				                                  <select id="assessment_date" name="assessment_date" onchange="getRiskList();" class="searchable">
+				                                  <select id="assessment_date" name="assessment_date" class="searchable">
 				                                  		<option value="" >Select </option>	                                           
 				                                 </select>
 				                            </div>
@@ -274,7 +277,7 @@
                   $("#downloadWork").removeClass('disabled');
               }
           });
-          getRiskList();
+          getWorksFilterList();
       });
       
 	    function  openUploadRiskModal() { 
@@ -320,278 +323,38 @@
 			  }
 		});
   	
-        
-        
-        
-        
-        function clearFilters() {
-            $('#work_id_fk').val('');
-            $('#area').val('');
-            $('#classification').val('');
-            $('#priority').val('');
-            $('#responsible_person').val('');
-            $("#assessment_date").val('');
-            getRiskList();
-            $("#downloadWork").addClass('disabled');
-            $('.searchable').select2();
-        }
-        
-        
-        function getRiskList(){
-        	$(".page-loader-2").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-        	getWorksFilterList();
-         	getAreasFilterList();
-         	getPrioritiesFilterList();
-         	getClassificationsFilterList();
-         	getResponsiblePersonsFilterList();
-         	getAssessmentDatesFilterList();
-        	table = $('#datatable-risk').DataTable();
-    		table.destroy();
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#datatable-risk').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] }
-                ],
-                // "ScrollX": true,
-                "sScrollX": "100%",
-                 "sScrollXInner": "100%",
-                 "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }).rows().remove().draw();
-    		
-    		table.state.clear();		
-    		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-risk-list",type:"POST",data:myParams,success : function(data){    				
-    			if(data != null && data != '' && data.length > 0){    					
-             		$.each(data,function(key,val){
-             			var risk_id_pk = "'"+val.risk_id_pk+"'";
-                        var actions = '<a href="javascript:void(0);"  onclick="getRisk('+ risk_id_pk +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-    /*                     			  +'<a onclick="deleteRIsk('+risk_id_pk+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
-     */                   	var rowArray = [];    	                 
-    
-                    	var workName = '';
-                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                        
-                       
-                       	rowArray.push($.trim(val.risk_id));
-                       	rowArray.push($.trim(val.area));
-                       	rowArray.push($.trim(val.sub_area));
-                    	rowArray.push($.trim(val.assessment_date));
-                       	rowArray.push($.trim(val.owner));
-                       	rowArray.push($.trim(val.responsible_person));
-                       	rowArray.push($.trim(val.priority));
-                    	rowArray.push($.trim(val.classification));
-                       	rowArray.push($.trim(actions));   	                   	
-                       	
-                        table.row.add(rowArray).draw( true );
-                        		                       
-    				});
-             		
-             		$(".page-loader-2").hide();
-    			}else{
-    				$(".page-loader-2").hide();
-    			}
-    			
-    		},error: function (jqXHR, exception) {
-    			$(".page-loader-2").hide();
-             	getErrorMessage(jqXHR, exception);
-         }});
-       }
-        
-        
+       
         function getWorksFilterList() {
-        	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-            if ($.trim(work_id_fk) == "") {
-            	$("#work_id_fk option:not(:first)").remove();
-        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
-            	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRisk",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	 var workShortName = '';
-                                 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
+       		$(".page-loader").show();
+           	$("#work_id_fk option:not(:first)").remove();
+       		var myParams = {};
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRisk",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                           	 var workShortName = '';
+                                if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+   	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+            
         }
         
-        function getAreasFilterList() {
+     
+        function getAssessmentDates(work_id_fk) {
         	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-            if ($.trim(area) == "") {
-            	$("#area option:not(:first)").remove();
-        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getAreasFilterListInRisk",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-    	                           $("#area").append('<option value="' + val.area + '">' + $.trim(val.area)   +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        function getPrioritiesFilterList() {
-        	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-            if ($.trim(priority) == "") {
-            	$("#priority option:not(:first)").remove();
-        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
-            	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getPrioritiesFilterListInRisk",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-    	                           $("#priority").append('<option value="' + val.priority + '">' + $.trim(val.priority)   +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        
-        function getClassificationsFilterList() {
-        	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-            if ($.trim(classification) == "") {
-            	$("#classification option:not(:first)").remove();
-        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
-            	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getClassificationsFilterListInRisk",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-    	                           $("#classification").append('<option value="' + val.classification + '">' + $.trim(val.classification)   +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        function getResponsiblePersonsFilterList() {
-        	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-            if ($.trim(responsible_person) == "") {
-            	$("#responsible_person option:not(:first)").remove();
-        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
-            	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsFilterListInRisk",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-    	                           $("#responsible_person").append('<option value="' + val.responsible_person + '">' + $.trim(val.responsible_person)   +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        function getAssessmentDatesFilterList() {
-        	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-            if ($.trim(assessment_date) == "") {
+            if ($.trim(work_id_fk) != "") {
             	$("#assessment_date option:not(:first)").remove();
-        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
+        		var myParams = {work_id_fk : work_id_fk};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getAssessmentDatesFilterListInRisk",
                     data: myParams, cache: false,
@@ -612,17 +375,6 @@
             	  $(".page-loader").hide();
             }
         }
-        
-        function getRisk(risk_id_pk){
-        	$("#risk_id_pk").val(risk_id_pk);
-        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-risk');
-        	$('#getForm').submit();
-        }
-        function deleteRisk(risk_id_pk){
-        	$("#risk_id_pk").val(risk_id_pk);
-        	showCancelMessage();
-        }
-        	
         
       	//This function is used to get error message for all ajax calls
         function getErrorMessage(jqXHR, exception) {
@@ -646,30 +398,7 @@
          }
         
         
-      	
-        function showCancelMessage() {
-        	swal({
-                title: "Are you sure?",
-                text: "You will be able to change the status of record!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                cancelButtonText: "No, cancel it!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            }, function (isConfirm) {
-                if (isConfirm) {
-                   // swal("Deleted!", "Record has been deleted", "success");
-                	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-risk');
-        	    	$('#getForm').submit();
-               }else {
-                    swal("Cancelled", "Record is safe :)", "error");
-                }
-            });
-        }
-        
-
+      
     </script>
 
 </body>

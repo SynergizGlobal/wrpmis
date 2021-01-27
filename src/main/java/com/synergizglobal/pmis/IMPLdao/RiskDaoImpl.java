@@ -1259,9 +1259,18 @@ public class RiskDaoImpl implements RiskDao{
 							+ "priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date "
 							+ "from risk_view rv " 
 							+ "where rv.work_id_fk = ?";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and assessment_date = ?";
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
 			
-			Object[] pValues = new Object[] {obj.getWork_id_fk()};
-			
+			int i = 0;
+			pValues[i++] = obj.getWork_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
 			risksList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			
 		}catch(Exception e){ 

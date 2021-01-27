@@ -382,7 +382,7 @@
 		                                    <label for="division_drawing_no"> Divisional Drawing No</label>
 		                                </div>
 		                                <div class="col s12 m4 input-field" >
-		                                    <input id="submitted_to_division" name="submitted_to_division" type="text" class="validate datepicker" value="">
+		                                    <input id="submitted_to_division" name="submitted_to_division" type="text" class="validate datepicker" value="${designDetails.submitted_to_division }">
 		                                    <label for="submitted_to_division">Submitted to Division </label>
 		                                    <button type="button" id="submitted_to_division_icon"><i
 		                                            class="fa fa-calendar"></i></button>
@@ -430,7 +430,7 @@
 		                                    <label for="hq_drawing_no"> HQ Drawing No </label>
 		                                </div>
 		                                <div class="col s12 m4 input-field " >
-		                                    <input id="hq_submission" name="hq_approval" type="text" class="validate datepicker" value="">
+		                                    <input id="hq_submission" name="submitted_to_hq" type="text" class="validate datepicker" value="${designDetails.submitted_to_hq }">
 		                                    <label for="hq_submission">Submitted to HQ</label>
 		                                    <button type="button" id="hq_submission_icon"><i
 		                                            class="fa fa-calendar"></i></button>

@@ -465,6 +465,8 @@ public class DesignController {
 			obj.setHq_approval(DateParser.parse(obj.getHq_approval()));
 			obj.setGfc_released(DateParser.parse(obj.getGfc_released()));
 			obj.setAs_built_date(DateParser.parse(obj.getAs_built_date()));
+			obj.setSubmitted_to_division(DateParser.parse(obj.getSubmitted_to_division()));
+			obj.setSubmitted_to_hq(DateParser.parse(obj.getSubmitted_to_hq()));
 			
 			boolean flag =  designService.addDesign(obj);
 			if(flag) {
@@ -497,6 +499,8 @@ public class DesignController {
 			obj.setHq_approval(DateParser.parse(obj.getHq_approval()));
 			obj.setGfc_released(DateParser.parse(obj.getGfc_released()));
 			obj.setAs_built_date(DateParser.parse(obj.getAs_built_date()));
+			obj.setSubmitted_to_division(DateParser.parse(obj.getSubmitted_to_division()));
+			obj.setSubmitted_to_hq(DateParser.parse(obj.getSubmitted_to_hq()));
 
 			boolean flag =  designService.updateDesign(obj);
 			if(flag) {

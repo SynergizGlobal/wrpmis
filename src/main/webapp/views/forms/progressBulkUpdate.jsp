@@ -1261,8 +1261,9 @@
                 	 completed = 0;
                  }
                  if($.trim(scope) != '' && $.trim(completed) != '' ){
-                	 let remaining = parseInt(scope)- parseInt(completed);
+                	 let remaining = parseFloat(scope)- parseFloat(completed);
                      $('#actualScopes'+no).val(remaining);
+                    
                  }
                  
              }

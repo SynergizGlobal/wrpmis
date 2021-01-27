@@ -336,14 +336,12 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            
-
+                          
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
-                                    <label for="mrvc_drawing_no"> MRVC Drawing No </label>
+                                    <label for="mrvc_drawing_no">MRVC Drawing No </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="mrvc_reviewed" name="mrvc_reviewed" type="text" class="validate datepicker" value="${designDetails.mrvc_reviewed }">
@@ -356,9 +354,8 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                
-                                <div class="col s12 m3 input-field">
+                                <div class="col m4 hide-on-small-only"></div>                                
+                                <div class="col s12 m4 input-field">
                                     <p class="prio">Divisional submission ?</p>
                                     <p class="radiogroup">
                                         <label>
@@ -374,24 +371,38 @@
                                         </label>
                                     </p>
                                 </div>
-                                
-                                <div class="col s12 m3 input-field divisional_submission_fk" style="display: none;">
-                                    <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate" value="${designDetails.division_drawing_no }">
-                                    <label for="division_drawing_no"> Divisional Drawing No</label>
-                                </div>
-                                <div class="col s12 m2 input-field divisional_submission_fk" style="display: none;">
-                                    <input id="divisional_approval" name="divisional_approval" type="text" class="validate datepicker" value="${designDetails.divisional_approval }">
-                                    <label for="divisional_approval">Divisional Approval </label>
-                                    <button type="button" id="divisional_approval_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="divisional_approvalError" class="error-msg" ></span>
-                                </div>
+                                <div class="col m4 hide-on-small-only"></div>
+                             </div>
+                              <div class="row divisional_submission_fk" style="display:none;">
+                                <div class="col m2 hide-on-small-only"></div>      
+                                <div class="col s12 m8 ">
+                                	<div class="row">                                
+		                                <div class="col s12 m4 input-field" >
+		                                    <input id="division_drawing_no" name="division_drawing_no" type="text" class="validate" value="${designDetails.division_drawing_no }">
+		                                    <label for="division_drawing_no"> Divisional Drawing No</label>
+		                                </div>
+		                                <div class="col s12 m4 input-field" >
+		                                    <input id="submitted_to_division" name="submitted_to_division" type="text" class="validate datepicker" value="">
+		                                    <label for="submitted_to_division">Submitted to Division </label>
+		                                    <button type="button" id="submitted_to_division_icon"><i
+		                                            class="fa fa-calendar"></i></button>
+		                                    <span id="submitted_to_divisionError" class="error-msg" ></span>
+		                                </div>
+		                                <div class="col s12 m4 input-field" >
+		                                    <input id="divisional_approval" name="divisional_approval" type="text" class="validate datepicker" value="${designDetails.divisional_approval }">
+		                                    <label for="divisional_approval">Divisional Approval </label>
+		                                    <button type="button" id="divisional_approval_icon"><i
+		                                            class="fa fa-calendar"></i></button>
+		                                    <span id="divisional_approvalError" class="error-msg" ></span>
+		                                </div>
+		                             </div>
+                           		</div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
+							</div>
+							
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>                                
-                                <div class="col s12 m3 input-field">
+                                <div class="col m4 hide-on-small-only"></div>                                
+                                <div class="col s12 m4 input-field">
                                     <p class="prio">HQ submission ?</p>
                                     <p class="radiogroup">
                                         <label>
@@ -407,19 +418,33 @@
                                         </label>
                                     </p>
                                 </div>
-                                            
-                                            
-                                <div class="col s12 m3 input-field hq_submission_fk" style="display: none;">
-                                    <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate" value="${designDetails.hq_drawing_no }">
-                                    <label for="hq_drawing_no"> HQ Drawing No </label>
-                                </div>
-                                <div class="col s12 m2 input-field hq_submission_fk" style="display: none;">
-                                    <input id="hq_approval" name="hq_approval" type="text" class="validate datepicker" value="${designDetails.hq_approval }">
-                                    <label for="hq_approval">HQ Approval </label>
-                                    <button type="button" id="hq_approval_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="hq_approvalError" class="error-msg" ></span>
-                                </div>
+                                <div class="col m4 hide-on-small-only"></div>  
+                            </div>           
+                                 
+                            <div class="row hq_submission_fk" style="display:none;">
+                                <div class="col m2 hide-on-small-only"></div>   
+                                <div class="col s12 m8 ">
+                                	<div class="row">           
+		                                <div class="col s12 m4 input-field " >
+		                                    <input id="hq_drawing_no" name="hq_drawing_no" type="text" class="validate" value="${designDetails.hq_drawing_no }">
+		                                    <label for="hq_drawing_no"> HQ Drawing No </label>
+		                                </div>
+		                                <div class="col s12 m4 input-field " >
+		                                    <input id="hq_submission" name="hq_approval" type="text" class="validate datepicker" value="">
+		                                    <label for="hq_submission">Submitted to HQ</label>
+		                                    <button type="button" id="hq_submission_icon"><i
+		                                            class="fa fa-calendar"></i></button>
+		                                    <span id="hq_submissionError" class="error-msg" ></span>
+		                                </div>
+		                                <div class="col s12 m4 input-field ">
+		                                    <input id="hq_approval" name="hq_approval" type="text" class="validate datepicker" value="${designDetails.hq_approval }">
+		                                    <label for="hq_approval">HQ Approval </label>
+		                                    <button type="button" id="hq_approval_icon"><i
+		                                            class="fa fa-calendar"></i></button>
+		                                    <span id="hq_approvalError" class="error-msg" ></span>
+		                                </div>
+		                             </div>
+		                        </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             

@@ -606,9 +606,11 @@ public class RiskController {
 	        
 	        XSSFSheet indexSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Index"));
 	        workBook.setSheetOrder(indexSheet.getSheetName(), 0);
+	        workBook.setSheetHidden(0, true);
 	        
 	        XSSFSheet referenceDataSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
 	        workBook.setSheetOrder(referenceDataSheet.getSheetName(), 1);
+	        workBook.setSheetHidden(1, true);
 	        
 	        XSSFSheet riskSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Risk"));
 	        workBook.setSheetOrder(riskSheet.getSheetName(), 2);

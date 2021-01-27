@@ -972,7 +972,18 @@ public class RiskDaoImpl implements RiskDao{
 			con = dataSource.getConnection();
 			for (Risk obj : risksList) {
 				String riskid_pk = getRiskId(obj.getWork_id_fk(),obj.getRisk_id(),obj.getSub_area_fk(),con);
-				 obj.setRisk_id_pk(riskid_pk);
+				obj.setRisk_id_pk(riskid_pk);
+				String area_item_no = null;
+				String sub_area_item_no = null;
+				if(!StringUtils.isEmpty(obj.getItem_no())) {
+					String[] temp = obj.getItem_no().split("\\.");
+					area_item_no = temp[0];
+					sub_area_item_no = temp[1];
+				}
+				String risk_area = getRiskArea(obj.getRisk_area_fk(),area_item_no,con);
+				String risk_sub_area = getRiskSubArea(obj.getRisk_area_fk(),obj.getSub_area_fk(),sub_area_item_no,con);
+				obj.setRisk_area_fk(risk_area);
+				obj.setSub_area_fk(risk_sub_area);
 				
 				if(!StringUtils.isEmpty(riskid_pk)) {
 					NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
@@ -1006,14 +1017,18 @@ public class RiskDaoImpl implements RiskDao{
 					}
 				} else {
 					NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-					String insertQry = "insert into  risk  (work_id_fk , risk_id, sub_area_fk, date_of_identification) "
-							+ "VALUES(:work_id_fk,:risk_id,:sub_area_fk,:date_of_identification)";
+					String insertQry = "insert into  risk  (risk_id_pk,work_id_fk , risk_id, sub_area_fk, date_of_identification) "
+							+ "VALUES(:risk_id_pk,:work_id_fk,:risk_id,:sub_area_fk,:date_of_identification)";
+					
+					String risk_id_pk = getMaxRiskId(con);
+					obj.setRisk_id_pk(risk_id_pk);
 					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-					KeyHolder keyHolder = new GeneratedKeyHolder();
-					count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+					//KeyHolder keyHolder = new GeneratedKeyHolder();
+					//count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+					count = namedParamJdbcTemplate.update(insertQry, paramSource);
 					if(count > 0) {
-						String risk_id_fk = String.valueOf(keyHolder.getKey().intValue());
-						obj.setRisk_id_pk(risk_id_fk);
+						//String risk_id_fk = String.valueOf(keyHolder.getKey().intValue());
+						//obj.setRisk_id_pk(risk_id_fk);
 						
 						String insertRevisionsQry = "INSERT into risk_revision  (risk_id_pk_fk,date , priority_fk, probability , impact, owner "
 								+ ", responsible_person , mitigation_plan) "
@@ -1060,6 +1075,103 @@ public class RiskDaoImpl implements RiskDao{
 	    arr[1] = insertCount;
 		return arr;
 		
+	}
+
+	private String getRiskSubArea(String risk_area_fk, String sub_area_fk, String area_item_no, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String area = null;
+		try{
+			String riskIdQry = "select sub_area,risk_area_fk from risk_sub_area where sub_area = ? and risk_area_fk = ?";
+			stmt = con.prepareStatement(riskIdQry);
+			stmt.setString(1, sub_area_fk);
+			stmt.setString(2, risk_area_fk);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				area = rs.getString("sub_area");
+			}
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+			
+			stmt = con.prepareStatement("select sub_area,risk_area_fk from risk_sub_area where sub_area = ?");
+			stmt.setString(1, sub_area_fk);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				area = rs.getString("sub_area");
+			}
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+			
+			if(StringUtils.isEmpty(area)) {
+				
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+				stmt = con.prepareStatement("insert into risk_sub_area(sub_area,risk_area_fk,item_no)values(?,?,?)");
+				stmt.setString(1, sub_area_fk);
+				stmt.setString(2, risk_area_fk);
+				stmt.setString(3, area_item_no);
+				int c = stmt.executeUpdate(); 
+			}
+			
+			area = sub_area_fk;
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return area;
+	}
+
+	private String getRiskArea(String risk_area_fk, String area_item_no, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String area = null;
+		try{
+			String riskIdQry = "select area from risk_area where area = ?";
+			stmt = con.prepareStatement(riskIdQry);
+			stmt.setString(1, risk_area_fk);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				area = rs.getString("area");
+			}
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+			if(StringUtils.isEmpty(area)) {				
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+				stmt = con.prepareStatement("insert into risk_area(area,item_no)values(?,?)");
+				stmt.setString(1, risk_area_fk);
+				stmt.setString(2, area_item_no);
+				int c = stmt.executeUpdate(); 
+			}
+			
+			area = risk_area_fk;
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return area;
+	}
+
+	private String getMaxRiskId(Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String risk_id_pk = null;
+		try{
+			String riskIdQry = "select IFNULL(max(risk_id_pk)+1,1) as risk_id_pk from risk";
+			stmt = con.prepareStatement(riskIdQry);
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				risk_id_pk = rs.getString("risk_id_pk");
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return risk_id_pk;
 	}
 
 	private String getRevisionIdFk(String risk_id, String date) throws Exception {

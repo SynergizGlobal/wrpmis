@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,13 +18,16 @@ import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -409,6 +411,7 @@ public class RiskController {
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					//System.out.println(uploadFilesSheet.getLastRowNum());
 					for(int i = 2; i <= risksDrawingsSheet.getLastRowNum();i++){
+						
 						XSSFRow row = risksDrawingsSheet.getRow(i);
 						// Sets the Read data to the model class
 						// Cell cell = row.getCell(0);
@@ -416,60 +419,80 @@ public class RiskController {
 						//System.out.println(i);
 						risk = new Risk();
 						String val = null;
-						if(!StringUtils.isEmpty(row)) {								
-							val = formatter.formatCellValue(row.getCell(0)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setWork_id_fk(val);}
-							
-							val = formatter.formatCellValue(row.getCell(1)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setItem_no(val);}
-							
-							val = formatter.formatCellValue(row.getCell(2)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setRisk_id(val);}
-							
-							val = formatter.formatCellValue(row.getCell(3)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setOwner(val);}
-							
-							val = formatter.formatCellValue(row.getCell(4)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setArea(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(5)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setSub_area_fk(val);}					
-							
-							val = formatter.formatCellValue(row.getCell(6)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setDate(val);}								
-							
-							val = formatter.formatCellValue(row.getCell(7)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setProbability(val);}										
-							
-							val = formatter.formatCellValue(row.getCell(8)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setImpact(val);}
-							
-							val = formatter.formatCellValue(row.getCell(9)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
-							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
-							
-							
-							val = formatter.formatCellValue(row.getCell(11)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setMitigation_plan(val);}
-							
-							val = formatter.formatCellValue(row.getCell(12)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setPriority_fk(val);}
-							
-							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setResponsible_person(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { risk.setStatus(val);;}
-							
-							risk.setDate(DateParser.parse(risk.getDate()));
 						
+						if(!StringUtils.isEmpty(row)) {	
+							Cell cell = row.getCell(0);
+							if(!StringUtils.isEmpty(cell)) {
+								val = cell.getStringCellValue().trim();
+							}
+							
+							if(!StringUtils.isEmpty(val) && !val.equals("null")) {
+								//System.out.println(i + " = "+ val);
+								val = formatter.formatCellValue(row.getCell(0)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setWork_id_fk(val);}
+								
+								val = formatter.formatCellValue(row.getCell(1)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setItem_no(val);}
+								
+								val = formatter.formatCellValue(row.getCell(2)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setRisk_id(val);}
+								
+								val = formatter.formatCellValue(row.getCell(3)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setOwner(val);}
+								
+								val = formatter.formatCellValue(row.getCell(4)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setRisk_area_fk(val);}	
+								
+								val = formatter.formatCellValue(row.getCell(5)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setSub_area_fk(val);}					
+								
+								val = formatter.formatCellValue(row.getCell(6)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setDate(val);}								
+								
+								val = formatter.formatCellValue(row.getCell(7)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setProbability(val);}										
+								
+								val = formatter.formatCellValue(row.getCell(8)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setImpact(val);}
+								
+								val = getCellData(workbook,row.getCell(9));
+								//val = formatter.formatCellValue(row.getCell(9)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
+								
+								val = getCellData(workbook,row.getCell(10));
+								//val = formatter.formatCellValue(row.getCell(10)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
+								
+								
+								val = formatter.formatCellValue(row.getCell(11)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setMitigation_plan(val);}
+								
+								val = formatter.formatCellValue(row.getCell(12)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setPriority_fk(val);}
+								
+								val = formatter.formatCellValue(row.getCell(13)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setResponsible_person(val);}	
+								
+								val = formatter.formatCellValue(row.getCell(14)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setAtr_date(val);}
+								
+								val = formatter.formatCellValue(row.getCell(15)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setAction_taken(val);}
+								
+								val = formatter.formatCellValue(row.getCell(15)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setStatus(val);}
+								
+								risk.setDate(DateParser.parse(risk.getDate()));
+								
+								boolean flag = risk.checkNullOrEmpty();
+								
+								if(!flag) {
+									risksList.add(risk);
+								}
+								
+							}
 						}						
-						boolean flag = risk.checkNullOrEmpty();
 						
-						if(!flag) {
-							risksList.add(risk);
-						}
 					}
 					
 					List<Risk> revisionList = new ArrayList<Risk>();
@@ -529,6 +552,30 @@ public class RiskController {
 		return arr;
 	}
 	
+	
+	private String getCellData(XSSFWorkbook workbook, XSSFCell cell) {
+		String val = null;
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
+
+		// existing Sheet, Row, and Cell setup
+
+		if (!StringUtils.isEmpty(cell) && cell.getCellType() == CellType.FORMULA) {
+		    switch (evaluator.evaluateFormulaCell(cell)) {
+		        case BOOLEAN:
+		            val = String.valueOf(cell.getBooleanCellValue());
+		            break;
+		        case NUMERIC:
+		        	val = String.valueOf(cell.getNumericCellValue());
+		            break;
+		        case STRING:
+		            val = cell.getStringCellValue();
+		            break;
+				default:
+					break;
+		    }
+		}
+		return val;
+	}
 	
 	@RequestMapping(value = "/export-risks", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportRisks(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Risk risk,RedirectAttributes attributes){

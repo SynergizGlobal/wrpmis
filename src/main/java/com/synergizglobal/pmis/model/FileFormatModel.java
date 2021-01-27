@@ -92,8 +92,8 @@ public class FileFormatModel {
 		List<String> fileFormat = new ArrayList<String>();
 		//String columns = "Work ID,Risk ID,Owner,Area,Sub-Area,Date of Assessment,Probability (A),Impact (B),Mitigation Plan,Priority,Responsible Person";
 		
-        String columns = "Work ID^Item No.^Risk ID^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING\n" + 
-        		"A x B^RISK CLASSIFICATION^Mitigation Plan^Priority^Responsible Person^Status";
+        String columns = "Work ID^Item No.^Risk ID^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING" + 
+        		"^RISK CLASSIFICATION^Mitigation Plan^Priority^Responsible Person^ATR Date ^Action Taken^Status";
         
         String[] convertedColumnsArray = columns.split("\\^");
         

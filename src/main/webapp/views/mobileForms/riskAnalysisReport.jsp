@@ -35,7 +35,6 @@
 </head>
 
 <body>
-    <!-- header included -->
     
     <div class="row">
         <div class="col s12 m12">
@@ -50,7 +49,7 @@
                         <div class="row no-mar">
                             <div class="col m2 hide-on-small-only"></div>
                             <div class="col m8 s12">
-                            	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
+                            	<form action="<%=request.getContextPath() %>/mobileappwebview/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
@@ -141,7 +140,7 @@
            	$("#report_work_id option:not(:first)").remove();
            	var myParams = {}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getWorksListInRiskReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListInRiskReport",
                    data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
@@ -166,7 +165,7 @@
            	$("#report_assessment_date option:not(:first)").remove();
            	var myParams = {work_id : work_id}
            	$.ajax({
-                   url: "<%=request.getContextPath()%>/ajax/getAssessmentDateListInRiskReport",
+                   url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAssessmentDateListInRiskReport",
                    data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {

@@ -128,7 +128,7 @@
 	                                        </div>
 	                                        <div class="col s12 m4 input-field" style="margin-top:0">
 				                                <p class="searchable_label left-align">Assessment Date</p>
-				                                  <select id="assessment_date_fk" name="assessment_date" onchange="getRiskList();" class="searchable">
+				                                  <select id="assessment_date" name="assessment_date" onchange="getRiskList();" class="searchable">
 				                                  		<option value="" >Select </option>	                                           
 				                                 </select>
 				                            </div>

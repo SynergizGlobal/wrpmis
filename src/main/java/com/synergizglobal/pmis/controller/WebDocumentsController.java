@@ -33,7 +33,7 @@ public class WebDocumentsController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(ManualsController.class);
+	Logger logger = Logger.getLogger(WebDocumentsController.class);
 
 	@Autowired
 	WebDocumentsService service;

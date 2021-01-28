@@ -104,7 +104,7 @@
 										  </c:forEach>
 									  </c:when>
 	                               	  <c:otherwise>
-	                                	<span style="width: 100%;text-align: center">No files available in ${rows.manual_folder_fk }</span>
+	                                	<span style="width: 100%;text-align: center">No files available in ${webDocCategory.category }</span>
 	                                  </c:otherwise>
                                    </c:choose>
 								</div>

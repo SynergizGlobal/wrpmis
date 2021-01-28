@@ -148,7 +148,8 @@
 											        </tr>
 											        <tr>
 											            <td>Reporting To</td>
-											            <td>: &nbsp; ${ userDetails.reporting_to_name } <c:if test="${not empty userDetails.designation }">(${ userDetails.reporting_to_designation }) </c:if> </td>
+											            <td>: &nbsp; ${ userDetails.reporting_to_designation }</td>
+											            <%-- <td>: &nbsp; ${ userDetails.reporting_to_name } <c:if test="${not empty userDetails.designation }">(${ userDetails.reporting_to_designation }) </c:if> </td> --%>
 											        </tr>
 											        <tr>
 											            <td>Mobile No</td>

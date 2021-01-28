@@ -242,10 +242,10 @@
 		 	  </ul>
           </li>
          <%--<li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
-	          <span class="material-icons-outlined">link</span> Web Links</a>
+	          <span class="material-icons-outlined">link</span> Quick Links</a>
           </li>--%>
            <li class="blue lighten-2"><a href="javascript:void(0);" class='head-img'>
-	          <span class="material-icons-outlined">link</span> Links</a>
+	          <span class="material-icons-outlined">link</span>Quick Links</a>
 	          <ul class="second-level-menu">	
 	          <c:forEach var="lObj" items="${webLinksList }">
 	          	<li>
@@ -530,11 +530,11 @@
           </li>
           
         <%--  <li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
-	          <span class="material-icons-outlined">link</span> Web Links</a>
+	          <span class="material-icons-outlined">link</span> Quick Links</a>
           </li> --%>
           
             <li class="sub-menu"><a href="javascript:void(0);" class='head-img collapsible-header'>
-	          <span class="material-icons-outlined">link</span> Links</a>
+	          <span class="material-icons-outlined">link</span>Quick Links</a>
 	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
 	              <c:forEach var="lObj" items="${webLinksList }">
 		          	<li>

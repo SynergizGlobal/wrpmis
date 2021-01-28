@@ -606,7 +606,7 @@
 				 	  },"work_status_fk": {
 				 		required: true
 				 	  },"target_date": {
-				 		required: true,
+				 		required: false,
    				 		dateBefore1:"#construction_start_date"
 				 	  },"estimated_cost": {
 				 		required: false

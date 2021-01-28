@@ -887,13 +887,25 @@ public class RiskController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(NumberUtils.createInteger(obj.getImpact()));
 					
-					cell = row.createCell(c++);
+					/*cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(NumberUtils.createInteger(obj.getRisk_rating()));
+					cell.setCellValue(NumberUtils.createInteger(obj.getRisk_rating()));*/
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getClassification());
+					String formulae1 = "H"+(row.getRowNum()+1)+"*I"+(row.getRowNum()+1);
+					cell.setCellFormula(formulae1);
+					cell.setCellType(CellType.FORMULA);
+					
+					/*cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getClassification());*/
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					String formulae2 = "IF(J"+(row.getRowNum()+1)+"<4,\"Low\",IF(J"+(row.getRowNum()+1)+"<9,\"Moderate\",IF(J"+(row.getRowNum()+1)+"<19,\"Substantial\",\"High\")))";
+					cell.setCellFormula(formulae2);
+					cell.setCellType(CellType.FORMULA);
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1008,6 +1020,7 @@ public class RiskController {
             }
 			
 		}catch (Exception e) {
+			e.printStackTrace();
 			 attributes.addFlashAttribute("error",dataExportError);
 		}
 	}

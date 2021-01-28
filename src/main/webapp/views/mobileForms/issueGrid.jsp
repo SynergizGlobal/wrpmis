@@ -52,7 +52,7 @@
 
                             <div class="col s12 m4">
                                 <div class=" c-align">
-                                    <a href="<%=request.getContextPath() %>/add-issue-form" class="btn waves-effect waves-light bg-s t-c" style="width:100%">
+                                    <a href="<%=request.getContextPath() %>/mobileappwebview/add-issue-form" class="btn waves-effect waves-light bg-s t-c" style="width:100%">
                                         <strong><i class="fa fa-plus-circle"></i> Add Issue</strong></a>
                                 </div>
                             </div>
@@ -174,11 +174,11 @@
 	</div> 
 
 		
-	<form action="<%=request.getContextPath()%>/get-issue" id="getForm" name="getForm" method="post">
+	<form action="<%=request.getContextPath()%>/mobileappwebview/get-issue" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="issue_id" id="issue_id"/>
     </form>
   
-  
+  <%-- 
 	<form action="<%=request.getContextPath() %>/export-issues" name="exportIssuesForm" id="exportIssuesForm" target="_blank" method="post">	
         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
@@ -186,7 +186,7 @@
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
          <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
           <input type="hidden" name="responsible_person" id="exportResponsible_person" />
-	</form>
+	</form> --%>
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -307,7 +307,7 @@
     		table.state.clear();		
     	 
     	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssuesList",type:"POST",data:myParams,success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var issue_id = "'"+val.issue_id+"'";
@@ -384,7 +384,7 @@
                 $("#work_id_fk option:not(:first)").remove();
          	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInIssue",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListFilterInIssue",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -419,7 +419,7 @@
                 $("#contract_id_fk option:not(:first)").remove();
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInIssue",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListFilterInIssue",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -457,7 +457,7 @@
                 $("#department_fk option:not(:first)").remove();
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInIssue",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDepartmentsListFilterInIssue",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -491,7 +491,7 @@
                  $("#category_fk option:not(:first)").remove();
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInIssue",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getCategoryListFilterInIssue",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -525,7 +525,7 @@
                  $("#status_fk option:not(:first)").remove();
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInIssue",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStatusListFilterInIssue",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -559,7 +559,7 @@
                  $("#responsible_person option:not(:first)").remove();
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsListFilterInIssue",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getResponsiblePersonsListFilterInIssue",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {

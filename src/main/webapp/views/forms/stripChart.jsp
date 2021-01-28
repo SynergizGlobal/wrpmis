@@ -283,7 +283,7 @@
                                                 onchange="getStripChartContractsList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq stripChartData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq stripChartData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
@@ -296,7 +296,7 @@
                                                 onchange="resetWorksAndProjectsDropdowns();getStripChartStructures(); getStripChartLines(); getStripChartSections();">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq stripChartData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq stripChartData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -780,7 +780,7 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
                                 	id1 = val.work_id;
                                     $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
@@ -823,13 +823,13 @@
                     	var id2 = "${stripChartData.contract_id}";                        
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var contract_name = '';
-                                if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+                                var contract_short_name = '';
+                                if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
                                 if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
                                 	id1 = val.contract_id;
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
                                 } else {
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
                                 }
                             });
                         }
@@ -872,7 +872,7 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
                                     $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                                 } else {

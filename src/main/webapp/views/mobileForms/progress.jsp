@@ -314,7 +314,7 @@
                                                 onchange="getStripChartContractsList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq stripChartData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq stripChartData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
@@ -327,7 +327,7 @@
                                                 onchange="resetWorksAndProjectsDropdowns();getStripChartStructures(); getStripChartLines(); getStripChartSections();">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq stripChartData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq stripChartData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -718,7 +718,7 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartWorksList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartWorksList",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
@@ -726,7 +726,7 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
                                 	id1 = val.work_id;
                                     $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
@@ -762,20 +762,20 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartContractsList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartContractsList",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
                     	var id2 = "${stripChartData.contract_id}";                        
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var contract_name = '';
-                                if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+                                var contract_short_name = '';
+                                if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
                                 if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
                                 	id1 = val.contract_id;
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
                                 } else {
-                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                    $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
                                 }
                             });
                         }
@@ -812,13 +812,13 @@
        			$("#work_id_fk option:not(:first)").remove();
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartWorksList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartWorksList",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
                                     $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
                                 } else {
@@ -864,7 +864,7 @@
             if ($.trim(contract_id_fk) != "") {
             	var myParams = { contract_id_fk: contract_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartStructures",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartStructures",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
@@ -899,7 +899,7 @@
             if ($.trim(contract_id_fk) != "") {
             	var myParams = { contract_id_fk: contract_id_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartLines",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartLines",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -922,7 +922,7 @@
             if ($.trim(contract_id_fk) != "") {
             	var myParams = { contract_id_fk: contract_id_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartSections",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartSections",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -954,7 +954,7 @@
 
             if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" ) {                
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getComponentIdsList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getComponentIdsList",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
@@ -1063,7 +1063,7 @@
                 		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
                 		strip_chart_section_id_fk : strip_chart_section_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartActivitiesList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartActivitiesList",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
@@ -1133,7 +1133,7 @@
                 		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
                 		strip_chart_section_id_fk : strip_chart_section_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartActivitiesList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartActivitiesList",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -1165,7 +1165,7 @@
         function getIssuesCategoryList() {
         	$("#issue_category_id option:not(:first)").remove();
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getIssuesCategoryList",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssuesCategoryList",
                 cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -1224,7 +1224,7 @@
                 		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
                 		strip_chart_section_id_fk : strip_chart_section_id_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStripChartDetails",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartDetails",
                     data: myParams, cache: false,
                     success: function (data) {
                     	$("#plannedStart").html(data.planned_start);
@@ -1264,7 +1264,7 @@
         function saveProgress(){
     		if(validator.form()){ // validation perform
     			 $(".page-loader").show();
-    			document.getElementById("stripChartForm").action = "<%=request.getContextPath() %>/update-stripchart";
+    			document.getElementById("stripChartForm").action = "<%=request.getContextPath() %>/mobileappwebview/update-stripchart";
     			document.getElementById("stripChartForm").submit();			
     	 	}
     	}

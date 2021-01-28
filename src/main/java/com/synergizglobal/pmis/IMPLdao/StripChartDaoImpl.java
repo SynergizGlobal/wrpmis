@@ -69,7 +69,7 @@ public class StripChartDaoImpl implements StripChartDao {
 	public List<StripChart> getStripChartWorksList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select c.work_id_fk,w.work_id,w.work_name "
+			String qry = "select c.work_id_fk,w.work_id,w.work_name,w.work_short_name "
 					+ "from contract c "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) ";
@@ -100,7 +100,7 @@ public class StripChartDaoImpl implements StripChartDao {
 	public List<StripChart> getStripChartContractsList(StripChart obj) throws Exception {
 		List<StripChart> objsList = new ArrayList<StripChart>();
 		try {
-			String qry = "select scv.contract_id_fk as contract_id,c.work_id_fk,c.contract_name "
+			String qry = "select scv.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
 					+ "from strip_chart_general scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					
@@ -722,7 +722,7 @@ public class StripChartDaoImpl implements StripChartDao {
 					+ "scv.component AS strip_chart_component,scv.activity_id AS strip_chart_activity_id,scv.activity_name AS strip_chart_activity_name,"
 					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section_id AS strip_chart_section_id,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.`status` AS status_name,scv.remarks,"
 					+ "DATE_FORMAT(scv.actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(scv.actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(scv.planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "DATE_FORMAT(scv.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,w.project_id_fk as project_id "
+					+ "DATE_FORMAT(scv.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from strip_chart_general scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "

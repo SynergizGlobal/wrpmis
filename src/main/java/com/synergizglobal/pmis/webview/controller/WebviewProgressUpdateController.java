@@ -1,0 +1,291 @@
+package com.synergizglobal.pmis.webview.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.synergizglobal.pmis.Iservice.IssueService;
+import com.synergizglobal.pmis.Iservice.StripChartService;
+import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.MobilePageConstants2;
+import com.synergizglobal.pmis.controller.HomeController;
+import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.StripChart;
+
+@Controller
+@RequestMapping("/mobileappwebview")
+public class WebviewProgressUpdateController {
+
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+	
+	Logger logger = Logger.getLogger(HomeController.class);
+	
+	@Autowired
+	StripChartService stripChartService;
+	
+	@Autowired
+	IssueService issueService;
+	
+	
+	@RequestMapping(value="/strip-chart",method=RequestMethod.GET)
+	public ModelAndView stripChart(@ModelAttribute StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(MobilePageConstants2.progress);
+		try {
+			List<StripChart> projectsList = stripChartService.getStripChartProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<StripChart> worksList = stripChartService.getStripChartWorksList(obj);
+			model.addObject("worksList", worksList);
+			
+			List<StripChart> contractsList = stripChartService.getStripChartContractsList(obj);
+			model.addObject("contractsList", contractsList);
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_id())) {
+				StripChart stripChartData = stripChartService.getStripChartData(obj);
+				model.addObject("stripChartData", stripChartData);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("StripChart : " + e.getMessage());
+		}
+		return model;
+	}
+	
+
+	
+	@RequestMapping(value="/strip-chart/{stripChartId}",method=RequestMethod.GET)
+	public ModelAndView getStripChartData(@PathVariable("stripChartId")String stripChartId,@ModelAttribute StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(MobilePageConstants2.progress);
+		try {
+			
+			List<StripChart> projectsList = stripChartService.getStripChartProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			/*List<StripChart> worksList = stripChartService.getStripChartWorksList(obj);
+			model.addObject("worksList", worksList);
+			
+			List<StripChart> contractsList = stripChartService.getStripChartContractsList(obj);
+			model.addObject("contractsList", contractsList);*/
+			
+			obj.setStrip_chart_id(stripChartId);
+			StripChart stripChartData = stripChartService.getStripChartData(obj);
+			model.addObject("stripChartData", stripChartData);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStripChartData : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartProjectsList(@ModelAttribute StripChart obj){
+		List<StripChart> projects = null;
+		try{
+			projects = stripChartService.getStripChartProjectsList(obj);			
+		}catch(Exception e){
+			logger.error("getStripChartProjectsList() : "+e.getMessage());
+		}
+		return projects;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartWorksList(@ModelAttribute StripChart obj){
+		List<StripChart> works = null;
+		try{
+			works = stripChartService.getStripChartWorksList(obj);			
+		}catch(Exception e){
+			logger.error("geStripCharttWorksList() : "+e.getMessage());
+		}
+		return works;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartContractsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartContractsList(@ModelAttribute StripChart obj){
+		List<StripChart> contracts = null;
+		try{
+			contracts = stripChartService.getStripChartContractsList(obj);			
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getStripChartContractsList() : "+e.getMessage());
+		}
+		return contracts;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartStructures(@ModelAttribute StripChart obj){
+		List<StripChart> structures = null;
+		try{
+			structures = stripChartService.getStripChartStructures(obj);			
+		}catch(Exception e){
+			logger.error("getStripChartStructures() : "+e.getMessage());
+		}
+		return structures;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartLines", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartLines(@ModelAttribute StripChart obj){
+		List<StripChart> structures = null;
+		try{
+			structures = stripChartService.getStripChartLines(obj);			
+		}catch(Exception e){
+			logger.error("getStripChartLines() : "+e.getMessage());
+		}
+		return structures;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartSections", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartSections(@ModelAttribute StripChart obj){
+		List<StripChart> structures = null;
+		try{
+			structures = stripChartService.getStripChartSections(obj);			
+		}catch(Exception e){
+			logger.error("getStripChartSections() : "+e.getMessage());
+		}
+		return structures;
+	}
+	
+	@RequestMapping(value = "/ajax/getComponentIdsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartComponentIds(@ModelAttribute StripChart obj){
+		List<StripChart> componentIds = null;
+		try{
+			componentIds = stripChartService.getStripChartComponentIds(obj);			
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getStripChartComponentIds() : "+e.getMessage());
+		}
+		return componentIds;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartActivitiesList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStripChartActivitiesList(@ModelAttribute StripChart obj){
+		List<StripChart> activities = null;
+		try{
+			activities = stripChartService.getStripChartActivities(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getStripChartActivitiesList() : "+e.getMessage());
+		}
+		return activities;
+	}
+	
+	@RequestMapping(value = "/ajax/getStripChartDetails", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public StripChart getStripChartDetails(@ModelAttribute StripChart obj){
+		StripChart data = null;
+		try{
+			data = stripChartService.getStripChartDetails(obj);	
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getStripChartDetails() : "+e.getMessage());
+		}
+		return data;
+	}
+	
+	@RequestMapping(value = "/ajax/getIssuesCategoryList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssuesCategoryList(){
+		List<Issue> issueCategoryList = null;
+		try{
+			issueCategoryList = issueService.getIssuesCategoryList();	
+		}catch(Exception e){
+			logger.error("getIssuesCategoryList() : "+e.getMessage());
+		}
+		return issueCategoryList;
+	}
+	
+	@RequestMapping(value = "/ajax/getIssuesPriorityList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssuesPriorityList(){
+		List<Issue> issuePriorityList = null;
+		try{
+			issuePriorityList = issueService.getIssuesPriorityList();	
+		}catch(Exception e){
+			logger.error("getIssuesPriorityList() : "+e.getMessage());
+		}
+		return issuePriorityList;
+	}
+	
+	@RequestMapping(value = "/ajax/getIssuesStatusList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssuesStatusList(){
+		List<Issue> issueStatusList = null;
+		try{
+			issueStatusList = issueService.getIssuesStatusList();	
+		}catch(Exception e){
+			logger.error("getIssuesStatusList() : "+e.getMessage());
+		}
+		return issueStatusList;
+	}
+	
+	@RequestMapping(value="/update-stripchart",method=RequestMethod.POST)
+	public ModelAndView updateStripChart(@ModelAttribute StripChart obj, HttpSession session,RedirectAttributes attributes) throws IOException {
+		ModelAndView model = new ModelAndView("redirect:/mobileappwebview/strip-chart");
+		String user_Id = null;String userName = null;
+		try {			
+			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			
+			obj.setProgress_date(DateParser.parse(obj.getProgress_date())); 
+			
+			MultipartFile file = obj.getStripChartFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants.STRIPCHART_FILE_SAVING_PATH + "STRIPCHART_"+obj.getStrip_chart_id() + File.separator;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				obj.setAttachment_url(fileName);
+			}
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			
+			boolean flag = stripChartService.updateStripChart(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Strip Chart updated successfully.");
+			}else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
+			logger.error("updateStripChart : " + e.getMessage());
+		}
+		return model;
+	}
+	
+
+}
+
+

@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add/Edit Issues</title>
+    <title>
+    	 <c:if test="${action eq 'edit'}">Update Issues</c:if>
+		 <c:if test="${action eq 'add'}"> Add Issues</c:if>
+    </title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -53,8 +56,17 @@
 	        -webkit-transform: translateY(-18px) scale(0.95) ;
 		    transform: translateY(-18px) scale(0.95);
 	    }
-	     .file-path-wrapper input[type='text'].file-path {
+	     .file-path-wrapper input[type='text'].file-path, .input-field>.no-bs {
 	    	box-shadow:none !important;
+	    }
+	    .no-bs{
+	    	background-color: none;
+	    	border: none; 
+	    	border-bottom: 0px solid #4CAF50;
+	    	webkit-box-shadow: 0 0px 0 0 #4CAF50;
+	    	box-shadow: 0 0px 0 0 #4CAF50;
+	    	/* height: 20px;
+	    	width:60%; */
 	    }
     </style>
 </head>
@@ -67,65 +79,124 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6> Add Issues</h6>
+                                <h6> 
+                                  <c:if test="${action eq 'edit'}">Update Issues</c:if>
+								  <c:if test="${action eq 'add'}"> Add Issues</c:if>
+                                </h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
                     <div class="no-mar">
-                        <form action="<%=request.getContextPath() %>/add-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
+                        <c:if test="${action eq 'edit'}">				                
+		                	<form action="<%=request.getContextPath() %>/mobileappwebview/update-issue" id="issueForm" name="issueForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                      </c:if>
+		              <c:if test="${action eq 'add'}">				                
+		                	<form action="<%=request.getContextPath() %>/mobileappwebview/add-issue" id="issueForm" name="issueForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+					  </c:if>
+					  <c:if test="${action eq 'add'}">	
                             <div class="row">
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Project </p>                                    
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id_fk }" >${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                 <p class="searchable_label"> Work </p> 
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
-                                        <option value="">Select</option>
-                                          <c:forEach var="obj" items="${worksList }">
-	                                      	   	<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                      </c:forEach>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
-                            <div class="row ">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m8 input-field">
-                                 <p class="searchable_label"> Contract </p> 
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
-                                        <option value="">Select</option>
-                                         <c:forEach var="obj" items="${contractsList }">
-                                      	    <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="contract_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                 <p class="searchable_label">Department </p> 
-                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="department_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+	                                    <p class="searchable_label"> Project </p>                                    
+	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
+	                                        onchange="getWorksList(this.value);">
+	                                        <option value="">Select</option>
+	                                        <c:forEach var="obj" items="${projectsList }">
+	                                            <option value="${obj.project_id_fk }" <c:if test="${issue.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+	                                        </c:forEach>
+	                                    </select>
+	                                     <span id="project_id_fkError" class="error-msg" ></span>
+	                                 </div>
+	                                 <div class="col s6 m4 input-field">
+	                                  <p class="searchable_label"> Work </p> 
+	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+	                                        onchange="getContractsList(this.value);">
+	                                        <option value="">Select</option>
+	                                          <c:forEach var="obj" items="${worksList }">
+		                                      	   	<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+		                                      </c:forEach>
+	                                    </select>
+	                                    <span id="work_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                              </div>
+                             </c:if>
+ 							 <c:if test="${action eq 'edit'}">	
+                              <div class="row" id="center" >
+	                              <div class="col m2 hide-on-small-only">
+	                              </div>
+	                       		  <div class="col s6 m4 input-field">
+										<p class="searchable_label"> Project</p>
+                                   	 	<input type="text" value="${issue.project_id_fk} - ${issue.project_name}" readonly />
+								  </div> 
+								  <div class="col s6 m4 input-field"> 
+									    <p class="searchable_label"> Work</p>
+                                   	 	<input type="text"  value="${issue.work_id_fk} - ${issue.work_short_name}" readonly />
+                                   	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${issue.work_id_fk}" readonly />
+	                              </div>
+                              </div> 
+                             </c:if>
+                             <c:if test="${action eq 'add'}">
+	                            <div class="row ">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s6 m4 input-field">
+	                                  <p class="searchable_label"> Contract </p> 
+	                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
+	                                        <option value="">Select</option>
+	                                         <c:forEach var="obj" items="${contractsList }">
+                                      	    		<option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                       		 </c:forEach>
+	                                    </select>
+	                                    <span id="contract_id_fkError" class="error-msg" ></span>
+	                                </div>  
+	                                <div class="col s6 m4 input-field">
+		                                 <p class="searchable_label">Department </p> 
+		                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
+		                                        <option value="">Select</option>
+		                                         <c:forEach var="obj" items="${departmentList }">
+		                                            <option value="${obj.department_fk }" <c:if test="${issue.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
+		                                        </c:forEach>
+		                                    </select>
+		                                    <span id="department_fkError" class="error-msg" ></span>
+                                	</div>                              
+	                               <%--  <div class="col s12 m4 input-field">
+	                                    <!-- <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea> -->
+	                                    <label for="">Issue ID : <input id="issue_id" name="issue_id" type="text" value="${issue.issue_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                </div> --%>
+	                            </div>
+                            </c:if>
+                            <c:if test="${action eq 'edit'}">
+	                            <div class="row ">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s6 m4 input-field">
+	                                  <p class="searchable_label"> Contract </p> 
+	                                   	<input type="text"  value="${issue.contract_id_fk} - ${issue.contract_short_name}" readonly />
+                                   	 	<input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${issue.contract_id_fk}" readonly />
+	                                </div>                                
+	                                <div class="col s6 m4 input-field">
+	                                    <!-- <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea> -->
+	                                    <label for="issue_id">Issue ID : </label>
+	                                    <input id="issue_id" name="issue_id" type="text" class="datelike" value="${issue.issue_id }" readonly style="margin-top:12px !important"/>
+	                                </div>
+	                                
+	                            </div>
+                            </c:if>
+                        	<c:if test="${action eq 'edit'}">	
+                        	  <div class="row ">
+                              <div class="col s12 m4 input-field">
+		                                 <p class="searchable_label">Department </p> 
+		                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
+		                                        <option value="">Select</option>
+		                                         <c:forEach var="obj" items="${departmentList }">
+		                                            <option value="${obj.department_fk }" <c:if test="${issue.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
+		                                        </c:forEach>
+		                                    </select>
+		                                    <span id="department_fkError" class="error-msg" ></span>
+                                	</div> 
+                                	</div>    
+                             </c:if>
 
                             <div class="row">
                                 <!-- row 2 -->
@@ -134,8 +205,8 @@
                                 <p class="searchable_label">Issue Category </p> 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${issuesCategoryList }">
-                                            <option value="${obj.category }" >${obj.category}</option>
+                                         <c:forEach var="obj" items="${issuesCategoryList }">
+                                            <option value="${obj.category }" <c:if test="${issue.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="category_fkError" class="error-msg" ></span>
@@ -145,7 +216,7 @@
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesPriorityList }">
-                                            <option value="${obj.priority }" >${obj.priority}</option>
+                                            <option value="${obj.priority }" <c:if test="${issue.priority_fk eq obj.priority}">selected</c:if>>${obj.priority}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="priority_fkError" class="error-msg" ></span>
@@ -160,14 +231,14 @@
                                 <p class="searchable_label">Issue Status </p> 
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${issuesStatusList }">
-                                            <option value="${obj.status }" >${obj.status}</option>
+                                       <c:forEach var="obj" items="${issuesStatusList }">
+                                            <option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
                                         </c:forEach>
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="title" name="title" type="text" class="validate datelike">
+                                    <input id="title" name="title" type="text" class="validate datelike" value="${issue.title }">
                                     <label for="title">Short Description</label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
@@ -177,7 +248,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <input id="description" name="description" type="text" class="validate datelike">
+                                    <input id="description" name="description" type="text" class="validate datelike" value="${issue.description }">
                                     <label for="description">Description </label>
                                     <span id="descriptionError" class="error-msg" ></span>
                                 </div>
@@ -186,13 +257,13 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="date" name="date" type="text" class="validate datepicker">
+                                    <input id="date" name="date" type="text" class="validate datepicker" value="${issue.date }">
                                     <label for="date">Date of raising issue</label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="location" name="location" type="text" class="validate datelike">
+                                    <input id="location" name="location" type="text" class="validate datelike" value="${issue.location }">
                                     <label for="location">Location </label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
@@ -203,12 +274,12 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate datelike">
+                                    <input id="latitude" name="latitude" type="text" class="validate datelike" value="${issue.latitude }">
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate datelike">
+                                    <input id="longitude" name="longitude" type="text" class="validate datelike" value="${issue.longitude }">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -219,12 +290,12 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="validate datelike">
+                                    <input id="reported_by" name="reported_by" type="text" class="validate datelike" value="${issue.reported_by }"> 
                                     <label for="reported_by">Raised By </label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="responsible_person" name="responsible_person" type="text" class="validate datelike">
+                                    <input id="responsible_person" name="responsible_person" type="text" class="validate datelike"  value="${issue.responsible_person }">
                                     <label for="responsible_person" style="font-size:.8rem">Responsible Person In MRVC </label>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
@@ -238,13 +309,13 @@
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">
-                                            <option value="${obj.railway_id }" >${obj.railway_name}</option>
+                                            <option value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <input id="other_organization" name="other_organization" type="text" class="validate datelike">
+                                    <input id="other_organization" name="other_organization" type="text" class="validate datelike" value="${issue.other_organization}">
                                     <label for="other_organization">Organization Name </label>
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
@@ -253,12 +324,12 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s6 m8 input-field">
-                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea datelike" data-length="1000"></textarea>
+                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea datelike" data-length="1000">${issue.corrective_measure }</textarea>
                                     <label for="corrective_measure">Corrective Measure</label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker">
+                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
                                     <label for="resolved_date"> Resolved Date</label>
                                     <button type="button" id="resolved_date_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -269,12 +340,12 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>	                               
                                 <div class="col s6 m4 input-field">
-                                    <input id="escalated_to" name="escalated_to" type="text" class="validate datelike">
+                                    <input id="escalated_to" name="escalated_to" type="text" class="validate datelike" value="${issue.escalated_to }">
                                     <label for="escalated_to">Escalated To </label>
                                     <span id="escalated_toError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker">
+                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
                                     <label for="escalation_date"> Escalated Date</label>
                                     <button type="button" id="escalation_date_icon"><i
                                             class="fa fa-calendar"></i></button>
@@ -285,7 +356,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea remarks" data-length="1000"></textarea>
+                                    <textarea id="remarks" name="remarks" class="materialize-textarea remarks" data-length="1000">${issue.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
@@ -300,9 +371,12 @@
                                             <input type="file" id="issueFile" name="issueFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
+                                            <input class="file-path validate" type="text" name="attachment" value="${issue.attachment }"> 
                                         </div>
                                     </div>
+                                     <c:if test="${not empty issue.attachment }">
+                                       	<a href="<%=CommonConstants2.ISSUE_FILES %>${issue.attachment }" class="filevalue" download>${issue.attachment }</a>
+                                   	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -310,17 +384,19 @@
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button type="button" onclick="addIssue();" class="btn waves-effect waves-light bg-m"
-                                            style="width: 100%;">Add
-                                        </button>
+                                   <div class="center-align m-1">
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateIssue();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addIssue();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button type="reset" class="btn waves-effect waves-light bg-s"
-                                            style="width: 100%;">Cancel
-                                        </button>
+                                     <div class="center-align m-1">
+                                        <a href="<%=request.getContextPath() %>/mobileappwebview/issues" class="btn waves-effect waves-light bg-s "
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -356,6 +432,14 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script>
+		$(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -366,7 +450,7 @@
                 event.stopPropagation();
                 $('#date').click();
             });
-            
+          /*   
             $('#date').datepicker({  
 	   	    	format:'dd-mm-yyyy',
 	   	    	//perform click event on done button
@@ -374,31 +458,31 @@
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
    	        });
-            
+             */
             $('#resolved_date_icon').click(function () {
                 event.stopPropagation();
                 $('#resolved_date').click();
             });
-            
+          /*   
             $('#resolved_date').datepicker({ 
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        }); */
             $('#escalation_date_icon').click(function () {
                 event.stopPropagation();
                 $('#escalation_date').click();
             });
             
-            $('#escalation_date').datepicker({ 
+          /*   $('#escalation_date').datepicker({ 
   	    	    format:'dd-mm-yyyy',
   	    	    //perform click event on done button
   	    	    onSelect: function () {
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
-  	        });
+  	        }); */
         });
         
       //geting works list from database    
@@ -410,14 +494,14 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForIssuesForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                var work_id_fk = "${safetyEquipmentDetails.work_id_fk }";
+                                var work_id_fk = "${issue.work_id_fk }";
                                 if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
                                     $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                                 } else {
@@ -441,14 +525,14 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForIssuesForm",
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForIssuesForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_name = '';
                                 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
-                                var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
+                                var contract_id_fk = "${issue.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
                                 	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 } else {
@@ -482,7 +566,7 @@
         			$("#work_id_fk option:not(:first)").remove();
                  var myParams = { project_id_fk: projectId };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForIssuesForm",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -512,6 +596,13 @@
         });
         
         function addIssue(){
+    		if(validator.form()){ // validation perform
+    			$(".page-loader").show();
+    			document.getElementById("issueForm").submit();			
+    	 	}
+    	}
+        
+        function updateIssue(){
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
     			document.getElementById("issueForm").submit();			

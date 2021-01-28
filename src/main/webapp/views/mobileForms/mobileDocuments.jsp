@@ -153,9 +153,9 @@
 		$(document).ready(function() {
 			$('.collapsible').collapsible();
 			$('.searchable').select2();
-			/* $('.modal').modal({
+		    $('.modal').modal({
 				dismissible : false,
-			}); */
+			}); 
 		
 			
 			var searchData = {};

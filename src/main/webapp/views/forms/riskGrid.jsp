@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Risks</title>
+    <title>Risk Assessment</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
-
+		p a{
+			color:blue;
+		}
         .input-field .searchable_label {
             font-size: 0.9rem;
         }
@@ -83,7 +85,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Risks</h6>
+                            <h6>Risk Assessment</h6>
                         </div>
                     </span>
                     <div class="">
@@ -101,23 +103,50 @@
 							</div>
 						</c:if>
                         <div class="row plr-1">
-                            <div class="col s12 m4 l-align">
-                                <div class="m-1">
+                            <div class="col s12 m3 l-align">
+                                <!-- <div class="m-1">
                                     <a href="javascript:void(0);" onclick="openUploadRiskModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Risk Data</strong></a>
-                                        <!-- <p style="padding-top:1rem"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p> -->
-                                </div>
+                                         <p style="padding-top:1rem"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p> 
+                                </div> -->
                             </div>
 
-                            <div class="col s12 m4 c-align">
+                            <div class="col s12 m6 c-align">
                                <!--  <div class="m-1 ">
                                     <a  href="<%=request.getContextPath() %>/add-risk-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Risks</strong></a>
                                 </div> -->
+                                <div class="m-1">
+                                	<form action="<%=request.getContextPath()%>/export-risks" method="post">
+	                                    <div class="row">
+	                                        <div class="col s12 m4 input-field">
+	                                        	<p class="searchable_label left-align">Work</p>
+	                                            <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable" required="required">
+	                                            	<option value="" >Select</option>	                                           
+	                                            </select>
+	                                        </div>
+	                                        <div class="col s12 m6 file-field input-field">
+										      <div class="btn bg-m t-c disabled" id="uploadRiskBtn">
+										        <span>Upload Risk Assessment</span>
+										        <input type="file" name="uploadRiskFile">
+										      </div>
+										      <div class="file-path-wrapper">
+										        <input class="file-path validate" type="text">
+										      </div>
+                                         		<p style="padding-top:.7rem; text-align:left"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p> 
+	                                        </div>
+	                                        <div class="col s12 m2 input-field">
+	                                            <button type="submit" class="btn waves-effect waves-light bg-s t-c disabled" id="uploadRisk" style="margin-top:5px;">
+	                                            	<strong><i class="fa arrow-circle-up"></i> Submit</strong>
+	                                            </button>	                                            
+	                                        </div>
+	                                    </div>
+                                    </form>
+                                </div> 
                             </div>
 
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1">
+                            <div class="col s12 m3 r-align">
+                                <!-- <div class="m-1">
                                 	<form action="<%=request.getContextPath()%>/export-risks" method="post">
 	                                    <div class="row">
 	                                        <div class="col s12 m6 input-field" style="margin:0">
@@ -133,12 +162,12 @@
 	                                        </div>
 	                                    </div>
                                     </form>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
                         <!--if  model 2 -->
-                        <div class="row no-mar">
+                       <!--  <div class="row no-mar">
                             <div class="col m1 hide-on-small-only"></div>
                              <div class="col m10 s12"> 
 								<div class="col s12 m2 input-field">
@@ -183,13 +212,13 @@
                             <div class="col m1 hide-on-small-only"></div>
 
                         </div>
-
-                        <div class="row">
+ -->
+                   <!--      <div class="row">
                             <div class="col m12 s12">
                                 <table id="datatable-risk" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                           <!--  <th class="fw-200">Work</th> -->
+                                            <th class="fw-200">Work</th>
                                             <th>Risk Id</th>
                                             <th>Area</th>
                                             <th class="fw-250">Sub Area</th>
@@ -198,37 +227,22 @@
                                             <th class="fw-100">Responsible <br> Person</th>
                                             <th>Priority</th>
                                             <th>Classification</th>
-                                            <!-- <th>Description </th> -->
-                                            <!-- <th>Category</th> -->
-                                            <!-- <th>Mitigation Plan</th>
+                                            <th>Description </th>
+                                            <th>Category</th>
+                                            <th>Mitigation Plan</th>
                                             <th>Target Date <br>of Mitigation</th>
-                                            <th>Mitigated <br>On</th> -->
+                                            <th>Mitigated <br>On</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       <!--  <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="#"
-                                                    class="btn waves-effect waves-light bg-m t-c"><i
-                                                        class="fa fa-pencil"></i></a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr> -->
+                               
                                     </tbody>
 
                                 </table>
 
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -333,7 +347,7 @@
           $('select:not(.searchable)').formSelect();
           $('.searchable').select2();
           $('.tabs').tabs();
-          $('#datatable-risk').DataTable({
+       /*    $('#datatable-risk').DataTable({
               columnDefs: [
                   {
                       targets: [0, 1, 2],
@@ -349,15 +363,23 @@
               initComplete: function () {
                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
               }
-          });
+          }); */
           
           $("#work_id_fk").change(function () {
               if ($("#work_id_fk").val() == '') {
-                  $("#downloadWork").addClass('disabled');
+                  $("#uploadRiskBtn").addClass('disabled');
               } else {
-                  $("#downloadWork").removeClass('disabled');
+                  $("#uploadRiskBtn").removeClass('disabled');
               }
           });
+          $("input[name='uploadRiskFile']").change(function () {
+              if ($("input[name='uploadRiskFile']").val() == '') {
+                  $("#uploadRisk").addClass('disabled');
+              } else {
+                  $("#uploadRisk").removeClass('disabled');
+              }
+          });
+          
           getRiskList();
       });
       
@@ -438,7 +460,7 @@
         	table = $('#datatable-risk').DataTable();
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table = $('#datatable-risk').DataTable({
+    		/* table = $('#datatable-risk').DataTable({
         		"bStateSave": true,
         		fixedHeader: true,
                 "fnStateSave": function (oSettings, oData) {
@@ -461,7 +483,7 @@
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
-            }).rows().remove().draw();
+            }).rows().remove().draw(); */
     		
     		table.state.clear();		
     		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};

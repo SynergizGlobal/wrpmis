@@ -7,7 +7,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Safety Incidents</title>
+    <title>
+   		 <c:if test="${action eq 'edit'}">Update Safety Incidents</c:if>
+		 <c:if test="${action eq 'add'}"> Add Safety Incidents</c:if>
+    </title>
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
@@ -85,62 +88,117 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Update Safety Incidents</h6>
+                                <h6>
+								 <c:if test="${action eq 'edit'}">Update Safety Incidents</c:if>
+								 <c:if test="${action eq 'add'}"> Add Safety Incidents</c:if>
+								</h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
                     <div class="container-no-margin">
-                        <form action="<%=request.getContextPath() %>/update-safety" id="safetyForm" name="safetyForm" method="post" enctype="multipart/form-data">
-                        	<div class="row">
+                       <c:if test="${action eq 'edit'}">				                
+		                	<form action="<%=request.getContextPath() %>/mobileappwebview/update-safety" id="safetyForm" name="safetyForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                       </c:if>
+		               <c:if test="${action eq 'add'}">				                
+		                	<form action="<%=request.getContextPath() %>/mobileappwebview/add-safety" id="safetyForm" name="safetyForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+					   </c:if>
+					    <c:if test="${action eq 'edit'}">	
+	                        	<div class="row">
+	                                <!-- row 4 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s6 m4 input-field">
+	                                 <p class="searchable_label"> Project </p>
+	                                   <%--  <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
+	                                        onchange="getWorksList(this.value);">
+	                                        <option value="">Select</option>
+	                                        <c:forEach var="obj" items="${projectsList }">
+	                                            <option value="${obj.project_id }" <c:if test="${safety.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+	                                        </c:forEach>
+	                                    </select> --%>
+	                                    <input type="text"  value ="${safety.project_id_fk } - ${safety.project_name}" readonly/>
+	                                    <input type="hidden" name="project_id_fk" id="project_id_fk" value ="${safety.project_id_fk }" />
+	                                    <span id="project_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s6 m4 input-field">
+	                                 <p class="searchable_label"> Work </p>
+	                                  <!--   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+	                                        onchange="getContractsList(this.value);">
+	                                        <option value="" selected>Select</option>
+	                                    </select>
+	                                    <span id="work_id_fkError" class="error-msg" ></span> -->
+	                                    <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly/>
+	                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	
+	                            <div class="row">
+	                                <!-- row 4 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s6 m4 input-field">
+	                                 <p class="searchable_label"> Contract </p>
+	                                    <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span id="contract_id_fkError" class="error-msg" ></span> -->
+	                                    <input type="text"  value ="${safety.contract_id_fk } - ${safety.contract_short_name}" readonly/>
+	                                    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value ="${safety.contract_id_fk }" />
+	                                </div>
+	                                <div class="col s6 m4 input-field">
+	                                    <!-- <input type="text" id="user_id"> -->
+	                                    <p class="searchable_label" >Safety ID : </p>
+	                                    <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  readonly/>
+	                                </div>
+	                                
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+							</c:if>
+							
+							<c:if test="${action eq 'add'}">	
+	                        	 <div class="row">
+	                                <!-- row 4 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s6 m4 input-field">
+	                                <p class="searchable_label"> Project </p>
+	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
+	                                        onchange="getWorksList(this.value);">
+	                                        <option value="">Select</option>
+	                                        <c:forEach var="obj" items="${projectsList }">
+	                                            <option value="${obj.project_id_fk }" >${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+	                                        </c:forEach>
+	                                    </select>                                   
+	                                    <span id="project_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s6 m4 input-field">
+	                                <p class="searchable_label"> Work </p>
+	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+	                                        onchange="getContractsList(this.value);">
+	                                        <option value="">Select</option>
+	                                        <c:forEach var="obj" items="${worksList }">
+	                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                         </c:forEach>
+	                                    </select>
+	                                    <span id="work_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                             <div class="row">
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 input-field">
-                                 <p class="searchable_label"> Project </p>
-                                   <%--  <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);">
+                                <div class="col s12 m4 input-field">
+                                <p class="searchable_label"> Contract </p>
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id }" <c:if test="${safety.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-                                        </c:forEach>
-                                    </select> --%>
-                                    <input type="text"  value ="${safety.project_id_fk } - ${safety.project_name}" readonly/>
-                                    <input type="hidden" name="project_id_fk" id="project_id_fk" value ="${safety.project_id_fk }" />
-                                    <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                 <p class="searchable_label"> Work </p>
-                                  <!--   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
-                                        <option value="" selected>Select</option>
+                                        <c:forEach var="obj" items="${contractsList }">
+                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                         </c:forEach>
                                     </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span> -->
-                                    <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly/>
-                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
+                                    <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <div class="row">
-                                <!-- row 4 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s6 m4 input-field">
-                                    <!-- <input type="text" id="user_id"> -->
-                                    <p class="searchable_label" >Safety ID : </p>
-                                    <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  readonly/>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                 <p class="searchable_label"> Contract </p>
-                                    <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
-                                        <option value="">Select</option>
-                                    </select>
-                                    <span id="contract_id_fkError" class="error-msg" ></span> -->
-                                    <input type="text"  value ="${safety.contract_id_fk } - ${safety.contract_short_name}" readonly/>
-                                    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value ="${safety.contract_id_fk }" />
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-
+							</c:if>
                             <div class="row">
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
@@ -150,7 +208,7 @@
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
                                         	<c:if test="${obj.department_fk eq 'Elec' or obj.department_fk eq 'Engg' or obj.department_fk eq 'S&T'}">
-                                            	<option value="${obj.department_fk }" <c:if test="${safety.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_fk}</option>
+                                            	<option value="${obj.department_fk }" <c:if test="${safety.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
                                         	</c:if>
                                         </c:forEach>
                                     </select>
@@ -161,7 +219,7 @@
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="setTitle(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${safetyCategoryList }">
-                                            <option value="${obj.category }" <c:if test="${safety.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
+                                            <option name="${obj.short_description}" value="${obj.category }" <c:if test="${safety.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="category_fkError" class="error-msg" ></span>
@@ -417,15 +475,19 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button type="button" onclick="updateSafety()" style="width: 100%;"
-                                            class="btn waves-effect waves-light bg-m black-text">Update </button>
+                                 <div class="col s12 m4">
+                                   <div class="center-align m-1">
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateSafety();" style="width: 100%;" class="btn waves-effect waves-light bg-m black-text">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addSafety();" style="width: 100%;" class="btn waves-effect waves-light bg-m black-text">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/safety" class="btn waves-effect waves-light bg-s black-text"
+                                        <a href="<%=request.getContextPath() %>/mobileappwebview/safety" class="btn waves-effect waves-light bg-s black-text"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>
@@ -446,14 +508,14 @@
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script>
-	$(document).on('focus', '.datepicker',function(){
-        $(this).datepicker({
-        	format:'dd-mm-yyyy',
-   	    	onSelect: function () {
-   	    	   $('.confirmation-btns .datepicker-done').click();
-   	    	}
-        })
-    });
+		$(document).on('focus', '.datepicker',function(){
+	        $(this).datepicker({
+	        	format:'dd-mm-yyyy',
+	   	    	onSelect: function () {
+	   	    	   $('.confirmation-btns .datepicker-done').click();
+	   	    	}
+	        })
+	    });
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -536,24 +598,26 @@
         });
         
         function setTitle(category){
-        	$("#title").val(category).focus();
+        	var short_description = $("#category_fk").find('option:selected').attr("name");
+        	$("#title").val(short_description).focus();
         }
         
       //geting works list from database    
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
-
+            $("#contract_id_fk option:not(:first)").remove();
+            
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksList",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 var work_id_fk = "${safety.work_id_fk }";
                                 if ($.trim(work_id_fk) != '' && val.work_id == $.trim(work_id_fk)) {
                                     $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
@@ -570,27 +634,22 @@
             	$(".page-loader").hide();
             }
         }
-
         //geting contracts list    
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
+            
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContracts",
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForSafetyForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var contract_name = '';
-                                if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
-                                var contract_id_fk = "${safety.contract_id_fk }";
-                                if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
-                                } else {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
-                                }
+                            	var contract_short_name = '';
+                                if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                                $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -602,6 +661,48 @@
             }
         }
         
+        function resetWorksAndProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+        	var workId = ''
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){        			
+       			
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+            	projectId = workId.substring(0, 3);    
+       			//workId = workId.substring(3, work_id.length);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
+       		if ($.trim(projectId) != "") {
+       			$("#work_id_fk option:not(:first)").remove();
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForSafetyForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+                $('.searchable').select2();
+            }
+       		
+        }
+        
+        
         function updateSafety(){
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
@@ -609,6 +710,12 @@
     	 	}
     	}
     	
+        function addSafety(){
+    		if(validator.form()){ // validation perform
+    			$(".page-loader").show();
+    			document.getElementById("safetyForm").submit();			
+    	 	}
+    	}
     	
     	//Wait for the DOM to be ready
     	

@@ -78,7 +78,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath()%>/add-safety-form" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath()%>/mobileappwebview/add-safety-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Safety Incidents</strong></a>
                                 </div>
                             </div>
@@ -214,20 +214,10 @@
 	</div> 
  
 	
-	<form action="<%=request.getContextPath()%>/get-safety" id="getForm" name="getForm" method="post">
+	<form action="<%=request.getContextPath()%>/mobileappwebview/get-safety" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="safety_id" id="safety_id"/>
     </form>
   
-  
-	<form action="<%=request.getContextPath() %>/export-safety" name="exportSafetyForm" id="exportSafetyForm" target="_blank" method="post">	
-        <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" /> 
-        <input type="hidden" name="department_fk" id="exportDepartment_fk" />
-        <input type="hidden" name="category_fk" id="exportCategory_fk" />
-        <input type="hidden" name="status_fk" id="exportStatus_fk" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-	</form>
-
-
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
@@ -340,19 +330,14 @@
     		table.state.clear();		
     	 
     		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getSafetyList",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getSafetyList",type:"POST",data:myParams,success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var safety_id = "'"+val.safety_id+"'";
     	                    var actions = '<a href="javascript:void(0);"  onclick="getSafety('+safety_id+');" class="btn mobile-btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                 
     	                   	
-    	                	var workName = '';
-                            if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                            var contract_short_name = '';
-                            if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
-                            
-    	                   	rowArray.push($.trim(val.contract_id_fk) + contract_short_name);
+    	                 	rowArray.push($.trim(val.title));
     	                   	/* rowArray.push($.trim(val.date)); 
     	                   	rowArray.push($.trim(val.title));
     	                   	rowArray.push($.trim(val.safety_id));    	                   
@@ -417,7 +402,7 @@
                 $("#work_id_fk option:not(:first)").remove();
          		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInSafety",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListFilterInSafety",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -452,7 +437,7 @@
                 $("#contract_id_fk option:not(:first)").remove();
          		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInSafety",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListFilterInSafety",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -489,7 +474,7 @@
                 $("#department_fk option:not(:first)").remove();
          		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInSafety",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDepartmentsListFilterInSafety",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -522,7 +507,7 @@
                  $("#category_fk option:not(:first)").remove();
          		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInSafety",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getCategoryListFilterInSafety",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -555,7 +540,7 @@
                  $("#status_fk option:not(:first)").remove();
          		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInSafety",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStatusListFilterInSafety",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {

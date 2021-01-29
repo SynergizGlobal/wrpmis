@@ -371,7 +371,7 @@
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <input id="lti_hours" name="lti_hours" type="text" class="validate" value="${safety.lti_hours }">
-                                    <label for="lti_hours">LTI Hours</label>
+                                    <label for="lti_hours" style="font-size:0.8rem">Loss Time Injury (LTI) Hours</label>
                                     <span id="lti_hoursError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

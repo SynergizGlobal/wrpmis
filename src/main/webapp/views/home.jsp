@@ -100,9 +100,8 @@
         .card.sec-clr .card.main-clr.active .card-content:after {
             border-color: #f0f7ff transparent transparent transparent;
         }
-
         .card.main-clr {
-            min-height: 300px;
+            min-height: 270px;
             height: auto;
         }
          .card.main-clr .card-content{
@@ -179,6 +178,7 @@
         .result {
             width: 80vw;
             margin-left:-5vw !important;
+            margin-left:5vw !important;
         }
 		@media only screen and (min-width: 993px){
 				.container.no-mar {
@@ -293,7 +293,7 @@
             color: #fff;
             border-radius: 4px 4px 0 0;
             padding: 3px;
-            font-size:21px;
+            font-size:18px;
             box-shadow: 2px 3px 7px 2px #999999;
             text-transform: inherit;
         }
@@ -337,6 +337,15 @@
                 width: calc(100% - 15px);
             }
         }
+        .row.no-mar{
+        	margin-bottom:0;
+        }
+        .title-btn{
+        	position: absolute;		    
+		    right: -94px;
+    		top: -70px;
+		    margin-bottom: 0;
+        }
     </style>
 </head>
 
@@ -347,8 +356,7 @@
   <!-- header included -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
   
-    <div class="container no-mar" style="padding-bottom:30px">
-     <div style="margin-top:30px">
+    <div class="container no-mar" >
             <div class="row">
                 <div class="input-field col m11 s9">
                     <i class="material-icons prefix right-side">search</i>
@@ -373,11 +381,10 @@
                 </div>
             </div>
         </div>
-        
-        <div class="row">        
+        <div class="row no-mar">        
         	<c:forEach var="pObj" items="${projectsInfo}" varStatus="index">
-        	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
-	            <div class="col s12 m4 projects-filter">
+        	<c:if test="${ (index.count-1) % 4 eq 0}"></div><div class="row no-mar"></c:if>
+	            <div class="col s12 m3 projects-filter">
 	                <div id="project_data_${index.count }" class="card main-clr" >
 	                    <div class="card-content">
 	                        <span class="card-title center-align">${pObj.project_name }</span>
@@ -475,7 +482,7 @@
 		                                		</div>
 		                                	</div>
 			                            </div>
-			                        </div>
+			                        </div> 
 			                        <script type="text/javascript">
 				                        $('i#prev${index.count }').click(function() {
 				                        	$(this).parent().parent().carousel('prev');
@@ -505,7 +512,7 @@
 	                    <div class="col s12 m12">
 	                        <div class="card sec-clr">
 	                            <div class="card-content">
-	                                <div class="card-title"> &nbsp;
+	                                <div class="card-title title-btn"> &nbsp;
 	                                    <span class="right">
 	                                        <span class="material-icons" onclick="closeDiv('${index.count }')">keyboard_backspace</span>
 	                                    </span>

@@ -112,16 +112,26 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8">
 	                                 <div class="row">
+	                                 	<c:if test="${action eq 'add'}">
 	                                 	<div class="col s12 m4 input-field">
 		                                   <p class="searchable_label">Project</p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   			<option value="">select</option>
 		                                          <c:forEach var="obj" items="${projectsList}">
-		                       						  <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id}</option>
+		                       						  <option value="${obj.project_id }"<c:if test="${workDeatils.project_id_fk eq obj.project_id }">selected</c:if>>${obj.project_id} - ${obj.project_name}</option>
 		                                            </c:forEach>
 		                                    </select>
-		                                      <span id="project_id_fkError"></span>
+		                                    <span id="project_id_fkError"></span>
 		                               </div> 
+		                               </c:if>
+		                               <c:if test="${action eq 'edit'}">
+		                               <div class="col s12 m4 input-field">
+		                               		<input type="text" class="form-control" value="${workDeatils.project_id_fk} - ${workDeatils.project_name}" readonly >  
+		                                    <label>Project :</label>
+		                                    
+		                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDeatils.project_id_fk}"/>
+		                               </div>
+		                               </c:if>
 		                                                      
 		                               <div class="col s12 m4 input-field">
 		                               		 <c:if test="${action eq 'edit'}">				                

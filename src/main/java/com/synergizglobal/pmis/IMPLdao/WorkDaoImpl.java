@@ -77,6 +77,7 @@ public class WorkDaoImpl implements WorkDao {
 				work.setWork_name(resultSet.getString("work_name"));
 				work.setWork_short_name(resultSet.getString("work_short_name"));
 				work.setProject_id_fk(resultSet.getString("project_id_fk"));
+				work.setProject_name(resultSet.getString("project_name"));
 				work.setSanctioned_year_fk(resultSet.getString("sanctioned_year_fk"));
 				work.setSanctioned_estimated_cost(resultSet.getString("sanctioned_estimated_cost"));
 				work.setSanctioned_completion_cost(resultSet.getString("sanctioned_completion_cost"));

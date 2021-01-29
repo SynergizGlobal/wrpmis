@@ -52,6 +52,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.RiskService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
@@ -90,17 +91,289 @@ public class RiskController {
 	@Value("${template.upload.formatError}")
 	public String uploadformatError;
 	
-	@RequestMapping(value="/risk",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView risk(HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants.updateRiskGrid);
+	@RequestMapping(value="/risk-assessment",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView riskAssessment(@ModelAttribute Risk obj,HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.riskAssessmentGrid);
 		try {
+			List<Risk> worksList = riskService.getWorksList(obj);
+			model.addObject("worksList", worksList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("riskAssessment : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/upload-risk-assessment", method = {RequestMethod.POST})
+	public ModelAndView uploadRiskAssessment(@ModelAttribute Risk risk,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String userId = null;String userName = null;
+		try {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			//model.setViewName("redirect:/risk");
+			model.setViewName("redirect:/risk-assessment");
+			if(!StringUtils.isEmpty(risk.getRiskAssessmentFile())){
+				MultipartFile multipartFile = risk.getRiskAssessmentFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(2);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = risksDrawingsSheet.getRow(1);
+						//checking given file format
+						if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getRiskFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							//if(noOfColumns == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		return model;
+				                	}
+								}
+							/*}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+								return model;
+							}*/
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}
+						
+						int[] arr = uploadRiskAssessment(risk,userId,userName);
+						if(arr[0] == 1) {
+							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully.");
+						}else {
+							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risks updated successfully.");
+
+						}
+						if(arr[1] == 1) {
+							attributes.addFlashAttribute("success", arr[1] + " Risk added successfully.");
+						}else {
+							attributes.addFlashAttribute("success", arr[1] + " Risks added successfully.");
+						}
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+
+	private int[] uploadRiskAssessment(Risk obj, String userId, String userName)  throws Exception{
+		Risk risk = null;
+		List<Risk> risksList = new ArrayList<Risk>();
+		
+		Writer w = null;
+		int[] arr = null ;
+		try {	
+			MultipartFile excelfile = obj.getRiskAssessmentFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(2);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 2; i <= risksDrawingsSheet.getLastRowNum();i++){
+						
+						XSSFRow row = risksDrawingsSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						risk = new Risk();
+						String val = null;
+						
+						if(!StringUtils.isEmpty(row)) {	
+							String risk_id = null;
+							Cell cell = row.getCell(2);
+							if(!StringUtils.isEmpty(cell)) {
+								risk_id = cell.getStringCellValue().trim();
+							}
+							
+							if(!StringUtils.isEmpty(risk_id) && !risk_id.equals("null")) {
+								
+								risk.setWork_id_fk(obj.getWork_id_fk());
+								//System.out.println(i + " = "+ val);
+								val = getCellData(workbook,row.getCell(0));
+								//val = formatter.formatCellValue(row.getCell(0)).trim();
+								if(!StringUtils.isEmpty(val)) { 
+									risk.setSub_work(val);
+								}else {
+									risk.setSub_work(obj.getWork_short_name());
+								}	
+								
+								val = getCellData(workbook,row.getCell(1));
+								//val = formatter.formatCellValue(row.getCell(1)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setItem_no(val);}
+								
+								val = getCellData(workbook,row.getCell(2));
+								//val = formatter.formatCellValue(row.getCell(2)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setRisk_id(val);}
+								
+								val = getCellData(workbook,row.getCell(3));
+								//val = formatter.formatCellValue(row.getCell(3)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setOwner(val);}
+								
+								val = getCellData(workbook,row.getCell(4));
+								//val = formatter.formatCellValue(row.getCell(4)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setRisk_area_fk(val);}	
+								
+								val = getCellData(workbook,row.getCell(5));
+								//val = formatter.formatCellValue(row.getCell(5)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setSub_area_fk(val);}					
+								
+								val = getCellData(workbook,row.getCell(6));
+								//val = formatter.formatCellValue(row.getCell(6)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setDate(val);}								
+								
+								val = getCellData(workbook,row.getCell(7));
+								//val = formatter.formatCellValue(row.getCell(7)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setProbability(val);}										
+								
+								val = getCellData(workbook,row.getCell(8));
+								//val = formatter.formatCellValue(row.getCell(8)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setImpact(val);}
+								
+								val = getCellData(workbook,row.getCell(9));
+								//val = formatter.formatCellValue(row.getCell(9)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
+								
+								val = getCellData(workbook,row.getCell(10));
+								//val = formatter.formatCellValue(row.getCell(10)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
+								
+								val = getCellData(workbook,row.getCell(11));
+								//val = formatter.formatCellValue(row.getCell(11)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setMitigation_plan(val);}
+								
+								val = getCellData(workbook,row.getCell(12));
+								//val = formatter.formatCellValue(row.getCell(12)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setPriority_fk(val);}
+								
+								val = getCellData(workbook,row.getCell(13));
+								//val = formatter.formatCellValue(row.getCell(13)).trim();
+								if(!StringUtils.isEmpty(val)) { risk.setResponsible_person(val);}	
+								
+								
+								risk.setDate(DateParser.parse(risk.getDate()));
+								
+								boolean flag = risk.checkNullOrEmpty();
+								
+								if(!flag) {
+									risksList.add(risk);
+								}
+								
+							}
+						}						
+						
+					}
+					if(!risksList.isEmpty()){
+						arr  = riskService.uploadRiskAssessments(risksList);
+					}
+				}
+				workbook.close();
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadRiskAssessment() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadRiskAssessment() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return arr;
+	}
+	
+	
+	@RequestMapping(value = "/get-risk-assessment", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getRiskAssessment(@ModelAttribute Risk obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.riskAssessmentForm);
+			
+			Risk risk = riskService.getRiskAssessment(obj);
+			model.addObject("risk", risk);
+			
+		}catch (Exception e) {
+				logger.error("getRiskAssessment : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-risk-assessment", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView updateRiskAssessment(@ModelAttribute Risk obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/risk-assessment");
+			
+			boolean flag = riskService.updateRiskAssessment(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Risk Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Risk is failed. Try again.");
+			}			
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error",commonError);
+			logger.error("updateRiskAssessment : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/****************************************************************************/
+	
+	
+	@RequestMapping(value="/risk",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView risk(@ModelAttribute Risk obj,HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.riskGrid);
+		try {
+			List<Risk> worksList = riskService.getWorksList(obj);
+			model.addObject("worksList", worksList);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("risk : " + e.getMessage());
 		}
 		return model;
 	}
+
 	
 	@RequestMapping(value = "/ajax/get-risk-list", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -582,9 +855,18 @@ public class RiskController {
 		        case STRING:
 		            val = cell.getStringCellValue();
 		            break;
+		        case BLANK:
+		        	val = String.valueOf(cell.getNumericCellValue());
+		            break;
+		        case ERROR:
+		            val = cell.getStringCellValue();
+		            break;
 				default:
 					break;
 		    }
+		}else if (!StringUtils.isEmpty(cell)) {
+			DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+			val = formatter.formatCellValue(cell).trim();
 		}
 		return val;
 	}
@@ -615,6 +897,7 @@ public class RiskController {
 	        XSSFSheet riskSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Risk"));
 	        workBook.setSheetOrder(riskSheet.getSheetName(), 2);
 	        workBook.setActiveSheet(2);
+	        riskSheet.protectSheet("password");
 	        
 	        XSSFSheet revisionSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("ATR Revision"));
 	        workBook.setSheetOrder(revisionSheet.getSheetName(), 3);
@@ -640,8 +923,10 @@ public class RiskController {
 	        
 	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
 	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        sectionStyle.setLocked(false);
+	        CellStyle lockedSectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        lockedSectionStyle.setLocked(true);
 	        
-            
 	        /***************************************************************/
 	        
 	        XSSFRow indexRow = indexSheet.createRow(1);
@@ -850,7 +1135,6 @@ public class RiskController {
 	            for (RiskReport obj : riskDataList) {
 	                XSSFRow row = riskSheet.createRow(rowNo);
 	                int c = 0;
-	                
 	                cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getWork_id_fk());
@@ -892,36 +1176,42 @@ public class RiskController {
 					cell.setCellValue(NumberUtils.createInteger(obj.getRisk_rating()));*/
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					String formulae1 = "H"+(row.getRowNum()+1)+"*I"+(row.getRowNum()+1);
 					cell.setCellFormula(formulae1);
 					cell.setCellType(CellType.FORMULA);
+					cell.setCellStyle(lockedSectionStyle);
 					
 					/*cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getClassification());*/
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					String formulae2 = "IF(J"+(row.getRowNum()+1)+"<4,\"Low\",IF(J"+(row.getRowNum()+1)+"<9,\"Moderate\",IF(J"+(row.getRowNum()+1)+"<19,\"Substantial\",\"High\")))";
 					cell.setCellFormula(formulae2);
 					cell.setCellType(CellType.FORMULA);
-					
+					cell.setCellStyle(lockedSectionStyle);
+
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getMitigation_plan());
+					cell.setCellStyle(sectionStyle);
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getPriority());
+					cell.setCellStyle(sectionStyle);
 					
 					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getResponsible_person());
-										
-					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue("");
+										
+					/*cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue("");*/
+					
+					cell = row.createCell(c++);
+					String formulae3 = "IF(K"+(row.getRowNum()+1)+"=\"Low\",\"Accepted\",\"Open\")";
+					cell.setCellFormula(formulae3);
+					cell.setCellType(CellType.FORMULA);
+					cell.setCellStyle(lockedSectionStyle);
 					
 	                rowNo++;
 	            }
@@ -933,6 +1223,7 @@ public class RiskController {
 			     //sheet.autoSizeColumn(columnIndex);
             	riskSheet.setColumnWidth(columnIndex, 25 * 200);
 			}
+            
             /*******************************************************************************/
             
             String revisionHeaderString = "Risk ID^Date of Assessment^ATR Date^Action Taken";

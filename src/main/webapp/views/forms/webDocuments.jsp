@@ -115,7 +115,9 @@
 											        <thead>
 											            <th style="width:8%;">S.No</th>
 											            <th>Subject</th>
+											            <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											            <th>Date of Issue</th>
+											            </c:if>
 											            <th style="width:8%"> </th>
 											        </thead>
 											        <tbody>
@@ -123,7 +125,9 @@
 											            <tr id="row${indexx.count }${index.count }">
 											                <td>${index.count }</td>
 											                <td>${webDoc.title }</td>
-											                <td>${webDoc.title }</td>
+											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
+											                <td>${webDoc.date_of_issue }</td>
+											                </c:if>
 											                <td><a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
 											                    <a href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
 											                </td>
@@ -231,7 +235,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col m12 s12 input-field file-field">
+						<div class="col m6 s12 input-field file-field">
 							<div class="btn bg-m t-t-i">
 								<span>Upload File</span> <input type="file" id="webDocument" name="webDocument">
 							</div>
@@ -240,6 +244,14 @@
 							</div>
 							<span id="webDocumentError" class="error-msg" ></span>
 						</div>
+						<c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
+						<div class="col m6 s12 input-field">
+							<input type="text" id="date_of_issue" name="date_of_issue" class="validate datepicker"> 
+							<label for="date_of_issue">Date of Issue</label>
+							<span id="date_of_issueError" class="error-msg" ></span>
+							<button type="button" id="date_of_issue_icon"><i class="fa fa-calendar"></i></button>
+						</div>
+						</c:if>
 					</div>
 					<input type="hidden" id="category" name="category" />
 					<div class="row" style="margin-top: 15px;">
@@ -270,6 +282,7 @@
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script>
+	 
 		$(document).ready(function() {
 			$('.collapsible').collapsible();
 			$('.searchable').select2();
@@ -289,6 +302,21 @@
             });
             
             $('.close-message').delay(5000).fadeOut('slow');
+            
+            
+            $('#date_of_issue_icon').click(function () {
+                event.stopPropagation();
+                $('#date_of_issue').click();
+            });
+            
+            $('#date_of_issue').datepicker({                   
+  	    	  maxDate: new Date(),
+  	    	  format:'dd-mm-yyyy',
+  	    	  //perform click event on done button
+  	    	  onSelect: function () {
+  	    	     $('.confirmation-btns .datepicker-done').click();
+  	    	  }
+  	        });
 		});
 		
 		$("#fileSearch").on("keyup change", function() {

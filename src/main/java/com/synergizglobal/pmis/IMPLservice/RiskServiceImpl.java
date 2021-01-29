@@ -17,6 +17,29 @@ public class RiskServiceImpl implements RiskService{
 	RiskDao dao;
 
 	@Override
+	public List<Risk> getWorksList(Risk obj) throws Exception {
+		return dao.getWorksList(obj);
+	}
+
+	@Override
+	public int[] uploadRiskAssessments(List<Risk> risksList) throws Exception {
+		return dao.uploadRiskAssessments(risksList);
+	}
+
+	@Override
+	public Risk getRiskAssessment(Risk obj) throws Exception {
+		return dao.getRiskAssessment(obj);
+	}
+
+	@Override
+	public boolean updateRiskAssessment(Risk obj) throws Exception {
+		return dao.updateRiskAssessment(obj);
+	}
+	
+	
+	/*********************************************************************************/
+	
+	@Override
 	public List<Risk> getRiskList(Risk obj) throws Exception {
 		return dao.getRiskList(obj);
 	}

@@ -7,6 +7,17 @@ import com.synergizglobal.pmis.model.RiskReport;
 
 public interface RiskDao {
 
+
+	public List<Risk> getWorksList(Risk obj) throws Exception;
+
+	public int[] uploadRiskAssessments(List<Risk> risksList) throws Exception;
+
+	public Risk getRiskAssessment(Risk obj) throws Exception;
+
+	public boolean updateRiskAssessment(Risk obj) throws Exception;
+	
+	/*******************************************************/
+	
 	public List<Risk> getRiskList(Risk obj) throws Exception;
 
 	public List<Risk> getRisktWorksList(Risk obj) throws Exception;
@@ -44,5 +55,6 @@ public interface RiskDao {
 	public List<RiskReport> getExportRiskList(Risk risk) throws Exception;
 
 	public List<RiskReport> getATRRevisionDataList(Risk risk) throws Exception;
+
 
 }

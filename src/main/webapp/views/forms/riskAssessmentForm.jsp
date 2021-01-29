@@ -9,8 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>
-     	 <c:if test="${action eq 'edit'}">Update Risk Assessment</c:if>
-		 <c:if test="${action eq 'add'}"> Add Risk Assessment</c:if>
+     	 Risk Action Taken Report
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -149,12 +148,12 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                               <h6> 	Action Taken Report </h6>
+                               <h6>Action Taken Report </h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-							<form action="<%=request.getContextPath() %>/update-risk" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
+					<form action="<%=request.getContextPath() %>/update-risk-assessment" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
 						
                         <div class="container container-no-margin">                          
                             	
@@ -162,25 +161,24 @@
                                 <div class="col m2 hide-on-small-only"></div>                               
                                 <div class="col s12 m4 input-field">
 									<p class="searchable_label">Project :</p>
-									<p>${riskDetails.project_id_fk}- ${riskDetails.project_name}</p>	
+									<p>${risk.project_id_fk}- ${risk.project_name}</p>	
 							    </div> 
                                 <div class="col s12 m4 input-field"> 
 								    <p class="searchable_label"> Work :</p>
-									<p>${riskDetails.work_id_fk}- ${riskDetails.work_short_name}</p></div>
+									<p>${risk.work_id_fk}- ${risk.work_short_name}</p></div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
                             <div class="row">
-                            <input  type="hidden"   name="risk_id_pk" value="${riskDetails.risk_id_pk }" />
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Sub Work :</p>
-									<p>${riskDetails.work_id_fk}- ${riskDetails.work_short_name}</p>
+									<p>${risk.sub_work}</p>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                      <p class="searchable_label"> Risk ID :</p>
-									 <p>${riskDetails.risk_id }-</p>
+									 <p>${risk.risk_id }</p>
                                 </div>                                
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -190,11 +188,11 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Area :</p>
-									<p>${riskDetails.area }-</p>
+									<p>${risk.area }</p>
                                 </div>
                                 <div class="col s12 m4 input-field">
 									<p class="searchable_label"> Sub Area :</p>
-									<p>${riskDetails.sub_area_fk }-</p>                                   	
+									<p>${risk.sub_area_fk }</p>                                   	
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -203,11 +201,11 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Owner :</p>
-									<p>${riskDetails.owner }-</p>
+									<p>${risk.owner }</p>
                                 </div>
                                 <div class="col s12 m4 input-field">
 									<p class="searchable_label"> Responsible Person :</p>
-									<p>${riskDetails.responsible_person }-</p>                                   	
+									<p>${risk.responsible_person }</p>                                   	
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -229,55 +227,53 @@
 												</thead>
 												<tbody id="riskRevisionBody">
 													<c:choose>
-														<c:when	test="${not empty rObj.riskActions && fn:length(rObj.riskActions) gt 0 }">
-															<c:forEach var="aObj" items="${rObj.riskActions }"	varStatus="indexx">
-																<tr id="actionRow${indexx.count }">
-																	<td><input type="hidden"  id="rowCounts${indexx.count }"
-																		name="rowCounts" class="hide" /> 
-																		<input type="hidden" name="risk_action_ids"
-																		id="risk_action_ids${indexx.count }"	value="${aObj.risk_action_id}" />
+														<c:when	test="${not empty risk.riskActions && fn:length(risk.riskActions) gt 0 }">
+															<c:forEach var="aObj" items="${risk.riskActions }"	varStatus="index">
+																<tr id="actionRow${index.count }">
+																	<td>
 																		<div class="input-field">
-																			<input id="atr_dates${indexx.count }"
+																			<input id="atr_dates${index.count }"
 																				name="atr_dates" type="text"
 																				class="validate datepicker" placeholder="ATR  Date"
-																				value="${ aObj.atr_date}">
+																				value="${aObj.atr_date}">
 																			<button type="button"
-																				id="atr_date_icon${indexx.count }">
+																				id="atr_date_icon${index.count }">
 																				<i class="fa fa-calendar"></i>
 																			</button>
 																		</div></td>
-																	<td><textarea
-																			id="action_takens${indexx.count }"
+																	<td>
+																		<textarea
+																			id="action_takens${index.count }"
 																			name="action_takens" class="materialize-textarea"
-																			placeholder="Action Taken" style="height: 44px;">${ aObj.action_taken}</textarea>
+																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
 																	</td>
 																	<td><a
-																		onclick="removeactions('${indexx.count }');prevRow('${index.count }')"
+																		onclick="removeActions('${index.count }');"
 																		class="btn waves-effect waves-light red t-c "> <i
 																			class="fa fa-close"></i></a></td>
 																</tr>															
 															</c:forEach>
 														</c:when>
 														<c:otherwise>
-															<tr id="actionRow00${index.count }">
+															<tr id="actionRow0">
 																<td><input type="hidden"
-																	id="rowCounts0${index.count }" name="rowCounts"
+																	id="rowCounts0" name="rowCounts"
 																	value="1" class="hide" />
 																	<div class="input-field">
-																		<input id="atr_dates0${index.count }"
+																		<input id="atr_dates0"
 																			name="atr_dates" type="text"
 																			class="validate datepicker" placeholder="ATR  Date">
 																		<button type="button"
-																			id="atr_date_icon00${index.count }">
+																			id="atr_date_icon0">
 																			<i class="fa fa-calendar"></i>
 																		</button>
 																	</div></td>
-																<td><textarea id="action_takens0${index.count }"
+																<td><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
 																</td>
 																<td><a
-																	onclick="removeactions('0${index.count }');"
+																	onclick="removeActions('0');"
 																	class="btn waves-effect waves-light red t-c "> <i
 																		class="fa fa-close"></i></a></td>
 															</tr>
@@ -286,12 +282,12 @@
 												</tbody>
 											</table>
 											<table class="mdl-data-table">
-												<tbody id="actionBody">
+												<tbody>
 													<tr>
 														<td colspan="6" style="text-align: right;"><a
 															type="button"
 															class="btn waves-effect waves-light bg-m t-c "
-															onclick="addRiskRow('${index.count }')"> <i
+															onclick="addRiskRow()"> <i
 																class="fa fa-plus"></i>
 														</a>
 													</tr>
@@ -299,19 +295,20 @@
 											</table>
 											<c:choose>
 												<c:when
-													test="${not empty (rObj.riskActions) && fn:length(rObj.riskActions) gt 0 }">
-													<input type="hidden" id="trainNo" name="trainNo"
-														value="${fn:length(rObj.riskActions) }" />
+													test="${not empty (risk.riskActions) && fn:length(risk.riskActions) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo"
+														value="${fn:length(risk.riskActions) }" />
 												</c:when>
 												<c:otherwise>
-													<input type="hidden" id="trainNo" name="trainNo" value="0" />
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
 												</c:otherwise>
 											</c:choose>
 										</div>
 									</div>
 								</div>
 							</div>
-
+							
+							<input  type="hidden"   name="risk_id_pk" value="${risk.risk_id_pk }" />
 							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
@@ -321,7 +318,7 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/risk" class="btn waves-effect waves-light bg-s black-text"
+                                        <a href="<%=request.getContextPath()%>/risk-assessment" class="btn waves-effect waves-light bg-s black-text"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>
@@ -372,277 +369,53 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-          /*   $("#dates0,#date_of_identification").datepicker();
-            $('#date_icon0').click(function () {
-                event.stopPropagation();
-                $('#dates0').click();
-            });
-            $("#atr_date0").datepicker();
-            $('#atr_date_icon0').click(function () {
-                event.stopPropagation();
-                $('#atr_dates0').click();
-            });
-            $('.modal').modal();
-            $('#date_of_identification_icon').click(function () {
-                event.stopPropagation();
-                $('#date_of_identification').click();
-            });
-            $('#textarea1').characterCounter();
-            $('#textarea2').characterCounter();
-            $('#textarea3').characterCounter(); */
-            var projectId = "${riskDetails.project_id_fk}";
-            if($.trim(projectId) != ''){
-            	getWorksList(projectId);
-            }
-            getSubAreasList();
-            getAreasList();
            
         });
-        function getAreasList() {
-        	$(".page-loader").show();
-        	var area = $("#area").val();
-        	var sub_area_fk = $("#sub_area_fk").val();
-            if ($.trim(area) == "") {
-            	$("#area option:not(:first)").remove();
-            	var myParams = { sub_area_fk: sub_area_fk, area: area };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getAreasList",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                              	 var area = "${riskDetails.area}";
-                              	 
-      	                           if ($.trim(area) != '' && val.area == $.trim(area)) {
-                                         $("#area").append('<option value="' + val.area + '" selected>' + $.trim(val.area) + '</option>');
-                                     } else {
-                                         $("#area").append('<option value="' + val.area + '">' + $.trim(val.area) + '</option>');
-                                     }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-     
-        function getSubAreasList() {
-        	$(".page-loader").show();
-        	var area = $("#area").val();
-        	var sub_area_fk = $("#sub_area_fk").val();
-            if ($.trim(sub_area_fk) == "") {
-            	$("#sub_area_fk option:not(:first)").remove();
-            	var myParams = { sub_area_fk: sub_area_fk, area: area };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getSubAreasList",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	
-                            	 var subArea = "${riskDetails.sub_area_fk}";
-                            	 
-    	                           if ($.trim(subArea) != '' && val.sub_area_fk == $.trim(subArea)) {
-                                       $("#sub_area_fk").append('<option value="' + val.sub_area_fk + '" selected>' + $.trim(val.sub_area_fk) + '</option>');
-                                   } else {
-                                       $("#sub_area_fk").append('<option value="' + val.sub_area_fk + '">' + $.trim(val.sub_area_fk) + '</option>');
-                                   }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-     
-        function getWorksList(projectId) {
-        	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
-
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                    var workName = '';
-                                    var workId = "${riskDetails.work_id}";
-                                    if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                                    
-                                    if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                        $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                    } else {
-                                        $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                    }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
-    	//This function is used to get error message for all ajax calls
-        function getErrorMessage(jqXHR, exception) {
-        	    var msg = '';
-        	    if (jqXHR.status === 0) {
-        	        msg = 'Not connect.\n Verify Network.';
-        	    } else if (jqXHR.status == 404) {
-        	        msg = 'Requested page not found. [404]';
-        	    } else if (jqXHR.status == 500) {
-        	        msg = 'Internal Server Error [500].';
-        	    } else if (exception === 'parsererror') {
-        	        msg = 'Requested JSON parse failed.';
-        	    } else if (exception === 'timeout') {
-        	        msg = 'Time out error.';
-        	    } else if (exception === 'abort') {
-        	        msg = 'Ajax request aborted.';
-        	    } else {
-        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-        	    }
-        	    console.log(msg);
-         }
         
         
         
-        function addRiskRow(revisionId) {
-        	
+        function addRiskRow() {        	
             var rowNo = $("#rowNo").val();
-            var riskNo = Number(rowNo)+1;
-            var trainNo = $("#trainNo").val();
-            var tNo = Number(trainNo)+1;
-            var html = '<tr id="riskReviewRow' + riskNo + '">'+
-			'<td><div class="input-field"><input id="atr_dates' + riskNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'+
-			'<button type="button" id="atr_date_icon' + riskNo + '"><i class="fa fa-calendar"></i></button></div></td>'+
-			'<td><input type="hidden" id="rowCounts' + riskNo + '" name="rowCounts" class="hide" /><textarea id="action_takens' + riskNo +'"  name="action_takens" '+
+            var rNo = Number(rowNo)+1;
+            var html = '<tr id="actionRow' + rNo + '">'+
+			'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'+
+			'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></div></td>'+
+			'<td><input type="hidden" id="rowCounts' + rNo + '" name="rowCounts" class="hide" /><textarea id="action_takens' + rNo +'"  name="action_takens" '+
 			'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'+
-			'<td><a onclick="removeRiskRow(' + riskNo + '); prevRow('+tNo+')" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
+			'<td><a onclick="removeActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
-            $("#rowNo").val(riskNo);
-            $('#update_action'+riskNo).modal();
-          	/*   $("#dates" + riskNo).datepicker();
-            $('#reveiw_date_icon' + riskNo).click(function () {
+            $("#rowNo").val(rNo);
+          	
+            $("#atr_dates" + rNo+tNo).datepicker();
+            $('#atr_date_icon' + rNo+tNo).click(function () {
                 event.stopPropagation();
-                $('#dates' + riskNo).click();
-            }); 
-            $("#atr_dates" + riskNo+tNo).datepicker();
-            $('#atr_date_icon' + riskNo+tNo).click(function () {
-                event.stopPropagation();
-                $('#atr_dates' + riskNo+tNo).click();
+                $('#atr_dates' + rNo+tNo).click();
             });
-            $('.searchable').select2();*/		
         }
         
-        function removeRiskRow(rowNo){
-        	$("#riskReviewRow"+rowNo).remove();
+        function removeActions(rowNo){
+        	$("#actionRow"+rowNo).remove();
         }
-     
-        var rowNumber = null;
-        function showNo(a){
-        	rowNumber = a.href.split("#")[1].split("_")[1].split('action')[1];        	
-        	console.log($('#riskReviewRow'+rowNumber));
-        }
-        
-        function prevRow(tNo){
-       	 var id = $('#actionTableBody'+tNo+' tr .hide:last').attr('id');
-       	 if(id == null){
-         	id='s0';
-         }
-            var splt = id.split('s')[1];
-            var c = $('#actionTableBody'+tNo+' tr').length;
-            if(splt > 0){
-            	var lastIndex = splt;
-          	    var lastRow = $('#actionTableBody'+tNo+' #rowCounts'+lastIndex).removeAttr("disabled");
-          	 $('#actionTableBody'+tNo+' #rowCounts'+lastIndex+':last').val(c)
-            }else{
-           	 $("#rowCounts0").removeAttr("disabled");
-            }
-       	
-       }
       
-        function updateRisk(){
-       	 if(validator.form()){ // validation perform
+        function updateRisk(){	       	
    			$(".page-loader").show();
    			$('form input[name=atr_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
    			$('form input[name=action_takens]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=owners]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=responsible_persons]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=prioritys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=probabilitys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=impacts]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			$('form input[name=mitigation_plans]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-   			document.getElementById("riskForm").submit();	
-      	}
+   			$("#riskForm").submit();	
         }
-      
+	            
+            $('select').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
             
-        var validator =	$('#riskForm').validate({
-			 ignore: ":hidden:not(.validate-dropdown)",
-	  		    rules: {
-	  		 		  "project_id_fk": {
-	  			 		required: true
-	  			 	  },"work_id_fk": {
-	  			 		required: true
-	  			 	  },"risk_id": {
-	  			 		required: true
-	  			 	  }
-	  		 	},
-	  		    messages: {
-	  		 		 "project_id_fk": {
-	  				 	required: 'This field is required',
-	  			 	  },"work_id_fk": {
-	  			 		required: ' This field is required'
-	  			 	  },"risk_id": {
-	  			 		required: ' This field is required'
-	  			 	  }
-		   		},
-		   		errorPlacement:function(error, element){
-		   		 	if (element.attr("id") == "project_id_fk" ){
-						 document.getElementById("project_idError").innerHTML="";
-				 		 error.appendTo('#project_idError');
-					}else if(element.attr("id") == "work_id_fk" ){
-					   document.getElementById("work_id_fkError").innerHTML="";
-				 	   error.appendTo('#work_id_fkError');
-					}else if(element.attr("id") == "risk_id" ){
-						   document.getElementById("risk_idError").innerHTML="";
-					 	   error.appendTo('#risk_idError');
-					}else{
- 					error.insertAfter(element);
-			        } 
-		   		},submitHandler:function(form){
-			    	//form.submit();
-			    }
-			});   
-	            
-	            $('select').change(function(){
-	        	    if ($(this).val() != ""){
-	        	        $(this).valid();
-	        	    }
-	        	});
-	            
-	            $('input').change(function(){
-	        	    if ($(this).val() != ""){
-	        	        $(this).valid();
-	        	    }
-	        	});
+            $('input').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
 	            
     </script>
 

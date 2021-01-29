@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class WebDocuments {
-	private String id,title,file_name,category_id_fk,upload_date,uploaded_by,type_fk,category,type,web_document_id,category_id;
+	private String id,title,file_name,category_id_fk,upload_date,uploaded_by,type_fk,category,type,web_document_id,category_id,date_of_issue;
 	
 	private List<WebDocuments> webDocumentsList;
 	
@@ -113,6 +113,14 @@ public class WebDocuments {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDate_of_issue() {
+		return date_of_issue;
+	}
+
+	public void setDate_of_issue(String date_of_issue) {
+		this.date_of_issue = date_of_issue;
 	}
 	
 }

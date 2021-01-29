@@ -90,10 +90,10 @@ public class FileFormatModel {
 
 	public static List<String> getRiskFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		//String columns = "Work ID,Risk ID,Owner,Area,Sub-Area,Date of Assessment,Probability (A),Impact (B),Mitigation Plan,Priority,Responsible Person";
-		
-        String columns = "Work ID^Item No.^Risk ID^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING" + 
-        		"^RISK CLASSIFICATION^Mitigation Plan^Priority^Responsible Person^ATR Date ^Action Taken^Status";
+		/*String columns = "Work ID^Item No.^Risk ID^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING" + 
+				"^RISK CLASSIFICATION^Mitigation Plan^Priority^Responsible Person^ATR Date ^Action Taken^Status";*/
+		String columns = "Sub Work^Item No.^Risk ID^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING" + 
+        		"^RISK CLASSIFICATION^Mitigation Plan^Priority^Responsible Person";
         
         String[] convertedColumnsArray = columns.split("\\^");
         

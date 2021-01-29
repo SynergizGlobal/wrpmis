@@ -66,10 +66,13 @@ public class PageConstants {
 	public static final String trainingGrid = "forms/trainingGrid";
 	public static final String addEditTrainingForm = "forms/addEditTrainingForm";
 	
-	public static final String riskGrid = "forms/riskGrid";
-	public static final String addEditRiskForm = "forms/addEditRiskForm";
+	public static final String riskAssessmentGrid = "forms/riskAssessmentGrid";
+	public static final String riskAssessmentForm = "forms/riskAssessmentForm";
 	
 	public static final String riskReport = "forms/riskReport";
+	
+	public static final String riskGrid = "forms/riskGrid";
+	public static final String addEditRiskForm = "forms/addEditRiskForm";
 	
 	public static final String updateRiskGrid = "forms/updateRiskGrid";
 	public static final String uploadDownloadRiskGrid = "forms/uploadDownloadRiskGrid";

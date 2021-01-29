@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.WebDocumentsService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
@@ -93,6 +94,9 @@ public class WebDocumentsController {
 		try {			
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			obj.setUploaded_by(userName);
+			
+			obj.setDate_of_issue(DateParser.parse(obj.getDate_of_issue()));
+			
 			model.setViewName("redirect:/web-documents/"+document_type);
 			
 			String documentType = null;

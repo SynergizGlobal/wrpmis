@@ -11,6 +11,8 @@ public class MobilePageConstants2 {
 		public static final String safetyGrid = "mobileForms/safetyIncidentsGrid";
 		public static final String safetyForm = "mobileForms/safetyIncidentsForm";
 		
+		public static final String progressBulkUpdate = "mobileForms/progressBulkUpdate";
+		
 		
 	
 

@@ -611,19 +611,14 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForSafetyForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                var work_id_fk = "${safety.work_id_fk }";
-                                if ($.trim(work_id_fk) != '' && val.work_id == $.trim(work_id_fk)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
+                                var workShortName = '';
+                                if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -642,7 +637,7 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForSafetyForm",
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForSafetyForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -673,6 +668,8 @@
        			//workId = workId.substring(3, work_id.length);
        			$("#project_id_fk").val(projectId);
        			$("#project_id_fk").select2();
+	       		$("#project_id_fk").valid();
+	       		
        		}
        		
        		if ($.trim(projectId) != "") {
@@ -684,12 +681,13 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                var workShortName = '';
+                                if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
                                 if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
+                                    $("#work_id_fk").valid();
                                 } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
                                 }
                             });
                         }
@@ -1058,7 +1056,7 @@
         	        $(this).valid();
         	    }
         	});
-            
+         
             $('input').change(function(){
         	    if ($(this).val() != ""){
         	        $(this).valid();

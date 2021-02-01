@@ -48,89 +48,91 @@
           </li>
           </c:if> --%>
           <li class="blue darken-3"><a href="<%=request.getContextPath() %>/home"><span class="material-icons-outlined">home</span>Home</a></li>
-          <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
-	          <!-- 1st level Dropdown starts -->
-	          <!-- img src="/pmis/resources/images/dashboard-white.png"--> 
-	          <span class="material-icons-outlined">dashboard</span> Modules</a>
-          	  <ul class="second-level-menu">
-                  <c:forEach var="category" items="${dashboardModulesList }" varStatus="index">
-           			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
-	              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
-	              	<c:if test="${empty category.tableauSubList}">
-		              	<li>
-		              		<a href="<%=request.getContextPath()%>/InfoViz/${activity }">
-				 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-				 				<span class="nav-label">${category.tableauDashboardName }</span>
-				 			</a>
-				 		</li>
-			 		</c:if>
-			 		<c:if test="${not empty  category.tableauSubList}">
-				 		<li class="sub-menu">
-				 		 <!-- 2nd level Dropdown starts -->
-	                         <a href="#!">
-								<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-				 				<span class="nav-label">${category.tableauDashboardName }</span>
-							 </a>
-	                         <ul class="third-level-menu">
-	                             <c:forEach var="subList" items="${category.tableauSubList }">
-				           			<c:set var="tempsubActivity" value="${ fn:toLowerCase(subList.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
-            						<c:set var="subActivity" value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}"></c:set>
-				           			<c:set var="subActivityName" value="${ subList.tableauDashboardName}"></c:set>
-			           				<li>
-      									<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-      										<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span>
-      										<span class="nav-label">${subList.tableauDashboardName }</span>
-          								</a>
-              						</li>
-				           		</c:forEach> 
-	                         </ul>
-	                     </li>
-	                      <!-- 2nd level Dropdown ends -->
-                     </c:if>
-                            
-	              </c:forEach>
-              </ul>
-           	  <!-- 1st level Dropdown ends -->
-          </li>
-          
-          <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
-	          <span class="material-icons-outlined">dashboard</span> Projects</a>
-          	  <ul class="second-level-menu">
-                  <c:forEach var="category" items="${dashboardProjectsList }" varStatus="index">
-           			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
-	              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
-	              	<c:if test="${empty category.tableauSubList}">
-		              	<li>
-		              		<a href="<%=request.getContextPath()%>/InfoViz/${activity }">
-				 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-				 				<span class="nav-label">${category.tableauDashboardName }</span>
-				 			</a>
-				 		</li>
-			 		</c:if>
-			 		<c:if test="${not empty  category.tableauSubList}">
-				 		<li class="sub-menu">
-	                         <a href="#!">
-								<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
-				 				<span class="nav-label">${category.tableauDashboardName }</span>
-							 </a>
-	                         <ul class="third-level-menu">
-	                             <c:forEach var="subList" items="${category.tableauSubList }">
-				           			<c:set var="tempsubActivity" value="${ fn:toLowerCase(subList.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
-            						<c:set var="subActivity" value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}"></c:set>
-				           			<c:set var="subActivityName" value="${ subList.tableauDashboardName}"></c:set>
-			           				<li>
-      									<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
-      										<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span>
-      										<span class="nav-label">${subList.tableauDashboardName }</span>
-          								</a>
-              						</li>
-				           		</c:forEach> 
-	                         </ul>
-	                     </li>
-                     </c:if>
-	              </c:forEach>
-              </ul>              
-          </li>
+          <c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }">
+	          <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
+		          <!-- 1st level Dropdown starts -->
+		          <!-- img src="/pmis/resources/images/dashboard-white.png"--> 
+		          <span class="material-icons-outlined">dashboard</span> Modules</a>
+	          	  <ul class="second-level-menu">
+	                  <c:forEach var="category" items="${dashboardModulesList }" varStatus="index">
+	           			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
+		              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
+		              	<c:if test="${empty category.tableauSubList}">
+			              	<li>
+			              		<a href="<%=request.getContextPath()%>/InfoViz/${activity }">
+					 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+					 				<span class="nav-label">${category.tableauDashboardName }</span>
+					 			</a>
+					 		</li>
+				 		</c:if>
+				 		<c:if test="${not empty  category.tableauSubList}">
+					 		<li class="sub-menu">
+					 		 <!-- 2nd level Dropdown starts -->
+		                         <a href="#!">
+									<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+					 				<span class="nav-label">${category.tableauDashboardName }</span>
+								 </a>
+		                         <ul class="third-level-menu">
+		                             <c:forEach var="subList" items="${category.tableauSubList }">
+					           			<c:set var="tempsubActivity" value="${ fn:toLowerCase(subList.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
+	            						<c:set var="subActivity" value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}"></c:set>
+					           			<c:set var="subActivityName" value="${ subList.tableauDashboardName}"></c:set>
+				           				<li>
+	      									<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
+	      										<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span>
+	      										<span class="nav-label">${subList.tableauDashboardName }</span>
+	          								</a>
+	              						</li>
+					           		</c:forEach> 
+		                         </ul>
+		                     </li>
+		                      <!-- 2nd level Dropdown ends -->
+	                     </c:if>
+	                            
+		              </c:forEach>
+	              </ul>
+	           	  <!-- 1st level Dropdown ends -->
+	          </li>
+	          
+	          <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
+		          <span class="material-icons-outlined">dashboard</span> Projects</a>
+	          	  <ul class="second-level-menu">
+	                  <c:forEach var="category" items="${dashboardProjectsList }" varStatus="index">
+	           			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
+		              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
+		              	<c:if test="${empty category.tableauSubList}">
+			              	<li>
+			              		<a href="<%=request.getContextPath()%>/InfoViz/${activity }">
+					 				<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+					 				<span class="nav-label">${category.tableauDashboardName }</span>
+					 			</a>
+					 		</li>
+				 		</c:if>
+				 		<c:if test="${not empty  category.tableauSubList}">
+					 		<li class="sub-menu">
+		                         <a href="#!">
+									<span style="padding-right: 5px;" class="fa fa-${category.imagePath}"></span>
+					 				<span class="nav-label">${category.tableauDashboardName }</span>
+								 </a>
+		                         <ul class="third-level-menu">
+		                             <c:forEach var="subList" items="${category.tableauSubList }">
+					           			<c:set var="tempsubActivity" value="${ fn:toLowerCase(subList.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
+	            						<c:set var="subActivity" value="${ fn:toLowerCase(tempsubActivity.replaceAll(' ', '-'))}"></c:set>
+					           			<c:set var="subActivityName" value="${ subList.tableauDashboardName}"></c:set>
+				           				<li>
+	      									<a href="<%=request.getContextPath()%>/InfoViz/${activity }/${subActivity }">
+	      										<span style="padding-right: 5px;" class="fa fa-${subList.imagePath }"></span>
+	      										<span class="nav-label">${subList.tableauDashboardName }</span>
+	          								</a>
+	              						</li>
+					           		</c:forEach> 
+		                         </ul>
+		                     </li>
+	                     </c:if>
+		              </c:forEach>
+	              </ul>              
+	          </li>          
+          </c:if>
           
           <c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
 	          <li class="blue darken-1 dropdown">
@@ -350,9 +352,10 @@
         <option>Select Work</option>
       </select>
     </li> -->	
-    <li><a href="<%=request.getContextPath() %>/home"><span class="material-icons-outlined">home</span>Home</a></li>			
-    <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Modules</a>
-		<!-- Mobile dropdown stars here -->
+    <li><a href="<%=request.getContextPath() %>/home"><span class="material-icons-outlined">home</span>Home</a></li>
+    <c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }">			
+    	<li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Modules</a>
+			<!-- Mobile dropdown stars here -->
           <ul class="dropdown-data collapsible collapsible-body second-lvl">         
                   <c:forEach var="category" items="${dashboardModulesList }" varStatus="index">
            			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
@@ -395,11 +398,11 @@
 	              <!-- Mobile dropdown ends here -->
 	              
               </ul>
-    </li>
+    	</li>
     
-    <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Projects</a>
-		<!-- Mobile dropdown stars here -->
-          <ul class="dropdown-data collapsible collapsible-body second-lvl">         
+    	<li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Projects</a>
+			<!-- Mobile dropdown stars here -->
+          	<ul class="dropdown-data collapsible collapsible-body second-lvl">         
                   <c:forEach var="category" items="${dashboardProjectsList }" varStatus="index">
            			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
 	              	<c:set var="activity" value="${ fn:toLowerCase(tempactivity.replaceAll(' ', '-'))}"></c:set>
@@ -441,8 +444,8 @@
 	              <!-- Mobile dropdown ends here -->
 	              
               </ul>
-    </li>
-    
+    	</li>
+    </c:if>
     <c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
 	<li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">post_add</span> Update Forms</a>
     	<ul class="dropdown-data collapsible-body second-lvl collapsible">          	  

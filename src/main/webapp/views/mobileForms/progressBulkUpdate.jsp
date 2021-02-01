@@ -68,11 +68,15 @@
             position: relative;
             display: inline-block;
         }
+        
         .dot-container{
 			min-width:55px;
 		}		  
 		 #component_circles .dot-container:first-of-type a{
             margin-left: -10px;
+        }  
+         #component_circles .dot-container:first-of-type a~.dot-line{
+            margin-left: 30px;
         }  
         #dotgroup1 .dot-line {
             width: inherit;
@@ -324,14 +328,11 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="row" style="margin-bottom: 20px;/*display:none;*/" id="component_circles_row">
+                                    <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
                                         <div class="col m12 s12" id="dotgroup1">
                                             <div class="dotgroup-scroll">
                                                 <div id="component_circles" style="padding: 10px;">
-                                                   
-                                                <div class="dot-container" id="dd140" style="width: 119px;"><a href="javascript:void(0);" id="140" style="" onclick="getProgressBulkUpdateActivitiesList('140','Activity Indoor ');" class="dot not-started clearData"><span class="project even">Control Tower / SM Office</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd141" style="width: 68px;"><a href="javascript:void(0);" id="141" style="" onclick="getProgressBulkUpdateActivitiesList('141','Activity Indoor ');" class="dot not-started clearData"><span class="project odd">Booking Office</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd147" style="width: 29px;"><a href="javascript:void(0);" id="147" style="" onclick="getProgressBulkUpdateActivitiesList('147','Activity Outdoor ');" class="dot not-started clearData"><span class="project even">CCTV</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd149" style="width: 164px;"><a href="javascript:void(0);" id="149" style="" onclick="getProgressBulkUpdateActivitiesList('149','Activity Outdoor ');" class="dot not-started clearData"><span class="project odd">Pilot Train Indicators Display for PF</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd150" style="width: 171px;"><a href="javascript:void(0);" id="150" style="" onclick="getProgressBulkUpdateActivitiesList('150','Activity Outdoor ');" class="dot not-started clearData"><span class="project even">Pilot Train Indicators Display for Pilot</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd151" style="width: 86px;"><a href="javascript:void(0);" id="151" style="" onclick="getProgressBulkUpdateActivitiesList('151','Activity Outdoor ');" class="dot not-started clearData"><span class="project odd">Video Display Unit</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd152" style="width: 50px;"><a href="javascript:void(0);" id="152" style="" onclick="getProgressBulkUpdateActivitiesList('152','Activity Outdoor ');" class="dot not-started clearData"><span class="project even">PA System</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd154" style="width: 93px;"><a href="javascript:void(0);" id="154" style="" onclick="getProgressBulkUpdateActivitiesList('154','Activity Outdoor ');" class="dot not-started clearData"><span class="project odd">Hadicapped Beeper</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd155" style="width: 86px;"><a href="javascript:void(0);" id="155" style="" onclick="getProgressBulkUpdateActivitiesList('155','Activity Outdoor ');" class="dot not-started clearData"><span class="project even">Quad / PIJF Cable</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd157" style="width: 50px;"><a href="javascript:void(0);" id="157" style="" onclick="getProgressBulkUpdateActivitiesList('157','Activity Outdoor ');" class="dot not-started clearData"><span class="project odd">Cable Tray</span></a><span class="dot-line"></span></div><div class="dot-container" id="dd158" style="width: 90px;"><a href="javascript:void(0);" id="158" style="" onclick="getProgressBulkUpdateActivitiesList('158','Activity Outdoor ');" class="dot not-started clearData"><span class="project even">Releasing / Shifting</span></a><span class="dot-line"></span></div>
-                                            
-                                                   
+                                                                                                
                                                 </div>
                                             </div>
                                         </div>
@@ -377,21 +378,22 @@
                                             </select>
                                             <span id="strip_chart_activity_idError" class="error-msg"></span>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col m2 hide-on-small-only"></div>
-                                        <div class="col m4 s6" style="margin-top: 10px;">
-                                            <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()" style="margin-top:12px;text-transform:capitalize;padding: 0 12px;width:100%">Finish Activities</a>
-                                        </div>
-                                        <div class="col m4 s6 input-field" style="margin-top: 10px;">
+                                         <div class="col m4 s6 input-field" style="margin-top:17px;">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
                                              <label for="progress_date">Reporting Date</label>
                                              <button type="button" id="progress_date_icon" class="white"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m2 hide-on-small-only"></div>
                                     </div>
+
+                                   <!--  <div class="row">
+                                        <div class="col m2 hide-on-small-only"></div>
+                                        <div class="col m4 s6" style="margin-top: 10px;">
+                                            <a class="btn waves-effect bg-m" id="activities" onclick="updateActual()" style="margin-top:12px;text-transform:capitalize;padding: 0 12px;width:100%">Finish Activities</a>
+                                        </div> 
+                                       
+                                        <div class="col m2 hide-on-small-only"></div>
+                                    </div>-->
 									<span id="checkBoxError" class="error-msg" style="text-align:center"></span>
 									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
 								</div>
@@ -1041,23 +1043,22 @@
  	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartfilterList",
  	            data: myParams, cache: false,
  	            success: function (data) {
- 	            	 console.log(data);
  	                if (data.length > 0) {
  	                    $.each(data, function (i, val) {
- 	                    	console.log(val);
  	                    	 var num = $('#table tbody tr').length;
- 	                    	 html = '<tr id="row'+num+'"><td data-head="Activity Check"><p><label><input type="checkbox" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></p></td>'
+ 	                    	 html = '<tr id="row'+num+'">'+
+ 	                    	 	'<td><label><input type="hidden" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></td>'
  	                    		+'<input type="hidden" name="strip_chart_ids"  id="strip_chart_id'+num+'"  value="' + $.trim(val.strip_chart_id) + '" /></td>'
- 	            	 			+'<td data-head="Component ID">' + $.trim(val.strip_chart_component_id_name) + '</td>'
- 	            	 			+'<td data-head="Component">' + $.trim(val.strip_chart_component) + '</td>'
- 	            	 			+'<td data-head="Activity">' + $.trim(val.strip_chart_activity_name) + '</td>'
- 	            	 			+'<td data-head="Planned Start">' + $.trim(val.planned_start) + '</td>'
- 	            	 			+'<td data-head="Planned Finish">' + $.trim(val.planned_finish) + '</td>'
+ 	            	 			+'<td data-head="Component ID"><div>' + $.trim(val.strip_chart_component_id_name) + '</div></td>'
+ 	            	 			+'<td data-head="Component"><div>' + $.trim(val.strip_chart_component) + '</div></td>'
+ 	            	 			+'<td data-head="Activity"><div>' + $.trim(val.strip_chart_activity_name) + '</div></td>'
+ 	            	 			+'<td data-head="Planned Start"><div>' + $.trim(val.planned_start) + '</div></td>'
+ 	            	 			+'<td data-head="Planned Finish"><div>' + $.trim(val.planned_finish) + '</div></td>'
  	            	 			+'<td data-head="Scopet"><span>' + $.trim(val.scope) + '</span>'
  	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td data-head="Completed"><span>' + $.trim(val.completed) + '</span>'
- 	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
- 	            	 			+' <td class="input-field" data-head="Scope"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" readonly ><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
+ 	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '"  /></td>'
+ 	            	 			+' <td class="input-field" data-head="Scope"><div><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" style="margin-bottom:-14px"><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span><div></td></tr>';
  	                    		$("#filerList").append(html);	  
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });

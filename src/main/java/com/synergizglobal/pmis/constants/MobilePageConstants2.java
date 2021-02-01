@@ -1,7 +1,7 @@
 package com.synergizglobal.pmis.constants;
 
 public class MobilePageConstants2 {
-		public static final String mobileDocuments = "mobileForms/mobileDocuments";
+		public static final String webDocuments = "mobileForms/webDocuments";
 		
 		public static final String progress = "mobileForms/progress";
 		

@@ -41,7 +41,7 @@ public class WebviewWebDocumentsController {
 	
 	@RequestMapping(value="/web-documents/{document_type}",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView webDocuments(@ModelAttribute WebDocuments obj,@PathVariable("document_type") String document_type,HttpSession session){
-		ModelAndView model = new ModelAndView(MobilePageConstants2.mobileDocuments);
+		ModelAndView model = new ModelAndView(MobilePageConstants2.webDocuments);
 		String title = "";
 		try {
 			String documentType = null;

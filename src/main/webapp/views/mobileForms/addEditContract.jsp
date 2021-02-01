@@ -173,6 +173,9 @@
 		.table-inside .normal-btn .btn .fa {
 			font-size: 1.3rem;
 		}
+		.table-inside .mdl-data-table td {
+		    white-space: inherit;
+		}
 	</style>
 </head>
 

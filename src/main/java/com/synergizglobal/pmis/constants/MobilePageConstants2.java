@@ -13,6 +13,8 @@ public class MobilePageConstants2 {
 		
 		public static final String progressBulkUpdate = "mobileForms/progressBulkUpdate";
 		
+		public static final String contractGrid = "mobileForms/contractGrid";
+		public static final String addEditContractForm = "mobileForms/addEditContractForm";
 		
 	
 

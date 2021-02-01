@@ -90,7 +90,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 	public List<StripChart> getProgressBulkUpdateContractsList(StripChart obj) throws Exception {
 		List<StripChart> objsList = new ArrayList<StripChart>();
 		try {
-			String qry = "select scv.contract_id_fk as contract_id,c.work_id_fk,c.contract_name "
+			String qry = "select scv.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
 					+ "from strip_chart_general scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					
@@ -144,7 +144,7 @@ public class ProgressBulkUpdateDaoImpl implements ProgressBulkUpdateDao{
 					+ "scv.component AS strip_chart_component,scv.activity_id AS strip_chart_activity_id,scv.activity_name AS strip_chart_activity_name,"
 					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section_id AS strip_chart_section_id,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.`status` AS status_name,scv.remarks,"
 					+ "DATE_FORMAT(scv.actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(scv.actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(scv.planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "DATE_FORMAT(scv.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,w.project_id_fk as project_id "
+					+ "DATE_FORMAT(scv.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from strip_chart_general scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "

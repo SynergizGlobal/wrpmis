@@ -236,6 +236,11 @@
         .datepicker~button{
         	top:20px;
         }
+        #filerList td.input-field div .scopeInput{
+        	margin-bottom: -14px;
+		    width: 100%;
+		    height: 30px;
+        }
     </style>
 </head>
 <body>
@@ -299,7 +304,7 @@
                                                 onchange="resetWorksAndProjectsDropdowns();getProgressBulkUpdateStructures(); getProgressBulkUpdateLines(); getProgressBulkUpdateSections();">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_id}<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -405,12 +410,12 @@
                                                 <thead>
                                                     <tr>
                                                         <th>
-                                                            <p>
+                                                           <!--  <p>
                                                                 <label>
                                                                   <input type="checkbox" name="select-all" id="select-all"/>
                                                                   <span></span>
                                                                 </label>
-                                                              </p>
+                                                              </p> -->
                                                         </th>
                                                         <th>Component <br>ID</th>
                                                         <th>Component</th>
@@ -672,13 +677,13 @@
 	            	var id2 = "";                        
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
-	                        var contract_name = '';
-	                        if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
+	                        var contract_short_name = '';
+	                        if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
 	                        if ($.trim(id2) != '' && val.contract_id == $.trim(id2)) {
 	                        	id1 = val.contract_id;
-	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
 	                        } else {
-	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+	                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_short_name) + '</option>');
 	                        }
 	                    });
 	                }
@@ -1058,7 +1063,7 @@
  	            	 			+'<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
  	            	 			+'<td data-head="Completed"><span>' + $.trim(val.completed) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '"  /></td>'
- 	            	 			+' <td class="input-field" data-head="Scope"><div><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" style="margin-bottom:-14px"><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span><div></td></tr>';
+ 	            	 			+' <td class="input-field" data-head="Scope"><div><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" class="scopeInput"><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span><div></td></tr>';
  	                    		$("#filerList").append(html);	  
  	                    	 	
  	                    	 	/* $(document).on('change', '#strip_chart_component_id ,#strip_chart_activity_id', function() {  $('#filerList').empty(html); });

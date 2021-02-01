@@ -58,19 +58,6 @@ public class WebviewProgreeBulkUpdateController {
 		return model;
 	}
 
-	
-	@RequestMapping(value = "/ajax/getProgressBulkUpdateProjectsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<StripChart> getProgressBulkUpdateProjectsList(@ModelAttribute StripChart obj){
-		List<StripChart> projects = null;
-		try{
-			projects = progressBulkUpdateervice.getProgressBulkUpdateProjectsList(obj);			
-		}catch(Exception e){
-			logger.error("getProgressBulkUpdateProjectsList() : "+e.getMessage());
-		}
-		return projects;
-	}
-	
 	@RequestMapping(value = "/ajax/getProgressBulkUpdateWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getProgressBulkUpdateWorksList(@ModelAttribute StripChart obj){
@@ -156,19 +143,6 @@ public class WebviewProgreeBulkUpdateController {
 			logger.error("getProgressBulkActivitiesList() : "+e.getMessage());
 		}
 		return activities;
-	}
-	
-	@RequestMapping(value = "/ajax/getProgressBulkUpdateDetails", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public StripChart getProgressBulkUpdateDetails(@ModelAttribute StripChart obj){
-		StripChart data = null;
-		try{
-			data = progressBulkUpdateervice.getProgressBulkUpdateDetails(obj);	
-		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("getProgressBulkUpdateDetails() : "+e.getMessage());
-		}
-		return data;
 	}
 	
 	@RequestMapping(value = "/ajax/getStripChartfilterList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

@@ -227,9 +227,9 @@ public class RiskDaoImpl implements RiskDao{
 					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
 					"LEFT join project p on w.project_id_fk = p.project_id " +
 					"LEFT OUTER join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
-					"where risk_id_pk = ? ";
+					"where risk_id_pk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)";
 			
-			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
+			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
 			
 			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
 			

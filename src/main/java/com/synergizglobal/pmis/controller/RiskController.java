@@ -217,7 +217,6 @@ public class RiskController {
 								risk.setWork_id_fk(obj.getWork_id_fk());
 								//System.out.println(i + " = "+ val);
 								val = getCellData(workbook,row.getCell(0));
-								//val = formatter.formatCellValue(row.getCell(0)).trim();
 								if(!StringUtils.isEmpty(val)) { 
 									risk.setSub_work(val);
 								}else {
@@ -225,55 +224,42 @@ public class RiskController {
 								}	
 								
 								val = getCellData(workbook,row.getCell(1));
-								//val = formatter.formatCellValue(row.getCell(1)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setItem_no(val);}
 								
 								val = getCellData(workbook,row.getCell(2));
-								//val = formatter.formatCellValue(row.getCell(2)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setRisk_id(val);}
 								
 								val = getCellData(workbook,row.getCell(3));
-								//val = formatter.formatCellValue(row.getCell(3)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setOwner(val);}
 								
 								val = getCellData(workbook,row.getCell(4));
-								//val = formatter.formatCellValue(row.getCell(4)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setRisk_area_fk(val);}	
 								
 								val = getCellData(workbook,row.getCell(5));
-								//val = formatter.formatCellValue(row.getCell(5)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setSub_area_fk(val);}					
 								
 								val = getCellData(workbook,row.getCell(6));
-								//val = formatter.formatCellValue(row.getCell(6)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setDate(val);}								
 								
 								val = getCellData(workbook,row.getCell(7));
-								//val = formatter.formatCellValue(row.getCell(7)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setProbability(val);}										
 								
 								val = getCellData(workbook,row.getCell(8));
-								//val = formatter.formatCellValue(row.getCell(8)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setImpact(val);}
 								
 								val = getCellData(workbook,row.getCell(9));
-								//val = formatter.formatCellValue(row.getCell(9)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
 								
 								val = getCellData(workbook,row.getCell(10));
-								//val = formatter.formatCellValue(row.getCell(10)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
 								
 								val = getCellData(workbook,row.getCell(11));
-								//val = formatter.formatCellValue(row.getCell(11)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setMitigation_plan(val);}
 								
 								val = getCellData(workbook,row.getCell(12));
-								//val = formatter.formatCellValue(row.getCell(12)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setPriority_fk(val);}
 								
 								val = getCellData(workbook,row.getCell(13));
-								//val = formatter.formatCellValue(row.getCell(13)).trim();
 								if(!StringUtils.isEmpty(val)) { risk.setResponsible_person(val);}	
 								
 								

@@ -157,14 +157,24 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
-				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				String parentId = resultSet.getString("parent_form_id_sr_fk");
+				List<Forms> subList = getFormsSubList(base,parentId, connection);
+				obj.setFormsSubMenu(subList);
 				
-				obj.setFormsSubMenu(getFormsSubList(base,parentId, connection));
+				String formUrl = null;
+				if(!StringUtils.isEmpty(base) && base.equals("web")) {
+					formUrl = resultSet.getString("web_form_url");
+				}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
+					formUrl = resultSet.getString("mobile_form_url");
+				} 
+				if(!StringUtils.isEmpty(formUrl) || (!StringUtils.isEmpty(subList) && subList.size() > 0 )) {
+					objsList.add(obj);
+				}
 				
-				objsList.add(obj);
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -212,7 +222,8 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
-				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				objsList.add(obj);
@@ -461,14 +472,24 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
-				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				String parentId = resultSet.getString("parent_form_id_sr_fk");
 				
-				obj.setFormsSubMenu(getReportFormsSubList(base,parentId, connection));
+				List<Forms> subList = getReportFormsSubList(base,parentId, connection);
+				obj.setFormsSubMenu(subList);
 				
-				objsList.add(obj);
+				String formUrl = null;
+				if(!StringUtils.isEmpty(base) && base.equals("web")) {
+					formUrl = resultSet.getString("web_form_url");
+				}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
+					formUrl = resultSet.getString("mobile_form_url");
+				} 
+				if(!StringUtils.isEmpty(formUrl) || (!StringUtils.isEmpty(subList) && subList.size() > 0 )) {
+					objsList.add(obj);
+				}
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -516,7 +537,8 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
 				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
-				obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				objsList.add(obj);

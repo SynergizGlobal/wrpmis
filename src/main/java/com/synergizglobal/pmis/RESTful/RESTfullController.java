@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.TableauDashboardService;
+import com.synergizglobal.pmis.Iservice.WebDocumentsService;
+import com.synergizglobal.pmis.Iservice.WebLinksService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.WebDocuments;
+import com.synergizglobal.pmis.model.WebLinks;
 
 @CrossOrigin(origins="*" ,maxAge = 3600)
 @RestController
@@ -36,6 +40,12 @@ public class RESTfullController {
 	
 	@Autowired
 	HomeService homeService;
+	
+	@Autowired
+	WebDocumentsService webDocumentsService;
+	
+	@Autowired
+	WebLinksService webLinksService;
 	
 	@Autowired
 	TableauDashboardService tableauDashboardService;
@@ -258,6 +268,40 @@ public class RESTfullController {
 			response.setResult(forms);
 		}catch(Exception e){
 			logger.error("getReportFormsList() : "+e.getMessage());
+			response.setSuccess(false);
+			response.setError(commonError);
+		}
+		return response;
+	}
+	
+	@RequestMapping(value = "/getWebDocumentFormsList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Response getWebDocumentFormsList(){
+		Response response = new Response();
+		List<WebDocuments> webDocumentTypes = null;
+		try{
+			webDocumentTypes = webDocumentsService.getWebDocumentTypes(null);
+			response.setSuccess(true);
+			response.setResult(webDocumentTypes);
+		}catch(Exception e){
+			logger.error("getWebDocumentFormsList() : "+e.getMessage());
+			response.setSuccess(false);
+			response.setError(commonError);
+		}
+		return response;
+	}
+	
+	@RequestMapping(value = "/getQuickLinksList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Response getQuickLinksList(){
+		Response response = new Response();
+		List<WebLinks> webLinksList = null;
+		try{
+			webLinksList = webLinksService.getWebLinks(null);
+			response.setSuccess(true);
+			response.setResult(webLinksList);
+		}catch(Exception e){
+			logger.error("getQuickLinksList() : "+e.getMessage());
 			response.setSuccess(false);
 			response.setError(commonError);
 		}

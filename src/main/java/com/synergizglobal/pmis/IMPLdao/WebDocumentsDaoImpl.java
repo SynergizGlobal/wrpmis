@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.WebDocumentsDao;
 import com.synergizglobal.pmis.model.WebDocuments;
@@ -29,6 +30,13 @@ public class WebDocumentsDaoImpl implements WebDocumentsDao{
 			String categoriesQry ="select type from web_documents_type";
 			
 			objsList = jdbcTemplate.query( categoriesQry, new BeanPropertyRowMapper<WebDocuments>(WebDocuments.class));	
+			for (WebDocuments doc : objsList) {
+				if(!StringUtils.isEmpty(doc.getType())) {
+					String documentType = doc.getType();
+					String modified_type = documentType.replaceAll("-", " ").toLowerCase();
+					doc.setModified_type("web-documents/"+modified_type);
+				}
+			}
 						
 		}catch(Exception e){ 
 			throw new Exception(e);

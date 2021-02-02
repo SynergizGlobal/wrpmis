@@ -10,6 +10,8 @@ public interface RiskReportService {
 
 	List<RiskReport> getWorksListInRiskReport(RiskReport obj) throws Exception;
 
+	List<RiskReport> getSubWorksListInRiskReport(RiskReport obj) throws Exception;
+
 	List<RiskReport> getAssessmentDateListInRiskReport(RiskReport obj) throws Exception;
 
 	List<RiskReport> getPrioritizationOfRisks(RiskReport obj) throws Exception;

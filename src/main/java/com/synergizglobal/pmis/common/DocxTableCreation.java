@@ -79,7 +79,8 @@ public class DocxTableCreation {
 			Tr titleRow1 = factory.createTr();		
 			List<String> tableHeader1 = new ArrayList<String>();
 		  	//tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()+"\nDate of Risk Assessment - "+obj.getAssessment_date());
-			tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()
+			//tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()
+			tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"\nHOD - "+obj.getOwner()
 			+"\nSanction Details: "
 			+ "\nEstimated/Revised Cost : "+obj.getEstimatedOrRevisedCost() + " Cr"
 			+ "\nEstimated/Revised Sanction Year : "+obj.getEstimatedOrRevisedDate()
@@ -195,7 +196,8 @@ public class DocxTableCreation {
 	        addPageBreak(t);
 	        addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,fontRPr,"Annexure-II");
 	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"PRIORITIZATION OF RISKS & ITS MITIGATION/REDUCTION PLAN");
-	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
+	        //addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
+	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name());
 	        addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Date of Risk Assessment : "+obj.getAssessment_date());
 			
 			Tbl reportTable = factory.createTbl();
@@ -261,7 +263,8 @@ public class DocxTableCreation {
 			addPageBreak(t);
 			addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,fontRPr,"Annexure-III");
 			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"ATR ON MITIGATION/REDUCTION PLAN");
-			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
+			//addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")");
+			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Name of Project: "+obj.getWork_short_name());
 			addHeading(wordMLPackage, t, factory,JcEnumeration.CENTER,titleRPr,"Date of Risk Assessment : "+obj.getAssessment_date());
 			
 			Tbl reportTable = factory.createTbl();

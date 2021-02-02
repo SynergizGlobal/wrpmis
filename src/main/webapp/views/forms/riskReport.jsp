@@ -114,14 +114,21 @@
                             <div class="col m8 s12">
                             	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="report_work_id" name="work_id" onchange="getAssessmentDateListInRiskReport(this.value);">
+	                                        <select class="searchable validate-dropdown" id="report_work_id" name="work_id" onchange="getSubWorksListInRiskReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="report_work_idError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Sub Work</p>
+	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getAssessmentDateListInRiskReport(this.value);">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="sub_workError" class="error-msg" ></span>
+	                                    </div>
+	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label">Assessment Date</p>
 	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date">
 	                                            <option value="">Select </option>
@@ -129,7 +136,7 @@
 	                                        <span id="report_assessment_dateError" class="error-msg" ></span>
 	                                    </div>
 	
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateReport()">Generate
@@ -224,10 +231,34 @@
         }
         
         
-        function getAssessmentDateListInRiskReport(work_id) {
+        function getSubWorksListInRiskReport(work_id){
         	$(".page-loader").show();
-           	$("#report_assessment_date option:not(:first)").remove();
+           	$("#sub_work option:not(:first)").remove();
            	var myParams = {work_id : work_id}
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getSubWorksListInRiskReport",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+								$("#sub_work").append('<option value="' + $.trim(val.sub_work) + '">' + $.trim(val.sub_work)+'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+            });
+        }
+        
+        
+        function getAssessmentDateListInRiskReport(sub_work) {
+        	$(".page-loader").show();
+        	var work_id = $("#report_work_id").val();
+           	$("#report_assessment_date option:not(:first)").remove();
+           	var myParams = {work_id : work_id,sub_work : sub_work}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getAssessmentDateListInRiskReport",
                    data: myParams, cache: false,
@@ -257,13 +288,17 @@
 	  		    rules: {
 	  		 		  "work_id": {
 	  			 		required: true
-	  			 	  },"assessment_date": {
+	  			 	  },"sub_work": {
+	  			 		required: true
+	  			 	  }	,"assessment_date": {
 	  			 		required: true
 	  			 	  }	
 	  		 	},
 	  		    messages: {
 	  		 		 "work_id": {
 	  				 	required: 'This field is required',
+	  			 	  },"sub_work": {
+	  			 		required: ' This field is required'
 	  			 	  },"assessment_date": {
 	  			 		required: ' This field is required'
 	  			 	  }
@@ -272,6 +307,9 @@
 		   		 	if (element.attr("id") == "report_work_id" ){
 						 document.getElementById("report_work_idError").innerHTML="";
 				 		 error.appendTo('#report_work_idError');
+					} else if(element.attr("id") == "sub_work" ){
+						   document.getElementById("sub_workError").innerHTML="";
+					 	   error.appendTo('#sub_workError');
 					} else if(element.attr("id") == "report_assessment_date" ){
 						   document.getElementById("report_assessment_dateError").innerHTML="";
 					 	   error.appendTo('#report_assessment_dateError');

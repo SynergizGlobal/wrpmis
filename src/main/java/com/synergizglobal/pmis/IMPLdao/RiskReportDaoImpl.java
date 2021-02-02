@@ -31,8 +31,8 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getWorksListInRiskReport(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select work_id_fk,assessment_date,work_id,work_name,work_short_name,project_id,project_name from risk_view rv " 
-					+ "left outer join work_view wv on rv.work_id_fk = wv.work_id group by work_id_fk";
+			String qry = "select work_id_fk,work_id,work_name,work_short_name from risk r " 
+					+ "left outer join work w on r.work_id_fk = w.work_id group by work_id_fk";
 			
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
@@ -44,13 +44,32 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	}
 
 	@Override
+	public List<RiskReport> getSubWorksListInRiskReport(RiskReport obj) throws Exception {
+		List<RiskReport> objsList = null;
+		try {
+			String qry = "select sub_work,work_id_fk,work_id,work_name,work_short_name from risk r " 
+					+ "left outer join work w on r.work_id_fk = w.work_id "
+					+ "where work_id_fk = ? "
+					+ "group by sub_work";
+			
+			Object[] pValues = new Object[] {obj.getWork_id()};
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
 	public List<RiskReport> getAssessmentDateListInRiskReport(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select DATE_FORMAT(assessment_date,'%d-%m-%Y') AS assessment_date,DATE_FORMAT(max_assessment_date,'%d-%m-%Y') AS max_assessment_date "
-					+ "from risk_view rv " 
-					+ "where work_id_fk = ? group by assessment_date";
-			Object[] pValues = new Object[] {obj.getWork_id()};
+			String qry = "select DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date "
+					+ "from risk_revision rr "
+					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
+					+ "where work_id_fk = ? and sub_work = ? group by date";
+			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work()};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 
 		}catch(Exception e){ 
@@ -64,39 +83,42 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		RiskReport riskObject = null;
 		List<RiskReport> areaList = null;
 		try {
-			String qry = "select work_id_fk,DATE_FORMAT(assessment_date,'%d-%m-%Y') AS assessment_date,work_id,work_name,work_short_name,"
+			String qry = "select rv.work_id,sub_work,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,work_name,work_short_name,"
 					+ "project_id,project_name,owner,"
 					+ "(select IFNULL((select latest_revised_cost from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc limit 1),sanctioned_estimated_cost) from work where work_id = ?) as estimatedOrRevisedCost,"
 					+ "(select IFNULL((select financial_year from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc limit 1),sanctioned_year_fk) from work where work_id = ?) as estimatedOrRevisedDate "
-					+ "from risk_view rv " 
-					+ "left outer join work_view wv on rv.work_id_fk = wv.work_id "
-					+ "where work_id_fk = ? and assessment_date = ? limit 1";
+					+ "from risk_revision_view rrv " 
+					+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk "
+					+ "left outer join work_view wv on rv.work_id = wv.work_id "
+					+ "where rv.work_id = ? and sub_work = ? and date = ? order by date limit 1";
 			
-			Object[] pValues = new Object[] {obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getAssessment_date()};
+			Object[] pValues = new Object[] {obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 			
 			riskObject = (RiskReport)jdbcTemplate.queryForObject( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			
 			
 			if(!StringUtils.isEmpty(riskObject)) {
 				
-				qry = "select id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,"
-						+ "priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date "
-						+ "from risk_view rv " 
-						+ "where work_id_fk = ? and assessment_date = ? group by area order by area_item_no";
+				qry = "select risk_revision_id,rv.work_id,sub_work,risk_id,area,area_item_no,sub_area,sub_area_item_no,date,"
+						+ "priority_fk as priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan "
+						+ "from risk_revision_view rrv " 
+						+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk "
+						+ "where work_id = ? and sub_work = ? and date = ? group by area order by area_item_no";
 				
-				pValues = new Object[] {obj.getWork_id(),obj.getAssessment_date()};
+				pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 				
 				areaList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			}
 			
 			if(!StringUtils.isEmpty(areaList) && areaList.size() > 0) {
 				for (RiskReport area : areaList) {
-					qry = "select id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,"
-							+ "priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date "
-							+ "from risk_view rv " 
-							+ "where work_id_fk = ? and assessment_date = ? and area = ? order by sub_area_item_no";
+					qry = "select risk_revision_id,rv.work_id,sub_work,risk_id,area,area_item_no,sub_area,sub_area_item_no,date,"
+							+ "priority_fk as priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan "
+							+ "from risk_revision_view rrv " 
+							+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk "
+							+ "where work_id = ? and sub_work = ? and date = ? and area = ? order by sub_area_item_no";
 					
-					pValues = new Object[] {obj.getWork_id(),obj.getAssessment_date(),area.getArea()};
+					pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date(),area.getArea()};
 					
 					List<RiskReport> subAreaList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 					area.setSubAreaList(subAreaList);
@@ -115,12 +137,13 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getPrioritizationOfRisks(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,"
-							+ "priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date "
-							+ "from risk_view rv " 
-							+ "where work_id_fk = ? and assessment_date = ? and priority <> 'Accepted' order by priority";
+			String qry = "select risk_revision_id,work_id,risk_id,area,area_item_no,sub_area,sub_area_item_no,date,"
+							+ "priority_fk as priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan "
+							+ "from risk_revision_view rrv " 
+							+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk " 
+							+ "where work_id = ? and sub_work = ? and date = ? and priority_fk <> 'Accepted' order by priority_fk";
 					
-			Object[] pValues = new Object[] {obj.getWork_id(),obj.getAssessment_date()};
+			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 					
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			
@@ -134,12 +157,14 @@ public class RiskReportDaoImpl implements RiskReportDao{
 	public List<RiskReport> getReductionPlanRisks(RiskReport obj) throws Exception {
 		List<RiskReport> objsList = null;
 		try {
-			String qry = "select id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,"
-							+ "priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date "
-							+ "from risk_view rv " 
-							+ "where work_id_fk = ? and assessment_date = ? and atr_date is not null order by priority";
+			String qry = "select risk_revision_id,work_id,risk_id,area,area_item_no,sub_area,sub_area_item_no,date,"
+							+ "priority_fk as priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,action_taken,atr_date "
+							+ "from risk_revision_view rrv " 
+							+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk " 
+							+ "left outer join risk_action ra on rrv.risk_id_pk_fk = ra.risk_id_pk_fk " 
+							+ "where work_id = ? and sub_work = ? and date = ? and atr_date is not null order by priority_fk";
 					
-			Object[] pValues = new Object[] {obj.getWork_id(),obj.getAssessment_date()};
+			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work(),obj.getAssessment_date()};
 					
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 			

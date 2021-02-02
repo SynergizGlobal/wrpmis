@@ -26,6 +26,11 @@ public class RiskReportServiceImpl implements RiskReportService{
 	}
 
 	@Override
+	public List<RiskReport> getSubWorksListInRiskReport(RiskReport obj) throws Exception {
+		return dao.getSubWorksListInRiskReport(obj);
+	}
+
+	@Override
 	public List<RiskReport> getAssessmentDateListInRiskReport(RiskReport obj) throws Exception {
 		return dao.getAssessmentDateListInRiskReport(obj);
 	}

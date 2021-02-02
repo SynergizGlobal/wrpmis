@@ -134,6 +134,19 @@ public class RiskReportController {
 		return worksList;
 	}
 	
+	@RequestMapping(value = "/ajax/getSubWorksListInRiskReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RiskReport> getSubWorksListInRiskReport(@ModelAttribute RiskReport obj) {
+		List<RiskReport> worksList = null;
+		try {
+			worksList = riskReportService.getSubWorksListInRiskReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSubWorksListInRiskReport : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
 	@RequestMapping(value = "/ajax/getAssessmentDateListInRiskReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RiskReport> getAssessmentDateListInRiskReport(@ModelAttribute RiskReport obj) {

@@ -3,21 +3,13 @@ package com.synergizglobal.pmis.model;
 import java.util.List;
 
 public class RiskReport {
-	private String id,work_id_fk,risk_id,identification_date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,max_assessment_date,
-	priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,attachment,action_taken,atr_date,
+	private String risk_revision_id,work_id_fk,sub_work,risk_id,date,area,area_item_no,sub_area,sub_area_item_no,revision_id,assessment_date,
+	priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan,action_taken,atr_date,
 	work_id,work_short_name,project_id,project_name,work_name,project_id_fk,estimatedOrRevisedCost,estimatedOrRevisedDate;
 	
 	private List<RiskReport> areaList;
 	private List<RiskReport> subAreaList; 
 
-	
-	public String getIdentification_date() {
-		return identification_date;
-	}
-
-	public void setIdentification_date(String identification_date) {
-		this.identification_date = identification_date;
-	}
 
 	public String getArea_item_no() {
 		return area_item_no;
@@ -43,14 +35,6 @@ public class RiskReport {
 		this.revision_id = revision_id;
 	}
 
-	public String getMax_assessment_date() {
-		return max_assessment_date;
-	}
-
-	public void setMax_assessment_date(String max_assessment_date) {
-		this.max_assessment_date = max_assessment_date;
-	}
-
 	public String getProbability() {
 		return probability;
 	}
@@ -73,16 +57,6 @@ public class RiskReport {
 
 	public void setRisk_rating(String risk_rating) {
 		this.risk_rating = risk_rating;
-	}
-
-	
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getProject_name() {
@@ -181,14 +155,6 @@ public class RiskReport {
 		this.action_taken = action_taken;
 	}
 
-	public String getAttachment() {
-		return attachment;
-	}
-
-	public void setAttachment(String attachment) {
-		this.attachment = attachment;
-	}
-
 	public String getSub_area() {
 		return sub_area;
 	}
@@ -267,6 +233,30 @@ public class RiskReport {
 
 	public void setEstimatedOrRevisedDate(String estimatedOrRevisedDate) {
 		this.estimatedOrRevisedDate = estimatedOrRevisedDate;
+	}
+
+	public String getSub_work() {
+		return sub_work;
+	}
+
+	public void setSub_work(String sub_work) {
+		this.sub_work = sub_work;
+	}
+
+	public String getRisk_revision_id() {
+		return risk_revision_id;
+	}
+
+	public void setRisk_revision_id(String risk_revision_id) {
+		this.risk_revision_id = risk_revision_id;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

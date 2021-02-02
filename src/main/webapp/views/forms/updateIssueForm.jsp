@@ -204,7 +204,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
-                                    <label for="responsible_person">Responsible Person In MRVC</label>
+                                    <label for="responsible_person">Person Responsible In MRVC</label>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

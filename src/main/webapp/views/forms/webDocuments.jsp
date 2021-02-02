@@ -123,7 +123,7 @@
 											        <tbody>
 											        <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 
 											            <tr id="row${indexx.count }${index.count }">
-											                <td>${index.count }</td>
+											                <td>${indexx.count }</td>
 											                <td>${webDoc.title }</td>
 											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											                <td>${webDoc.date_of_issue }</td>

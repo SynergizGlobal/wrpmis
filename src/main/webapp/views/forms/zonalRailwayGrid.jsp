@@ -1,3 +1,8 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,6 +61,16 @@
                             <h6> Zonal Railway</h6>
                         </div>
                     </span>
+                     <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>
                     <div class="">
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
@@ -68,7 +83,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="zonal_railway_form.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-zonal-railway-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Zonal Railway</strong></a>
                                 </div>
                             </div>
@@ -85,47 +100,37 @@
                             <form action="#">
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Project</p>
-                                    <select class="searchable" id="project_id" name="project_id">
+                                    <select class="searchable" id="project_id_fk" name="project_id_fk" onchange="getZonalRailwayList();">
                                         <option value="">Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                      
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Work</p>
-                                    <select class="searchable" id="work_id" name="work_id">
+                                    <select class="searchable" id="work_id_fk" name="work_id_fk" onchange="getZonalRailwayList();" >
                                         <option value="">Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                       
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Execution Agency</p>
-                                    <select class="searchable" id="execution_agency" name="execution_agency">
+                                    <select class="searchable" id="execution_agency_railway_fk" name="execution_agency_railway_fk" onchange="getZonalRailwayList();">
                                         <option value="">Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                       
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Source of Fund</p>
-                                    <select class="searchable" id="source_of_fund" name="source_of_fund">
+                                    <select class="searchable" id="source_of_funds" name="source_of_funds" onchange="getZonalRailwayList();">
                                         <option value="">Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                       
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Status</p>
-                                    <select class="searchable" id="status" name="status">
+                                    <select class="searchable" id="status_fk" name="status_fk" onchange="getZonalRailwayList();">
                                         <option value="">Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                       
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
@@ -154,7 +159,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
+<!-- 
                                         <tr>
                                             <td></td>
                                             <td></td>
@@ -171,7 +176,7 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
 
-                                        </tr>
+                                        </tr> -->
 
                                     </tbody>
 
@@ -185,43 +190,371 @@
         </div>
     </div>
 
+  <div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+ <div class="page-loader-2" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
     <!-- footer  -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>	
+	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="contract_id" id="contract_id" />
+    </form>
     <script>
         $(document).ready(function () {
-            $('.searchable').select2();
-            $('#zonal_railway_table').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "10px", "targets": [8] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                // "sScrollY": 400,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
+        	 $('select:not(.searchable)').formSelect();
+             $('.searchable').select2();
+     	       	var table = $('#zonal_railway_table').DataTable({
+     	    		"bStateSave": true,
+     	    		fixedHeader: true,
+     	            "fnStateSave": function (oSettings, oData) {
+     	                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+     	            },
+     	            "fnStateLoad": function (oSettings) {
+     	                return JSON.parse(localStorage.getItem('MRVCDataTables'));
+     	            },
+     	            columnDefs: [
+     	                {
+     	                    targets: [0, 1, 2],
+     	                    className: 'mdl-data-table__cell--non-numeric'
+     	                },
+     	                { orderable: false, 'aTargets': ['nosort'] }
+     	            ],
+     	            "sScrollX": "100%",
+                     "sScrollXInner": "100%",
+                     "bScrollCollapse": true,
+     	            initComplete: function () {
+     	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+     	            }
+     	        });
+     	    	table.state.clear(); 
+     	    	$('.close-message').delay(3000).fadeOut('slow');
+     	    	getZonalRailwayList();
         });
 
         function clearFilters() {
-            $('#project_id').val('');
-            $('#work_id').val('');
-            $('#execution_agency').val('');
-            $('#source_of_fund').val('');
-            $('#status').val('');
+            $('#project_id_fk').val('');
+            $('#work_id_fk').val('');
+            $('#execution_agency_railway_fk').val('');
+            $('#source_of_funds').val('');
+            $('#status_fk').val('');
+            getZonalRailwayList();
             $('.searchable').select2();
         }
+        
+        function getZonalRailwayList(){
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
+        	var source_of_funds = $("#source_of_funds").val();
+        	var status_fk = $("#status_fk").val();
+        	getWorksFilterList();
+         	getProjectsFilterList();
+         	getExecutionAgencyRailwayFilterList();
+         	getSourceOfFundsFilterList();
+         	getStatusFilterList();
+         	table = $('#zonal_railway_table').DataTable();
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#zonal_railway_table').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		
+    		table.state.clear();		
+    	 
+    	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-zonal-railway",type:"POST",data:myParams,success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+    	         		$.each(data,function(key,val){
+    	         			var contract_id = "'"+val.contract_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getContractId('+contract_id+');"  class="btn waves-effect waves-light bg-m t-c "><i class="fa fa-pencil"></i> </a>'
+   
+    	                   	var rowArray = [];    	                 
+    						 var work_short_name = '';
+    						 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.contract_short_name) }
+    	                   	rowArray.push($.trim(val.work_id_fk) + work_short_name);
+    	                   	rowArray.push($.trim(val.execution_agency_railway_fk));
+    	                   	rowArray.push($.trim(val.source_of_funds));
+    	                   	rowArray.push($.trim(val.status_fk));
+    	                   	rowArray.push($.trim(val.as_on_date));
+    	                	rowArray.push($.trim(val.expected_finish));
+    	                	rowArray.push($.trim(val.actual_finish));
+    	                	rowArray.push($.trim(val.cumulative_expenditure_upto_last_finacial_year));
+    	                   	rowArray.push($.trim(actions));   	                   	
+    	                   	
+    	                    table.row.add(rowArray).draw( true );
+    	                    		                       
+    					});
+    	         		
+    	         		$(".page-loader").hide();
+    				}else{
+    					$(".page-loader").hide();
+    				}
+    				
+    			},error: function (jqXHR, exception) {
+    				$(".page-loader").hide();
+    	         	getErrorMessage(jqXHR, exception);
+    	     }});
+        }
+        
+        function getWorksFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
+        	var source_of_funds = $("#source_of_funds").val();
+        	var status_fk = $("#status_fk").val();
+            if ($.trim(work_id_fk) == "") {
+            	$("#work_id_fk option:not(:first)").remove();
+        	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInZonalRailway",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var workShortName = '';
+                                 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getProjectsFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
+        	var source_of_funds = $("#source_of_funds").val();
+        	var status_fk = $("#status_fk").val();
+    		if ($.trim(project_id_fk) == "") {
+            	$("#project_id_fk option:not(:first)").remove();
+        	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInZonalRailway",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var projectName = '';
+                                if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
+    	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)   + projectName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getExecutionAgencyRailwayFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
+        	var source_of_funds = $("#source_of_funds").val();
+        	var status_fk = $("#status_fk").val();
+    		if ($.trim(execution_agency_railway_fk) == "") {
+            	$("#execution_agency_railway_fk option:not(:first)").remove();
+        	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getExecutionAgencyRailwayFilterListInZonalRailway",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#execution_agency_railway_fk").append('<option value="' + val.execution_agency_railway_fk + '">' + $.trim(val.execution_agency_railway_fk) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getSourceOfFundsFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
+        	var source_of_funds = $("#source_of_funds").val();
+        	var status_fk = $("#status_fk").val();
+    		if ($.trim(source_of_funds) == "") {
+            	$("#source_of_funds option:not(:first)").remove();
+        	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getSourceOfFundsFilterListInZonalRailway",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#source_of_funds").append('<option value="' + val.source_of_funds + '">' + $.trim(val.source_of_funds)  +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getStatusFilterList() {
+        	$(".page-loader").show();
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
+        	var source_of_funds = $("#source_of_funds").val();
+        	var status_fk = $("#status_fk").val();
+    		if ($.trim(status_fk) == "") {
+            	$("#status_fk option:not(:first)").remove();
+        	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInZonalRailway",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#status_fk").append('<option value="' + val.status_fk + '">' + $.trim(val.status_fk)  +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        
+      	//This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
+        
+        
+      	
+        function showCancelMessage() {
+        	swal({
+                title: "Are you sure?",
+                text: "You will be able to change the status of record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                   // swal("Deleted!", "Record has been deleted", "success");
+                	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-budget');
+        	    	$('#getForm').submit();
+               }else {
+                    swal("Cancelled", "Record is safe :)", "error");
+                }
+            });
+        }
+        
     </script>
 
 </body>

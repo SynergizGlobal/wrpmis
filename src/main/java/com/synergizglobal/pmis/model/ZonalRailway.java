@@ -1,0 +1,345 @@
+package com.synergizglobal.pmis.model;
+
+public class ZonalRailway {
+
+	private String contract_id, work_id_fk,work_name, work_short_name,project_id_fk,project_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, 
+	cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, 
+	status_fk, as_on_date, progress_id, contract_id_fk, month, cum_actual_expenditure_fy_cr, cum_planned_expenditure_per, 
+	cum_actual_expenditure_cr, cum_actual_expenditure_per, cum_planned_physical_progress_per, cum_actual_physical_progress_per, 
+	progress, issue, assistance_required;
+
+	private String[] progress_ids, contract_id_fks, months, cum_actual_expenditure_fy_crs, cum_planned_expenditure_pers, 
+	cum_actual_expenditure_crs, cum_actual_expenditure_pers, cum_planned_physical_progress_pers, cum_actual_physical_progress_pers, 
+	progresss, issues, assistance_requireds;
+			
+			
+	public String[] getProgress_ids() {
+		return progress_ids;
+	}
+
+	public void setProgress_ids(String[] progress_ids) {
+		this.progress_ids = progress_ids;
+	}
+
+	public String[] getContract_id_fks() {
+		return contract_id_fks;
+	}
+
+	public void setContract_id_fks(String[] contract_id_fks) {
+		this.contract_id_fks = contract_id_fks;
+	}
+
+	public String[] getMonths() {
+		return months;
+	}
+
+	public void setMonths(String[] months) {
+		this.months = months;
+	}
+
+	public String[] getCum_actual_expenditure_fy_crs() {
+		return cum_actual_expenditure_fy_crs;
+	}
+
+	public void setCum_actual_expenditure_fy_crs(String[] cum_actual_expenditure_fy_crs) {
+		this.cum_actual_expenditure_fy_crs = cum_actual_expenditure_fy_crs;
+	}
+
+	public String[] getCum_planned_expenditure_pers() {
+		return cum_planned_expenditure_pers;
+	}
+
+	public void setCum_planned_expenditure_pers(String[] cum_planned_expenditure_pers) {
+		this.cum_planned_expenditure_pers = cum_planned_expenditure_pers;
+	}
+
+	public String[] getCum_actual_expenditure_crs() {
+		return cum_actual_expenditure_crs;
+	}
+
+	public void setCum_actual_expenditure_crs(String[] cum_actual_expenditure_crs) {
+		this.cum_actual_expenditure_crs = cum_actual_expenditure_crs;
+	}
+
+	public String[] getCum_actual_expenditure_pers() {
+		return cum_actual_expenditure_pers;
+	}
+
+	public void setCum_actual_expenditure_pers(String[] cum_actual_expenditure_pers) {
+		this.cum_actual_expenditure_pers = cum_actual_expenditure_pers;
+	}
+
+	public String[] getCum_planned_physical_progress_pers() {
+		return cum_planned_physical_progress_pers;
+	}
+
+	public void setCum_planned_physical_progress_pers(String[] cum_planned_physical_progress_pers) {
+		this.cum_planned_physical_progress_pers = cum_planned_physical_progress_pers;
+	}
+
+	public String[] getCum_actual_physical_progress_pers() {
+		return cum_actual_physical_progress_pers;
+	}
+
+	public void setCum_actual_physical_progress_pers(String[] cum_actual_physical_progress_pers) {
+		this.cum_actual_physical_progress_pers = cum_actual_physical_progress_pers;
+	}
+
+	public String[] getProgresss() {
+		return progresss;
+	}
+
+	public void setProgresss(String[] progresss) {
+		this.progresss = progresss;
+	}
+
+	public String[] getIssues() {
+		return issues;
+	}
+
+	public void setIssues(String[] issues) {
+		this.issues = issues;
+	}
+
+	public String[] getAssistance_requireds() {
+		return assistance_requireds;
+	}
+
+	public void setAssistance_requireds(String[] assistance_requireds) {
+		this.assistance_requireds = assistance_requireds;
+	}
+
+	public String getWork_name() {
+		return work_name;
+	}
+
+	public void setWork_name(String work_name) {
+		this.work_name = work_name;
+	}
+
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
+	public String getProject_id_fk() {
+		return project_id_fk;
+	}
+
+	public void setProject_id_fk(String project_id_fk) {
+		this.project_id_fk = project_id_fk;
+	}
+
+	public String getProject_name() {
+		return project_name;
+	}
+
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
+	}
+
+	public String getContract_id() {
+		return contract_id;
+	}
+
+	public void setContract_id(String contract_id) {
+		this.contract_id = contract_id;
+	}
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
+
+	public String getExecution_agency_railway_fk() {
+		return execution_agency_railway_fk;
+	}
+
+	public void setExecution_agency_railway_fk(String execution_agency_railway_fk) {
+		this.execution_agency_railway_fk = execution_agency_railway_fk;
+	}
+
+	public String getSource_of_funds() {
+		return source_of_funds;
+	}
+
+	public void setSource_of_funds(String source_of_funds) {
+		this.source_of_funds = source_of_funds;
+	}
+
+	public String getSanction_cost() {
+		return sanction_cost;
+	}
+
+	public void setSanction_cost(String sanction_cost) {
+		this.sanction_cost = sanction_cost;
+	}
+
+	public String getLatest_revised_cost() {
+		return latest_revised_cost;
+	}
+
+	public void setLatest_revised_cost(String latest_revised_cost) {
+		this.latest_revised_cost = latest_revised_cost;
+	}
+
+	public String getCumulative_expenditure_upto_last_finacial_year() {
+		return cumulative_expenditure_upto_last_finacial_year;
+	}
+
+	public void setCumulative_expenditure_upto_last_finacial_year(String cumulative_expenditure_upto_last_finacial_year) {
+		this.cumulative_expenditure_upto_last_finacial_year = cumulative_expenditure_upto_last_finacial_year;
+	}
+
+	public String getActual_start() {
+		return actual_start;
+	}
+
+	public void setActual_start(String actual_start) {
+		this.actual_start = actual_start;
+	}
+
+	public String getExpected_finish() {
+		return expected_finish;
+	}
+
+	public void setExpected_finish(String expected_finish) {
+		this.expected_finish = expected_finish;
+	}
+
+	public String getActual_finish() {
+		return actual_finish;
+	}
+
+	public void setActual_finish(String actual_finish) {
+		this.actual_finish = actual_finish;
+	}
+
+	public String getCompletion_cost() {
+		return completion_cost;
+	}
+
+	public void setCompletion_cost(String completion_cost) {
+		this.completion_cost = completion_cost;
+	}
+
+	public String getStatus_fk() {
+		return status_fk;
+	}
+
+	public void setStatus_fk(String status_fk) {
+		this.status_fk = status_fk;
+	}
+
+	public String getAs_on_date() {
+		return as_on_date;
+	}
+
+	public void setAs_on_date(String as_on_date) {
+		this.as_on_date = as_on_date;
+	}
+
+	public String getProgress_id() {
+		return progress_id;
+	}
+
+	public void setProgress_id(String progress_id) {
+		this.progress_id = progress_id;
+	}
+
+	public String getContract_id_fk() {
+		return contract_id_fk;
+	}
+
+	public void setContract_id_fk(String contract_id_fk) {
+		this.contract_id_fk = contract_id_fk;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public String getCum_actual_expenditure_fy_cr() {
+		return cum_actual_expenditure_fy_cr;
+	}
+
+	public void setCum_actual_expenditure_fy_cr(String cum_actual_expenditure_fy_cr) {
+		this.cum_actual_expenditure_fy_cr = cum_actual_expenditure_fy_cr;
+	}
+
+	public String getCum_planned_expenditure_per() {
+		return cum_planned_expenditure_per;
+	}
+
+	public void setCum_planned_expenditure_per(String cum_planned_expenditure_per) {
+		this.cum_planned_expenditure_per = cum_planned_expenditure_per;
+	}
+
+	public String getCum_actual_expenditure_cr() {
+		return cum_actual_expenditure_cr;
+	}
+
+	public void setCum_actual_expenditure_cr(String cum_actual_expenditure_cr) {
+		this.cum_actual_expenditure_cr = cum_actual_expenditure_cr;
+	}
+
+	public String getCum_actual_expenditure_per() {
+		return cum_actual_expenditure_per;
+	}
+
+	public void setCum_actual_expenditure_per(String cum_actual_expenditure_per) {
+		this.cum_actual_expenditure_per = cum_actual_expenditure_per;
+	}
+
+	public String getCum_planned_physical_progress_per() {
+		return cum_planned_physical_progress_per;
+	}
+
+	public void setCum_planned_physical_progress_per(String cum_planned_physical_progress_per) {
+		this.cum_planned_physical_progress_per = cum_planned_physical_progress_per;
+	}
+
+	public String getCum_actual_physical_progress_per() {
+		return cum_actual_physical_progress_per;
+	}
+
+	public void setCum_actual_physical_progress_per(String cum_actual_physical_progress_per) {
+		this.cum_actual_physical_progress_per = cum_actual_physical_progress_per;
+	}
+
+	public String getProgress() {
+		return progress;
+	}
+
+	public void setProgress(String progress) {
+		this.progress = progress;
+	}
+
+	public String getIssue() {
+		return issue;
+	}
+
+	public void setIssue(String issue) {
+		this.issue = issue;
+	}
+
+	public String getAssistance_required() {
+		return assistance_required;
+	}
+
+	public void setAssistance_required(String assistance_required) {
+		this.assistance_required = assistance_required;
+	}
+	
+	
+}

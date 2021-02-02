@@ -114,13 +114,13 @@
                             <div class="col m8 s12">
                             	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
-	                                    <div class="col s12 m3 input-field">
+	                                    <!-- <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select class="searchable validate-dropdown" id="report_work_id" name="work_id" onchange="getSubWorksListInRiskReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="report_work_idError" class="error-msg" ></span>
-	                                    </div>
+	                                    </div> -->
 	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Sub Work</p>
 	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getAssessmentDateListInRiskReport(this.value);">
@@ -203,7 +203,8 @@
         
         
         $(document).ready(function(){
-        	getWorksListInRiskReport();
+        	//getWorksListInRiskReport();
+        	getSubWorksListInRiskReport();
         });
         
         function getWorksListInRiskReport() {
@@ -231,10 +232,10 @@
         }
         
         
-        function getSubWorksListInRiskReport(work_id){
+        function getSubWorksListInRiskReport(){
         	$(".page-loader").show();
            	$("#sub_work option:not(:first)").remove();
-           	var myParams = {work_id : work_id}
+           	var myParams = {}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getSubWorksListInRiskReport",
                    data: myParams, cache: false,

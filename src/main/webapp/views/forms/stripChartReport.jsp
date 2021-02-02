@@ -195,6 +195,8 @@
             getContractorsList();
             getHodList();
             getDyhodList();
+            $("#from_date").val('');
+            $("#to_date").val('');
         }
         
         
@@ -425,7 +427,10 @@
 				 		required: false
 				 	  },"from_date": {
 				 		required: true
-			 	  	  }
+			 	  	  },"to_date":{
+	               		required:false,
+	               		greaterFrom: "#from_date"
+	               	  }
 				 				
 			 	},
 			   messages: {
@@ -435,7 +440,9 @@
 			 			required: 'Required'
 			 	  	 },"from_date": {
   			 			required: 'Required'
-  			 	  	 }
+  			 	  	 },"to_date":{
+  		             	required:'Required'
+  		              }
 			 				      
 		    },
 			  errorPlacement:
@@ -446,7 +453,10 @@
 			 	    }else if (element.attr("id") == "work_id" ){
 			 		     document.getElementById("work_idError").innerHTML="";
 			 			 error.appendTo('#work_idError');
-			 	    }else if (element.attr("id") == "contract_id" ){
+			 	    }else if (element.attr("id") == "to_date" ){
+						 document.getElementById("to_dateError").innerHTML="";
+						 error.appendTo('#to_dateError');
+			        }else if (element.attr("id") == "contract_id" ){
 			 	    	 document.getElementById("contract_idError").innerHTML="";
 			 			 error.appendTo('#contract_idError');
 			 	    }
@@ -464,6 +474,22 @@
 			    //return true;
 			  }
 		});
+        
+        $.validator.addMethod("greaterFrom", function(value, element) {
+            var fromDateString = $('#from_date').val(); //
+            var fromDateParts = fromDateString.split("-");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+			if($.trim(value) != ''){
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	            
+	            return Date.parse(fromDate) < Date.parse(toDate);
+			}else if($.trim(value) == ''){
+				return true;
+			}
+        }, "To date must be after From date");
         
         $('select').change(function(){
     	    if ($(this).val() != ""){

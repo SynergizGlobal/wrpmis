@@ -90,7 +90,7 @@
 													<span class="card-title">${webDoc.title }</span>
 												</div>
 												<div class="card-action flex">
-													<a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
+													<%-- <a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a>  --%>
 													<a href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
 												</div>
 												 <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">

@@ -342,7 +342,7 @@ public class ActivitiesProgressReportController {
 							}	
 							dprSheet.addMergedRegion(new CellRangeAddress(tempRowNo,tempRowNo, 3,8));
 				            /**********************************************************************/
-							String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress of the day^Cumulative Completed";
+							String headerString = "Structure^component^Component ID^Activity^Total Scope^Progress For The Period^Cumulative Completed";
 					        
 					        String[] headerStringArr = headerString.split("\\^");
 					        

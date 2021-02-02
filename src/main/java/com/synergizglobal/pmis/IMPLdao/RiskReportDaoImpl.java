@@ -49,10 +49,9 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		try {
 			String qry = "select sub_work,work_id_fk,work_id,work_name,work_short_name from risk r " 
 					+ "left outer join work w on r.work_id_fk = w.work_id "
-					+ "where work_id_fk = ? "
 					+ "group by sub_work";
 			
-			Object[] pValues = new Object[] {obj.getWork_id()};
+			Object[] pValues = new Object[] {};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 
 		}catch(Exception e){ 
@@ -68,8 +67,8 @@ public class RiskReportDaoImpl implements RiskReportDao{
 			String qry = "select DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date "
 					+ "from risk_revision rr "
 					+ "left join risk r on risk_id_pk_fk = risk_id_pk " 
-					+ "where work_id_fk = ? and sub_work = ? group by date";
-			Object[] pValues = new Object[] {obj.getWork_id(),obj.getSub_work()};
+					+ "where sub_work = ? group by date";
+			Object[] pValues = new Object[] {obj.getSub_work()};
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RiskReport>(RiskReport.class));
 
 		}catch(Exception e){ 
@@ -83,6 +82,9 @@ public class RiskReportDaoImpl implements RiskReportDao{
 		RiskReport riskObject = null;
 		List<RiskReport> areaList = null;
 		try {
+			String workIdQuery = "select work_id_fk from risk where sub_work = ? limit 1";
+			String work_id = jdbcTemplate.queryForObject( workIdQuery, new Object[] {obj.getSub_work()}, String.class);
+			obj.setWork_id(work_id);
 			String qry = "select rv.work_id,sub_work,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,work_name,work_short_name,"
 					+ "project_id,project_name,owner,"
 					+ "(select IFNULL((select latest_revised_cost from work_yearly_sanction where work_id_fk = ? order by work_id_fk desc limit 1),sanctioned_estimated_cost) from work where work_id = ?) as estimatedOrRevisedCost,"

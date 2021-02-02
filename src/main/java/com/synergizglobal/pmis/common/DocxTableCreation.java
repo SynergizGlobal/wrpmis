@@ -80,7 +80,7 @@ public class DocxTableCreation {
 			List<String> tableHeader1 = new ArrayList<String>();
 		  	//tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()+"\nDate of Risk Assessment - "+obj.getAssessment_date());
 			//tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"("+obj.getProject_name()+")\nHOD - "+obj.getOwner()
-			tableHeader1.add("Name of Project: "+obj.getWork_short_name()+"\nHOD - "+obj.getOwner()
+			tableHeader1.add("Name of Project: "+obj.getSub_work()+"\nHOD - "+obj.getOwner()
 			+"\nSanction Details: "
 			+ "\nEstimated/Revised Cost : "+obj.getEstimatedOrRevisedCost() + " Cr"
 			+ "\nEstimated/Revised Sanction Year : "+obj.getEstimatedOrRevisedDate()

@@ -226,9 +226,11 @@ public class RiskController {
 									sub_work = getCellDataType2(workbook,row.getCell(0));
 								}								
 								if(!StringUtils.isEmpty(sub_work)) { 
-									risk.setSub_work(sub_work);
-								}else {
-									risk.setSub_work(obj.getWork_short_name());
+									String tempSubWork = sub_work.replaceAll("\\&", "and");
+									risk.setSub_work(tempSubWork);
+								}else if(!StringUtils.isEmpty(obj.getWork_short_name())){
+									String tempSubWork = obj.getWork_short_name().replaceAll("\\&", "and");
+									risk.setSub_work(tempSubWork);
 								}	
 								
 								//val = getCellDataType2(workbook,row.getCell(1));

@@ -114,7 +114,7 @@
 											    <table class="bordered">
 											        <thead>
 											            <th style="width:8%;">S.No</th>
-											            <th>Subject</th>
+											            <th style="text-align: left!important;padding-left: 10px!important">Subject</th>
 											            <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											            <th>Date of Issue</th>
 											            </c:if>
@@ -124,7 +124,7 @@
 											        <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 
 											            <tr id="row${indexx.count }${index.count }">
 											                <td>${indexx.count }</td>
-											                <td>${webDoc.title }</td>
+											                <td style="text-align: left!important;padding-left: 10px!important">${webDoc.title }</td>
 											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											                <td>${webDoc.date_of_issue }</td>
 											                </c:if>

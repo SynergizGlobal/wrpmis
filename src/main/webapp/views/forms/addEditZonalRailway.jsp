@@ -43,7 +43,7 @@
         #zonal_railway_table td input[type="month"] {
             border: 0;
             border-bottom: 1px solid #999;
-            width: 143px !important;
+            width: 145px !important;
             background-color: transparent;
         }
   		.error-msg label,.error{color:red!important;}
@@ -94,6 +94,11 @@
            top: 25px;
            border: 0;
            opacity: 0.7;
+       }
+       .fw-110{
+	       	width:110px !important;
+	       	max-width:110px;
+	       	white-space:break-spaces;
        }
       /*  td,th{ padding:inherit !important} */
     </style>
@@ -320,11 +325,11 @@
                                         </tr>
                                         <tr>
                                             <th>Cum Actual <br>Current FY (in Cr)</th>
-                                            <th>Cum planned %</th>
+                                            <th class="fw-110">Cum planned %</th>
                                             <th>Cum Actual (in Cr)</th>
-                                            <th>Cum Actual %</th>
-                                            <th>Cum planned %</th>
-                                            <th>Cum Actual %</th>
+                                            <th class="fw-110">Cum Actual %</th>
+                                            <th class="fw-110">Cum planned %</th>
+                                            <th class="fw-110">Cum Actual %</th>
                                         </tr>
                                     </thead>
                                     <tbody id="progressTableBody">
@@ -635,7 +640,7 @@
         function addProgressRow() {
        	    var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
-            var html = '<tr id="progressRow'+rNo+'"> <td><input type="hidden" name= "progress_ids" id="progress_ids' + rNo + '"/> <input id="months' + rNo + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
+            var html = '<tr id="progressRow'+rNo+'"> <td><input type="hidden" name= "progress_ids" id="progress_ids' + rNo + '" value="" /> <input id="months' + rNo + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
                 '<td> <input id="cum_actual_expenditure_fy_crs' + rNo + '" name="cum_actual_expenditure_fy_crs" type="number"  class="validate" min="0.01" step="0.01" placeholder="Amount">' +
                 '</td> <td> <input id="cum_planned_expenditure_pers' + rNo + '" name="cum_planned_expenditure_pers" type="number" value="" class="validate" placeholder="Cum Planned %">' +
                 '</td> <td> <input id="cum_actual_expenditure_crs' + rNo + '" name="cum_actual_expenditure_crs" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual"> </td>' +

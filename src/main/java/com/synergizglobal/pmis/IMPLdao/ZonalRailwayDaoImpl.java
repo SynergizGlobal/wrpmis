@@ -781,7 +781,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				}
 				if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
-						 String pId = obj.getProgress_ids()[i];
+						 String pId = (obj.getProgress_ids()[i]);
 						 double plannedExpenditurePercentages = 0;
 						 double actualExpenditurePercentages = 0;
 						 double plannedPhysicalProgressPercentages = 0;

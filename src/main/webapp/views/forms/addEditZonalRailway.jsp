@@ -43,7 +43,7 @@
         #zonal_railway_table td input[type="month"] {
             border: 0;
             border-bottom: 1px solid #999;
-            width: 130px !important;
+            width: 143px !important;
             background-color: transparent;
         }
   		.error-msg label,.error{color:red!important;}
@@ -95,6 +95,7 @@
            border: 0;
            opacity: 0.7;
        }
+      /*  td,th{ padding:inherit !important} */
     </style>
 
 </head>

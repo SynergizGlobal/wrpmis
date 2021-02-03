@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -54,6 +56,26 @@ public class ProfileDaoImpl implements ProfileDao {
 		}
 		return userDetails;
 
+	}
+
+	@Override
+	public boolean updateProfile(User user) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String updateQry = "UPDATE user set "
+					+ "user_name= :user_name, email_id= :email_id, mobile_number= :mobile_number,"
+					+ "personal_contact_number= :personal_contact_number, landline= :landline, extension= :extension,user_image= :user_image "
+					+ "where user_id= :user_id";
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(user);		 
+			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return flag;
 	}
 
 }

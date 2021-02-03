@@ -8,4 +8,6 @@ public interface ProfileService {
 	
 	public User getUserProfile(String userId) throws Exception;
 
+	public boolean updateProfile(User user) throws Exception;
+
 }

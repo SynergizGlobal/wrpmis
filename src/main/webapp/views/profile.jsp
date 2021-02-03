@@ -87,7 +87,7 @@
                 text-align: center;
             }
         }  
-        .error-msg{        color:red		}   
+        .error-msg label{color:red!important;}   
 		.profile_name .error-msg {
 		    text-transform: capitalize;
 		    color: red;
@@ -112,6 +112,14 @@
 	    	background-color:#2E58AD;
 	    	text-transform:Capitalize;    
 	    }
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
     </style>
 </head>
 
@@ -123,13 +131,23 @@
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content"> 
-                <form action="#" method="POST" id="profile_form" enctype="multipart/form-data">
+                <form action="<%=request.getContextPath() %>/update-profile" method="POST" id="profileForm" name="profileForm" class="form-horizontal" role="form" enctype="multipart/form-data">
                 	<span class="card-title headbg main">
                 		User Details 
                 		<i class="fa fa-pencil editing" onclick="toggleEditing()"></i> 
                 		<i class="fa fa-save saving hidden" onclick='profileFormSubmit()'></i>
                 		<i class="fa fa-close closing hidden" onclick="toggleEditing()"></i>
                 	</span>
+                	 <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+					</c:if>
+					<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+				  </c:if>
                     <div class="row">                   
                         <div class="col m4 s12 center-align">
                             <div class="card">
@@ -142,13 +160,12 @@
                                         <span class="hideOrShow hidden"> <!--  <form> -->
 											<div class="file-field input-field">
 												<div class="btn bg-m">
-													<span>Change Image</span> <input type="file" name="user_image_file" id="user_image_file"
+													<span>Change Image</span> <input type="file" name="userImageFile" id="userImageFile" 
 														accept='image/*'>
 												</div>
 												<div class="file-path-wrapper">
-													<input class="file-path validate" type="text">
+													<input class="file-path validate" name="user_image" type="text" value="${ userDetails.user_image }">
 												</div>
-												<span id="user_nameError" class="error-msg"></span>
 											</div> <!-- </form> -->
 										</span>
 									</div>
@@ -165,6 +182,7 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden"  name="user_id" id="user_id" value="${ userDetails.user_id }" />
                         <div class="col m4 s12">
                             <div class="card">
                                 <div class="card-content">
@@ -182,7 +200,7 @@
 											            <td> 
 											            	<span class="hideOrShow">: &nbsp; ${ userDetails.email_id }</span>
                                     						<span class="hideOrShow input-field hidden"> 											            	
-											            		<input name="email_id" id="email_id" type="email" class="validate">
+											            		<input name="email_id" id="email_id" type="email" class="validate" value="${ userDetails.email_id }">
 											            		<span id="email_idError" class="error-msg"></span>
 											            	</span>
 											            </td>
@@ -201,7 +219,7 @@
 											            <td>											            	
 											            	<span class="hideOrShow">: &nbsp; ${ userDetails.mobile_number }</span>
                                     						<span class="hideOrShow input-field hidden"> 											            	
-											            		<input name="mobile_number" id="mobile_number" type="number" class="validate">
+											            		<input name="mobile_number" id="mobile_number" type="number" class="validate" value="${ userDetails.mobile_number }">
 											            		<span id="mobile_numberError" class="error-msg"></span>
 											            	</span>
 											            </td>
@@ -211,7 +229,7 @@
 											            <td>											            
 											           		<span class="hideOrShow">: &nbsp; ${ userDetails.personal_contact_number }</span>
                                     						<span class="hideOrShow input-field hidden"> 											            	
-											            		<input name="personal_contact_number" id="personal_contact_number" type="number" class="validate">
+											            		<input name="personal_contact_number" id="personal_contact_number" type="number" class="validate" value="${ userDetails.personal_contact_number }">
 											            		<span id="personal_contact_numberError" class="error-msg"></span>
 											            	</span>
 											            </td>
@@ -221,7 +239,7 @@
 											            <td>
 											            	<span class="hideOrShow">: &nbsp; ${ userDetails.landline }</span>
                                     						<span class="hideOrShow input-field hidden"> 											            	
-											            		<input name="landline" id="landline" type="number" class="validate">
+											            		<input name="landline" id="landline" type="number" class="validate" value="${ userDetails.landline }">
 											            		<span id="landlineError" class="error-msg"></span>
 											            	</span>
 											            </td>
@@ -231,7 +249,7 @@
 											            <td>
 											            	<span class="hideOrShow">: &nbsp; ${ userDetails.extension }</span>
                                     						<span class="hideOrShow input-field hidden"> 											            	
-											            		<input name="extension" id="extension" type="number" class="validate">
+											            		<input name="extension" id="extension" type="number" class="validate" value="${ userDetails.extension }">
 											            		<span id="extensionError" class="error-msg"></span>
 											            	</span>
 											            </td>
@@ -274,7 +292,7 @@
                             </div>
                         </div>
                     </div>
-                    </form>
+                  </form>
                 </div>
             </div>
         </div>
@@ -336,78 +354,67 @@
         function profileFormSubmit(){
         	if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	
-	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=cum_actual_expenditure_fy_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=cum_planned_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=cum_actual_expenditure_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=cum_actual_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=cum_planned_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=cum_actual_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=progresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=issues]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=assistance_requireds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-
-	   			document.getElementById("zonalRailwayForm").submit();	
+	   			document.getElementById("profileForm").submit();	
         	}
         }
         
-        var validator =	$('#profile_form').validate({
+        var validator =	$('#profileForm').validate({
 	  		    rules: {
-	  		 		   "project_id_fk": {
+	  		 		   "user_name": {
 	  			 		  required: true
-	  			 	  },"work_id_fk": {
-	  			 		  required: true
-	  			 	  },"execution_agency_railway_fk": {
-	  			 		  required: true
-	  			 	  },"sanction_cost": {
+	  			 	  },"email_id": {
 	  			 		  required: false
-	  			 	  }	,"latest_revised_cost": {
-	  			 		  required: false
-	  			 	  }	,"cumulative_expenditure_upto_last_finacial_year": {
-	  			 		  required: false
-	  			 	  }	,"completion_cost": {
+	  			 	  },"mobile_number": {
+	  			 		  required: false,
+		  			 	  minlength:10,
+		  			 	  maxlength:10,
+		  			 	  number: true
+	  			 	  },"personal_contact_number": {
+	  			 		  required: false,
+		  			 	  minlength:10,
+		  			 	  maxlength:10,
+		  			 	  number: true
+	  			 	  }	,"landline": {
+	  			 		  required: false,
+	  			 		  number: true
+	  			 	  }	,"extension": {
 	  			 		  required: false
 	  			 	  }		
 	  		 	},
 	  		    messages: {
-	  		 		   "project_id_fk": {
+	  		 		   "user_name": {
 	  			 		  required: 'Required'								
-	  			 	  },"work_id_fk": {
+	  			 	  },"email_id": {
 	  			 		  required: 'Required'
-	  			 	  }	,"execution_agency_railway_fk": {
-	  			 		  required: 'Required'
-	  			 	  },"sanction_cost": {
-	  			 		  required: 'Required'
-	  			 	  },"latest_revised_cost": {
-	  			 		  required: 'Required'
-	  			 	  },"cumulative_expenditure_upto_last_finacial_year": {
-	  			 		  required: 'Required'
-	  			 	  },"completion_cost": {
+	  			 	  }	,"mobile_number": {
+	  			 		  required: "Enter your mobile no"
+	  			 	  },"personal_contact_number": {
+	  			 		  required: "Enter your mobile no"
+	  			 	  },"landline": {
+	  			 		  required: "Enter your landline no"
+	  			 	  },"extension": {
 	  			 		  required: 'Required'
 	  			 	  }	
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	  if(element.attr("id") == "project_id_fk" ){
-					     document.getElementById("project_id_fkError").innerHTML="";
-				 	     error.appendTo('#project_id_fkError');
-					 }else if(element.attr("id") == "work_id_fk" ){
-					     document.getElementById("work_id_fkError").innerHTML="";
-				 	     error.appendTo('#work_id_fkError');
-					 }else if(element.attr("id") == "execution_agency_railway_fk" ){
-					     document.getElementById("execution_agency_railway_fkError").innerHTML="";
-				 	     error.appendTo('#execution_agency_railway_fkError');
-					 }else if(element.attr("id") == "sanction_cost" ){
-					     document.getElementById("sanction_costError").innerHTML="";
-				 	     error.appendTo('#sanction_costError');
-					 }else if(element.attr("id") == "latest_revised_cost" ){
-					     document.getElementById("latest_revised_costError").innerHTML="";
-				 	     error.appendTo('#latest_revised_costError');
-					 }else if(element.attr("id") == "cumilative_expenditure" ){
-					     document.getElementById("cumulative_expenditure_upto_last_finacial_yearError").innerHTML="";
-				 	     error.appendTo('#cumulative_expenditure_upto_last_finacial_yearError');
-					 }else if(element.attr("id") == "completion_cost" ){
-					     document.getElementById("completion_costError").innerHTML="";
-				 	     error.appendTo('#completion_costError');
+		   		 	  if(element.attr("id") == "user_name" ){
+					     document.getElementById("user_nameError").innerHTML="";
+				 	     error.appendTo('#user_nameError');
+					 }else if(element.attr("id") == "email_id" ){
+					     document.getElementById("email_idError").innerHTML="";
+				 	     error.appendTo('#email_idError');
+					 }else if(element.attr("id") == "mobile_number" ){
+					     document.getElementById("mobile_numberError").innerHTML="";
+				 	     error.appendTo('#mobile_numberError');
+					 }else if(element.attr("id") == "personal_contact_number" ){
+					     document.getElementById("personal_contact_numberError").innerHTML="";
+				 	     error.appendTo('#personal_contact_numberError');
+					 }else if(element.attr("id") == "landline" ){
+					     document.getElementById("landlineError").innerHTML="";
+				 	     error.appendTo('#landlineError');
+					 }else if(element.attr("id") == "extension" ){
+					     document.getElementById("extensionError").innerHTML="";
+				 	     error.appendTo('#extensionError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

@@ -25,8 +25,10 @@ import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.ProfileService;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.User;
 @Controller
 public class LoginController {
@@ -159,6 +161,31 @@ public class LoginController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/update-profile", method = {RequestMethod.POST})
+	public ModelAndView updateProfile(@ModelAttribute User user,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/profile");
+			MultipartFile file = user.getUserImageFile();
+			if (null != file && !file.isEmpty()){
+				String saveDirectory = CommonConstants2.USER_IMAGE_SAVING_PATH ;
+				String fileName = file.getOriginalFilename();
+				FileUploads.singleFileSaving(file, saveDirectory, fileName);
+				user.setUser_image(fileName);
+			}			
+			boolean flag =  profileService.updateProfile(user);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Profile Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Profile is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Profile is failed. Try again.");
+			logger.error("updateProfile : " + e.getMessage());
+		}
+		return model;
+	}
 	
 	/**
 	 * This method changePassowrd() is used for changing the login password, this method have three parameter.

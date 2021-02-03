@@ -18,4 +18,9 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileDao.getUserProfile(userId);
 	}
 
+	@Override
+	public boolean updateProfile(User user) throws Exception {
+		return profileDao.updateProfile(user);
+	}
+
 }

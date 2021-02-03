@@ -19,7 +19,19 @@ public class User  {
 	
 	private MultipartFile fileName;
 	
+	private MultipartFile userImageFile;
+	
 	private String[] user_access_types,user_access_values;
+
+
+	public MultipartFile getUserImageFile() {
+		return userImageFile;
+	}
+
+
+	public void setUserImageFile(MultipartFile userImageFile) {
+		this.userImageFile = userImageFile;
+	}
 
 
 	public String getContract_id() {

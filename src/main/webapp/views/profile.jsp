@@ -10,15 +10,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
   <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-   <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-   
-     
-	 
-   
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+  <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">   
+  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">    
+  <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+  <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
        
      <style>
       .card-title {
@@ -52,13 +47,6 @@
             height: 250px;
             border-radius: 50%;
         }
-
-        /* .profile_name {
-            font-size: 3rem;
-            margin: 20px 0;
-            font-weight: bold;
-            text-transform: uppercase;
-        } */
         
         .profile_name {
 		    font-size: 2rem;
@@ -98,7 +86,32 @@
             .pagination {
                 text-align: center;
             }
-        }        
+        }  
+        .error-msg{        color:red		}   
+		.profile_name .error-msg {
+		    text-transform: capitalize;
+		    color: red;
+		    text-align: left;
+		    font-size: 13px;
+		    font-weight: 400;
+		}
+		
+        .main .fa{
+        	float:right;
+        	color:#aaa;
+        	margin:0 5px;
+        	transition:color .3s linear;
+        }
+        .main .fa:hover{
+        	color:#555;
+        }
+        .main .hidden{
+        	display:none;
+        }
+        .bg-m{
+	    	background-color:#2E58AD;
+	    	text-transform:Capitalize;    
+	    }
     </style>
 </head>
 
@@ -106,20 +119,46 @@
   <!-- header included -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
 
-
     <div class="row">
         <div class="col s12 m12">
             <div class="card">
-                <div class="card-content">
-                    <div class="row">
+                <div class="card-content"> 
+                <form action="#" method="POST" id="profile_form" enctype="multipart/form-data">
+                	<span class="card-title headbg main">
+                		User Details 
+                		<i class="fa fa-pencil editing" onclick="toggleEditing()"></i> 
+                		<i class="fa fa-save saving hidden" onclick='profileFormSubmit()'></i>
+                		<i class="fa fa-close closing hidden" onclick="toggleEditing()"></i>
+                	</span>
+                    <div class="row">                   
                         <div class="col m4 s12 center-align">
                             <div class="card">
                                 <div class="card-content">
-                                    <span class="card-title headbg">Basic Details</span>
+                                   <!--  <span class="card-title headbg">Basic</span> -->
                                     <div class="profile_photo">
-                                        <img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';">
+                                        <span class="hideOrShow">
+                                        	<img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" >
+                                        </span> 
+                                        <span class="hideOrShow hidden"> <!--  <form> -->
+											<div class="file-field input-field">
+												<div class="btn bg-m">
+													<span>Change Image</span> <input type="file" name="user_image_file" id="user_image_file"
+														accept='image/*'>
+												</div>
+												<div class="file-path-wrapper">
+													<input class="file-path validate" type="text">
+												</div>
+												<span id="user_nameError" class="error-msg"></span>
+											</div> <!-- </form> -->
+										</span>
+									</div>
+                                    <div class="profile_name">
+                                    	 <span class="hideOrShow">${ userDetails.user_name }</span>
+                                    	 <span class="hideOrShow input-field hidden">
+                                    	 	<input name="user_name" id="user_name" type="text" class="validate"  value="${ userDetails.user_name }"/>
+                                    	 	<span id="user_nameError" class="error-msg"></span>
+                                    	 </span>
                                     </div>
-                                    <div class="profile_name">${ userDetails.user_name } </div>
                                     <div class="profile_designation">${ userDetails.designation }
                                         <span class="profile_role">( ${ userDetails.user_role_name_fk } )</span>
                                     </div>
@@ -129,7 +168,7 @@
                         <div class="col m4 s12">
                             <div class="card">
                                 <div class="card-content">
-                                    <span class="card-title headbg">Other Details</span>
+                                    <span class="card-title headbg">Basic</span>
                                     <div class="profile_info">
                                         <div class="row">                                        
 											<table>
@@ -140,7 +179,13 @@
 											        </tr>
 											         <tr>
 											            <td>Email</td>
-											            <td>: &nbsp; ${ userDetails.email_id }</td>
+											            <td> 
+											            	<span class="hideOrShow">: &nbsp; ${ userDetails.email_id }</span>
+                                    						<span class="hideOrShow input-field hidden"> 											            	
+											            		<input name="email_id" id="email_id" type="email" class="validate">
+											            		<span id="email_idError" class="error-msg"></span>
+											            	</span>
+											            </td>
 											        </tr>
 											        <tr>
 											            <td>Department</td>
@@ -153,19 +198,43 @@
 											        </tr>
 											        <tr>
 											            <td>Mobile No</td>
-											            <td>: &nbsp; ${ userDetails.mobile_number }</td>
+											            <td>											            	
+											            	<span class="hideOrShow">: &nbsp; ${ userDetails.mobile_number }</span>
+                                    						<span class="hideOrShow input-field hidden"> 											            	
+											            		<input name="mobile_number" id="mobile_number" type="number" class="validate">
+											            		<span id="mobile_numberError" class="error-msg"></span>
+											            	</span>
+											            </td>
 											        </tr>
 											        <tr>
 											            <td>Personal Contact Number</td>
-											            <td>: &nbsp; ${ userDetails.personal_contact_number }</td>
+											            <td>											            
+											           		<span class="hideOrShow">: &nbsp; ${ userDetails.personal_contact_number }</span>
+                                    						<span class="hideOrShow input-field hidden"> 											            	
+											            		<input name="personal_contact_number" id="personal_contact_number" type="number" class="validate">
+											            		<span id="personal_contact_numberError" class="error-msg"></span>
+											            	</span>
+											            </td>
 											        </tr>
 											        <tr>
 											            <td>Land line</td>
-											            <td>: &nbsp; ${ userDetails.landline }</td>
+											            <td>
+											            	<span class="hideOrShow">: &nbsp; ${ userDetails.landline }</span>
+                                    						<span class="hideOrShow input-field hidden"> 											            	
+											            		<input name="landline" id="landline" type="number" class="validate">
+											            		<span id="landlineError" class="error-msg"></span>
+											            	</span>
+											            </td>
 											        </tr>
 											        <tr>
 											            <td>Extension</td>
-											            <td>: &nbsp; ${ userDetails.extension }</td>
+											            <td>
+											            	<span class="hideOrShow">: &nbsp; ${ userDetails.extension }</span>
+                                    						<span class="hideOrShow input-field hidden"> 											            	
+											            		<input name="extension" id="extension" type="number" class="validate">
+											            		<span id="extensionError" class="error-msg"></span>
+											            	</span>
+											            </td>
 											        </tr>
 											         <tr>
 											            <td>PMIS Key</td>
@@ -205,11 +274,27 @@
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
+  <div class="page-loader" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
+	
+	
   <!-- footer included -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
     		
@@ -218,7 +303,7 @@
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	
+  <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	  <script>
         $(document).ready(function () {
             $('#example2').DataTable({
@@ -241,7 +326,103 @@
                 "scrollCollapse": true,
                 "sScrollY": 400,
             });
-        })
+        });
+        
+        function toggleEditing(){
+        	$('.main .fa').toggleClass('hidden');
+        	$('.hideOrShow').toggleClass('hidden');      	       	
+        }
+        
+        function profileFormSubmit(){
+        	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	
+	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_fy_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_planned_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_planned_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=progresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=issues]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=assistance_requireds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+
+	   			document.getElementById("zonalRailwayForm").submit();	
+        	}
+        }
+        
+        var validator =	$('#profile_form').validate({
+	  		    rules: {
+	  		 		   "project_id_fk": {
+	  			 		  required: true
+	  			 	  },"work_id_fk": {
+	  			 		  required: true
+	  			 	  },"execution_agency_railway_fk": {
+	  			 		  required: true
+	  			 	  },"sanction_cost": {
+	  			 		  required: false
+	  			 	  }	,"latest_revised_cost": {
+	  			 		  required: false
+	  			 	  }	,"cumulative_expenditure_upto_last_finacial_year": {
+	  			 		  required: false
+	  			 	  }	,"completion_cost": {
+	  			 		  required: false
+	  			 	  }		
+	  		 	},
+	  		    messages: {
+	  		 		   "project_id_fk": {
+	  			 		  required: 'Required'								
+	  			 	  },"work_id_fk": {
+	  			 		  required: 'Required'
+	  			 	  }	,"execution_agency_railway_fk": {
+	  			 		  required: 'Required'
+	  			 	  },"sanction_cost": {
+	  			 		  required: 'Required'
+	  			 	  },"latest_revised_cost": {
+	  			 		  required: 'Required'
+	  			 	  },"cumulative_expenditure_upto_last_finacial_year": {
+	  			 		  required: 'Required'
+	  			 	  },"completion_cost": {
+	  			 		  required: 'Required'
+	  			 	  }	
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	  if(element.attr("id") == "project_id_fk" ){
+					     document.getElementById("project_id_fkError").innerHTML="";
+				 	     error.appendTo('#project_id_fkError');
+					 }else if(element.attr("id") == "work_id_fk" ){
+					     document.getElementById("work_id_fkError").innerHTML="";
+				 	     error.appendTo('#work_id_fkError');
+					 }else if(element.attr("id") == "execution_agency_railway_fk" ){
+					     document.getElementById("execution_agency_railway_fkError").innerHTML="";
+				 	     error.appendTo('#execution_agency_railway_fkError');
+					 }else if(element.attr("id") == "sanction_cost" ){
+					     document.getElementById("sanction_costError").innerHTML="";
+				 	     error.appendTo('#sanction_costError');
+					 }else if(element.attr("id") == "latest_revised_cost" ){
+					     document.getElementById("latest_revised_costError").innerHTML="";
+				 	     error.appendTo('#latest_revised_costError');
+					 }else if(element.attr("id") == "cumilative_expenditure" ){
+					     document.getElementById("cumulative_expenditure_upto_last_finacial_yearError").innerHTML="";
+				 	     error.appendTo('#cumulative_expenditure_upto_last_finacial_yearError');
+					 }else if(element.attr("id") == "completion_cost" ){
+					     document.getElementById("completion_costError").innerHTML="";
+				 	     error.appendTo('#completion_costError');
+					 }else{
+	 					 error.insertAfter(element);
+			        } 
+		   		},invalidHandler: function (form, validator) {
+                   var errors = validator.numberOfInvalids();
+                   if (errors) {
+                       var position = validator.errorList[0].element;
+                       jQuery('html, body').animate({
+                           scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                       }, 1000);
+                   }
+               },submitHandler:function(form){
+			    	form.submit();
+			    }
+			});  
     </script>
 	
 </body>

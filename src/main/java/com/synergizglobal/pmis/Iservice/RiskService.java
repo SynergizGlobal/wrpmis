@@ -15,6 +15,12 @@ public interface RiskService {
 	public Risk getRiskAssessment(Risk obj) throws Exception;
 
 	public boolean updateRiskAssessment(Risk obj) throws Exception;
+
+	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception;
+
+	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception;
+
+	public List<Risk> getAreasFilterListInRiskAssessment(Risk obj) throws Exception;
 	
 	/*********************************************************************/
 

@@ -422,7 +422,7 @@ public class RiskController {
 	public ModelAndView updateRiskAssessment(@ModelAttribute Risk obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName("redirect:/risk-assessment");
+			model.setViewName("redirect:/risk-atr-update");
 			
 			boolean flag = riskService.updateRiskAssessment(obj);
 			if(flag) {
@@ -439,7 +439,57 @@ public class RiskController {
 	}
 	
 	
+	@RequestMapping(value="/risk-atr-update",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView riskATRUpdate(@ModelAttribute Risk obj,HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.riskATRUpdateGrid);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("riskATRUpdate : " + e.getMessage());
+		}
+		return model;
+	}
+
 	
+	@RequestMapping(value = "/ajax/getRiskAssessmentList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Risk> getRiskAssessmentList(@ModelAttribute Risk obj) {
+		List<Risk> riskList = null;
+		try {
+			riskList = riskService.getRiskAssessmentList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getRiskAssessmentList : " + e.getMessage());
+		}
+		return riskList;
+	}
+	
+	@RequestMapping(value = "/ajax/getSubWorksFilterListInRiskAssessmnt", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Risk> getSubWorksFilterListInRiskAssessmnt(@ModelAttribute Risk obj) {
+		List<Risk> worksList = null;
+		try {
+			worksList = riskService.getSubWorksFilterListInRiskAssessmnt(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSubWorksFilterListInRiskAssessmnt : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/getAreasFilterListInRiskAssessment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Risk> getAreasFilterListInRiskAssessment(@ModelAttribute Risk obj) {
+		List<Risk> areaList = null;
+		try {
+			areaList = riskService.getAreasFilterListInRiskAssessment(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAreasFilterListInRiskAssessment : " + e.getMessage());
+		}
+		return areaList;
+	}
 	
 	
 	

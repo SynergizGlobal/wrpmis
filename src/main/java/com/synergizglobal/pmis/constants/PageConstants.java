@@ -68,6 +68,7 @@ public class PageConstants {
 	
 	public static final String riskAssessmentGrid = "forms/riskAssessmentGrid";
 	public static final String riskAssessmentForm = "forms/riskAssessmentForm";
+	public static final String riskATRUpdateGrid = "forms/riskATRUpdateGrid";
 	
 	public static final String riskReport = "forms/riskReport";
 	

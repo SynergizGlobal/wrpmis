@@ -303,6 +303,106 @@ public class RiskDaoImpl implements RiskDao{
 	}
 	
 	
+
+
+	@Override
+	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception {
+		List<Risk> objsList =null;		
+		try {
+			String qry = "SELECT risk_id_pk,risk_id,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
+					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no,"
+					+ "risk_revision_id,risk_id_pk_fk,"
+					+ "mitigation_plan,priority_fk,probability,impact,"
+					+ "DATE_FORMAT(date,'%d-%m-%Y') AS date "+
+					"from risk r  "+
+					"left join work w on r.work_id_fk = w.work_id " + 
+					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
+					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
+					"left join project p on w.project_id_fk = p.project_id " +
+					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
+					"where risk_id_pk is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				qry = qry + " and sub_work = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				qry = qry + " and risk_area_fk = ?";
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				pValues[i++] = obj.getSub_work();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				pValues[i++] = obj.getArea();
+			}
+			
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "SELECT sub_work,risk_area_fk from risk r " + 
+					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
+					"where sub_work is not null and sub_work <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				qry = qry + " and risk_area_fk = ?";
+				arrSize++;
+			}	
+			qry = qry + " group by sub_work";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				pValues[i++] = obj.getArea();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Risk> getAreasFilterListInRiskAssessment(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "SELECT sub_work,risk_area_fk "
+					+ "from risk_sub_area rs " + 
+					"LEFT JOIN risk r on rs.sub_area = r.sub_area_fk "+
+					"where risk_area_fk is not null and risk_area_fk <> '' ";
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				qry = qry + " and sub_work = ?";
+				arrSize++;
+			}	
+			qry = qry + " group by risk_area_fk";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				pValues[i++] = obj.getSub_work();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
 	
 	
 	

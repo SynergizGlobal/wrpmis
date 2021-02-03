@@ -10,7 +10,7 @@ public class Risk {
 	
 	private String risk_id_pk,id, project_name,work_name,project_id_fk, work_id_fk, risk_id, sub_area_fk, date_of_identification,area,risk_revision_id, risk_id_pk_fk, date,
 	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,
-	sub_area, risk_area_fk,classification,atr_date,work_id,risk_rating,status,sub_work;
+	sub_area, risk_area_fk,classification,atr_date,work_id,risk_rating,status,sub_work,area_item_no,sub_area_item_no;
 
 	private MultipartFile riskFile;
 	private MultipartFile riskAssessmentFile;
@@ -463,5 +463,21 @@ public class Risk {
 
 	public void setSub_work(String sub_work) {
 		this.sub_work = sub_work;
+	}
+
+	public String getArea_item_no() {
+		return area_item_no;
+	}
+
+	public void setArea_item_no(String area_item_no) {
+		this.area_item_no = area_item_no;
+	}
+
+	public String getSub_area_item_no() {
+		return sub_area_item_no;
+	}
+
+	public void setSub_area_item_no(String sub_area_item_no) {
+		this.sub_area_item_no = sub_area_item_no;
 	}
 }

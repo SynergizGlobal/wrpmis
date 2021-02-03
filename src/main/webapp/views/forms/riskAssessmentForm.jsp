@@ -318,7 +318,7 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/risk-assessment" class="btn waves-effect waves-light bg-s black-text"
+                                        <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s black-text"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>

@@ -123,7 +123,7 @@
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${worksList }">
-                                            <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
+                                            <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                         </c:forEach>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
@@ -133,7 +133,7 @@
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"  onchange="resetWorksList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
-                                            <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }" >${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
+                                            <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }" >${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                         </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
@@ -147,11 +147,11 @@
                        		 <div class="row" style="margin-bottom: 0;">
                        	      <div class="col m2 hide-on-small-only">	      </div>
                        		  <div class="col s12 m4 input-field">
-                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_name}" readonly />
+                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_short_name}" readonly />
                                     <label for="work_id_fk"> Work</label>
 							  </div> 
 							  <div class="col s12 m4 input-field"> 
-                                    <input type="text" value="${taFinancialDetails.contract_id_fk}-${taFinancialDetails.contract_name}" readonly />
+                                    <input type="text" value="${taFinancialDetails.contract_id_fk}-${taFinancialDetails.contract_short_name}" readonly />
                                     <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${taFinancialDetails.contract_id_fk}" readonly />      
                                     <label for="contract_id_fk"> Contract</label>           	 	
                               </div>
@@ -352,9 +352,9 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	var contract_name = '';
-                                if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
-                                $("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                            	var contract_short_name = '';
+                                if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                                $("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -389,7 +389,7 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
                                     $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
                                 } else {

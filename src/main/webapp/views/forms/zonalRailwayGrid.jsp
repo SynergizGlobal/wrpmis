@@ -149,11 +149,11 @@
                                         <tr>
                                             <th class="fw-370">Work</th>
                                             <th>Execution <br>Agency</th>
-                                            <th>Source of<br> Fund</th>
-                                            <th>Status</th>
-                                            <th>As on<br> Date</th>
+                                            <th>Source <br>of Fund</th>
+                                            <th>Status &nbsp;</th>
+                                            <th>As on &nbsp;<br> Date</th>
                                             <th>Expected <br>Finish</th>
-                                            <th>Actual <br>Finish</th>
+                                            <th>Actual &nbsp;<br>Finish</th>
                                             <th>Cumilative <br>Expenditure</th>
                                             <th class="no-sort fw-80">Action</th>
                                         </tr>
@@ -324,7 +324,7 @@
    
     	                   	var rowArray = [];    	                 
     						 var work_short_name = '';
-    						 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.contract_short_name) }
+    						 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
     	                   	rowArray.push($.trim(val.work_id_fk) + work_short_name);
     	                   	rowArray.push($.trim(val.execution_agency_railway_fk));
     	                   	rowArray.push($.trim(val.source_of_funds));
@@ -432,7 +432,9 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#execution_agency_railway_fk").append('<option value="' + val.execution_agency_railway_fk + '">' + $.trim(val.execution_agency_railway_fk) + '</option>');
+                            	var railway_name = '';
+                                if ($.trim(val.railway_name) != '') { railway_name = ' - ' + $.trim(val.railway_name) }
+    	                           $("#execution_agency_railway_fk").append('<option value="' + val.execution_agency_railway_fk + '">' + $.trim(val.execution_agency_railway_fk) + railway_name + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -553,6 +555,12 @@
                     swal("Cancelled", "Record is safe :)", "error");
                 }
             });
+        }
+        
+        function getContractId(contract_id){
+        	$("#contract_id").val(contract_id);
+        	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-zonal-railway');
+        	$('#getForm').submit();
         }
         
     </script>

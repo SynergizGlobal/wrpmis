@@ -34,7 +34,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	public List<TAFinancials> taFinancialsList(TAFinancials obj) throws Exception {
 		List<TAFinancials> objsList = null;
 		try {
-			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_name,w.work_short_name,c.contract_short_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
+			String qry ="SELECT ID as financial_id, work_id as work_id_fk ,w.work_name,c.contract_short_name,w.work_short_name,c.contract_short_name, contract_id_fk, month, sum(planned) as planned, sum(actual) as actual, sum(payment_received) as payment_received " + 
 					" FROM ta_financials t " + 
 					" left join contract c on c.contract_id = t.contract_id_fk " + 
 					" left join work w on c.work_id_fk = w.work_id where DATE(month) <= DATE(NOW()) and status = ? ";
@@ -139,7 +139,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	public List<TAFinancials> getWorksList() throws Exception {
 		List<TAFinancials> objsList = null;
 		try {
-			String qry ="select work_id as work_id_fk,work_name from work ";
+			String qry ="select work_id as work_id_fk,work_name,work_short_name from work ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -152,7 +152,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 		TAFinancials sObj =null;
 		
 		try {
-			String qry = "select w.work_id as work_id_fk ,c.contract_name,w.work_name,contract_id_fk "
+			String qry = "select w.work_id as work_id_fk ,c.contract_name,c.contract_short_name,w.work_name,w.work_short_name,contract_id_fk "
 					+"from ta_financials t "
 					+"LEFT OUTER join contract c on contract_id_fk =c.contract_id " 
 					+"LEFT OUTER join work w on c.work_id_fk = w.work_id "  
@@ -175,7 +175,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 			String qryDetails = "select ID,contract_id_fk, DATE_FORMAT(month,'%Y-%m') AS month,"
 					+ "cast(planned as CHAR) as planned,cast(actual as CHAR) as actual,cast(payment_received as CHAR) as payment_received "
 					+ "from ta_financials "
-					+"where contract_id_fk = ? and status = ?";
+					+"where contract_id_fk = ? and status = ? order by month desc";
 			
 			objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getContract_id_fk(),CommonConstants.ACTIVE}, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));	
 			sObj.setTaFinancials(objsList);
@@ -361,7 +361,7 @@ public class TAFinancialsDaoImpl implements TAFinancialsDao{
 	public List<TAFinancials> getContractsList() throws Exception {
 		List<TAFinancials> objsList = null;
 		try {
-			String qry ="select work_id as work_id_fk,contract_id as contract_id_fk,contract_name from contract c "
+			String qry ="select work_id as work_id_fk,contract_id as contract_id_fk,contract_name,contract_short_name from contract c "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TAFinancials>(TAFinancials.class));	
 		}catch(Exception e){ 

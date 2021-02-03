@@ -1,10 +1,17 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add / Edit Zonal Railway</title>
+    <title>
+     	 <c:if test="${action eq 'edit'}">Update Zonal Railway</c:if>
+		 <c:if test="${action eq 'add'}">Add Zonal Railway</c:if>
+    </title>
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -39,7 +46,8 @@
             width: 130px !important;
             background-color: transparent;
         }
-
+  		.error-msg label,.error{color:red!important;}
+  		
         /* .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
         .datepicker-table tbody tr,
@@ -79,6 +87,14 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        
+         input[type="number"]~.units {
+           position: absolute;
+           right: 20px;
+           top: 25px;
+           border: 0;
+           opacity: 0.7;
+       }
     </style>
 
 </head>
@@ -97,59 +113,92 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Add / Edit Zonal Railway</h6>
+                                <h6>
+						 		 <c:if test="${action eq 'edit'}">Update Zonal Railway</c:if>
+								 <c:if test="${action eq 'add'}">Add Zonal Railway</c:if>                                
+                                </h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                    <c:if test="${action eq 'edit'}">				                
+		                	<form action="<%=request.getContextPath() %>/update-zonal-railway" id="zonalRailwayForm" name="zonalRailwayForm" method="post" class="form-horizontal" role="form">
+                      </c:if>
+		              <c:if test="${action eq 'add'}">				                
+		                	<form action="<%=request.getContextPath() %>/add-zonal-railway" id="zonalRailwayForm" name="zonalRailwayForm" method="post" class="form-horizontal" role="form" >
+					  </c:if>
+                        <input type="hidden" name="contract_id" value="${zonalRailwayDetails.contract_id }" />
                         <div class="container container-no-margin">
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Project </p>
-                                    <select class="searchable" id="project_id" name="project_id">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                    <span id="project_idError" class="error-msg"></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Work </p>
-                                    <select class="searchable" id="work_id" name="work_id">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
-                                    </select>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                             <c:if test="${action eq 'add'}">	
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <p class="searchable_label"> Project </p>
+	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);">
+	                                        <option value="">Select</option>
+	                                         <c:forEach var="obj" items="${projectsList }">
+	                                      	   <option value= "${ obj.project_id}">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+	                                         </c:forEach>
+	                                    </select>
+	                                    <span id="project_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <p class="searchable_label"> Work </p>
+	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);">
+	                                        <option value="" >Select</option>
+	                                        <c:forEach var="obj" items="${worksList }">
+		                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+		                                    </c:forEach>
+	                                    </select>
+	                                    <span id="work_id_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+                                 </c:if>
+                                 <c:if test="${action eq 'edit'}">	
+		                              <div class="row" id="center" style="text-align:left;">
+			                              <div class="col m2 hide-on-small-only">
+			                              </div>
+			                       		  <div class="col s12 m4 input-field">
+												<p class="searchable_label"> Project</p>
+			                                         	 	<input type="text" value="${zonalRailwayDetails.project_id_fk} - ${zonalRailwayDetails.project_name}" readonly />
+										  </div> 
+										  <div class="col s12 m4 input-field"> 
+											    <p class="searchable_label"> Work</p>
+			                                         	 	<input type="text"  value="${zonalRailwayDetails.work_id_fk} - ${zonalRailwayDetails.work_short_name}" readonly />
+			                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${zonalRailwayDetails.work_id_fk}" readonly />
+			                              </div>
+		                              </div> 
+                                 </c:if>
                             </div>
 
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
+                               <div class="col m2 hide-on-small-only"></div>
+                             <c:if test="${action eq 'add'}">
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Execution Agency </p>
-                                    <select class="searchable" id="execution_agency" name="execution_agency">
-                                        <option value="0" selected>Select</option>
-                                        <option value="1">Agency 1</option>
-                                        <option value="2">Agency 2</option>
-                                        <option value="3">Agency 3</option>
+                                    <select class="searchable validate-dropdown" id="execution_agency_railway_fk" name="execution_agency_railway_fk">
+                                        <option value="" >Select</option>
+                                         <c:forEach var="obj" items="${railwayList }">
+		                                      	   <option value= "${obj.execution_agency_railway_fk}"<c:if test="${zonalRailwayDetails.execution_agency_railway_fk eq obj.execution_agency_railway_fk}">selected</c:if>>${obj.execution_agency_railway_fk}<c:if test="${not empty obj.railway_name}"> - </c:if> ${obj.railway_name }</option>
+		                                 </c:forEach>
                                     </select>
-                                </div>
+                                    <span id="execution_agency_railway_fkError" class="error-msg" ></span>
+                                 </div>
+                                </c:if>	
+                                 <c:if test="${action eq 'edit'}">
+                                 <div class="col s12 m4 input-field"> 
+								    <p class="searchable_label">Execution Agency</p>
+                                         	 	<input type="text"  value="${zonalRailwayDetails.execution_agency_railway_fk} - ${zonalRailwayDetails.railway_name}" readonly />
+			                     </div>
+                                </c:if>	
+                                
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Contract :</p>
-                                    <p>value goes here</p>
-                                    <!-- <select class="searchable">
-                                            <option value="0" selected>Select</option>
-                                            <option value="1">Agency 1</option>
-                                            <option value="2">Agency 2</option>
-                                            <option value="3">Agency 3</option>
-                                        </select> -->
+                                    <p>${zonalRailwayDetails.contract_id }</p>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                              
+                             
                             </div>
 
                             <div class="row">
@@ -158,25 +207,25 @@
                                     <div class="row">
                                         <div class="col s12 m4 input-field">
                                             <p class="searchable_label">Source of Fund </p>
-                                            <select class="searchable" id="source_of_fund" name="source_of_fund">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Agency 1</option>
-                                                <option value="2">Agency 2</option>
-                                                <option value="3">Agency 3</option>
+                                            <select class="searchable" id="source_of_funds" name="source_of_funds">
+                                                <option value="" >Select</option>
+                                               <c:forEach var="obj" items="${sourceOfFundList }">
+		                                      	   <option value= "${obj.source_of_funds}"<c:if test="${zonalRailwayDetails.source_of_funds eq obj.source_of_funds}">selected</c:if>>${obj.source_of_funds}</option>
+		                                        </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col s12 m4 input-field">
                                             <p class="searchable_label">Status</p>
-                                            <select class="searchable" id="status" name="status">
-                                                <option value="0" selected>Select</option>
-                                                <option value="1">Agency 1</option>
-                                                <option value="2">Agency 2</option>
-                                                <option value="3">Agency 3</option>
+                                            <select class="searchable" id="status_fk" name="status_fk">
+                                                <option value="" >Select</option>
+                                               <c:forEach var="obj" items="${statusList }">
+		                                      	   <option value= "${obj.status_fk}" <c:if test="${zonalRailwayDetails.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
+		                                   	   </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col s12 m4 input-field">
-                                            <input id="asOnDate" type="text" class="validate datepicker"
-                                                name="asOnDate">
+                                            <input id="asOnDate" type="text" class="validate datepicker"  value="${zonalRailwayDetails.as_on_date }"
+                                                name="as_on_date">
                                             <label for="asOnDate">As on Date</label>
                                             <button type="button" id="asOnDate__icon" class="white datepicker-btn"><i
                                                     class="fa fa-calendar"></i></button>
@@ -190,14 +239,16 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="sanction_cost" name="sanction_cost" type="text" class="validate">
+                                    <input id="sanction_cost" name="sanction_cost" type="number" class="validate" min="0.01" step="0.01" value="${zonalRailwayDetails.sanction_cost }">
                                     <label for="sanction_cost">Sanction Cost</label>
+                                    <span id="sanction_costError" class="error-msg"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                      <i class="material-icons prefix center-align">₹</i>
-                                    <input id="latest_revised_cost" name="latest_revised_cost" type="text"
+                                    <input id="latest_revised_cost" name="latest_revised_cost" type="number" min="0.01" step="0.01"  value="${zonalRailwayDetails.latest_revised_cost }"
                                         class="validate">
                                     <label for="latest_revised_cost">Latest Revised Cost</label>
+                                    <span id="latest_revised_costError" class="error-msg"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -206,15 +257,17 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                      <i class="material-icons prefix center-align">₹</i>	
-                                    <input id="cumilative_expenditure" name="cumilative_expenditure" type="text"
+                                    <input id="cumilative_expenditure" name="cumulative_expenditure_upto_last_finacial_year" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cumulative_expenditure_upto_last_finacial_year }"
                                         class="validate">
                                     <label for="cumilative_expenditure">Cumilative Expenditure </label>
+                                    <span id="cumulative_expenditure_upto_last_finacial_yearError" class="error-msg"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
-                                    <input id="completion_cost" name="completion_cost" type="text"
+                                    <input id="completion_cost" name="completion_cost" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.completion_cost }"
                                         class="validate">
                                     <label for="completion_cost">Completion Cost</label>
+                                    <span id="completion_costError" class="error-msg"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -224,21 +277,21 @@
                                 <div class="col s12 m8 input-field">
                                     <div class="row">
                                         <div class="col s12 m4 input-field">
-                                            <input id="actual_start" name="actual_start" type="text"
+                                            <input id="actual_start" name="actual_start" type="text" value="${zonalRailwayDetails.actual_start }"
                                                 class="validate datepicker">
                                             <label for="actual_start">Actual Start</label>
                                             <button type="button" id="actual_start__icon"
                                                 class="white datepicker-btn"><i class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col s12 m4 input-field">
-                                            <input id="expected_finish" name="expected_finish" type="text"
+                                            <input id="expected_finish" name="expected_finish" type="text"  value="${zonalRailwayDetails.expected_finish }"
                                                 class="validate datepicker">
                                             <label for="expected_finish">Expected Finish</label>
                                             <button type="button" id="expected_finish__icon"
                                                 class="white datepicker-btn"><i class="fa fa-calendar"></i></button>
                                         </div>
                                         <div class="col s12 m4 input-field">
-                                            <input id="actual_finish" name="actual_finish" type="text"
+                                            <input id="actual_finish" name="actual_finish" type="text"  value="${zonalRailwayDetails.actual_finish }"
                                                 class="validate datepicker">
                                             <label for="actual_finish">Actual Finish</label>
                                             <button type="button" id="actual_finish__icon"
@@ -251,7 +304,7 @@
                         </div>
 
                         <div class="row fixed-width" style="margin-bottom: 40px;">
-                            <h5 class="center-align">Zonal Railway Details</h5>
+                            <h5 class="center-align">Progress details</h5>
                             <div class="table-inside">
                                 <table id="zonal_railway_table" class="mdl-data-table">
                                     <thead>
@@ -273,68 +326,146 @@
                                             <th>Cum Actual %</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input id="month0" name="month" type="month" class="validate"
+                                    <tbody id="progressTableBody">
+                                      <c:choose>
+		                                      	 <c:when test="${not empty zonalRailwayDetails.zonalRailway && fn:length(zonalRailwayDetails.zonalRailway) gt 0 }">
+		                                       	 <c:forEach var="pObj" items="${zonalRailwayDetails.zonalRailway }" varStatus="index"> 
+                                       	 
+                                        <tr id="progressRow${index.count }">
+                                            <td><input type="hidden" name= "progress_ids" id="progress_ids${index.count }" value="${pObj.progress_id }"/>
+                                                <input id="months${index.count }" name="months"  class="month" type="month" class="validate" value="${pObj.month }"
                                                     placeholder="Month">
                                             </td>
                                             <td>
-                                                <input id="cum_actual_current_fy0" name="cum_actual_current_fy"
+                                                <input id="cum_actual_expenditure_fy_crs${index.count }" name="cum_actual_expenditure_fy_crs" value="${pObj.cum_actual_expenditure_fy_cr }"
                                                     type="number" class="validate" min="0.01" step="0.01"
                                                     placeholder="Amount">
+                                                    <span id="erroerArea" class="error-msg"></span>
                                             </td>
-                                            <td>
-                                                <input id="cum_planned_percent0" name="cum_planned_percent"
-                                                    type="number" class="validate" min="0.01" step="0.01"
+                                            <td class="input-field">
+                                                <input id="cum_planned_expenditure_pers${index.count }" name="cum_planned_expenditure_pers" value="${pObj.cum_planned_expenditure_per }"
+                                                    type="number" class="validate" 
                                                     placeholder="Cum Planned %">
+                                                    <span class="units">%</span>
                                             </td>
                                             <td>
-                                                <input id="cum_actual0" name="cum_actual" type="number" class="validate"
+                                                <input id="cum_actual_expenditure_crs${index.count }" name="cum_actual_expenditure_crs" type="number" class="validate" value="${pObj.cum_actual_expenditure_cr }"
                                                     min="0.01" step="0.01" placeholder="cum Actual">
+                                                    <span id="erroerArea" class="error-msg"></span>
+                                            </td>
+                                            <td class="input-field">
+                                                <input id="cum_actual_expenditure_pers${index.count }" name="cum_actual_expenditure_pers" type="number" value="${pObj.cum_actual_expenditure_per }"
+                                                    class="validate"  placeholder="cum Actual %">
+                                                    <span class="units">%</span>
+                                            </td>
+                                            <td class="input-field">
+                                                <input id="cum_planned_physical_progress_pers${index.count }"
+                                                    name="cum_planned_physical_progress_pers" type="number" class="validate" value="${pObj.cum_planned_physical_progress_per }"
+                                                     placeholder="Cum Planned %">
+                                                    <span class="units">%</span>
+                                            </td>
+                                            <td class="input-field">
+                                                <input id="cum_actual_physical_progress_pers${index.count }"
+                                                    name="cum_actual_physical_progress_pers" type="number" class="validate" value="${pObj.cum_actual_physical_progress_per }"
+                                                     placeholder="cum Actual %">
+                                                    <span class="units">%</span>
                                             </td>
                                             <td>
-                                                <input id="cum_actual_percent0" name="cum_actual_percent" type="number"
-                                                    class="validate" min="0.01" step="0.01" placeholder="cum Actual %">
-                                            </td>
-                                            <td>
-                                                <input id="physical_cum_planned_percent0"
-                                                    name="physical_cum_planned_percent" type="number" class="validate"
-                                                    min="0.01" step="0.01" placeholder="Cum Planned %">
-                                            </td>
-                                            <td>
-                                                <input id="physical_cum_actual_percent0"
-                                                    name="physical_cum_actual_percent" type="number" class="validate"
-                                                    min="0.01" step="0.01" placeholder="cum Actual %">
-                                            </td>
-                                            <td>
-                                                <input id="progress0" name="progress" type="text" class="validate"
+                                                <input id="progresss${index.count }" name="progresss" type="text" class="validate" value="${pObj.progress }"
                                                     placeholder="Progress">
                                             </td>
                                             <td>
-                                                <input id="issue0" name="issue" type="text" class="validate"
+                                                <input id="issues${index.count }" name="issues" type="text" class="validate" value="${pObj.issue }"
                                                     placeholder="Issue">
                                             </td>
                                             <td>
-                                                <label><input type="checkbox" checked="checked"
-                                                        id="assistance_required0" name="assistance_required" />
-                                                    <span></span></label>
+                                                 <input id="assistance_requireds${index.count }" name="assistance_requireds" type="text" class="validate" value="${pObj.assistance_required }"
+                                                    placeholder="Assistance Requireds">
                                             </td>
                                             <td>
-                                                <a href="#" class="btn waves-effect waves-light red t-c "> <i
+                                                <a onclick="removeProgress('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                         class="fa fa-close"></i></a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td colspan="11">
-                                                <a href="#" class="btn waves-effect waves-light bg-m t-c "
-                                                    onclick="addZonalRow()"> <i class="fa fa-plus"></i></a>
+                                         
+                                      </c:forEach>
+                               	    </c:when>
+                                	<c:otherwise>
+                                         <tr id="progressRow0">
+                                            <td>
+                                                <input id="months0" name="months" type="month" class="validate" class="month"
+                                                    placeholder="Month">
+                                            </td>
+                                            <td>
+                                                <input id="cum_actual_expenditure_fy_crs0" name="cum_actual_expenditure_fy_crs" 
+                                                    type="number" class="validate" min="0.01" step="0.01"
+                                                    placeholder="Amount">
+                                                    <span id="erroerArea" class="error-msg"></span>
+                                            </td>
+                                            <td>
+                                                <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers" value=""
+                                                    type="number" class="validate" min="0.01" step="0.01"
+                                                    placeholder="Cum Planned %">
+                                                    <span id="erroerArea" class="error-msg"></span>
+                                            </td>
+                                            <td>
+                                                <input id="cum_actual_expenditure_crs0" name="cum_actual_expenditure_crs" type="number" class="validate" 
+                                                    min="0.01" step="0.01" placeholder="cum Actual">
+                                                    <span id="erroerArea" class="error-msg"></span>
+                                            </td>
+                                            <td>
+                                                <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"  value=""
+                                                    class="validate" min="0.01" step="0.01" placeholder="cum Actual %">
+                                                    <span id="erroerArea" class="error-msg"></span>
+                                            </td>
+                                            <td>
+                                                <input id="cum_planned_physical_progress_pers0"
+                                                    name="cum_planned_physical_progress_pers" type="number" class="validate" value=""
+                                                    min="0.01" step="0.01" placeholder="Cum Planned %">
+                                                    <span id="erroerArea" class="error-msg"></span>
+                                            </td>
+                                            <td>
+                                                <input id="cum_actual_physical_progress_pers0"
+                                                    name="cum_actual_physical_progress_pers" type="number" class="validate" value=""
+                                                    min="0.01" step="0.01" placeholder="cum Actual %">
+                                                    <span id="erroerArea" class="error-msg"></span>
+                                            </td>
+                                            <td>
+                                                <input id="progresss0" name="progresss" type="text" class="validate" 
+                                                    placeholder="Progress">
+                                            </td>
+                                            <td>
+                                                <input id="issues0" name="issues" type="text" class="validate" 
+                                                    placeholder="Issue">
+                                            </td>
+                                            <td> <input id="assistance_requireds0" name="assistance_requireds" type="text" class="validate"
+                                                    placeholder="Assistance Requireds">
+                                            </td>
+                                            <td>
+                                                <a onclick="removeProgress('0');" class="btn waves-effect waves-light red t-c "> <i
+                                                        class="fa fa-close"></i></a>
                                             </td>
                                         </tr>
-
-                                    </tbody>
-                                </table>
-
+ 									</c:otherwise>
+                                   </c:choose>
+                                 </tbody>
+                               </table>
+							   <table class="mdl-data-table">
+                                   <tbody id="safetyBody">                                          
+	                                  <tr>
+											 <td colspan="5" style="text-align: right;"> <a type="button" class="btn waves-effect waves-light bg-m t-c "  onclick="addProgressRow()"> <i
+	                                                          class="fa fa-plus"></i></a>
+	                                  </tr>
+                                </tbody>
+                               </table>
+                                <c:choose>
+                                    <c:when test="${not empty zonalRailwayDetails.zonalRailway && fn:length(zonalRailwayDetails.zonalRailway) gt 0 }">
+                                		<input type="hidden" id="rowNo"  name="rowNo" value="${fn:length(zonalRailwayDetails.zonalRailway) }" />
+                                	</c:when>
+                                 	<c:otherwise>
+                                 		<input type="hidden" id="rowNo"  name="rowNo" value="0" />
+                                 	</c:otherwise>
+                                 </c:choose> 
                             </div>
                         </div>
 
@@ -378,15 +509,20 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button style="width: 100%;" class="btn waves-effect waves-light bg-m ">Add /
-                                            Edit</button>
+                                     <div class="center-align m-1">
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateZonalRailway();" style="width: 100%;" class="btn waves-effect waves-light bg-m ">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addZonalRailway();" style="width: 100%;" class="btn waves-effect waves-light bg-m ">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
+                              
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s "
-                                            style="width:100%">Cancel</button>
+                                            <a href="<%=request.getContextPath()%>/zonal-railway" class="btn waves-effect waves-light bg-s "
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -419,11 +555,12 @@
     <!-- footer  -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+   <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
     <script>
         $(document).on('focus', '.datepicker', function () {
@@ -434,6 +571,7 @@
                 }
             })
         });
+     
         $(document).on('focus', '.datepicker-btn', function () {
             var dateId = $(this).attr('id').split("__")[0];
             $('#' + dateId).datepicker({
@@ -443,7 +581,6 @@
                 }
             });
             $('#' + dateId).datepicker('open');
-
         });
 
         $(document).ready(function () {
@@ -451,22 +588,203 @@
             $('.searchable').select2();
         });
 
-        var zonalno = 1;
-        function addZonalRow() {
-            var text = '<tr> <td> <input id="month' + zonalno + '" name="month" type="month" class="validate" placeholder="Month"> </td>' +
-                '<td> <input id="cum_actual_current_fy' + zonalno + '" name="cum_actual_current_fy" type="number" class="validate" min="0.01" step="0.01" placeholder="Amount">' +
-                '</td> <td> <input id="cum_planned_percent' + zonalno + '" name="cum_planned_percent" type="number" class="validate" min="0.01" step="0.01" placeholder="Cum Planned %">' +
-                '</td> <td> <input id="cum_actual' + zonalno + '" name="cum_actual" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual"> </td>' +
-                '<td> <input id="cum_actual_percent' + zonalno + '" name="cum_actual_percent" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual %"> </td>' +
-                '<td> <input id="physical_cum_planned_percent0" name="physical_cum_planned_percent" type="number" class="validate" min="0.01" step="0.01" placeholder="Cum Planned %">' +
-                '</td> <td> <input id="physical_cum_actual_percent' + zonalno + '" name="physical_cum_actual_percent" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual %"> ' +
-                '</td> <td> <input id="progress' + zonalno + '" name="progress" type="text" class="validate" placeholder="Progress"> </td> <td>' +
-                '<input id="issue' + zonalno + '" name="issue" type="text" class="validate" placeholder="Issue"> </td> <td>' +
-                '<label><input type="checkbox" checked="checked" id="assistance_required' + zonalno + '" name="assistance_required" /> <span></span></label> </td>' +
-                '<td> <a href="#" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
-            $('#zonal_railway_table tbody').find('tr:last').prev().after(text);
-            trainno++;
+        function getWorksList(projectId) {
+        	$(".page-loader").show();
+            $("#work_id_fk option:not(:first)").remove();
+
+            if ($.trim(projectId) != "") {
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForZonalRailwayForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                var workId = "${zonalRailwayDetails.work_id_fk}";
+                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
         }
+        
+        
+        function resetProjectsDropdowns(workId){
+        	var projectId = '';
+        	if($.trim(workId) != ''){  
+            	projectId = workId.substring(0, 3); 
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		    $("#project_id_fk").valid();
+       		}
+       		
+        }
+        
+        function addProgressRow() {
+       	    var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+            var html = '<tr id="progressRow'+rNo+'"> <td><input type="hidden" name= "progress_ids" id="progress_ids' + rNo + '"/> <input id="months' + rNo + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
+                '<td> <input id="cum_actual_expenditure_fy_crs' + rNo + '" name="cum_actual_expenditure_fy_crs" type="number"  class="validate" min="0.01" step="0.01" placeholder="Amount">' +
+                '</td> <td> <input id="cum_planned_expenditure_pers' + rNo + '" name="cum_planned_expenditure_pers" type="number" value="" class="validate" placeholder="Cum Planned %">' +
+                '</td> <td> <input id="cum_actual_expenditure_crs' + rNo + '" name="cum_actual_expenditure_crs" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual"> </td>' +
+                '<td> <input id="cum_actual_expenditure_pers' + rNo + '" name="cum_actual_expenditure_pers" type="number" class="validate"  placeholder="cum Actual %"> </td>' +
+                '<td> <input id="cum_planned_physical_progress_pers" name="cum_planned_physical_progress_pers" type="number" class="validate"  placeholder="Cum Planned %">' +
+                '</td> <td> <input id="cum_actual_physical_progress_pers' + rNo + '" name="cum_actual_physical_progress_pers" type="number" class="validate"  placeholder="cum Actual %"> ' +
+                '</td> <td> <input id="progresss' + rNo + '" name="progresss" type="text" class="validate" placeholder="Progress"> </td> <td>' +
+                '<input id="issues' + rNo + '" name="issues" type="text" class="validate" placeholder="Issue"> </td> <td>' +
+                '<input id="assistance_requireds' + rNo + '" name="assistance_requireds" type="text" class="validate" placeholder="Assistance Requireds"> </td>' +
+                '<td> <a onclick="removeProgress(' + rNo + ');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td> </tr>';
+            $('#progressTableBody').append(html);
+			$("#rowNo").val(rNo);
+			
+        }
+       
+        function removeProgress(rowNo){
+			$("#progressRow"+rowNo).remove();
+		}
+        
+
+        function addZonalRailway(){
+        	 if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	
+	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_fy_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_planned_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_planned_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=progresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=issues]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=assistance_requireds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+
+	  			document.getElementById("zonalRailwayForm").submit();			
+   	 	 }
+        }
+        function updateZonalRailway(){
+        	if(validator.form()){ // validation perform
+	        	$(".page-loader").show();	
+	        	$('form input[name=months]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_fy_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_planned_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_crs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_expenditure_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_planned_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=cum_actual_physical_progress_pers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=progresss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=issues]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=assistance_requireds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+
+	   			document.getElementById("zonalRailwayForm").submit();	
+        	}
+        }
+        
+        var validator =	$('#zonalRailwayForm').validate({
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		   "project_id_fk": {
+	  			 		  required: true
+	  			 	  },"work_id_fk": {
+	  			 		  required: true
+	  			 	  },"execution_agency_railway_fk": {
+	  			 		  required: true
+	  			 	  },"sanction_cost": {
+	  			 		  required: false
+	  			 	  }	,"latest_revised_cost": {
+	  			 		  required: false
+	  			 	  }	,"cumulative_expenditure_upto_last_finacial_year": {
+	  			 		  required: false
+	  			 	  }	,"completion_cost": {
+	  			 		  required: false
+	  			 	  }		
+	  		 	},
+	  		    messages: {
+	  		 		   "project_id_fk": {
+	  			 		  required: 'Required'								
+	  			 	  },"work_id_fk": {
+	  			 		  required: 'Required'
+	  			 	  }	,"execution_agency_railway_fk": {
+	  			 		  required: 'Required'
+	  			 	  },"sanction_cost": {
+	  			 		  required: 'Required'
+	  			 	  },"latest_revised_cost": {
+	  			 		  required: 'Required'
+	  			 	  },"cumulative_expenditure_upto_last_finacial_year": {
+	  			 		  required: 'Required'
+	  			 	  },"completion_cost": {
+	  			 		  required: 'Required'
+	  			 	  }	
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	  if(element.attr("id") == "project_id_fk" ){
+					     document.getElementById("project_id_fkError").innerHTML="";
+				 	     error.appendTo('#project_id_fkError');
+					 }else if(element.attr("id") == "work_id_fk" ){
+					     document.getElementById("work_id_fkError").innerHTML="";
+				 	     error.appendTo('#work_id_fkError');
+					 }else if(element.attr("id") == "execution_agency_railway_fk" ){
+					     document.getElementById("execution_agency_railway_fkError").innerHTML="";
+				 	     error.appendTo('#execution_agency_railway_fkError');
+					 }else if(element.attr("id") == "sanction_cost" ){
+					     document.getElementById("sanction_costError").innerHTML="";
+				 	     error.appendTo('#sanction_costError');
+					 }else if(element.attr("id") == "latest_revised_cost" ){
+					     document.getElementById("latest_revised_costError").innerHTML="";
+				 	     error.appendTo('#latest_revised_costError');
+					 }else if(element.attr("id") == "cumilative_expenditure" ){
+					     document.getElementById("cumulative_expenditure_upto_last_finacial_yearError").innerHTML="";
+				 	     error.appendTo('#cumulative_expenditure_upto_last_finacial_yearError');
+					 }else if(element.attr("id") == "completion_cost" ){
+					     document.getElementById("completion_costError").innerHTML="";
+				 	     error.appendTo('#completion_costError');
+					 }else{
+	 					 error.insertAfter(element);
+			        } 
+		   		},invalidHandler: function (form, validator) {
+                    var errors = validator.numberOfInvalids();
+                    if (errors) {
+                        var position = validator.errorList[0].element;
+                        jQuery('html, body').animate({
+                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                        }, 1000);
+                    }
+                },submitHandler:function(form){
+			    	form.submit();
+			    }
+			});   
+        
+        $.validator.addMethod("dateFormat",
+        	    function(value, element) {
+        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
+        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
+        	    	//return dtRegex.test(value);
+        	    },
+        	    //"Date format (Aug 02,2020)"
+        	    "Date format (DD-MM-YYYY)"
+        	);
+     
+	       $('select').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
+	
+	       $('input').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
     </script>
 
 </body>

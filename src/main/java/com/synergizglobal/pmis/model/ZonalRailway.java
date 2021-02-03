@@ -1,9 +1,11 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 public class ZonalRailway {
 
-	private String contract_id, work_id_fk,work_name, work_short_name,project_id_fk,project_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, 
-	cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, 
+	private String contract_id, project_id,work_id_fk,work_name,railway_name, work_short_name,project_id_fk,project_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, 
+	cumulative_expenditure_upto_last_finacial_year, work_id,actual_start, expected_finish, actual_finish, completion_cost, 
 	status_fk, as_on_date, progress_id, contract_id_fk, month, cum_actual_expenditure_fy_cr, cum_planned_expenditure_per, 
 	cum_actual_expenditure_cr, cum_actual_expenditure_per, cum_planned_physical_progress_per, cum_actual_physical_progress_per, 
 	progress, issue, assistance_required;
@@ -11,8 +13,41 @@ public class ZonalRailway {
 	private String[] progress_ids, contract_id_fks, months, cum_actual_expenditure_fy_crs, cum_planned_expenditure_pers, 
 	cum_actual_expenditure_crs, cum_actual_expenditure_pers, cum_planned_physical_progress_pers, cum_actual_physical_progress_pers, 
 	progresss, issues, assistance_requireds;
+	
+	private List<ZonalRailway> zonalRailway;
 			
-			
+	public String getRailway_name() {
+		return railway_name;
+	}
+
+	public void setRailway_name(String railway_name) {
+		this.railway_name = railway_name;
+	}
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+
+	public List<ZonalRailway> getZonalRailway() {
+		return zonalRailway;
+	}
+
+	public void setZonalRailway(List<ZonalRailway> zonalRailway) {
+		this.zonalRailway = zonalRailway;
+	}
+
 	public String[] getProgress_ids() {
 		return progress_ids;
 	}

@@ -18,4 +18,20 @@ public interface ZonalRailwayDao {
 
 	public List<ZonalRailway> getZonalRailwayList(ZonalRailway obj) throws Exception;
 
+	public List<ZonalRailway> getProjectsListForZonalRailwayForm(ZonalRailway obj) throws Exception;
+
+	public List<ZonalRailway> getWorkListForZonalRailwayForm(ZonalRailway obj) throws Exception;
+
+	public List<ZonalRailway> getRailwayListForZonalRailwayForm(ZonalRailway obj) throws Exception;
+
+	public List<ZonalRailway> getSourceOfFundListForZonalRailwayForm(ZonalRailway obj) throws Exception;
+
+	public List<ZonalRailway> getStatusListForZonalRailwayForm(ZonalRailway obj) throws Exception;
+
+	public ZonalRailway getZonalRailway(ZonalRailway obj) throws Exception;
+
+	public boolean addZonalRailway(ZonalRailway obj) throws Exception;
+
+	public boolean updateZonalRailway(ZonalRailway obj) throws Exception;
+
 }

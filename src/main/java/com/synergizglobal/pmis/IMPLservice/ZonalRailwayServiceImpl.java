@@ -44,4 +44,45 @@ public class ZonalRailwayServiceImpl implements ZonalRailwayService{
 		return dao.getZonalRailwayList(obj);
 	}
 
+	@Override
+	public List<ZonalRailway> getProjectsListForZonalRailwayForm(ZonalRailway obj) throws Exception {
+		return dao.getProjectsListForZonalRailwayForm(obj);
+	}
+
+	@Override
+	public List<ZonalRailway> getWorkListForZonalRailwayForm(ZonalRailway obj) throws Exception {
+		return dao.getWorkListForZonalRailwayForm(obj);
+
+	}
+
+	@Override
+	public List<ZonalRailway> getRailwayListForZonalRailwayForm(ZonalRailway obj) throws Exception {
+		return dao.getRailwayListForZonalRailwayForm(obj);
+	}
+
+	@Override
+	public List<ZonalRailway> getSourceOfFundListForZonalRailwayForm(ZonalRailway obj) throws Exception {
+		return dao.getSourceOfFundListForZonalRailwayForm(obj);
+	}
+
+	@Override
+	public List<ZonalRailway> getStatusListForZonalRailwayForm(ZonalRailway obj) throws Exception {
+		return dao.getStatusListForZonalRailwayForm(obj);
+	}
+
+	@Override
+	public ZonalRailway getZonalRailway(ZonalRailway obj) throws Exception {
+		return dao.getZonalRailway(obj);
+	}
+
+	@Override
+	public boolean addZonalRailway(ZonalRailway obj) throws Exception {
+		return dao.addZonalRailway(obj);
+	}
+
+	@Override
+	public boolean updateZonalRailway(ZonalRailway obj) throws Exception {
+		return dao.updateZonalRailway(obj);
+	}
+
 }

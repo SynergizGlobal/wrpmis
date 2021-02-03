@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ZonalRailwayService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.ZonalRailway;
 
 @Controller
@@ -121,4 +122,118 @@ public class ZonalRailwayController {
 		return objList;
 	}
 	
+	@RequestMapping(value = "/ajax/getWorkListForZonalRailwayForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<ZonalRailway> getWorkListForZonalRailwayForm(@ModelAttribute ZonalRailway obj) {
+		List<ZonalRailway> objsList = null;
+		try {
+			objsList = service.getWorkListForZonalRailwayForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkListForZonalRailwayForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/add-zonal-railway-form", method = {RequestMethod.GET})
+	public ModelAndView addZonalRailwaytForm(@ModelAttribute ZonalRailway obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditZonalRailway);
+			model.addObject("action", "add");
+			
+			List<ZonalRailway> projectsList = service.getProjectsListForZonalRailwayForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<ZonalRailway> worksList = service.getWorkListForZonalRailwayForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<ZonalRailway> railwayList = service.getRailwayListForZonalRailwayForm(obj);
+			model.addObject("railwayList", railwayList);
+			
+			List<ZonalRailway> sourceOfFundList = service.getSourceOfFundListForZonalRailwayForm(obj);
+			model.addObject("sourceOfFundList", sourceOfFundList);
+			
+			List<ZonalRailway> statusList = service.getStatusListForZonalRailwayForm(obj);
+			model.addObject("statusList", statusList);
+			
+		}catch (Exception e) {
+				logger.error("addZonalRailwaytForm : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/get-zonal-railway", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getZonalRailwayForm(@ModelAttribute ZonalRailway obj ){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addEditZonalRailway);
+			model.addObject("action", "edit");
+			
+			List<ZonalRailway> railwayList = service.getRailwayListForZonalRailwayForm(obj);
+			model.addObject("railwayList", railwayList);
+			
+			List<ZonalRailway> sourceOfFundList = service.getSourceOfFundListForZonalRailwayForm(obj);
+			model.addObject("sourceOfFundList", sourceOfFundList);
+			
+			List<ZonalRailway> statusList = service.getStatusListForZonalRailwayForm(obj);
+			model.addObject("statusList", statusList);
+			
+			ZonalRailway zonalRailwayDetails = service.getZonalRailway(obj);
+			model.addObject("zonalRailwayDetails", zonalRailwayDetails);
+		
+		}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("getZonalRailwayForm : " + e.getMessage());
+		}
+		return model;
+	 }
+	
+	@RequestMapping(value = "/add-zonal-railway", method = {RequestMethod.POST})
+	public ModelAndView addZonalRailway(@ModelAttribute ZonalRailway obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/zonal-railway");
+			obj.setAs_on_date(DateParser.parse(obj.getAs_on_date()));
+			obj.setActual_start(DateParser.parse(obj.getActual_start()));
+			obj.setExpected_finish(DateParser.parse(obj.getExpected_finish()));
+			obj.setActual_finish(DateParser.parse(obj.getActual_finish()));
+			obj.setMonth(DateParser.parse(obj.getMonth()));
+			boolean flag =  service.addZonalRailway(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Zonal Railway Added Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Adding Zonal Railway is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Adding Zonal Railway is failed. Try again.");
+			logger.error("addZonalRailway : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/update-zonal-railway", method = {RequestMethod.POST})
+	public ModelAndView updateZonalRailway(@ModelAttribute ZonalRailway obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/zonal-railway");
+			obj.setAs_on_date(DateParser.parse(obj.getAs_on_date()));
+			obj.setActual_start(DateParser.parse(obj.getActual_start()));
+			obj.setExpected_finish(DateParser.parse(obj.getExpected_finish()));
+			obj.setActual_finish(DateParser.parse(obj.getActual_finish()));
+			obj.setMonth(DateParser.parse(obj.getMonth()));
+			boolean flag =  service.updateZonalRailway(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Zonal Railway Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Zonal Railway is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Zonal Railway is failed. Try again.");
+			logger.error("updateZonalRailway : " + e.getMessage());
+		}
+		return model;
+	}
 }

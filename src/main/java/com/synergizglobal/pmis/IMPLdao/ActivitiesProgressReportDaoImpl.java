@@ -531,26 +531,6 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			
 			/***********************************************************************/
 			
-			String progressQry = "select sp.progress_date,sp.strip_chart_id_fk,sp.completed_scope,scg.strip_chart_id,scg.contract_id_fk,scg.fob_id_fk,scg.component_id_name," + 
-					"scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,c.contract_name,c.contract_short_name," + 
-					"(scg.completed - IFNULL((select sum(completed_scope) " + 
-					"from scope_progress sp1 " + 
-					"left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
-					"left outer join contract c1 on scg1.contract_id_fk = c1.contract_id " + 
-					"where scg1.contract_id_fk = ? and sp1.progress_date > ? and scg1.fob_id_fk = ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
-					"from scope_progress sp " + 
-					"left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
-					"left outer join contract c on scg.contract_id_fk = c.contract_id " + 
-					"where scg.contract_id_fk = ? and sp.progress_date = ? and scg.fob_id_fk = ?";
-			
-			String sQry = "select contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name " + 
-					"from contract c " + 
-					"left outer join work w on work_id_fk = work_id " + 
-					"left outer join contractor cr on contractor_id_fk = contractor_id " + 
-					"where contract_id = ?" ;
-			
-			
-			
 			for (ActivitiesProgressReport cObj : contractsList) {
 				
 				Map<String,List<ActivitiesProgressReport>> structureProgresses = new HashMap<String, List<ActivitiesProgressReport>>();
@@ -640,6 +620,18 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 					for (ActivitiesProgressReport contractProgressDate : contractProgressDatesList) {
 						
+						String progressQry = "select sp.progress_date,sp.strip_chart_id_fk,sp.completed_scope,scg.strip_chart_id,scg.contract_id_fk,scg.fob_id_fk,scg.component_id_name," + 
+								"scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,c.contract_name,c.contract_short_name," + 
+								"(scg.completed - IFNULL((select sum(completed_scope) " + 
+								"from scope_progress sp1 " + 
+								"left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
+								"left outer join contract c1 on scg1.contract_id_fk = c1.contract_id " + 
+								"where scg1.contract_id_fk = ? and sp1.progress_date > ? and scg1.fob_id_fk = ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
+								"from scope_progress sp " + 
+								"left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
+								"left outer join contract c on scg.contract_id_fk = c.contract_id " + 
+								"where scg.contract_id_fk = ? and sp.progress_date = ? and scg.fob_id_fk = ?";
+						
 						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getFob_id_fk(),cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getFob_id_fk()};
 						
 						List<ActivitiesProgressReport> pList = jdbcTemplate.query( progressQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
@@ -654,6 +646,12 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					
 					structureProgresses.put(contractProgressStructure.getFob_id_fk(), totalContractProgresList);
 				}
+				
+				String sQry = "select contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name " + 
+						"from contract c " + 
+						"left outer join work w on work_id_fk = work_id " + 
+						"left outer join contractor cr on contractor_id_fk = contractor_id " + 
+						"where contract_id = ?" ;
 				
 				pValues = new Object[] {cObj.getContract_id_fk()};
 				

@@ -337,7 +337,7 @@
 			
 			$.fn.dataTable.moment('DD-MMM-YYYY');
       	
-			var myParams = "work_id_fk="+ work_id_fk+"&contract_id_fk="+ contract_id_fk+"&department_id_fk="+ department_id_fk+"&hod="+ hod+"&structure_type_fk="+ structure_type_fk+"&drawing_type_fk="+ drawing_type_fk ;
+			var myParams = "work_id_fk="+ work_id_fk+"&contract_id_fk="+ contract_id_fk+"&department_id_fk="+encodeURIComponent(department_id_fk)+"&hod="+ hod+"&structure_type_fk="+ structure_type_fk+"&drawing_type_fk="+ drawing_type_fk ;
   		 
 		    /***************************************************************************************************/   
 		        

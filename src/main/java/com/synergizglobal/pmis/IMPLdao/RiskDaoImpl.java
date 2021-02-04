@@ -216,17 +216,15 @@ public class RiskDaoImpl implements RiskDao{
 		try {
 			String qry = "SELECT risk_id_pk,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
 					+ "ra.area,p.project_name,risk_id,sub_area_fk,"
-					+ "risk_revision_id,risk_id_pk_fk,"
+					//+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
 					+ "(select owner from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as owner,"
-					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person,"
-					+ "mitigation_plan,priority_fk,probability,impact,"
-					+ "DATE_FORMAT(date,'%d-%m-%Y') AS date "+
-					"from risk r  "+
+					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person "
+					+"from risk r "+
 					"LEFT OUTER join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
 					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
 					"LEFT join project p on w.project_id_fk = p.project_id " +
-					"LEFT OUTER join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
+					"LEFT join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
 					"where risk_id_pk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)";
 			
 			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
@@ -310,16 +308,14 @@ public class RiskDaoImpl implements RiskDao{
 		List<Risk> objsList =null;		
 		try {
 			String qry = "SELECT risk_id_pk,risk_id,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
-					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no,"
-					+ "risk_revision_id,risk_id_pk_fk,"
-					+ "mitigation_plan,priority_fk,probability,impact,"
-					+ "DATE_FORMAT(date,'%d-%m-%Y') AS date "+
+					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no "+
+					//"risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
 					"from risk r  "+
 					"left join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
 					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
 					"left join project p on w.project_id_fk = p.project_id " +
-					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
+					//"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
 					"where risk_id_pk is not null ";
 			
 			int arrSize = 0;			

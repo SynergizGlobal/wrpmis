@@ -9,7 +9,7 @@ import com.synergizglobal.pmis.model.Work;
 
 public interface HomeService {
 
-	public List<TableauDashboard> getDashboardsList(String dashboardType) throws Exception ;
+	public List<TableauDashboard> getDashboardsList(String dashboardType, String base) throws Exception ;
 	
 	public List<Forms> getFormsList(String base) throws Exception;
 

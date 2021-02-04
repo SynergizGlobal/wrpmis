@@ -149,7 +149,8 @@ public class RESTfullController {
 		try{
 			
 			String dashboardType = "Module";
-			modulesList = homeService.getDashboardsList(dashboardType);
+			String base = "mobile";
+			modulesList = homeService.getDashboardsList(dashboardType,base);
 			
 			response.setSuccess(true);
 			response.setResult(modulesList);
@@ -174,7 +175,8 @@ public class RESTfullController {
 		List<TableauDashboard> projectsList = null;
 		try{
 			String dashboardType = "Project";
-			projectsList = homeService.getDashboardsList(dashboardType);
+			String base = "mobile";
+			projectsList = homeService.getDashboardsList(dashboardType,base);
 			
 			response.setSuccess(true);
 			response.setResult(projectsList);

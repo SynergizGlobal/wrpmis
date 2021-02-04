@@ -23,8 +23,8 @@ public class HomeServiceImpl implements HomeService {
 	 * @throws Exception will raise an exception when abnormal termination occur.
 	 */
 	@Override
-	public List<TableauDashboard> getDashboardsList(String dashboardType) throws Exception {
-		return dao.getDashboardsList(dashboardType);
+	public List<TableauDashboard> getDashboardsList(String dashboardType,String base) throws Exception {
+		return dao.getDashboardsList(dashboardType,base);
 	}
 	/**
 	 * This method get the forms list

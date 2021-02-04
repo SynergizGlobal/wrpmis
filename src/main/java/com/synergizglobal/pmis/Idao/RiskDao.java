@@ -21,6 +21,8 @@ public interface RiskDao {
 	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception;
 
 	public List<Risk> getAreasFilterListInRiskAssessment(Risk obj) throws Exception;
+
+	public List<Risk> getRiskAssessmentDates(Risk obj) throws Exception;
 	
 	/*******************************************************/
 	

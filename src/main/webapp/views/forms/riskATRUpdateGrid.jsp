@@ -226,7 +226,7 @@
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-risk').DataTable({
-        		"bStateSave": true,
+        		"bStateSave": false,
         		fixedHeader: true,
                 "fnStateSave": function (oSettings, oData) {
                     localStorage.setItem('MRVCDataTables', JSON.stringify(oData));

@@ -224,17 +224,16 @@ public class RiskDaoImpl implements RiskDao{
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
 					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
 					"LEFT join project p on w.project_id_fk = p.project_id " +
-					"LEFT join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
-					"where risk_id_pk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)";
+					"where risk_id_pk = ?";
 			
-			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
+			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
 			
 			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
 			
 			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getRisk_id_pk())) {
-				String qryDetails = "select risk_action_id,risk_id_pk_fk,action_taken,DATE_FORMAT(atr_date,'%d-%m-%Y') AS atr_date " + 
+				String qryDetails = "select risk_action_id,risk_revision_id_fk,action_taken,DATE_FORMAT(atr_date,'%d-%m-%Y') AS atr_date " + 
 						"from risk_action "
-						+"where risk_id_pk_fk = ? ";
+						+"where risk_revision_id_fk in (select risk_revision_id from risk_revision where risk_id_pk_fk = ?) ";
 				
 				List<Risk> objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getRisk_id_pk()}, new BeanPropertyRowMapper<Risk>(Risk.class));	
 				sObj.setRiskActions(objsList); 
@@ -256,7 +255,15 @@ public class RiskDaoImpl implements RiskDao{
 		try{
 			con = dataSource.getConnection();
 			
-			int	arraySize = 0;			
+			int	arraySize = 0;		
+			
+			if(!StringUtils.isEmpty(obj.getAssessment_dates()) && obj.getAssessment_dates().length > 0) {
+				obj.setAssessment_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAssessment_dates()));
+				if(arraySize < obj.getAction_takens().length) {
+					arraySize = obj.getAction_takens().length;
+				}
+			}
+			
 			if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().length > 0) {
 				obj.setAction_takens(CommonMethods.replaceEmptyByNullInSringArray(obj.getAction_takens()));
 				if(arraySize < obj.getAction_takens().length) {
@@ -272,16 +279,16 @@ public class RiskDaoImpl implements RiskDao{
 			}
 			
 			
-			String deleteQry = "DELETE from risk_action where risk_id_pk_fk = ?";	
+			String deleteQry = "DELETE from risk_action where risk_revision_id_fk in (select risk_revision_id from risk_revision where risk_id_pk_fk = ?)";	
 			stmt = con.prepareStatement(deleteQry);
 			stmt.setString(1, obj.getRisk_id_pk());
 			stmt.executeUpdate();
 			
-			String qry = "INSERT into risk_action (risk_id_pk_fk,action_taken,atr_date)VALUES (?,?,?)";	
+			String qry = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date)VALUES (?,?,?)";	
 			insertStmt = con.prepareStatement(qry);
 			for(int i = 0; i < arraySize; i++) {	
 				int k = 1;
-				insertStmt.setString(k++,(obj.getRisk_id_pk()));
+				insertStmt.setString(k++,(obj.getAssessment_dates().length > 0)?obj.getAssessment_dates()[i]:null);
 				insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
 				insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
 				insertStmt.addBatch();
@@ -399,7 +406,24 @@ public class RiskDaoImpl implements RiskDao{
 		return objsList;
 	}
 	
-	
+	@Override
+	public List<Risk> getRiskAssessmentDates(Risk obj) throws Exception {
+		List<Risk> objsList =null;		
+		try {
+			String qry = "SELECT risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date "
+					+"from risk_revision "
+					+"where risk_id_pk_fk = ? ";
+			
+			Object[] pValues = new Object[] {obj.getRisk_id_pk()};
+			
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 	
 	
 	

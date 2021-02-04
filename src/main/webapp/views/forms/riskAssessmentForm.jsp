@@ -220,6 +220,7 @@
 											<table id="riskReview" class="mdl-data-table update-table">
 												<thead>
 													<tr>
+														<th style="width:25%">Assessment Date</th>
 														<th style="width:25%">ATR Date</th>
 														<th>Action Taken</th>
 														<th class="fw-60">Action</th>
@@ -229,18 +230,27 @@
 													<c:choose>
 														<c:when	test="${not empty risk.riskActions && fn:length(risk.riskActions) gt 0 }">
 															<c:forEach var="aObj" items="${risk.riskActions }"	varStatus="index">
-																<tr id="actionRow${index.count }">
+																<tr id="actionRow${index.count }">																	
+					                                                <td>
+					                                                    <select id="assessment_dates${index.count }" name="assessment_dates" class="select searchable">
+					                                                        <option value="" selected>Select</option>
+					                                                          <c:forEach var="obj" items="${assessmentDates }">
+					                                      					   <option value= "${obj.risk_revision_id}" <c:if test="${aObj.risk_revision_id_fk eq obj.risk_revision_id}">selected</c:if>>${ obj.assessment_date}</option>
+					                                        				  </c:forEach>
+					                                                    </select>
+					                                                </td>
 																	<td>
 																		<div class="input-field">
 																			<input id="atr_dates${index.count }"
 																				name="atr_dates" type="text"
 																				class="validate datepicker" placeholder="ATR  Date"
-																				value="${aObj.atr_date}">
+																				value="${aObj.atr_date}"/>
 																			<button type="button"
 																				id="atr_date_icon${index.count }">
 																				<i class="fa fa-calendar"></i>
 																			</button>
-																		</div></td>
+																		</div>
+																	</td>
 																	<td>
 																		<textarea
 																			id="action_takens${index.count }"
@@ -256,6 +266,14 @@
 														</c:when>
 														<c:otherwise>
 															<tr id="actionRow0">
+																<td>
+				                                                    <select id="assessment_dates0" name="assessment_dates" class="select searchable">
+				                                                        <option value="" selected>Select</option>
+				                                                          <c:forEach var="obj" items="${assessmentDates }">
+				                                      					   <option value= "${obj.risk_revision_id}" >${obj.assessment_date}</option>
+				                                        				  </c:forEach>
+				                                                    </select>
+				                                                </td>
 																<td><input type="hidden"
 																	id="rowCounts0" name="rowCounts"
 																	value="1" class="hide" />
@@ -267,7 +285,8 @@
 																			id="atr_date_icon0">
 																			<i class="fa fa-calendar"></i>
 																		</button>
-																	</div></td>
+																	</div>
+																</td>
 																<td><textarea id="action_takens0"
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
@@ -377,21 +396,31 @@
         function addRiskRow() {        	
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
-            var html = '<tr id="actionRow' + rNo + '">'+
-			'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'+
-			'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></div></td>'+
-			'<td><input type="hidden" id="rowCounts' + rNo + '" name="rowCounts" class="hide" /><textarea id="action_takens' + rNo +'"  name="action_takens" '+
-			'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'+
-			'<td><a onclick="removeActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
+            var html = '<tr id="actionRow' + rNo + '">'
+               +'<td> <div>'
+			   +'<select  name="assessment_dates" id="assessment_dates'+rNo+'" class="select searchable">'	   			
+			   +'<option value="" >Select</option>'
+			   <c:forEach var="obj" items="${assessmentDates }">
+				  +' <option value= "${obj.risk_revision_id}">${obj.assessment_date}</option>'
+			  </c:forEach>
+			+'</select></div></td>'
+			+'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
+			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></div></td>'
+			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
+			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'
+			+'<td><a onclick="removeActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
             $("#rowNo").val(rNo);
           	
-            $("#atr_dates" + rNo+tNo).datepicker();
-            $('#atr_date_icon' + rNo+tNo).click(function () {
+            $("#atr_dates" + rNo).datepicker();
+            $('#atr_date_icon' + rNo).click(function () {
                 event.stopPropagation();
-                $('#atr_dates' + rNo+tNo).click();
+                $('#atr_dates' + rNo).click();
             });
+            
+            $('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
         }
         
         function removeActions(rowNo){

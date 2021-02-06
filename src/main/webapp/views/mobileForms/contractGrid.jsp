@@ -30,14 +30,10 @@
         .row.no-mar{
         	margin-bottom:0;
         }
-    	 .fw-250{
-    	 	width:250px !important;
-    	 	max-width:250px;
-    	 }
-    	 .fw-150{
-    	 	width:150px !important;
-    	 	max-width:150px;
-    	 }     
+    	 .fw-50{
+    	 	width:50px !important;
+    	 	max-width:50px;
+    	 } 
     </style>
 </head>
 
@@ -81,7 +77,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="add-contract-form" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath()%>/mobileappwebview/add-contract-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Contract</strong></a>
                                 </div>
                             </div>
@@ -166,7 +162,7 @@
                                         <tr>                                        
                                             <th>Contract<br>ID</th> 
                                             <th>Contract <br> Name </th>                                         
-                                            <th class="no-sort">Action</th>
+                                           <th class="no-sort fw-50">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -229,15 +225,10 @@
 	  </div>
 	</div> 
 
-	<form action="<%=request.getContextPath()%>/get-contract" id="getForm" name="getForm" method="post">
+	<form action="<%=request.getContextPath()%>/mobileappwebview/get-contract" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="contract_id" id="contract_id"/>
     </form>
-    <form action="<%=request.getContextPath() %>/export-contract" name="exportContractForm" id="exportContractForm" target="_blank" method="post">	
-        <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
-        <input type="hidden" name="department_fk" id="exportDepartment_fk" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-        <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
-	</form>
+  
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -357,7 +348,7 @@
 		table.state.clear();		
 	 
 	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContracts",type:"POST",data:myParams,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getContracts",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	         			var contract_id = "'"+val.contract_id+"'";
@@ -403,7 +394,7 @@
         	$("#dy_hod_designation option:not(:first)").remove();
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getDyHODDesignationsFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDyHODDesignationsFilterListInContract",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -435,7 +426,7 @@
         	$("#designation option:not(:first)").remove();
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getDesignationsFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDesignationsFilterListInContract",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -467,7 +458,7 @@
         	$("#contractor_id_fk option:not(:first)").remove();
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractorsFilterListInContract",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -501,7 +492,7 @@
 	        	$("#department_fk option:not(:first)").remove();
 	    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsFilterListInContract",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDepartmentsFilterListInContract",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -533,7 +524,7 @@
 	    	$("#work_id_fk option:not(:first)").remove();
 		 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
+                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksFilterListInContract",
                 data: myParams, cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -567,7 +558,7 @@
 		    	$("#project_id_fk option:not(:first)").remove();
 			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInContract",
+	                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProjectsFilterListInContract",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -614,20 +605,7 @@
 		$("#contract_id").val(contract_id);
 		$("#getForm").submit();
 	}
-    
-    function exportContract(){
-     	 var contractor_id_fk = $("#contractor_id_fk").val();
-     	 var department_fk = $("#department_fk").val();
-     	 var work_id_fk = $("#work_id_fk").val();
-     	 var project_id_fk = $("#project_id_fk").val();
-     	 
-     	 $("#exportProject_id_fk").val(project_id_fk);
-     	 $("#exportContractor_id_fk").val(contractor_id_fk);
-     	 $("#exportDepartment_fk").val(department_fk);
-     	 $("#exportWork_id_fk").val(work_id_fk);
-     	 $("#exportContractForm").submit();
-  	}
-    
+  
     </script>
 
 </body>

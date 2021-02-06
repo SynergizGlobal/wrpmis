@@ -57,21 +57,7 @@ public class WebViewContractController {
 	@Autowired
 	StripChartService stripChartService;
 	
-	@Value("${common.error.message}")
-	public String commonError;
 	
-	@Value("${record.dataexport.success}")
-	public String dataExportSucess;
-	
-	@Value("${record.dataexport.invalid.directory}")
-	public String dataExportInvalid;
-	
-	@Value("${record.dataexport.error}")
-	public String dataExportError;
-	
-	@Value("${record.dataexport.nodata}")
-	public String dataExportNoData;
-
 	@RequestMapping(value="/contract",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView Contract(HttpSession session){
 		ModelAndView model = new ModelAndView(MobilePageConstants2.contractGrid);

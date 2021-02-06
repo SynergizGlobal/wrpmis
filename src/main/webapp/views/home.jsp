@@ -522,7 +522,7 @@
 	                                	<c:if test="${ (index.count-1) % 3 eq 0}"></div><div class="row"></c:if>
 		                                    <div class="col s12 m4 projects-filter-work">
 		                                        <div class="card main-clr">
-		                                            <div class="card-content" style="cursor: pointer;" onclick="getTableauDashboard('${wObj.work_id}');">
+		                                            <div class="card-content" style="cursor: pointer;" >
 		                                                <span class="card-title center-align">${wObj.work_short_name }</span>
 		                                                <div class="line">
 		                                                    <p class="alignleft">Original Sanctioned Cost</p>
@@ -587,8 +587,14 @@
 								                           <c:otherwise>
 								                           	   <div></div>
 								                           </c:otherwise>
-								                        </c:choose>	     	                        
-									                        <!-- <a class="btn btn-right" onclick="closeOther('${index.count }')">More</a> -->
+								                        </c:choose>	
+								                    
+								                        <c:forEach var="obj" items="${workDetails }">
+	 															<c:if test="${ obj.work_id eq wObj.work_id}">
+										                          <a class="btn btn-right" onclick="closeOther('${index.count }'); getTableauDashboard('${obj.work_id}'); ">More</a> 
+									                            </c:if>		                                				
+								                         </c:forEach>
+								                         	                        
 								                        </div>
 		                                            </div>
 		                                        </div>
@@ -725,12 +731,22 @@
         
         function getTableauDashboard(work_id){
         	if($.trim(work_id) != ''){
-        		if($.trim(work_id) == 'P06W01'){
+        		if($.trim(work_id) == 'P06W01'){  
         			window.location.href = "<%=request.getContextPath()%>/InfoViz/cr-fob"
         		}
 				if($.trim(work_id) == 'P07W01'){
 					window.location.href = "<%=request.getContextPath()%>/InfoViz/wr-fob"
         		}
+				if($.trim(work_id) == 'P02W01'){
+        			window.location.href = "<%=request.getContextPath()%>/InfoViz/thane-diva/thane-diva-dashboards"
+        		}
+				if($.trim(work_id) == 'P04W06'){
+					window.location.href = "<%=request.getContextPath()%>/InfoViz/ta-studies"
+        		}
+				if($.trim(work_id) == 'P04W04'){
+        			window.location.href = "<%=request.getContextPath()%>/InfoViz/trespass-control" 
+        		}
+				
         	}
         }
 

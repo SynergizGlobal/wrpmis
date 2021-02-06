@@ -81,10 +81,12 @@ public class HomeController {
 			model.addObject("homeHeader", "yes");
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName(PageConstants.home);
-			
+			Work work = new Work();
 			Project obj = new Project();
 			List<Project> projectsInfo = homeService.getProjectsInformation(obj);
 	        model.addObject("projectsInfo", projectsInfo);
+	        List<Work> workDetails = homeService.getWorkDetails(work);
+	        model.addObject("workDetails", workDetails);
 	         
 		}catch(Exception e){
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
@@ -564,6 +565,22 @@ public class HomeDaoImpl implements HomeDao {
 		}
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Work> getWorkDetails(Work obj) throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry ="select work_id_fk as work_id from dashboard where soft_delete_status_fk = ?";
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}

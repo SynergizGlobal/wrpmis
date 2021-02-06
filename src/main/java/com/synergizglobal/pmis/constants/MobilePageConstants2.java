@@ -16,6 +16,9 @@ public class MobilePageConstants2 {
 		public static final String contractGrid = "mobileForms/contractGrid";
 		public static final String addEditContractForm = "mobileForms/addEditContractForm";
 		
+		public static final String designGrid = "mobileForms/designGrid";
+		public static final String addEditDesignForm = "mobileForms/addEditDesignForm";
+		
 	
 
 }

@@ -83,7 +83,7 @@
 
                             <div class="col s12 m4 c-align">
                                 <div class="m-1 ">
-                                    <a href="<%=request.getContextPath() %>/add-design-form" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/mobileappwebview/add-design-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Design & Drawing</strong></a>
                                 </div>
                             </div>
@@ -191,53 +191,7 @@
         </div>
     </div>
          
-    <!-- update popup starts -->
-    <div id="upload_template" class="modal">
-        <div class="modal-content">
-            <div class="center-align p-2 bg-m modal-title">
-                <h6>Upload Designs</h6>
-            </div>
-            <!-- form start-->
-            <div class="container">
-               <form action="<%=request.getContextPath() %>/upload-designs" method="post" enctype="multipart/form-data">
-                    <div class="row no-mar">
-                        <div class="col s12 m12 input-field center-align">
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="designFile" name="designFile" required="required">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row no-mar">
-                        <div class="col s12 m6">
-                            <div class="center-align m-1">
-                                <button type="submit" class="btn waves-effect waves-light bg-m"
-                                    style="width: 100%;">Update</button>
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="center-align m-1">
-                                <button type="button" class="btn waves-effect waves-light bg-s"
-                                    style="width: 100%;" onclick="closeUploadDesignsModal();">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>     
-         
+   
   
 
 	<div class="page-loader" style="display: none;">
@@ -269,18 +223,10 @@
 	</div> 
 
  
-	 <form action="<%=request.getContextPath()%>/get-design" id="getForm" name="getForm" method="post">
+	 <form action="<%=request.getContextPath()%>/mobileappwebview/get-design" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="design_id" id="design_id"/>
     </form>
-    
-  <form action="<%=request.getContextPath() %>/export-design" name="exportDesignForm" id="exportDesignForm" target="_blank" method="post">	
-        <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-        <input type="hidden" name="department_id_fk" id="exportDepartment_id_fk" />
-        <input type="hidden" name="hod" id="exportHod" />
-        <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
-        <input type="hidden" name="drawing_type_fk" id="exportDrawing_type_fk" />
-	</form>
+ 
 	
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -411,7 +357,7 @@
 	                	 }
 	                },
 		            "bDestroy": true,
-			        "sAjaxSource": "<%=request.getContextPath()%>/ajax/getDesignsList?"+myParams,
+			        "sAjaxSource": "<%=request.getContextPath()%>/mobileappwebview/ajax/getDesignsList?"+myParams,
 			        "aoColumns": [
 			            { "mData": function(data,type,row){
 			            	var contract_short_name = '';
@@ -503,7 +449,7 @@
 			table.state.clear();		
 		 
 		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
-			$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesigns",type:"POST",data:myParams,success : function(data){    				
+			$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getDesigns",type:"POST",data:myParams,success : function(data){    				
 					if(data != null && data != '' && data.length > 0){    					
 		         		$.each(data,function(key,val){
 		         			var design_id = "'"+val.design_id+"'";
@@ -573,7 +519,7 @@
                 $("#work_id_fk option:not(:first)").remove();
      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInDesign",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksListFilterInDesign",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -609,7 +555,7 @@
                 $("#contract_id_fk option:not(:first)").remove();
      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractListFilterInDesign",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractListFilterInDesign",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -647,7 +593,7 @@
                 $("#hod option:not(:first)").remove();
      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getHodListFilterInDesign",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getHodListFilterInDesign",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -681,7 +627,7 @@
                 $("#department_id_fk option:not(:first)").remove();
      		  	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getDepartmentListFilterInDesign",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDepartmentListFilterInDesign",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -715,7 +661,7 @@
                  $("#structure_type_fk option:not(:first)").remove();
      		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getStructureListFilterInDesign",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStructureListFilterInDesign",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -749,7 +695,7 @@
                  $("#drawing_type_fk option:not(:first)").remove();
      		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getDrawingTypeListFilterInDesign",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getDrawingTypeListFilterInDesign",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {

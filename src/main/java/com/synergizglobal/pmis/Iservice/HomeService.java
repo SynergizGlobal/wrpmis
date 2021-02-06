@@ -23,5 +23,7 @@ public interface HomeService {
 
 	public List<Forms> getReportFormsList(String base) throws Exception;
 
+	public List<Work> getWorkDetails(Work obj) throws Exception;
+
 	
 }

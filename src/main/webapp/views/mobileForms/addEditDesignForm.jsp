@@ -180,7 +180,6 @@
                                 <h6>
                                	    <c:if test="${action eq 'edit'}">Update Design & Drawing</c:if>
 									<c:if test="${action eq 'add'}"> Add Design & Drawing</c:if>
-									Update / Add Design & Drawing
                                 </h6>
                             </div>
                         </span>
@@ -188,10 +187,10 @@
                     <!-- form start-->
                    
                         <c:if test="${action eq 'edit'}">				                
-			                	<form action="<%=request.getContextPath() %>/update-design" id="designForm" name="designForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/mobileappwebview/update-design" id="designForm" name="designForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                           </c:if>
 			              <c:if test="${action eq 'add'}">				                
-			                	<form action="<%=request.getContextPath() %>/add-design" id="designForm" name="designForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="<%=request.getContextPath() %>/mobileappwebview/add-design" id="designForm" name="designForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						  </c:if>
 						  
 						   <input type="hidden" id="design_id" name="design_id" value="${designDetails.design_id }">
@@ -799,14 +798,14 @@
                                        <c:if test="${action eq 'edit'}">
 	                                       <button type="button" onclick="updateDesign();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
 	                                    </c:if>
-	                                   <%--  <c:if test="${action eq 'add'}"> --%>
+	                                    <c:if test="${action eq 'add'}"> 
 	                                        <button type="button" onclick="addDesign();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
-	                                    <%-- </c:if> --%>
+	                                     </c:if> 
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/design" class="btn waves-effect waves-light bg-s"
+                                        <a href="<%=request.getContextPath() %>/mobileappwebview/design" class="btn waves-effect waves-light bg-s"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>
@@ -929,7 +928,7 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDesignForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForDesignForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -958,7 +957,7 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                	url: "<%=request.getContextPath()%>/ajax/getContractsListForDesignForm",
+                	url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getContractsListForDesignForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -999,7 +998,7 @@
        			$("#work_id_fk option:not(:first)").remove();
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDesignForm",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForDesignForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {

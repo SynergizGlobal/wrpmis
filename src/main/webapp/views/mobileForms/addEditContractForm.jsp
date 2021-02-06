@@ -8,26 +8,18 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Add Contract</title>
+	<title>Add/ Edit Contract</title>
 	<link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-	<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/contract.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/contract-mobile.css">
+	<link rel="stylesheet" href="/pmis/resources/css/contract.css">
+	<link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" href="/pmis/resources/css/mobile-responsive-table.css">
 	<style>
-		#ravTable .datepicker~button,
-		#insurenceTable .datepicker~button,
-		#bankTable .datepicker~button,
-		#mileTable .datepicker~button {
-			top: 26px;
-		}
-
 		.datepicker-table thead tr,
 		.datepicker-table thead tr:hover,
 		.datepicker-table tbody tr,
@@ -63,6 +55,9 @@
 
 		.fixed-width {
 			width: 100%;
+			margin: 0;
+		    margin-left: auto !important;
+		    margin-right: auto !important;
 		}
 
 		.fixed-width .table-inside {
@@ -126,13 +121,12 @@
 			top: 5px;
 		}
 
-		#insurenceTableBody .select2-container {
+	/* 	#insurenceTableBody .select2-container {
 			max-width: 150px
-		}
-
+		} 
 		#bankTableBody .select2-container {
 			max-width: 154px
-		}
+		} */
 
 		#insurenceTableBody td.input-field .prefix,
 		#revTableBody td.input-field .prefix,
@@ -175,14 +169,43 @@
 		}
 		.table-inside .mdl-data-table td {
 		    white-space: inherit;
+		}		
+	     .datepicker~button {
+		    top: 21px;
+		    right:10px;
 		}
+		.input-field .searchable_label{
+			font-size:0.85rem;
+		}
+	    .mobile_responsible_table tr td.input-field .datepicker~button{
+			position: relative;
+		    top: 0 ;
+		    right: 26px;
+		}		
+		@media only screen and (max-width: 768px){
+			.mobile_responsible_table>tbody tr:not(.datepicker-row) td::before {
+			    vertical-align: middle;
+			}			
+			.input-field .prefix {
+			    width: 2rem;
+			   /*  margin-top:5px; */
+			 }
+			 .input-field .prefix ~ input,
+			 .input-field .prefix ~ label,
+			 .input-field .prefix ~ .validate ~ label{
+			 	margin-left: 2rem;
+			 }
+			 .input-field.col .prefix ~ label,
+			 .input-field.col .prefix ~ .validate ~ label {
+			    width: calc(100% - 2rem - 1.5rem);
+			  }
+		}
+		
 	</style>
 </head>
 
 <body>
 
-	<!-- header  starts-->
-	<jsp:include page="../layout/header.jsp"></jsp:include>
 	<!-- card  -->
 	<div class="row">
 		<div class="col s12 m12">
@@ -199,12 +222,12 @@
 					<!--                     <div class="container container-no-margin"> -->
 					<form action="add-contract" id="contractForm" name="contractForm" method="post"
 						class="form-horizontal" role="form" enctype="multipart/form-data">
-						<div class="container container-no-margin">
+						<div class="container-no-margin">
 							<div class="row">
 								<!-- row 1  -->
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
-									<p><label>Project</label></p>
+								<div class="col s6 m4 input-field">
+									<p class="searchable_label">Project</p>
 									<select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
 										onchange="getWorksList(this.value);">
 										<option value="">Select</option>
@@ -216,8 +239,8 @@
 									</select>
 									<span id="project_id_fkError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field">
-									<p><label>Work</label></p>
+								<div class="col s6 m4 input-field">
+									<p class="searchable_label">Work</p>
 									<select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
 										<option value="">Select</option>
 									</select>
@@ -228,8 +251,8 @@
 							<div class="row">
 								<!-- row 1  -->
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
-									<p><label>Department</label></p>
+								<div class="col s6 m4 input-field">
+									<p class="searchable_label">Department</p>
 									<select name="department_fk" id="department_fk"
 										class="validate-dropdown searchable">
 										<option value="">Select</option>
@@ -239,42 +262,29 @@
 									</select>
 									<span id="department_fkError" class="error-msg"></span>
 								</div>
+								<div class="col s6 m8 input-field">
+									<textarea name="contract_name" id="contract_name" type="text"
+										class="validate materialize-textarea datelike"></textarea>
+									<label for="contract_name">Contract Name</label>
+									<span id="contract_nameError" class="error-msg"></span>
+								</div>
 								<!-- <div class="col s12 m4 input-field">
 	                                    <label class="primary-text-bold" style="margin-top:10px">Contract ID :</label>
 	                                </div> -->
 								<div class="col m2 hide-on-small-only"></div>
 							</div>
-
+							
 							<div class="row">
 								<!-- row 4 -->
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m8 input-field">
-									<textarea name="contract_name" id="contract_name" type="text"
-										class="validate materialize-textarea"></textarea>
-									<label for="contract_name">Contract Name</label>
-									<span id="contract_nameError" class="error-msg"></span>
-								</div>
-								<div class="col m2 hide-on-small-only"></div>
-							</div>
-
-							<div class="row">
-								<!-- row 4 -->
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m8 input-field">
+								<div class="col s6 m8 input-field">
 									<input name="contract_short_name" id="contract_short_name" type="text"
-										class="validate">
+										class="validate datelike1">
 									<label for="contract_short_name">Contract Short Name</label>
 									<span id="contract_short_nameError" class="error-msg"></span>
 								</div>
-								<div class="col m2 hide-on-small-only"></div>
-							</div>
-
-							<div class="row">
-								<!-- row 6 -->
-								<div class="col m2 hide-on-small-only"></div>
-
-								<div class="col s12 m4 input-field">
-									<p><label>Contract Type</label></p>
+								<div class="col s6 m4 input-field">
+									<p class="searchable_label">Contract Type</p>
 									<select name="contract_type_fk" id="contract_type_fk"
 										class="validate-dropdown searchable">
 										<option value="" selected>Select</option>
@@ -283,11 +293,15 @@
 										</c:forEach>
 									</select>
 									<span id="contract_type_fkError" class="error-msg"></span>
-
 								</div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
 
-								<div class="col s12 m4 input-field">
-									<p><label>Contractor Name</label></p>
+							<div class="row">
+								<!-- row 6 -->
+								<div class="col m2 hide-on-small-only"></div>							
+								<div class="col s6 m4 input-field">
+									<p class="searchable_label">Contractor Name</p>
 									<select name="contractor_id_fk" id="contractor_id_fk"
 										class="validate-dropdown searchable">
 										<option value="" selected>Select</option>
@@ -297,53 +311,43 @@
 									</select>
 									<span id="contractor_id_fkError" class="error-msg"></span>
 								</div>
-								<div class="col m2 hide-on-small-only"></div>
-							</div>
-							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m8 input-field">
-									<input id="scope_of_contract" name="scope_of_contract" type="text" class="validate">
+								<div class="col s6 m8 input-field">
+									<input id="scope_of_contract" name="scope_of_contract" type="text" class="validate datelike1">
 									<label for="scope_of_contract">Scope of Contract</label>
 									<span id="scope_of_contractError" class="error-msg"></span>
 								</div>
 								<div class="col m2 hide-on-small-only"></div>
-
 							</div>
+
 							<div class="row">
 								<!-- //row 9 -->
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m8 ">
-									<div class="row">
-										<div class="col s12 m6 input-field">
-											<p><label>HOD</label></p>
-											<select name="hod_user_id_fk" id="hod_user_id_fk"
-												class="validate-dropdown searchable">
-												<option value="" selected>Select</option>
-												<c:forEach var="obj" items="${hodList }">
-													<option value="${obj.user_id }"> ${obj.designation }<c:if
-															test="${not empty obj.user_name}"> - </c:if>${obj.user_name}
-													</option>
-												</c:forEach>
-											</select>
-											<span id="hod_user_id_fkError" class="error-msg"></span>
-												<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+								<div class="col s6 m6 input-field">
+									<p class="searchable_label">HOD</p>
+									<select name="hod_user_id_fk" id="hod_user_id_fk"
+										class="validate-dropdown searchable">
+										<option value="" selected>Select</option>
+										<c:forEach var="obj" items="${hodList }">
+											<option value="${obj.user_id }">${obj.designation }
+												<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}
+											</option>
+										</c:forEach>
+									</select> <span id="hod_user_id_fkError" class="error-msg"></span>
+									<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
 - 	<!--                                    <label for="hod_user_id_fk">HOD</label> -->
-										</div>
-										<div class="col s12 m6 input-field">											
-											<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text"
-												class="validate" style="margin-top:10px">
-											<label for="dy_hod_user_id_fk">Dy HOD</label>
-											<span id="dy_hod_user_id_fkError" class="error-msg"></span>
-										</div>
-									</div>
 								</div>
-
+								<div class="col s6 m6 input-field">
+									<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk"
+										type="text" class="validate datelike1" >
+									<label for="dy_hod_user_id_fk">Dy HOD</label> <span
+										id="dy_hod_user_id_fkError" class="error-msg"></span>
+								</div>
 								<div class="col m2 hide-on-small-only"></div>
 							</div>
 							<div class="row">
 								<!-- //row 7 -->
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="date_of_start" name="date_of_start" type="text"
 										class="validate datepicker">
 									<label for="date_of_start">Date of Start</label>
@@ -351,9 +355,9 @@
 									<button type="button" id="date_of_start_icon"><i
 											class="fa fa-calendar"></i></button>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<i class="material-icons prefix center-align">₹</i>
-									<input id="awarded_cost" name="awarded_cost" type="text" class="validate">
+									<input id="awarded_cost" name="awarded_cost" type="text" class="validate datelike">
 									<label for="awarded_cost">Awarded cost</label>
 									<span id="awarded_costError" class="error-msg"></span>
 								</div>
@@ -361,15 +365,15 @@
 							</div>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input name="doc" id="doc" type="text" class="validate datepicker">
 									<label for="doc">Planned DOC</label>
 									<button type="button" id="doc_icon"><i class="fa fa-calendar"></i></button>
 									<span id="docError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<i class="material-icons prefix center-align">₹</i>
-									<input id="estimated_cost" name="estimated_cost" type="text" class="validate">
+									<input id="estimated_cost" name="estimated_cost" type="text" class="validate datelike">
 									<label for="estimated_cost">Estimated cost</label>
 									<span id="estimated_costError" class="error-msg"></span>
 								</div>
@@ -377,12 +381,12 @@
 							</div>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
-									<input id="loa_letter_number" name="loa_letter_number" type="text" class="validate">
+								<div class="col s6 m4 input-field">
+									<input id="loa_letter_number" name="loa_letter_number" type="text" class="validate datelike	">
 									<label for="loa_letter_number">LOA Letter No</label>
 									<span id="loa_letter_numberError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="loa_date" name="loa_date" type="text" class="validate datepicker">
 									<label for="loa_date">LOA Date</label>
 									<span id="loa_dateError" class="error-msg"></span>
@@ -391,12 +395,12 @@
 							</div>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
-									<input id="ca_no" name="ca_no" type="text" class="validate">
+								<div class="col s6 m4 input-field">
+									<input id="ca_no" name="ca_no" type="text" class="validate datelike">
 									<label for="ca_no">CA No</label>
 									<span id="ca_noError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="ca_date" name="ca_date" type="text" class="validate datepicker">
 									<label for="ca_date">CA Date</label>
 									<span id="ca_dateError" class="error-msg"></span>
@@ -405,7 +409,7 @@
 							</div>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="actual_completion_date" name="actual_completion_date" type="text"
 										class="validate datepicker">
 									<label for="actual_completion_date">Actual Completed Date</label>
@@ -413,16 +417,16 @@
 									<button type="button" id="actual_completion_date_icon"><i
 											class="fa fa-calendar"></i></button>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<i class="material-icons prefix center-align">₹</i>
-									<input id="completed_cost" name="completed_cost" type="text" class="validate">
-									<label for="completed_cost">Completed Cost</label>
+									<input id="completed_cost" name="completed_cost" type="text" class="validate datelike">
+									<label for="completed_cost" style="font-size: .95rem;">Completed Cost</label>
 									<span id="completed_costError" class="error-msg"></span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="final_takeover" name="final_takeover" type="text"
 										class="validate datepicker">
 									<label for="final_takeover">Final Taking over by Client</label>
@@ -430,7 +434,7 @@
 											class="fa fa-calendar"></i></button>
 									<span id="final_takeoverError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="completion_certificate_release" name="completion_certificate_release"
 										type="text" class="validate datepicker">
 									<label for="completion_certificate_release">Release of Completion
@@ -444,14 +448,14 @@
 
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="contract_closure_date" name="contract_closure_date" type="text"
 										class="validate datepicker">
 									<label for="contract_closure_date">Contract Closure</label>
 									<button type="button" id="contract_closure_date_icon"><i class="fa fa-calendar"></i></button>
 									<span id="contract_closure_dateError" class="error-msg"></span>
 								</div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="final_bill_release" name="final_bill_release" type="text"
 										class="validate datepicker">
 									<label for="final_bill_release">Release of Final bill</label>
@@ -463,7 +467,7 @@
 							</div>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="defect_liability_period" name="defect_liability_period" type="text"
 										class="validate datepicker">
 									<label for="defect_liability_period">Defect Liability Period</label>
@@ -483,7 +487,7 @@
 							</div>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s12 m4 input-field">
+								<div class="col s6 m4 input-field">
 									<input id="pbg_release" name="pbg_release" type="text" class="validate datepicker">
 									<label for="pbg_release">Release of PBG</label>
 									<button type="button" id="pbg_release_icon"><i class="fa fa-calendar"></i></button>
@@ -494,8 +498,8 @@
 	                                    <label for="contract_closure"> Contract Closure Comment</label>
 	                                    <span id="ontract_closureError" class="error-msg" ></span>
 	                                </div> -->
-								<div class="col s12 m4 input-field">
-									<p> <label>Status of Contract</label></p>
+								<div class="col s6 m4 input-field">
+									<p class="searchable_label">Status of Contract</p>
 									<select class="validate-dropdown searchable" id="contract_status_fk"
 										name="contract_status_fk">
 										<option value="" selected>Select</option>
@@ -511,7 +515,7 @@
 							<%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                 <p>   <label>Status of Contract</label></p>
+	                                 <p>   <label>Status of Contract</p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
 	                                        <option value="" selected>Select</option>
 	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
@@ -524,7 +528,7 @@
 	                            </div> --%>
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
-								<div class="col m8 input-field center-align no-float-small">
+								<div class="col m8 s12 input-field center-align no-float-small">
 									<p>Bank Guarantee Required</p>
 									<p>
 										<label>
@@ -560,26 +564,29 @@
 									</thead>
 									<tbody id="bankTableBody">
 										<tr id="bankRow0">
-											<td data-head="BG Type"> <select id="bg_type_fks0" name="bg_type_fks"
+											<td data-head="BG Type"  class="input-field"> 
+											<!-- <div class="input-field"> -->
+												<select id="bg_type_fks0" name="bg_type_fks"
 													class="searchable">
 													<option value="" selected>Select </option>
 													<c:forEach var="obj" items="${bankGuaranteeTYpe }">
 														<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>
 													</c:forEach>
 												</select>
+											<!-- </div> -->
 											</td>
 											<!-- <td> <input id="bg_type" type="text" class="validate"
                                                         placeholder="BG Type">
                                                 </td> -->
-											<td data-head="Issuing Bank">
+											<td data-head="Issuing Bank"  class="input-field">
 												<input id="issuing_banks0" name="issuing_banks" type="text"
 													class="validate" placeholder="Issuing Bank">
 											</td>
-											<td data-head="Bank Address">
+											<td data-head="Bank Address"  class="input-field">
 												<input id="bank_addresss0" name="bank_addresss" type="text"
 													class="validate" placeholder="Bank Address">
 											</td>
-											<td data-head="BG Number">
+											<td data-head="BG Number"  class="input-field">
 												<input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
 													placeholder="BG Number">
 											</td>
@@ -588,12 +595,12 @@
 												<input id="bg_values0" name="bg_values" type="text" class="validate"
 													placeholder="BG Value">
 											</td>
-											<td data-head="Valid Upto">
+											<td data-head="Valid Upto"  class="input-field">
 												<input id="bg_valid_uptos0" name="bg_valid_uptos" type="text"
 													class="validate datepicker" placeholder="Valid Upto">
 												<button type="button"><i class="fa fa-calendar"></i></button>
 											</td>
-											<td data-head="Remarks">
+											<td data-head="Remarks"  class="input-field">
 												<input id="remarkss0" name="remarkss" type="text" class="validate"
 													placeholder="Remarks">
 											</td>
@@ -668,16 +675,16 @@
 													</c:forEach>
 												</select>
 											</td>
-											<td data-head="Issuing Agency">
+											<td data-head="Issuing Agency"  class="input-field">
 												<input id="issuing_agencys0" name="issuing_agencys" type="text"
 													class="validate" placeholder="Issuing Agency">
 											</td>
-											<td data-head="Agency Address">
+											<td data-head="Agency Address"  class="input-field">
 												<input id="agency_addresss0" name="agency_addresss" type="text"
 													class="validate" placeholder="Agency Address">
 											</td>
 
-											<td data-head="Insurance Number">
+											<td data-head="Insurance Number"  class="input-field">
 												<input id="insurance_numbers0" name="insurance_numbers" type="text"
 													class="validate" placeholder="Insurance Number">
 											</td>
@@ -686,12 +693,12 @@
 												<input id="insurance_values0" name="insurance_values" type="text"
 													class="validate" placeholder="Insurance Value">
 											</td>
-											<td data-head="Valid Upto">
+											<td data-head="Valid Upto"  class="input-field">
 												<input id="insurence_valid_uptos0" name="insurence_valid_uptos"
 													type="text" class="validate datepicker" placeholder="Valid Upto">
 												<button type="button"><i class="fa fa-calendar"></i></button>
 											</td>
-											<td data-head="Remarks">
+											<td data-head="Remarks"  class="input-field">
 												<input id="insurence_remarks0" name="insurence_remarks" type="text"
 													class="validate" placeholder="Remarks">
 											</td>
@@ -718,7 +725,7 @@
 							</div>
 						</div>
 
-						<div class="container container-no-margin">
+						<div class=" container-no-margin">
 							<div class="row fixed-width">
 								<h5 class="center-align">Milestone Details</h5>
 								<div class="table-inside">
@@ -736,25 +743,25 @@
 										<tbody id="milestoneTableBody">
 
 											<tr id="mileRow0">
-												<td data-head="Milestone Name">
+												<td data-head="Milestone Name"  class="input-field">
 													<input id="milestone_names0" name="milestone_names" type="text"
 														class="validate" placeholder="Milestone Name ">
 												</td>
-												<td data-head="Milestone Date">
+												<td data-head="Milestone Date"  class="input-field">
 													<input id="milestone_dates0" name="milestone_dates" type="text"
 														class="validate datepicker" placeholder="Milestone Date">
 													<button type="button"><i class="fa fa-calendar"></i></button>
 												</td>
-												<td data-head="Actual Date">
+												<td data-head="Actual Date"  class="input-field">
 													<input id="actual_dates0" name="actual_dates" type="text"
 														class="validate datepicker" placeholder="Actual Date">
 													<button type="button"><i class="fa fa-calendar"></i></button>
 												</td>
-												<td data-head="Revision">
+												<td data-head="Revision"  class="input-field">
 													<input id="revisions0" name="revisions" type="text" class="validate"
 														placeholder="Revision">
 												</td>
-												<td data-head="Remarks">
+												<td data-head="Remarks"  class="input-field">
 													<input id="mile_remarks0" name="mile_remarks" type="text"
 														class="validate" placeholder="Remarks">
 												</td>
@@ -793,7 +800,7 @@
 										</thead>
 										<tbody id="revTableBody">
 											<tr id="revRow0">
-												<td data-head="Revision Number"> <input id="revision_numbers0"
+												<td data-head="Revision Number"  class="input-field"> <input id="revision_numbers0"
 														name="revision_numbers" type="text" class="validate"
 														placeholder="Revision Number">
 												</td>
@@ -802,12 +809,12 @@
 														id="revised_amounts0" name="revised_amounts" type="text"
 														class="validate" placeholder="Revised Amount">
 												</td>
-												<td data-head="Revised DOC">
+												<td data-head="Revised DOC"  class="input-field">
 													<input id="revised_docs0" name="revised_docs" type="text"
 														class="validate datepicker" placeholder="Revised DOC">
 													<button type="button"><i class="fa fa-calendar"></i></button>
 												</td>
-												<td data-head="Remarks">
+												<td data-head="Remarks"  class="input-field">
 													<input id="revision_remarks0" name="revision_remarks" type="text"
 														class="validate" placeholder="Remarks">
 												</td>
@@ -832,8 +839,8 @@
 							</div>
 						</div>
 						<!-- new code  starts-->
-						<div class="container container-no-margin">
-							<div class="container">
+						<div class="container-no-margin">
+							<div class="">
 								<div class="row fixed-width">
 									<h5 class="center-align">Key Personnel</h5>
 									<div class="table-inside">
@@ -848,21 +855,21 @@
 											</thead>
 											<tbody id="keyPersonnelTableBody">
 												<tr id="keyPersonnelRow0">
-													<td data-head="Name"> <input id="contractKeyPersonnelNames0"
+													<td data-head="Name"  class="input-field"> <input id="contractKeyPersonnelNames0"
 															name="contractKeyPersonnelNames" type="text"
 															class="validate" placeholder="Name">
 													</td>
-													<td data-head="Mobile No">
+													<td data-head="Mobile No"  class="input-field">
 														<input id="contractKeyPersonnelMobileNos0"
 															name="contractKeyPersonnelMobileNos" type="number"
 															class="validate" placeholder="Mobile No">
 													</td>
-													<td data-head="Email">
+													<td data-head="Email"  class="input-field">
 														<input id="contractKeyPersonnelEmailIds0"
 															name="contractKeyPersonnelEmailIds" type="text"
 															class="validate" placeholder="Email">
 													</td>
-													<td class="mobile_btn_close">
+													<td class="mobile_btn_close"  class="input-field">
 														<a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"
 															class="btn waves-effect waves-light red t-c "> <i
 																class="fa fa-close"></i></a>
@@ -887,7 +894,7 @@
 								</div>
 							</div>
 
-							<div class="container" style="margin-bottom:30px">
+							<div class="" style="margin-bottom:30px">
 								<div class="row fixed-width">
 									<h5 class="center-align">Documents</h5>
 									<div class="table-inside">
@@ -901,11 +908,11 @@
 											</thead>
 											<tbody id="contractDocumentTableBody">
 												<tr id="contractDocumentRow0">
-													<td data-head="Name"> <input id="contractDocumentNames0" name="contractDocumentNames"
+													<td data-head="Name"  class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames"
 															type="text" class="validate" placeholder="Name">
 													</td>
-													<td data-head="Attachment" class="mobile_full_width">
-														<div class="normal-btn mobile_file">
+													<td data-head="Attachment" class="input-field">
+														<div class="normal-btn ">
 															<input type="file" id="contractDocumentFiles0"
 																name="contractDocumentFiles" style="display:none"
 																onchange="getFileName('0')" />
@@ -942,22 +949,7 @@
 						</div>
 						<!-- new code  ends-->
 
-						<!--                             <div class="row"> -->
-						<!--                                 <div class="col m2 hide-on-small-only"></div> -->
-						<!--                                 <div class="col m8 s12"> -->
-						<!--                                     <div class="file-field input-field"> -->
-						<!--                                         <div class="btn bg-m"> -->
-						<!--                                             <span>Attachment</span> -->
-						<!--                                             <input type="file"> -->
-						<!--                                         </div> -->
-						<!--                                         <div class="file-path-wrapper"> -->
-						<!--                                             <input class="file-path validate" type="text"> -->
-						<!--                                         </div> -->
-						<!--                                     </div> -->
-						<!--                                 </div> -->
-						<!--                                 <div class="col m2 hide-on-small-only"></div> -->
-						<!--                             </div> -->
-						<div class="container container-no-margin">
+						<div class=" container-no-margin">
 							<div class="row">
 								<!-- row 10 -->
 								<div class="col m2 hide-on-small-only"></div>
@@ -995,10 +987,6 @@
 	</div>
 	<!--     </div> -->
 
-
-
-	<!-- footer  -->
-	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
 	<div class="page-loader" style="display: none;">
 		<div class="preloader-wrapper big active">
@@ -1398,12 +1386,12 @@
 					+'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
 			</c:forEach >
 				+'</select></td>'
-				+ '<td data-head="Issuing Bank"> <input id="issuing_banks' + rNo + '" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
-				+ '<td data-head="Bank Address"><input id="bank_addresss' + rNo + '" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
-				+ '<td data-head="BG Number"><input id="bg_numbers' + rNo + '" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
+				+ '<td data-head="Issuing Bank" class="input-field"> <input id="issuing_banks' + rNo + '" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
+				+ '<td data-head="Bank Address" class="input-field"><input id="bank_addresss' + rNo + '" name ="bank_addresss" type="text" class="validate"  placeholder="Bank Address"></td>'
+				+ '<td data-head="BG Number" class="input-field"><input id="bg_numbers' + rNo + '" name="bg_numbers" type="text" class="validate"  placeholder="BG Number"></td>'
 				+ '<td data-head="BG Value" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="bg_values' + rNo + '" name="bg_values" type="text" class="validate"  placeholder="BG Value"></td>'
-				+ '<td data-head="Valid Upto"><input id="bg_valid_uptos' + rNo + '" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-				+ '<td data-head="Remarks"><input id="remarkss' + rNo + '" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
+				+ '<td data-head="Valid Upto" class="input-field"><input id="bg_valid_uptos' + rNo + '" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
+				+ '<td data-head="Remarks" class="input-field"><input id="remarkss' + rNo + '" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 				+ '<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeBank(' + rNo + ');"> <i class="fa fa-close"></i></a></td></tr>';
 
 			$('#bankTableBody').append(html);
@@ -1436,12 +1424,12 @@
 					+' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
 		  </c:forEach >
 				+'</select></td>'
-				+ '<td data-head="Issuing Agency"> <input id="issuing_agencys' + rNo + '" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
-				+ '<td data-head="Agency Address"><input id="agency_addresss' + rNo + '" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
-				+ '<td data-head="Insurance Number"><input id="insurance_numbers' + rNo + '" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
+				+ '<td data-head="Issuing Agency" class="input-field"> <input id="issuing_agencys' + rNo + '" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
+				+ '<td data-head="Agency Address" class="input-field"><input id="agency_addresss' + rNo + '" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
+				+ '<td data-head="Insurance Number" class="input-field"><input id="insurance_numbers' + rNo + '" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
 				+ '<td data-head="Insurance Value" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values' + rNo + '" name="insurance_values" type="text" class="validate" placeholder="Insurance Value"></td>'
-				+ '<td data-head="Valid Upto"><input id="insurence_valid_uptos' + rNo + '" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
-				+ '<td data-head="Remarks"><input id="insurence_remarks' + rNo + '" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
+				+ '<td data-head="Valid Upto" class="input-field"><input id="insurence_valid_uptos' + rNo + '" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
+				+ '<td data-head="Remarks" class="input-field"><input id="insurence_remarks' + rNo + '" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 				+ '<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence(' + rNo + ');"> <i class="fa fa-close"></i></a></td></tr>';
 
 			$('#insurenceTableBody').append(html);
@@ -1466,11 +1454,11 @@
 			var rNo = Number(rowNo) + 1;
 			var total = 0;
 			var html = '<tr id="mileRow' + rNo + '">'
-				+ '<td data-head="Milestone Name"><input id="milestone_names' + rNo + '" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
-				+ '<td data-head="Milestone Date"><input id="milestone_dates' + rNo + '" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
-				+ '<td data-head="Actual Date"><input id="actual_dates' + rNo + '" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
-				+ '<td data-head="Revision"><input id="revisions' + rNo + '" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
-				+ '<td data-head="Remarks">  <input id="mile_remarks' + rNo + '" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
+				+ '<td data-head="Milestone Name" class="input-field"><input id="milestone_names' + rNo + '" name="milestone_names" type="text" class="validate"  placeholder="Milestone Name "></td>'
+				+ '<td data-head="Milestone Date" class="input-field"><input id="milestone_dates' + rNo + '" name="milestone_dates" type="text" class="validate datepicker"  placeholder="Milestone Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
+				+ '<td data-head="Actual Date" class="input-field"><input id="actual_dates' + rNo + '" name="actual_dates" type="text" class="validate datepicker"   placeholder="Actual Date">  <button type="button"><i  class="fa fa-calendar"></i></button></td>'
+				+ '<td data-head="Revision" class="input-field"><input id="revisions' + rNo + '" name="revisions" type="text" class="validate" placeholder="Revision"></td>'
+				+ '<td data-head="Remarks" class="input-field">  <input id="mile_remarks' + rNo + '" name="mile_remarks" type="text" class="validate" placeholder="Remarks"></td>'
 				+ '<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeMilestone(' + rNo + ');"> <i class="fa fa-close"></i></a></td></tr>';
 			+'</tr>';
 
@@ -1500,11 +1488,11 @@
 			var rNo = Number(rowNo) + 1;
 			var total = 0;
 			var html = '<tr id="revRow' + rNo + '">'
-				+ '<td data-head="Revision Number"><input id="revision_numbers' + rNo + '" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
+				+ '<td data-head="Revision Number" class="input-field"><input id="revision_numbers' + rNo + '" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"</td>'
 				+ '<td data-head="Revised Amount" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="revised_amounts' + rNo + '" name="revised_amounts" type="text" class="validate"  placeholder="Revised Amount"></td>'
-				+ '<td data-head="Revised DOC"><input id="revised_docs' + rNo + '" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
+				+ '<td data-head="Revised DOC" class="input-field"><input id="revised_docs' + rNo + '" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 				+ '<button type="button"><i class="fa fa-calendar"></i></button></td>'
-				+ '<td data-head="Remarks"> <input id="revision_remarks' + rNo + '" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
+				+ '<td data-head="Remarks" class="input-field"> <input id="revision_remarks' + rNo + '" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
 				+ '<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev(' + rNo + ');"> <i class="fa fa-close"></i></a></td></tr>';
 			+'</tr>';
 
@@ -1530,15 +1518,15 @@
 			var rNo = Number(rowNo) + 1;
 			var total = 0;
 			var html = '<tr id="keyPersonnelRow' + rNo + '">'
-				+ '<td data-head="Name"> <input id="contractKeyPersonnelNames' + rNo + '" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">'
+				+ '<td data-head="Name" class="input-field"> <input id="contractKeyPersonnelNames' + rNo + '" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">'
 				+ '</td>'
-				+ '<td data-head="Mobile No">'
+				+ '<td data-head="Mobile No" class="input-field">'
 				+ '<input id="contractKeyPersonnelMobileNos' + rNo + '" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">'
 				+ '</td>'
-				+ '<td data-head="Email">'
+				+ '<td data-head="Email" class="input-field">'
 				+ '<input id="contractKeyPersonnelEmailIds' + rNo + '" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">'
 				+ '</td>'
-				+ '<td>'
+				+ '<td class="mobile_btn_close">'
 				+ '<a href="javascript:void(0);" onclick="removeKeyPersonnel(' + rNo + ');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
 				+ '</td>'
 				+ '</tr>';
@@ -1556,9 +1544,9 @@
 			var rNo = Number(rowNo) + 1;
 			var total = 0;
 			var html = '<tr id="contractDocumentRow' + rNo + '">'
-				+ '<td data-head="Name"> <input id="contractDocumentNames' + rNo + '" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
-				+ '<td data-head="Attachment" class="mobile_full_width">'
-				+ '<div class="normal-btn mobile_file">'
+				+ '<td data-head="Name" class="input-field"> <input id="contractDocumentNames' + rNo + '" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
+				+ '<td data-head="Attachment" class="input-field">'
+				+ '<div class="normal-btn ">'
 				+ '<input type="file" id="contractDocumentFiles' + rNo + '" name="contractDocumentFiles" style="display:none" onchange="getFileName(' + rNo + ')" />'
 				+ '<label for="contractDocumentFiles' + rNo + '" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
 				+ '<span id="contractDocumentFileName' + rNo + '" class="filevalue"></span>'

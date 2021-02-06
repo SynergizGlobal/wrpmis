@@ -164,8 +164,8 @@ public class ActivitiesProgressReportController {
 	}
 	
 	@RequestMapping(value = "/generate-strip-chart-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateStripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
+	public void generateStripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
 		try{
 			String reporting_date = obj.getReporting_date();
 			//obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
@@ -428,7 +428,7 @@ public class ActivitiesProgressReportController {
  			    response.getOutputStream().flush();
             	
                 
-                attributes.addFlashAttribute("success",dataExportSucess);
+                //attributes.addFlashAttribute("success",dataExportSucess);
             	//response.setContentType("application/vnd.ms-excel");
             	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
             	//XSSFWorkbook  workbook = new XSSFWorkbook ();
@@ -439,16 +439,18 @@ public class ActivitiesProgressReportController {
             	//workbook.close();
             }catch(FileNotFoundException e){
                 e.printStackTrace();
-                attributes.addFlashAttribute("error",dataExportInvalid);
+                logger.error("generateStripChartDPRReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportInvalid);
             }catch(IOException e){
                 e.printStackTrace();
-                attributes.addFlashAttribute("error",dataExportError);
+                logger.error("generateStripChartDPRReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportError);
             }
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("generateStripChartDPRReport : " + e.getMessage());
 		}
-		return model;
+		//return model;
     }
 	
 	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {

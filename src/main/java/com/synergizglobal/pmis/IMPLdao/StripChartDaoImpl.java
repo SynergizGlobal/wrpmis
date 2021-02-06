@@ -104,7 +104,7 @@ public class StripChartDaoImpl implements StripChartDao {
 					+ "from strip_chart_general scv "
 					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
 					
-					+ "where scv.contract_id_fk is not null " ;
+					+ "where scv.contract_id_fk is not null and scv.status <> 'Completed'" ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -119,9 +119,11 @@ public class StripChartDaoImpl implements StripChartDao {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			
-			List<StripChart> list = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
-			for (StripChart contractObj : list) {
+			//List<StripChart> list = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+			/*for (StripChart contractObj : list) {
 				String structures_count_qry = "select count(*) from strip_chart_general s "
 						+ "where s.fob_id_fk is not null and s.fob_id_fk <> '' and s.contract_id_fk = ? "
 						+ "and (select count(*) from strip_chart_general s1 where s1.status <> ? "
@@ -139,7 +141,7 @@ public class StripChartDaoImpl implements StripChartDao {
 				if(c > 0) {
 					objsList.add(contractObj);
 				}
-			}	
+			}*/	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

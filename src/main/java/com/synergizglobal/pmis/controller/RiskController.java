@@ -134,7 +134,9 @@ public class RiskController {
 				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
 									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									System.out.println(columnName + " = " + fileFormat.get(i));
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+										
 				                		attributes.addFlashAttribute("error",uploadformatError);
 				                		return model;
 				                	}
@@ -197,7 +199,8 @@ public class RiskController {
 					
 					String sub_work = null,item_no = null,risk_id = null,owner = null,risk_area_fk = null,risk_sub_area_fk = null,
 							date = null,probability = null,impact = null,mitigation_plan = null,priority = null,
-							responsible_person = null,atr_date = null,action_taken = null;
+							responsible_person = null;
+					String risk_base_text = "";
 					for(int i = 2; i <= risksDrawingsSheet.getLastRowNum();i++){
 						
 						XSSFRow row = risksDrawingsSheet.getRow(i);
@@ -209,13 +212,13 @@ public class RiskController {
 						String val = null;
 						
 						if(!StringUtils.isEmpty(row)) {	
-							String risk_id_temp = null;
-							Cell cell = row.getCell(2);
+							String item_no_temp = null;
+							Cell cell = row.getCell(1);
 							if(!StringUtils.isEmpty(cell)) {
-								risk_id_temp = cell.getStringCellValue().trim();
+								item_no_temp = formatter.formatCellValue(cell).trim();
 							}
 							
-							if(!StringUtils.isEmpty(risk_id_temp) && !risk_id_temp.equals("null")) {
+							if(!StringUtils.isEmpty(item_no_temp) && !item_no_temp.equals("null")) {
 								
 								risk.setWork_id_fk(obj.getWork_id_fk());
 								//System.out.println(i + " = "+ val);
@@ -239,94 +242,103 @@ public class RiskController {
 								if(count != 2) {
 									item_no = getCellDataType2(workbook,row.getCell(1));
 								}
-								if(!StringUtils.isEmpty(item_no)) { risk.setItem_no(item_no);}
+								if(!StringUtils.isEmpty(item_no)) { risk.setItem_no(item_no);}								
 								
 								//val = getCellDataType2(workbook,row.getCell(2));
 								tempVal = formatter.formatCellValue(row.getCell(2)).trim();
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									risk_id = getCellDataType2(workbook,row.getCell(2));
-								}
-								if(!StringUtils.isEmpty(risk_id)) { risk.setRisk_id(risk_id);}
-								
-								//val = getCellDataType2(workbook,row.getCell(3));
-								tempVal = formatter.formatCellValue(row.getCell(3)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									owner = getCellDataType2(workbook,row.getCell(3));
+									owner = getCellDataType2(workbook,row.getCell(2));
 								}
 								if(!StringUtils.isEmpty(owner)) { risk.setOwner(owner);}
 								
-								//val = getCellDataType2(workbook,row.getCell(4));
-								tempVal = formatter.formatCellValue(row.getCell(4)).trim();	
+								//val = getCellDataType2(workbook,row.getCell(3));
+								tempVal = formatter.formatCellValue(row.getCell(3)).trim();	
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									risk_area_fk = getCellDataType2(workbook,row.getCell(4));
+									risk_area_fk = getCellDataType2(workbook,row.getCell(3));
 								}
 								if(!StringUtils.isEmpty(risk_area_fk)) { risk.setRisk_area_fk(risk_area_fk);}	
+								
+								//val = getCellDataType2(workbook,row.getCell(4));
+								tempVal = formatter.formatCellValue(row.getCell(4)).trim();
+								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+								if(count != 2) {
+									risk_sub_area_fk = getCellDataType2(workbook,row.getCell(4));
+								}
+								if(!StringUtils.isEmpty(risk_sub_area_fk)) { risk.setSub_area_fk(risk_sub_area_fk);}					
 								
 								//val = getCellDataType2(workbook,row.getCell(5));
 								tempVal = formatter.formatCellValue(row.getCell(5)).trim();
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									risk_sub_area_fk = getCellDataType2(workbook,row.getCell(5));
+									date = getCellDataType2(workbook,row.getCell(5));
 								}
-								if(!StringUtils.isEmpty(risk_sub_area_fk)) { risk.setSub_area_fk(risk_sub_area_fk);}					
+								if(!StringUtils.isEmpty(date)) { risk.setDate(date);}								
 								
 								//val = getCellDataType2(workbook,row.getCell(6));
 								tempVal = formatter.formatCellValue(row.getCell(6)).trim();
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									date = getCellDataType2(workbook,row.getCell(6));
-								}
-								if(!StringUtils.isEmpty(date)) { risk.setDate(date);}								
-								
-								//val = getCellDataType2(workbook,row.getCell(7));
-								tempVal = formatter.formatCellValue(row.getCell(7)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									probability = getCellDataType2(workbook,row.getCell(7));
+									probability = getCellDataType2(workbook,row.getCell(6));
 								}
 								if(!StringUtils.isEmpty(probability)) { risk.setProbability(probability);}										
 								
-								//val = getCellDataType2(workbook,row.getCell(8));
-								tempVal = formatter.formatCellValue(row.getCell(8)).trim();	
+								//val = getCellDataType2(workbook,row.getCell(7));
+								tempVal = formatter.formatCellValue(row.getCell(7)).trim();	
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									impact = getCellDataType2(workbook,row.getCell(8));
+									impact = getCellDataType2(workbook,row.getCell(7));
 								}
 								if(!StringUtils.isEmpty(impact)) { risk.setImpact(impact);}
 								
-								val = getCellDataType2(workbook,row.getCell(9));
+								val = getCellDataType2(workbook,row.getCell(8));
 								if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
 								
-								val = getCellDataType2(workbook,row.getCell(10));
+								val = getCellDataType2(workbook,row.getCell(9));
 								if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
 								
+								val = getCellDataType2(workbook,row.getCell(10));
+								if(!StringUtils.isEmpty(val)) { risk.setStatus(val);}
+								
+
 								//val = getCellDataType2(workbook,row.getCell(11));
-								tempVal = formatter.formatCellValue(row.getCell(11)).trim();
+								tempVal = formatter.formatCellValue(row.getCell(11)).trim();								
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									mitigation_plan = getCellDataType2(workbook,row.getCell(11));
+									priority = getCellDataType2(workbook,row.getCell(11));
+								}
+								if(!StringUtils.isEmpty(priority)) { risk.setPriority_fk(priority);}
+								
+								//val = getCellDataType2(workbook,row.getCell(12));
+								tempVal = formatter.formatCellValue(row.getCell(12)).trim();
+								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+								if(count != 2) {
+									mitigation_plan = getCellDataType2(workbook,row.getCell(12));
 								}
 								if(!StringUtils.isEmpty(mitigation_plan)) { risk.setMitigation_plan(mitigation_plan);}
 								
-								//val = getCellDataType2(workbook,row.getCell(12));
-								tempVal = formatter.formatCellValue(row.getCell(12)).trim();								
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									priority = getCellDataType2(workbook,row.getCell(12));
-								}
-								if(!StringUtils.isEmpty(priority)) { risk.setPriority_fk(priority);}
 								
 								//val = getCellDataType2(workbook,row.getCell(13));
 								tempVal = formatter.formatCellValue(row.getCell(13)).trim();
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
 									responsible_person = getCellDataType2(workbook,row.getCell(13));
-								}
+								}								
+								if(!StringUtils.isEmpty(responsible_person)) { risk.setResponsible_person(responsible_person);}									
 								
-								if(!StringUtils.isEmpty(responsible_person)) { risk.setResponsible_person(responsible_person);}	
+								//val = getCellDataType2(workbook,row.getCell(16));
+								tempVal = formatter.formatCellValue(row.getCell(16)).trim();
+								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+								if(count != 2) {
+									if(!StringUtils.isEmpty(tempVal)) {
+										risk_base_text = getCellDataType2(workbook,row.getCell(16));
+										risk_id = risk_base_text + "-Risk-"+(i-1);
+									}else {
+										risk_id = risk_base_text + "-Risk-"+(i-1);
+									}
+								}
+								if(!StringUtils.isEmpty(risk_id)) { risk.setRisk_id(risk_id);}
 								
 								
 								risk.setDate(DateParser.parse(risk.getDate()));

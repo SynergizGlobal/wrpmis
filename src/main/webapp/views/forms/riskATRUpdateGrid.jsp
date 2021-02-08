@@ -326,7 +326,7 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#area").append('<option value="' + val.area + '">' + $.trim(val.area)   +'</option>');
+    	                           $("#area").append('<option value="' + val.risk_area_fk + '">' + $.trim(val.risk_area_fk)   +'</option>');
                             });
                         }
                         $('.searchable').select2();

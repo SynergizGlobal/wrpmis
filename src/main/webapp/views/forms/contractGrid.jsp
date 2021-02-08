@@ -233,6 +233,8 @@
   		<input type="hidden" name="contract_id" id="contract_id"/>
     </form>
     <form action="<%=request.getContextPath() %>/export-contract" name="exportContractForm" id="exportContractForm" target="_blank" method="post">	
+        <input type="hidden" name="dy_hod_designation" id="exportDy_hod_designation" />
+        <input type="hidden" name="designation" id="exportDesignation" />
         <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
@@ -606,6 +608,8 @@
 	}
     
     function exportContract(){
+    	 var dy_hod_designation = $("#dy_hod_designation").val();
+    	 var designation = $("#designation").val();
      	 var contractor_id_fk = $("#contractor_id_fk").val();
      	 var department_fk = $("#department_fk").val();
      	 var work_id_fk = $("#work_id_fk").val();
@@ -615,6 +619,9 @@
      	 $("#exportContractor_id_fk").val(contractor_id_fk);
      	 $("#exportDepartment_fk").val(department_fk);
      	 $("#exportWork_id_fk").val(work_id_fk);
+     	 $("#exportDy_hod_designation").val(dy_hod_designation);
+     	 $("#exportDesignation").val(designation);
+     	
      	 $("#exportContractForm").submit();
   	}
     

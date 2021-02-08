@@ -209,8 +209,8 @@
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <div class="row">
+                               <!--  <div class="col s12 m8 input-field"> 
+                                    <div class="row">-->
                                         <div class="col s12 m4 input-field">
                                             <p class="searchable_label">Source of Fund </p>
                                             <select class="searchable" id="source_of_funds" name="source_of_funds">
@@ -220,28 +220,45 @@
 		                                        </c:forEach>
                                             </select>
                                         </div>
-                                        <div class="col s12 m4 input-field">
-                                            <p class="searchable_label">Status</p>
-                                            <select class="searchable" id="status_fk" name="status_fk">
+                                         <div class="col s12 m4 input-field">
+                                            <p class="searchable_label">Responsible Person </p>
+                                            <select class="searchable" id="responsible_person_user_fk" name="responsible_person_user_fk">
                                                 <option value="" >Select</option>
-                                               <c:forEach var="obj" items="${statusList }">
-		                                      	   <option value= "${obj.status_fk}" <c:if test="${zonalRailwayDetails.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
-		                                   	   </c:forEach>
+                                                 <c:forEach var="obj" items="${usersList }"> 
+			                                    	  <option value="${obj.responsible_person_user_fk }" <c:if test="${zonalRailwayDetails.responsible_person_user_fk eq obj.responsible_person_user_fk}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                     </c:forEach> 
                                             </select>
                                         </div>
-                                        <div class="col s12 m4 input-field">
-                                            <input id="asOnDate" type="text" class="validate datepicker"  value="${zonalRailwayDetails.as_on_date }"
-                                                name="as_on_date">
-                                            <label for="asOnDate">As on Date</label>
-                                            <button type="button" id="asOnDate__icon" class="white datepicker-btn"><i
-                                                    class="fa fa-calendar"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
+                                      
+                                   <!--  </div>
+                                </div> -->
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col s12 m4 input-field">
+								<p class="searchable_label">Status</p>
+								<select class="searchable" id="status_fk" name="status_fk">
+									<option value="">Select</option>
+									<c:forEach var="obj" items="${statusList }">
+										<option value="${obj.status_fk}"
+											<c:if test="${zonalRailwayDetails.status_fk eq obj.status_fk}">selected</c:if>>${obj.status_fk}</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="col s12 m4 input-field">
+								<input id="asOnDate" type="text" class="validate datepicker"
+									value="${zonalRailwayDetails.as_on_date }" name="as_on_date">
+								<label for="asOnDate">As on Date</label>
+								<button type="button" id="asOnDate__icon"
+									class="white datepicker-btn">
+									<i class="fa fa-calendar"></i>
+								</button>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
 
-                            <div class="row">
+						<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <i class="material-icons prefix center-align">₹</i>
@@ -398,7 +415,7 @@
                                	    </c:when>
                                 	<c:otherwise>
                                          <tr id="progressRow0">
-                                            <td>
+                                            <td><input type="hidden" name= "progress_ids" id="progress_ids0" />
                                                 <input id="months0" name="months" type="month" class="validate" class="month"
                                                     placeholder="Month">
                                             </td>
@@ -409,7 +426,7 @@
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
-                                                <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers" value=""
+                                                <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers" 
                                                     type="number" class="validate" min="0.01" step="0.01"
                                                     placeholder="Cum Planned %">
                                                     <span id="erroerArea" class="error-msg"></span>
@@ -420,19 +437,19 @@
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
-                                                <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"  value=""
+                                                <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"  
                                                     class="validate" min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
                                                 <input id="cum_planned_physical_progress_pers0"
-                                                    name="cum_planned_physical_progress_pers" type="number" class="validate" value=""
+                                                    name="cum_planned_physical_progress_pers" type="number" class="validate" 
                                                     min="0.01" step="0.01" placeholder="Cum Planned %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
                                                 <input id="cum_actual_physical_progress_pers0"
-                                                    name="cum_actual_physical_progress_pers" type="number" class="validate" value=""
+                                                    name="cum_actual_physical_progress_pers" type="number" class="validate" 
                                                     min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
@@ -640,7 +657,7 @@
         function addProgressRow() {
        	    var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
-            var html = '<tr id="progressRow'+rNo+'"> <td><input type="hidden" name= "progress_ids" id="progress_ids' + rNo + '" value="" /> <input id="months' + rNo + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
+            var html = '<tr id="progressRow'+rNo+'"> <td><input type="hidden" name= "progress_ids" id="progress_ids' + rNo + '" /> <input id="months' + rNo + '" name="months" type="month" class="validate" placeholder="Month"> </td>' +
                 '<td> <input id="cum_actual_expenditure_fy_crs' + rNo + '" name="cum_actual_expenditure_fy_crs" type="number"  class="validate" min="0.01" step="0.01" placeholder="Amount">' +
                 '</td> <td> <input id="cum_planned_expenditure_pers' + rNo + '" name="cum_planned_expenditure_pers" type="number" value="" class="validate" placeholder="Cum Planned %">' +
                 '</td> <td> <input id="cum_actual_expenditure_crs' + rNo + '" name="cum_actual_expenditure_crs" type="number" class="validate" min="0.01" step="0.01" placeholder="cum Actual"> </td>' +

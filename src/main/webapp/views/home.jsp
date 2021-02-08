@@ -421,14 +421,23 @@
 	                            </p>
 	                        </div>
 	                        <div class="line">
-                                <p class="alignleft">Project ID</p>
+                               <%--  <p class="alignleft">Project ID</p>
                                 <p class="aligncenter">:</p>
-                                <p class="alignright">${pObj.project_id }</p>
+                                <p class="alignright">${pObj.project_id }</p> --%>
+                                
+                                <p class="alignleft">Physical Progress (%)</p>
+                                <p class="aligncenter">:</p>
+                                <p class="alignright"></p>
+                                
 		                    </div> 
 		                     <div class="line">
-                                <p class="alignleft">Plan Head No</p>
+                                <%-- <p class="alignleft">Plan Head No</p>
                                 <p class="aligncenter">:</p>
-                                <p class="alignright">${pObj.plan_head_number }</p>
+                                <p class="alignright">${pObj.plan_head_number }</p> --%>
+                                <p class="alignleft">Financial Progress (%)</p>
+                                <p class="aligncenter">:</p>
+                                <p class="alignright"></p>
+                                
 		                    </div> 
 	                        <div class="button">
 		                        <c:if test="${not empty pObj.attachment }">

@@ -8,14 +8,62 @@ public class ZonalRailway {
 	cumulative_expenditure_upto_last_finacial_year, work_id,actual_start, expected_finish, actual_finish, completion_cost, 
 	status_fk, as_on_date, progress_id, contract_id_fk, month, cum_actual_expenditure_fy_cr, cum_planned_expenditure_per, 
 	cum_actual_expenditure_cr, cum_actual_expenditure_per, cum_planned_physical_progress_per, cum_actual_physical_progress_per, 
-	progress, issue, assistance_required;
-
+	progress, issue, assistance_required,user_id, user_name, designation, department_fk, reporting_to_id_srfk,responsible_person_user_fk ;
+	
 	private String[] progress_ids, contract_id_fks, months, cum_actual_expenditure_fy_crs, cum_planned_expenditure_pers, 
 	cum_actual_expenditure_crs, cum_actual_expenditure_pers, cum_planned_physical_progress_pers, cum_actual_physical_progress_pers, 
 	progresss, issues, assistance_requireds;
 	
+	public String getResponsible_person_user_fk() {
+		return responsible_person_user_fk;
+	}
+
+	public void setResponsible_person_user_fk(String responsible_person_user_fk) {
+		this.responsible_person_user_fk = responsible_person_user_fk;
+	}
+
 	private List<ZonalRailway> zonalRailway;
 			
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getDepartment_fk() {
+		return department_fk;
+	}
+
+	public void setDepartment_fk(String department_fk) {
+		this.department_fk = department_fk;
+	}
+
+	public String getReporting_to_id_srfk() {
+		return reporting_to_id_srfk;
+	}
+
+	public void setReporting_to_id_srfk(String reporting_to_id_srfk) {
+		this.reporting_to_id_srfk = reporting_to_id_srfk;
+	}
+
 	public String getRailway_name() {
 		return railway_name;
 	}

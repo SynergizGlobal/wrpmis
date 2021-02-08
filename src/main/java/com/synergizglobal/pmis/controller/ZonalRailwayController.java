@@ -157,6 +157,9 @@ public class ZonalRailwayController {
 			List<ZonalRailway> statusList = service.getStatusListForZonalRailwayForm(obj);
 			model.addObject("statusList", statusList);
 			
+			List<ZonalRailway> usersList = service.getUserListForZonalRailwayForm(obj);
+			model.addObject("usersList", usersList);
+			
 		}catch (Exception e) {
 				logger.error("addZonalRailwaytForm : " + e.getMessage());
 		}
@@ -181,6 +184,9 @@ public class ZonalRailwayController {
 			
 			ZonalRailway zonalRailwayDetails = service.getZonalRailway(obj);
 			model.addObject("zonalRailwayDetails", zonalRailwayDetails);
+			
+			List<ZonalRailway> usersList = service.getUserListForZonalRailwayForm(obj);
+			model.addObject("usersList", usersList);
 		
 		}catch (Exception e) {
 				e.printStackTrace();

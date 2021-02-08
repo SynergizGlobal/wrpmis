@@ -85,4 +85,9 @@ public class ZonalRailwayServiceImpl implements ZonalRailwayService{
 		return dao.updateZonalRailway(obj);
 	}
 
+	@Override
+	public List<ZonalRailway> getUserListForZonalRailwayForm(ZonalRailway obj) throws Exception {
+		return dao.getUserListForZonalRailwayForm(obj);
+	}
+
 }

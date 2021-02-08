@@ -351,9 +351,11 @@ public class HomeDaoImpl implements HomeDao {
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
 					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year, wr.attachment as work_attachment,"
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
-					+ "from work wr where wr.project_id_fk = ? order by wr.work_short_name";
+					+ "from work wr "
+					+ "left join work_railway wy ON wr.work_id = wy.work_id_fk " + 
+					" left join railway ON executed_by_id_fk = railway_id where wr.project_id_fk = ? and executed_by_id_fk <> '' group by work_id ORDER BY (CASE executed_by_id_fk WHEN 'MRVC' THEN 0 WHEN 'CR' THEN 1 WHEN 'WR' THEN 2 else 'Others' end),work_id;";
 			
-			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ?";
+			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ? ";
 			
 			objsList = jdbcTemplate.query( projectQry, new BeanPropertyRowMapper<Project>(Project.class));
 			
@@ -412,7 +414,7 @@ public class HomeDaoImpl implements HomeDao {
 			String qry ="SELECT executed_by_id_fk,railway_name "
 					+ "from work_railway wr "
 					+ "left join railway ON executed_by_id_fk = railway_id "
-					+ "where executed_by_id_fk is not null and executed_by_id_fk <> '' and work_id_fk = ?";
+					+ "where executed_by_id_fk is not null and executed_by_id_fk <> '' and work_id_fk = ? ORDER BY (CASE executed_by_id_fk WHEN 'MRVC' THEN 0 WHEN 'CR' THEN 1 WHEN 'WR' THEN 2 else 'Others' end)";
 		
 			objsList = jdbcTemplate.query( qry, new Object[] {work_id}, new BeanPropertyRowMapper<Work>(Work.class));
 			for (Work work : objsList) {

@@ -449,10 +449,11 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		ZonalRailway zonalRailway = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry ="select contract_id, work_id_fk,w.work_short_name,project_id_fk,project_name, execution_agency_railway_fk,railway_id, railway_name, source_of_funds,cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
+			String qry ="select contract_id, work_id_fk,w.work_short_name,user_name, designation,project_id_fk,project_name, execution_agency_railway_fk,railway_id, responsible_person_user_fk,railway_name, source_of_funds,cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
 					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, cast(z.completion_cost as CHAR) as completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
-					"left join railway r on z.execution_agency_railway_fk = r.railway_id "
+					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+
+					"left join user u on z.responsible_person_user_fk = u.user_id "
 					+"left join project p on w.project_id_fk = p.project_id where contract_id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -509,10 +510,10 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String insertQry = "INSERT INTO zonal_railway_contracts"
-					+ "(contract_id, work_id_fk, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, "
+					+ "(contract_id, work_id_fk, execution_agency_railway_fk, source_of_funds, sanction_cost,responsible_person_user_fk, latest_revised_cost, "
 					+ "cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, status_fk, as_on_date)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry);
 			
 			int q = 1;
@@ -522,6 +523,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			insertStmt.setString(q++,obj.getExecution_agency_railway_fk()); 
 			insertStmt.setString(q++,obj.getSource_of_funds()); 
 			insertStmt.setString(q++,obj.getSanction_cost()); 
+			insertStmt.setString(q++,obj.getResponsible_person_user_fk()); 
 			insertStmt.setString(q++,obj.getLatest_revised_cost()); 
 			insertStmt.setString(q++,obj.getCumulative_expenditure_upto_last_finacial_year()); 
 			insertStmt.setString(q++,obj.getActual_start()); 
@@ -672,7 +674,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String updateQry = "UPDATE zonal_railway_contracts set "
-					+ "source_of_funds = ?, sanction_cost = ?, latest_revised_cost = ?, "
+					+ "source_of_funds = ?, sanction_cost = ?, responsible_person_user_fk = ?, latest_revised_cost = ?,"
 					+ "cumulative_expenditure_upto_last_finacial_year = ?, actual_start = ?, expected_finish = ?, actual_finish = ?, completion_cost = ?, status_fk = ?, "
 					+ "as_on_date = ? where contract_id = ?";
 			
@@ -680,6 +682,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			int q = 1;
 			updateStmt.setString(q++,obj.getSource_of_funds()); 
 			updateStmt.setString(q++,obj.getSanction_cost()); 
+			updateStmt.setString(q++,obj.getResponsible_person_user_fk()); 
 			updateStmt.setString(q++,obj.getLatest_revised_cost()); 
 			updateStmt.setString(q++,obj.getCumulative_expenditure_upto_last_finacial_year()); 
 			updateStmt.setString(q++,obj.getActual_start()); 
@@ -865,6 +868,18 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 	  }		
 	   return flag;	
+	}
+
+	@Override
+	public List<ZonalRailway> getUserListForZonalRailwayForm(ZonalRailway obj) throws Exception {
+		List<ZonalRailway> objsList = null;
+		try {
+			String qry = "select user_id as responsible_person_user_fk, user_name, designation  from `user` ";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

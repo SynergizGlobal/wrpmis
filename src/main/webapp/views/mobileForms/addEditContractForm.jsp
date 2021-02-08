@@ -46,13 +46,6 @@
 			text-align: center;
 		}
 
-		#example3 input[type="text"]::-webkit-input-placeholder,
-		#example3 input[type="text"]:-ms-input-placeholder,
-		#example3 input[type="text"]::placeholder {
-			/* Edge */
-			color: #777;
-		}
-
 		.fixed-width {
 			width: 100%;
 			margin: 0;
@@ -107,27 +100,6 @@
 			color: green;
 		}
 
-		#newButton {
-			position: relative;
-			float: right;
-			right: 24px;
-			top: 5px;
-		}
-
-		#newButton2 {
-			position: relative;
-			float: right;
-			right: -34px;
-			top: 5px;
-		}
-
-	/* 	#insurenceTableBody .select2-container {
-			max-width: 150px
-		} 
-		#bankTableBody .select2-container {
-			max-width: 154px
-		} */
-
 		#insurenceTableBody td.input-field .prefix,
 		#revTableBody td.input-field .prefix,
 		#bankTableBody td.input-field .prefix {
@@ -137,9 +109,7 @@
 		.filevalue {
 			display: block;
 			margin-top: 10px;
-			margin-left: auto;
-			margin-right: auto;
-			width: 50%;
+			width:100%;
 			white-space: pre-wrap;
 		}
 
@@ -199,6 +169,12 @@
 			 .input-field.col .prefix ~ .validate ~ label {
 			    width: calc(100% - 2rem - 1.5rem);
 			  }
+			td.input-field .normal-btn {
+				white-space:inherit !important;
+			}
+			.h-auto{
+				height:auto !important;
+			}
 		}
 		
 	</style>
@@ -911,7 +887,7 @@
 													<td data-head="Name"  class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames"
 															type="text" class="validate" placeholder="Name">
 													</td>
-													<td data-head="Attachment" class="input-field">
+													<td data-head="Attachment" class="input-field h-auto">
 														<div class="normal-btn ">
 															<input type="file" id="contractDocumentFiles0"
 																name="contractDocumentFiles" style="display:none"
@@ -1545,7 +1521,7 @@
 			var total = 0;
 			var html = '<tr id="contractDocumentRow' + rNo + '">'
 				+ '<td data-head="Name" class="input-field"> <input id="contractDocumentNames' + rNo + '" name="contractDocumentNames" type="text" class="validate" placeholder="Name"> </td>'
-				+ '<td data-head="Attachment" class="input-field">'
+				+ '<td data-head="Attachment" class="input-field h-auto">'
 				+ '<div class="normal-btn ">'
 				+ '<input type="file" id="contractDocumentFiles' + rNo + '" name="contractDocumentFiles" style="display:none" onchange="getFileName(' + rNo + ')" />'
 				+ '<label for="contractDocumentFiles' + rNo + '" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'

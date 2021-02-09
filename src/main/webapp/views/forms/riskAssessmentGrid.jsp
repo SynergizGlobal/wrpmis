@@ -51,6 +51,9 @@
             .mt-md-54 {
                 margin-top: inherit;
             }
+            .file-field .file-path-wrapper{
+	        	padding-left:1px;
+	        }
         }
        
         td {
@@ -68,8 +71,7 @@
         .fw-250{
         	width:250px;
         	max-width:250px;
-        }
-      
+        }      
 		.error-msg label{color:red!important;}
     </style>
 </head>
@@ -102,9 +104,21 @@
 							   ${error}
 							</div>
 						</c:if>
+						
+						  <div class="row plr-1 no-mar">
+                            <div class="col m3  hide-on-small-only"> </div>
+                            <div class="col s12 m6 c-align"> 
+                            <div class="row no-mar">
+	                            <!--  <div class="col hide-on-small-only m3"></div> -->
+	                             <div class="col s12 m12 input-field">
+	                              <a class="btn waves-effect waves-light bg-s t-c" href="/pmis/Risk_Template.xlsx" download style="width:100%">Download Risk template </a> 	                              	
+	                             </div>
+	                        </div>
+	                        </div>
+	                     </div>
+	                              
                         <div class="row plr-1">
                             <div class="col s12 m3 l-align"> </div>
-
                             <div class="col s12 m6 c-align">                            
                                 <div class="m-1">
                                 	 <form action="<%=request.getContextPath() %>/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
@@ -129,7 +143,7 @@
 										        <input class="file-path validate" type="text">
 										      </div>
 										      <span id="riskAssessmentFileError" class="error-msg"></span>
-                                         	  <p style="padding-top:.7rem; text-align:left"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p> 
+                                         	 <!--  <p style="padding-top:.7rem; text-align:left"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p>  -->
 	                                        </div>
 	                                        <div class="col s12 m2 input-field">
 	                                            <button type="button" class="btn waves-effect waves-light bg-s t-c disabled" id="uploadRisk" style="margin-top:5px;">

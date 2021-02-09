@@ -18,15 +18,15 @@ public class TableauTrustedTicket {
 	public static String getTrustedTicket() throws Exception{
 		String getResponseString = "";
 	    
-		/*String postURL = "https://infoviz.syntrackpro.com/trusted";
+		String postURL = "https://infoviz.syntrackpro.com/trusted";
 		String username = "SynTrack";
 		String server = "infoviz.syntrackpro.com";
-		String clientIp = "www.syntrackpro.com";*/
+		String clientIp = "www.syntrackpro.com";
         
-		String postURL = "http://10.203.10.157:8000/trusted";
+		/*String postURL = "http://10.203.10.157:8000/trusted";
 		String username = "tableau admin";
 		String server = "10.203.10.157:8000";
-		String clientIp = "10.203.10.157";
+		String clientIp = "10.203.10.157";*/
         
         String target_site = "";//Optional
 		try {

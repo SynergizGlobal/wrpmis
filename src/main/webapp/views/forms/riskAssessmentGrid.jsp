@@ -111,7 +111,7 @@
                             <div class="row no-mar">
 	                            <!--  <div class="col hide-on-small-only m3"></div> -->
 	                             <div class="col s12 m12 input-field">
-	                              <a class="btn waves-effect waves-light bg-s t-c" href="/pmis/Risk_Template.xlsx" download style="width:100%">Download Risk template </a> 	                              	
+	                              <a class="btn waves-effect waves-light bg-s t-c" href="/pmis/Risk_Template.xlsx" download style="width:100%">Click here for the Risk Assessment Form</a> 	                              	
 	                             </div>
 	                        </div>
 	                        </div>

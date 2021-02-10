@@ -56,6 +56,39 @@
 			}
 		}
 	</style>
+	<style>
+	/* this is additional code if need less code try to replace document-template css with mobile-document-template */
+	.folder-group {
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px
+			rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+		background-color: #f2f2f2;		
+	}
+	
+	.folder-header {
+		display: flex;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+		line-height: 1.5;
+		padding: 1rem;
+		background-color: #fff;
+		border-bottom: 1px solid #ddd;
+		border-top: 1px solid #ddd;
+		margin-top: 5px;
+	}
+	
+	.folder-header i {
+		width: 2rem;
+		font-size: 1.6rem;
+		display: inline-block;
+		text-align: center;
+		margin-right: 1rem;
+	}
+	
+	.folder-body {
+		padding: 1.5rem;
+		background-color:#fafafa;
+	}
+</style>
 </head>
 <body>
 	<!-- header included -->
@@ -96,15 +129,15 @@
 						</div>
 					
 						<div class="row files-filter">
-						   <ul class="collapsible">
+						   <ul class="folder-group">
 							<c:choose>   
 	                          <c:when test="${not empty webDocuments and fn:length(webDocuments) gt 0}">
 		                        <c:forEach var="webDocCategory" items="${webDocuments}" varStatus="index">     
 								  <li class="files-filter">
-									<div class="collapsible-header " id="folder${index.count }">
-										<i class="fa fa-folder open"></i> <i class="fa fa-folder-open close"></i> ${webDocCategory.category }
+									<div class="folder-header" id="folder${index.count }">
+										<i class="fa fa-folder open"></i> <!-- <i class="fa fa-folder-open close"></i> --> ${webDocCategory.category }
 									</div>
-									<div class="collapsible-body">
+									<div class=" folder-body">
 										<!-- <div class="files-collection"> -->
 										<div>
 										<c:choose>   

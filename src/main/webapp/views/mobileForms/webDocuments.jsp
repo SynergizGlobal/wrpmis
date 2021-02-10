@@ -31,6 +31,33 @@
 	<link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
 	<style type="text/css">
 		.error-msg label{color:red!important;}
+
+		.bordered th,td{			
+			text-align:center !important;
+			/*padding:5px;
+			border:1px solid #ccc; */
+		}
+		.bordered td:not(:last-child){
+			border-right:1px solid #ccc;
+		}
+		.bordered th:not(:last-child){
+			border-right:1px solid #ccc;
+		}
+		.bordered tbody td:last-child,
+		.bordered tbody td:first-child,
+		.bordered thead th:last-child,
+		.bordered thead th:first-child{						
+			padding:5px 10px;
+			text-align:center !important;
+		}
+		.bordered tr{
+			border:1px solid #ccc;
+		}
+		@media screen and (min-width:1024px){
+			.bordered tbody td:last-child a+a{
+				margin-left:10px;
+			}
+		}
 	</style>
 </head>
 <body>
@@ -72,25 +99,57 @@
 					
 						<div class="row files-filter">
 						   <ul class="folder-group">
-							<c:choose>   
+							<%-- <c:choose>   
 	                          <c:when test="${not empty webDocuments and fn:length(webDocuments) gt 0}">
+	                          <div class="row">
+								<div class="col s12 m12">
+								  <table class="bordered">
+								        <thead>
+								            <th style="width:8%;">S.No</th>
+								            <th style="text-align: left!important;padding-left: 10px!important">Subject</th>
+								            <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
+								            <th>Date of Issue</th>
+								            </c:if>
+								            <th style="width:8%"> </th>
+								        </thead>
+								        <tbody>
 		                        <c:forEach var="webDocCategory" items="${webDocuments}" varStatus="index">     
 								  <li class="files-filter">
 									<div class="folder-header " id="folder${index.count }">
 										<i class="fa fa-folder open"></i> <!-- <i class="fa fa-folder-open close"></i> --> ${webDocCategory.category }
 									</div>
 									<div class="folder-body">
-										<div class="files-collection">
+										<!-- <div class="files-collection"> -->
 										<c:choose>   
 										 <c:when test="${not empty webDocCategory.webDocumentsList and fn:length(webDocCategory.webDocumentsList) gt 0}">
+										  
 										  <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 
-											<div class="card card-file files-filter-data"  id="row${indexx.count }${index.count }">
+										    <tr id="row${indexx.count }${index.count }">
+											                <td>${indexx.count }</td>
+											                <td style="text-align: left!important;padding-left: 10px!important">${webDoc.title }</td>
+											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
+											                <td>${webDoc.date_of_issue }</td>
+											                </c:if>
+											                <td><a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
+											                    <a href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
+											                </td>
+											                <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">
+															    <div class="modal-content">
+															      <h5 class="modal-header">File Preview <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+															      <div class="center-align" style="margin-top:50px">
+															      	<embed src="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }#toolbar=0" width="800px" height="2100px" />
+															      </div>
+															    </div>
+															</div>
+											            </tr>
+
+											<!-- <div class="card card-file files-filter-data"  id="row${indexx.count }${index.count }">
 												<div class="card-content center-align ">
 													<img src="/pmis/resources/images/document.svg"> 
 													<span class="card-title">${webDoc.title }</span>
 												</div>
 												<div class="card-action flex">
-													<%-- <a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a>  --%>
+													<a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
 													<a href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
 												</div>
 												 <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">
@@ -101,8 +160,76 @@
 												      </div>
 												    </div>
 												 </div>
-											</div>
+											</div> -->
 										  </c:forEach>
+									  </c:when>
+	                               	  <c:otherwise>
+	                                	<span style="width: 100%;text-align: center">No files available in ${webDocCategory.category }</span>
+	                                  </c:otherwise>
+                                   </c:choose>
+								 </div> 
+							 </li> 
+							</c:forEach>
+							 </tbody>
+						</table>
+						</div>
+						</div>
+							 <!--  </div>-->
+	                       </c:when>
+                           <c:otherwise>
+                           <li style="text-align: center!important;">No folders available</li>                           	 
+							 
+                           </c:otherwise>
+                         </c:choose> --%>
+                         <c:choose>   
+	                          <c:when test="${not empty webDocuments and fn:length(webDocuments) gt 0}">
+		                        <c:forEach var="webDocCategory" items="${webDocuments}" varStatus="index">     
+								  <li class="files-filter">
+									<div class="folder-header" id="folder${index.count }">
+										<i class="fa fa-folder open"></i> <!-- <i class="fa fa-folder-open close"></i> --> ${webDocCategory.category }
+									</div>
+									<div class=" folder-body">
+										<!-- <div class="files-collection"> -->
+										<div>
+										<c:choose>   
+										 <c:when test="${not empty webDocCategory.webDocumentsList and fn:length(webDocCategory.webDocumentsList) gt 0}">
+										 <div class="row">
+											 <div class="col s12 m12">
+											    <table class="bordered">
+											        <thead>
+											            <th style="width:8%;">S.No</th>
+											            <th style="text-align: left!important;padding-left: 10px!important">Subject</th>
+											            <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
+											            <th>Date of Issue</th>
+											            </c:if>
+											            <th style="width:8%"> </th>
+											        </thead>
+											        <tbody>
+											        <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 
+											            <tr id="row${indexx.count }${index.count }">
+											                <td>${indexx.count }</td>
+											                <td style="text-align: left!important;padding-left: 10px!important">${webDoc.title }</td>
+											                <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
+											                <td>${webDoc.date_of_issue }</td>
+											                </c:if>
+											                <td><a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
+											                    <a href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
+											                </td>
+											                <div id="modal1${indexx.count }${index.count }" class="modal preview-modal">
+															    <div class="modal-content">
+															      <h5 class="modal-header">File Preview <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h5>
+															      <div class="center-align" style="margin-top:50px">
+															      	<embed src="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }#toolbar=0" width="800px" height="2100px" />
+															      </div>
+															    </div>
+															</div>
+											            </tr>
+											         </c:forEach>
+											        </tbody>
+											    </table>
+											 </div>
+										</div>
+									
 									  </c:when>
 	                               	  <c:otherwise>
 	                                	<span style="width: 100%;text-align: center">No files available in ${webDocCategory.category }</span>
@@ -114,8 +241,7 @@
 							</c:forEach>
 	                       </c:when>
                            <c:otherwise>
-                           <li style="text-align: center!important;">No folders available</li>                           	 
-							 
+                           	<li style="text-align: center!important;">No folders available</li>
                            </c:otherwise>
                          </c:choose>
 					    </ul>

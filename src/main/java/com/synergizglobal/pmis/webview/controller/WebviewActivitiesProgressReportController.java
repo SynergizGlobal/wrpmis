@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.webview.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -44,6 +45,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ActivitiesProgressReportService;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.MobilePageConstants;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 
@@ -165,8 +168,8 @@ public class WebviewActivitiesProgressReportController {
 	}
 	
 	@RequestMapping(value = "/generate-activities-progress-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public void generateActivitiesProgressReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
-		//ModelAndView model = new ModelAndView("redirect:/mobileappwebview/activities-progress-report");
+	public ModelAndView generateActivitiesProgressReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/mobileappwebview/activities-progress-report");
 		try{
 			String reporting_date = obj.getReporting_date();
 			//obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
@@ -409,35 +412,31 @@ public class WebviewActivitiesProgressReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "StripChart_"+dateFormat.format(date);
+            String fileName = "StripChart_"+dateFormat.format(date)+".xlsx";
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
                 workBook.write(fos);
                 fos.flush();*/
             	
-               response.setContentType("application/.csv");
- 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
- 			   response.setContentType("application/vnd.ms-excel");
- 			   // add response header
- 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
- 			   
- 			    //copies all bytes from a file to an output stream
- 			   workBook.write(response.getOutputStream()); // Write workbook to response.
-	           workBook.close();
- 			    //flushes output stream
- 			    response.getOutputStream().flush();
+				/* response.setContentType("application/.csv");
+				 response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				 response.setContentType("application/vnd.ms-excel");
+				 response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+				 
+				 workBook.write(response.getOutputStream()); // Write workbook to response.
+				 workBook.close();
+				 response.getOutputStream().flush();*/
             	
-                
-                //attributes.addFlashAttribute("success",dataExportSucess);
-            	//response.setContentType("application/vnd.ms-excel");
-            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
-            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
-            	// ...
-            	// Now populate workbook the usual way.
-            	// ...
-            	//workbook.write(response.getOutputStream()); // Write workbook to response.
-            	//workbook.close();
+ 			   ByteArrayOutputStream baos = new ByteArrayOutputStream();
+ 			   workBook.write(baos);
+				byte[] bytes = baos.toByteArray();
+				
+				String saveDirectory = CommonConstants2.ACTIVITY_PROGRESS_FILE_SAVING_PATH;
+				 
+				FileUploads.bytesInFileSaving(bytes, saveDirectory, fileName);
+				
+				attributes.addFlashAttribute("progressReportPath", CommonConstants2.ACTIVITY_PROGRESS_REPORT+fileName);
             }catch(FileNotFoundException e){
                 e.printStackTrace();
                 logger.error("generateStripChartDPRReport : " + e.getMessage());
@@ -451,7 +450,7 @@ public class WebviewActivitiesProgressReportController {
 			e.printStackTrace();
 			logger.error("generateActivitiesProgressReport : " + e.getMessage());
 		}
-		//return model;
+		return model;
     }
 	
 	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {

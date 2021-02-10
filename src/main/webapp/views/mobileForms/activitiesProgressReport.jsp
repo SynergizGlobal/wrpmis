@@ -49,7 +49,7 @@
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath() %>/mobileappwebview/generate-activities-progress-report" id="stripChartReportForm" name="stripChartReportForm" method="post" target="_blank">
+					<form action="<%=request.getContextPath() %>/mobileappwebview/generate-activities-progress-report" id="stripChartReportForm" name="stripChartReportForm" method="post">
 						<div class=" container-no-margin">
 							<div class="row">
 								<div class="col s6 input-field">
@@ -122,6 +122,8 @@
 									</div>
 								</div>
 							</div>
+							
+							<a href="${progressReportPath }" id="downLoadFile" download></a>
 
 						</div>
 					</form>
@@ -183,7 +185,14 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            resetFilterDropDowns();           
+            resetFilterDropDowns();          
+            
+            var filePath = "${progressReportPath }";
+            
+            if($.trim(filePath) != ''){
+            	//$("#downLoadFile").trigger("click");
+            	$("#downLoadFile")[0].click();
+            }
         });
         $('#from_date').change(function(){
         	if($('#from_date').val()==''){        		

@@ -58,10 +58,12 @@
 				margin-left:10px;
 			}
 		}
+		td a+a{
+			margin-left:10px;
+		}
 	</style>
 </head>
 <body>
-
 
 	<div class="row">
 		<div class="col s12 m12">
@@ -202,7 +204,7 @@
 											            <c:if test="${fn:containsIgnoreCase(documentType, 'policies')}">
 											            <th>Date of Issue</th>
 											            </c:if>
-											            <th style="width:8%"> </th>
+											            <th style="width:24%"> </th>
 											        </thead>
 											        <tbody>
 											        <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 

@@ -77,22 +77,30 @@
                                 <table id="contractorTable" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Contractor ID</th>
+                                            <!-- <th>Contractor ID</th> 
+                                             <th class="no-sort">Remarks</th> -->
                                             <th>Contractor Name </th>
+                                            <th>PAN Number </th>
                                             <th>Specialization </th>                                           
                                             <th>Address</th>
-                                            <th class="no-sort">Remarks</th>
+                                            <th>Primary Contact</th>
+                                            <th>Phone Number</th>
+                                            <th>Email</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                      <c:forEach var="obj" items="${contractorsList }">
                                         <tr>
-                                            <td>${obj.contractor_id }</td>
+                                            <!-- <td>${obj.contractor_id }</td> 
+                                             <td>${obj.remarks }</td> -->
                                             <td>${obj.contractor_name }</td>
+                                            <td>${obj.pan_number }</td>
                                             <td>${obj.contractor_specilization_fk }</td>
                                             <td>${obj.address }</td>                                           
-                                            <td>${obj.remarks }</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td class="last-column"> <a  href="javascript:void(0);"
                                             onclick="getContractor('${ obj.contractor_id }')"
                                                     class="btn waves-effect waves-light bg-m t-c "><i

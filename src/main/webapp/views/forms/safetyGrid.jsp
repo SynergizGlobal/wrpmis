@@ -147,7 +147,7 @@
                                             <th class="fw-300">Contract</th>
                                             <th class="fw-110">Short Description </th>
                                             <th>Location </th>
-                                            <th>Responsible Person <br> in MRVC</th>
+                                            <th>Person Responsible<br> in MRVC</th>
                                             <th>Department </th>
                                             <th>Category </th>                                           
                                             <th>Status </th>                                           

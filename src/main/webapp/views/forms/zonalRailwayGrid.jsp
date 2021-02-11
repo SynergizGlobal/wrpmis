@@ -148,7 +148,7 @@
                                 <table id="zonal_railway_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th class="fw-370">Work</th>
+                                            <th class="fw-370">Sub Work</th>
                                             <th>Execution <br>Agency</th>
                                             <th>Source <br>of Fund</th>
                                             <th>Status &nbsp;</th>

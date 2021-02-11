@@ -206,7 +206,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person">Person Responsible In MRVC </label>
+                                    <label for="responsible_person">Person Responsible In MRVC (Assigned to) </label>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -215,7 +215,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Responsible Organization</p>
+                                    <p class="searchable_label"> Responsible Organization (Pending with)</p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">

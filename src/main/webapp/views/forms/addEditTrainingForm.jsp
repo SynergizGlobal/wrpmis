@@ -349,10 +349,11 @@
 																				<thead>
 																					<tr>
 																						<th>Department</th>
-																						<th>Attendee</th>
 																						<th>HOD</th>
-																						<th>Mobile</th>
-																						<th>Required</th>
+																						<th>Attendee</th>
+																						<th>Designation</th>
+																						<th>&nbsp; Mobile No &nbsp;</th>
+																						<th>Nominated</th>
 																						<th>Participated</th>																						
 																						<th>Action</th>
 																					</tr>
@@ -375,18 +376,23 @@
 																												<option value="${obj.department_fk }"
 																													<c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
 																											</c:forEach>
-																									</select> <span id="training_category_fkError" class="error-msg"></span></td>
-																									<td><input
-																										id="attendees${indexx.count }${index.count }" name="attendees" type="text" class="validate" placeholder="Attendee"
-																										value="${dObj.attendee }"></td>
-																										<td>																											
+																									</select> <span id="training_category_fkError" class="error-msg"></span></td>																									
+																									<td>																											
 																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks${indexx.count }${index.count }" >
 																                                            <option value="" >Select HOD</option>  
 																                                            <c:forEach var="obj" items="${usersList}">
 																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation } - ${obj.user_name }</option>
 																											</c:forEach>                                         
 																                                        </select>                                   
-																										</td>
+																									</td>
+																									<td>
+																										<input id="attendees${indexx.count }${index.count }" name="attendees" list="attendee${indexx.count }" class="validate" placeholder="Attendee" value="${dObj.attendee }">
+																										 <datalist id="attendee${indexx.count }">
+																											 <option value="Edge">
+																											 <option value="Firefox">
+																										 </datalist>   
+																									</td>
+																									<td> <input type="text" placeholder="Designation" id="designation00" value="${dObj.designation}"></td>		
 																									<td><input id="mobile_nos${indexx.count }${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
 																										value="${dObj.mobile_no }"></td>
 																									<td>
@@ -437,7 +443,6 @@
 																												<option value="${obj.department_fk }">${obj.department_name }</option>
 																											</c:forEach>
 																									  </select> <span id="training_category_fkError" class="error-msg"></span></td>
-																								<td><input id="attendees00" name="attendees" type="text" class="validate" placeholder="Attendee"></td>
 																								<td>																											
 																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks00" >
 																                                            <option value="" >Select HOD</option>  
@@ -445,7 +450,9 @@
 																												<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>
 																											</c:forEach>                                           
 																                                        </select>                                   
-																										</td>
+																								</td>
+																								<td><input id="attendees00" name="attendees" type="text" class="validate" placeholder="Attendee"></td>	
+																								<td> <input type="text" placeholder="Designation" id="designation00" ></td>																							
 																								<td><input id="mobile_nos00" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
 																								<td>
@@ -557,8 +564,9 @@
 																			<thead>
 																				<tr>
 																					<th>Department</th>
-																					<th>Attendee</th>
 																					<th>HOD</th>
+																					<th>Attendee</th>
+																					<th>Designation</th>
 																					<th>Mobile</th>
 																					<th>Required</th>
 																					<th>Participated</th>
@@ -575,13 +583,21 @@
 																								<option value="${obj.department_fk }">${obj.department_name }</option>
 																							</c:forEach>
 																					</select> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
-																					<td><input id="attendees0" name="attendees" type="text" class="validate" placeholder="Attendee"></td>
 																					<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0" >
 																					<option value="" >Select HOD</option>
 																					 <c:forEach var="obj" items="${usersList}">
 																							<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>
 																					</c:forEach>  
-																					</select>    </td>
+																					</select>    
+																					</td>
+																					<td>
+																						<input id="attendees0" name="attendees" list="attendee${indexx.count }" class="validate" placeholder="Attendee">
+																						<datalist id="attendee${indexx.count }">
+																						   <option value="Edge">
+																						   <option value="Firefox">
+																						</datalist>  
+																					</td>
+																					<td> <input type="text" placeholder="Designation" id="designation0" ></td>
 																					<td><input id="mobile_nos0" name="mobile_nos" type="tel" class="validate num" placeholder="Mobile">
 																					<br><span id="mobile_nosError" class="error-msg"></span></td>
 																					<td>
@@ -925,13 +941,15 @@
 		             	  '<option value="${obj.department_fk }">${obj.department_name}</option>' +
 		                </c:forEach>
 	         	    '</select></td>'+
-	                '<td><input id="attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate" placeholder="Attendee"></td>' +
 	                '<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +tNo+'" >'+
 	                '<option value="" >Select HOD</option>'+
 	                <c:forEach var="obj" items="${usersList}">
 						'<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>'+
 					</c:forEach>
 	                '</select>    </td>'+
+	                '<td><input id="attendees'+ rNo +tNo+'" name="attendees" list="attendee'+ rNo +'" class="validate" placeholder="Attendee"><datalist id="attendee'+ rNo +'">'+
+	                '<option value="Edge"> </datalist>  </td>' +
+	                '<td> <input type="text" placeholder="Designation" id="designation'+ rNo +tNo+'" ></td>'+
 	                '<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
 	                '<td><p><label><input type="hidden" id="required_fk'+ rNo +tNo+'" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
 	                '<td><p><label><input type="hidden" id="participated_fk'+ rNo +tNo+'" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +

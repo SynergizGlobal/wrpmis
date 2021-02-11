@@ -176,7 +176,24 @@
 		                              </div> 
                                  </c:if>
                             </div>
-
+                            <c:if test="${action eq 'add'}">	
+     						<div class="row">
+                               <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                	<textarea placeholder="Sub Work" class='materialize-textarea'></textarea>
+                                </div>	
+                               <div class="col m2 hide-on-small-only"></div>
+                            </div>
+							</c:if>
+							<c:if test="${action eq 'edit'}">	
+     						<div class="row">
+                               <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                	<textarea placeholder="Sub Work" class='materialize-textarea'>sub work</textarea>
+                                </div>	
+                               <div class="col m2 hide-on-small-only"></div>
+                            </div>
+							</c:if>
                             <div class="row">
                                <div class="col m2 hide-on-small-only"></div>
                              <c:if test="${action eq 'add'}">
@@ -199,7 +216,7 @@
                                 </c:if>	
                                 
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Contract :</p>
+                                    <p class="searchable_label">Sub Work ID :</p>
                                     <p>${zonalRailwayDetails.contract_id }</p>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -212,7 +229,7 @@
                                <!--  <div class="col s12 m8 input-field"> 
                                     <div class="row">-->
                                         <div class="col s12 m4 input-field">
-                                            <p class="searchable_label">Source of Fund </p>
+                                            <p class="searchable_label">Source of Funds </p>
                                             <select class="searchable" id="source_of_funds" name="source_of_funds">
                                                 <option value="" >Select</option>
                                                <c:forEach var="obj" items="${sourceOfFundList }">
@@ -221,7 +238,7 @@
                                             </select>
                                         </div>
                                          <div class="col s12 m4 input-field">
-                                            <p class="searchable_label">Responsible Person </p>
+                                            <p class="searchable_label">Nodal Officer in MRVC </p>
                                             <select class="searchable" id="responsible_person_user_fk" name="responsible_person_user_fk">
                                                 <option value="" >Select</option>
                                                  <c:forEach var="obj" items="${usersList }"> 

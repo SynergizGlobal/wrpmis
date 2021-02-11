@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
@@ -87,11 +88,37 @@ public class HomeController {
 	        model.addObject("projectsInfo", projectsInfo);
 	        List<Work> workDetails = homeService.getWorkDetails(work);
 	        model.addObject("workDetails", workDetails);
-	         
+	       
 		}catch(Exception e){
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getDashBoradName", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Work> getDashBoardNames(@ModelAttribute Work obj) {
+		List<Work> objList = null;
+		try {
+			objList = homeService.getDashBoardNames(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDashBoardNames : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getSubLink", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Work> getSubLink(@ModelAttribute Work obj) {
+		List<Work> objList = null;
+		try {
+			objList = homeService.getSubLink(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSubLink : " + e.getMessage());
+		}
+		return objList;
 	}
 	
 	/**

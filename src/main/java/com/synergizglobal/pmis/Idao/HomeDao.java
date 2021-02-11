@@ -17,4 +17,6 @@ public interface HomeDao {
 	public List<Project> getProjectsInformation(Project obj) throws Exception;
 	public List<Forms> getReportFormsList(String base) throws Exception;
 	public List<Work> getWorkDetails(Work obj) throws Exception;
+	public List<Work> getDashBoardNames(Work work) throws Exception;
+	public List<Work> getSubLink(Work obj) throws Exception;
 }

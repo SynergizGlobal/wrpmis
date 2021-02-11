@@ -63,4 +63,12 @@ public class HomeServiceImpl implements HomeService {
 	public List<Work> getWorkDetails(Work obj) throws Exception {
 		return dao.getWorkDetails(obj);
 	}
+	@Override
+	public List<Work> getDashBoardNames(Work work) throws Exception {
+		return dao.getDashBoardNames(work);
+	}
+	@Override
+	public List<Work> getSubLink(Work obj) throws Exception {
+		return dao.getSubLink(obj);
+	}
 }

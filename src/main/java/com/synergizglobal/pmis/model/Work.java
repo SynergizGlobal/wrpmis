@@ -9,8 +9,16 @@ public class Work {
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
 	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,pink_book_item_number,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,
-	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name;
+	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink;
 
+
+	public String getDashboard_id() {
+		return dashboard_id;
+	}
+
+	public void setDashboard_id(String dashboard_id) {
+		this.dashboard_id = dashboard_id;
+	}
 
 	private String[] financial_years,pink_book_item_numbers,latest_revised_costs,
 	year_of_revisions,revision_numbers,remarkss;
@@ -22,6 +30,22 @@ public class Work {
 	private List<Work> executedByList;
 
 	
+	public String getSubLink() {
+		return subLink;
+	}
+
+	public void setSubLink(String subLink) {
+		this.subLink = subLink;
+	}
+
+	public String getParent_dashboard_id_sr_fk() {
+		return parent_dashboard_id_sr_fk;
+	}
+
+	public void setParent_dashboard_id_sr_fk(String parent_dashboard_id_sr_fk) {
+		this.parent_dashboard_id_sr_fk = parent_dashboard_id_sr_fk;
+	}
+
 	public String getDashboard_name() {
 		return dashboard_name;
 	}

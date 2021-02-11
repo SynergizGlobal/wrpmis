@@ -740,22 +740,45 @@
         
         function getTableauDashboard(work_id){
         	if($.trim(work_id) != ''){
-        		if($.trim(work_id) == 'P06W01'){  
-        			window.location.href = "<%=request.getContextPath()%>/InfoViz/cr-fob"
-        		}
-				if($.trim(work_id) == 'P07W01'){
-					window.location.href = "<%=request.getContextPath()%>/InfoViz/wr-fob"
-        		}
-				if($.trim(work_id) == 'P02W01'){
-        			window.location.href = "<%=request.getContextPath()%>/InfoViz/thane-diva/thane-diva-dashboards"
-        		}
-				if($.trim(work_id) == 'P04W06'){
-					window.location.href = "<%=request.getContextPath()%>/InfoViz/ta-studies"
-        		}
-				if($.trim(work_id) == 'P04W04'){
-        			window.location.href = "<%=request.getContextPath()%>/InfoViz/trespass-control" 
-        		}
-				
+        		var myParams = { work_id: work_id };
+        		$.ajax({
+                      url: "<%=request.getContextPath()%>/ajax/getDashBoradName",
+                      data: myParams, cache: false,
+                      success: function (data) {
+                          if (data.length > 0) {
+                              $.each(data, function (i, val) {
+                                  if ($.trim(val.dashboard_name) != '') {
+                                	  var parent_dashboard_id_sr_fk = $.trim(val.parent_dashboard_id_sr_fk) ;
+                                	  var name = $.trim(val.dashboard_name).toLowerCase();
+                                	  var link = name.replaceAll(" ", "-");
+                                	  if($.trim(val.dashboard_id) == $.trim(val.parent_dashboard_id_sr_fk)){
+                                		  
+                                		  window.location.href = "<%=request.getContextPath()%>/InfoViz/"+link
+                                	  }else{
+                                		  var parent_dashboard_id_sr_fk = $.trim(val.parent_dashboard_id_sr_fk) ;
+                                		  var myParams2 = { parent_dashboard_id_sr_fk: parent_dashboard_id_sr_fk };
+                                		  $.ajax({
+                                              url: "<%=request.getContextPath()%>/ajax/getSubLink",
+                                              data: myParams2, cache: false,
+                                              success: function (data) {
+                                                  if (data.length > 0) {
+                                                      $.each(data, function (i, val) {
+                                                          if (parent_dashboard_id_sr_fk != '') {
+                                                        	  var sub_link = $.trim(val.subLink).toLowerCase()+"/";
+                                                        	  window.location.href = "<%=request.getContextPath()%>/InfoViz/"+sub_link+link
+                                                          } 
+                                                      });
+                                                  }
+                                              }
+                                          });
+                                	  }
+                                  } 
+                              });
+                          }
+                          
+                      }
+                  });
+        		
         	}
         }
 

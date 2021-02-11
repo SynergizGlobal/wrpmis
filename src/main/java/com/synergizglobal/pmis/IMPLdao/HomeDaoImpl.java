@@ -586,5 +586,37 @@ public class HomeDaoImpl implements HomeDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<Work> getDashBoardNames(Work work) throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry ="select dashboard_id, dashboard_name ,parent_dashboard_id_sr_fk from dashboard where work_id_fk = ?";
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = work.getWork_id();
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Work> getSubLink(Work obj) throws Exception {
+		List<Work> objsList = null;
+		try {
+			String qry ="select dashboard_name as subLink  from dashboard where dashboard_id = ?";
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = obj.getParent_dashboard_id_sr_fk();
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 	
 }

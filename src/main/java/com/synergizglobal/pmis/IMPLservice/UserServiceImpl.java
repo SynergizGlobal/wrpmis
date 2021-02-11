@@ -113,4 +113,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUsersExportList(obj);
 	}
 
+	@Override
+	public List<User> getUserTypes() throws Exception {
+		return userDao.getUserTypes();
+	}
+
 }

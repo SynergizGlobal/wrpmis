@@ -3,7 +3,15 @@ package com.synergizglobal.pmis.model;
 public class Contractor {
 	
 	private String contractor_id, contractor_name, contractor_specilization_fk, address,
-	primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks;
+	primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number,bank_address, ifsc_code, remarks;
+
+	public String getBank_address() {
+		return bank_address;
+	}
+
+	public void setBank_address(String bank_address) {
+		this.bank_address = bank_address;
+	}
 
 	public String getContractor_id() {
 		return contractor_id;

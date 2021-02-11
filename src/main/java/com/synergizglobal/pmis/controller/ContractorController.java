@@ -19,17 +19,20 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.Iservice.ContractorService;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contractor;
 
 
@@ -74,6 +77,19 @@ public class ContractorController {
 		return model;
 	}
 		
+	@RequestMapping(value = "/ajax/getPanNumberListFormContactor", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contractor> getPanNumberList(@ModelAttribute Contractor obj) {
+		List<Contractor> objList = null;
+		try {
+			objList = contractorService.getPanNumberList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getPanNumberList : " + e.getMessage());
+		}
+		return objList;
+	}
+	
 	@RequestMapping(value = "/add-contractor-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContractorForm(){
 		ModelAndView model = new ModelAndView();

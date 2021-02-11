@@ -11,7 +11,7 @@ public class User  {
 	private String confirmPassword;
 	private String passwordExpiredTime;
 	
-	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,
+	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
 	access_value_id,access_value_name,user_role_code;
 	
@@ -22,6 +22,16 @@ public class User  {
 	private MultipartFile userImageFile;
 	
 	private String[] user_access_types,user_access_values;
+
+
+	public String getUser_type_fk() {
+		return user_type_fk;
+	}
+
+
+	public void setUser_type_fk(String user_type_fk) {
+		this.user_type_fk = user_type_fk;
+	}
 
 
 	public MultipartFile getUserImageFile() {

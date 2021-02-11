@@ -46,5 +46,7 @@ public interface UserService {
 
 	List<User> getUsersExportList(User obj) throws Exception;
 
+	List<User> getUserTypes() throws Exception;
+
 	
 }

@@ -120,7 +120,7 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
                                 <h6>
-                                	<c:if test="${action eq 'edit'}">Update User (user id)</c:if>
+                                	<c:if test="${action eq 'edit'}">Update User (${usrObj.user_id })</c:if>
 									<c:if test="${action eq 'add'}"> Add User</c:if>
 								</h6>
                             </div>
@@ -136,6 +136,7 @@
 						  </c:if>
                             <div class="row">
                                 <!-- row 4 -->
+                                <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                      <p class="searchable_label">User Role</p>
@@ -164,11 +165,13 @@
                                 </c:if> --%>
                                  <div class="col s12 m4 input-field">
                                      <p class="searchable_label">User Type</p>
-                                      <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown" onchange="">
+                                      <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown" >
                                           <option value="">Select</option>
-                                         
+                                          <c:forEach var="obj" items="${types }">
+                                          	<option value="${obj.user_type_fk }" <c:if test="${obj.user_type_fk eq usrObj.user_type_fk}">selected</c:if>>${obj.user_type_fk }</option>
+                                          </c:forEach>
                                       </select> 
-                                      <span id="user_role_name_fkError" class="error-msg" ></span>
+                                      <span id="user_type_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -616,7 +619,7 @@
     	var validator = $('#userForm').validate({
     	    	ignore: ":hidden:not(.validate-dropdown)",
     			   rules: {
-    				   	  "user_id":{
+    				   	  "user_type_fk":{
     				   		required: true
     				   	  },"user_role_name_fk": {
        				 		required: true
@@ -636,16 +639,14 @@
     			 		    required: false,
     			 	   	  },"extension": {
     				 		required: false
-    				 	  },"remarks":{
-    				 		 required: false
     				 	  },"pmis_key_fk":{
-    				 		 required: false,
+    				 		 required: false
     				 		 //checkExists: true
     				 	  }
     				 				
     			 	},
     			   messages: {
-	    				 "user_id":{
+	    				 "user_type_fk":{
 	    					 required: 'Required'
 	   				   	 },"user_role_name_fk": {
        			 			required: 'Required'
@@ -665,18 +666,16 @@
     			 			required: 'Required'
     			 	  	 },"extension": {
     			 			required: 'Required'
-    			 	  	 },"remarks":{
-    			 	  		required: 'Required'
-    				 	 },"pmis_key_fk":{
+    			 	  	 },"pmis_key_fk":{
     				 		required: 'Required'
    				 	  	 }
     			 				      
     		    },
     			  errorPlacement:
     			 	function(error, element){
-	    				if (element.attr("id") == "user_id" ){
-	  			 		     document.getElementById("user_idError").innerHTML="";
-	  			 			 error.appendTo('#user_idError');
+	    				if (element.attr("id") == "user_type_fk" ){
+	  			 		     document.getElementById("user_type_fkError").innerHTML="";
+	  			 			 error.appendTo('#user_type_fkError');
 	  			 	    }else if (element.attr("id") == "user_role_name_fk" ){
      			 		     document.getElementById("user_role_name_fkError").innerHTML="";
      			 			 error.appendTo('#user_role_name_fkError');
@@ -704,9 +703,6 @@
     			 	    }else if (element.attr("id") == "extension" ){
     			 		     document.getElementById("extensionError").innerHTML="";
     			 			 error.appendTo('#extensionError');
-    			 	    }else if (element.attr("id") == "remarks" ){
-    			 		     document.getElementById("remarksError").innerHTML="";
-    			 			 error.appendTo('#remarksError');
     			 	    }else if (element.attr("id") == "pmis_key_fk" ){
 	   			 		     document.getElementById("pmis_key_fkError").innerHTML="";
 				 			 error.appendTo('#pmis_key_fkError');

@@ -178,6 +178,9 @@ public class UserController {
 			List<User> roles = userService.getUserRoles();
 			model.addObject("roles", roles);
 			
+			List<User> types = userService.getUserTypes();
+			model.addObject("types", types);
+			
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);
 			
@@ -290,6 +293,9 @@ public class UserController {
 			
 			List<User> roles = userService.getUserRoles();
 			model.addObject("roles", roles);
+			
+			List<User> types = userService.getUserTypes();
+			model.addObject("types", types);
 			
 			List<User> departments = userService.getUserDepartments();
 			model.addObject("departments", departments);

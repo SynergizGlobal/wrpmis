@@ -158,16 +158,22 @@ public class TrainingController {
 		try{
 			model.setViewName(PageConstants.addEditTrainingForm);
 			model.addObject("action", "add");
+			
 			List<Training> statusList = trainingService.getStatusList();
 			model.addObject("statusList", statusList);
+			
 			List<Training> categoriesList = trainingService.getCategoriesList();
 			model.addObject("categoriesList", categoriesList);
+			
 			List<Training> trainingTypesList = trainingService.getTrainingTypesList();
 			model.addObject("trainingTypesList", trainingTypesList);
+			
 			List<Training> departmentsList = trainingService.getDepartmentsList();
 			model.addObject("departmentsList", departmentsList);
+			
 			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
 			model.addObject("issueCatogoriesList", issueCatogoriesList);
+			
 			List<Training> usersList = trainingService.getUsersList();
 			model.addObject("usersList", usersList);
 			
@@ -183,18 +189,25 @@ public class TrainingController {
 		try{
 			model.setViewName(PageConstants.addEditTrainingForm);
 			model.addObject("action", "edit");
+			
 			List<Training> statusList = trainingService.getStatusList();
 			model.addObject("statusList", statusList);
+			
 			List<Training> categoriesList = trainingService.getCategoriesList();
 			model.addObject("categoriesList", categoriesList);
+			
 			List<Training> trainingTypesList = trainingService.getTrainingTypesList();
 			model.addObject("trainingTypesList", trainingTypesList);
+			
 			List<Training> departmentsList = trainingService.getDepartmentsList();
 			model.addObject("departmentsList", departmentsList);
+			
 			List<Training> issueCatogoriesList = trainingService.getIssueCatogoriesList();
 			model.addObject("issueCatogoriesList", issueCatogoriesList);
+			
 			Training trainingDetails = trainingService.getTraining(obj);
 			model.addObject("trainingDetails", trainingDetails);
+			
 			List<Training> usersList = trainingService.getUsersList();
 			model.addObject("usersList", usersList);
 		

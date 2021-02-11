@@ -98,9 +98,9 @@
                                             <td>${obj.pan_number }</td>
                                             <td>${obj.contractor_specilization_fk }</td>
                                             <td>${obj.address }</td>                                           
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>${obj.primary_contact_name }</td>
+                                            <td>${obj.phone_number }</td>
+                                            <td>${obj.email_id }</td>
                                             <td class="last-column"> <a  href="javascript:void(0);"
                                             onclick="getContractor('${ obj.contractor_id }')"
                                                     class="btn waves-effect waves-light bg-m t-c "><i

@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Project;
 
@@ -18,4 +19,6 @@ public interface ContractorService {
 	public boolean updateContractor(Contractor obj)throws Exception;
 
 	public boolean deleteContractorRow(Contractor obj)throws Exception;
+
+	public List<Contractor> getPanNumberList(Contractor obj) throws Exception;
 }

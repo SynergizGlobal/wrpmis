@@ -43,6 +43,7 @@ import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
+import com.synergizglobal.pmis.model.TAFinancials;
 import com.synergizglobal.pmis.model.Training;
 
 @Repository
@@ -753,10 +754,15 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getUsersList() throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select user_id as hod_user_id_fk,designation,user_name from user ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
+			String qry ="select user_id as hod_user_id_fk,designation,user_name from user where user_type_fk = ? ";
+			
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));		
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}

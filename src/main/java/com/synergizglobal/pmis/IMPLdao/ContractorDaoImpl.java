@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ContractorDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.FOB;
@@ -35,7 +37,7 @@ public class ContractorDaoImpl implements ContractorDao {
 	public List<Contractor> getContractorsList() throws Exception {
 		List<Contractor> objsList = null;
 		try {
-			String qry ="SELECT contractor_id,contractor_name,contractor_specilization_fk,address,remarks FROM contractor";
+			String qry ="SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks FROM contractor";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contractor>(Contractor.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -60,7 +62,7 @@ public class ContractorDaoImpl implements ContractorDao {
 		Contractor contractor = null;
 		try {
 			String qry = "SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, "
-					+ "email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks from contractor where contractor_id is not null";
+					+ "email_id, pan_number, gst_number, bank_name, account_number, ifsc_code,bank_address, remarks from contractor where contractor_id is not null";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				qry = qry + " and contractor_id = ?";
@@ -88,10 +90,10 @@ public class ContractorDaoImpl implements ContractorDao {
 			obj.setContractor_id(contractor_id);
 			String insertQry = "INSERT INTO contractor"
 					+ "(contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, "
-					+ "email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks)"
+					+ "email_id, pan_number, gst_number, bank_name, account_number, ifsc_code,bank_address, remarks)"
 					+ "VALUES"
 					+ "(:contractor_id,:contractor_name,:contractor_specilization_fk,:address,:primary_contact_name,:phone_number,"
-					+ ":email_id,:pan_number,:gst_number,:bank_name,:account_number,:ifsc_code,:remarks)";
+					+ ":email_id,:pan_number,:gst_number,:bank_name,:account_number,:ifsc_code,:bank_address,:remarks)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
@@ -139,7 +141,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			String updateQry = "UPDATE contractor set "
 					+ "contractor_name= :contractor_name, contractor_specilization_fk= :contractor_specilization_fk, address= :address,"
 					+ "primary_contact_name= :primary_contact_name, phone_number= :phone_number, email_id= :email_id,pan_number= :pan_number, gst_number= :gst_number, "
-					+ "bank_name= :bank_name, account_number = :account_number, ifsc_code= :ifsc_code, remarks= :remarks "
+					+ "bank_name= :bank_name, account_number = :account_number, ifsc_code= :ifsc_code,bank_address= :bank_address, remarks= :remarks "
 					+ "where contractor_id= :contractor_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
@@ -147,6 +149,7 @@ public class ContractorDaoImpl implements ContractorDao {
 				flag = true;
 			}
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return flag;
@@ -167,6 +170,39 @@ public class ContractorDaoImpl implements ContractorDao {
 			throw new Exception(e.getMessage());
 		}
 		return flag;
+	}
+
+	@Override
+	public List<Contractor> getPanNumberList(Contractor obj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		 List<Contractor> panNo = new ArrayList<Contractor>();
+		 String pan_no = null;
+		try{
+			con = dataSource.getConnection();
+			String maxIdQry = "SELECT pan_number FROM contractor where pan_number = ?";
+			stmt = con.prepareStatement(maxIdQry);
+			stmt.setString(1,obj.getPan_number());
+			rs = stmt.executeQuery();  
+			while(rs.next()) {
+				 obj = new Contractor();
+				 pan_no = rs.getString("pan_number");
+				 obj.setPan_number(rs.getString("pan_number"));
+				 panNo.add(obj);
+			}
+			if (StringUtils.isEmpty(pan_no)){
+				panNo = null;
+				
+			}
+		}catch(Exception e){ 		
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return panNo;
 	}
 	
 

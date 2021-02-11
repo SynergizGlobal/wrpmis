@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
     <style>		
-    	.error-msg label{
+    	.error-msg label,#pan_numberError{
     		color:red!important;   
     	}
     	/* Chrome, Safari, Edge, Opera */
@@ -77,11 +77,21 @@
                                     <label class="primary-text-bold" style="margin-top: 10px;">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                   </c:if>
                                 </div> -->
-                                <div class="col s12 m4 input-field">
-                                    <input id="pan_number" name="pan_number" type="text" class="validate" value="${contractorDetails.pan_number }">
-                                    <label for="pan_number">PAN Number</label>
-                                    <span id="pan_numberError" class="error-msg" ></span>
-                                </div>                            
+                                <input id="contractor_id" name="contractor_id" type="hidden" value="${contractorDetails.contractor_id }" />
+                                <c:if test="${action eq 'add'}">	
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="pan_number" name="pan_number" maxlength="10" minlength="10" type="text" class="validate" onblur="panNumberVerify()" style="text-transform:uppercase">
+	                                    <label for="pan_number">PAN Number</label>
+	                                    <span id="pan_numberError" class="error-msg" ></span>
+	                                </div>  
+                                </c:if> 
+                                 <c:if test="${action eq 'edit'}">	
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }">
+	                                    <label for="pan_number">PAN Number</label>
+	                                    <span id="pan_numberError" class="error-msg" ></span>
+	                                </div>  
+                                </c:if>                          
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Specialization</p>
                                     <select id="specialization" name="contractor_specilization_fk" class="searchable validate-dropdown">
@@ -173,7 +183,7 @@
                             <div class="row">
                                <div class="col m2 hide-on-small-only"></div>
                                <div class="col s12 m8 input-field">
-                                   <textarea id="bank_address" name="bank_address" class="materialize-textarea" data-length="1000">${contractorDetails.remarks }</textarea>
+                                   <textarea id="bank_address" name="bank_address" class="materialize-textarea" data-length="1000">${contractorDetails.bank_address }</textarea>
                                    <label for="bank_address">Bank Address</label>
                                    <span id="bank_addressError" class="error-msg" ></span>
                                </div>
@@ -251,16 +261,67 @@
             $('#address').characterCounter();
         });
         
+        //$("#pan_number").rules("add", { pattern: "/^([a-zA-Z]{5})(\d{4})([a-zA-Z]{1})$/" })
+ 
+        
+        function panNumberVerify(){
+        	var pan_number = $("#pan_number").val();
+            if ($.trim(pan_number) != "") {
+                var myParams = { pan_number: pan_number };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getPanNumberListFormContactor",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                if ($.trim(val.pan_number) != '') {
+                                	$('#pan_numberError').show();
+                                	document.getElementById('pan_numberError').innerHTML='PAN number already exist';
+                                } 
+                            });
+                        }
+                        else{
+                        	$('#pan_numberError').empty();
+                        }
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+          }
+        
+        $("#pan_number").blur(function(){
+        	var panNumber = $("#pan_number").val();
+        	var pan_number = "${contractorDetails.pan_number}";
+        	if ($.trim(panNumber) != '' && pan_number == $.trim(panNumber)) {
+        		$('#pan_numberError').empty();
+            }else{
+            	panNumberVerify();
+            }
+        });
+        
        function updateContractor(){
     	   if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	    		
-   			document.getElementById("contractorForm").submit();			
+    		   if($('#pan_numberError').html()==""){
+    	  		   $(".page-loader").show();	  
+        		   document.getElementById("contractorForm").submit();			
+        	   }
+        	   else{
+        		   $("#pan_number").focus();
+            	   $(".page-loader").hide();
+        	   }		
    	 	 }
        }
        function addContractor(){
     	   if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	    		
-   			document.getElementById("contractorForm").submit();			
+	    	   if($('#pan_numberError').html()==""){
+		  		   $(".page-loader").show();	  
+	    		   document.getElementById("contractorForm").submit();			
+	    	   }
+	    	   else{
+	    		   $("#pan_number").focus();
+	        	   $(".page-loader").hide();
+	    	   }
    	 	 }
        }
        
@@ -279,12 +340,18 @@
 	  		    messages: {
 	  		 		  "contractor_name": {
 	  			 		required: 'Required'
+	  			 	  },
+	  			 	"pan_number": {
+	  			 		required: 'Required'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
 		   		 	  if(element.attr("id") == "contractor_name" ){
 					     document.getElementById("contractor_nameError").innerHTML="";
 				 	     error.appendTo('#contractor_nameError');
+					 }else if(element.attr("id") == "pan_number" ){
+					     document.getElementById("pan_numberError").innerHTML="";
+				 	     error.appendTo('#pan_numberError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

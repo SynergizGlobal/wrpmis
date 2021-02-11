@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contractor;
 
 public interface ContractorDao {
@@ -17,5 +18,7 @@ public interface ContractorDao {
 	public boolean updateContractor(Contractor obj)throws Exception;
 
 	public boolean deleteContractorRow(Contractor obj)throws Exception;
+
+	public List<Contractor> getPanNumberList(Contractor obj) throws Exception;
 
 }

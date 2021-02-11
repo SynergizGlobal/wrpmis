@@ -24,6 +24,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.ZonalRailway;
 @Repository
 public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
@@ -874,8 +875,12 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getUserListForZonalRailwayForm(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry = "select user_id as responsible_person_user_fk, user_name, designation  from `user` ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
+			String qry = "select user_id as responsible_person_user_fk, user_name, designation  from user where user_type_fk = ? ";
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));		
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

@@ -5,10 +5,51 @@ import org.springframework.web.multipart.MultipartFile;
 public class Issue {
 	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,user_name,
 	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,work_short_name,
-	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name,other_organization,escalation_date;
+	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name,
+	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since;
 
 	private MultipartFile issueFile;
 	
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getContractor_id_fk() {
+		return contractor_id_fk;
+	}
+
+	public void setContractor_id_fk(String contractor_id_fk) {
+		this.contractor_id_fk = contractor_id_fk;
+	}
+
+	public String getContractor_id() {
+		return contractor_id;
+	}
+
+	public void setContractor_id(String contractor_id) {
+		this.contractor_id = contractor_id;
+	}
+
+	public String getContractor_name() {
+		return contractor_name;
+	}
+
+	public void setContractor_name(String contractor_name) {
+		this.contractor_name = contractor_name;
+	}
+
 	public String getUser_name() {
 		return user_name;
 	}
@@ -345,6 +386,22 @@ public class Issue {
 
 	public void setEscalation_date(String escalation_date) {
 		this.escalation_date = escalation_date;
+	}
+
+	public String getHod_name() {
+		return hod_name;
+	}
+
+	public void setHod_name(String hod_name) {
+		this.hod_name = hod_name;
+	}
+
+	public String getPending_since() {
+		return pending_since;
+	}
+
+	public void setPending_since(String pending_since) {
+		this.pending_since = pending_since;
 	}
 	
 }

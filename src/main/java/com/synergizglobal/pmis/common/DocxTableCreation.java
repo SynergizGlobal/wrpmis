@@ -42,7 +42,9 @@ import org.docx4j.wml.U;
 import org.docx4j.wml.UnderlineEnumeration;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.RiskReport;
+import com.synergizglobal.pmis.model.Safety;
 
 
 public class DocxTableCreation {	
@@ -320,6 +322,178 @@ public class DocxTableCreation {
 	}
 	
 	
+	/***************************** ISSUES REPORT ****************************************************************/
+	
+	public static void createTableForPendingIssuesReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
+			ObjectFactory factory, List<Issue> pendingIssues) {
+		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+				true, false, false, false);
+		
+		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+				STHint.EAST_ASIA, false, false, false, false);
+		
+		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+				STHint.EAST_ASIA, true, false, false, false);	
+		
+		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+				true, true, false, false);
+		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+				false, false, false, false);		
+		
+		Tbl table = factory.createTbl();
+		addBorders(table, "2");
+		
+		/****************************************************************************/
+		
+		if(!StringUtils.isEmpty(pendingIssues)) {
+			Tr titleRow = factory.createTr();		
+			List<String> tableHeader = new ArrayList<String>();
+			tableHeader.add("SNo.");
+			tableHeader.add("Work");
+			tableHeader.add("HOD");
+			tableHeader.add("Issue Discription");
+			tableHeader.add("Pending With");
+			tableHeader.add("Pending Since(Days)");			
+			tableHeader.add("Reported By");			
+			tableHeader.add("Action Taken");
+			tableHeader.add("Current Status");
+			
+			for (String headerValue : tableHeader) {
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+			}		
+			table.getContent().add(titleRow);
+			
+			int sNo = 1;
+			for (Issue pObj : pendingIssues) {
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();	
+				
+				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getHod_name(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				
+				table.getContent().add(contentRow);
+			}			
+			/****************************************************************************************/			
+			
+			setTableAlign(factory, table, JcEnumeration.CENTER);
+			t.addObject(table);
+			
+		}
+	} 
+	
+	/***************************** Safety REPORT ****************************************************************/
+	
+
+
+
+	public static void createTableForSafetyReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
+			ObjectFactory factory, List<Safety> safetyData) {
+		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+				true, false, false, false);
+		
+		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+				STHint.EAST_ASIA, false, false, false, false);
+		
+		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+				STHint.EAST_ASIA, true, false, false, false);	
+		
+		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+				true, true, false, false);
+		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+				true, false, false, false);
+		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+				false, false, false, false);		
+		
+		Tbl table = factory.createTbl();
+		addBorders(table, "2");
+		
+		/****************************************************************************/
+		
+		if(!StringUtils.isEmpty(safetyData)) {
+			Tr titleRow = factory.createTr();		
+			List<String> tableHeader = new ArrayList<String>();
+			tableHeader.add("SNo.");
+			tableHeader.add("Work");
+			tableHeader.add("HOD");
+			tableHeader.add("Incident");
+			tableHeader.add("Date of Incident");
+			tableHeader.add("Impact");			
+			tableHeader.add("Category");			
+			tableHeader.add("Root Cause");
+			tableHeader.add("Committee(Y/N)");			
+			tableHeader.add("Incident Status");
+			tableHeader.add("Corrective Measure Short Term");			
+			tableHeader.add("Corrective Measure Long Term");
+			
+			for (String headerValue : tableHeader) {
+				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+						JcEnumeration.LEFT, true, "ecf2ff");
+			}		
+			table.getContent().add(titleRow);
+			
+			int sNo = 1;
+			for (Safety pObj : safetyData) {
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();	
+				
+				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getHod_name(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getTitle(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getImpact_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCategory_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getRoot_cause_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_formed_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_short_term(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_long_term(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				
+				table.getContent().add(contentRow);
+			}			
+			/****************************************************************************************/			
+			
+			setTableAlign(factory, table, JcEnumeration.CENTER);
+			t.addObject(table);
+			
+		}
+	}	 
+	
+	
+	/**************************************************************************************************************/
 	
 	/**
 	 * @param titleRpr 
@@ -693,6 +867,6 @@ public class DocxTableCreation {
                 vMerge.setVal("continue");  
             }  
         }  
-    }  
+    }
 
 }

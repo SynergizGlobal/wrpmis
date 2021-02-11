@@ -18,4 +18,7 @@ public class PageConstants2 {
 	
 	public static final String designAndDrawingReport = "forms/designAndDrawingReport";
 	
+	public static final String issuesReport = "forms/issuesReport";
+	public static final String safetyReport = "forms/safetyReport";
+	
 }

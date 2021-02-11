@@ -111,8 +111,6 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 	
-	
-	
 	  <!-- card  -->
     <div class="row">
         <div class="col s12 m12">
@@ -122,7 +120,7 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
                                 <h6>
-                                	<c:if test="${action eq 'edit'}">Update User</c:if>
+                                	<c:if test="${action eq 'edit'}">Update User (user id)</c:if>
 									<c:if test="${action eq 'add'}"> Add User</c:if>
 								</h6>
                             </div>
@@ -157,13 +155,21 @@
                                     <span id="user_idError" class="error-msg" ></span>
                                 </div>
                                 </c:if> --%>
-                                <c:if test="${not empty usrObj.user_id }">
+                              <%--   <c:if test="${not empty usrObj.user_id }">
                                 <div class="col s12 m4 input-field">
                                     <!-- <input type="text" id="user_id"> -->
                                     <label class="primary-text-bold" style="margin-top:10px">User ID :  <input id="user_id" name="user_id" type="text" value="${usrObj.user_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <br><br>
                                 </div>
-                                </c:if>
+                                </c:if> --%>
+                                 <div class="col s12 m4 input-field">
+                                     <p class="searchable_label">User Type</p>
+                                      <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown" onchange="">
+                                          <option value="">Select</option>
+                                         
+                                      </select> 
+                                      <span id="user_role_name_fkError" class="error-msg" ></span>
+                                </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 

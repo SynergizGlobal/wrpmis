@@ -32,7 +32,10 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
-    	
+    	.input-field .searchable_label {
+    		font-size:0.85rem;
+    		color:#33BFDB;
+    	}
     </style>
 </head>
 
@@ -48,7 +51,11 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
                             <h6>
-	                             <c:if test="${action eq 'edit'}">Update Contractor</c:if>
+	                             <c:if test="${action eq 'edit'}">
+		                              <c:if test="${not empty contractorDetails.contractor_id }">
+		                              	Update Contractor ( ${contractorDetails.contractor_id})
+	                                  </c:if>	                             
+	                             </c:if>
 								 <c:if test="${action eq 'add'}"> Add Contractor</c:if>
 							 </h6>
                             </div>
@@ -65,14 +72,18 @@
                             <div class="row">
                             
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <!-- <div class="col s12 m4 input-field">
                                  <c:if test="${not empty contractorDetails.contractor_id }">
                                     <label class="primary-text-bold" style="margin-top: 10px;">Contractor ID : <input id="contractor_id" name="contractor_id" type="text" value="${contractorDetails.contractor_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                   </c:if>
-                                </div>
-                            
+                                </div> -->
                                 <div class="col s12 m4 input-field">
-                                    <p><label>Specialization</label></p>
+                                    <input id="pan_number" name="pan_number" type="text" class="validate" value="${contractorDetails.pan_number }">
+                                    <label for="pan_number">PAN Number</label>
+                                    <span id="pan_numberError" class="error-msg" ></span>
+                                </div>                            
+                                <div class="col s12 m4 input-field">
+                                    <p class="searchable_label">Specialization</p>
                                     <select id="specialization" name="contractor_specilization_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${Specialization }">
@@ -106,8 +117,8 @@
                             </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8">
-                                    <div class="row">
+                                <!-- <div class="col s12 m8">
+                                    <div class="row"> -->
                                         <div class="col s12 m4 input-field">
                                             <input id="primary_contract" name="primary_contact_name" type="text" class="validate" value="${contractorDetails.primary_contact_name }">
                                             <label for="primary_contract">Primary Contact</label>
@@ -117,17 +128,25 @@
                                             <input id="phone_number" name="phone_number" type="number" class="validate" value="${contractorDetails.phone_number }">
                                             <label for="phone_number">Phone Number</label>
                                             <span id="phone_numberError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col s12 m4 input-field">
-                                            <input id="email" name="email_id" type="text" class="validate" value="${contractorDetails.email_id }">
-                                            <label for="email">Email Id</label>
-                                            <span id="emailError" class="error-msg" ></span>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </div>                                        
+                                    <!-- </div>
+                                </div> -->
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+							<div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                     <input id="email" name="email_id" type="text" class="validate" value="${contractorDetails.email_id }">
+                                     <label for="email">Email Id</label>
+                                     <span id="emailError" class="error-msg" ></span>
+                                 </div>
+                                 <div class="col s12 m4 input-field">
+		                               <input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
+		                               <label for="gst_number">GST Number</label>
+		                               <span id="gst_numberError" class="error-msg" ></span>
+		                         </div>                                
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
@@ -152,19 +171,14 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="pan_number" name="pan_number" type="text" class="validate" value="${contractorDetails.pan_number }">
-                                    <label for="pan_number">PAN Number</label>
-                                    <span id="pan_numberError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="gst_number" name="gst_number" type="text" class="validate" value="${contractorDetails.gst_number }">
-                                    <label for="gst_number">GST Number</label>
-                                    <span id="gst_numberError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
+                               <div class="col m2 hide-on-small-only"></div>
+                               <div class="col s12 m8 input-field">
+                                   <textarea id="bank_address" name="bank_address" class="materialize-textarea" data-length="1000">${contractorDetails.remarks }</textarea>
+                                   <label for="bank_address">Bank Address</label>
+                                   <span id="bank_addressError" class="error-msg" ></span>
+                               </div>
                             </div>
+                                                      
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
@@ -257,7 +271,10 @@
 	  		    rules: {
 	  		 		 "contractor_name": {
 	  			 		required: true
-	  			 	  }		
+	  			 	  },
+	  			 	 "pan_number": {
+		  			 	required: true
+		  			 }	
 	  		 	},
 	  		    messages: {
 	  		 		  "contractor_name": {

@@ -195,6 +195,10 @@
 											            <td>User ID</td>
 											            <td>: &nbsp; ${ userDetails.user_id }</td>
 											        </tr>
+											        <tr>
+											            <td>User Type</td>
+											            <td>: &nbsp; ${ userDetails.user_id }</td>
+											        </tr>
 											         <tr>
 											            <td>Email</td>
 											            <td> 

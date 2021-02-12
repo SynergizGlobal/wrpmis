@@ -223,9 +223,18 @@
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <input id="other_organization" name="other_organization" type="text" class="validate" value="${issue.other_organization}">
+                                    <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
                                     <label for="other_organization">Organization Name </label>
                                     <span id="other_organizationError" class="error-msg" ></span>
+                                </div>
+                                 <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
+                                  <p class="searchable_label">Organization Name </p> 
+                                    <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
+                                        <option value="">Select</option>
+                                         <c:forEach var="obj" items="${departmentList }">
+                                            <option value="${obj.department_fk }" <c:if test="${issue.other_organization eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
 
@@ -348,6 +357,7 @@
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
+	       
 	    });
 	
         $(document).ready(function () {
@@ -388,6 +398,13 @@
             	getContractsList(work_id_fk);
             }
             
+	        if($('#zonal_railway_fk').val()!='Others'){
+	            $('#other_organization').removeAttr('value');
+	            $('#other_organization').removeAttr('name');
+             	$('#department_holder').show();
+             } else{
+             	$('#department_holder').hide();
+             }
         });
         
       //geting works list from database    
@@ -694,12 +711,29 @@
        	  	$("#zonal_railway_fk").change(function () {
        		  	 $('#other_organization').val("");
                  if($('#zonal_railway_fk').val()=='Others'){
+                	$('#other_organizations').removeAttr('name');
+                 	$('#other_organizations').removeAttr('value');
                  	$('#other_organization_holder').show();
                  } else{
+                	$('#other_organizations').attr('name', 'other_organization'); 
                  	$('#other_organization_holder').hide();
                  }
             });
         	
+        	 $("#zonal_railway_fk").change(function () {
+        		 $('.select2-selection__rendered').empty();
+        		 var c = $('#other_organizations').val();
+                 if($('#zonal_railway_fk').val()!='Others'){
+                	
+                	$('#other_organization').removeAttr('name');
+                	$('#other_organization').removeAttr('value');
+                 	$('#department_holder').show();
+                 } else{
+                	$('#other_organization').attr('name', 'other_organization'); 
+                 	$('#department_holder').hide();
+                 }
+             });
+        	 
         	var responsibleOrganization = '${issue.zonal_railway_fk}';
         	
         	if($.trim(responsibleOrganization) == 'Others'){

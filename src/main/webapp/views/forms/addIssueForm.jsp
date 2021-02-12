@@ -229,6 +229,15 @@
                                     <label for="other_organization">Organization Name </label>
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
+                                 <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
+                                  <p class="searchable_label">Organization Name </p> 
+                                    <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${departmentList }">
+                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -733,9 +742,21 @@
             
             $("#zonal_railway_fk").change(function () {
                 if($('#zonal_railway_fk').val()=='Others'){
+                	$('#other_organizations').removeAttr('name');
                 	$('#other_organization_holder').show();
                 } else{
+                	$('#other_organizations').attr('name', 'other_organization'); 
                 	$('#other_organization_holder').hide();
+                }
+            });
+            $("#zonal_railway_fk").change(function () {
+            	$('.select2-selection__rendered').empty();
+                if($('#zonal_railway_fk').val()!='Others'){
+                	$('#other_organization').removeAttr('name');
+                	$('#department_holder').show();
+                } else{
+                	$('#other_organization').attr('name', 'other_organization'); 
+                	$('#department_holder').hide();
                 }
             });
             

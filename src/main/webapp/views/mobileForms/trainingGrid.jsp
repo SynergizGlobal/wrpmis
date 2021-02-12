@@ -82,7 +82,7 @@
 
                             <div class="col s12 m4">
                                 <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-training-form"  class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/mobileappwebview/add-training-form"  class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Training</strong></a>
                                 </div>
                             </div>
@@ -180,53 +180,7 @@
             </div>
         </div>
     </div>
-      <!-- update popup starts -->
-    <div id="upload_template" class="modal">
-        <div class="modal-content headbg">
-            <div class="center-align p-2 bg-m modal-title">
-                <h6>Upload Users</h6>
-            </div>
-            <!-- form start-->
-            <div class="container">
-               <form action="<%=request.getContextPath() %>/upload-training" id="trainingUploadForm" name="trainingUploadForm" method="post" enctype="multipart/form-data">
-                    <div class="row no-mar">
-                        <div class="col s12 m12 input-field center-align">
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="trainingFile" name="trainingFile" required="required">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row no-mar">
-                        <div class="col s12 m6">
-                            <div class="center-align m-1">
-                                <button type="button" onclick="trainingFileSubmit();" class="btn waves-effect waves-light bg-m"
-                                    style="width: 100%;">Update</button>
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="center-align m-1">
-                                <button type="button" class="btn waves-effect waves-light bg-s"
-                                    style="width: 100%;" onclick="closeUploadTrainingModal();">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>     
-    
+ 
 
 <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
@@ -264,27 +218,13 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="training_id" id="training_id" />
     </form>
-    
-     <form action="<%=request.getContextPath() %>/export-training" name="exportTrainingForm" id="exportTrainingForm" target="_blank" method="post">	
-         <input type="hidden" name="training_type_fk" id="exportTraining_type_fk" />
-         <input type="hidden" name="training_category_fk" id="exportTraining_category_fk" />
-         <input type="hidden" name="status_fk" id="exportStatus_fk" />
-	 </form>
-
+  
     <script>
-	    function  openUploadTrainingModal() {
-	  		$("#trainingFile").val('');
-	      	$("#upload_template").modal();
-	      	$("#upload_template").modal('open');
-	  	}
-	
-	  	function  closeUploadTrainingModal() {
-	  		$("#trainingFile").val('');
-	      	$("#upload_template").modal('close');
-	  	}
+	  
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
@@ -371,7 +311,7 @@
     		
     		table.state.clear();		
     	 	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
-    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-training",type:"POST",data:myParams,success : function(data){    				
+    	 	$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/get-training",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var training_id = "'"+val.training_id+"'";
@@ -419,7 +359,7 @@
              	$("#training_type_fk option:not(:first)").remove();
              	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getTrainingTypesFilterListInTraining",
+                     url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getTrainingTypesFilterListInTraining",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
@@ -449,7 +389,7 @@
               	$("#training_category_fk option:not(:first)").remove();
               	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
                   $.ajax({
-                      url: "<%=request.getContextPath()%>/ajax/getTrainingCategorysFilterListInTraining",
+                      url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getTrainingCategorysFilterListInTraining",
                       data: myParams, cache: false,
                       success: function (data) {
                           if (data.length > 0) {
@@ -479,7 +419,7 @@
                	$("#status_fk option:not(:first)").remove();
                	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk};
                    $.ajax({
-                       url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInTraining",
+                       url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStatusFilterListInTraining",
                        data: myParams, cache: false,
                        success: function (data) {
                            if (data.length > 0) {
@@ -502,15 +442,11 @@
      	 
          function getTraining(training_id){
          	$("#training_id").val(training_id);
-         	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-training');
+         	$('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/get-training');
          	$('#getForm').submit();
          }
          
-         function getTrainingDetails(training_id){
-          	$("#training_id").val(training_id);
-          	$('#getForm').attr('action', '<%=request.getContextPath()%>/export-training-details');
-          	$('#getForm').submit();
-          }
+       
          function deleteTraining(training_id){
          	$("#training_id").val(training_id);
          	showCancelMessage();
@@ -554,7 +490,7 @@
              }, function (isConfirm) {
                  if (isConfirm) {
                     // swal("Deleted!", "Record has been deleted", "success");
-                 	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-training');
+                 	$('#getForm').attr('action', '<%=request.getContextPath()%>/mobileappwebview/delete-training');
          	    	$('#getForm').submit();
                 }else {
                      swal("Cancelled", "Record is safe :)", "error");
@@ -562,16 +498,7 @@
              });
          }
          
-         function exportTraining(){
-        	 var training_type_fk = $("#training_type_fk").val();
-             var training_category_fk = $("#training_category_fk").val();
-        	 var status_fk = $("#status_fk").val();
-        	 $("#exportTraining_type_fk").val(training_type_fk);
-        	 $("#exportTraining_category_fk").val(training_category_fk);
-        	 $("#exportStatus_fk").val(status_fk);
-        	 $("#exportTrainingForm").submit();
-     	}
-         
+       
     </script>
 
 </body>

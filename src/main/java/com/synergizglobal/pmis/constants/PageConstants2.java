@@ -20,5 +20,6 @@ public class PageConstants2 {
 	
 	public static final String issuesReport = "forms/issuesReport";
 	public static final String safetyReport = "forms/safetyReport";
+	public static final String trainingReport = "forms/trainingReport";
 	
 }

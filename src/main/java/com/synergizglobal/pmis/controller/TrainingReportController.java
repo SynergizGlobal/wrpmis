@@ -57,87 +57,62 @@ import org.docx4j.wml.STFldCharType;
 import org.docx4j.wml.STHint;
 import org.docx4j.wml.STPageOrientation;
 import org.docx4j.wml.SectPr;
-import org.docx4j.wml.SectPr.PgSz;
 import org.docx4j.wml.Text;
 import org.docx4j.wml.U;
 import org.docx4j.wml.UnderlineEnumeration;
+import org.docx4j.wml.SectPr.PgSz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.SafetyReportService;
+import com.synergizglobal.pmis.Iservice.TrainingReportService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.Safety;
+import com.synergizglobal.pmis.model.Training;
+import com.synergizglobal.pmis.model.Training;
 
 @Controller
-public class SafetyReportController {
+public class TrainingReportController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	public static Logger logger = Logger.getLogger(SafetyReportController.class);	
+	public static Logger logger = Logger.getLogger(TrainingReportController.class);	
 	
 	@Autowired
-	SafetyReportService safetyService;
+	TrainingReportService service;
 	
 	
 	@Value("${common.error.message}")
 	public String commonError;
 	
 
-	@RequestMapping(value="/safety-report",method=RequestMethod.GET)
-	public ModelAndView safetysReport(@ModelAttribute Safety obj,HttpSession session) {
+	@RequestMapping(value="/training-report",method=RequestMethod.GET)
+	public ModelAndView trainingReport(@ModelAttribute Training obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-			model.setViewName(PageConstants2.safetyReport);			
+			model.setViewName(PageConstants2.trainingReport);
+			
+			List<Training> employees = service.getEmployeesInTraining(obj);
+			model.addObject("employees", employees);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("safetysReport : " + e.getMessage());
+			logger.error("trainingReport : " + e.getMessage());
 		}
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorksListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Safety> getWorksListInSafetyReport(@ModelAttribute Safety obj) {
-		List<Safety> objsList = null;
-		try {
-			objsList = safetyService.getWorksListInSafetyReport(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getWorksListInSafetyReport : " + e.getMessage());
-		}
-		return objsList;
-	}
-	
-	@RequestMapping(value = "/ajax/getContractsListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Safety> getContractsListInSafetyReport(@ModelAttribute Safety obj) {
-		List<Safety> objsList = null;
-		try {
-			objsList = safetyService.getContractsListInSafetyReport(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getContractsListInSafetyReport : " + e.getMessage());
-		}
-		return objsList;
-	}
-	
-	
-	@RequestMapping(value = "/generate-safety-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generatePendingSafetyReport(@ModelAttribute Safety obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+	@RequestMapping(value = "/generate-training-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateTrainingReport(@ModelAttribute Training obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/risk-analysis-report");
 		try{            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -145,15 +120,15 @@ public class SafetyReportController {
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
            
-			boolean flag = generatePendingSafetyReport(response,currentDate,obj);
+			boolean flag = generateScheduledTrainingReport(response,currentDate,obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generatePendingSafetyReport : " + e.getMessage());
+			logger.error("generateTrainingReport : " + e.getMessage());
 		}
 		return model;
-     }
+    }
 
-	private boolean generatePendingSafetyReport(HttpServletResponse response, String currentDate, Safety obj) {
+	private boolean generateScheduledTrainingReport(HttpServletResponse response, String currentDate, Training obj) {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
 		byte[] byteArray;        
@@ -161,8 +136,8 @@ public class SafetyReportController {
 		boolean flag = false;
 		try{			
 			
-			//obj.setStatus_fk("Closed");
-			List<Safety> safetyData = safetyService.getSafetyReportData(obj);
+			obj.setStatus_fk("Scheduled");
+			List<Training> scheduledTrainings = service.getScheduledTrainings(obj);
 			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -170,14 +145,14 @@ public class SafetyReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "Safety Incidents";
+			String headerText = "Training Report";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreation.createTableForSafetyReport(wordMLPackage, mp, factory,safetyData);
+			DocxTableCreation.createTableForScheduledTrainingReport(wordMLPackage, mp, factory,scheduledTrainings);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -185,7 +160,7 @@ public class SafetyReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Safety Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "Training Report - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -203,13 +178,136 @@ public class SafetyReportController {
 				flag = true;
 		    }catch (Exception e) {
 				e.printStackTrace();
-				logger.error("generatePendingSafetyReport >> FileNotFoundException occurs.." + e.getMessage());
+				logger.error("generateScheduledTrainingReport >> FileNotFoundException occurs.." + e.getMessage());
 				flag = false;
 		    }	
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generatePendingSafetyReport >> " + e.getMessage());
+			logger.error("generateScheduledTrainingReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}
+	
+	private boolean generateEmployeeTrainingReport(HttpServletResponse response, String currentDate, Training obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			List<Training> employeeTrainings = service.getEmployeeTrainings(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String headerText = "Employee Training Report";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreation.createTableForEmployeeTrainingReport(wordMLPackage, mp, factory,employeeTrainings);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Training Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generateEmployeeTrainingReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateEmployeeTrainingReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}
+	
+	private boolean generateCompletedTrainingReport(HttpServletResponse response, String currentDate, Training obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			obj.setStatus_fk("Completed");
+			List<Training> completedTrainings = service.getCompletedTrainings(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String headerText = "Completed Training Report";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreation.createTableForCompletedTrainingReport(wordMLPackage, mp, factory,completedTrainings);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Training Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generateCompletedTrainingReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateCompletedTrainingReport >> " + e.getMessage());
 			flag = false;
 		}
 		

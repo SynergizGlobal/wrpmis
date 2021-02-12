@@ -45,6 +45,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.RiskReport;
 import com.synergizglobal.pmis.model.Safety;
+import com.synergizglobal.pmis.model.Training;
 
 
 public class DocxTableCreation {	
@@ -491,6 +492,30 @@ public class DocxTableCreation {
 			
 		}
 	}	 
+	
+	
+	/************************* Training Reports *************************************************************************************/
+
+
+	public static void createTableForScheduledTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
+			ObjectFactory factory, List<Training> scheduledTrainings) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void createTableForEmployeeTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
+			ObjectFactory factory, List<Training> employeeTrainings) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void createTableForCompletedTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
+			ObjectFactory factory, List<Training> completedTrainings) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	/**************************************************************************************************************/

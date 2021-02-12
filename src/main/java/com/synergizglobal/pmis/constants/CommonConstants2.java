@@ -25,7 +25,7 @@ public class CommonConstants2 {
 	
 	/*********** LOCAL ****************************************************/
 	
-	public final static String ALERTS_EMAIL = "kallurigurappa@gmail.com,gkalluri@ghsltechnologies.com";
+	/*public final static String ALERTS_EMAIL = "kallurigurappa@gmail.com,gkalluri@ghsltechnologies.com";
 	public final static String ISSUE_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"ISSUE_FILES"+File.separator;
 	public static final String SAFETY_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_FILES"+File.separator;
 	public static final String FOB_FILE_SAVING_PATH = "E:"+File.separator+"Development"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FOB_FILES"+File.separator;
@@ -36,7 +36,7 @@ public class CommonConstants2 {
 	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
-	
+	*/
 	/*********** PRODUCTION ****************************************************/
 	
 	/*public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
@@ -51,7 +51,7 @@ public class CommonConstants2 {
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/PROJECT_GALLERY/";
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/ACTIVITY_PROGRESS_REPORTS/";*/
 	
-	/*public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
+	public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
 	public final static String ISSUE_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"ISSUE_FILES"+File.separator;
 	public static final String SAFETY_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"SAFETY_FILES"+File.separator;
 	public static final String FOB_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"FOB_FILES"+File.separator;
@@ -62,6 +62,6 @@ public class CommonConstants2 {
 	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/WEB_DOCUMENTS/";
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
-	*/
+	
 	
 }

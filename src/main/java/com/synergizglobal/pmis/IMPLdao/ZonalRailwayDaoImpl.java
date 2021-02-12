@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.velocity.runtime.parser.node.GetExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +25,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.ZonalRailway;
 @Repository
@@ -451,7 +453,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry ="select contract_id, work_id_fk,w.work_short_name,user_name, designation,project_id_fk,project_name, execution_agency_railway_fk,railway_id, responsible_person_user_fk,railway_name, source_of_funds,cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
-					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, cast(z.completion_cost as CHAR) as completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date from zonal_railway_contracts z " + 
+					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,sub_work,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, cast(z.completion_cost as CHAR) as completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
 					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+
 					"left join user u on z.responsible_person_user_fk = u.user_id "
@@ -512,9 +514,9 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			con.setAutoCommit(false);
 			String insertQry = "INSERT INTO zonal_railway_contracts"
 					+ "(contract_id, work_id_fk, execution_agency_railway_fk, source_of_funds, sanction_cost,responsible_person_user_fk, latest_revised_cost, "
-					+ "cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, status_fk, as_on_date)"
+					+ "cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, status_fk, as_on_date,sub_work)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry);
 			
 			int q = 1;
@@ -533,6 +535,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			insertStmt.setString(q++,obj.getCompletion_cost()); 
 			insertStmt.setString(q++,obj.getStatus_fk()); 
 			insertStmt.setString(q++,obj.getAs_on_date()); 
+			insertStmt.setString(q++,obj.getSub_work()); 
 			
 			count = insertStmt.executeUpdate();
 			if(count > 0) {
@@ -613,10 +616,10 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 						 double plannedPhysicalProgressPercentages = 0;
 						 double actualPhysicalProgressPercentages = 0;
 						 
-						 String plannedExpenditurePercentage = (obj.getCum_planned_expenditure_pers()[i]);
-						 String actualExpenditurePercentage = (obj.getCum_actual_expenditure_pers()[i]);
-						 String plannedPhysicalProgressPercentage = (obj.getCum_planned_physical_progress_pers()[i]);
-						 String actualPhysicalProgressPercentage = (obj.getCum_actual_physical_progress_pers()[i]);
+						 String plannedExpenditurePercentage = (obj.getCum_planned_expenditure_pers().length > 0)?obj.getCum_planned_expenditure_pers()[i]:null;
+						 String actualExpenditurePercentage = (obj.getCum_actual_expenditure_pers().length > 0)?obj.getCum_actual_expenditure_pers()[i]:null;
+						 String plannedPhysicalProgressPercentage = (obj.getCum_planned_physical_progress_pers().length > 0)?obj.getCum_planned_physical_progress_pers()[i]:null;
+						 String actualPhysicalProgressPercentage = (obj.getCum_actual_physical_progress_pers().length > 0)?obj.getCum_actual_physical_progress_pers()[i]:null;
 
 						 if(!StringUtils.isEmpty(plannedExpenditurePercentage)) {
 							 plannedExpenditurePercentages = Double.parseDouble(plannedExpenditurePercentage)/100;
@@ -677,7 +680,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			String updateQry = "UPDATE zonal_railway_contracts set "
 					+ "source_of_funds = ?, sanction_cost = ?, responsible_person_user_fk = ?, latest_revised_cost = ?,"
 					+ "cumulative_expenditure_upto_last_finacial_year = ?, actual_start = ?, expected_finish = ?, actual_finish = ?, completion_cost = ?, status_fk = ?, "
-					+ "as_on_date = ? where contract_id = ?";
+					+ "as_on_date = ?,sub_work = ? where contract_id = ?";
 			
 			updateStmt = con.prepareStatement(updateQry);
 			int q = 1;
@@ -692,6 +695,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			updateStmt.setString(q++,obj.getCompletion_cost()); 
 			updateStmt.setString(q++,obj.getStatus_fk()); 
 			updateStmt.setString(q++,obj.getAs_on_date()); 
+			updateStmt.setString(q++,obj.getSub_work()); 
 			updateStmt.setString(q++,obj.getContract_id()); 
 			
 			int count = updateStmt.executeUpdate();
@@ -785,16 +789,16 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				}
 				if(!StringUtils.isEmpty(obj.getMonths()) && obj.getMonths().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
-						 String pId = (obj.getProgress_ids()[i]);
+						 String pId = (obj.getProgress_ids().length > 0)?obj.getCum_planned_expenditure_pers()[i]:null;
 						 double plannedExpenditurePercentages = 0;
 						 double actualExpenditurePercentages = 0;
 						 double plannedPhysicalProgressPercentages = 0;
 						 double actualPhysicalProgressPercentages = 0;
 						 
-						 String plannedExpenditurePercentage = (obj.getCum_planned_expenditure_pers()[i]);
-						 String actualExpenditurePercentage = (obj.getCum_actual_expenditure_pers()[i]);
-						 String plannedPhysicalProgressPercentage = (obj.getCum_planned_physical_progress_pers()[i]);
-						 String actualPhysicalProgressPercentage = (obj.getCum_actual_physical_progress_pers()[i]);
+						 String plannedExpenditurePercentage = (obj.getCum_planned_expenditure_pers().length > 0)?obj.getCum_planned_expenditure_pers()[i]:null;
+						 String actualExpenditurePercentage = (obj.getCum_actual_expenditure_pers().length > 0)?obj.getCum_actual_expenditure_pers()[i]:null;
+						 String plannedPhysicalProgressPercentage = (obj.getCum_planned_physical_progress_pers().length > 0)?obj.getCum_planned_physical_progress_pers()[i]:null;
+						 String actualPhysicalProgressPercentage = (obj.getCum_actual_physical_progress_pers().length > 0)?obj.getCum_actual_physical_progress_pers()[i]:null;
 
 						 if(!StringUtils.isEmpty(plannedExpenditurePercentage)) {
 							 plannedExpenditurePercentages = Double.parseDouble(plannedExpenditurePercentage)/100;
@@ -883,6 +887,63 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));		
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<ZonalRailway> getRailwayListForZonalRailwaysForm(ZonalRailway obj) throws Exception {
+		List<ZonalRailway> objsList = null;
+		Connection con = null;
+		try {
+			con = dataSource.getConnection();
+			List<ZonalRailway> list = getRailwaysList(obj.getWork_id_fk(),con);
+			if(list.isEmpty()) {
+				String qry = "select railway_id as execution_agency_railway_fk, railway_name from `railway` ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
+			}else {
+				String qry = "select railway_id as execution_agency_railway_fk, railway_name  from railway where railway_id <> ? ";
+				int arraySize = 1;
+				int i = 0;
+				Object[] pValues = new Object[list.size()];
+				for(ZonalRailway s : list) {
+					if(list.size() > arraySize) {
+						qry = qry + "and railway_id <> ?  ";
+						arraySize++;
+					}
+					if(list.size() > i) {
+						pValues[i++] = s.getExecution_agency_railway_fk();
+
+					}
+				}
+				objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));	
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	private List<ZonalRailway> getRailwaysList(String work_id_fk,Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<ZonalRailway> objsList = new ArrayList<ZonalRailway>();
+		ZonalRailway obj = null;
+		try {
+			String qry ="SELECT execution_agency_railway_fk FROM zonal_railway_contracts where  contract_id like '"+work_id_fk+"%';";
+			stmt = con.prepareStatement(qry);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new ZonalRailway();
+				obj.setExecution_agency_railway_fk(resultSet.getString("execution_agency_railway_fk"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 		}
 		return objsList;
 	}

@@ -36,4 +36,6 @@ public interface ZonalRailwayService {
 
 	public List<ZonalRailway> getUserListForZonalRailwayForm(ZonalRailway obj) throws Exception;
 
+	public List<ZonalRailway> getRailwayListForZonalRailwaysForm(ZonalRailway obj) throws Exception;
+
 }

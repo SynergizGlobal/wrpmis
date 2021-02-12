@@ -150,7 +150,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <p class="searchable_label"> Work </p>
-	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);">
+	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value); resetRailways(this.value);">
 	                                        <option value="" >Select</option>
 	                                        <c:forEach var="obj" items="${worksList }">
 		                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -180,7 +180,7 @@
      						<div class="row">
                                <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                	<textarea placeholder="Sub Work" class='materialize-textarea'></textarea>
+                                	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'></textarea>
                                 </div>	
                                <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -189,7 +189,7 @@
      						<div class="row">
                                <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                	<textarea placeholder="Sub Work" class='materialize-textarea'>sub work</textarea>
+                                	<textarea placeholder="Sub Work" name="sub_work" id="sub_work" class='materialize-textarea'>${zonalRailwayDetails.sub_work}</textarea>
                                 </div>	
                                <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -437,36 +437,36 @@
                                                     placeholder="Month">
                                             </td>
                                             <td>
-                                                <input id="cum_actual_expenditure_fy_crs0" name="cum_actual_expenditure_fy_crs" 
+                                                <input id="cum_actual_expenditure_fy_crs0" name="cum_actual_expenditure_fy_crs" value=" "
                                                     type="number" class="validate" min="0.01" step="0.01"
                                                     placeholder="Amount">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
-                                                <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers" 
+                                                <input id="cum_planned_expenditure_pers0" name="cum_planned_expenditure_pers"  value=" "
                                                     type="number" class="validate" min="0.01" step="0.01"
                                                     placeholder="Cum Planned %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
-                                                <input id="cum_actual_expenditure_crs0" name="cum_actual_expenditure_crs" type="number" class="validate" 
+                                                <input id="cum_actual_expenditure_crs0" name="cum_actual_expenditure_crs" type="number" class="validate"  value=" "
                                                     min="0.01" step="0.01" placeholder="cum Actual">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
-                                                <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"  
+                                                <input id="cum_actual_expenditure_pers0" name="cum_actual_expenditure_pers" type="number"   value=" "
                                                     class="validate" min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
                                                 <input id="cum_planned_physical_progress_pers0"
-                                                    name="cum_planned_physical_progress_pers" type="number" class="validate" 
+                                                    name="cum_planned_physical_progress_pers" type="number" class="validate"  value=" "
                                                     min="0.01" step="0.01" placeholder="Cum Planned %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
                                             <td>
                                                 <input id="cum_actual_physical_progress_pers0"
-                                                    name="cum_actual_physical_progress_pers" type="number" class="validate" 
+                                                    name="cum_actual_physical_progress_pers" type="number" class="validate"  value=" "
                                                     min="0.01" step="0.01" placeholder="cum Actual %">
                                                     <span id="erroerArea" class="error-msg"></span>
                                             </td>
@@ -659,7 +659,32 @@
             }
         }
         
-        
+        function resetRailways(workId){
+        	$(".page-loader").show();
+            $("#execution_agency_railway_fk option:not(:first)").remove();
+            if ($.trim(workId) != "") {
+                var myParams = { work_id_fk: workId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getRailwayListForZonalRailwayForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var railway_name = '';
+                                if ($.trim(val.railway_name) != '') { railway_name = ' - ' + $.trim(val.railway_name) }
+                              
+                                    $("#execution_agency_railway_fk").append('<option value="' + val.execution_agency_railway_fk + '">' + $.trim(val.execution_agency_railway_fk) + $.trim(railway_name) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        	
+        }
         function resetProjectsDropdowns(workId){
         	var projectId = '';
         	if($.trim(workId) != ''){  

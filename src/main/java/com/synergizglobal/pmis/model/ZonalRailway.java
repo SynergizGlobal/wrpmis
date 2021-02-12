@@ -5,7 +5,7 @@ import java.util.List;
 public class ZonalRailway {
 
 	private String contract_id, project_id,work_id_fk,work_name,railway_name, work_short_name,project_id_fk,project_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, 
-	cumulative_expenditure_upto_last_finacial_year, work_id,actual_start, expected_finish, actual_finish, completion_cost, 
+	cumulative_expenditure_upto_last_finacial_year, work_id,actual_start, expected_finish, actual_finish, completion_cost,sub_work, 
 	status_fk, as_on_date, progress_id, contract_id_fk, month, cum_actual_expenditure_fy_cr, cum_planned_expenditure_per, 
 	cum_actual_expenditure_cr, cum_actual_expenditure_per, cum_planned_physical_progress_per, cum_actual_physical_progress_per, 
 	progress, issue, assistance_required,user_id, user_name, designation, department_fk, reporting_to_id_srfk,responsible_person_user_fk ;
@@ -14,6 +14,14 @@ public class ZonalRailway {
 	cum_actual_expenditure_crs, cum_actual_expenditure_pers, cum_planned_physical_progress_pers, cum_actual_physical_progress_pers, 
 	progresss, issues, assistance_requireds;
 	
+	public String getSub_work() {
+		return sub_work;
+	}
+
+	public void setSub_work(String sub_work) {
+		this.sub_work = sub_work;
+	}
+
 	public String getResponsible_person_user_fk() {
 		return responsible_person_user_fk;
 	}

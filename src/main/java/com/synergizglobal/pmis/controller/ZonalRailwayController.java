@@ -135,6 +135,19 @@ public class ZonalRailwayController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getRailwayListForZonalRailwayForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<ZonalRailway> getRailwayListForZonalRailwaysForm(@ModelAttribute ZonalRailway obj) {
+		List<ZonalRailway> objsList = null;
+		try {
+			objsList = service.getRailwayListForZonalRailwaysForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getRailwayListForZonalRailwaysForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/add-zonal-railway-form", method = {RequestMethod.GET})
 	public ModelAndView addZonalRailwaytForm(@ModelAttribute ZonalRailway obj){
 		ModelAndView model = new ModelAndView();

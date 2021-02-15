@@ -156,13 +156,28 @@
 		    top: 0 ;
 		    right: 26px;
 		}		
+		.primary-text-bold{
+			font-size:1.3rem;
+		}
+		.input-field>.primary-text-bold.active{
+			    transform: translateY(-12px) !important;
+		}
+		.d-inb{
+			display:inline-block;
+		}
+		.pos-ab{
+			position:absolute;
+		}
 		@media only screen and (max-width: 768px){
 			.mobile_responsible_table>tbody tr:not(.datepicker-row) td::before {
 			    vertical-align: middle;
 			}			
 			.input-field .prefix {
 			    width: 2rem;
-			   /*  margin-top:5px; */
+			    margin-top:5px;
+			 }
+			 tbody td.input-field >.prefix {
+			    margin-top:-5px;
 			 }
 			 .input-field .prefix ~ input,
 			 .input-field .prefix ~ label,
@@ -178,6 +193,9 @@
 			}
 			.h-auto{
 				height:auto !important;
+			}
+			.mobile_responsible_table>tbody tr td .select2-container {
+			     width: 100% !important; 
 			}
 		}
 		
@@ -212,7 +230,6 @@
 						<div class="container-no-margin">
 						 <c:if test="${action eq 'add'}">	
 							<div class="row">
-								<!-- row 1  -->
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col s6 m4 input-field">
 									<p class="searchable_label">Project</p>
@@ -243,48 +260,42 @@
 							</c:if>	
 							 <c:if test="${action eq 'edit'}">	
 							 	 <div class="row">
-	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                <p><label>Project</label></p>
-	                                  			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
-	                                         	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
+	                                	<p class="searchable_label">Project</p>
+	                                  	<input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
+	                                    <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p><label>Work</label></p>
-	                                    	<input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
-	                                        <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
-	                                </div>
-	
+	                                    <p class="searchable_label">Work</p>
+	                                    <input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
+	                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
+	                                </div>	
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 							 </c:if>	
 							  <c:if test="${action eq 'edit'}">	
 								<div class="row">
-									<!-- row 1  -->
 									<div class="col m2 hide-on-small-only"></div>
 									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Department</p>
-										<select name="department_fk" id="department_fk"
-											class="validate-dropdown searchable">
+										<select name="department_fk" id="department_fk"	class="validate-dropdown searchable">
 											<option value="">Select</option>
 											<c:forEach var="obj" items="${departmentList }">
 		                                      	    <option value= "${ obj.department_fk}" <c:if test="${contractDeatils.department_fk eq obj.department_fk}">selected</c:if>>${ obj.department_name}</option>
 		                                     </c:forEach>
 										</select>
 										<span id="department_fkError" class="error-msg"></span>
-									</div>
-									
+									</div>									
 									<div class="col s6 m4 input-field">
-		                                    <label class="primary-text-bold mt-10">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-		                               
+		                                <label class="primary-text-bold">Contract ID : </label>
+		                                <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }" readonly class="datelike">
 		                           </div>
 		                           <div class="col m2 hide-on-small-only"></div>
 								</div>
 							 </c:if>	
 							  <c:if test="${action eq 'add'}">	
 								<div class="row">
-									<!-- row 1  -->
 									<div class="col m2 hide-on-small-only"></div>
 									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Department</p>
@@ -296,41 +307,33 @@
 		                                     </c:forEach>
 										</select>
 										<span id="department_fkError" class="error-msg"></span>
-									</div>
-									
-								<%-- 	<div class="col s6 m4 input-field">
-		                                    <label class="primary-text-bold mt-10">Contract ID : <input id="contract_id" name="contract_id" type="text" value="${contractDeatils.contract_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
-		                               
-		                           </div> --%>
+									</div>		
 		                           <div class="col m2 hide-on-small-only"></div>
 								</div>
 							 </c:if>	
 							<div class="row">
-	                                <!-- row 4 -->
 	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 input-field">
-	                                    <textarea id="contract_name" name ="contract_name" class="materialize-textarea" data-length="1000">${contractDeatils.contract_name }</textarea>
+	                                <div class="col s6 m8 input-field">
+	                                    <textarea id="contract_name" name ="contract_name" class="materialize-textarea datelike" data-length="1000">${contractDeatils.contract_name }</textarea>
 	                                    <label for="contract_name">Contract Name</label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s6 m8 input-field">
+	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate datelike" value="${contractDeatils.contract_short_name }">
+	                                    <label for="contract_short_name">Contract Short Name</label>
+	                                    <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                        </div>
 	                         <div class="row">
-	                                <!-- row 4 -->
 	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 input-field">
-	                                    <input name="contract_short_name" id="contract_short_name" type="text" class="validate" value="${contractDeatils.contract_short_name }">
-	                                    <label for="contract_short_name">Contract Short Name</label>
-	                                      <span id="contract_short_nameError" class="error-msg" ></span>
-	                                </div>
+	                              
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 					 			<div class="row">
-	                                <!-- row 6 -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	
-	                                <div class="col s12 m4 input-field">
-	                                 <p><label>Contract Type</label></p>
+	                                <div class="col m2 hide-on-small-only"></div>	
+	                                <div class="col s6 m4 input-field">
+	                                 <p class="searchable_label">Contract Type</p>
 	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                       	   <c:forEach var="obj" items="${contract_type }">
@@ -339,8 +342,8 @@
 	                                    </select>                                   
 	                                     <span id="contract_type_fkError" class="error-msg" ></span>
 	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <p><label>Contractor Name</label></p>
+	                                <div class="col s6 m4 input-field">
+	                                    <p class="searchable_label">Contractor Name</p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                       	    <c:forEach var="obj" items="${contractor }">
@@ -352,10 +355,9 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
  							<div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	
+	                                <div class="col m2 hide-on-small-only"></div>	
 	                                <div class="col s12 m8 input-field">
-	                                    <input id="scope_of_contract" name="scope_of_contract" type="text" class="validate" value="${contractDeatils.scope_of_contract }">
+	                                    <input id="scope_of_contract" name="scope_of_contract" type="text" class="validate datelike" value="${contractDeatils.scope_of_contract }">
 	                                    <label for="scope_of_contract">Scope of Contract</label>
 	                                    <span id="scope_of_contractError" class="error-msg" ></span>
 	                                </div>
@@ -387,7 +389,6 @@
 								<div class="col m2 hide-on-small-only"></div>
 							</div>
 							<div class="row">
-								<!-- //row 7 -->
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col s6 m4 input-field">
 									<input id="date_of_start" name="date_of_start" type="text" value="${contractDeatils.date_of_start }"
@@ -399,7 +400,7 @@
 								</div>
 								<div class="col s6 m4 input-field">
 									<i class="material-icons prefix center-align">₹</i>
-	                                <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.awarded_cost }" />
+	                                <input id="awarded_cost" name="awarded_cost" min="0.01" step="0.01" type="number" class="validate datelike" value="${contractDeatils.awarded_cost }" />
 									<label for="awarded_cost">Awarded cost</label>
 									<span id="awarded_costError" class="error-msg"></span>
 								</div>
@@ -415,7 +416,7 @@
 								</div>
 								<div class="col s6 m4 input-field">
 									<i class="material-icons prefix center-align">₹</i>
-	                                <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.estimated_cost }">
+	                                <input id="estimated_cost" name="estimated_cost" min="0.01" step="0.01" type="number" class="validate datelike" value="${contractDeatils.estimated_cost }">
 									<label for="estimated_cost">Estimated cost</label>
 									<span id="estimated_costError" class="error-msg"></span>
 								</div>
@@ -424,7 +425,7 @@
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col s6 m4 input-field">
-	                                <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate" value="${contractDeatils.loa_letter_number }">
+	                                <input id="loa_letter_number" name="loa_letter_number" type="text" class="validate datelike" value="${contractDeatils.loa_letter_number }">
 									<label for="loa_letter_number">LOA Letter No</label>
 									<span id="loa_letter_numberError" class="error-msg"></span>
 								</div>
@@ -438,7 +439,7 @@
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col s6 m4 input-field">
-	                                <input id="ca_no" name="ca_no" type="text" class="validate" value="${contractDeatils.ca_no }">
+	                                <input id="ca_no" name="ca_no" type="text" class="validate datelike" value="${contractDeatils.ca_no }">
 									<label for="ca_no">CA No</label>
 									<span id="ca_noError" class="error-msg"></span>
 								</div>
@@ -460,7 +461,7 @@
 								</div>
 								<div class="col s6 m4 input-field">
 									<i class="material-icons prefix center-align">₹</i>
-	                                <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate" value="${contractDeatils.completed_cost }">
+	                                <input id="completed_cost" name="completed_cost" min="0.01" step="0.01" type="number" class="validate datelike" value="${contractDeatils.completed_cost }">
 									<label for="completed_cost" style="font-size: .95rem;">Completed Cost</label>
 									<span id="completed_costError" class="error-msg"></span>
 								</div>
@@ -546,20 +547,7 @@
 								</div>
 								<div class="col m2 hide-on-small-only"></div>
 							</div>
-							<%-- <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m4 input-field">
-	                                 <p>   <label>Status of Contract</p>
-	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
-	                                        <option value="" selected>Select</option>
-	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
-			                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
-			                                      </c:forEach>
-	                                    </select>
-	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div> --%>
+							
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col m8 s12 input-field center-align no-float-small">
@@ -587,15 +575,15 @@
 								<table id="bankTable" class="mdl-data-table mobile_responsible_table">
 									<thead>
 										<tr>
-											<!-- <th>Contract ID </th> -->
-											<th>BG Type </th>
-											<th>Issuing Bank </th>
-											<th>Bank Address </th>
-											<th>BG Number </th>
-											<th>BG Value </th>
-											<th>Valid Upto </th>
-											<th>Remarks </th>
-											<th>Action</th>
+											<th class="fs-100">Code </th>
+                                            <th>BG Type </th>
+                                            <th>Issuing Bank </th>
+                                            <th>BG / FDR <br>Number </th>
+                                            <th>Amount </th>
+                                            <th>BG / FDR <br> Date </th>
+                                            <th>Expiry Date </th>
+                                            <th>Release Date</th>
+                                            <th>Action</th>
 										</tr>
 									</thead>
 									<tbody id="bankTableBody">
@@ -605,73 +593,52 @@
                                 		  <c:forEach var="bankObj" items="${contractDeatils.bankGauranree }" varStatus="index">                                        	
                                         
                                             <tr id="bankRow${index.count }">
-                                            <td class="fs-100"> <input id="codes${index.count }" type="text" class="validate" name="codes" value="${bankObj.code }"
+                                            	<td class="fs-100 input-field" data-head="Code"> <input id="codes${index.count }" type="text" class="validate" name="codes" value="${bankObj.code }"
                                                         placeholder="Code">
                                                 </td>
-                                                <td> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
+                                                <td data-head="BG Type" class="input-field"> <select id="bg_type_fks${index.count }" name="bg_type_fks" class="searchable">
                                                         <option value="">Select</option>
                                                          <c:forEach var="obj" items="${bankGuaranteeTYpe }">
 		                                    			   <option value="${obj.bg_type_fk }" <c:if test="${bankObj.bg_type_fk eq obj.bg_type_fk}">selected</c:if>>${obj.bg_type_fk }</option>
 		                                     			  </c:forEach>
                                                     </select>
-                                                </td> 
-                                                <!-- <td> <input id="bg_type" type="text" class="validate"
-                                                        placeholder="BG Type">
-                                                </td> -->
-                                                <td>
+                                                </td>                                           
+                                                <td data-head="Issuing Bank" class="input-field">
                                                     <input id="issuing_banks${index.count }" name="issuing_banks"  type="text" class="validate" value="${bankObj.issuing_bank }"
                                                         placeholder="Issuing Bank">
                                                 </td>
-                                                <!-- <td>
-                                                    <input id="bank_addresss${index.count }" name ="bank_addresss" type="text" class="validate" value="${bankObj.bank_address }"
-                                                        placeholder="Bank Address">
-                                                </td> -->
-                                                <td>
+                                                <td data-head="BG / FDR Number" class="input-field">
                                                     <input id="bg_numbers${index.count }" name="bg_numbers" type="text" class="validate" value="${bankObj.bg_number}"
                                                         placeholder="BG / FDR Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
+                                                <td class="input-field" data-head="Amount"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values${index.count }" name="bg_values" min="0.01" step="0.01" type="number" class="validate" value="${bankObj.bg_value }"
                                                         placeholder="Amount">
                                                 </td>
-                                               <td>
+                                               <td class="input-field" data-head="BG /FDR Date">
                                                     <input id="bg_dates${index.count }" name="bg_dates" type="text" class="validate datepicker" value="${bankObj.bg_date }"
                                                         placeholder="BG /FDR Date">
                                                          <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td>
+                                                <td class="input-field" data-head="Expiry Date">
                                                      <input id="bg_valid_uptos${index.count }" name="bg_valid_uptos" type="text" class="validate datepicker" value="${bankObj.bg_valid_upto }"
                                                         placeholder="Expiry Date">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
-                                                </td>
-                                                <!-- <td>
-                                                    <input id="remarkss${index.count }" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }"
-                                                        placeholder="Remarks">
-                                                </td> -->
-                                                <td>	<input id="release_dates${index.count }" name="release_dates" type="text" class="validate datepicker" value="${bankObj.release_date }"
+                                                </td>                                               
+                                                <td class="input-field" data-head="Release Date">	<input id="release_dates${index.count }" name="release_dates" type="text" class="validate datepicker" value="${bankObj.release_date }"
                                                         placeholder="Release Date">
                                                     <button type="button"><i class="fa fa-calendar"></i></button></td>       
-                                                <td>
+                                                <td class="mobile_btn_close">
                                                     <a onclick="removeBank('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>                                               
                                                
-                                            </tr>
-                                             <script type="text/javascript">
-	                                               /*  $("#bg_valid_uptos${index.count }").datepicker({
-	                                                	
-	                                                 	 format:'dd-mm-yyyy',
-	                                                     onSelect: function () {
-	                                          	    	     $('.confirmation-btns .datepicker-done').click();
-	                                          	    	  }
-	                                                 }); */
-	                                                
-                                                </script>
+                                            </tr>                                           
                                           </c:forEach>
                                            </c:when>
                                              <c:otherwise>
                                              <tr id="bankRow0">
-                                             <td class="fs-100" > <input id="codes0" type="text" class="validate" name="codes"
+                                             <td class="fs-100 input-field" data-head="Code"> <input id="codes0" type="text" class="validate" name="codes"
                                                         placeholder="Code">
                                                 </td>
                                                 <td data-head="BG Type"  class="input-field"> <select id="bg_type_fks0" name="bg_type_fks" class="searchable">
@@ -681,59 +648,40 @@
 		                                     			  </c:forEach>
                                                     </select>
                                                 </td> 
-                                                <!-- <td> <input id="bg_type" type="text" class="validate"
-                                                        placeholder="BG Type">
-                                                </td> -->
+                                               
                                                 <td data-head="Issuing Bank"  class="input-field">
                                                     <input id="issuing_banks0" name="issuing_banks"  type="text" class="validate"
                                                         placeholder="Issuing Bank">
                                                 </td>
-                                               <!--  <td>
-                                                    <input id="bank_addresss0" name ="bank_addresss" type="text" class="validate"
-                                                        placeholder="Bank Address">
-                                                </td> -->
-                                                <td data-head="BG Number"  class="input-field">
+                                              
+                                                <td data-head="BG / FDR Number"  class="input-field">
                                                     <input id="bg_numbers0" name="bg_numbers" type="text" class="validate"
                                                         placeholder="BG Number">
                                                 </td>
-                                                <td class="input-field" data-head="BG Value"><i class="material-icons prefix center-align">₹</i>
+                                                <td class="input-field" data-head="Amount"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="bg_values0" name="bg_values" type="number" class="validate" min="0.01" step="0.01"
                                                         placeholder="Amount">
                                                 </td>
-                                                <td >
+                                                <td class="input-field" data-head="BG /FDR Date">
                                                     <input id="bg_dates0" name="bg_dates" type="text" class="validate datepicker"
                                                         placeholder="BG /FDR Date">
                                                          <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td data-head="Valid Upto"  class="input-field">
+                                                <td class="input-field" data-head="Expiry Date">
                                                     <input id="bg_valid_uptos0" name="bg_valid_uptos" type="text" class="validate datepicker"
                                                         placeholder="Expiry Date">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                               <!--  <td>
-                                                    <input id="remarkss0" name ="remarkss" type="text" class="validate"
-                                                        placeholder="Remarks">
-                                                </td > -->
+                                              
                                                 <td data-head="Release Date"  class="input-field">	<input id="release_dates0" name="release_dates" type="text" class="validate datepicker"
                                                         placeholder="Release Date">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>	</td>       
-                                                <td >
+                                                <td class="mobile_btn_close">
                                                     <a onclick="removeBank('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
-                                                
-                                                
                                             </tr> 
-                                            	<script type="text/javascript">
-	                                                $("#bg_valid_uptos0").datepicker({
-	                                                	
-	                                                 	 format:'dd-mm-yyyy',
-	                                                     onSelect: function () {
-	                                          	    	     $('.confirmation-btns .datepicker-done').click();
-	                                          	    	  }
-	                                                 });
-	                                             
-                                                </script>
+                                            	
                                               </c:otherwise>
                                             </c:choose>
 									</tbody>
@@ -792,7 +740,8 @@
 											<th>Insurance Value </th>
 											<th>Valid Upto </th>
 											<th>Remarks </th>
-											<th>Action</th>
+											<th>Release</th>											
+											<th>Action</th>		
 										</tr>
 									</thead>
 									 <tbody id="insurenceTableBody">
@@ -800,7 +749,7 @@
                                         <c:when test="${not empty contractDeatils.insurence && fn:length(contractDeatils.insurence) gt 0 }">
                                           <c:forEach var="insurenceObj" items="${contractDeatils.insurence }" varStatus="index">  
                                             <tr id="insurenceRow${index.count }">
-                                                <td>
+                                                <td data-head="Insurance Type" class="input-field">
                                                     <select id="insurance_type_fks${index.count }" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
                                                           <c:forEach var="obj" items="${insurance_type }">
@@ -808,56 +757,49 @@
                                         				  </c:forEach>
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <td data-head="Issuing Agency" class="input-field">
                                                     <input id="issuing_agencys${index.count }" name="issuing_agencys" type="text" class="validate"  value="${insurenceObj.issuing_agency }"
                                                         placeholder="Issuing Agency">
                                                 </td>
-                                                <td>
+                                                <td data-head="Agency Address" class="input-field">
                                                     <input id="agency_addresss${index.count }" name="agency_addresss" type="text" class="validate" value="${insurenceObj.agency_address }"
                                                         placeholder="Agency Address">
                                                 </td>
 
-                                                <td>
+                                                <td data-head="Insurance Number" class="input-field">
                                                     <input id="insurance_numbers${index.count }" name="insurance_numbers" type="text" class="validate" value="${insurenceObj.insurance_number }"
                                                         placeholder="Insurance Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
+                                                <td data-head="Insurance Value" class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="insurance_values${index.count }" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" value="${insurenceObj.insurance_value }"
                                                         placeholder="Insurance Value">
                                                 </td>
-                                                 <td>
+                                                 <td data-head="Revision" class="input-field">
                                                     <input id="insurance_revisions${index.count }" name="insurance_revisions" type="text" class="validate" value="${insurenceObj.revision }"  
                                                         placeholder="Revision">
                                                 </td>
-                                                <td>
+                                                <td data-head="Valid Upto" class="input-field">
                                                     <input id="insurence_valid_uptos${index.count }" name="insurence_valid_uptos" type="text" value="${insurenceObj.insurence_valid_upto }"
                                                         class="validate datepicker" placeholder="Valid Upto">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td>
+                                                <td data-head="Remarks" class="input-field">
                                                     <input id="insurence_remarks${index.count }" name="insurence_remarks"  type="text" class="validate" value="${insurenceObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td>	<label> <input type="hidden" id="insuranceStatuss${index.count }" name="insuranceStatus" value="${insurenceObj.insurance_status}" />
+                                                <td data-head="Release" class="input-field">	<p class="d-inb pos-ab"><label> <input type="hidden" id="insuranceStatuss${index.count }" name="insuranceStatus" value="${insurenceObj.insurance_status}" />
                                                 <input type="checkbox" id="insuranceStatus${index.count }" <c:if test="${insurenceObj.insurance_status == 'Yes'}">checked
-                                            </c:if>/> <span></span> </label>	</td>       
-                                                <td>
+                                            </c:if>/> <span></span> </label><p>	</td>       
+                                                <td class="mobile_btn_close">
                                                     <a onclick="removeInsurence('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
                                              <script type="text/javascript">
-	                                               /*  $("#insurence_valid_uptos${index.count }").datepicker({
-	                                                	
-	                                                 	 format:'dd-mm-yyyy',
-	                                                     onSelect: function () {
-	                                          	    	     $('.confirmation-btns .datepicker-done').click();
-	                                          	    	  }
-	                                                 }); */
+	                                           
 	                                                 $('#insuranceStatus${index.count }').on('change', function(e){
 							                             if($(this).prop('checked'))
 							                             {
-							                            	// $(".part").prop('disabled', true);
 							                                 $('#insuranceStatuss${index.count }').val('Yes');
 							                             } else{
 							                              	 
@@ -871,47 +813,47 @@
                                              <c:otherwise>
                                              
                                               <tr id="insurenceRow0">
-                                                <td>
-                                                    <select id="insurance_type_fks0" name="insurance_type_fks">
+                                                <td data-head="Insurance Type" class="input-field">
+                                                    <select id="insurance_type_fks0" name="insurance_type_fks" class="searchable">
                                                         <option value="" selected>Select</option>
                                                           <c:forEach var="obj" items="${insurance_type }">
                                       					   <option value= "${ obj.insurance_type}" >${ obj.insurance_type}</option>
                                         				  </c:forEach>
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <td data-head="Issuing Agency" class="input-field">
                                                     <input id="issuing_agencys0" name="issuing_agencys" type="text" class="validate" 
                                                         placeholder="Issuing Agency">
                                                 </td>
-                                                <td>
+                                                <td data-head="Agency Address" class="input-field">
                                                     <input id="agency_addresss0" name="agency_addresss" type="text" class="validate" 
                                                         placeholder="Agency Address">
                                                 </td>
 
-                                                <td>
+                                                <td data-head="Insurance Number" class="input-field">
                                                     <input id="insurance_numbers0" name="insurance_numbers" type="text" class="validate" 
                                                         placeholder="Insurance Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
+                                                <td data-head="Insurance Value" class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="insurance_values0" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" 
                                                         placeholder="Insurance Value">
                                                 </td>
-                                                 <td>
+                                                 <td data-head="Revision" class="input-field">
                                                     <input id="insurance_revisions0" name="insurance_revisions" type="text" class="validate" 
                                                         placeholder="Revision">
                                                 </td>
-                                                <td>
+                                                <td data-head="Valid Upto" class="input-field">
                                                     <input id="insurence_valid_uptos0" name="insurence_valid_uptos" type="text" 
                                                         class="validate datepicker" placeholder="Valid Upto">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td>
+                                                <td data-head="Remarks" class="input-field">
                                                     <input id="insurence_remarks0" name="insurence_remarks"  type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
-                                                <td><label><input type="hidden" id="insuranceStatuss0" name="insuranceStatus" value="No" />
-                                                 <input type="checkbox" id="insuranceStatus0" /> <span></span> </label>	</td>       
-                                                <td>
+                                                <td data-head="Release" class="input-field"><p class="d-inb pos-ab"><label><input type="hidden" id="insuranceStatuss0" name="insuranceStatus" value="No" />
+                                                 <input type="checkbox" id="insuranceStatus0" /> <span></span> </label></p>	</td>       
+                                                <td class="mobile_btn_close">
                                                     <a onclick="removeInsurence('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
@@ -966,12 +908,13 @@
 									<table id="mileTable" class="mdl-data-table mobile_responsible_table">
 										<thead>
 											<tr>
-												<th>Milestone Name </th>
-												<th>Milestone Date </th>
-												<th>Actual Date </th>
-												<th>Revision</th>
-												<th>Remarks </th>
-												<th>Action</th>
+												<th>Milestone ID </th>
+                                                <th>Milestone Name </th>
+                                                <th>Milestone Date </th>
+                                                <th>Actual Date </th>
+                                                <th>Revision</th>
+                                                <th>Remarks </th>
+                                                <th>Action</th>
 											</tr>
 										</thead>
 										 <tbody id="milestoneTableBody" >
@@ -981,77 +924,69 @@
 	                                          <c:forEach var="milestonesObj" items="${contractDeatils.milestones }" varStatus="index">  
 	                                        
 	                                            <tr id="mileRow${index.count }">   
-	                                           		  <td>
+	                                           		  <td data-head="Milestone ID"  class="input-field">
 	                                           		    <input type ="hidden" name="contract_milestones_ids" id="contract_milestones_ids${index.count }" value="${milestonesObj.contract_milestones_id }" />
 	                                                    <input id="milestone_ids${index.count }" name="milestone_ids" type="text" class="validate" value="${milestonesObj.milestone_id }"
 	                                                        placeholder="Milestone ID ">
 	                                                </td>                                 
-	                                                <td>
+	                                                <td data-head="Milestone Name" class="input-field">
 	                                                    <input id="milestone_names${index.count }" name="milestone_names" type="text" class="validate" value="${milestonesObj.milestone_name }"
 	                                                        placeholder="Milestone Name ">
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Milestone Date" class="input-field">
 	                                                    <input id="milestone_dates${index.count }" name="milestone_dates" type="text" class="validate datepicker" value="${milestonesObj.milestone_date }"
 	                                                        placeholder="Milestone Date">
 	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Actual Date"  class="input-field">
 	                                                    <input id="actual_dates${index.count }" name="actual_dates" type="text" class="validate datepicker" value="${milestonesObj.actual_date }"
 	                                                        placeholder="Actual Date">
 	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Revision"  class="input-field">
 	                                                    <input id="revisions${index.count }" name="revisions" type="text" class="validate" value="${milestonesObj.revision }"
 	                                                        placeholder="Revision">
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Remarks"  class="input-field">
 	                                                    <input id="mile_remarks${index.count }" name="mile_remarks" type="text" class="validate" value="${milestonesObj.remarks }"
 	                                                        placeholder="Remarks">
 	                                                </td>
-	                                                <td><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+	                                                <td class="mobile_btn_close"><a onclick="removeMilestone('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
 	                                                            class="fa fa-close"></i></a>
 	                                                </td>
 	                                            </tr>
-	                                              <script type="text/javascript">
-		                                               /*  $("#milestone_dates${index.count },#actual_dates${index.count }").datepicker({
-		                                                	
-		                                                 	 format:'dd-mm-yyyy',
-		                                                     onSelect: function () {
-		                                          	    	     $('.confirmation-btns .datepicker-done').click();
-		                                          	    	  }
-		                                                 }); */
-	                                                </script>
+	                                              
 	                                             </c:forEach>
 	                                              </c:when>
 	                                             <c:otherwise>
 	                                              <tr id="mileRow0"> 
-	                                              <td><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids0" value=" "/>
+	                                              <td data-head="Milestone ID"  class="input-field"><input type="hidden" name= "contract_milestones_ids" id="contract_milestones_ids0" value=" "/>
 	                                                    <input id="milestone_ids0" name="milestone_ids" type="text" class="validate" 
 	                                                        placeholder="Milestone ID">
 	                                                </td>                                        
-	                                                <td>
+	                                                <td data-head="Milestone Name" class="input-field">
 	                                                    <input id="milestone_names0" name="milestone_names" type="text" class="validate" 
 	                                                        placeholder="Milestone Name ">
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Milestone Date" class="input-field">
 	                                                    <input id="milestone_dates0" name="milestone_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Milestone Date">
 	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Actual Date"  class="input-field">
 	                                                    <input id="actual_dates0" name="actual_dates" type="text" class="validate datepicker" 
 	                                                        placeholder="Actual Date">
 	                                                    <button type="button"><i class="fa fa-calendar"></i></button>
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Revision"  class="input-field">
 	                                                    <input id="revisions0" name="revisions" type="text" class="validate " 
 	                                                        placeholder="Revision">
 	                                                </td>
-	                                                <td>
+	                                                <td data-head="Remarks"  class="input-field">
 	                                                    <input id="mile_remarks0" name="mile_remarks" type="text" class="validate" 
 	                                                        placeholder="Remarks">
 	                                                </td>
-	                                                <td><a onclick="removeMilestone('0');" class="btn waves-effect waves-light red t-c "> <i
+	                                                <td class="mobile_btn_close"><a onclick="removeMilestone('0');" class="btn waves-effect waves-light red t-c "> <i
 	                                                            class="fa fa-close"></i></a>
 	                                                </td>
 	                                            </tr>
@@ -1106,26 +1041,26 @@
                                           
                                          <c:forEach var="revObj" items="${contractDeatils.contract_revision }" varStatus="index">  
                                             <tr id="revRow${index.count }">
-                                                <td> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
+                                                <td data-head="Revision Number" class="input-field"> <input id="revision_numbers${index.count }" name="revision_numbers" type="text" class="validate" value="${revObj.revision_number }"
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
+                                                <td data-head="Revised Amount" class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
                                                 </td>
-                                                <td>
+                                                <td data-head="Revised DOC" class="input-field">
                                                     <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" value="${revObj.revised_doc }"
                                                         placeholder="Revised DOC">
                                                     <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td> 
+                                                <td data-head="Remarks" class="input-field"> 
                                                     <input id="revision_remarks${index.count }" name="revision_remarks" type="text" class="validate" value="${revObj.remarks }"
                                                         placeholder="Remarks">
                                                 </td>
                                                  <td>	<label> <input type="hidden" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
                                                 <input type="checkbox" id="revision_status${index.count }" <c:if test="${revObj.revision_status == 'Yes'}">checked
                                             </c:if>/> <span></span> </label>	</td> 
-                                                <td><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+                                                <td class="mobile_btn_close"><a onclick="removeRev('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
@@ -1153,25 +1088,25 @@
                                            </c:when>
                                              <c:otherwise>
                                              <tr id="revRow0">
-                                                <td> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
+                                                <td data-head="Revision Number" class="input-field"> <input id="revision_numbers0" name="revision_numbers" type="text" class="validate" 
                                                         placeholder="Revision Number">
                                                 </td>
-                                                <td class="input-field"><i class="material-icons prefix center-align">₹</i>
+                                                <td data-head="Revised Amount" class="input-field"><i class="material-icons prefix center-align">₹</i>
                                                     <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"
                                                         placeholder="Revised Amount">
                                                 </td>
-                                                <td>
+                                                <td data-head="Revised DOC" class="input-field">
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
                                                         placeholder="Revised DOC">
                                                    <button type="button"><i class="fa fa-calendar"></i></button>
                                                 </td>
-                                                <td> 
+                                                <td data-head="Remarks" class="input-field"> 
                                                     <input id="revision_remarks0" name="revision_remarks" type="text" class="validate" 
                                                         placeholder="Remarks">
                                                 </td>
                                                  <td><label><input type="hidden" id="revision_statuss0" name="revision_statuss" value="No" />
                                                  <input type="checkbox" id="revision_status0" /> <span></span> </label>	</td>      
-                                                <td><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
+                                                <td class="mobile_btn_close"><a onclick="removeRev('0');" class="btn waves-effect waves-light red t-c "> <i
                                                             class="fa fa-close"></i></a>
                                                 </td>
                                             </tr>
@@ -1233,23 +1168,24 @@
 													<th>Action</th>
 												</tr>
 											</thead>
+											<tbody id="keyPersonnelTableBody">
 										 <c:choose>
 			                                        <c:when test="${not empty contractDeatils.contractKeyPersonnels  && fn:length(contractDeatils.contractKeyPersonnels ) gt 0 }">			                                          
 				                                        <c:forEach var="keyObj" items="${contractDeatils.contractKeyPersonnels }" varStatus="index">  
 			                                                <tr id="keyPersonnelRow${index.count }">
-			                                                    <td> 
+			                                                    <td data-head="Name" class="input-field"> 
 			                                                    	<input id="contractKeyPersonnelNames${index.count }" name="contractKeyPersonnelNames" type="text" value="${keyObj.name }" class="validate" placeholder="Name">
 			                                                    </td>
-			                                                    <td> 
+			                                                    <td data-head="Designation" class="input-field"> 
 			                                                    	<input id="contractKeyPersonnelDesignations${index.count }" name="contractKeyPersonnelDesignations" type="text" value="${keyObj.designation }" class="validate" placeholder="Designation">
 			                                                    </td>
-			                                                    <td>
+			                                                    <td data-head="Mobile No" class="input-field">
 			                                                        <input id="contractKeyPersonnelMobileNos${index.count }" name="contractKeyPersonnelMobileNos" type="number" value="${keyObj.mobile_no }" class="validate" placeholder="Mobile No">
 			                                                    </td>
-			                                                    <td>
+			                                                    <td data-head="Email ID" class="input-field">
 			                                                        <input id="contractKeyPersonnelEmailIds${index.count }" name="contractKeyPersonnelEmailIds" type="text" value="${keyObj.email_id }" class="validate" placeholder="Email">
 			                                                    </td>
-			                                                    <td>
+			                                                    <td class="mobile_btn_close">
 			                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('${index.count }');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 			                                                    </td>
 			                                                </tr>
@@ -1257,19 +1193,19 @@
 	                                           		</c:when>
 	                                             	<c:otherwise>
 	                                             		<tr id="keyPersonnelRow0">
-		                                                    <td> 
+		                                                    <td data-head="Name" class="input-field"> 
 		                                                    	<input id="contractKeyPersonnelNames0" name="contractKeyPersonnelNames" type="text" class="validate" placeholder="Name">
 		                                                    </td>
-		                                                    <td> 
+		                                                    <td data-head="Designation" class="input-field"> 
 		                                                    	<input id="contractKeyPersonnelDesignations0" name="contractKeyPersonnelDesignations" type="text" class="validate" placeholder="Designation">
 		                                                    </td>
-		                                                    <td>
+		                                                    <td data-head="Mobile No" class="input-field">
 		                                                        <input id="contractKeyPersonnelMobileNos0" name="contractKeyPersonnelMobileNos" type="number" class="validate" placeholder="Mobile No">
 		                                                    </td>
-		                                                    <td>
+		                                                    <td data-head="Email ID" class="input-field">
 		                                                        <input id="contractKeyPersonnelEmailIds0" name="contractKeyPersonnelEmailIds" type="text" class="validate" placeholder="Email">
 		                                                    </td>
-		                                                    <td>
+		                                                    <td class="mobile_btn_close">
 		                                                        <a href="javascript:void(0);" onclick="removeKeyPersonnel('0');"  class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>
 		                                                    </td>
 		                                                </tr>
@@ -1314,10 +1250,10 @@
 			                                        <c:when test="${not empty contractDeatils.contractDocuments  && fn:length(contractDeatils.contractDocuments ) gt 0 }">			                                          
 				                                        <c:forEach var="docObj" items="${contractDeatils.contractDocuments }" varStatus="index">  
 			                                                <tr id="contractDocumentRow${index.count }">
-			                                                    <td> <input id="contractDocumentNames${index.count }" name="contractDocumentNames" type="text" class="validate"
+			                                                    <td data-head="Name" class="input-field"> <input id="contractDocumentNames${index.count }" name="contractDocumentNames" type="text" class="validate"
 			                                                            placeholder="Name" value="${docObj.name }">
 			                                                    </td>
-			                                                    <td>
+			                                                    <td data-head="Attachment" class="input-field" >
 			                                                        <div class="normal-btn">
 			                                                            <input type="file" id="contractDocumentFiles${index.count }" name="contractDocumentFiles"
 			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
@@ -1327,7 +1263,7 @@
 			                                                            <a id="contractDocumentFileName${index.count }" class="filevalue" href="<%=CommonConstants2.CONTRACT_FILES%>${docObj.attachment }" donwload>${docObj.attachment }</a>
 			                                                        </div>
 			                                                    </td>
-			                                                    <td>
+			                                                    <td class="mobile_btn_close">
 			                                                        <a href="javascript:void(0);" onclick="removeContractDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
 			                                                                class="fa fa-close"></i></a>
 			                                                    </td>
@@ -1336,10 +1272,10 @@
 	                                           		</c:when>
 	                                             	<c:otherwise>
 	                                             		<tr id="contractDocumentRow0">
-		                                                    <td> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
+		                                                    <td data-head="Name" class="input-field"> <input id="contractDocumentNames0" name="contractDocumentNames" type="text" class="validate"
 		                                                            placeholder="Name">
 		                                                    </td>
-		                                                    <td>
+		                                                    <td data-head="Attachment" class="input-field" >
 		                                                        <div class="normal-btn">
 		                                                            <input type="file" id="contractDocumentFiles0" name="contractDocumentFiles"
 		                                                                style="display:none" onchange="getFileName('0')"/>
@@ -1349,7 +1285,7 @@
 		                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
 		                                                        </div>
 		                                                    </td>
-		                                                    <td>
+		                                                    <td class="mobile_btn_close">
 		                                                        <a href="javascript:void(0);" onclick="removeContractDocument('0');" class="btn waves-effect waves-light red t-c "> <i
 		                                                                class="fa fa-close"></i></a>
 		                                                    </td>
@@ -1923,7 +1859,7 @@
 			var rowNo = $("#bankRowNo").val();
 			var rNo = Number(rowNo) + 1;
 			var total = 0;
-			var html = '<tr id="bankRow' + rNo + '"><td data-head="BG Type"> '
+			/* var html = '<tr id="bankRow' + rNo + '"><td data-head="BG Type"> '
 				+ '<select  name="bg_type_fks" id="bg_type_fks' + rNo + '"  class="searchable">'
 				+ '<option value="" >select</option>'
 				<c:forEach var="obj" items = "${bankGuaranteeTYpe }" >
@@ -1937,6 +1873,21 @@
 				+ '<td data-head="Valid Upto" class="input-field"><input id="bg_valid_uptos' + rNo + '" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Valid Upto"><button type="button"><i class="fa fa-calendar"></i></button></td>'
 				+ '<td data-head="Remarks" class="input-field"><input id="remarkss' + rNo + '" name ="remarkss" type="text" class="validate" value="${bankObj.remarks }" placeholder="Remarks"></td>'
 				+ '<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeBank(' + rNo + ');"> <i class="fa fa-close"></i></a></td></tr>';
+ */
+			var html = '<tr id="bankRow'+rNo+'"> <td class="input-field" data-head="Code" > <input id="codes'+rNo+'" type="text" class="validate" name="codes" placeholder="Code">       </td><td class="input-field" data-head="BG Type">'
+				 +'<select  name="bg_type_fks" id="bg_type_fks'+rNo+'" class="searchable">'	   			
+				 +'<option value="" >select</option>'
+				 <c:forEach var="obj" items="${bankGuaranteeTYpe }">
+				 	+'<option value="${obj.bg_type_fk }">${obj.bg_type_fk }</option>'
+				 </c:forEach>
+				 +'</select></td>'
+				 +'<td class="input-field" data-head="Issuing Bank"> <input id="issuing_banks'+rNo+'" name="issuing_banks"  type="text" class="validate"  placeholder="Issuing Bank"></td>'
+				 +'<td class="input-field" data-head="BG / FDR Number"><input id="bg_numbers'+rNo+'" name="bg_numbers" type="text" class="validate"  placeholder="BG / FDR Number"></td>'
+				 +'<td class="input-field" data-head="Amount"><i class="material-icons prefix center-align">₹</i><input id="bg_values'+rNo+'" name="bg_values" type="number" min="0.01" step="0.01" class="validate"  placeholder="Amount"></td>'
+				 +'<td class="input-field" data-head="BG /FDR Date"><input id="bg_dates'+rNo+'" name="bg_dates" type="text" class="validate datepicker" placeholder="BG /FDR Date"> <button type="button"><i class="fa fa-calendar"></i></button>'
+				 +'<td class="input-field" data-head="Expiry Date"><input id="bg_valid_uptos'+rNo+'" name="bg_valid_uptos" type="text" class="validate datepicker"  placeholder="Expiry Date"><button type="button"><i class="fa fa-calendar"></i></button></td>'
+				 +'<td class="input-field" data-head="Release Date"><input id="release_dates'+rNo+'" name="release_dates" type="text" class="validate datepicker" placeholder="Release Date"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
+				 +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeBank('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 
 			$('#bankTableBody').append(html);
 			$("#bankRowNo").val(rNo);
@@ -1961,7 +1912,7 @@
 			var rowNo = $("#insurenceRowNo").val();
 			var rNo = Number(rowNo) + 1;
 			var total = 0;
-			var html = '<tr id="insurenceRow' + rNo + '"><td data-head="Insurance Type"> '
+			/* var html = '<tr id="insurenceRow' + rNo + '"><td data-head="Insurance Type"> '
 				+ '<select  name="insurance_type_fks" id="insurance_type_fks' + rNo + '" class="searchable" >'
 				+ '<option value="" >select</option>'
 				<c:forEach var="obj" items = "${insurance_type }" >
@@ -1975,7 +1926,24 @@
 				+ '<td data-head="Valid Upto" class="input-field"><input id="insurence_valid_uptos' + rNo + '" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button" ><i class="fa fa-calendar"></i></button></td>'
 				+ '<td data-head="Remarks" class="input-field"><input id="insurence_remarks' + rNo + '" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
 				+ '<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence(' + rNo + ');"> <i class="fa fa-close"></i></a></td></tr>';
-
+ */
+			 var html = '<tr id="insurenceRow'+rNo+'"><td data-head="Insurance Type" class="input-field"> '
+				 +'<select  name="insurance_type_fks" id="insurance_type_fks'+rNo+'"  class="searchable">'	   			
+				 +'<option value="" >select</option>'
+				 <c:forEach var="obj" items="${insurance_type }">
+					  +' <option value= "${ obj.insurance_type}">${ obj.insurance_type}</option>'
+				 </c:forEach>
+				 +'</select></td>'
+				 +'<td data-head="Issuing Agency" class="input-field"> <input id="issuing_agencys'+rNo+'" name="issuing_agencys" type="text" class="validate"  placeholder="Issuing Agency"></td>'
+				 +'<td data-head="Agency Address" class="input-field"><input id="agency_addresss'+rNo+'" name="agency_addresss" type="text" class="validate" placeholder="Agency Address"></td>'
+				 +'<td data-head="Insurance Number" class="input-field"><input id="insurance_numbers'+rNo+'" name="insurance_numbers" type="text" class="validate"  placeholder="Insurance Number"></td>'
+				 +'<td data-head="Insurance Value" class="input-field"><i class="material-icons prefix center-align">₹</i><input id="insurance_values'+rNo+'" name="insurance_values" type="number" min="0.01" step="0.01" class="validate" placeholder="Insurance Value"></td>'
+				 +'<td data-head="Revision" class="input-field"><input id="insurance_revisions'+rNo+'" name="insurance_revisions" type="text" class="validate" placeholder="Revision"></td>'
+				 +'<td data-head="Valid Upto" class="input-field"><input id="insurence_valid_uptos'+rNo+'" name="insurence_valid_uptos" type="text" class="validate datepicker" placeholder="Valid Upto"> <button type="button"><i class="fa fa-calendar"></i></button></td>'
+				 +'<td data-head="Remarks" class="input-field"><input id="insurence_remarks'+rNo+'" name="insurence_remarks"  type="text" class="validate"  placeholder="Remarks"></td>'
+				 +'<td data-head="Release" class="input-field"><p class="d-inb pos-ab"><label> <input type="hidden" id="insuranceStatus'+rNo+'" name="insuranceStatus" value="No" /><input type="checkbox" id="insuranceStatuss'+rNo+'" /> <span></span> </label></p></td>'
+				 +'<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeInsurence('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
+				  
 			$('#insurenceTableBody').append(html);
 			$("#insurenceRowNo").val(rNo);
 			$('.searchable').select2();
@@ -2037,6 +2005,7 @@
 				+ '<td data-head="Revised DOC" class="input-field"><input id="revised_docs' + rNo + '" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 				+ '<button type="button"><i class="fa fa-calendar"></i></button></td>'
 				+ '<td data-head="Remarks" class="input-field"> <input id="revision_remarks' + rNo + '" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>'
+				+'<td><label> <input type="hidden" id="revision_status'+rNo+'" name="revision_statuss" value="No" /><input type="checkbox" id="revision_statuss'+rNo+'" /> <span></span> </label></td>'
 				+ '<td class="mobile_btn_close"><a  class="btn waves-effect waves-light red t-c " onclick="removeRev(' + rNo + ');"> <i class="fa fa-close"></i></a></td></tr>';
 			+'</tr>';
 

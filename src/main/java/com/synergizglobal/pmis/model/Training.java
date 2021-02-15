@@ -11,7 +11,8 @@ public class Training {
 	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
-	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,date,session_remarks,nominated,attended,attachment;
+	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,
+	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation;
 
 	private MultipartFile trainingFile;
 	
@@ -502,5 +503,29 @@ public class Training {
 
 	public void setTrainingSessionFileNames(String[] trainingSessionFileNames) {
 		this.trainingSessionFileNames = trainingSessionFileNames;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getReporting_to() {
+		return reporting_to;
+	}
+
+	public void setReporting_to(String reporting_to) {
+		this.reporting_to = reporting_to;
+	}
+
+	public String getReporting_to_designation() {
+		return reporting_to_designation;
+	}
+
+	public void setReporting_to_designation(String reporting_to_designation) {
+		this.reporting_to_designation = reporting_to_designation;
 	}
 }

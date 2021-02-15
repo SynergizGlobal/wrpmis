@@ -29,7 +29,8 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 	public List<Training> getEmployeesInTraining(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select user_id as hod_user_id_fk,designation,user_name from user ";
+			String qry ="select department_fk,attendee,hod_user_id_fk,mobile_no "
+					+ "from training_attendees GROUP BY attendee ORDER BY attendee ASC";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
@@ -41,13 +42,10 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 	public List<Training> getScheduledTrainings(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,designation, description, training_center, status_fk, t.remarks,"
-					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))),'%H:%i') as hours "
-					+ "from training t "
-					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
-					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
-					+ " where ts.training_id_fk = training_id ";
-			int arrSize = 2;
+			String qry ="select training_id,training_type_fk,training_category_fk,title,faculty_name,status_fk,designation, description, training_center, status_fk,remarks "
+					+ "from training "
+					+ "where training_id IS NOT NULL";
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " and training_type_fk = ?";
 				arrSize++;
@@ -60,11 +58,9 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + "  group by ts.training_id_fk";
+			qry = qry + " ORDER BY training_id ASC";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			pValues[i++] = CommonConstants.YES;
-			pValues[i++] = CommonConstants.YES;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				pValues[i++] = obj.getTraining_type_fk();
 			}
@@ -75,6 +71,28 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 				pValues[i++] = obj.getStatus_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
+		    
+		    for (Training tObj : objsList) {
+		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,DATE_FORMAT(start_time,'%h:%i %p') AS start_time,DATE_FORMAT(end_time,'%h:%i %p') AS end_time,remarks,attachment "
+						+ "from training_session "
+						+ "where training_id_fk = ? ORDER BY training_session_id ASC";
+		    	List<Training> sessonObjsList = jdbcTemplate.query( sessionsQry,new Object[] {tObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));
+		    	
+		    	if(!StringUtils.isEmpty(sessonObjsList) && !sessonObjsList.isEmpty()) {
+			    	for (Training sObj : sessonObjsList) {
+			    		String attendeesQry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
+			    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,designation " 
+								+ "from training_attendees ta "
+								+ "LEFT JOIN department d on ta.department_fk = d.department "
+								+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
+								+ "where training_id_fk = ? and  training_session_id_fk = ? ";
+						
+			    		List<Training> attendeesObjsList = jdbcTemplate.query(attendeesQry, new Object[] {sObj.getTraining_id_fk(),sObj.getTraining_session_id()}, new BeanPropertyRowMapper<Training>(Training.class));	
+						sObj.setTrainingAttendees(attendeesObjsList);
+			    	}
+		    	}
+		    	tObj.setTrainingSessions(sessonObjsList);		    	
+			}
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -84,21 +102,36 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 
 	@Override
 	public List<Training> getEmployeeTrainings(Training obj) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Training> objsList = null;
+		try {
+			String attendeesQry = "select training_attendees_id,d.department_name, ta.training_id_fk, ta.training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
+    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,u.designation as reporting_to_designation,"
+    				+ "(select count(*) from training_attendees where required_fk = ? and training_id_fk = ta.training_id_fk and training_session_id_fk = ta.training_session_id_fk) as nominated,"
+    				+ "(select count(*) from training_attendees where participated_fk = ? and training_id_fk = ta.training_id_fk and training_session_id_fk = ta.training_session_id_fk) as attended,"
+    				+ "training_center,session_no,title,description,DATE_FORMAT(start_time,'%d-%m-%Y') AS date " 
+					+ "from training_attendees ta "
+					+ "LEFT JOIN department d on ta.department_fk = d.department "
+					+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
+					+ "LEFT JOIN training t on ta.training_id_fk = t.training_id "
+					+ "LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id "
+					+ "where attendee = ? ORDER BY ta.training_id_fk,session_no ASC";
+			Object[] pValues = new Object[] {CommonConstants.YES,CommonConstants.YES,obj.getAttendee()};
+    		objsList = jdbcTemplate.query(attendeesQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
+			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 	@Override
 	public List<Training> getCompletedTrainings(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,designation, description, training_center, status_fk, t.remarks,"
-					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))),'%H:%i') as hours "
-					+ "from training t "
-					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
-					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
-					+ " where ts.training_id_fk = training_id ";
-			int arrSize = 2;
+			String qry ="select training_id,training_type_fk,training_category_fk,title,faculty_name,status_fk,designation, description, training_center, status_fk,remarks "
+					+ "from training "
+					+ "where training_id IS NOT NULL";
+			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " and training_type_fk = ?";
 				arrSize++;
@@ -111,11 +144,9 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + "  group by ts.training_id_fk";
+			qry = qry + " ORDER BY training_id ASC";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			pValues[i++] = CommonConstants.YES;
-			pValues[i++] = CommonConstants.YES;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				pValues[i++] = obj.getTraining_type_fk();
 			}
@@ -126,6 +157,29 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 				pValues[i++] = obj.getStatus_fk();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Training>(Training.class));
+		    
+		    for (Training tObj : objsList) {
+		    	String sessionsQry ="select training_session_id,training_id_fk,session_no,DATE_FORMAT(start_time,'%d-%m-%Y') AS date,DATE_FORMAT(start_time,'%h:%i %p') AS start_time,DATE_FORMAT(end_time,'%h:%i %p') AS end_time,remarks,attachment "
+						+ "from training_session "
+						+ "where training_id_fk = ? ORDER BY training_session_id ASC";
+		    	List<Training> sessonObjsList = jdbcTemplate.query( sessionsQry,new Object[] {tObj.getTraining_id()}, new BeanPropertyRowMapper<Training>(Training.class));
+		    	
+		    	if(!StringUtils.isEmpty(sessonObjsList) && !sessonObjsList.isEmpty()) {
+			    	for (Training sObj : sessonObjsList) {
+			    		String attendeesQry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
+			    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,designation,"
+			    				+ "(select count(*) from training_attendees where required_fk = ? and training_id_fk = ? and training_session_id_fk = ?) as nominated,(select count(*) from training_attendees where participated_fk = ? and training_id_fk = ? and training_session_id_fk = ?) as attended " 
+								+ "from training_attendees ta "
+								+ "LEFT JOIN department d on ta.department_fk = d.department "
+								+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
+								+ "where training_id_fk = ? and  training_session_id_fk = ? ";
+						pValues = new Object[] {CommonConstants.YES,sObj.getTraining_id_fk(),sObj.getTraining_session_id(),CommonConstants.YES,sObj.getTraining_id_fk(),sObj.getTraining_session_id(),sObj.getTraining_id_fk(),sObj.getTraining_session_id()};
+			    		List<Training> attendeesObjsList = jdbcTemplate.query(attendeesQry, pValues, new BeanPropertyRowMapper<Training>(Training.class));	
+						sObj.setTrainingAttendees(attendeesObjsList);
+			    	}
+		    	}
+		    	tObj.setTrainingSessions(sessonObjsList);		    	
+			}
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

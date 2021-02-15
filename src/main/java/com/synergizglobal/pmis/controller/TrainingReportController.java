@@ -111,24 +111,58 @@ public class TrainingReportController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/generate-training-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generateTrainingReport(@ModelAttribute Training obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/risk-analysis-report");
+	@RequestMapping(value = "/generate-scheduled-training-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateScheduledTrainingsReport(@ModelAttribute Training obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/training-report");
 		try{            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
            
-			boolean flag = generateScheduledTrainingReport(response,currentDate,obj);
+			boolean flag = generateScheduledTrainingsReport(response,currentDate,obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateTrainingReport : " + e.getMessage());
+			logger.error("generateScheduledTrainingsReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/generate-employee-training-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateEmployeeTrainingsReport(@ModelAttribute Training obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/training-report");
+		try{            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+           
+			boolean flag = generateEmployeeTrainingsReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateEmployeeTrainingsReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/generate-completed-training-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateCompletedTrainingsReport(@ModelAttribute Training obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/training-report");
+		try{            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+           
+			boolean flag = generateCompletedTrainingsReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateCompletedTrainingsReport : " + e.getMessage());
 		}
 		return model;
     }
 
-	private boolean generateScheduledTrainingReport(HttpServletResponse response, String currentDate, Training obj) {
+	private boolean generateScheduledTrainingsReport(HttpServletResponse response, String currentDate, Training obj) {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
 		byte[] byteArray;        
@@ -139,13 +173,13 @@ public class TrainingReportController {
 			obj.setStatus_fk("Scheduled");
 			List<Training> scheduledTrainings = service.getScheduledTrainings(obj);
 			
-			boolean landscape = true;
+			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "Training Report";
+			String headerText = "Scheduled Training Report";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
@@ -160,7 +194,7 @@ public class TrainingReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Training Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "Scheduled Training - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -178,20 +212,20 @@ public class TrainingReportController {
 				flag = true;
 		    }catch (Exception e) {
 				e.printStackTrace();
-				logger.error("generateScheduledTrainingReport >> FileNotFoundException occurs.." + e.getMessage());
+				logger.error("generateScheduledTrainingsReport >> FileNotFoundException occurs.." + e.getMessage());
 				flag = false;
 		    }	
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateScheduledTrainingReport >> " + e.getMessage());
+			logger.error("generateScheduledTrainingsReport >> " + e.getMessage());
 			flag = false;
 		}
 		
 		return flag;
 	}
 	
-	private boolean generateEmployeeTrainingReport(HttpServletResponse response, String currentDate, Training obj) {
+	private boolean generateEmployeeTrainingsReport(HttpServletResponse response, String currentDate, Training obj) {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
 		byte[] byteArray;        
@@ -221,7 +255,7 @@ public class TrainingReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Training Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "Employee Training - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -239,20 +273,20 @@ public class TrainingReportController {
 				flag = true;
 		    }catch (Exception e) {
 				e.printStackTrace();
-				logger.error("generateEmployeeTrainingReport >> FileNotFoundException occurs.." + e.getMessage());
+				logger.error("generateEmployeeTrainingsReport >> FileNotFoundException occurs.." + e.getMessage());
 				flag = false;
 		    }	
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateEmployeeTrainingReport >> " + e.getMessage());
+			logger.error("generateEmployeeTrainingsReport >> " + e.getMessage());
 			flag = false;
 		}
 		
 		return flag;
 	}
 	
-	private boolean generateCompletedTrainingReport(HttpServletResponse response, String currentDate, Training obj) {
+	private boolean generateCompletedTrainingsReport(HttpServletResponse response, String currentDate, Training obj) {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
 		byte[] byteArray;        
@@ -262,7 +296,7 @@ public class TrainingReportController {
 			obj.setStatus_fk("Completed");
 			List<Training> completedTrainings = service.getCompletedTrainings(obj);
 			
-			boolean landscape = true;
+			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
@@ -283,7 +317,7 @@ public class TrainingReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Training Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "Completed Training - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -301,13 +335,13 @@ public class TrainingReportController {
 				flag = true;
 		    }catch (Exception e) {
 				e.printStackTrace();
-				logger.error("generateCompletedTrainingReport >> FileNotFoundException occurs.." + e.getMessage());
+				logger.error("generateCompletedTrainingsReport >> FileNotFoundException occurs.." + e.getMessage());
 				flag = false;
 		    }	
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generateCompletedTrainingReport >> " + e.getMessage());
+			logger.error("generateCompletedTrainingsReport >> " + e.getMessage());
 			flag = false;
 		}
 		

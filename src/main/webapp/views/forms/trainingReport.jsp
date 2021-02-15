@@ -116,7 +116,7 @@
                         <div class="row no-mar">
                             <div class="col m3 hide-on-small-only"></div>
                             <div class="col m6 s12">
-                            	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="reportForm" name="reportForm" method="post">
+                            	<form action="<%=request.getContextPath() %>/generate-scheduled-training-report" id="scheduledTrainingReportForm" name="scheduledTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="label-for-report">Future Training</p>	                                      
@@ -125,7 +125,7 @@
 	                                    <div class="col s12 m6 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()"> Scheduled Training</button>
+	                                            onclick="generateScheduledTrainingReport()"> Scheduled Training</button>
 	                                    </div>
 	                                </div>                                
                                 </form>
@@ -135,23 +135,23 @@
                         <div class="row no-mar">
                             <div class="col m3 hide-on-small-only"></div>
                             <div class="col m6 s12">
-                            	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="reportForm" name="reportForm" method="post">
+                            	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="employeeTrainingReportForm" name="employeeTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Employee</p>
-	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk">
+	                                        <select class="searchable validate-dropdown" id="attendee" name="attendee">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${employees }">
-	                                            	<option value="${obj.hod_user_id_fk }">${obj.user_name } </option>
+	                                            	<option value="${obj.attendee }">${obj.attendee } </option>
 	                                            </c:forEach>
 	                                        </select>
-	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                        <span id="attendeeError" class="error-msg" ></span>
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()"> Employee Training</button>
+	                                            onclick="generateEmployeeTrainingReport()"> Employee Training</button>
 	                                    </div>
 	                                </div>                                
                                 </form>
@@ -161,7 +161,7 @@
                         <div class="row no-mar">
                             <div class="col m3 hide-on-small-only"></div>
                             <div class="col m6 s12">
-                            	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="reportForm" name="reportForm" method="post">
+                            	<form action="<%=request.getContextPath() %>/generate-completed-training-report" id="completedTrainingReportForm" name="completedTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
 	                                        <p class="label-for-report">Check Previous Training</p>	                                 
@@ -170,7 +170,7 @@
 	                                    <div class="col s12 m6 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()"> Completed Training </button>
+	                                            onclick="generateCompletedTrainingReport()"> Completed Training </button>
 	                                    </div>
 	                                </div>                                
                                 </form>
@@ -213,28 +213,38 @@
         	$('.searchable').select2();
         });
         
-        function generateReport() {
+        function generateScheduledTrainingReport() {
         	//$(".page-loader").show();
-        	$("#reportForm").submit();
+        	$("#scheduledTrainingReportForm").submit();
+		}
+        
+        function generateEmployeeTrainingReport() {
+        	//$(".page-loader").show();
+        	$("#employeeTrainingReportForm").submit();
+		}
+        
+        function generateCompletedTrainingReport() {
+        	//$(".page-loader").show();
+        	$("#completedTrainingReportForm").submit();
 		}
         
         
-        var validator =	$('#reportForm').validate({
+        var validator =	$('#employeeTrainingReportForm').validate({
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		  "hod_user_id_fk": {
-	  			 		required: false
+	  		 		  "attendee": {
+	  			 		required: true
 	  			 	  }
 	  		 	},
 	  		    messages: {
-	  		 		 "hod_user_id_fk": {
+	  		 		 "attendee": {
 	  				 	required: 'This field is required',
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	if (element.attr("id") == "hod_user_id_fk" ){
-						 document.getElementById("hod_user_id_fkError").innerHTML="";
-				 		 error.appendTo('#hod_user_id_fkError');
+		   		 	if (element.attr("id") == "attendee" ){
+						 document.getElementById("attendeeError").innerHTML="";
+				 		 error.appendTo('#attendeeError');
 					} else{
 	 					error.insertAfter(element);
 			       }

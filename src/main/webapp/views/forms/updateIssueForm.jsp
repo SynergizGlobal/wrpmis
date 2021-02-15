@@ -250,6 +250,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                  <div class="col m8 ">
+                                 	<div class="row">
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
 	                                    <label for="resolved_date"> Resolved Date</label>
@@ -268,6 +269,7 @@
 	                                    <button type="button" id="escalation_date_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="escalation_dateError" class="error-msg" ></span>
+		                             </div>
 		                             </div>
 	                             </div>
                             </div>

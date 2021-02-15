@@ -7,6 +7,7 @@
 
 <head>
     <meta charset="UTF-8">
+	<link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TA Financials</title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">

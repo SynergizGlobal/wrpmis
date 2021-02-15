@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/training.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -92,6 +92,10 @@
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
 		
 		.error-msg label{color:red!important;}
+		.label-for-report{
+			text-align:left ;
+			line-height: 50px;
+		}
     </style>
 </head>
 
@@ -110,12 +114,31 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
+                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col m6 s12">
                             	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
-	                                    <div class="col s12 m3 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Work</p>
+	                                    <div class="col s12 m6 input-field">
+	                                        <p class="label-for-report">Future Training</p>	                                      
+	                                    </div>
+	
+	                                    <div class="col s12 m6 input-field">
+	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            onclick="generateReport()"> Scheduled Training</button>
+	                                    </div>
+	                                </div>                                
+                                </form>
+                            </div>
+                            <div class="col m3 hide-on-small-only"></div>
+                        </div>
+                        <div class="row no-mar">
+                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col m6 s12">
+                            	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="reportForm" name="reportForm" method="post">
+	                                <div class="row">
+	                                    <div class="col s12 m6 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Employee</p>
 	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${employees }">
@@ -125,18 +148,34 @@
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m6 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()">Generate
-	                                            Report</button>
+	                                            onclick="generateReport()"> Employee Training</button>
 	                                    </div>
-	                                </div>
-                                
+	                                </div>                                
                                 </form>
                             </div>
-
-                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m3 hide-on-small-only"></div>
+                        </div>
+                        <div class="row no-mar">
+                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col m6 s12">
+                            	<form action="<%=request.getContextPath() %>/generate-employee-training-report" id="reportForm" name="reportForm" method="post">
+	                                <div class="row">
+	                                    <div class="col s12 m6 input-field">
+	                                        <p class="label-for-report">Check Previous Training</p>	                                 
+	                                    </div>
+	
+	                                    <div class="col s12 m6 input-field">
+	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            onclick="generateReport()"> Completed Training </button>
+	                                    </div>
+	                                </div>                                
+                                </form>
+                            </div>
+                            <div class="col m3 hide-on-small-only"></div>
                         </div>
                     </div>
                 </div>

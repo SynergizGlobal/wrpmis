@@ -621,7 +621,7 @@ public class DocxTableCreation {
 					List<String> tableHeader = new ArrayList<String>();
 					tableHeader.add("SNo.");
 					tableHeader.add("Name of Attendee");
-					tableHeader.add("Designation");
+					tableHeader.add("Department");
 					tableHeader.add("Mobile");
 					tableHeader.add("Reporting to");
 					
@@ -730,7 +730,7 @@ public class DocxTableCreation {
 		/*===========================================================*/
 		titleTableRow = factory.createTr();	
 		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Designation", boldRPr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Department", boldRPr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, designation, titleRpr,
 				JcEnumeration.LEFT, false, null);
@@ -952,7 +952,7 @@ public class DocxTableCreation {
 					List<String> tableHeader = new ArrayList<String>();
 					tableHeader.add("SNo.");
 					tableHeader.add("Name of Attendee");
-					tableHeader.add("Designation");
+					tableHeader.add("Department");
 					tableHeader.add("Mobile");
 					tableHeader.add("Reporting to");
 					tableHeader.add("Nominated");

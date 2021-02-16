@@ -135,6 +135,18 @@ public class IssuesReportController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getHODListInIssuesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getHODListInIssuesReport(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getHODListInIssuesReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHODListInIssuesReport : " + e.getMessage());
+		}
+		return objsList;
+	}
 	
 	@RequestMapping(value = "/generate-issues-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatePendingIssuesReport(@ModelAttribute Issue obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
@@ -170,7 +182,7 @@ public class IssuesReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "Pending Issues";
+			String headerText = "PMIS Report - Pending Issues";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);

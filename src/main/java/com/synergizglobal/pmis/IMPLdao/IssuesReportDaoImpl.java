@@ -98,6 +98,47 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	}
 
 	@Override
+	public List<Issue> getHODListInIssuesReport(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,hod_user_id_fk,designation,user_name as hod_name "
+					+ "from issue i "
+					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "where hod_user_id_fk is not null and hod_user_id_fk <> '' ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			
+			qry = qry + " GROUP BY hod_user_id_fk";
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
 	public List<Issue> getPendingIssues(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
@@ -123,6 +164,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and hod_user_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
@@ -136,6 +181,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();

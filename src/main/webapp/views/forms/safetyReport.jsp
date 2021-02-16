@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Report</title>
+    <title>PMIS Report - Safety Incidents</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -123,12 +123,18 @@
 	                                    </div>
 	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Sub Work</p>
-	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk">
+	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="getHODListInSafetyReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	
+										<div class="col s12 m3 input-field">
+	                                        <p class="searchable_label" style="text-align:left">HOD</p>
+	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                    </div>
 	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
@@ -199,6 +205,7 @@
         	$('.searchable').select2();
         	getWorksListInSafetyReport();
         	getContractsListInSafetyReport("");
+        	getHODListInSafetyReport("");
         });
         
         function getWorksListInSafetyReport() {
@@ -250,6 +257,29 @@
             });
         }
         
+        function getHODListInSafetyReport(contract_id_fk){
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+           	$("#hod_user_id_fk option:not(:first)").remove();
+           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk}
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getHODListInSafetyReport",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '">' + $.trim(val.designation) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+            });
+        }
+        
         function generateReport() {
         	//$(".page-loader").show();
         	$("#reportForm").submit();
@@ -263,12 +293,16 @@
 	  			 		required: false
 	  			 	  },"contract_id_fk": {
 	  			 		required: false
+	  			 	  },"hod_user_id_fk": {
+	  			 		required: false
 	  			 	  }
 	  		 	},
 	  		    messages: {
 	  		 		 "work_id_fk": {
 	  				 	required: 'This field is required',
 	  			 	  },"contract_id_fk": {
+	  			 		required: ' This field is required'
+	  			 	  },"hod_user_id_fk": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
@@ -279,9 +313,12 @@
 					} else if(element.attr("id") == "contract_id_fk" ){
 						   document.getElementById("contract_id_fkError").innerHTML="";
 					 	   error.appendTo('#contract_id_fkError');
+					} else if(element.attr("id") == "hod_user_id_fk" ){
+						   document.getElementById("hod_user_id_fkError").innerHTML="";
+					 	   error.appendTo('#hod_user_id_fkError');
 					} else{
 	 					error.insertAfter(element);
-			       }
+			        }
                 }
 		   		,submitHandler:function(form){
 			    	form.submit();

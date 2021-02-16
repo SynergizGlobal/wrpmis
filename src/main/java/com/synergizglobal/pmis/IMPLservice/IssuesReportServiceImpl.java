@@ -26,6 +26,11 @@ public class IssuesReportServiceImpl implements IssuesReportService{
 	}
 
 	@Override
+	public List<Issue> getHODListInIssuesReport(Issue obj) throws Exception {
+		return issueDao.getHODListInIssuesReport(obj);
+	}
+
+	@Override
 	public List<Issue> getPendingIssues(Issue obj) throws Exception {
 		return issueDao.getPendingIssues(obj);
 	}

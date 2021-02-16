@@ -135,6 +135,19 @@ public class SafetyReportController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getHODListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getHODListInSafetyReport(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getHODListInSafetyReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHODListInSafetyReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	
 	@RequestMapping(value = "/generate-safety-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatePendingSafetyReport(@ModelAttribute Safety obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
@@ -170,7 +183,7 @@ public class SafetyReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "Safety Incidents";
+			String headerText = "PMIS Report - Safety Incidents";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);

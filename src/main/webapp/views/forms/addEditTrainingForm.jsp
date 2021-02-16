@@ -507,6 +507,9 @@
 																						<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c "
 																							onclick="addTrainingUpdateRow('${tObj.training_session_id}','${index.count }')"> <i class="fa fa-plus"></i></a>
 																					</tr>
+																					<tr>
+																						<td colspan="7" style="text-align: right;"><a type="button" class="btn waves-effect waves-light bg-m t-c modal-action modal-close">Update</a>
+																					</tr>
 																				</tbody>
 																			</table>
 																			<c:choose>

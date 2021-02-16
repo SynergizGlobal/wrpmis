@@ -378,7 +378,7 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getHod_name(),
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
@@ -463,7 +463,7 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getHod_name(),
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getTitle(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);

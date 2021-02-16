@@ -86,11 +86,11 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <%-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Department </p> 
+                                	<p class="searchable_label">Department </p> 
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
@@ -100,14 +100,14 @@
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 
-                                <%--  <div class="col s12 m4 input-field">
+                                 <div class="col s12 m4 input-field">
                                     <input id="activity" name="activity" type="text" class="validate" value="${issue.activity }">
                                     <label> Activity </label>
                                     <span id="activityError" class="error-msg" ></span>
-                                </div> --%>
+                                </div>
 
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -136,14 +136,14 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Issue Status </p> 
-                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk">
+                                	<p class="searchable_label">Department </p> 
+                                    <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${issuesStatusList }">
-                                            <option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
+                                        <c:forEach var="obj" items="${departmentList }">
+                                            <option value="${obj.department_fk }" <c:if test="${issue.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
                                         </c:forEach>
-                                    </select>                                    
-                                    <span id="status_fkError" class="error-msg" ></span>
+                                    </select>
+                                    <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="title" name="title" type="text" class="validate" value="${issue.title }">
@@ -247,32 +247,47 @@
                                 </div>
                             </div>
 
+                            
                             <div class="row">
+                                <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                 <div class="col m8 ">
-                                 	<div class="row">
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
-	                                    <label for="resolved_date"> Resolved Date</label>
-	                                    <button type="button" id="resolved_date_icon"><i
-	                                            class="fa fa-calendar"></i></button>
-	                                    <span id="resolved_dateError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
-	                                    <label for="escalated_to">Escalated To </label>
-	                                    <span id="escalated_toError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s12 m4 input-field">
-	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
-	                                    <label for="escalation_date"> Escalated Date</label>
-	                                    <button type="button" id="escalation_date_icon"><i
-	                                            class="fa fa-calendar"></i></button>
-	                                    <span id="escalation_dateError" class="error-msg" ></span>
-		                             </div>
-		                             </div>
-	                             </div>
+                                <div class="col s12 m4 input-field">
+                                    <p class="searchable_label">Issue Status </p> 
+                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${issuesStatusList }">
+                                            <option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
+                                        </c:forEach>
+                                    </select>                                    
+                                    <span id="status_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
+                                    <label for="resolved_date"> Resolved Date</label>
+                                    <button type="button" id="resolved_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="resolved_dateError" class="error-msg" ></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row" id="escalatedDiv" style="display: none;">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
+                                    <label for="escalated_to">Escalated To </label>
+                                    <span id="escalated_toError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
+                                    <label for="escalation_date"> Escalated Date</label>
+                                    <button type="button" id="escalation_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="escalation_dateError" class="error-msg" ></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
@@ -407,6 +422,15 @@
              } else{
              	$('#department_holder').hide();
              }
+	        
+	        var status_fk = "${issue.status_fk}";
+            if ($.trim(status_fk) == 'Escalated') {
+            	$("#escalatedDiv").show();
+            }else{
+            	$("#escalated_to").val('');
+            	$("#escalation_date").val('');
+            	$("#escalatedDiv").hide();
+            }
         });
         
       //geting works list from database    
@@ -469,6 +493,16 @@
             }else{
             	$(".page-loader").hide();
             }
+        }
+        
+        function getEscalatedDetails(issueStatus){
+        	$("#escalated_to").val('');
+        	$("#escalation_date").val('');
+        	if($.trim(issueStatus) == 'Escalated'){
+        		$("#escalatedDiv").show();
+        	}else{
+        		$("#escalatedDiv").hide();
+        	}
         }
         
         function updateIssue(){

@@ -45,8 +45,21 @@ public class DesignReportDaoImpl implements DesignReportDao{
 	public List<DesignReport> getHodListInDesignReport(DesignReport obj) throws Exception {
 		List<DesignReport> objsList = null;
 		try {
-			String qry = "select hod from design group by hod order by hod asc";
+			String qry = "select hod from design where hod is not null ";
 			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " group by hod order by hod asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
 			
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
 
@@ -76,7 +89,8 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		Map<String,List<DesignReport>> objsMap = new HashMap<String,List<DesignReport>>();
 		
 		try {
-			String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name,(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk) as total_scope," + 
+			String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name,"+
+					"(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk) as total_scope," + 
 					"(select count(*) from design d3 where d3.work_id_fk = d1.work_id_fk and gfc_released is not null) as total_drawings_approved," + 
 					"(select count(*) from design d4 where d4.work_id_fk = d1.work_id_fk and consultant_submission is not null) as total_submitted_by_consultans," + 
 					"(select count(*) from design d5 where d5.work_id_fk = d1.work_id_fk and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
@@ -86,11 +100,15 @@ public class DesignReportDaoImpl implements DesignReportDao{
 					"(select count(*) from design d9 where d9.work_id_fk = d1.work_id_fk and hq_approval is not null) as total_hq_approval " + 
 					"from design d1 "+
 					"left join work on d1.work_id_fk = work_id " +
-					"where d1.work_id_fk is not null";
+					"where d1.design_id is not null";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				workWiseQry = workWiseQry + " and d1.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj.getHod())) {
+				workWiseQry = workWiseQry + " and d1.hod = ?";
 				arrSize++;
 			}
 			workWiseQry = workWiseQry + " group by d1.work_id_fk order by d1.work_id_fk";
@@ -100,6 +118,9 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			int i = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
 			}
 			
 			List<DesignReport> workWiseObjsList = jdbcTemplate.query( workWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
@@ -140,11 +161,81 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		    }
 		    
 		    /********************************* HOD wise  *****************************************************************/
+		    String filter1 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter1 = filter1 + " and d2.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter1 = filter1 + " and d2.hod = ?"; }
 		    
-		    String hodWiseQry = "";
+		    String filter2 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter2 = filter2 + " and d3.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter2 = filter2 + " and d3.hod = ?"; }
+		    
+		    String filter3 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter3 = filter3 + " and d4.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter3 = filter3 + " and d4.hod = ?"; }
+		    
+		    String filter4 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter4 = filter4 + " and d5.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter4 = filter4 + " and d5.hod = ?"; }
+		    
+		    String filter5 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter5 = filter5 + " and d6.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter5 = filter5 + " and d6.hod = ?"; }
+		    
+		    String filter6 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter6 = filter6 + " and d7.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter6 = filter6 + " and d7.hod = ?"; }
+		    
+		    String filter7 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter7 = filter7 + " and d8.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter7 = filter7 + " and d8.hod = ?"; }
+		    
+		    String filter8 = "";
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter8 = filter8 + " and d9.work_id_fk = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter8 = filter8 + " and d9.hod = ?"; }
+		    
+		    
+		    
+		    
+		    String hodWiseQry = "select d1.hod as name," + 
+		    		"(select count(*) from design d2 where d2.hod = d1.hod"+filter1+") as total_scope," + 
+		    		"(select count(*) from design d3 where d3.hod = d1.hod"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
+		    		"(select count(*) from design d4 where d4.hod = d1.hod"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
+		    		"(select count(*) from design d5 where d5.hod = d1.hod"+filter4+" and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
+		    		"(select count(*) from design d6 where d6.hod = d1.hod"+filter5+" and submitted_to_division is not null) as total_submitted_to_division," + 
+		    		"(select count(*) from design d7 where d7.hod = d1.hod"+filter6+" and divisional_approval is not null) as total_divisional_approval," + 
+		    		"(select count(*) from design d8 where d8.hod = d1.hod"+filter7+" and submitted_to_hq is not null) as total_submitted_to_hq," + 
+		    		"(select count(*) from design d9 where d9.hod = d1.hod"+filter8+" and hq_approval is not null) as total_hq_approval " + 
+		    		"from design d1 where d1.design_id is not null";
 			
 			arrSize = 0;
+			
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
+				hodWiseQry = hodWiseQry + " and d1.work_id_fk = ?";
+				arrSize = arrSize + 1 + 8;
+			}
+			if(!StringUtils.isEmpty(obj.getHod())) {
+				hodWiseQry = hodWiseQry + " and d1.hod = ?";
+				arrSize = arrSize + 1 + 8;
+			}
+			hodWiseQry = hodWiseQry + " group by d1.hod order by d1.hod";
+			
+			pValues = new Object[arrSize];
+			
+			i = 0;
+			
+			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
+				for (int j = 0; j < 9; j++) {
+					pValues[i++] = obj.getWork_id_fk();
+				}				
+			}
+			
+			if(!StringUtils.isEmpty(obj.getHod())) {
+				for (int j = 0; j < 9; j++) {
+					pValues[i++] = obj.getHod();
+				}				
+			}
+			
+			/*if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				 hodWiseQry = "select d1.hod as name," + 
 				    		"(select count(*) from design d2 where d2.hod = d1.hod and d2.work_id_fk = ?) as total_scope," + 
 				    		"(select count(*) from design d3 where d3.hod = d1.hod and d3.work_id_fk = ? and gfc_released is not null) as total_drawings_approved," + 
@@ -154,7 +245,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 				    		"(select count(*) from design d7 where d7.hod = d1.hod and d7.work_id_fk = ? and divisional_approval is not null) as total_divisional_approval," + 
 				    		"(select count(*) from design d8 where d8.hod = d1.hod and d8.work_id_fk = ? and submitted_to_hq is not null) as total_submitted_to_hq," + 
 				    		"(select count(*) from design d9 where d9.hod = d1.hod and d9.work_id_fk = ? and hq_approval is not null) as total_hq_approval " + 
-				    		"from design d1 where d1.hod is not null and d1.work_id_fk = ? group by d1.hod order by d1.hod";
+				    		"from design d1 where d1.design_id is not null and d1.work_id_fk = ? group by d1.hod order by d1.hod";
 				arrSize = 9;
 			}else {
 				hodWiseQry = "select d1.hod as name,(select count(*) from design d2 where d2.hod = d1.hod) as total_scope," + 
@@ -165,19 +256,19 @@ public class DesignReportDaoImpl implements DesignReportDao{
 						"(select count(*) from design d7 where d7.hod = d1.hod and divisional_approval is not null) as total_divisional_approval," + 
 						"(select count(*) from design d8 where d8.hod = d1.hod and submitted_to_hq is not null) as total_submitted_to_hq," + 
 						"(select count(*) from design d9 where d9.hod = d1.hod and hq_approval is not null) as total_hq_approval " + 
-						"from design d1 where d1.hod is not null group by d1.hod order by d1.hod";
-			}
+						"from design d1 where d1.design_id is not null group by d1.hod order by d1.hod";
+			}*/
 			
 			
 			
-			pValues = new Object[arrSize];
+			/*pValues = new Object[arrSize];
 			
 			
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				for (int j = 0; j < arrSize; j++) {
 					pValues[j++] = obj.getWork_id_fk();
 				}				
-			}
+			}*/
 			
 			List<DesignReport> hodWiseObjsList = jdbcTemplate.query( hodWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
 		    
@@ -218,7 +309,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		    
 		    /************************************ Departments wise  **************************************************************/
 		    
-		    String departmentWiseQry = "";
+		    /*String departmentWiseQry = "";
 			
 		    arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -294,6 +385,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		    }
 		    
 		    objsMap.put("Department", departmentWiseObjsList);
+		    */
 		    objsMap.put("Responsibily", hodWiseObjsList);
 		    objsMap.put("Project", workWiseObjsList);
 

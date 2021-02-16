@@ -133,7 +133,7 @@
 		              <c:if test="${action eq 'add'}">				                
 		                	<form action="<%=request.getContextPath() %>/add-zonal-railway" id="zonalRailwayForm" name="zonalRailwayForm" method="post" class="form-horizontal" role="form" >
 					  </c:if>
-                        <input type="hidden" name="contract_id" value="${zonalRailwayDetails.contract_id }" />
+                        <%-- <input type="hidden" name="contract_id" value="${zonalRailwayDetails.contract_id }" /> --%>
                         <div class="container container-no-margin">
                             <div class="row">
                              <c:if test="${action eq 'add'}">	
@@ -207,19 +207,27 @@
                                     </select>
                                     <span id="execution_agency_railway_fkError" class="error-msg" ></span>
                                  </div>
+                                 <div class="col m4 hide-on-small-only"></div>
+                                 <div class="col s12 m4 input-field">
+                                    <input type="text" id="contract_id" name="contract_id"   />
+                                     <label for="contract_id">Sub Work ID :</label>
+                                     <span id="contract_idError" class="error-msg"></span>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
                                 </c:if>	
                                  <c:if test="${action eq 'edit'}">
                                  <div class="col s12 m4 input-field"> 
 								    <p class="searchable_label">Execution Agency</p>
                                          	 	<input type="text"  value="${zonalRailwayDetails.execution_agency_railway_fk} - ${zonalRailwayDetails.railway_name}" readonly />
 			                     </div>
-                                </c:if>	
-                                
-                                <div class="col s12 m4 input-field">
+			                     <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Sub Work ID :</p>
-                                    <p>${zonalRailwayDetails.contract_id }</p>
+                                    <input type="text" id="contract_id" name="contract_id"   value="${zonalRailwayDetails.contract_id }" readonly />
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                                </c:if>	
+                                
+                              
                               
                              
                             </div>
@@ -772,6 +780,8 @@
 	  			 		  required: false
 	  			 	  }	,"completion_cost": {
 	  			 		  required: false
+	  			 	  }	,"contract_id": {
+	  			 		  required: true
 	  			 	  }		
 	  		 	},
 	  		    messages: {
@@ -788,6 +798,8 @@
 	  			 	  },"cumulative_expenditure_upto_last_finacial_year": {
 	  			 		  required: 'Required'
 	  			 	  },"completion_cost": {
+	  			 		  required: 'Required'
+	  			 	  },"contract_id": {
 	  			 		  required: 'Required'
 	  			 	  }	
 		   		},
@@ -813,6 +825,9 @@
 					 }else if(element.attr("id") == "completion_cost" ){
 					     document.getElementById("completion_costError").innerHTML="";
 				 	     error.appendTo('#completion_costError');
+					 }else if(element.attr("id") == "contract_id" ){
+					     document.getElementById("contract_idError").innerHTML="";
+				 	     error.appendTo('#contract_idError');
 					 }else{
 	 					 error.insertAfter(element);
 			        } 

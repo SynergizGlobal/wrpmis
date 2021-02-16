@@ -523,8 +523,8 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			insertStmt = con.prepareStatement(insertQry);
 			
 			int q = 1;
-			String contractId = obj.getWork_id_fk() + obj.getExecution_agency_railway_fk();
-			insertStmt.setString(q++,contractId); 
+			String contractId = obj.getContract_id();//obj.getWork_id_fk() + obj.getExecution_agency_railway_fk();
+			insertStmt.setString(q++,obj.getContract_id()); 
 			insertStmt.setString(q++,obj.getWork_id_fk()); 
 			insertStmt.setString(q++,obj.getExecution_agency_railway_fk()); 
 			insertStmt.setString(q++,obj.getSource_of_funds()); 
@@ -639,7 +639,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 					     int p = 1;
 					     if( obj.getMonths().length > 0 && !StringUtils.isEmpty(obj.getMonths()[i])) {
 					    	String date = obj.getMonths()[i] + "-01";
-						    insertStmt2.setString(p++,(contractId));
+						    insertStmt2.setString(p++,(obj.getContract_id()));
 						    insertStmt2.setString(p++,(date));
 						    insertStmt2.setString(p++,(obj.getCum_actual_expenditure_fy_crs().length > 0)?obj.getCum_actual_expenditure_fy_crs()[i]:null);
 						    insertStmt2.setString(p++,(String.valueOf(plannedExpenditurePercentages)));

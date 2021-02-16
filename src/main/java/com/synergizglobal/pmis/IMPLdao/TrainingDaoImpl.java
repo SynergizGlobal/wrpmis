@@ -925,10 +925,11 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getTrainingSessionsList(String id) throws Exception {
 		List<Training> sessionsList = null;
 		try {
-			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
-	  					+" time_format(start_time,'%h:%i:%s') as start_time,remarks,time_format(end_time,'%h:%i:%s') as end_time,remarks as session_remarks "
+			  String qry = "select training_session_id,ts.training_id_fk as training_id,sum(ta.required_fk = ?) as nominated,t.description,sum(ta.participated_fk = ?) as attended,session_no,DATE_FORMAT(start_time,'%d-%m-%Y')  as date,"
+	  					+" time_format(start_time,'%h:%i:%s') as start_time,time_format(end_time,'%h:%i:%s') as end_time,ts.remarks as session_remarks "
 	  					+ "from training_session ts "
 	  					+ "left join training_attendees ta on training_session_id = training_session_id_fk "
+	  					+ "left join training t on ts.training_id_fk = t.training_id "
 	  					+"where ts.training_id_fk = ? group by session_no,training_session_id_fk";
 			Object[] pValues = new Object[] { CommonConstants.YES, CommonConstants.YES,id};
 			
@@ -945,9 +946,11 @@ public class TrainingDaoImpl implements TrainingDao{
 	public List<Training> getTrainingAttendeesList(String trainingId) throws Exception {
 		List<Training> attendeesList = null;
 		try {
-			String qry = "select training_attendees_id,d.department_name,ts.session_no, ta.training_id_fk as training_id, training_session_id_fk as training_session_id, ta.department_fk, attendee, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
+			String qry = "select training_attendees_id,d.department_name,ts.session_no,u.designation,t.description, ta.training_id_fk as training_id, training_session_id_fk as training_session_id, ta.department_fk, attendee, hod_user_id_fk,mobile_no, required_fk, participated_fk " + 
 					"from training_attendees ta " + 
 					"LEFT JOIN department d on ta.department_fk = d.department  " + 
+					"LEFT JOIN user u on ta.hod_user_id_fk = u.user_id  " + 
+					"left join training t on ta.training_id_fk = t.training_id "+
 					"LEFT JOIN training_session ts on ta.training_session_id_fk = ts.training_session_id " + 
 					"where ta.training_id_fk = ? ";
 			

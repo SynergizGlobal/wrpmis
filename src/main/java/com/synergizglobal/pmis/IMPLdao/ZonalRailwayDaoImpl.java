@@ -955,7 +955,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> String(java.lang.String id) throws Exception {
 		List<ZonalRailway> progressList = null;
 		try {
-			  String qry = "select progress_id, contract_id_fk as contract_id, DATE_FORMAT(month,'%d-%m-%Y') AS month, cum_actual_expenditure_fy_cr, (cum_planned_expenditure_per * 100) as cum_planned_expenditure_per, cum_actual_expenditure_cr,(cum_planned_expenditure_per * 100) as cum_actual_expenditure_per, "
+			  String qry = "select progress_id, contract_id_fk as contract_id, DATE_FORMAT(month,'%d-%m-%Y') AS month, cum_actual_expenditure_fy_cr, (cum_planned_expenditure_per * 100) as cum_planned_expenditure_per, cum_actual_expenditure_cr,(cum_actual_expenditure_per * 100) as cum_actual_expenditure_per, "
 			  		+ "(cum_planned_physical_progress_per * 100) as cum_planned_physical_progress_per,(cum_actual_physical_progress_per * 100) as  cum_actual_physical_progress_per, progress, issue, assistance_required, status from zonal_railway_progress "
 	  					+"where contract_id_fk is not null and contract_id_fk = ? ";
 			

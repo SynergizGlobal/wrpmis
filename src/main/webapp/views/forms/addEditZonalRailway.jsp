@@ -150,7 +150,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <p class="searchable_label"> Work </p>
-	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value); resetRailways(this.value);">
+	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);" > 
 	                                        <option value="" >Select</option>
 	                                        <c:forEach var="obj" items="${worksList }">
 		                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -659,7 +659,7 @@
             }
         }
         
-        function resetRailways(workId){
+     <%--    function resetRailways(workId){
         	$(".page-loader").show();
             $("#execution_agency_railway_fk option:not(:first)").remove();
             if ($.trim(workId) != "") {
@@ -684,7 +684,7 @@
             	$(".page-loader").hide();
             }
         	
-        }
+        } --%>
         function resetProjectsDropdowns(workId){
         	var projectId = '';
         	if($.trim(workId) != ''){  

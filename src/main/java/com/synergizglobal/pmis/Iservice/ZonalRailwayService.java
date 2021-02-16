@@ -38,4 +38,6 @@ public interface ZonalRailwayService {
 
 	public List<ZonalRailway> getRailwayListForZonalRailwaysForm(ZonalRailway obj) throws Exception;
 
+	public List<ZonalRailway> getProgressList(String id) throws Exception;
+
 }

@@ -90,10 +90,10 @@
                             </div>
 
                             <div class="col s12 m4 r-align">
-                                <!-- <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
+                                 <div class="m-1 ">
+                                    <a href="javascript:void(0);" onclick="exportZonalRaiway();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div> -->
+                                </div> 
                             </div>
                         </div>
 
@@ -233,7 +233,17 @@
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="contract_id" id="contract_id" />
     </form>
+    
+     <form action="<%=request.getContextPath() %>/export-zonal-railway" name="exportZonalForm" id="exportZonalForm" target="_blank" method="post">	
+         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
+         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+         <input type="hidden" name="execution_agency_railway_fk" id="exportExecution_agency_railway_fk" />
+          <input type="hidden" name="source_of_funds" id="exportSource_of_funds" />
+           <input type="hidden" name="status_fk" id="exportStatus_fk" />
+	</form>
+	
     <script>
+    
         $(document).ready(function () {
         	 $('select:not(.searchable)').formSelect();
              $('.searchable').select2();
@@ -563,6 +573,23 @@
         	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-zonal-railway');
         	$('#getForm').submit();
         }
+        
+
+        function exportZonalRaiway(){
+       	 var project_id_fk = $("#project_id_fk").val();
+         var work_id_fk = $("#work_id_fk").val();
+       	 var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
+       	 var source_of_funds = $("#source_of_funds").val();
+       	 var status_fk = $("#status_fk").val();
+       	 $("#exportProject_id_fk").val(project_id_fk);
+       	 $("#exportWork_id_fk").val(work_id_fk);
+       	 $("#exportExecution_agency_railway_fk").val(execution_agency_railway_fk);
+         $("#exportSource_of_funds").val(source_of_funds);
+       	 $("#exportStatus_fk").val(status_fk);
+       	 $("#exportZonalForm").submit();
+    	}
+        
+        
         
     </script>
 

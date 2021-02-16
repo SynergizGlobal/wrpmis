@@ -38,4 +38,6 @@ public interface ZonalRailwayDao {
 
 	public List<ZonalRailway> getRailwayListForZonalRailwaysForm(ZonalRailway obj) throws Exception;
 
+	public List<ZonalRailway> String(String id) throws Exception;
+
 }

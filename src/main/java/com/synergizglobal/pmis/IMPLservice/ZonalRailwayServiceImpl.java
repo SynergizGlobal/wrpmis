@@ -95,4 +95,9 @@ public class ZonalRailwayServiceImpl implements ZonalRailwayService{
 		return dao.getRailwayListForZonalRailwaysForm(obj);
 	}
 
+	@Override
+	public List<ZonalRailway> getProgressList(String id) throws Exception {
+		return dao.String(id);
+	}
+
 }

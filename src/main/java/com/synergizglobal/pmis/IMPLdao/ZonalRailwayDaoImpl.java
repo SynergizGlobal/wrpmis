@@ -26,6 +26,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.Training;
 import com.synergizglobal.pmis.model.ZonalRailway;
 @Repository
@@ -45,9 +46,11 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getZonalRailwayList(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry ="select contract_id, work_id_fk,w.work_short_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
-					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, z.completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date from zonal_railway_contracts z " + 
-					"left join work w on z.work_id_fk = w.work_id  where contract_id is not null  ";
+			String qry ="select contract_id, work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
+					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish, z.completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date, responsible_person_user_fk from zonal_railway_contracts z " + 
+					"left join work w on z.work_id_fk = w.work_id "+
+					"left join railway r on z.execution_agency_railway_fk = r.railway_id "
+					+"left join user u on z.responsible_person_user_fk = u.user_id  where contract_id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";  
@@ -946,6 +949,25 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<ZonalRailway> String(java.lang.String id) throws Exception {
+		List<ZonalRailway> progressList = null;
+		try {
+			  String qry = "select progress_id, contract_id_fk as contract_id, DATE_FORMAT(month,'%d-%m-%Y') AS month, cum_actual_expenditure_fy_cr, (cum_planned_expenditure_per * 100) as cum_planned_expenditure_per, cum_actual_expenditure_cr,(cum_planned_expenditure_per * 100) as cum_actual_expenditure_per, "
+			  		+ "(cum_planned_physical_progress_per * 100) as cum_planned_physical_progress_per,(cum_actual_physical_progress_per * 100) as  cum_actual_physical_progress_per, progress, issue, assistance_required, status from zonal_railway_progress "
+	  					+"where contract_id_fk is not null and contract_id_fk = ? ";
+			
+			Object[] pValues = new Object[] {id};
+			
+			progressList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return progressList;
 	}
 
 }

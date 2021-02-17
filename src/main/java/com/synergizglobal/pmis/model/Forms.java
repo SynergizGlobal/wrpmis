@@ -6,6 +6,7 @@ public class Forms {
 	private String formId,formName,webFormUrl,mobileFormUrl,priority,statusId,parentId,parentName;
 	
 	private List<Forms> formsSubMenu;
+	private List<Forms> formsSubMenuLevel2;
 	
 	/**
 	 * This method get the form id
@@ -140,6 +141,14 @@ public class Forms {
 	 */
 	public void setFormsSubMenu(List<Forms> formsSubMenu) {
 		this.formsSubMenu = formsSubMenu;
+	}
+
+	public List<Forms> getFormsSubMenuLevel2() {
+		return formsSubMenuLevel2;
+	}
+
+	public void setFormsSubMenuLevel2(List<Forms> formsSubMenuLevel2) {
+		this.formsSubMenuLevel2 = formsSubMenuLevel2;
 	}
 	
 }

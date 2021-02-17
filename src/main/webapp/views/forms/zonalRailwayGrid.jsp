@@ -336,7 +336,7 @@
     	                   	var rowArray = [];    	                 
     						 var work_short_name = '';
     						 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
-    	                   	rowArray.push($.trim(val.work_id_fk) + work_short_name);
+    	                   	rowArray.push($.trim(val.sub_work));
     	                   	rowArray.push($.trim(val.execution_agency_railway_fk));
     	                   	rowArray.push($.trim(val.source_of_funds));
     	                   	rowArray.push($.trim(val.status_fk));

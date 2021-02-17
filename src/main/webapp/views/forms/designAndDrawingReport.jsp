@@ -116,10 +116,18 @@
 	                                <div class="row">
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk">
+	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getHodListInDesignReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
+	                                    </div>
+	                                    
+	                                    <div class="col s12 m3 input-field">
+	                                        <p class="searchable_label" style="text-align:left">HOD</p>
+	                                        <select class="searchable validate-dropdown" id="hod" name="hod">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="hodError" class="error-msg" ></span>
 	                                    </div>
 	
 	                                    <div class="col s12 m4 input-field">
@@ -190,6 +198,7 @@
         
         $(document).ready(function(){
         	getWorksListInDesignReport();
+        	getHodListInDesignReport("");
         });
         
         function getWorksListInDesignReport() {
@@ -216,6 +225,28 @@
             });
         }
         
+        function getHodListInDesignReport(work_id_fk){
+        	$(".page-loader").show();
+           	$("#hod option:not(:first)").remove();
+           	var myParams = {work_id_fk : work_id_fk}
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getHodListInDesignReport",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   $("#hod").append('<option value="' + $.trim(val.hod) + '">' + $.trim(val.hod) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+            });
+        }
+        
         function generateReport() {
         	//$(".page-loader").show();
         	$("#reportForm").submit();
@@ -227,17 +258,24 @@
 	  		    rules: {
 	  		 		  "work_id_fk": {
 	  			 		required: false
+	  			 	  },"hod": {
+	  			 		required: false
 	  			 	  }
 	  		 	},
 	  		    messages: {
 	  		 		 "work_id_fk": {
 	  				 	required: 'This field is required',
+	  			 	  },"hod": {
+	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
 		   		 	if (element.attr("id") == "work_id_fk" ){
 						 document.getElementById("work_id_fkError").innerHTML="";
 				 		 error.appendTo('#work_id_fkError');
+					} else if(element.attr("id") == "hod" ){
+						   document.getElementById("hodError").innerHTML="";
+					 	   error.appendTo('#hodError');
 					} else{
 	 					error.insertAfter(element);
 			        }

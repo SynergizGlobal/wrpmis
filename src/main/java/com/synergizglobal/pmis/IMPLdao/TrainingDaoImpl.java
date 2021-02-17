@@ -307,7 +307,7 @@ public class TrainingDaoImpl implements TrainingDao{
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage()); 
 		}
 		return sObj;
 	}

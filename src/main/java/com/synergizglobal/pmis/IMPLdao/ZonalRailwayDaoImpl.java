@@ -945,7 +945,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			e.printStackTrace();
 			throw new Exception(e);
 		}
-		finally {
+		finally { 
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
 		}
 		return objsList;

@@ -262,7 +262,7 @@
 								<span id="faculty_nameError" class="error-msg"></span>
 							</div>
 							<div class="col s12 m4 input-field ">
-								<input id="designation" type="text" class="validate" value="${trainingDetails.description }"> 
+								<input id="designation" type="text" class="validate" value="${trainingDetails.designation }"> 
 								<label for="designation">Designation</label>
 								<span id="designationError" class="error-msg"></span>
 							</div>
@@ -392,7 +392,7 @@
 																											 <option value="Firefox">
 																										 </datalist>   
 																									</td>
-																									<td> <input type="text" placeholder="Designation" id="designation00" value="${dObj.designation}"></td>		
+																									<td> <input type="text" placeholder="Designation" id="trainee_designations${indexx.count }${index.count }" name="trainee_designations" value="${dObj.trainee_designation}"></td>		
 																									<td><input id="mobile_nos${indexx.count }${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
 																										value="${dObj.mobile_no }"></td>
 																									<td>
@@ -452,7 +452,7 @@
 																                                        </select>                                   
 																								</td>
 																								<td><input id="attendees00" name="attendees" type="text" class="validate" placeholder="Attendee"></td>	
-																								<td> <input type="text" placeholder="Designation" id="designation00" ></td>																							
+																								<td> <input type="text" placeholder="Designation" id="trainee_designations00" name="trainee_designations" ></td>																							
 																								<td><input id="mobile_nos00" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
 																								<td>
@@ -600,7 +600,7 @@
 																						   <option value="Firefox">
 																						</datalist>  
 																					</td>
-																					<td> <input type="text" placeholder="Designation" id="designation0" ></td>
+																					<td> <input type="text" placeholder="Designation" id="trainee_designations0" name="trainee_designations" ></td>
 																					<td><input id="mobile_nos0" name="mobile_nos" type="tel" class="validate num" placeholder="Mobile">
 																					<br><span id="mobile_nosError" class="error-msg"></span></td>
 																					<td>
@@ -813,7 +813,23 @@
 		</div>
 	</div>
 
-
+	<!-- Page Loader -->
+	<div class="page-loader" style="display: none;">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -952,7 +968,7 @@
 	                '</select>    </td>'+
 	                '<td><input id="attendees'+ rNo +tNo+'" name="attendees" list="attendee'+ rNo +'" class="validate" placeholder="Attendee"><datalist id="attendee'+ rNo +'">'+
 	                '<option value="Edge"> </datalist>  </td>' +
-	                '<td> <input type="text" placeholder="Designation" id="designation'+ rNo +tNo+'" ></td>'+
+	                '<td> <input type="text" placeholder="Designation" id="trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td>'+
 	                '<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
 	                '<td><p><label><input type="hidden" id="required_fk'+ rNo +tNo+'" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
 	                '<td><p><label><input type="hidden" id="participated_fk'+ rNo +tNo+'" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
@@ -1090,6 +1106,7 @@
 			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=trainee_designations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=required_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1106,6 +1123,7 @@
 			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=trainee_designations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=mobile_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=required_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });

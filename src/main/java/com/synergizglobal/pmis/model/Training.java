@@ -12,7 +12,7 @@ public class Training {
 	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
 	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
 	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,
-	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation;
+	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation,trainee_designation;
 
 	private MultipartFile trainingFile;
 	
@@ -20,7 +20,7 @@ public class Training {
 	private List<Training> trainingAttendees;
 	private MultipartFile[] trainingSessionFiles;
 	
-	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees, mobile_nos, required_fks, participated_fks,
+	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,trainee_designations, mobile_nos, required_fks, participated_fks,
 	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames;
 
     public String getNominated() {
@@ -527,5 +527,21 @@ public class Training {
 
 	public void setReporting_to_designation(String reporting_to_designation) {
 		this.reporting_to_designation = reporting_to_designation;
+	}
+
+	public String getTrainee_designation() {
+		return trainee_designation;
+	}
+
+	public void setTrainee_designation(String trainee_designation) {
+		this.trainee_designation = trainee_designation;
+	}
+
+	public String[] getTrainee_designations() {
+		return trainee_designations;
+	}
+
+	public void setTrainee_designations(String[] trainee_designations) {
+		this.trainee_designations = trainee_designations;
 	}
 }

@@ -580,7 +580,7 @@
 																					<th>Attendee</th>
 																					<th>Designation</th>
 																					<th>Mobile</th>
-																					<th>Required</th>
+																					<th>Nominated</th>
 																					<th>Participated</th>
 																					<th>Action</th>
 																				</tr>
@@ -1035,7 +1035,7 @@
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row fixed-width"><div class="table-inside">'+
 					'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
-					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
+					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Nominated</th><th>Participated</th><th>Action</th></tr></thead>'+
 						'<tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+1+'"><td>'+
 						    '<input type="hidden" id="rowCounts'+rNo +'" name="rowCounts" value="1" class="hide" /><input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" />'+

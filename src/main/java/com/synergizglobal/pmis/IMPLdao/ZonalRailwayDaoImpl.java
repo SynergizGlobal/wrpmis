@@ -46,7 +46,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getZonalRailwayList(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry ="select contract_id, work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
+			String qry ="select contract_id, work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds_fk as source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
 					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS expected_finish,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS actual_finish, z.completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date, responsible_person_user_fk from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
 					"left join railway r on z.execution_agency_railway_fk = r.railway_id "
@@ -65,7 +65,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
-				qry = qry + " and source_of_funds = ?";
+				qry = qry + " and source_of_funds_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
@@ -120,7 +120,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
-				qry = qry + " and source_of_funds = ?";
+				qry = qry + " and source_of_funds_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
@@ -174,7 +174,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
-				qry = qry + " and source_of_funds = ?";
+				qry = qry + " and source_of_funds_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
@@ -229,7 +229,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
-				qry = qry + " and source_of_funds = ?";
+				qry = qry + " and source_of_funds_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
@@ -265,10 +265,10 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getZonalRailwaySourceOfFundsList(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry = "SELECT source_of_funds from zonal_railway_contracts z " + 
+			String qry = "SELECT source_of_funds_fk as source_of_funds from zonal_railway_contracts z " + 
 					"LEFT JOIN work w on z.work_id_fk = w.work_id "+
 					"LEFT JOIN project p on w.project_id_fk = p.project_id  " + 
-					"where source_of_funds is not null and source_of_funds <> '' ";
+					"where source_of_funds_fk is not null and source_of_funds_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id_fk = ?";
@@ -283,14 +283,14 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
-				qry = qry + " and source_of_funds = ?";
+				qry = qry + " and source_of_funds_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
-			qry = qry +" group by source_of_funds ";
+			qry = qry +" group by source_of_funds_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -337,7 +337,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
-				qry = qry + " and source_of_funds = ?";
+				qry = qry + " and source_of_funds_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
@@ -430,7 +430,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	public List<ZonalRailway> getSourceOfFundListForZonalRailwayForm(ZonalRailway obj) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
-			String qry = "select source_of_funds  from `source_of_funds` ";
+			String qry = "select zonal_railway_funds as source_of_funds  from `zonal_railway_funds` ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -455,7 +455,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		ZonalRailway zonalRailway = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry ="select contract_id, work_id_fk,w.work_short_name,user_name, designation,project_id_fk,project_name, execution_agency_railway_fk,railway_id, responsible_person_user_fk,railway_name, source_of_funds,cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
+			String qry ="select contract_id, work_id_fk,w.work_short_name,user_name, designation,project_id_fk,project_name, execution_agency_railway_fk,railway_id, responsible_person_user_fk,railway_name, source_of_funds_fk as source_of_funds,cast(sanction_cost as CHAR) as sanction_cost,cast(latest_revised_cost as CHAR) as latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
 					+ "DATE_FORMAT(expected_finish,'%d-%m-%Y') AS  expected_finish,sub_work,DATE_FORMAT(actual_finish,'%d-%m-%Y') AS  actual_finish, cast(z.completion_cost as CHAR) as completion_cost, status_fk, DATE_FORMAT(as_on_date,'%d-%m-%Y') AS as_on_date from zonal_railway_contracts z " + 
 					"left join work w on z.work_id_fk = w.work_id "+
 					"left join railway r on z.execution_agency_railway_fk = r.railway_id "+
@@ -516,7 +516,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String insertQry = "INSERT INTO zonal_railway_contracts"
-					+ "(contract_id, work_id_fk, execution_agency_railway_fk, source_of_funds, sanction_cost,responsible_person_user_fk, latest_revised_cost, "
+					+ "(contract_id, work_id_fk, execution_agency_railway_fk, source_of_funds_fk, sanction_cost,responsible_person_user_fk, latest_revised_cost, "
 					+ "cumulative_expenditure_upto_last_finacial_year, actual_start, expected_finish, actual_finish, completion_cost, status_fk, as_on_date,sub_work)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -681,7 +681,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String updateQry = "UPDATE zonal_railway_contracts set "
-					+ "source_of_funds = ?, sanction_cost = ?, responsible_person_user_fk = ?, latest_revised_cost = ?,"
+					+ "source_of_funds_fk = ?, sanction_cost = ?, responsible_person_user_fk = ?, latest_revised_cost = ?,"
 					+ "cumulative_expenditure_upto_last_finacial_year = ?, actual_start = ?, expected_finish = ?, actual_finish = ?, completion_cost = ?, status_fk = ?, "
 					+ "as_on_date = ?,sub_work = ? where contract_id = ?";
 			
@@ -952,14 +952,14 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 	}
 
 	@Override
-	public List<ZonalRailway> String(java.lang.String id) throws Exception {
+	public List<ZonalRailway> String(String sub_work_id) throws Exception {
 		List<ZonalRailway> progressList = null;
 		try {
 			  String qry = "select progress_id, contract_id_fk as contract_id, DATE_FORMAT(month,'%d-%m-%Y') AS month, cum_actual_expenditure_fy_cr, (cum_planned_expenditure_per * 100) as cum_planned_expenditure_per, cum_actual_expenditure_cr,(cum_actual_expenditure_per * 100) as cum_actual_expenditure_per, "
 			  		+ "(cum_planned_physical_progress_per * 100) as cum_planned_physical_progress_per,(cum_actual_physical_progress_per * 100) as  cum_actual_physical_progress_per, progress, issue, assistance_required, status from zonal_railway_progress "
 	  					+"where contract_id_fk is not null and contract_id_fk = ? ";
 			
-			Object[] pValues = new Object[] {id};
+			Object[] pValues = new Object[] {sub_work_id};
 			
 			progressList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 			

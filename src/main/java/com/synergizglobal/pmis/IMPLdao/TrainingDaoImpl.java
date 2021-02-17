@@ -45,6 +45,7 @@ import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
 import com.synergizglobal.pmis.model.TAFinancials;
 import com.synergizglobal.pmis.model.Training;
+import com.synergizglobal.pmis.model.ZonalRailway;
 
 @Repository
 public class TrainingDaoImpl implements TrainingDao{
@@ -601,8 +602,8 @@ public class TrainingDaoImpl implements TrainingDao{
 			if(flag) {
 				if(!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
 					String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,"
-							+"remarks) "
-							+"VALUES (?,?,?,?,?)";
+							+"attachment,remarks) "
+							+"VALUES (?,?,?,?,?,?)";
 					insertStmt = con.prepareStatement(insertQry1,Statement.RETURN_GENERATED_KEYS);
 					
 					int	arraySize = 0;
@@ -979,6 +980,20 @@ public class TrainingDaoImpl implements TrainingDao{
 			throw new Exception(e.getMessage());
 		}
 		return attendeesList;
+	}
+
+	@Override
+	public List<Training> getAttendeesList() throws Exception {
+		List<Training> objsList = null;
+		try {
+			String qry ="select  attendee from training_attendees where attendee <> '' " + 
+					" UNION " + 
+					"SELECT user_name FROM user where user_name NOT LIKE '%User%' and user_name  <> ''";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Training>(Training.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

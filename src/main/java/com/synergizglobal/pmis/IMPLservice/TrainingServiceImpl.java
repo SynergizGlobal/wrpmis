@@ -99,4 +99,9 @@ public class TrainingServiceImpl implements TrainingService{
 	public List<Training> getTrainingAttendeesList(String trainingId) throws Exception {
 		return dao.getTrainingAttendeesList(trainingId);
 	}
+
+	@Override
+	public List<Training> getAttendeesList() throws Exception {
+		return dao.getAttendeesList();
+	}
 }

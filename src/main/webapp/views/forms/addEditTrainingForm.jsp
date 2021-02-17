@@ -386,11 +386,12 @@
 																                                        </select>                                   
 																									</td>
 																									<td>
-																										<input id="attendees${indexx.count }${index.count }" name="attendees" list="attendee${indexx.count }" class="validate" placeholder="Attendee" value="${dObj.attendee }">
-																										 <datalist id="attendee${indexx.count }">
-																											 <option value="Edge">
-																											 <option value="Firefox">
-																										 </datalist>   
+																										<select class="searchable validate-dropdown" name="attendees" id="attendees${indexx.count }${index.count }">
+																											<option value="">Select Attendee</option>
+																											<c:forEach var="obj" items="${attendeesList}">
+																												<option value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.attendee }</option>
+																											</c:forEach>
+																										 </select>
 																									</td>
 																									<td> <input type="text" placeholder="Designation" id="trainee_designations${indexx.count }${index.count }" name="trainee_designations" value="${dObj.trainee_designation}"></td>		
 																									<td><input id="mobile_nos${indexx.count }${index.count }" name="mobile_nos" type="number" class="validate" placeholder="Mobile"
@@ -451,7 +452,14 @@
 																											</c:forEach>                                           
 																                                        </select>                                   
 																								</td>
-																								<td><input id="attendees00" name="attendees" type="text" class="validate" placeholder="Attendee"></td>	
+																								<td>
+																									<select class="searchable validate-dropdown" name="attendees" id="attendees00">
+																											<option value="">Select Attendee</option>
+																											<c:forEach var="obj" items="${attendeesList}">
+																												<option value="${obj.attendee }">${obj.attendee }</option>
+																											</c:forEach>
+																								    </select>
+																								</td>	
 																								<td> <input type="text" placeholder="Designation" id="trainee_designations00" name="trainee_designations" ></td>																							
 																								<td><input id="mobile_nos00" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
@@ -474,6 +482,7 @@
 																							</tr>
 																							<script>
 																									 $('#department_fks00').select2();
+																									 $('#attendees00').select2();
 																			                       	 $('#required_fks00').on('change', function(e){
 																			                             if($(this).prop('checked'))
 																			                             {
@@ -481,7 +490,7 @@
 																			                                 $('#required_fk00').val('Yes');
 																			                             }else{
 																			                              	  $("#required_fk00").val('No')
-																			                            	  $("#required_fk00").prop('checked',false).removeAttr('checked');;
+																			                            	  $("#required_fk00").prop('checked',false).removeAttr('checked');
 																			                              }
 																			                   	    });
 																			                    	 $('#participated_fks00').on('change', function(e){
@@ -594,11 +603,12 @@
 																					</select>    
 																					</td>
 																					<td>
-																						<input id="attendees0" name="attendees" list="attendee${indexx.count }" class="validate" placeholder="Attendee">
-																						<datalist id="attendee${indexx.count }">
-																						   <option value="Edge">
-																						   <option value="Firefox">
-																						</datalist>  
+																						<select class="searchable validate-dropdown" name="attendees" id="attendee0">
+																								<option value="">Select Attendee</option>
+																								<c:forEach var="obj" items="${attendeesList}">
+																									<option value="${obj.attendee }">${obj.attendee }</option>
+																								</c:forEach>
+																						 </select>
 																					</td>
 																					<td> <input type="text" placeholder="Designation" id="trainee_designations0" name="trainee_designations" ></td>
 																					<td><input id="mobile_nos0" name="mobile_nos" type="tel" class="validate num" placeholder="Mobile">
@@ -675,7 +685,8 @@
 			                                                   	<input type="file" name="trainingSessionFiles" id="trainingSessionFiles0"  onchange="getFileName('0')"  style="display:none"  />
 			                                                   	<label for="trainingSessionFiles0" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
 			                                                   	<span id="fileVal0" class="filevalue"></span>
-															 </div>          
+															 </div>         
+															 <input type="hidden" id="trainingSessionFileNames0" name="trainingSessionFileNames" > 
                                                         </td>
 													<td><a onclick="removeTraining('0');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 												</tr>
@@ -965,39 +976,44 @@
 	                <c:forEach var="obj" items="${usersList}">
 						'<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>'+
 					</c:forEach>
-	                '</select>    </td>'+
-	                '<td><input id="attendees'+ rNo +tNo+'" name="attendees" list="attendee'+ rNo +'" class="validate" placeholder="Attendee"><datalist id="attendee'+ rNo +'">'+
-	                '<option value="Edge"> </datalist>  </td>' +
+	                '</select></td>'+
+	                '<td><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo +tNo+'" >'+
+					'<option value="">Select Attendee</option>'+
+						<c:forEach var="obj" items="${attendeesList}">
+							'<option value="${obj.attendee }">${obj.attendee }</option>'+
+						</c:forEach>
+					'</select></td>' +
 	                '<td> <input type="text" placeholder="Designation" id="trainee_designations'+ rNo +tNo+'" name="trainee_designations" ></td>'+
 	                '<td><input id="mobile_nos'+ rNo +tNo+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile"> </td>' +
-	                '<td><p><label><input type="hidden" id="required_fk'+ rNo +tNo+'" name="required_fks"  value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
-	                '<td><p><label><input type="hidden" id="participated_fk'+ rNo +tNo+'" name="participated_fks"  value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
+	                '<td><p><label><input type="hidden" name="required_fks" id="required_fk'+ rNo +tNo+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo +tNo+'" class="required_fks"/><span></span></label></p></td>' +
+	                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo +tNo+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo +tNo+'" class="participated_fks" /><span></span></label></p></td>' +
 	                '<td><a onclick="removeTrainingAttendees('+rNo+'); prevRow('+tNo+')" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td></tr>';
              $('#attendeesTableBody'+ index).append(html);
              $("#trainNo").val(rNo );
        	     $('#department_fks' + rNo+tNo ).select2();
+       	     $('#attendees' + rNo+tNo ).select2();
        	  	 $('#hod_user_id_fks' + rNo+tNo ).select2();
        		 $('#attendeesTableBody'+tNo+' #rowCounts'+rNo+':last').val(c)
-           	 $('#required_fks'+ rNo).on('change', function(e){
+       		 $('#required_fks'+ rNo+tNo).on('change', function(e){
                  if($(this).prop('checked'))
                  {
-                	 //$(".req").prop('disabled', true);
-                      $('#required_fk'+ rNo+tNo).val('Yes');
-                 }else{
-                 	  $("#required_fk"+ rNo+tNo).val('No')
-                	  $("#required_fk"+ rNo+tNo).prop('checked',false).removeAttr('checked');;
-                  }
-       	    });
-           	$("#participated_fks"+ rNo).on('change', function(e){
+                	// $(".req").prop('disabled', true);
+                     $('#required_fk'+ rNo+tNo).val('Yes');
+                 } else{
+                    	  $("#required_fk"+ rNo+tNo).val('No')
+                   	  $("#required_fk"+ rNo+tNo).prop('checked',false).removeAttr('checked');;
+                     }
+       	     });
+           	 $("#participated_fks"+ rNo+tNo).on('change', function(e){
                 if($(this).prop('checked'))
                 {
                 	//$(".part").prop('disabled', true);
-                   $("#participated_fk"+ rNo+tNo).val('Yes');
-                }else{
-              	  $("#participated_fk"+ rNo+tNo).val('No')
-            	  $("#participated_fks"+ rNo+tNo).prop('checked',false).removeAttr('checked');;
-              }
-           });
+                    $("#participated_fk"+ rNo+tNo).val('Yes');
+                } else{
+                  	  $("#participated_fk"+ rNo+tNo).val('No')
+               	  $("#participated_fk"+ rNo+tNo).prop('checked',false).removeAttr('checked');;
+                 }
+            });
       
         }
         
@@ -1019,7 +1035,7 @@
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row fixed-width"><div class="table-inside">'+
 					'<table id="training-update-table'+ rNo +'" class="mdl-data-table">'+
-					  '<thead><tr><th>Department</th><th>Attendee</th><th>HOD</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
+					  '<thead><tr><th>Department</th><th>HOD</th><th>Attendee</th><th>Designation</th><th>Mobile</th><th>Required</th><th>Participated</th><th>Action</th></tr></thead>'+
 						'<tbody id="attendeesTableBody'+ rNo +'" ><tr id="attendeesRow'+rNo+1+'"><td>'+
 						    '<input type="hidden" id="rowCounts'+rNo +'" name="rowCounts" value="1" class="hide" /><input type="hidden" name= "training_session_id_fks" id="training_session_id_fks'+rNo+'"  value="'+sessionId+'" />'+
 						    '<input type="hidden" name="training_attendees_ids" id="training_attendees_ids'+ rNo+i+'" />'+
@@ -1028,14 +1044,20 @@
 					             <c:forEach var="obj" items="${departmentsList}">
 						            '<option value="${obj.department_fk }" >${obj.department_name }</option>'+
 						          </c:forEach>
-							'</select></td>'+
-							'<td><input id="attendees'+ rNo+i+'" name="attendees" type="text" class="validate" placeholder="Attendee" ></td>'+
 							'<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +i+'" >'+
 							'<option value="" >Select HOD</option>'+
 			                <c:forEach var="obj" items="${usersList}">
 								'<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>'+
 							</c:forEach>
-			                '</select>    </td>'+
+			                '</select> </td>'+
+			                '</select></td>'+
+							  '<td><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo+i+'" >'+
+								'<option value="">Select Attendee</option>'+
+									<c:forEach var="obj" items="${attendeesList}">
+										'<option value="${obj.attendee }" >${obj.attendee }</option>'+
+									</c:forEach>
+							'</select></td>' +
+			                '<td> <input type="text" placeholder="Designation" id="trainee_designations'+ rNo+i+'" name="trainee_designations" ></td>'+
 							'<td><input id="mobile_nos'+ rNo+i+'" name="mobile_nos" type="number" class="validate" placeholder="Mobile" ></td>'+
 			                '<td><p><label><input type="hidden" name="required_fks" id="required_fk'+ rNo+i+'" value="No" class="req"/><input type="checkbox" id="required_fks'+ rNo+i+'" class="required_fks"/><span></span></label></p></td>' +
 			                '<td><p><label><input type="hidden" name="participated_fks" id="participated_fk'+ rNo+i+'" value="No" class="part"/><input type="checkbox" id="participated_fks'+ rNo+i+'" class="participated_fks" /><span></span></label></p></td>' +
@@ -1052,6 +1074,7 @@
            
           $('#session-update-modal'+rNo).modal();
           $('#department_fks' + rNo+i).select2();
+          $('#attendees' + rNo+i).select2();
           $('#hod_user_id_fks' + rNo+i).select2();
           $("#rowNo").val(rNo);
           MaterialDateTimePicker.create($("#start_times"+ rNo));
@@ -1079,8 +1102,8 @@
             	//$(".part").prop('disabled', true);
                 $("#participated_fk"+ rNo+i).val('Yes');
             } else{
-              	  $("#required_fk"+ rNo+i).val('No')
-           	  $("#required_fk"+ rNo+i).prop('checked',false).removeAttr('checked');;
+              	  $("#participated_fk"+ rNo+i).val('No')
+           	  $("#participated_fk"+ rNo+i).prop('checked',false).removeAttr('checked');;
              }
         });
     }

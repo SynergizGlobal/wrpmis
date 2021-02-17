@@ -177,6 +177,9 @@ public class TrainingController {
 			List<Training> usersList = trainingService.getUsersList();
 			model.addObject("usersList", usersList);
 			
+			List<Training> attendeesList = trainingService.getAttendeesList();
+			model.addObject("attendeesList", attendeesList);
+			
 		}catch (Exception e) {
 				logger.error("addTrainingForm : " + e.getMessage());
 		}
@@ -210,6 +213,10 @@ public class TrainingController {
 			
 			List<Training> usersList = trainingService.getUsersList();
 			model.addObject("usersList", usersList);
+			
+			List<Training> attendeesList = trainingService.getAttendeesList();
+			model.addObject("attendeesList", attendeesList);
+			
 		
 		}catch (Exception e) {
 				e.printStackTrace();

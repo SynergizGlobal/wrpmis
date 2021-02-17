@@ -42,5 +42,7 @@ public interface TrainingService {
 
 	public List<Training> getTrainingAttendeesList(String trainingId) throws Exception;
 
+	public List<Training> getAttendeesList() throws Exception;
+
 
 }

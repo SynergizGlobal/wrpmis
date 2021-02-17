@@ -245,7 +245,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				
-				String parentIdLevel2 = resultSet.getString("parent_form_id_sr_fk");
+				String parentIdLevel2 = resultSet.getString("form_id");
 				List<Forms> subList = getFormsSubListLevel2(base,parentIdLevel2, connection);
 				obj.setFormsSubMenuLevel2(subList); 
 				

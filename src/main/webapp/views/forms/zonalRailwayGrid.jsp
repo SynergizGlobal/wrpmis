@@ -33,8 +33,8 @@
         }
 
         .fw-370 {
-            width: 370px;
-            max-width: 370px;
+            width: 270px;
+            max-width: 270px;
         }
 
         .fw-80 {

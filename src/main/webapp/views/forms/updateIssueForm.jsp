@@ -228,9 +228,9 @@
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
-                                  <p class="searchable_label">Organization Name </p> 
+                                  <p class="searchable_label">Department Name </p> 
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
-                                        <option value="">Select</option>
+                                        <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${departmentList }">
                                             <option value="${obj.department_fk }" <c:if test="${issue.other_organization eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
                                         </c:forEach>

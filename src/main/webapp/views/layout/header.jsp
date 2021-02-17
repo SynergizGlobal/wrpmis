@@ -164,21 +164,33 @@
 		                         <ul class="third-level-menu">
 		                         <!-- 2nd level Dropdown starts -->
 		                             <c:forEach var="subList" items="${form.formsSubMenu }">
-					           			<li>
+					           			<!-- <li>
+	      									<a href="${subList.webFormUrl }">
+	      										<span class="nav-label">${subList.formName }</span>
+	          								</a>
+	              						</li> -->
+		                             <c:if test="${ empty subList.formsSubMenuLevel2}">
+		                             	<li>
 	      									<a href="${subList.webFormUrl }">
 	      										<span class="nav-label">${subList.formName }</span>
 	          								</a>
 	              						</li>
-					           		</c:forEach> 
-					           		<!-- start delete from here after the fourth level menu implemented -->
-					           		<li class="sub-menu">
-					           			<a href="#"> bla</a>
+		                             </c:if>
+		                               <c:if test="${not empty subList.formsSubMenuLevel2}">
+		                             	<li class="sub-menu">
+					           			<a href="#"> ${subList.formName }</a>
 					           			<ul class="fourth-level-menu">
-					           				<li> <a href="#"> link1</a> </li>
-					           				<li> <a href="#"> link2</a> </li>
-					           				<li> <a href="#"> link3</a> </li>
+					           				<c:forEach var="subListLevel2" items="${subList.formsSubMenuLevel2}">
+					           					<li> 
+					           						<a href="${subListLevel2.webFormUrl }"> ${subListLevel2.formName }	  	</a>
+					           					</li>
+					           				</c:forEach>
 					           			</ul>
 					           		</li>
+		                             </c:if>
+					           		</c:forEach> 
+					           		<!-- start delete from here after the fourth level menu implemented -->
+					           		
 					           		<!-- start delete upto here after the fourth level menu implemented -->
 					           		<!-- 2nd level Dropdown ends -->
 		                         </ul>

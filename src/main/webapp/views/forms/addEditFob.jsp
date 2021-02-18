@@ -59,6 +59,9 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		.input-field .searchable_label{
+			font-size:.85rem;
+		}
 		
     </style>
 </head>
@@ -92,7 +95,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Project </label></p>
+                                <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -103,7 +106,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Work </label></p>
+                                <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
@@ -119,7 +122,7 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p> <label> Contract </label></p>
+                                <p class="searchable_label"> Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -132,13 +135,13 @@
                                 <c:if test="${empty fob.fob_id }">
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="fob_id" name="fob_id" type="text" class="validate" style="margin-top: 5px;">
-	                                     <label for="fob_name">FOB ID</label>
+	                                     <label for="fob_name">FOB ID <span class="required">*</span></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
                                 </c:if>
                                 <c:if test="${not empty fob.fob_id }">
 	                                <div class="col s12 m4 input-field">
-	                                    <label style="margin-top:10px"> FOB ID : <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+	                                    <label style="margin-top:10px"> FOB ID <span class="required">*</span>: <input id="fob_id" name="fob_id" type="text" value="${fob.fob_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
 	                                    <span id="fob_idError" class="error-msg" ></span>
 	                                </div>
                                 </c:if>
@@ -148,11 +151,11 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="fob_name" name="fob_name" type="text" class="validate" value="${fob.fob_name }" style="margin-top: 5px;">
-                                    <label for="fob_name">FOB Name</label>
+                                    <label for="fob_name">FOB Name <span class="required">*</span></label>
                                     <span id="fob_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                   <p> <label for="work_status_fk">Work Status</label></p>
+                                   <p class="searchable_label">Work Status <span class="required">*</span></p>
                                     <select id="work_status_fk" name="work_status_fk"  class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${generalStatusList }">

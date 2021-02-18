@@ -48,30 +48,6 @@
         }
   		.error-msg label,.error{color:red!important;}
   		
-        /* .datepicker-table thead tr,
-        .datepicker-table thead tr:hover,
-        .datepicker-table tbody tr,
-        .datepicker-table tbody tr:hover {
-            background-color: transparent;
-            border-radius: 0;
-            border-bottom-width: 0;
-        }
-
-        .datepicker-table td:first-of-type,
-        .datepicker-table td:last-of-type {
-            padding: 0 !important;
-        }
-
-        .datepicker-table th,
-        .datepicker-table td {
-            padding: 0;
-        }
-
-        .filevalue {
-            display: block;
-            margin-top: 10px;
-        } */
-
         .input-field .searchable_label {
             font-size: .85rem;
         }
@@ -100,7 +76,6 @@
 	       	max-width:110px;
 	       	white-space:break-spaces;
        }
-      /*  td,th{ padding:inherit !important} */
     </style>
 
 </head>
@@ -139,7 +114,7 @@
                              <c:if test="${action eq 'add'}">	
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p class="searchable_label"> Project </p>
+	                                    <p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);">
 	                                        <option value="">Select</option>
 	                                         <c:forEach var="obj" items="${projectsList }">
@@ -149,7 +124,7 @@
 	                                    <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p class="searchable_label"> Work </p>
+	                                    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);" > 
 	                                        <option value="" >Select</option>
 	                                        <c:forEach var="obj" items="${worksList }">
@@ -165,11 +140,11 @@
 			                              <div class="col m2 hide-on-small-only">
 			                              </div>
 			                       		  <div class="col s12 m4 input-field">
-												<p class="searchable_label"> Project</p>
+												<p class="searchable_label"> Project <span class="required">*</span></p>
 			                                         	 	<input type="text" value="${zonalRailwayDetails.project_id_fk} - ${zonalRailwayDetails.project_name}" readonly />
 										  </div> 
 										  <div class="col s12 m4 input-field"> 
-											    <p class="searchable_label"> Work</p>
+											    <p class="searchable_label"> Work <span class="required">*</span></p>
 			                                         	 	<input type="text"  value="${zonalRailwayDetails.work_id_fk} - ${zonalRailwayDetails.work_short_name}" readonly />
 			                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${zonalRailwayDetails.work_id_fk}" readonly />
 			                              </div>
@@ -198,7 +173,7 @@
                                <div class="col m2 hide-on-small-only"></div>
                              <c:if test="${action eq 'add'}">
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Execution Agency </p>
+                                    <p class="searchable_label">Execution Agency <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="execution_agency_railway_fk" name="execution_agency_railway_fk">
                                         <option value="" >Select</option>
                                          <c:forEach var="obj" items="${railwayList }">
@@ -210,18 +185,18 @@
                                  <div class="col m4 hide-on-small-only"></div>
                                  <div class="col s12 m4 input-field">
                                     <input type="text" id="contract_id" name="contract_id"   />
-                                     <label for="contract_id">Sub Work ID :</label>
+                                     <label for="contract_id">Sub Work ID <span class="required">*</span>:</label>
                                      <span id="contract_idError" class="error-msg"></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                                 </c:if>	
                                  <c:if test="${action eq 'edit'}">
                                  <div class="col s12 m4 input-field"> 
-								    <p class="searchable_label">Execution Agency</p>
+								    <p class="searchable_label">Execution Agency <span class="required">*</span></p>
                                          	 	<input type="text"  value="${zonalRailwayDetails.execution_agency_railway_fk} - ${zonalRailwayDetails.railway_name}" readonly />
 			                     </div>
 			                     <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Sub Work ID :</p>
+                                    <p class="searchable_label">Sub Work ID <span class="required">*</span>:</p>
                                     <input type="text" id="contract_id" name="contract_id"   value="${zonalRailwayDetails.contract_id }" readonly />
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

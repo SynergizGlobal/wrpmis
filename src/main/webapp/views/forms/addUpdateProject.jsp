@@ -49,7 +49,7 @@
 		    justify-content: space-evenly;
 		  }
 		}
-
+		
 	</style>
 </head>
 
@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
-                                    <label for="project_name">Project Name</label>
+                                    <label for="project_name">Project Name <span class="required">*</span></label>
                                       <span  id="project_nameError"> </span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

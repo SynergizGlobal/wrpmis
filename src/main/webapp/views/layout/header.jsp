@@ -19,6 +19,11 @@
     	max-width:250px;
     	line-height:40px;
     }
+    .required{
+		color:red;
+		font-size:1.3rem;
+		vertical-align: middle;
+	}
    </style>
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />

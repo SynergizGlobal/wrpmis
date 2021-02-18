@@ -114,7 +114,7 @@
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
 	                                 	<div class="col s12 m4 input-field">
-		                                   <p class="searchable_label">Project</p>
+		                                   <p class="searchable_label">Project <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   			<option value="">select</option>
 		                                          <c:forEach var="obj" items="${projectsList}">
@@ -127,7 +127,7 @@
 		                               <c:if test="${action eq 'edit'}">
 		                               <div class="col s12 m4 input-field">
 		                               		<input type="text" class="form-control" value="${workDeatils.project_id_fk} - ${workDeatils.project_name}" readonly >  
-		                                    <label>Project :</label>
+		                                    <label>Project <span class="required">*</span>:</label>
 		                                    
 		                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDeatils.project_id_fk}"/>
 		                               </div>
@@ -157,7 +157,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="work_name" class="materialize-textarea" data-length="1000" name="work_name">${workDeatils.work_name }</textarea>
-                                    <label for="work_name">Work Name</label>
+                                    <label for="work_name">Work Name <span class="required">*</span></label>
                                      <span id="work_nameError"></span>
                                 </div>
 								 <div class="col m2 hide-on-small-only"></div>

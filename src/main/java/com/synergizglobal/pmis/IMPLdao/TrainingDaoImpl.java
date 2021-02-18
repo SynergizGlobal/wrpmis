@@ -64,7 +64,8 @@ public class TrainingDaoImpl implements TrainingDao{
 		List<Training> objsList = null;
 		try {
 			String qry ="select training_id,training_type_fk,training_category_fk,sum(ta.required_fk = ?) as nominated,sum(ta.participated_fk = ?) as attended,title,faculty_name,status_fk,t.designation, description, training_center, status_fk, t.remarks,"
-					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))),'%H:%i') as hours "
+					+ "DATE_FORMAT(start_time,'%d-%m-%Y')  as date,DATE_FORMAT(min(start_time),'%d-%m-%Y')  as start_time ,DATE_FORMAT(max(end_time),'%d-%m-%Y') as end_time,(SELECT  time_format(timediff(time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(end_time))),'%H:%i'),time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(start_time))),'%H:%i')), '%H:%i')"
+					+ " FROM pmis_dev.training_session ts where ts.training_id_fk  = training_id group by training_id_fk) as hours "
 					+ "from training t "
 					+ "LEFT JOIN training_session ts on t.training_id = ts.training_id_fk "
 					+ "left join training_attendees ta on training_session_id = training_session_id_fk "

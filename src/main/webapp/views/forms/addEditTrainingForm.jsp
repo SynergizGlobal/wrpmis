@@ -330,8 +330,8 @@
 														<td><input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
 														 <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
 															placeholder="Session No"></td>
-														<td><input type="hidden" name="start_times" value="${tObj.start_time }"/>
-															<input id="start_times${index.count }" type="text" class="validate timepicker" value="${tObj.start_time }"
+														<td>
+															<input id="start_times${index.count }"  name="start_times" type="text" class="validate timepicker" value="${tObj.start_time }"
 															placeholder="Start Time">
 															<button type="button" id="start_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></td>
 														<td><input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }" placeholder="End Time">

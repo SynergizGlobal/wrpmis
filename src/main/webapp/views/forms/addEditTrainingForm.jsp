@@ -314,7 +314,7 @@
 											<th>Start Time</th>
 											<th>End Time</th>
 											<th>Attendees</th>
-											<th class="fw-400">Remaks</th>
+											<th class="fw-400">Remarks</th>
 											<th>Attachment</th>
 											<th>Action</th>
 										</tr>

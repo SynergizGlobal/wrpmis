@@ -104,27 +104,27 @@
 
                         <!--if  model 2 -->
                         <div class="row no-mar">
-                            <div class="col m1 hide-on-small-only"></div>
-                             <div class="col m10 s12"> 
-								<div class="col s12 m2 input-field">
+                            <div class="col m3 hide-on-small-only"></div>
+                             <div class="col m6 s12"> 
+								<div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Sub Work</p>
 	                                  <select id="sub_work" name="sub_work" onchange="getRiskList();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
                                       </select>
 	                            </div>
-	                            <div class="col s12 m2 input-field">
+	                            <div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Area</p>
 	                                  <select id="area" name="area" onchange="getRiskList();" class="searchable">
 	                                            <option value="" >Select </option>	                                           
 	                                 </select>
 	                            </div>
-	                            <div class="col s12 m2 input-field">
+	                            <div class="col s12 m4 input-field">
 	                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                    style="margin-top: 6px;width: 100%;" onclick="clearFilters()">Clear
 	                                    Filters</button>
 	                            </div>
                             </div> 
-                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col m3 hide-on-small-only"></div>
 
                         </div>
 

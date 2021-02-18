@@ -30,9 +30,14 @@
             font-size: 0.85rem;
         }
         .fw-370{
-        	width:370px;
+        	width:370px !important;
         	max-width:370px;
         }
+         .fw-90{
+        	width:90px !important;
+        	max-width:90px;
+        }
+       
         tbody tr td:last-of-type,thead tr th:last-of-type{
         	white-space:inherit;
         	text-align:center !important;
@@ -140,8 +145,8 @@
                                             <th>End Date</th>
                                             <th>Hours</th>
                                             <th>Status  &nbsp; &nbsp;</th>
-                                            <th>Nominated </th>
-                                            <th>Attended </th>
+                                            <th class="fw-90">Nominated </th>
+                                            <th class="fw-90">Attended </th>
                                             <th class="nosort">Action</th>
                                         </tr>
                                     </thead>
@@ -298,7 +303,7 @@
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "20px", "targets": [9] },
+                    { "width": "20px", "targets": [11] },
                 ], "scrollCollapse": true,
                 fixedHeader: true,
                 "sScrollY": 400,
@@ -349,7 +354,8 @@
                         targets: [0, 1, 2],
                         className: 'mdl-data-table__cell--non-numeric'
                     },
-                    { orderable: false, 'aTargets': ['nosort'] }
+                    { orderable: false, 'aTargets': ['nosort'] },
+                    { "width": "20px", "targets": [11] },
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
@@ -367,7 +373,7 @@
              		$.each(data,function(key,val){
              			var training_id = "'"+val.training_id+"'";
                         var actions = '<a href="javascript:void(0);"  onclick="getTraining('+training_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-                        			  +'<a href="javascript:void(0);" onclick="getTrainingDetails('+training_id+');" class="btn waves-effect waves-light bg-s t-c"><i class="fa fa-download"></i></a>'
+                        			 // +'<a href="javascript:void(0);" onclick="getTrainingDetails('+training_id+');" class="btn waves-effect waves-light bg-s t-c"><i class="fa fa-download"></i></a>'
     /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
      */                   	var rowArray = [];    	                                       	
                                           

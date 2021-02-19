@@ -211,7 +211,7 @@
 								</c:if>
 							</div>
 							<div class="col s12 m4 input-field">
-								<p class="searchable_label">Training Type</p>
+								<p class="searchable_label">Training Type <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_type_fk" id="training_type_fk">
 									<option value="">Select Training Type</option>
@@ -228,7 +228,7 @@
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m4 input-field">
-								<p class="searchable_label">Category</p>
+								<p class="searchable_label">Category <span class="required">*</span></p>
 								<select class="searchable validate-dropdown"
 									name="training_category_fk" id="training_category_fk">
 									<option value="">Select Category </option>
@@ -240,7 +240,7 @@
 								<span id="training_category_fkError" class="error-msg"></span>
 							</div>
 							<div class="col s12 m4 input-field">
-								<p class="searchable_label">Status</p>
+								<p class="searchable_label">Status <span class="required">*</span></p>
 								<select class="searchable validate-dropdown" name="status_fk"
 									id="status_fk">
 									<option value="">Select Status</option>
@@ -258,7 +258,7 @@
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m4 input-field ">
 								<input id="faculty_name" name="faculty_name" type="text" class="validate" value="${trainingDetails.faculty_name }">
-								<label for="faculty_name">Faculty</label>
+								<label for="faculty_name">Faculty <span class="required">*</span></label>
 								<span id="faculty_nameError" class="error-msg"></span>
 							</div>
 							<div class="col s12 m4 input-field ">
@@ -273,7 +273,7 @@
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m8 input-field">
 								<textarea id="title" name="title" class="materialize-textarea">${trainingDetails.title }</textarea>
-								<label for="title">Title</label>
+								<label for="title">Title <span class="required">*</span></label>
 								<span id="titleError" class="error-msg"></span>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
@@ -282,7 +282,7 @@
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m8 input-field">
 								<textarea id="description" name="description" class="materialize-textarea">${trainingDetails.description }</textarea>
-								<label for="description">Description</label>
+								<label for="description">Description <span class="required">*</span></label>
 								<span id="descriptionError" class="error-msg"></span>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>

@@ -23,7 +23,10 @@
 		.error-msg label{color:red!important;}
 		.input-field .searchable_label{
 			font-size:0.85rem;
-			margin-bottom:5px !important;
+		}
+		.input-field>.datepicker ~ label:not(.label-icon).active {
+		    -webkit-transform: translateY(-11px) scale(0.8);
+		    transform: translateY(-11px) scale(.8);		
 		}
     </style>
 </head>
@@ -49,7 +52,7 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Project </p>                                    
+                                    <p class="searchable_label"> Project <span class="required">*</span></p>                                    
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -60,7 +63,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p class="searchable_label"> Work </p> 
+                                 <p class="searchable_label"> Work <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
@@ -76,7 +79,7 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                 <p class="searchable_label"> Contract </p> 
+                                 <p class="searchable_label"> Contract <span class="required">*</span></p> 
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
@@ -112,7 +115,7 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Issue Category </p> 
+                                <p class="searchable_label">Issue Category <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesCategoryList }">
@@ -122,7 +125,7 @@
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Issue Priority </p> 
+                                <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesPriorityList }">
@@ -138,7 +141,7 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                	<p class="searchable_label">Department </p> 
+                                	<p class="searchable_label">Department <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
@@ -149,7 +152,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="title" name="title" type="text" class="validate">
-                                    <label for="title">Short Description</label>
+                                    <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -168,7 +171,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date">Date of raising issue</label>
+                                    <label for="date">Date of raising issue <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -253,7 +256,7 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Issue Status </p> 
+                                    <p class="searchable_label">Issue Status <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesStatusList }">

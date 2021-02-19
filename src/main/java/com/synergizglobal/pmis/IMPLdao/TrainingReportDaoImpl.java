@@ -81,7 +81,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    	if(!StringUtils.isEmpty(sessonObjsList) && !sessonObjsList.isEmpty()) {
 			    	for (Training sObj : sessonObjsList) {
 			    		String attendeesQry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
-			    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,designation " 
+			    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,ta.designation as trainee_designation " 
 								+ "from training_attendees ta "
 								+ "LEFT JOIN department d on ta.department_fk = d.department "
 								+ "LEFT JOIN user u on ta.hod_user_id_fk = u.user_id "
@@ -105,7 +105,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		List<Training> objsList = null;
 		try {
 			String attendeesQry = "select training_attendees_id,d.department_name, ta.training_id_fk, ta.training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
-    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,u.designation as reporting_to_designation,"
+    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,u.designation as reporting_to_designation,ta.designation as trainee_designation,"
     				+ "(select count(*) from training_attendees where required_fk = ? and training_id_fk = ta.training_id_fk and training_session_id_fk = ta.training_session_id_fk) as nominated,"
     				+ "(select count(*) from training_attendees where participated_fk = ? and training_id_fk = ta.training_id_fk and training_session_id_fk = ta.training_session_id_fk) as attended,"
     				+ "training_center,session_no,title,description,DATE_FORMAT(start_time,'%d-%m-%Y') AS date " 
@@ -167,7 +167,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao{
 		    	if(!StringUtils.isEmpty(sessonObjsList) && !sessonObjsList.isEmpty()) {
 			    	for (Training sObj : sessonObjsList) {
 			    		String attendeesQry = "select training_attendees_id,d.department_name, training_id_fk, training_session_id_fk, ta.department_fk, attendee, hod_user_id_fk,"
-			    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,designation,"
+			    				+ "mobile_no, required_fk, participated_fk,user_id,user_name as reporting_to,ta.designation as trainee_designation,"
 			    				+ "(select count(*) from training_attendees where required_fk = ? and training_id_fk = ? and training_session_id_fk = ?) as nominated,(select count(*) from training_attendees where participated_fk = ? and training_id_fk = ? and training_session_id_fk = ?) as attended " 
 								+ "from training_attendees ta "
 								+ "LEFT JOIN department d on ta.department_fk = d.department "

@@ -539,7 +539,7 @@ public class DocxTableCreation {
 		
 		/****************************************************************************/
 		
-		if(!StringUtils.isEmpty(scheduledTrainings)) {
+		if(!StringUtils.isEmpty(scheduledTrainings) && scheduledTrainings.size() > 0) {
 			
 			for (Training tObj : scheduledTrainings) {				
 				
@@ -699,6 +699,29 @@ public class DocxTableCreation {
 				
 			}			
 			/****************************************************************************************/				
+		} else {
+			boolean hasBgColor = false;
+			String backgroundColor = null;
+			Tbl titleTable = factory.createTbl();
+			addBorders(titleTable, "0");
+			Tr contentRow = factory.createTr();	
+			
+			List<String> noDataRow = new ArrayList<String>();
+			noDataRow.add("NO SCHEDULED TRAININGS");
+			noDataRow.add("");
+			noDataRow.add("");
+			noDataRow.add("");
+			noDataRow.add("");
+			
+			for (String headerValue : noDataRow) {
+				addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+						JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			}		
+			titleTable.getContent().add(contentRow);	
+			mergeCellsHorizontal(titleTable, 0, 0, 4);
+			
+			setTableAlign(factory, titleTable, JcEnumeration.CENTER);
+			mp.addObject(titleTable);
 		}
 	}	
 
@@ -870,7 +893,7 @@ public class DocxTableCreation {
 		
 		/****************************************************************************/
 		
-		if(!StringUtils.isEmpty(completedTrainings)) {
+		if(!StringUtils.isEmpty(completedTrainings) && completedTrainings.size() > 0) {
 			
 			for (Training tObj : completedTrainings) {				
 				
@@ -1035,6 +1058,29 @@ public class DocxTableCreation {
 				
 			}			
 			/****************************************************************************************/				
+		} else {
+			boolean hasBgColor = false;
+			String backgroundColor = null;
+			Tbl titleTable = factory.createTbl();
+			addBorders(titleTable, "0");
+			Tr contentRow = factory.createTr();	
+			
+			List<String> noDataRow = new ArrayList<String>();
+			noDataRow.add("NO COMPLETED TRAININGS");
+			noDataRow.add("");
+			noDataRow.add("");
+			noDataRow.add("");
+			noDataRow.add("");
+			
+			for (String headerValue : noDataRow) {
+				addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+						JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			}		
+			titleTable.getContent().add(contentRow);	
+			mergeCellsHorizontal(titleTable, 0, 0, 4);
+			
+			setTableAlign(factory, titleTable, JcEnumeration.CENTER);
+			mp.addObject(titleTable);
 		}			
 	}
 	

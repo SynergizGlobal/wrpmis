@@ -145,6 +145,9 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		.input-field .searchable_label{
+			font-size:.9rem;
+		}
 	     
     </style>
 </head>
@@ -173,7 +176,7 @@
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                <p><label>Project</label></p>
+	                                <p class="searchable_label">Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                                    onchange="getWorksList(this.value);">
 	                                        <option value="">Select</option>
@@ -184,7 +187,7 @@
 	                                     <span id="project_id_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                <p><label>Work</label></p>
+	                                <p class="searchable_label">Work <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
 	                                    	onchange="resetProjectsDropdowns(this.value);">
 	                                        <option value="">Select</option>
@@ -202,7 +205,7 @@
 	                                <div class="col s12 m8 ">
 	                                    <div class="row">
 	  										<div class="col s12 m6 input-field">
-	  										 	<p><label>HOD</label></p>
+	  										 	<p class="searchable_label">HOD</p>
 	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(this.value);"> 
 	                                     		  <option value="">Select</option> 
 	                                                 <c:forEach var="obj" items="${hodList }"> 
@@ -214,7 +217,7 @@
 	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
 	                                        <div class="col s12 m6 input-field">
-	                                        	<p><label>Dy HOD</label></p>
+	                                        	<p class="searchable_label">Dy HOD</p>
 	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
 	                                                <option value="">Select</option>
 	                                                <c:forEach var="obj" items="${dyHodList }"> 
@@ -235,7 +238,7 @@
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                <p><label>Department</label></p>
+	                                <p class="searchable_label">Department <span class="required">*</span></p>
 	                                    <select name="department_fk" id="department_fk" class="searchable validate-dropdown">
 	                                        <option value="">Select</option>
 	                                           <c:forEach var="obj" items="${departmentList }">
@@ -255,7 +258,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field">
 	                                    <textarea name="contract_name" id="contract_name" type="text" class="validate materialize-textarea" ></textarea>
-	                                    <label for="contract_name">Contract Name</label>
+	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -277,7 +280,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	
 	                                <div class="col s12 m4 input-field">
-	                                 <p><label>Contract Type</label></p>
+	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
 	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                       	   <c:forEach var="obj" items="${contract_type }">
@@ -289,7 +292,7 @@
 	                                </div>
 	                                
 	                                <div class="col s12 m4 input-field">
-	                                 <p><label>Contractor Name</label></p>
+	                                 <p class="searchable_label">Contractor Name <span class="required">*</span></p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                       	    <c:forEach var="obj" items="${contractors }">
@@ -464,7 +467,7 @@
 	                            <%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                 <p>   <label>Status of Contract</label></p>
+	                                 <p>   <label>Status of Contract</p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
 	                                        <option value="" selected>Select</option>
 	                                       		 <c:forEach var="obj" items="${contract_Statustype }">

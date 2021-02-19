@@ -178,9 +178,9 @@
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                <p class="searchable_label">Project <span class="required">*</span></p>
-	                                  			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
-	                                         	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
+	                                	<p class="searchable_label">Project <span class="required">*</span></p>
+                                  			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
+                                         	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <p class="searchable_label">Work <span class="required">*</span></p>

@@ -128,6 +128,9 @@
          .table-inside .normal-btn .btn .fa{
          	font-size:1.3rem;
          }
+         .input-field .searchable_label{
+         	font-size: 0.85rem;
+         }
          .select2-container--default .select2-selection--single {
 	    	background-color: transparent;
 	     }
@@ -175,12 +178,12 @@
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                <p><label>Project</label></p>
+	                                <p class="searchable_label">Project <span class="required">*</span></p>
 	                                  			 <input type="text"  value="${contractDeatils.project_id_fk} - ${contractDeatils.project_name}" readonly />
 	                                         	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p><label>Work</label></p>
+	                                    <p class="searchable_label">Work <span class="required">*</span></p>
 	                                    	<input type="text"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
 	                                        <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
 	                                </div>
@@ -193,7 +196,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	
 	                                <div class="col s12 m4 input-field">
-	                                 <p><label>Department</label></p>
+	                                 <p class="searchable_label">Department <span class="required">*</span></p>
 	                                    <select name="department_fk" id="department_fk" class="searchable">
 	                                        <option value="" selected>Select</option>
 	                                          <c:forEach var="obj" items="${departmentList }">
@@ -215,7 +218,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m8 input-field">
 	                                    <textarea id="contract_name" name ="contract_name" class="materialize-textarea" data-length="1000">${contractDeatils.contract_name }</textarea>
-	                                    <label for="contract_name">Contract Name</label>
+	                                    <label for="contract_name">Contract Name <span class="required">*</span></label>
 	                                    <span id="contract_nameError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -236,7 +239,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	
 	                                <div class="col s12 m4 input-field">
-	                                 <p><label>Contract Type</label></p>
+	                                 <p class="searchable_label">Contract Type <span class="required">*</span></p>
 	                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                       	   <c:forEach var="obj" items="${contract_type }">
@@ -246,7 +249,7 @@
 	                                     <span id="contract_type_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p><label>Contractor Name</label></p>
+	                                    <p class="searchable_label">Contractor Name <span class="required">*</span></p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                       	    <c:forEach var="obj" items="${contractor }">
@@ -275,7 +278,7 @@
 	                                    <div class="row">
 	
 	                                        <div class="col s12 m6 input-field">
-	                                        	<p><label>HOD</label></p>
+	                                        	<p class="searchable_label">HOD</p>
 	                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="" selected>Select</option> 
 	                                                 <c:forEach var="obj" items="${hodList }"> 
@@ -288,7 +291,7 @@
 	                                          <%--  <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" value="${contractDeatils.dy_hod_user_id_fk }" style="margin-top:10px">
 	                                    		<label for="dy_hod_user_id_fk">Dy HOD</label> --%>
 	                                    		
-	                                    		<p><label>Dy HOD</label></p>
+	                                    		<p class="searchable_label">Dy HOD</p>
 	                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable"> 
 	                                     		  <option value="" selected>Select</option> 
 	                                                 <c:forEach var="obj" items="${hodList }"> 
@@ -443,7 +446,7 @@
 	                                     <span id="contract_closureError" class="error-msg" ></span>
 	                                </div> --%>
 	                                <div class="col s12 m4 input-field">
-	                                   <p class="searchable_label">   <label>Status of Contract</label></p>
+	                                   <p class="searchable_label">   <label>Status of Contract</p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">
@@ -457,7 +460,7 @@
 	                            <%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                   <p>   <label>Status of Contract</label></p>
+	                                   <p>   <label>Status of Contract</p>
 	                                    <select name = "contract_status_fk" id="contract_status_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
 	                                           <c:forEach var="obj" items="${contract_Statustype }">

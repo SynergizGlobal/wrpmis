@@ -172,7 +172,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="location" name="location" type="text" class="validate" value="${issue.location }">
-                                    <label for="location">Location </label>
+                                    <label for="location">Location/Station/KM </label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -242,7 +242,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000">${issue.corrective_measure }</textarea>
-                                    <label for="corrective_measure">Corrective Measure</label>
+                                    <label for="corrective_measure">Issue/Action Taken/Remarks</label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
                             </div>

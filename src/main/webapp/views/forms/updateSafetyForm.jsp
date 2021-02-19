@@ -233,7 +233,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="location" name="location" type="text" class="validate" value="${safety.location }">
-                                    <label for="location">Location </label>
+                                    <label for="location">Location/Station/KM </label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -260,7 +260,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${safety.reported_by }">
-                                    <label for="reported_by">Reported By </label>
+                                    <label for="reported_by">Reported By (HOD) </label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">

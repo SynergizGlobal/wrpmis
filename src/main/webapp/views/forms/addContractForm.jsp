@@ -197,6 +197,41 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 	                            <div class="row">
+	                                <!-- //row 9 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 ">
+	                                    <div class="row">
+	  										<div class="col s12 m6 input-field">
+	  										 	<p><label>HOD</label></p>
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(this.value);"> 
+	                                     		  <option value="">Select</option> 
+	                                                 <c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select> 
+												<!-- <input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+												<label for="hod_user_id_fk">HOD</label> -->
+	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                        <div class="col s12 m6 input-field">
+	                                        	<p><label>Dy HOD</label></p>
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
+	                                                <option value="">Select</option>
+	                                                <c:forEach var="obj" items="${dyHodList }"> 
+			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select>
+												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
+	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
+	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            
+	                            <div class="row">
 	                                <!-- row 1  -->
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
@@ -275,40 +310,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	
 	                            </div>
-	                            <div class="row">
-	                                <!-- //row 9 -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 ">
-	                                    <div class="row">
-	  										<div class="col s12 m6 input-field">
-	  										 	<p><label>HOD</label></p>
-	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
-	                                     		  <option value="">Select</option> 
-	                                                 <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
-	                                            </select> 
-												<!-- <input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
-												<label for="hod_user_id_fk">HOD</label> -->
-	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                        <div class="col s12 m6 input-field">
-	                                        	<p><label>Dy HOD</label></p>
-	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
-	                                                <option value="">Select</option>
-	                                                <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
-	                                            </select>
-												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
-	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
-	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
+	                        
 	                            <div class="row">
 	                                <!-- //row 7 -->
 	                                <div class="col m2 hide-on-small-only"></div>	                               
@@ -1020,6 +1022,7 @@
              $('.searchable').select2();
              $('#remarks').characterCounter();
         });
+        
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
@@ -1035,6 +1038,30 @@
                                 var workName = '';
                                 if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                                 $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                            });
+                        }
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        
+        function getDepartmentsList(userId) {
+        	$(".page-loader").show();
+            $("#department_fk option:not(:first)").remove();
+
+            if ($.trim(userId) != "") {
+                var myParams = { userId: userId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                $("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_fk) + '</option>');
                             });
                         }
                         $(".page-loader").hide();

@@ -139,7 +139,7 @@
                                 <input id="user_id" name="user_id" type="hidden" value="${usrObj.user_id }">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                     <p class="searchable_label">User Role</p>
+                                     <p class="searchable_label">User Role <span class="required">*</span></p>
                                       <select id="user_role_name_fk" name="user_role_name_fk" class="searchable validate-dropdown" onchange="setUserRoleCode();">
                                           <option value="">Select</option>
                                           <c:forEach var="obj" items="${roles }">
@@ -164,7 +164,7 @@
                                 </div>
                                 </c:if> --%>
                                  <div class="col s12 m4 input-field">
-                                     <p class="searchable_label">User Type</p>
+                                     <p class="searchable_label">User Type <span class="required">*</span></p>
                                       <select id="user_type_fk" name="user_type_fk" class="searchable validate-dropdown" >
                                           <option value="">Select</option>
                                           <c:forEach var="obj" items="${types }">
@@ -180,7 +180,7 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                   <p class="searchable_label">Department</p>
+                                   <p class="searchable_label">Department <span class="required">*</span></p>
                                     <select id="department_fk" name="department_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departments }">
@@ -190,7 +190,7 @@
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                   <p class="searchable_label">Reporting To</p>
+                                   <p class="searchable_label">Reporting To <span class="required">*</span></p>
                                    <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable validate-dropdown">
                                        <option value="">Select</option>
                                        <c:forEach var="obj" items="${reportingToList }">
@@ -211,7 +211,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field ">
                                     <input id="designation" name="designation" type="text" class="validate" value="${usrObj.designation }">
-                                    <label for="designation">Designation </label>
+                                    <label for="designation">Designation <span class="required">*</span></label>
                                     <span id="designationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -225,7 +225,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field ">
                                     <input id="mobile_number" name="mobile_number" type="number" class="validate" value="${usrObj.mobile_number }">
-                                    <label for="mobile_number"> Mobile Number </label>
+                                    <label for="mobile_number"> Mobile Number <span class="required">*</span></label>
                                     <span id="mobile_numberError" class="error-msg" ></span>
                                 </div>
 

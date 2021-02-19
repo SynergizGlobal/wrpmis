@@ -36,6 +36,10 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		.input-field>.datepicker ~ label:not(.label-icon).active {
+		    -webkit-transform: translateY(-11px) scale(0.8);
+		    transform: translateY(-11px) scale(0.8);
+		}
 				
     </style>
 </head>
@@ -70,7 +74,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Project</p>
+                                    <p class="searchable_label">Project <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                    		 onchange="getWorksList(this.value);">
                                          <option value="" >Select</option>
@@ -81,7 +85,7 @@
                                      <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Work</p>
+                                    <p class="searchable_label">Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" >Select</option>
@@ -96,7 +100,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Contract</p>
+                                    <p class="searchable_label">Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
@@ -107,7 +111,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="contractor_name" name="contractor_name" type="text" class="validate" >
-                                    <label for="contractor_name">Contractor Name</label>
+                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
                                     <span id="contractor_nameError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -117,22 +121,22 @@
 	                       	 	<div class="row">
 		                       	 	  <div class="col m2 hide-on-small-only"></div>
 		                       		  <div class="col s12 m4 input-field">
-											<p><label> Project </label></p>
+											 <p class="searchable_label">Project <span class="required">*</span></p>
 		                                    <input type="text" value="${expenditureDetails.project_id_fk} - ${expenditureDetails.project_name}" readonly />
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
-										    <p><label> Work </label></p>
+										    <p class="searchable_label">Work <span class="required">*</span></p>
 		                                    <input type="text" value="${expenditureDetails.work_id_fk} - ${expenditureDetails.work_name}" readonly />
 		                              </div>
 	                             </div> 
 	                             <div class="row">
 		                       	 	  <div class="col m2 hide-on-small-only"></div>
 		                       		  <div class="col s12 m4 input-field">
-											<p><label>Contract </label></p>        
+											 <p class="searchable_label">Contract <span class="required">*</span></p>       
 	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly />
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
-										    <p><label>Contractor name </label></p>
+										    <p class="searchable_label">Contractor name  <span class="required">*</span></p>
 		                                    <input type="text" id="contractor_name" name="contractor_name" value="${expenditureDetails.contractor_name}" readonly />
 		                              </div>
 		                              <div class="col m2 hide-on-small-only"></div>
@@ -162,7 +166,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="date" type="text" name="date" class="validate datepicker" value="${expenditureDetails.date }">
-                                    <label for="date">Date</label>
+                                    <label for="date">Date <span class="required">*</span></label>
                                     <span id="dateError" class="error-msg" ></span>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                 </div>
@@ -172,7 +176,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Voucher Type</p>
+                                    <p class="searchable_label">Voucher Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="voucher_type" name="voucher_type">
                                          <option value="" >Select Voucher Type</option>
                                          <c:forEach var="obj" items="${voucherList }">

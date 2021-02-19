@@ -118,7 +118,7 @@
 				                        <form action="<%=request.getContextPath() %>/update-p6-activities" name="p6UpdateFrom" id="p6UpdateFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
-				                                    <p  class="searchable_label">Contract</p>
+				                                    <p  class="searchable_label">Contract <span class="required">*</span></p>
 				                                     <select id="contract_id_fkUpdate" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpdate','fobDropDownUpdate');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${contractsList}">
@@ -138,7 +138,7 @@
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <input id="data_dateUpdate" type="text" name="data_date" class="validate datepicker">
-				                                    <label for="data_dateUpdate"> Data Date</label>
+				                                    <label for="data_dateUpdate"> Data Date <span class="required">*</span></label>
 				                                    <button type="button" id="data_dateUpdate_icon"><i class="fa fa-calendar"></i></button>
 				                                    <span id="data_dateUpdateError" class="error-msg" ></span>
 				                                </div>
@@ -184,7 +184,7 @@
 				                        <form action="<%=request.getContextPath() %>/upload-p6-data" name="p6UploadFrom" id="p6UploadFrom" method="post" enctype="multipart/form-data">
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
-				                                    <p  class="searchable_label"> Contract</p>
+				                                    <p  class="searchable_label"> Contract <span class="required">*</span></p>
 				                                     <select id="contract_id_fkUpload" name="contract_id_fk"  class="searchable validate-dropdown" onchange="getFobList(this.value,'fob_id_fkUpload','fobDropDownUpload');">
 				                                            <option value="" >Select</option>
 				                                            <c:forEach var="obj" items="${contractsList}">
@@ -204,7 +204,7 @@
 				                            <div class="row">
 				                                <div class="col s12 m6 input-field">
 				                                    <input id="data_dateUpload" type="text" name="data_date" class="validate datepicker">
-				                                    <label for="data_dateUpload"> Data Date</label>
+				                                    <label for="data_dateUpload"> Data Date <span class="required">*</span></label>
 				                                    <button type="button" id="data_dateUpload_icon"><i class="fa fa-calendar"></i></button>
 				                                    <span id="data_dateUploadError" class="error-msg" ></span>
 				                                </div>

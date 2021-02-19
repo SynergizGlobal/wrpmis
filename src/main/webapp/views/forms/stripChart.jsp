@@ -26,6 +26,9 @@
         .hiddendiv.common {
             width: 99vw !important;
         }
+        .input-field .searchable_label{
+        	font-size: 0.85rem;
+        }
 
         [type="radio"]:checked+span::after,
         [type="radio"].with-gap:checked+span::after {
@@ -267,7 +270,7 @@
                                 <div class="col m10 s12">
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
-                                            <p>Project</p>
+                                            <p class="searchable_label">Project <span class="required">*</span></p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id"
                                                 onchange="getStripChartWorksList(this.value);">
                                                 <option value="">Select</option>
@@ -278,7 +281,7 @@
                                             <span id="project_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m8 s12 input-field">
-                                            <p>Work</p>
+                                           <p class="searchable_label">Work <span class="required">*</span></p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                                 onchange="getStripChartContractsList(this.value);">
                                                 <option value="">Select</option>
@@ -289,7 +292,7 @@
                                             <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m12 s12 input-field">
-                                            <p>Contract</p>
+                                           <p class="searchable_label">Contract <span class="required">*</span></p>
                                             <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
                                                 onchange="getComponentIdsList('1');getStripChartStructures(); getStripChartLines(); getStripChartSections();"> -->
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
@@ -305,7 +308,7 @@
                                     <div class="row" id="toggle-selects">
                                         <!-- row 1  -->
                                         <div class="col m4 s12 input-field">
-                                            <p>Structure</p>
+                                           <p class="searchable_label">Structure <span class="required">*</span></p>
                                             <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
                                                 <option value="">Select</option>
@@ -313,14 +316,14 @@
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m4 s12 input-field" id="strip_chart_line_id_fkDiv" style="display: none;">
-                                            <p>Line</p>
+                                           <p class="searchable_label">Line</p>
                                             <select id="strip_chart_line_id_fk" name="strip_chart_line_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
                                                 <option value="">Select</option>
                                             </select>
                                         </div>
                                         <div class="col m4 s12 input-field" id="strip_chart_section_id_fkDiv" style="display: none;">
-                                            <p>Section</p>
+                                           <p class="searchable_label">Section</p>
                                             <select id="strip_chart_section_id_fk" name="strip_chart_section_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
                                                 <option value="">Select</option>
@@ -444,7 +447,7 @@
                                     <div class="row">
                                     	
                                     	<div class="col m4 s12 input-field">
-                                            <p>Component ID</p>
+                                           <p class="searchable_label">Component ID <span class="required">*</span></p>
                                             <select class="searchable validate-dropdown" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getComponentAndActivitiesList(this.value);">
                                                 <option value="">Select</option>
                                             </select>
@@ -452,8 +455,8 @@
                                         </div>
                                         
                                         <div class="col m4 s12 input-field">
-                                        	<p for="strip_chart_component">Component</p>
-                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2rem;" readonly="readonly">
+                                        	<p class="searchable_label">Component</p>
+                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2.75rem;" readonly="readonly">
                                             <!-- <p>Component</p>
                                             <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
                                                 <option value="">Select</option>
@@ -462,7 +465,7 @@
                                         </div>
                                         
                                         <div class="col m4 s12 input-field">
-                                            <p>Activity</p>
+                                           <p class="searchable_label">Activity <span class="required">*</span></p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
                                                 class="searchable validate-dropdown" onchange="getStripChartDetails(this.value);">
                                                 <option value="">Select</option>
@@ -509,14 +512,14 @@
                                     <div class="row">
                                         <div class="col m6 s12 input-field">
                                             <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
-                                            <label for="progress_date">Progress Date</label>
+                                            <label for="progress_date">Progress Date <span class="required">*</span></label>
                                             <button type="button" id="progress_date_icon"><i
                                                     class="fa fa-calendar"></i></button>
                                             <span id="progress_dateError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m6 s12 input-field">
                                             <input id="progress" name="progress" type="text" class="validate">
-                                            <label for="progress">Progress for the Day</label>
+                                            <label for="progress">Progress for the Day <span class="required">*</span></label>
                                             <span class="units unit_fk"></span>
                                             <span id="progressError" class="error-msg" ></span>
                                         </div>

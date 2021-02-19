@@ -70,7 +70,7 @@
                               <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
-                                    <p class="searchable_label">Project</p>
+                                    <p class="searchable_label">Project <span class="required">*</span></p>
                                      <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -99,8 +99,8 @@
 	                              <div class="col m2 hide-on-small-only">
 	                              </div>
 	                       		  <div class="col s12 m8 input-field">
-										 <p class="searchable_label">Project</p>
-	                                         	 	<input type="text" value="${fundDetails.project_id} - ${fundDetails.project_name}" readonly />
+										 <p class="searchable_label">Project <span class="required">*</span></p>
+	                                     <input type="text" value="${fundDetails.project_id} - ${fundDetails.project_name}" readonly />
 								  </div> 
 								  <!-- <div class="col s12 m4 input-field"> 
 									    <p class="searchable_label">Work</p>
@@ -112,7 +112,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Source of Fund</p>
+                                    <p class="searchable_label">Source of Fund <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="source_of_funds_fk" id="source_of_funds_fk">
                                         <option value="">Select</option>
                                            <c:forEach var="obj" items="${sourceOfFundList}">
@@ -122,7 +122,7 @@
                                     <span id="source_of_funds_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Sub Category Railway</p>
+                                    <p class="searchable_label">Sub Category Railway <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="sub_category_railway_id_fk" id="sub_category_railway_id_fk">
                                         <option value="">Select</option>
                                        		 <c:forEach var="obj" items="${railwaysList}">

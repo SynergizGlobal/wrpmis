@@ -121,7 +121,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Project</p>
+                                    <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                  	   onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -132,7 +132,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Work</p>
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
                                     		onchange="resetProjectsDropdowns(this.value);">
 	                                        <option value="">Select</option>
@@ -150,13 +150,13 @@
 	                              <div class="col m2 hide-on-small-only">
 	                              </div>
 	                       		  <div class="col s12 m4 input-field">
-										<p class="searchable_label"> Project</p>
-	                                         	 	<input type="text" value="${budgetDetails.project_id_fk} - ${budgetDetails.project_name}" readonly />
+										<p class="searchable_label"> Project <span class="required">*</span></p>
+	                                    <input type="text" value="${budgetDetails.project_id_fk} - ${budgetDetails.project_name}" readonly />
 								  </div> 
 								  <div class="col s12 m4 input-field"> 
-									    <p class="searchable_label"> Work</p>
-	                                         	 	<input type="text"  value="${budgetDetails.work_id_fk} - ${budgetDetails.work_short_name}" readonly />
-	                                         	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}" readonly />
+									    <p class="searchable_label"> Work <span class="required">*</span></p>
+                                     	<input type="text"  value="${budgetDetails.work_id_fk} - ${budgetDetails.work_short_name}" readonly />
+                                     	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${budgetDetails.work_id_fk}" readonly />
 	                              </div>
                               </div> 
                              </c:if>

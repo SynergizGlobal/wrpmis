@@ -112,7 +112,7 @@
                         <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Project </p>
+                                    <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select id="project_id_fk" name="project_id_fk"  class="searchable validate-dropdown"  onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
@@ -122,7 +122,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Work</p>
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${worksList }">
@@ -139,11 +139,11 @@
 	                              <div class="col m2 hide-on-small-only">
 	                              </div>
 	                       		  <div class="col s12 m4 input-field">
-										<p class="searchable_label"> Project</p>
+										<p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <input type="text" value="${LADetails.project_id_fk} - ${LADetails.project_name}" readonly />
 								  </div> 
 								  <div class="col s12 m4 input-field"> 
-									    <p class="searchable_label"> Work</p>
+									    <p class="searchable_label"> Work <span class="required">*</span></p>
                                     	<input type="text"  value="${LADetails.work_id_fk} - ${LADetails.work_short_name}" readonly />
                                     	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
 	                              </div>
@@ -160,7 +160,7 @@
 	                                        <option value="3">Agency 3</option>
 	                                    </select> -->
 	                                    
-	                                    <label for="la_id"> Land Acquisition ID :</label>
+	                                    <label for="la_id"> Land Acquisition ID <span class="required">*</span>:</label>
 	                                </div>
 	                                 <div class="col s12 m6 input-field">
 	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" >
@@ -181,7 +181,7 @@
 	                                        <option value="3">Agency 3</option>
 	                                    </select> -->
 	                                    
-	                                    <label for="la_id"> Land Acquisition ID :</label>
+	                                    <label for="la_id"> Land Acquisition ID <span class="required">*</span>:</label>
 	                                </div>
 	                                 <div class="col s12 m6 input-field">
 	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" readonly>
@@ -208,7 +208,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Type of Land </p>
+                                    <p class="searchable_label"> Type of Land <span class="required">*</span></p>
                                     <select id="type_of_land" class="searchable validate-dropdown" name="type_of_land" onchange="getSubCategorysList();">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${landsList }">
@@ -219,7 +219,7 @@
                                     
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Sub Category of Land</p>
+                                    <p class="searchable_label"> Sub Category of Land <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="sub_category_of_land" name="id" onchange="getLandsList();">
                                         <option value="" selected>Select</option>
                                        <c:forEach var="obj" items="${subCategorysList }">
@@ -236,12 +236,12 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input type="text" id="type_of_land" name="type_of_land"  value="${LADetails.type_of_land }" readonly />
-	                                    <label for="type_of_land"> Type of Land </label>
+	                                    <label for="type_of_land"> Type of Land <span class="required">*</span></label>
 	                                    
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input type="text"  id="sub_category_of_land" value="${LADetails.sub_category_of_land }" readonly/>
-	                                    <label for="sub_category_of_land"> Sub Category of Land </label>
+	                                    <label for="sub_category_of_land"> Sub Category of Land <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>

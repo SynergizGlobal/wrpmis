@@ -288,7 +288,7 @@
                                 <div class="col m10 s12">
                                     <div class="row">
                                         <div class="col m4 s12 input-field">
-                                            <p>Project</p>
+                                            <p class="searchable_label">Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id"
                                                 onchange="getProgressBulkUpdateWorksList(this.value);">
                                                 <option value="">Select</option>
@@ -299,7 +299,7 @@
                                             <span id="project_idError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m8 s12 input-field">
-                                            <p>Work</p>
+                                            <p class="searchable_label">Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                                 onchange="getProgressBulkUpdateContractsList(this.value);">
                                                 <option value="">Select</option>
@@ -310,7 +310,7 @@
                                             <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                        <div class="col m12 s12 input-field">
-                                            <p>Contract</p>
+                                            <p class="searchable_label">Contract <span class="required">*</span></p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
                                                 onchange="resetWorksAndProjectsDropdowns();getProgressBulkUpdateStructures(); getProgressBulkUpdateLines(); getProgressBulkUpdateSections();">
                                                 <option value="">Select</option>
@@ -323,7 +323,7 @@
                                     </div>
                                     <div class="row" id="toggle-selects">
                                         <div class="col m4 s12 input-field" >
-                                            <p class="searchable_label">Structure</p>
+                                            <p class="searchable_label">Structure <span class="required">*</span></p>
                                            <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk"
                                                 class="searchable validate-dropdown" onchange="getComponentIdsList();">
                                                 <option value="">Select</option>
@@ -490,7 +490,7 @@
                                         </div>
                                         <div class="col m4 s6 input-field" style="margin-bottom: 30px;margin-top: 10px;">
                                              <input id="progress_date" name="progress_date" type="text" class="validate datepicker">
-                                             <label for="progress_date">Reporting Date</label>
+                                             <label for="progress_date">Reporting Date <span class="required">*</span></label>
                                              <button type="button" id="progress_date_icon" class="white"><i class="fa fa-calendar"></i></button>
                                               <span id="progress_dateError" class="error-msg" ></span>
                                         </div>

@@ -81,14 +81,14 @@
                                 <c:if test="${action eq 'add'}">	
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="pan_number" name="pan_number" maxlength="10" minlength="10" type="text" class="validate" onblur="panNumberVerify()" style="text-transform:uppercase">
-	                                    <label for="pan_number">PAN Number</label>
+	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
                                 </c:if> 
                                  <c:if test="${action eq 'edit'}">	
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="pan_number" name="pan_number"  maxlength="10" minlength="10" type="text" class="validate" style="text-transform:uppercase" value="${contractorDetails.pan_number }">
-	                                    <label for="pan_number">PAN Number</label>
+	                                    <label for="pan_number">PAN Number <span class="required">*</span></label>
 	                                    <span id="pan_numberError" class="error-msg" ></span>
 	                                </div>  
                                 </c:if>                          
@@ -110,7 +110,7 @@
 
                                 <div class="col s12 m8 input-field">
                                     <input id="contractor_name" name="contractor_name" type="text" class="validate" value="${contractorDetails.contractor_name }">
-                                    <label for="contractor_name">Contractor Name</label>
+                                    <label for="contractor_name">Contractor Name <span class="required">*</span></label>
                                     <span id="contractor_nameError" class="error-msg" ></span>
                                 </div>
 

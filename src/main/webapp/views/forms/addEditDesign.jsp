@@ -134,7 +134,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Project </p>
+                                    <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
                                     onchange="getWorksList(this.value);">
                                          <option value="" >Select</option>
@@ -145,7 +145,7 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Work </p>
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" >Select</option>
@@ -163,12 +163,12 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                               
 	                                <div class="col s12 m4 input-field">
-										<p class="searchable_label">Project</p>
-	                                         	 	<input type="text" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
+										<p class="searchable_label">Project <span class="required">*</span></p>
+	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
 								    </div> 
 	                                <div class="col s12 m4 input-field"> 
-									    <p class="searchable_label"> Work </p>
-	                                         	 	<input type="text" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
+									    <p class="searchable_label"> Work <span class="required">*</span></p>
+	                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
@@ -177,7 +177,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <c:if test="${action eq 'add'}">
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Contract </p>
+                                    <p class="searchable_label">Contract <span class="required">*</span></p>
                                      <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -190,12 +190,12 @@
                                 </c:if>
                                 <c:if test="${action eq 'edit'}">
                                 <div class="col s12 m4 input-field"> 
-									    <p class="searchable_label"> Contract </p>
-	                                         	 	<input type="text" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
+									    <p class="searchable_label"> Contract <span class="required">*</span></p>
+	                                    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
 	                                </div>
                                  </c:if>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Department </p>
+                                    <p class="searchable_label"> Department <span class="required">*</span></p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
                                           <c:forEach var="obj" items="${departmentList }">
@@ -237,12 +237,12 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="hod" type="text" class="validate" name="hod" value="${designDetails.hod }">
-                                    <label for="hod">HOD </label>
+                                    <label for="hod">HOD <span class="required">*</span></label>
                                     <span id="hodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="dy_hod" type="text" class="validate" name="dy_hod" value="${designDetails.dy_hod }">
-                                    <label for="dy_hod">Dy HOD </label>
+                                    <label for="dy_hod">Dy HOD <span class="required">*</span></label>
                                     <span id="dy_hodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -252,7 +252,7 @@
                                 <!-- row 6 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Prepared By </p>
+                                    <p class="searchable_label">Prepared By <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${preparedBy }">
@@ -262,7 +262,7 @@
                                     <span id="prepared_by_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                                <p class="searchable_label">Structure </p>
+                                    <p class="searchable_label">Structure <span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
                                  		<c:forEach var="obj" items="${structureTypeList}">
@@ -282,7 +282,7 @@
                                     <label for="component">Component </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label" style="margin-top:-4px !important">Drawing Type </p>
+                                    <p class="searchable_label" >Drawing Type <span class="required">*</span></p>
                                     <select id="drawing_type_fk" name="drawing_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
                                			<c:forEach var="obj" items="${drawingTypeList}">
@@ -298,7 +298,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="drawing_title" name="drawing_title" class="materialize-textarea" data-length="1000">${designDetails.drawing_title }</textarea>
-                                    <label for="drawing_title">Drawing Title</label>
+                                    <label for="drawing_title">Drawing Title <span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>
                             </div>

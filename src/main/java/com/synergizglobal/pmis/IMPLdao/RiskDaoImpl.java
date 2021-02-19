@@ -143,12 +143,11 @@ public class RiskDaoImpl implements RiskDao{
 		ResultSet rs = null;
 		String risk_id_pk = null;
 		try{
-			String riskIdQry = "SELECT risk_id_pk from risk where work_id_fk = ? and sub_work = ? and risk_id = ? and sub_area_fk = ? ";
+			String riskIdQry = "SELECT risk_id_pk from risk where work_id_fk = ? and sub_work = ? and sub_area_fk = ? ";
 			stmt = con.prepareStatement(riskIdQry);
 			int k =1;
 			stmt.setString(k++, work_id_fk);
 			stmt.setString(k++, sub_work);
-			stmt.setString(k++, risk_id);
 			stmt.setString(k++, sub_area_fk);
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
@@ -218,7 +217,9 @@ public class RiskDaoImpl implements RiskDao{
 					+ "ra.area,p.project_name,risk_id,sub_area_fk,"
 					//+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
 					+ "(select owner from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as owner,"
-					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person "
+					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person, "
+					+ "(select priority_fk from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as priority_fk,"
+					+ "(select mitigation_plan from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as mitigation_plan "
 					+"from risk r "+
 					"LEFT OUTER join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
@@ -226,7 +227,7 @@ public class RiskDaoImpl implements RiskDao{
 					"LEFT join project p on w.project_id_fk = p.project_id " +
 					"where risk_id_pk = ?";
 			
-			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
+			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
 			
 			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
 			
@@ -315,15 +316,16 @@ public class RiskDaoImpl implements RiskDao{
 		List<Risk> objsList =null;		
 		try {
 			String qry = "SELECT risk_id_pk,risk_id,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
-					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no "+
-					//"risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
+					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no, "+
+					"risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
 					"from risk r  "+
 					"left join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
 					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
 					"left join project p on w.project_id_fk = p.project_id " +
-					//"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
-					"where risk_id_pk is not null ";
+					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
+					"where risk_id_pk is not null and priority_fk <> 'Accepted' "+
+					"and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
 			
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
@@ -334,6 +336,11 @@ public class RiskDaoImpl implements RiskDao{
 				qry = qry + " and risk_area_fk = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and date = ?";
+				arrSize++;
+			}
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
@@ -341,6 +348,9 @@ public class RiskDaoImpl implements RiskDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
 			}
 			
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
@@ -358,17 +368,32 @@ public class RiskDaoImpl implements RiskDao{
 		try {
 			String qry = "SELECT sub_work,risk_area_fk from risk r " + 
 					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
-					"where sub_work is not null and sub_work <> '' ";
-			int arrSize = 0;
+					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
+					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				qry = qry + " and sub_work = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				qry = qry + " and risk_area_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and date = ?";
 				arrSize++;
 			}	
 			qry = qry + " group by sub_work";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				pValues[i++] = obj.getSub_work();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
 				pValues[i++] = obj.getArea();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
 			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
@@ -398,6 +423,53 @@ public class RiskDaoImpl implements RiskDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				pValues[i++] = obj.getSub_work();
 			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			
+			
+			String qry = "SELECT DATE_FORMAT(date,'%d-%b-%Y') AS assessment_date "+
+					"from risk r " + 
+					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
+					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
+					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk) ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				qry = qry + " and sub_work = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				qry = qry + " and risk_area_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and date = ?";
+				arrSize++;
+			}	
+			
+			qry = qry + " group by date";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				pValues[i++] = obj.getSub_work();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
+				pValues[i++] = obj.getArea();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				pValues[i++] = obj.getAssessment_date();
+			}
+			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 

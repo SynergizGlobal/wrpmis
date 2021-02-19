@@ -107,14 +107,22 @@
                             <div class="col m3 hide-on-small-only"></div>
                              <div class="col m6 s12"> 
 								<div class="col s12 m4 input-field">
-	                                <p class="searchable_label">Sub Work</p>
+	                                <p class="searchable_label">Work</p>
 	                                  <select id="sub_work" name="sub_work" onchange="getRiskList();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
                                       </select>
 	                            </div>
-	                            <div class="col s12 m4 input-field">
+	                            
+	                            <!-- <div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Area</p>
 	                                  <select id="area" name="area" onchange="getRiskList();" class="searchable">
+	                                            <option value="" >Select </option>	                                           
+	                                 </select>
+	                            </div> -->
+	                            
+	                            <div class="col s12 m4 input-field">
+	                                <p class="searchable_label">Assessment Date</p>
+	                                 <select id="assessment_date" name="assessment_date" onchange="getRiskList();" class="searchable">
 	                                            <option value="" >Select </option>	                                           
 	                                 </select>
 	                            </div>
@@ -134,10 +142,12 @@
                                     <thead>
                                         <tr>
                                             <th>Item No.</th>
-                                            <th>Risk Id</th>
-                                            <th>Sub Work</th>
+                                            <!-- <th>Risk Id</th> -->
+                                            <th>Work</th>
                                             <th>Area</th>
                                             <th>Sub Area</th>
+                                            <th>Priority</th>
+                                            <th>Mitigation Plan</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -205,12 +215,12 @@
           $('.searchable').select2();
           $('.tabs').tabs();
           getRiskList();
-      	});
+      });
         
         
         function clearFilters() {
             $('#sub_work').val('');
-            $('#area').val('');
+            $('#assessment_date').val('');
             getRiskList();
             $('.searchable').select2();
         }
@@ -219,9 +229,9 @@
         function getRiskList(){
         	$(".page-loader-2").show();
         	var sub_work = $("#sub_work").val();
-        	var area = $("#area").val();
+        	var assessment_date = $("#assessment_date").val();
         	getSubWorksFilterList();
-         	getAreasFilterList();
+        	getAssessmentDatesFilterList();
         	table = $('#datatable-risk').DataTable();
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -251,7 +261,7 @@
             }).rows().remove().draw();
     		
     		table.state.clear();		
-    		var myParams = {sub_work : sub_work,area : area};
+    		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentList",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
@@ -263,10 +273,12 @@
                         if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
                         
                         rowArray.push($.trim(val.area_item_no) + "." + $.trim(val.sub_area_item_no));
-                       	rowArray.push($.trim(val.risk_id));
+                       	//rowArray.push($.trim(val.risk_id));
                        	rowArray.push($.trim(val.sub_work));
                        	rowArray.push($.trim(val.area));
                        	rowArray.push($.trim(val.sub_area));
+                       	rowArray.push($.trim(val.priority_fk));
+                       	rowArray.push($.trim(val.mitigation_plan));
                        	rowArray.push($.trim(actions));   	                   	
                        	
                         table.row.add(rowArray).draw( true );
@@ -288,10 +300,10 @@
         function getSubWorksFilterList() {
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
-        	var area = $("#area").val();
+        	var assessment_date = $("#assessment_date").val();
             if ($.trim(sub_work) == "") {
             	$("#sub_work option:not(:first)").remove();
-            	var myParams = {sub_work : sub_work,area : area};
+            	var myParams = {sub_work : sub_work,assessment_date : assessment_date};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getSubWorksFilterListInRiskAssessmnt",
                     data: myParams, cache: false,
@@ -327,6 +339,34 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
     	                           $("#area").append('<option value="' + val.risk_area_fk + '">' + $.trim(val.risk_area_fk)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getAssessmentDatesFilterList() {
+        	$(".page-loader").show();
+        	var sub_work = $("#sub_work").val();
+        	var assessment_date = $("#assessment_date").val();
+            if ($.trim(assessment_date) == "") {
+            	$("#assessment_date option:not(:first)").remove();
+        		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getAssessmentDatesFilterListInRiskAssessment",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#assessment_date").append('<option value="' + val.assessment_date + '">' + $.trim(val.assessment_date)   +'</option>');
                             });
                         }
                         $('.searchable').select2();

@@ -173,13 +173,13 @@
                                 <!-- row 1  -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Sub Work :</p>
+                                    <p class="searchable_label"> Work :</p>
 									<p>${risk.sub_work}</p>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <%-- <div class="col s12 m4 input-field">
                                      <p class="searchable_label"> Risk ID :</p>
 									 <p>${risk.risk_id }</p>
-                                </div>                                
+                                </div>  --%>                               
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
@@ -207,6 +207,18 @@
 									<p class="searchable_label"> Responsible Person :</p>
 									<p>${risk.responsible_person }</p>                                   	
                                 </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>                               
+                                <div class="col s12 m4 input-field">
+									<p class="searchable_label">Priority :</p>
+									<p>${risk.priority_fk}</p>	
+							    </div> 
+                                <div class="col s12 m4 input-field"> 
+								    <p class="searchable_label"> Mitigation Plan :</p>
+									<p>${risk.mitigation_plan}</p></div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                        

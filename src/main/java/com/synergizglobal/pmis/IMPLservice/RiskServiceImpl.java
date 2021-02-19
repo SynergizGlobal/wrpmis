@@ -52,6 +52,11 @@ public class RiskServiceImpl implements RiskService{
 	}
 
 	@Override
+	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(Risk obj) throws Exception {
+		return dao.getAssessmentDatesFilterListInRiskAssessment(obj);
+	}
+
+	@Override
 	public List<Risk> getRiskAssessmentDates(Risk obj) throws Exception {
 		return dao.getRiskAssessmentDates(obj);
 	}

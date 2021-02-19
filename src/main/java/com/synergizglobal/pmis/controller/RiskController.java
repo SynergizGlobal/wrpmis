@@ -134,7 +134,7 @@ public class RiskController {
 				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
 									String columnName = headerRow.getCell(i).getStringCellValue().trim();
-									System.out.println(columnName + " = " + fileFormat.get(i));
+									//System.out.println(columnName + " = " + fileFormat.get(i));
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
 										
 				                		attributes.addFlashAttribute("error",uploadformatError);
@@ -155,7 +155,7 @@ public class RiskController {
 							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully.");
 						}else {
 							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risks updated successfully.");
-
+						
 						}
 						if(arr[1] == 1) {
 							attributes.addFlashAttribute("success", arr[1] + " Risk added successfully.");
@@ -240,17 +240,17 @@ public class RiskController {
 								tempVal = formatter.formatCellValue(row.getCell(1)).trim();
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									item_no = getCellDataType2(workbook,row.getCell(1));
+									owner = getCellDataType2(workbook,row.getCell(1));
 								}
-								if(!StringUtils.isEmpty(item_no)) { risk.setItem_no(item_no);}								
+								if(!StringUtils.isEmpty(owner)) { risk.setOwner(owner);}
 								
 								//val = getCellDataType2(workbook,row.getCell(2));
 								tempVal = formatter.formatCellValue(row.getCell(2)).trim();
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
-									owner = getCellDataType2(workbook,row.getCell(2));
+									item_no = getCellDataType2(workbook,row.getCell(2));
 								}
-								if(!StringUtils.isEmpty(owner)) { risk.setOwner(owner);}
+								if(!StringUtils.isEmpty(item_no)) { risk.setItem_no(item_no);}
 								
 								//val = getCellDataType2(workbook,row.getCell(3));
 								tempVal = formatter.formatCellValue(row.getCell(3)).trim();	
@@ -325,9 +325,9 @@ public class RiskController {
 								if(count != 2) {
 									responsible_person = getCellDataType2(workbook,row.getCell(13));
 								}								
-								if(!StringUtils.isEmpty(responsible_person)) { risk.setResponsible_person(responsible_person);}									
+								if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
 								
-								//val = getCellDataType2(workbook,row.getCell(16));
+								/*//val = getCellDataType2(workbook,row.getCell(16));
 								tempVal = formatter.formatCellValue(row.getCell(16)).trim();
 								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
 								if(count != 2) {
@@ -338,7 +338,7 @@ public class RiskController {
 										risk_id = risk_base_text + "-Risk-"+(i-1);
 									}
 								}
-								if(!StringUtils.isEmpty(risk_id)) { risk.setRisk_id(risk_id);}
+								if(!StringUtils.isEmpty(risk_id)) { risk.setRisk_id(risk_id);}*/
 								
 								
 								risk.setDate(DateParser.parse(risk.getDate()));
@@ -472,6 +472,7 @@ public class RiskController {
 	public List<Risk> getRiskAssessmentList(@ModelAttribute Risk obj) {
 		List<Risk> riskList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			riskList = riskService.getRiskAssessmentList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -485,6 +486,7 @@ public class RiskController {
 	public List<Risk> getSubWorksFilterListInRiskAssessmnt(@ModelAttribute Risk obj) {
 		List<Risk> worksList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			worksList = riskService.getSubWorksFilterListInRiskAssessmnt(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -498,12 +500,27 @@ public class RiskController {
 	public List<Risk> getAreasFilterListInRiskAssessment(@ModelAttribute Risk obj) {
 		List<Risk> areaList = null;
 		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			areaList = riskService.getAreasFilterListInRiskAssessment(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getAreasFilterListInRiskAssessment : " + e.getMessage());
 		}
 		return areaList;
+	}
+	
+	@RequestMapping(value = "/ajax/getAssessmentDatesFilterListInRiskAssessment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(@ModelAttribute Risk obj) {
+		List<Risk> assesmentDates = null;
+		try {
+			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
+			assesmentDates = riskService.getAssessmentDatesFilterListInRiskAssessment(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getAssessmentDatesFilterListInRiskAssessment : " + e.getMessage());
+		}
+		return assesmentDates;
 	}
 	
 	

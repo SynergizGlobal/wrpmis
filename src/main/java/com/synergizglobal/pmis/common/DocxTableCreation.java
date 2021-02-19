@@ -353,14 +353,19 @@ public class DocxTableCreation {
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
 			tableHeader.add("SNo.");
-			tableHeader.add("Work");
+			tableHeader.add("Name of Work");
 			tableHeader.add("HOD");
-			tableHeader.add("Issue Discription");
+			tableHeader.add("Name of contractor");
+			tableHeader.add("Location/Station/KM");
+			/*tableHeader.add("Issue Discription");*/
+			tableHeader.add("Reported By");
 			tableHeader.add("Pending With");
-			tableHeader.add("Pending Since(Days)");			
-			tableHeader.add("Reported By");			
-			tableHeader.add("Action Taken");
-			tableHeader.add("Current Status");
+			/*tableHeader.add("Pending Since(Days)");*/
+			tableHeader.add("Pending Since Date");
+			/*tableHeader.add("Action Taken");*/
+			tableHeader.add("Issue/Action Taken/Remarks"); 
+			/*tableHeader.add("Current Status");*/
+			tableHeader.add("Person Responsible in MRVC(Assigned to)");  
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -380,17 +385,25 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
+				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				table.getContent().add(contentRow);
@@ -435,8 +448,10 @@ public class DocxTableCreation {
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
 			tableHeader.add("SNo.");
-			tableHeader.add("Work");
+			tableHeader.add("Name of Work");
 			tableHeader.add("HOD");
+			tableHeader.add("Name of Contractor"); 
+			tableHeader.add("Location/Station/KM.");
 			tableHeader.add("Incident");
 			tableHeader.add("Date of Incident");
 			tableHeader.add("Impact");			
@@ -444,8 +459,8 @@ public class DocxTableCreation {
 			tableHeader.add("Root Cause");
 			tableHeader.add("Committee(Y/N)");			
 			tableHeader.add("Incident Status");
-			tableHeader.add("Corrective Measure Short Term");			
-			tableHeader.add("Corrective Measure Long Term");
+			tableHeader.add("(Short Term)Corrective Measure");			
+			tableHeader.add("(Long Term)Corrective Measure");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -464,6 +479,10 @@ public class DocxTableCreation {
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_id_fk()+" - "+pObj.getWork_short_name(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getLocation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getTitle(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);

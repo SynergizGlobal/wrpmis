@@ -100,7 +100,7 @@
 	          </li>
 	          
 	          <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
-		          <span class="material-icons-outlined">dashboard</span> Projects</a>
+		          <span class="material-icons-outlined">dashboard</span> Works</a>
 	          	  <ul class="second-level-menu">
 	                  <c:forEach var="category" items="${dashboardProjectsList }" varStatus="index">
 	           			<c:set var="tempactivity" value="${ fn:toLowerCase(category.tableauDashboardName.replaceAll(' - ', '_'))}"></c:set>
@@ -427,7 +427,7 @@
               </ul>
     	</li>
     
-    	<li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Projects</a>
+    	<li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">dashboard</span> Works</a>
 			<!-- Mobile dropdown stars here -->
           	<ul class="dropdown-data collapsible collapsible-body second-lvl">         
                   <c:forEach var="category" items="${dashboardProjectsList }" varStatus="index">

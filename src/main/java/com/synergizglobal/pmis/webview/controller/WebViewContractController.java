@@ -162,6 +162,19 @@ public class WebViewContractController {
 		return dyHODDesignationsFilterList;
 	}
 	
+	@RequestMapping(value = "/ajax/getDepartmentsListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDepartmentsList(@ModelAttribute Contract obj) {
+		List<Contract> dataList = null;  
+		try {
+			dataList = contractService.getDepartmentsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDepartmentsList : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContractForm(@ModelAttribute Contract obj){
 		ModelAndView model = new ModelAndView();
@@ -170,24 +183,37 @@ public class WebViewContractController {
 			model.addObject("action", "add");
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
+			
 			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
 			model.addObject("worksList", worksList);
+			
 			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
+			
+			List<User> dyHodList = contractService.setDyHodList();
+			model.addObject("dyHodList", dyHodList);
+			
 			List<Contract> contractors = contractService.getContractorsList();
 			model.addObject("contractors", contractors);
+			
 			List<Contract> contract_type = contractService.getContractTypeList();
 			model.addObject("contract_type", contract_type);
+			
 			List<Contract> insurance_type = contractService.getInsurenceTypeList();
 			model.addObject("insurance_type", insurance_type);
+			
 			List<Contract> contractList = contractService.contractList(obj);
 			model.addObject("contractList", contractList);
+			
 			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
+			
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
+			
 			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
 		}catch (Exception e) {
@@ -263,24 +289,37 @@ public class WebViewContractController {
 			model.addObject("action", "edit");
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
+			
 			List<Contract> worksList = contractService.getWorkListForContractForm(obj);
 			model.addObject("worksList", worksList);
+			
 			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
+			
+			List<User> dyHodList = contractService.setDyHodList();
+			model.addObject("dyHodList", dyHodList);
+			
 			List<Contract> contractor = contractService.getContractorsList();
-			model.addObject("contractor", contractor);
+			model.addObject("contractors", contractor);
+			
 			List<Contract> contract_type = contractService.getContractTypeList();
 			model.addObject("contract_type", contract_type);
+			
 			List<Contract> insurance_type = contractService.getInsurenceTypeList();
 			model.addObject("insurance_type", insurance_type);
+			
 			List<BankGuarantee> bankGuaranteeTYpe = contractService.bankGuarantee();
 			model.addObject("bankGuaranteeTYpe", bankGuaranteeTYpe);
+			
 			List<Insurence> InsurenceType = contractService.insurenceType();
 			model.addObject("InsurenceType", InsurenceType);
+			
 			List<Contract> contract_Statustype = contractService.getContractStatusType();
 			model.addObject("contract_Statustype", contract_Statustype);
+			
 			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 		}catch (Exception e) {

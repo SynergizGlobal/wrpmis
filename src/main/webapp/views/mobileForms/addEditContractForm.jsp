@@ -9,7 +9,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Add/ Edit Contract
+	<title>
 		 <c:if test="${action eq 'edit'}">Update Contract</c:if>
 		 <c:if test="${action eq 'add'}"> Add Contract</c:if>
 	</title>
@@ -23,6 +23,8 @@
 	<link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" href="/pmis/resources/css/mobile-responsive-table.css">
+	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<style>
 		.datepicker-table thead tr,
 		.datepicker-table thead tr:hover,
@@ -274,6 +276,33 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
 							 </c:if>	
+							 	<div class="row">
+								<!-- //row 9 -->
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col s6 m6 input-field">
+									<p class="searchable_label">HOD</p>
+									<select name="hod_user_id_fk" id="hod_user_id_fk"
+										class="validate-dropdown searchable" onchange="getDepartmentsList(this.value);">
+										 <option value="" selected>Select</option> 
+                                                  <c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.hod_user_id_fk eq obj.user_id}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+									</select> <span id="hod_user_id_fkError" class="error-msg"></span>
+									<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+- 	<!--                                    <label for="hod_user_id_fk">HOD</label> -->
+								</div>
+								<div class="col s6 m6 input-field">
+	                                        	<p><label>Dy HOD</label></p>
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
+	                                                <option value="">Select</option>
+	                                                <c:forEach var="obj" items="${dyHodList }"> 
+			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.user_id}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select>
+	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
+	                             </div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
 							  <c:if test="${action eq 'edit'}">	
 								<div class="row">
 									<div class="col m2 hide-on-small-only"></div>
@@ -346,7 +375,7 @@
 	                                    <p class="searchable_label">Contractor Name</p>
 	                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable">
 	                                        <option value="" selected>Select</option>
-	                                       	    <c:forEach var="obj" items="${contractor }">
+	                                       	    <c:forEach var="obj" items="${contractors }">
 			                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
 			                                    </c:forEach>
 	                                    </select>
@@ -364,30 +393,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	
 	                            </div>
-							<div class="row">
-								<!-- //row 9 -->
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col s6 m6 input-field">
-									<p class="searchable_label">HOD</p>
-									<select name="hod_user_id_fk" id="hod_user_id_fk"
-										class="validate-dropdown searchable">
-										<option value="" selected>Select</option>
-										 <option value="" selected>Select</option> 
-                                                <c:forEach var="obj" items="${hodList }"> 
-		                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-		                                        </c:forEach> 
-									</select> <span id="hod_user_id_fkError" class="error-msg"></span>
-									<!-- 									<input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
-- 	<!--                                    <label for="hod_user_id_fk">HOD</label> -->
-								</div>
-								<div class="col s6 m6 input-field">
-									<input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk"
-										type="text" class="validate datelike1" >
-									<label for="dy_hod_user_id_fk">Dy HOD</label> <span
-										id="dy_hod_user_id_fkError" class="error-msg"></span>
-								</div>
-								<div class="col m2 hide-on-small-only"></div>
-							</div>
+						
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col s6 m4 input-field">
@@ -469,14 +475,14 @@
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col s6 m4 input-field">
-								    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }">
+								    <input id="final_takeover" name="final_takeover" type="text" class="validate datepicker" value="${contractDeatils.final_takeover }" style="font-size: .9rem;">
 									<label for="final_takeover">Final Taking over by Client</label>
 									<button type="button" id="final_takeover_icon"><i
 											class="fa fa-calendar"></i></button>
 									<span id="final_takeoverError" class="error-msg"></span>
 								</div>
 								<div class="col s6 m4 input-field">
-									<input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }">
+									<input id="completion_certificate_release" name="completion_certificate_release" type="text" class="validate datepicker" value="${contractDeatils.completion_certificate_release }" style="font-size: .9rem;">
 									<label for="completion_certificate_release">Release of Completion
 										Certificate</label>
 									<span id="completion_certificate_releaseError" class="error-msg"></span>
@@ -738,6 +744,7 @@
 											<th>Agency Address </th>
 											<th>Insurance Number </th>
 											<th>Insurance Value </th>
+											<th>Revision </th>
 											<th>Valid Upto </th>
 											<th>Remarks </th>
 											<th>Release</th>											
@@ -1032,6 +1039,7 @@
 												<th>Revised Amount </th>
 												<th>Revised DOC </th>
 												<th>Remarks </th>
+												<th>Current </th>
 												<th>Action</th>
 											</tr>
 										</thead>
@@ -1163,6 +1171,7 @@
 											<thead>
 												<tr>
 													<th>Name </th>
+													<th>Designation </th>
 													<th>Mobile No</th>
 													<th>Email ID </th>
 													<th>Action</th>
@@ -1344,7 +1353,7 @@
 								</div>
 								<div class="col s12 m4">
 									<div class="center-align m-1">
-										<a href="<%=request.getContextPath()%>/contract"
+										<a href="<%=request.getContextPath()%>/mobileappwebview/contract"
 											class="btn waves-effect waves-light bg-s" style="width:100%">Cancel</a>
 									</div>
 								</div>
@@ -1378,8 +1387,8 @@
 	</div>
 
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+   <!--  <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script> -->
+   <!--  <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script> -->
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -1401,42 +1410,77 @@
 			$('.searchable').select2();
 			$('#remarks').characterCounter();
 		});
-		function getWorksList(projectId) {
-			$(".page-loader").show();
-			$("#work_id_fk option:not(:first)").remove();
+		 function getWorksList(projectId) {
+	        	$(".page-loader").show();
+	            $("#work_id_fk option:not(:first)").remove();
 
-			if ($.trim(projectId) != "") {
-				var myParams = { project_id_fk: projectId };
-				$.ajax({
-					url: "<%=request.getContextPath()%>/ajax/getWorksList",
-					data: myParams, cache: false,
-					success: function (data) {
-						if (data.length > 0) {
-							$.each(data, function (i, val) {
-								var workName = '';
-								if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-								$("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-							});
-						}
-						$(".page-loader").hide();
-					}
-				});
-			} else {
-				$(".page-loader").hide();
-			}
-		}
-
-	    
-        function resetProjectsDropdowns(workId){
-        	var projectId = '';
-        	if($.trim(workId) != ''){  
-            	projectId = workId.substring(0, 3); 
-       			$("#project_id_fk").val(projectId);
-       			$("#project_id_fk").select2();
-       		}
-       		
-        }
+	            if ($.trim(projectId) != "") {
+	                var myParams = { project_id_fk: projectId };
+	                $.ajax({
+	                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorkListForContractForm",
+	                    data: myParams, cache: false,
+	                    success: function (data) {
+	                        if (data.length > 0) {
+	                            $.each(data, function (i, val) {
+	                                var workName = '';
+	                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+	                                $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+	                            });
+	                        }
+	                        $(".page-loader").hide();
+	                    }
+	                });
+	            }else{
+	            	$(".page-loader").hide();
+	            }
+	        }
+		  function resetProjectsDropdowns(workId){
+	        	var projectId = '';
+	        	if($.trim(workId) != ''){  
+	            	projectId = workId.substring(0, 3); 
+	       			$("#project_id_fk").val(projectId);
+	       			$("#project_id_fk").select2();
+	       		}
+	       		
+	        }
         
+		  function getDepartmentsList(userId) {
+	        	$(".page-loader").show();
+	            $("#department_fk option:not(:first)").attr("selected",false);
+
+	            if ($.trim(userId) != "") {
+	                var myParams = { hod_user_id_fk: userId };
+	                $.ajax({
+	                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
+	                    data: myParams, cache: false,
+	                    success: function (data) {
+	                        if (data.length > 0) {
+	                            $.each(data, function (i, val) {
+	                            	 var department_name = '';
+	                                 if ($.trim(val.department_name) != '') { department_name = $.trim(val.department_name) }
+	                                
+	                                if ($.trim(val.department_fk) != '') {
+	                                	 document.querySelectorAll('#department_fk > option').forEach((option) => {
+	                                	     if ((option.value) == ($.trim(val.department_fk))){
+	                                	    	 $('select[name="department_fk"]').find('option[value="' + val.department_fk + '"]').attr("selected",true);
+	                                	    	 $("#department_fk").select2();
+	                                	     }
+	                                	    	 
+	                                	 })
+	                                	
+	                                } else {
+	                                    $("#department_fk").append('<option value="' + val.department_fk + '">' +  $.trim(department_name) + '</option>');
+	                                }
+	                            });
+	                        }
+	                        $(".page-loader").hide();
+	                    }
+	                });
+	            }else{
+	            	$(".page-loader").hide();
+	            }
+	        } 
+	        
         function updateContract(){
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	

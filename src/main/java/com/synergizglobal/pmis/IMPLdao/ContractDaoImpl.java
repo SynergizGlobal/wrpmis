@@ -1913,7 +1913,7 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	@Override
-	public List<Contract> getgetDepartmentsList(Contract obj) throws Exception {
+	public List<Contract> getDepartmentsList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
 			String qry ="select department_fk ,department_name from user u "

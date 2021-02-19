@@ -106,8 +106,8 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.setDyHodList();
 	}
 	@Override
-	public List<Contract> getgetDepartmentsList(Contract obj) throws Exception {
-		return contractDao.getgetDepartmentsList(obj);
+	public List<Contract> getDepartmentsList(Contract obj) throws Exception {
+		return contractDao.getDepartmentsList(obj);
 	}
 	
 

@@ -194,7 +194,7 @@ public class ContractController {
 	public List<Contract> getDepartmentsList(@ModelAttribute Contract obj) {
 		List<Contract> dataList = null;  
 		try {
-			dataList = contractService.getgetDepartmentsList(obj);
+			dataList = contractService.getDepartmentsList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getDepartmentsList : " + e.getMessage());
@@ -215,9 +215,6 @@ public class ContractController {
 			
 			List<Contract> departmentList = contractService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
-			
-			List<Contract> departmentfilterList = contractService.getgetDepartmentsList(obj);
-			model.addObject("departmentfilterList", departmentfilterList);
 			
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);

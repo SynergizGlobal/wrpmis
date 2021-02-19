@@ -51,6 +51,6 @@ public interface ContractDao {
 
 	public List<User> setDyHodList() throws Exception;
 
-	public List<Contract> getgetDepartmentsList(Contract obj) throws Exception;
+	public List<Contract> getDepartmentsList(Contract obj) throws Exception;
 
 }

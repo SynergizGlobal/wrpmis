@@ -118,8 +118,13 @@ public class ContractDaoImpl implements ContractDao {
 	public List<User> setHodList()throws Exception{
 		List<User> objsList = null;
 		try {
-			String qry ="select user_id,user_name,designation from user where designation is not null and designation <>''";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));	
+			String qry ="select user_id,user_name,designation from user where designation is not null and designation <>'' and user_type_fk = ?";
+
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}
@@ -713,7 +718,8 @@ public class ContractDaoImpl implements ContractDao {
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 									"left join project p on w.project_id_fk = p.project_id " + 
-									"left join user u on c.hod_user_id_fk = u.user_id "
+									"left join user u on c.hod_user_id_fk = u.user_id "+
+									"left join user us on c.dy_hod_user_id_fk = us.user_id "
 									+"left join department dt on c.department_fk = dt.department where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());
@@ -1883,6 +1889,50 @@ public class ContractDaoImpl implements ContractDao {
 			}
 				
 			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<User> setDyHodList() throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry ="select user_id,user_name,designation from user where designation is not null and designation <>'' and user_type_fk = ?";
+
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE2;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getgetDepartmentsList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select department_fk ,department_name from user u "
+					+ "LEFT JOIN department d on department = department_fk where department_fk <> '' ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				qry = qry + " and user_id = ? ";
+				arrSize++;
+			}	
+			qry = qry + "GROUP BY department_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				pValues[i++] = obj.getHod_user_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

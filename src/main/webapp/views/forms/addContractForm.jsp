@@ -236,7 +236,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
 	                                <p><label>Department</label></p>
-	                                    <select name="department_fk" id="department_fk" class="validate-dropdown searchable">
+	                                    <select name="department_fk" id="department_fk" class="searchable validate-dropdown">
 	                                        <option value="">Select</option>
 	                                           <c:forEach var="obj" items="${departmentList }">
 	                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
@@ -1047,21 +1047,33 @@
             	$(".page-loader").hide();
             }
         }
-        
+         
         function getDepartmentsList(userId) {
         	$(".page-loader").show();
-            $("#department_fk option:not(:first)").remove();
+        	 $("#department_fk option:not(:first)").attr("selected",false);
 
             if ($.trim(userId) != "") {
-                var myParams = { userId: userId };
+                var myParams = { hod_user_id_fk: userId };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                                var workName = '';
-                                $("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_fk) + '</option>');
+                            	 var department_name = '';
+                                 if ($.trim(val.department_name) != '') { department_name = $.trim(val.department_name) }
+                                
+                                if ($.trim(val.department_fk) != '') {
+                                	 document.querySelectorAll('#department_fk > option').forEach((option) => {
+                                	     if ((option.value) == ($.trim(val.department_fk))){
+                                	    	 $('select[name="department_fk"]').find('option[value="' + val.department_fk + '"]').attr("selected",true);
+                                	    	 $("#department_fk").select2();
+                                	     }
+                                	    	 
+                                	 })
+                                } else {
+                                    $("#department_fk").append('<option value="' + val.department_fk + '">' +  $.trim(department_name) + '</option>');
+                                }
                             });
                         }
                         $(".page-loader").hide();
@@ -1070,7 +1082,7 @@
             }else{
             	$(".page-loader").hide();
             }
-        }
+        } 
         
         function resetProjectsDropdowns(workId){
         	var projectId = '';

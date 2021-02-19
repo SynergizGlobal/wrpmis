@@ -190,6 +190,41 @@
 	
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
+	                             <div class="row">
+	                                <!-- //row 9 -->
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 ">
+	                                    <div class="row">
+	  										<div class="col s12 m6 input-field">
+	  										 	<p><label>HOD</label></p>
+	                                            <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable" onchange="getDepartmentsList(this.value);"> 
+	                                     		  <option value="">Select</option> 
+	                                                 <c:forEach var="obj" items="${hodList }"> 
+			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.hod_user_id_fk eq obj.user_id}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select> 
+												<!-- <input name="hod_user_id_fk" id="hod_user_id_fk" type="text" class="validate">
+												<label for="hod_user_id_fk">HOD</label> -->
+	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                        <div class="col s12 m6 input-field">
+	                                        	<p><label>Dy HOD</label></p>
+	                                            <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable">
+	                                                <option value="">Select</option>
+	                                                <c:forEach var="obj" items="${dyHodList }"> 
+			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.user_id}">selected</c:if>> ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
+			                                        </c:forEach> 
+	                                            </select>
+												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
+	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
+	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            
 	                            <div class="row">
 	
 	                                <!-- row 1  -->
@@ -271,41 +306,7 @@
 	                                <div class="col m2 hide-on-small-only"></div>
 	
 	                            </div>
-	                            <div class="row">
-	                                <!-- //row 9 -->
-	                                <div class="col m2 hide-on-small-only"></div>
-	                                <div class="col s12 m8 ">
-	                                    <div class="row">
-	
-	                                        <div class="col s12 m6 input-field">
-	                                        	<p class="searchable_label">HOD</p>
-	                                             <select name="hod_user_id_fk" id="hod_user_id_fk" class="validate-dropdown searchable"> 
-	                                     		  <option value="" selected>Select</option> 
-	                                                 <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.hod_user_id_fk eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
-	                                            </select> 
-	                                            <span id="hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                        <div class="col s12 m6 input-field">
-	                                          <%--  <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" value="${contractDeatils.dy_hod_user_id_fk }" style="margin-top:10px">
-	                                    		<label for="dy_hod_user_id_fk">Dy HOD</label> --%>
-	                                    		
-	                                    		<p class="searchable_label">Dy HOD</p>
-	                                             <select name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" class="validate-dropdown searchable"> 
-	                                     		  <option value="" selected>Select</option> 
-	                                                 <c:forEach var="obj" items="${hodList }"> 
-			                                    	  <option value="${obj.user_id }" <c:if test="${contractDeatils.dy_hod_user_id_fk eq obj.user_id}">selected</c:if> > ${obj.designation }<c:if test="${not empty obj.user_name}"> - </c:if>${obj.user_name}</option> 
-			                                        </c:forEach> 
-	                                            </select> 
-	                                    		
-	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	
-	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>
+	                       
 	                            <div class="row">
 	                                <!-- //row 7 -->
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -1400,6 +1401,44 @@
            
         });
        
+        function getDepartmentsList(userId) {
+        	$(".page-loader").show();
+            $("#department_fk option:not(:first)").attr("selected",false);
+
+            if ($.trim(userId) != "") {
+                var myParams = { hod_user_id_fk: userId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getDepartmentsListForContractForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var department_name = '';
+                                 if ($.trim(val.department_name) != '') { department_name = $.trim(val.department_name) }
+                                
+                                if ($.trim(val.department_fk) != '') {
+                                	 document.querySelectorAll('#department_fk > option').forEach((option) => {
+                                	     if ((option.value) == ($.trim(val.department_fk))){
+                                	    	 $('select[name="department_fk"]').find('option[value="' + val.department_fk + '"]').attr("selected",true);
+                                	    	 $("#department_fk").select2();
+                                	     }
+                                	    	 
+                                	 })
+                                	
+                                } else {
+                                    $("#department_fk").append('<option value="' + val.department_fk + '">' +  $.trim(department_name) + '</option>');
+                                }
+                            });
+                        }
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        } 
+        
+        
         function updateContract(){
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	

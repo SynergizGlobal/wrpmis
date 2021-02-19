@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class User  {
-	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,user_role_name_fk,mobile_number,personal_contact_number,landline,extension,pmis_key_fk,remarks,user_image,keyAvailability;
+	private String user_id,user_name,password,email_id,department_fk,designation,reporting_to_id_srfk,hod_user_id_fk,dy_hod_user_id_fk,user_role_name_fk,mobile_number,personal_contact_number,landline,extension,pmis_key_fk,remarks,user_image,keyAvailability;
 	private String oldPassword;
 	private String newPassword;
 	private String confirmPassword;
@@ -22,6 +22,26 @@ public class User  {
 	private MultipartFile userImageFile;
 	
 	private String[] user_access_types,user_access_values;
+
+
+	public String getHod_user_id_fk() {
+		return hod_user_id_fk;
+	}
+
+
+	public void setHod_user_id_fk(String hod_user_id_fk) {
+		this.hod_user_id_fk = hod_user_id_fk;
+	}
+
+
+	public String getDy_hod_user_id_fk() {
+		return dy_hod_user_id_fk;
+	}
+
+
+	public void setDy_hod_user_id_fk(String dy_hod_user_id_fk) {
+		this.dy_hod_user_id_fk = dy_hod_user_id_fk;
+	}
 
 
 	public String getUser_type_fk() {

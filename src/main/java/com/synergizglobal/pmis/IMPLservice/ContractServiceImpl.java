@@ -101,6 +101,14 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getDyHODDesignationsFilterList(Contract obj) throws Exception {
 		return contractDao.getDyHODDesignationsFilterList(obj);
 	}
+	@Override
+	public List<User> setDyHodList() throws Exception {
+		return contractDao.setDyHodList();
+	}
+	@Override
+	public List<Contract> getgetDepartmentsList(Contract obj) throws Exception {
+		return contractDao.getgetDepartmentsList(obj);
+	}
 	
 
 }

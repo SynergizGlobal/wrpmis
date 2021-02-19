@@ -90,7 +90,7 @@
 							<div class="row">
 								<div class="col m2 hide-on-small-only"></div>
 								<div class="col s12 m4 input-field">
-									<p class="searchable_label">Project</p>
+									<p class="searchable_label">Project <span class="required">*</span></p>
 									<select class="searchable validate-dropdown" name="project_id_fk"
 										id="project_id_fk"  onchange="getWorksList(this.value);">
 										<option value="">Select</option>
@@ -100,7 +100,7 @@
 									</select> <span id="project_id_fkError" class="error-msg"></span>
 								</div>
 								<div class="col s12 m4 input-field">
-									<p class="searchable_label">Work</p>
+									<p class="searchable_label">Work <span class="required">*</span></p>
 									<select class="searchable validate-dropdown" name="work_id_fk"
 										id="work_id_fk" onchange="getContractsList(this.value);">
 										<option value="">Select</option>
@@ -114,7 +114,7 @@
 						<div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m8 input-field">
-								<p class="searchable_label">Contract</p>
+								<p class="searchable_label">Contract <span class="required">*</span></p>
 								<select class="searchable validate-dropdown" name="contract_id_fk"
 									id="contract_id_fk"  onchange="resetWorksAndProjectsDropdowns();">
 									<option value="">Select</option>
@@ -144,20 +144,20 @@
 						 <div class="row">
 							  <div class="col m2 hide-on-small-only"></div>
 							   <div class="col s12 m4 input-field">
-	                                    <input type="text"  value="${dataGatheringDetails.project_id_fk}- ${dataGatheringDetails.project_name}" readonly />
-										<label for="project_id_fk">Project</label>
+                                    <input type="text"  value="${dataGatheringDetails.project_id_fk}- ${dataGatheringDetails.project_name}" readonly />
+									<label for="project_id_fk">Project <span class="required">*</span></label>
 							  </div> 
                                <div class="col s12 m4 input-field"> 
                                   <input type="text"  value="${dataGatheringDetails.work_id_fk}- ${dataGatheringDetails.work_short_name}" readonly />
-							    <label for="work_id_fk">Work</label>
+							      <label for="work_id_fk">Work <span class="required">*</span></label>
                                </div>
                                <div class="col m2 hide-on-small-only"></div>
 	                        </div>
 	                        <div class="row">
 							  <div class="col m2 hide-on-small-only"></div>
 	                             <div class="col s12 m8 input-field"> 
-	                              	    <input type="text"  value="${dataGatheringDetails.contract_id_fk} - ${dataGatheringDetails.contract_short_name}" readonly />
-	                                 	<label for="contract_id_fk">Contract</label>     
+                              	    <input type="text"  value="${dataGatheringDetails.contract_id_fk} - ${dataGatheringDetails.contract_short_name}" readonly />
+                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>

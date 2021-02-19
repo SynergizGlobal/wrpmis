@@ -66,7 +66,7 @@
 	                         <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p class="searchable_label"> Project </p>
+	                                    <p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
 	                               	  		 onchange="getWorksList(this.value);">
 	                                    		 <option value="" >Select</option>
@@ -77,7 +77,7 @@
 	                               		 <span id="project_idError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field">
-	                                    <p class="searchable_label"> Work </p>
+	                                    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
 	                                   		  onchange="getContractsList(this.value);">
 	                                   		  <option value="">Select</option>
@@ -97,11 +97,11 @@
 	                               
 	                                <div class="col s12 m4 input-field">
 	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
-										<label for="project_id_fk">Project</label>
+										<label for="project_id_fk">Project <span class="required">*</span></label>
 								    </div> 
 	                                <div class="col s12 m4 input-field"> 
 	                                   <input type="text" name="work_id_fk" id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
-									    <label for="work_id_fk">Work</label>
+									    <label for="work_id_fk">Work <span class="required">*</span></label>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                             </div>
@@ -111,12 +111,12 @@
                                 <c:if test="${action eq 'edit'}">	
                                  	<div class="col s12 m4 input-field"> 
 	                              	    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
-	                                 	<label for="contract_id_fk">Contract</label>     
+	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
                               	    </div>
                                  </c:if>
                              	 <c:if test="${action eq 'add'}">	
 	                                 <div class="col s12 m4 input-field">
-	                                    <p class="searchable_label">Contract </p>
+	                                    <p class="searchable_label">Contract <span class="required">*</span></p>
 	                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
 	                                       	<option value="">Select</option>
 	                                       	 <c:forEach var="obj" items="${contractsList }">
@@ -127,7 +127,7 @@
 	                                 </div>
                               	 </c:if>
                                  <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Deliverable Type </p>
+                                    <p class="searchable_label">Deliverable Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="deliverable_type_fk" id="deliverable_type_fk">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${deliverablesTypeList }">

@@ -115,10 +115,10 @@
 						</c:if>
                         <div class="container container-no-margin">
                          <c:if test="${action eq 'add'}">	
-                            <div class="row" style="margin-bottom: 0;">
+                            <div class="row" 0>
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Work </p>
+                                    <p class="searchable_label">Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="">Select</option>
@@ -129,7 +129,7 @@
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Contract </p>
+                                    <p class="searchable_label">Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"  onchange="resetWorksList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
@@ -148,12 +148,12 @@
                        	      <div class="col m2 hide-on-small-only">	      </div>
                        		  <div class="col s12 m4 input-field">
                                     <input type="text" name="work_id_fk" id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_short_name}" readonly />
-                                    <label for="work_id_fk"> Work</label>
+                                    <label for="work_id_fk"> Work <span class="required">*</span></label>
 							  </div> 
 							  <div class="col s12 m4 input-field"> 
                                     <input type="text" value="${taFinancialDetails.contract_id_fk}-${taFinancialDetails.contract_short_name}" readonly />
                                     <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${taFinancialDetails.contract_id_fk}" readonly />      
-                                    <label for="contract_id_fk"> Contract</label>           	 	
+                                    <label for="contract_id_fk"> Contract <span class="required">*</span></label>           	 	
                               </div>
                         	  </div> 
                            </c:if>

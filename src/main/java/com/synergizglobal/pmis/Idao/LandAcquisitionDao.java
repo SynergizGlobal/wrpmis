@@ -6,7 +6,7 @@ import com.synergizglobal.pmis.model.LandAcquisition;
 
 public interface LandAcquisitionDao {
 
-	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj) throws Exception;
+	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj, int startIndex, int offset, String searchParameter) throws Exception;
 
 	public List<LandAcquisition> getLandAcquisitionWorksList(LandAcquisition obj) throws Exception;
 
@@ -39,6 +39,8 @@ public interface LandAcquisitionDao {
 	public boolean updateLandAcquisition(LandAcquisition obj) throws Exception;
 
 	public List<LandAcquisition> getLandAcquisitionProjectsList(LandAcquisition obj) throws Exception;
+
+	public int getTotalRecords(LandAcquisition obj, String searchParameter) throws Exception;
 
 
 }

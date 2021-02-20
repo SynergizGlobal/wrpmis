@@ -1,7 +1,12 @@
 package com.synergizglobal.pmis.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -19,11 +24,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.LandAcquisitionService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.LandAquisationPaginationObject;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.Training;
@@ -52,19 +61,117 @@ public class LandAcquisitionController {
 		}
 		return model;
 	}
+	/*
+	 * 
+	 * @RequestMapping(value = "/ajax/get-land-acquisition", method =
+	 * {RequestMethod.GET,RequestMethod.POST},produces=MediaType.
+	 * APPLICATION_JSON_VALUE)
+	 * 
+	 * @ResponseBody public List<LandAcquisition>
+	 * getLandAcquisitionList(@ModelAttribute LandAcquisition obj) {
+	 * List<LandAcquisition> landAcquisitionList = null; try { landAcquisitionList =
+	 * service.getLandAcquisitionList(obj); }catch (Exception e) {
+	 * e.printStackTrace(); logger.error("getLandAcquisitionList : " +
+	 * e.getMessage()); } return landAcquisitionList; }
+	 */
 	
-	
-	@RequestMapping(value = "/ajax/get-land-acquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<LandAcquisition> getLandAcquisitionList(@ModelAttribute LandAcquisition obj) {
-		List<LandAcquisition> landAcquisitionList = null;
+	@RequestMapping(value = "/ajax/get-land-acquisition", method = { RequestMethod.POST, RequestMethod.GET })
+	public void getActivitiesList(@ModelAttribute LandAcquisition obj, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws IOException {
+		PrintWriter pw = null;
+		//JSONObject json = new JSONObject();
+		String json2 = null;
+		String userId = null;
+		String userName = null;
 		try {
-			landAcquisitionList = service.getLandAcquisitionList(obj);
-		}catch (Exception e) {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+
+			pw = response.getWriter();
+			//Fetch the page number from client
+			Integer pageNumber = 0;
+			Integer pageDisplayLength = 0;
+			if (null != request.getParameter("iDisplayStart")) {
+				pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+				pageNumber = (Integer.valueOf(request.getParameter("iDisplayStart")) / pageDisplayLength) + 1;
+			}
+			//Fetch search parameter
+			String searchParameter = request.getParameter("sSearch");
+
+			//Fetch Page display length
+			pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+
+			List<LandAcquisition> dataList = new ArrayList<LandAcquisition>();
+
+			//Here is server side pagination logic. Based on the page number you could make call 
+			//to the data base create new list and send back to the client. For demo I am shuffling 
+			//the same list to show data randomly
+			int startIndex = 0;
+			int offset = pageDisplayLength;
+
+			if (pageNumber == 1) {
+				startIndex = 0;
+				offset = pageDisplayLength;
+				dataList = createPaginationData(startIndex, offset, obj, searchParameter);
+			} else {
+				startIndex = (pageNumber * offset) - offset;
+				offset = pageDisplayLength;
+				dataList = createPaginationData(startIndex, offset, obj, searchParameter);
+			}
+
+			//Search functionality: Returns filtered list based on search parameter
+			//designsList = getListBasedOnSearchParameter(searchParameter,designsList);
+
+			int totalRecords = getTotalRecords(obj, searchParameter);
+
+			LandAquisationPaginationObject personJsonObject = new LandAquisationPaginationObject();
+			//Set Total display record
+			personJsonObject.setiTotalDisplayRecords(totalRecords);
+			//Set Total record
+			personJsonObject.setiTotalRecords(totalRecords);
+			personJsonObject.setAaData(dataList);
+
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			json2 = gson.toJson(personJsonObject);
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getLandAcquisitionList : " + e.getMessage());
+			logger.error(
+					"getActivitiesList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
-		return landAcquisitionList;
+
+		pw.println(json2);
+	}
+
+	/**
+	 * @param searchParameter 
+	 * @param activity 
+	 * @return
+	 */
+	public int getTotalRecords(LandAcquisition obj, String searchParameter) {
+		int totalRecords = 0;
+		try {
+			totalRecords = service.getTotalRecords(obj, searchParameter);
+		} catch (Exception e) {
+			logger.error("getTotalRecords : " + e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	/**
+	 * @param pageDisplayLength
+	 * @param offset 
+	 * @param activity 
+	 * @param clientId 
+	 * @return
+	 */
+	public List<LandAcquisition> createPaginationData(int startIndex, int offset, LandAcquisition obj, String searchParameter) {
+		List<LandAcquisition> earthWorkList = null;
+		try {
+			earthWorkList = service.getLandAcquisitionList(obj, startIndex, offset, searchParameter);
+		} catch (Exception e) {
+			logger.error("createPaginationData : " + e.getMessage());
+		}
+		return earthWorkList;
 	}
 	
 	@RequestMapping(value = "/ajax/getProjectsFilterListInLandAcquisition", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

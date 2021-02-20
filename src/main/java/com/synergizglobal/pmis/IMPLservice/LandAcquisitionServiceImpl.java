@@ -17,8 +17,8 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	LandAcquisitionDao dao;
 
 	@Override
-	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj) throws Exception {
-		return dao.getLandAcquisitionList(obj);
+	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return dao.getLandAcquisitionList(obj,startIndex,offset,searchParameter);
 	}
 
 	@Override
@@ -99,6 +99,11 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	@Override
 	public List<LandAcquisition> getLandAcquisitionProjectsList(LandAcquisition obj) throws Exception {
 		return dao.getLandAcquisitionProjectsList(obj);
+	}
+
+	@Override
+	public int getTotalRecords(LandAcquisition obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
 	}
 
 

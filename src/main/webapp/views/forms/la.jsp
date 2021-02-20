@@ -39,6 +39,16 @@
 		    width: 350px;
 		    max-width: 350px;
 		}
+		 .dataTables_filter label::after{
+         	content:'';
+         }
+          .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
     </style>
 </head>
 
@@ -95,35 +105,35 @@
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Project</p>
                                 <select id="project_id_fk" class="searchable" name="project_id_fk" onchange="getLandAcquisitionList();">
-                                    <option value="" disabled selected>Select Project</option>
+                                    <option value="" >Select Project</option>
                                    
                                 </select>
                             </div>
                              <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Work</p>
                                 <select id="work_id_fk" class="searchable" name="work_id_fk" onchange="getLandAcquisitionList();">
-                                    <option value="" disabled selected>Select Work</option>
+                                    <option value="" >Select Work</option>
                                    
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Village</p>
                                 <select id="village" class="searchable" name="village" onchange="getLandAcquisitionList();">
-                                    <option value="" disabled selected>Select Village</option>
+                                    <option value="" >Select Village</option>
                                    
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Type of Land</p>
                                 <select id="type_of_land" class="searchable" name="type_of_land" onchange="getLandAcquisitionList();">
-                                    <option value="" disabled selected>Select Type of Land</option>
+                                    <option value="" >Select Type of Land</option>
                                    
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Sub Category</p>
                                 <select id="sub_category_of_land" class="searchable" name="sub_category_of_land" onchange="getLandAcquisitionList();">
-                                    <option value="" disabled selected>Select Sub Category</option>
+                                    <option value="" >Select Sub Category</option>
                                    
                                 </select>
                             </div>
@@ -218,38 +228,8 @@
         $(document).ready(function () {
         	  $('select:not(.searchable)').formSelect();
               $('.searchable').select2();
-          	var table = $('#land-acquisition-datatable').DataTable({
-       		"bStateSave": true,
-       		fixedHeader: true,
-               "fnStateSave": function (oSettings, oData) {
-                   localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-               },
-               "fnStateLoad": function (oSettings) {
-                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
-               },
-               columnDefs: [
-                   {
-                       targets: [0, 1, 2],
-                       className: 'mdl-data-table__cell--non-numeric'
-                   },
-                   { orderable: false, 'aTargets': ['nosort'] }
-               ],
-               // "ScrollX": true,
-               "scrollCollapse": true,
-               //"sScrollY": 400,
-               "sScrollX": "100%",
-                   "sScrollXInner": "100%",
-                   "bScrollCollapse": true,
-               initComplete: function () {
-                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-               }
-           });
-       	table.state.clear(); 
-      		
-       	
-       	$('.close-message').delay(3000).fadeOut('slow');
-       	
-       	getLandAcquisitionList();
+              $('.close-message').delay(3000).fadeOut('slow')
+      	      getLandAcquisitionList();
         });
 
         function clearFilters() {
@@ -263,6 +243,132 @@
         }
         
         function getLandAcquisitionList(){
+        	$(".page-loader-2").show();
+        	
+        	var project_id_fk = $("#project_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var village = $("#village").val();
+        	var type_of_land = $("#type_of_land").val();
+        	var sub_category_of_land = $("#sub_category_of_land").val();
+        	
+        	getProjectsFilterList();
+        	getWorksFilterList();
+         	getvillagesFilterList();
+         	getTypesOfLandsFilterList();
+         	getSubCatogoryFilterList();
+         	
+        	table = $('#land-acquisition-datatable').DataTable();
+			 
+			table.destroy();
+			
+			$.fn.dataTable.moment('DD-MMM-YYYY');
+      	
+			var myParams = "project_id_fk="+ project_id_fk+"&work_id_fk="+ work_id_fk+"&village="+ village+"&type_of_land="+ type_of_land+"&sub_category_of_land="+ sub_category_of_land ;
+  		 
+		    /***************************************************************************************************/   
+		        
+	        $("#land-acquisition-datatable").DataTable( {
+			        "bProcessing": true,
+			        "bServerSide": true,
+			        "sort": "position",
+			        //bStateSave variable you can use to save state on client cookies: set value "true" 
+			        "bStateSave": false,
+			        //Default: Page display length
+			        "iDisplayLength": 10,
+			        "iData":{"start":52},
+			        //We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+			        "iDisplayStart": 0,
+			        "fnDrawCallback": function () {
+			            //Get page numer on client. Please note: number start from 0 So
+			            //for the first page you will see 0 second page 1 third page 2...
+			            //Un-comment below alert to see page number
+			        	//alert("Current page number: "+this.fnPagingInfo().iPage);
+			        },   				        
+			        //"sDom": 'l<"toolbar">frtip',
+   	                "initComplete": function () {
+   	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px ', 'display': 'inline-block' });
+   	                   
+   	                  var input = $('.dataTables_filter input').unbind(),
+		   	            self = this.api(),
+		   	            $searchButton = $('<i class="fa fa-search" title="Go">')
+		   	                       //.text('Go')
+		   	                       .click(function() {
+		   	                          self.search(input.val()).draw();
+		   	                       }),
+		   	            $clearButton = $('<i class="fa fa-close" title="Reset">')
+		   	                       //.text('X')
+		   	                       .click(function() {
+		   	                          input.val('');
+		   	                          $searchButton.click(); 
+		   	                       }) 
+		   	                    $('.dataTables_filter').append('<div class="right-btns"></div>');
+			   	          $('.dataTables_filter div').append($searchButton, $clearButton);
+			   	          
+   	                    /* var input = $('.dataTables_filter input').unbind(),
+		   	            self = this.api(),
+		   	            $searchButton = $('<i class="fa fa-search">')
+		   	                       //.text('Go')
+		   	                       .click(function() {			   	                    	 
+		   	                          self.search(input.val()).draw();
+		   	                       })			   	        
+			   	          $('.dataTables_filter label').append($searchButton); */	
+   	                },
+	   	            columnDefs: [
+	                     {
+	                         "targets": 'no-sort',
+	                         "orderable": false,
+	                     }
+	                ],
+	   	            "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                "language": {
+	                	 "info": "_START_ - _END_ of _TOTAL_",
+	                	 paginate: {
+	                		 next: '<i class="fa fa-angle-right"></i>', // or '→'
+	                		 previous: '<i class="fa fa-angle-left"></i>' // or '←' 
+	                	 }
+	                }, 
+		            "bDestroy": true,
+			        "sAjaxSource": "<%=request.getContextPath()%>/ajax/get-land-acquisition?"+myParams,
+			        "aoColumns": [
+			            { "mData": function(data,type,row){
+			            	
+	                     	if($.trim(data.survey_number) == ''){ return '-'; }else{ return data.survey_number  }
+            			} },   				            
+            			 { "mData": function(data,type,row){
+ 			            	var workName = '';
+ 			            	if ($.trim(data.work_short_name) != '') { workName = ' - ' + $.trim(data.work_short_name) } 	
+ 	                     	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk + workName; }
+             			} },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.village) == ''){ return '-'; }else{ return data.village; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.type_of_land) == ''){ return '-'; }else{ return data.type_of_land; }
+			            } },
+			         	{ "mData": function(data,type,row){
+			            	if($.trim(data.sub_category_of_land) == ''){ return '-'; }else{ return data.sub_category_of_land; }
+			            } },
+			            { "mData": function(data,type,row){
+			            	if($.trim(data.area_of_plot) == ''){ return '-'; }else{ return data.area_of_plot; }
+			            } },
+			         
+			         	{ "mData": function(data,type,row){
+			         		var la_id = "'"+data.la_id+"'";
+		                    var actions = '<a href="javascript:void(0);"  onclick="getLandAcquisition('+la_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+			            	return actions;
+			            } }
+			            
+			        ]
+			    });
+		    
+		  $(".page-loader-2").hide();  		     
+      	
+     }
+        
+        
+        function getLandAcquisitionList2(){
         	$(".page-loader-2").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();

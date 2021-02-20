@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/mobile-responsive-table.css">
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
     <style>
         #session-table .datepicker~button {
             top: 26px;
@@ -235,10 +237,10 @@
 					</div>
 					<!-- form start-->
 						<c:if test="${action eq 'edit'}">
-							<form action="<%=request.getContextPath() %>/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+							<form action="<%=request.getContextPath() %>/mobileappwebview/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						</c:if>
 						<c:if test="${action eq 'add'}">
-							<form action="<%=request.getContextPath() %>/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+							<form action="<%=request.getContextPath() %>/mobileappwebview/add-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						</c:if>
 					<div class=" container-no-margin">
 						<div class="row">
@@ -839,7 +841,7 @@
 							</div>
 							<div class="col s12 m4">
 								<div class="center-align m-1">
-									<a href="<%=request.getContextPath()%>/training"
+									<a href="<%=request.getContextPath()%>/mobileappwebview/training"
 										class="btn waves-effect waves-light bg-s" style="width: 100%">Cancel</a>
 								</div>
 							</div>
@@ -855,12 +857,12 @@
 	</div>
 
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<!-- <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script> -->
 	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
+	<!-- <script src="/pmis/resources/js/select2.min.js"></script> -->
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script src="/pmis/resources/js/datetimepicker.js"></script>

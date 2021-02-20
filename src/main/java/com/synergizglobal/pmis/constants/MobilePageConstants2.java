@@ -22,6 +22,9 @@ public class MobilePageConstants2 {
 		public static final String trainingGrid = "mobileForms/trainingGrid";
 		public static final String addEditTrainingForm = "mobileForms/addEditTrainingForm";
 		
+		public static final String riskATRGrid = "mobileForms/riskATRGrid";
+		public static final String addEditRiskATRForm = "mobileForms/addEditRiskATRForm";
+		
 	
 
 }

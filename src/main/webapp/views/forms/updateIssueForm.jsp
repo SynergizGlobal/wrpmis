@@ -4,6 +4,7 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -202,7 +203,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${issue.reported_by }">
-                                    <label for="reported_by">Raised By </label>
+                                    <label for="reported_by">Reported by </label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -220,7 +221,7 @@
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">
-                                            <option value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
+                                            <option name="${obj.railway_name}" value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
@@ -234,8 +235,9 @@
                                   <p class="searchable_label">Department Name </p> 
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" <c:if test="${issue.other_organization eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
+                                         <c:forEach var="obj" items="${departmentList }">                                         	
+      										<c:set var = "string3" value = "${issue.zonal_railway_fk} ${obj.department_name}" />
+                                            <option value="${obj.department_name }" <c:if test="${issue.other_organization eq string3 }">selected</c:if>>${obj.department_name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -417,14 +419,6 @@
             if ($.trim(work_id_fk) != '') {
             	getContractsList(work_id_fk);
             }
-            
-	        if($('#zonal_railway_fk').val()!='Others'){
-	            $('#other_organization').removeAttr('value');
-	            $('#other_organization').removeAttr('name');
-             	$('#department_holder').show();
-             } else{
-             	$('#department_holder').hide();
-             }
 	        
 	        var status_fk = "${issue.status_fk}";
             if ($.trim(status_fk) == 'Escalated') {
@@ -747,37 +741,52 @@
         	        $(this).valid();
         	    }
         	}); */
-       	  	$("#zonal_railway_fk").change(function () {
-       		  	 $('#other_organization').val("");
-                 if($('#zonal_railway_fk').val()=='Others'){
-                	$('#other_organizations').removeAttr('name');
-                 	$('#other_organizations').removeAttr('value');
-                 	$('#other_organization_holder').show();
-                 } else{
+        	
+        	$("#zonal_railway_fk").change(function () {    
+            	var val = $('#zonal_railway_fk').val();
+            	var name = $("#zonal_railway_fk").find('option:selected').attr("name");
+            	
+            	$('#other_organizations').removeAttr('name');
+            	$('#other_organization').removeAttr('name');
+            	
+            	$('#other_organization_holder').hide();
+            	$('#department_holder').hide();
+            	
+                if(val == 'Others'){
+                	$('#department_holder').hide();                	
+                	$('#other_organization').attr('name', 'other_organization');
+                	$('#other_organization_holder').show();      
+                	$('#other_organization').val(name).focus();                	
+                } else if(val == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 
-                 	$('#other_organization_holder').hide();
-                 }
+                	$('#department_holder').show();
+                } else { 
+                	$('#other_organization').attr('name', 'other_organization');
+                	$('#other_organization').val(name);
+                }
             });
         	
-        	 $("#zonal_railway_fk").change(function () {
-        		 $('.select2-selection__rendered').empty();
-        		 var c = $('#other_organizations').val();
-                 if($('#zonal_railway_fk').val()!='Others'){
-                	
-                	$('#other_organization').removeAttr('name');
-                	$('#other_organization').removeAttr('value');
-                 	$('#department_holder').show();
-                 } else{
-                	$('#other_organization').attr('name', 'other_organization'); 
-                 	$('#department_holder').hide();
-                 }
-             });
-        	 
-        	var responsibleOrganization = '${issue.zonal_railway_fk}';
+        	$(document).ready(function(){				
+        		var responsibleOrganization = '${issue.zonal_railway_fk}';
+        		var otherOrganization = '${issue.zonal_railway_fk}';
+        		
+        		var name = $("#zonal_railway_fk").find('option:selected').attr("name");
+        		
+        		$('#other_organizations').removeAttr('name');
+            	$('#other_organization').removeAttr('name');
+            	
+            	if($.trim(responsibleOrganization) == 'Others'){
+            		$('#other_organization').attr('name', 'other_organization');
+            		$('#other_organization_holder').show();
+            	}else if(responsibleOrganization == 'MRVC'){
+            		$('#other_organizations').attr('name', 'other_organization');
+            		$('#department_holder').show();
+            	}else{
+            		$('#other_organization').attr('name', 'other_organization');
+            		$('#other_organization').val(name);
+            	}        		
+        	});
         	
-        	if($.trim(responsibleOrganization) == 'Others'){
-        		$('#other_organization_holder').show();
-        	}
             
     </script>
 </body>

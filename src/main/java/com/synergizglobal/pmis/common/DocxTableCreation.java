@@ -352,20 +352,20 @@ public class DocxTableCreation {
 		if(!StringUtils.isEmpty(pendingIssues)) {
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
-			tableHeader.add("SNo.");
-			tableHeader.add("Name of Work");
+			tableHeader.add("S\nNo");
+			tableHeader.add("Name of\nWork");
 			tableHeader.add("HOD");
-			tableHeader.add("Name of contractor");
-			tableHeader.add("Location/Station/KM");
+			tableHeader.add("Name of\ncontractor");
+			tableHeader.add("Location\n/Station\n/KM");
 			/*tableHeader.add("Issue Discription");*/
-			tableHeader.add("Reported By");
-			tableHeader.add("Pending With");
+			tableHeader.add("Reported\nBy");
+			tableHeader.add("Pending\nWith");
 			/*tableHeader.add("Pending Since(Days)");*/
-			tableHeader.add("Pending Since Date");
+			tableHeader.add("Pending\nSince\nDate");
 			/*tableHeader.add("Action Taken");*/
-			tableHeader.add("Issue/Action Taken/Remarks"); 
+			tableHeader.add("Issue / Action Taken / Remarks"); 
 			/*tableHeader.add("Current Status");*/
-			tableHeader.add("Person Responsible in MRVC(Assigned to)");  
+			tableHeader.add("Person\nResponsible\nin MRVC\n(Assigned to)");  
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -393,7 +393,7 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person(),
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getOther_organization(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
 				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
@@ -447,20 +447,20 @@ public class DocxTableCreation {
 		if(!StringUtils.isEmpty(safetyData)) {
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
-			tableHeader.add("SNo.");
-			tableHeader.add("Name of Work");
+			tableHeader.add("S\nNo");
+			tableHeader.add("Name\nof\nWork");
 			tableHeader.add("HOD");
-			tableHeader.add("Name of Contractor"); 
-			tableHeader.add("Location/Station/KM.");
+			tableHeader.add("Name of\nContractor"); 
+			tableHeader.add("Location\n/Station\n/KM.");
 			tableHeader.add("Incident");
-			tableHeader.add("Date of Incident");
+			tableHeader.add("Date of\nIncident");
 			tableHeader.add("Impact");			
 			tableHeader.add("Category");			
-			tableHeader.add("Root Cause");
-			tableHeader.add("Committee(Y/N)");			
+			tableHeader.add("Root\nCause");
+			tableHeader.add("Committee\n(Y/N)");			
 			tableHeader.add("Incident Status");
-			tableHeader.add("(Short Term)Corrective Measure");			
-			tableHeader.add("(Long Term)Corrective Measure");
+			tableHeader.add("Short Term\nCorrective\nMeasure");			
+			tableHeader.add("Long Term\nCorrective\nMeasure");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -550,11 +550,11 @@ public class DocxTableCreation {
 					
 					/*===========================================================*/
 					Tr titleTableRow = factory.createTr();		
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Title", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Title", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -566,11 +566,11 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Description", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Description", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -582,11 +582,11 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Date", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Date", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -598,11 +598,11 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Category", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -614,11 +614,11 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -743,11 +743,13 @@ public class DocxTableCreation {
 		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
-		String employeeName = null,designation = null, reportingTo = null;
+		String employeeName = null,designation = null, reportingTo = null,nominated = null, attended = null;
 		for (Training aObj : employeeTrainings) {
 			employeeName = aObj.getAttendee();
 			designation = aObj.getDepartment_name();
 			reportingTo = aObj.getReporting_to();
+			nominated = aObj.getNominated();
+			attended = aObj.getAttended();
 			break;
 		}
 		
@@ -760,11 +762,11 @@ public class DocxTableCreation {
 		
 		/*===========================================================*/
 		Tr titleTableRow = factory.createTr();		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", boldRPr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, employeeName, titleRpr,
 				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, "", boldRPr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		
 	  	titleTable.getContent().add(titleTableRow);	
@@ -772,7 +774,7 @@ public class DocxTableCreation {
 		/*===========================================================*/
 		titleTableRow = factory.createTr();	
 		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Department", boldRPr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Department", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, designation, titleRpr,
 				JcEnumeration.LEFT, false, null);
@@ -784,7 +786,7 @@ public class DocxTableCreation {
 		/*===========================================================*/
 		titleTableRow = factory.createTr();	
 		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", boldRPr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, titleRpr,
 				JcEnumeration.LEFT, false, null);
@@ -794,6 +796,31 @@ public class DocxTableCreation {
 	  	titleTable.getContent().add(titleTableRow);	
 		mergeCellsHorizontal(titleTable, 2, 1, 2);
 		/*===========================================================*/
+		titleTableRow = factory.createTr();	
+		
+		addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", titleRpr,
+				JcEnumeration.LEFT, false, null);
+		addTableCell(factory, wordMLPackage, titleTableRow, nominated, titleRpr,
+				JcEnumeration.LEFT, false, null);
+		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+				JcEnumeration.LEFT, false, null);
+		
+	  	titleTable.getContent().add(titleTableRow);	
+		mergeCellsHorizontal(titleTable, 3, 1, 2);
+		/*===========================================================*/
+		titleTableRow = factory.createTr();	
+		
+		addTableCell(factory, wordMLPackage, titleTableRow, "Attended", titleRpr,
+				JcEnumeration.LEFT, false, null);
+		addTableCell(factory, wordMLPackage, titleTableRow, attended, titleRpr,
+				JcEnumeration.LEFT, false, null);
+		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+				JcEnumeration.LEFT, false, null);
+		
+	  	titleTable.getContent().add(titleTableRow);	
+		mergeCellsHorizontal(titleTable, 3, 1, 2);
+		/*===========================================================*/
+		
 		
 		setTableAlign(factory, titleTable, JcEnumeration.CENTER);
 		mp.addObject(titleTable);
@@ -838,9 +865,9 @@ public class DocxTableCreation {
 					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			addTableCell(factory, wordMLPackage, contentRow, aObj.getDate(),
 					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getNominated(),
+			addTableCell(factory, wordMLPackage, contentRow, aObj.getRequired_fk(),
 					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-			addTableCell(factory, wordMLPackage, contentRow, aObj.getAttended(),
+			addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
 					contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 			
 			table.getContent().add(contentRow);
@@ -904,11 +931,11 @@ public class DocxTableCreation {
 					
 					/*===========================================================*/
 					Tr titleTableRow = factory.createTr();		
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Title", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Title", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -920,7 +947,7 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -936,11 +963,11 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Date", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Date", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -952,11 +979,11 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Category", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -968,11 +995,11 @@ public class DocxTableCreation {
 					/*===========================================================*/
 					titleTableRow = factory.createTr();	
 					
-					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", boldRPr,
+					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -981,6 +1008,22 @@ public class DocxTableCreation {
 				
 				  	titleTable.getContent().add(titleTableRow);	
 					mergeCellsHorizontal(titleTable, 4, 3, 4);
+					/*===========================================================*/
+					titleTableRow = factory.createTr();	
+					
+					addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", titleRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getNominated(), titleRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, "Attended", titleRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getAttended(), titleRpr,
+							JcEnumeration.LEFT, false, null);
+					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+							JcEnumeration.LEFT, false, null);
+				
+				  	titleTable.getContent().add(titleTableRow);	
+					mergeCellsHorizontal(titleTable, 5, 3, 4);
 					/*===========================================================*/
 					
 					setTableAlign(factory, titleTable, JcEnumeration.CENTER);
@@ -1023,9 +1066,9 @@ public class DocxTableCreation {
 								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, aObj.getReporting_to(),
 								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getNominated(),
+						addTableCell(factory, wordMLPackage, contentRow, aObj.getRequired_fk(),
 								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, aObj.getAttended(),
+						addTableCell(factory, wordMLPackage, contentRow, aObj.getParticipated_fk(),
 								contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						
 						table.getContent().add(contentRow);

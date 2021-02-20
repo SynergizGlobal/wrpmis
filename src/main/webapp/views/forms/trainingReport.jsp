@@ -119,7 +119,14 @@
                             	<form action="<%=request.getContextPath() %>/generate-scheduled-training-report" id="scheduledTrainingReportForm" name="scheduledTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
-	                                        <p class="label-for-report">Future Training</p>	                                      
+	                                        <p class="searchable_label" style="text-align:left">Training Title</p>
+	                                        <select class="searchable validate-dropdown" name="title">
+	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${scheduledTrainingTitles }">
+	                                            	<option value="${obj.title }">${obj.title } </option>
+	                                            </c:forEach>
+	                                        </select>
+	                                        <span id="attendeeError" class="error-msg" ></span>
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">
@@ -164,7 +171,14 @@
                             	<form action="<%=request.getContextPath() %>/generate-completed-training-report" id="completedTrainingReportForm" name="completedTrainingReportForm" method="post" target="_blank">
 	                                <div class="row">
 	                                    <div class="col s12 m6 input-field">
-	                                        <p class="label-for-report">Check Previous Training</p>	                                 
+	                                        <p class="searchable_label" style="text-align:left">Training Title</p>
+	                                        <select class="searchable validate-dropdown" name="title">
+	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${completedTrainingTitles }">
+	                                            	<option value="${obj.title }">${obj.title } </option>
+	                                            </c:forEach>
+	                                        </select>
+	                                        <span id="attendeeError" class="error-msg" ></span>
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">

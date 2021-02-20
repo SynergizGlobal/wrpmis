@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -268,7 +269,9 @@ public class IssueController {
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));			
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
-			
+			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
+				obj.setOther_organization(obj.getZonal_railway_fk() + " " + obj.getOther_organization());
+			}
 			boolean flag = issueService.addIssue(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Issue added successfully");
@@ -362,6 +365,10 @@ public class IssueController {
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
+			
+			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
+				obj.setOther_organization(obj.getZonal_railway_fk() + " " + obj.getOther_organization());
+			}
 			
 			boolean flag = issueService.updateIssue(obj);
 			if(flag) {

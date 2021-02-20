@@ -20,6 +20,16 @@ public class TrainingReportServiceImpl implements TrainingReportService{
 	}
 
 	@Override
+	public List<Training> getScheduledTrainingTitles(Training obj) throws Exception {
+		return dao.getScheduledTrainingTitles(obj);
+	}
+
+	@Override
+	public List<Training> getCompletedTrainingTitles(Training obj) throws Exception {
+		return dao.getCompletedTrainingTitles(obj);
+	}
+
+	@Override
 	public List<Training> getScheduledTrainings(Training obj) throws Exception {
 		return dao.getScheduledTrainings(obj);
 	}

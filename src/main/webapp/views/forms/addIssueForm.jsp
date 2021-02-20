@@ -204,7 +204,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate">
-                                    <label for="reported_by">Raised By </label>
+                                    <label for="reported_by">Reported by </label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -222,7 +222,7 @@
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">
-                                            <option value="${obj.railway_id }" >${obj.railway_name}</option>
+                                            <option name="${obj.railway_name}" value="${obj.railway_id }" >${obj.railway_name}</option>
                                         </c:forEach>
                                     </select>
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
@@ -769,23 +769,27 @@
         	    }
         	});
             
-            $("#zonal_railway_fk").change(function () {
-                if($('#zonal_railway_fk').val()=='Others'){
-                	$('#other_organizations').removeAttr('name');
-                	$('#other_organization_holder').show();
-                } else{
+            $("#zonal_railway_fk").change(function () {    
+            	var val = $('#zonal_railway_fk').val();
+            	var name = $("#zonal_railway_fk").find('option:selected').attr("name");
+            	
+            	$('#other_organizations').removeAttr('name');
+            	$('#other_organization').removeAttr('name');
+            	
+            	$('#other_organization_holder').hide();
+            	$('#department_holder').hide();
+            	
+                if(val == 'Others'){
+                	$('#department_holder').hide();                	
+                	$('#other_organization').attr('name', 'other_organization');
+                	$('#other_organization_holder').show();      
+                	$('#other_organization').val(name).focus();                	
+                } else if(val == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 
-                	$('#other_organization_holder').hide();
-                }
-            });
-            $("#zonal_railway_fk").change(function () {
-            	$('.select2-selection__rendered').empty();
-                if($('#zonal_railway_fk').val()!='Others'){
-                	$('#other_organization').removeAttr('name');
                 	$('#department_holder').show();
-                } else{
-                	$('#other_organization').attr('name', 'other_organization'); 
-                	$('#department_holder').hide();
+                } else { 
+                	$('#other_organization').attr('name', 'other_organization');
+                	$('#other_organization').val(name);
                 }
             });
             

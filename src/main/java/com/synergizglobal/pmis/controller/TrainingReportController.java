@@ -104,6 +104,15 @@ public class TrainingReportController {
 			
 			List<Training> employees = service.getEmployeesInTraining(obj);
 			model.addObject("employees", employees);
+			
+			obj.setStatus_fk("Scheduled");
+			List<Training> scheduledTrainingTitles = service.getScheduledTrainingTitles(obj);
+			model.addObject("scheduledTrainingTitles", scheduledTrainingTitles);
+			
+			obj.setStatus_fk("Completed");
+			List<Training> completedTrainingTitles = service.getCompletedTrainingTitles(obj);
+			model.addObject("completedTrainingTitles", completedTrainingTitles);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("trainingReport : " + e.getMessage());
@@ -179,7 +188,7 @@ public class TrainingReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "Scheduled Training Report";
+			String headerText = "PMIS Report - Scheduled Training";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
@@ -240,7 +249,7 @@ public class TrainingReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "Employee Training Report";
+			String headerText = "PMIS Report - Employee Training";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
@@ -302,7 +311,7 @@ public class TrainingReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "Completed Training Report";
+			String headerText = "PMIS Report - Completed Training";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);

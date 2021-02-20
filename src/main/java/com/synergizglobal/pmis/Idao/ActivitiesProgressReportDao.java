@@ -12,6 +12,8 @@ public interface ActivitiesProgressReportDao {
 	List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
 
 	List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+
+	List<ActivitiesProgressReport> getFobFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
 	
 	List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
 

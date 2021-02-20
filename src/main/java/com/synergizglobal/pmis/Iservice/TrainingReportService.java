@@ -8,6 +8,10 @@ public interface TrainingReportService {
 
 	List<Training> getEmployeesInTraining(Training obj) throws Exception;
 
+	List<Training> getScheduledTrainingTitles(Training obj) throws Exception;
+
+	List<Training> getCompletedTrainingTitles(Training obj) throws Exception;
+
 	List<Training> getScheduledTrainings(Training obj) throws Exception;
 
 	List<Training> getEmployeeTrainings(Training obj) throws Exception;

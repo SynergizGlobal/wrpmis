@@ -33,7 +33,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT project_id_fk,p.project_id,p.project_name from contract c " + 
+			String qry = "SELECT project_id_fk,p.project_id,p.project_name "+
+					"from contract c " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where project_id_fk is not null and project_id_fk <> '' ";
@@ -185,6 +186,79 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				qry = qry + " and contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
+				qry = qry + " and contractor_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and hod_user_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
+				qry = qry + " and dy_hod_user_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " GROUP BY c.contract_id ORDER BY c.contract_id ASC";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
+				pValues[i++] = obj.getProject_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
+				pValues[i++] = obj.getContractor_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
+				pValues[i++] = obj.getDyhod();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
+					
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+
+
+	@Override
+	public List<ActivitiesProgressReport> getFobFilterListInStripChartReport(ActivitiesProgressReport obj)
+			throws Exception {
+		List<ActivitiesProgressReport> objsList = null;
+		try {
+			String qry = "SELECT fob_id,fob_name "+
+					"from fob f " + 
+					"LEFT JOIN contract c on f.contract_id_fk = c.contract_id " + 
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
+					"where c.contract_id is not null and c.contract_id <> '' ";
+			
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and f.contract_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {

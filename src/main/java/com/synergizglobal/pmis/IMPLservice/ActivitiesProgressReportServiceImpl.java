@@ -31,6 +31,12 @@ public class ActivitiesProgressReportServiceImpl implements ActivitiesProgressRe
 	}
 
 	@Override
+	public List<ActivitiesProgressReport> getFobFilterListInStripChartReport(ActivitiesProgressReport obj)
+			throws Exception {
+		return dao.getFobFilterListInStripChartReport(obj);
+	}
+
+	@Override
 	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		return dao.getContractorsFilterListInStripChartReport(obj);
 	}

@@ -124,6 +124,19 @@ public class ActivitiesProgressReportController {
 		return contractsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getFobFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<ActivitiesProgressReport> getFobFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+		List<ActivitiesProgressReport> fobList = null;
+		try {
+			fobList = service.getFobFilterListInStripChartReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getFobFilterListInStripChartReport : " + e.getMessage());
+		}
+		return fobList;
+	}
+	
 	@RequestMapping(value = "/ajax/getContractorsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {

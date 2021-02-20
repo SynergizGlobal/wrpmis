@@ -4,7 +4,23 @@ public class ActivitiesProgressReport {
 	private String progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name, 
 	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,hod,dyhod,
 	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date,
-	project_id,project_name,project_id_fk,contractor_id,user_id,user_name,designation;
+	project_id,project_name,project_id_fk,contractor_id,user_id,user_name,designation,fob_id,fob_name;
+
+	public String getFob_id() {
+		return fob_id;
+	}
+
+	public void setFob_id(String fob_id) {
+		this.fob_id = fob_id;
+	}
+
+	public String getFob_name() {
+		return fob_name;
+	}
+
+	public void setFob_name(String fob_name) {
+		this.fob_name = fob_name;
+	}
 
 	public String getUser_id() {
 		return user_id;

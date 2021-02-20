@@ -33,11 +33,12 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT project_id_fk,p.project_id,p.project_name "+
-					"from contract c " + 
+			String qry = "SELECT p.project_id,p.project_name "+
+					"from strip_chart_general scv " + 
+					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where project_id_fk is not null and project_id_fk <> '' ";
+					"where project_id is not null and project_id <> '' ";
 			
 			int arrSize = 0;
 			
@@ -50,23 +51,26 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id = ?";
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and scv.fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-				qry = qry + " and contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
-				qry = qry + " and dy_hod_user_id_fk = ?";
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
-			
-			qry = qry + " GROUP BY project_id_fk ORDER BY project_id_fk ASC";
+			qry = qry + " GROUP BY p.project_id ORDER BY p.project_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -79,6 +83,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();
@@ -101,10 +108,12 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name from contract c " + 
+			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
+					"from strip_chart_general scv " + 
+					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.work_id_fk is not null and c.work_id_fk <> '' ";
+					"where w.work_id is not null and w.work_id <> '' ";
 			
 			int arrSize = 0;
 			
@@ -117,23 +126,27 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id = ?";
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and scv.fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-				qry = qry + " and contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
-				qry = qry + " and dy_hod_user_id_fk = ?";
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk ASC";
+			qry = qry + " GROUP BY w.work_id ORDER BY w.work_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -146,6 +159,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();
@@ -169,7 +185,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name from contract c " + 
+			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "+
+					"from strip_chart_general scv " + 
+					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.contract_id is not null and c.contract_id <> '' ";
@@ -185,19 +203,23 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id = ?";
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and scv.fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-				qry = qry + " and contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
-				qry = qry + " and dy_hod_user_id_fk = ?";
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
 			
@@ -214,6 +236,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();
@@ -240,12 +265,14 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
+			
 			String qry = "SELECT fob_id,fob_name "+
-					"from fob f " + 
-					"LEFT JOIN contract c on f.contract_id_fk = c.contract_id " + 
+					"from strip_chart_general scv " + 
+					"LEFT JOIN fob f on scv.fob_id_fk = f.fob_id " + 
+					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where c.contract_id is not null and c.contract_id <> '' ";
+					"where fob_id is not null and fob_id <> '' ";
 			
 			int arrSize = 0;
 			
@@ -258,23 +285,27 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and f.contract_id_fk = ?";
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and scv.fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-				qry = qry + " and contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
-				qry = qry + " and dy_hod_user_id_fk = ?";
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.contract_id ORDER BY c.contract_id ASC";
+			qry = qry + " GROUP BY fob_id ORDER BY fob_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -287,6 +318,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();
@@ -310,10 +344,13 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT c.contractor_id_fk,contractor_id,contractor_name from contract c " + 
+			
+			String qry = "SELECT c.contractor_id_fk,contractor_id,contractor_name "+
+					"from strip_chart_general scv " + 
+					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"LEFT JOIN contractor ctr on c.contractor_id_fk = ctr.contractor_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"LEFT JOIN contractor ct on c.contractor_id_fk = ct.contractor_id " +
 					"where c.contractor_id_fk is not null and c.contractor_id_fk <> '' ";
 			
 			int arrSize = 0;
@@ -327,19 +364,23 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id = ?";
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and scv.fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-				qry = qry + " and contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
-				qry = qry + " and dy_hod_user_id_fk = ?";
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
 			
@@ -356,6 +397,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();
@@ -378,12 +422,15 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	@Override
 	public List<ActivitiesProgressReport> getHodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
-		try {
-			String qry = "SELECT user_id,user_name,designation from contract c " + 
+		try {			
+			String qry = "SELECT user_id,user_name,designation "+
+					"from strip_chart_general scv " + 
+					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
 					"where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
+			
 			
 			int arrSize = 0;
 			
@@ -396,19 +443,23 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id = ?";
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and scv.fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-				qry = qry + " and contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
-				qry = qry + " and dy_hod_user_id_fk = ?";
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
 			
@@ -425,6 +476,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();
@@ -448,10 +502,12 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation from contract c " + 
+			String qry = "SELECT user_id,user_name,designation "+
+					"from strip_chart_general scv " + 
+					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
 					"where c.dy_hod_user_id_fk is not null and c.dy_hod_user_id_fk <> '' ";
 			
 			int arrSize = 0;
@@ -465,19 +521,23 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-				qry = qry + " and contract_id = ?";
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				qry = qry + " and scv.fob_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
-				qry = qry + " and contractor_id_fk = ?";
+				qry = qry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDyhod())) {
-				qry = qry + " and dy_hod_user_id_fk = ?";
+				qry = qry + " and c.dy_hod_user_id_fk = ?";
 				arrSize++;
 			}
 			
@@ -494,6 +554,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();
@@ -557,6 +620,10 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				contractsQry = contractsQry + " and contract_id = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				contractsQry = contractsQry + " and scg.fob_id_fk = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				contractsQry = contractsQry + " and contractor_id_fk = ?";
 				arrSize++;
@@ -590,6 +657,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+				pValues[i++] = obj.getFob_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
 				pValues[i++] = obj.getContractor_id();

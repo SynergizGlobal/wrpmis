@@ -199,7 +199,31 @@
         	}
         });
         
-        function resetFilterDropDowns(){
+        function clearFilters(){
+        	$("#project_id option:not(:first)").remove();
+        	$("#work_id option:not(:first)").remove();
+        	$("#contract_id option:not(:first)").remove();
+        	$("#fob_id_fk option:not(:first)").remove();
+        	$("#contractor_id option:not(:first)").remove();
+        	$("#hod option:not(:first)").remove();
+        	$("#dyhod option:not(:first)").remove();
+        	
+        	$("#project_id").val('');
+        	$("#work_id").val('');
+        	$("#contract_id").val('');
+        	$("#fob_id_fk").val('');
+        	$("#contractor_id").val('');
+        	$("#hod").val('');
+        	$("#dyhod").val('');        	
+
+            $("#from_date").val('').focus();
+            $("#to_date").val('').focus();
+            
+        	resetFilterDropDowns();
+        }
+        
+        
+        function resetFilterDropDowns(){        	
         	getProjectsList();
         	getWorksList();
             getContractsList();
@@ -207,8 +231,6 @@
             getContractorsList();
             getHodList();
             getDyhodList();
-            $("#from_date").val('');
-            $("#to_date").val('');
         }
         
         
@@ -325,6 +347,7 @@
         	var contractor_id = $("#contractor_id").val();
         	var hod = $("#hod").val();
         	var dyhod = $("#dyhod").val();
+        	//alert(contract_id +" "+ fob_id_fk);
             if ($.trim(contract_id) != "" && $.trim(fob_id_fk) == "") {
             	$("#fob_id_fk option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk :fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
@@ -348,8 +371,11 @@
     	   	         	getErrorMessage(jqXHR, exception);
     	   	     	}
                 });
+            }else if ($.trim(contract_id) != "" && $.trim(fob_id_fk) != "") {
+            	$(".page-loader").hide();
             }else{
             	$(".page-loader").hide();
+            	$("#fob_id_fk_div").hide();
             }
         }
         
@@ -557,17 +583,6 @@
     	        $(this).valid();
     	    }
     	});
-        function clearFilters(){
-        	$('#project_id').val('');
-        	$('#work_id').val('');
-        	$('#contract_id').val('');
-        	$('#contractor_id').val('');
-        	$('#hod').val('');
-        	$('#dyhod').val('');
-        	$('.searchable').select2();
-        	
-        	resetFilterDropDowns();        	
-        }
     </script>
 </body>
 </html>

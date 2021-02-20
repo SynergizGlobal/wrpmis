@@ -698,6 +698,10 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					progressStructuresQry = progressStructuresQry + " and progress_date = ?";
 					arrSize++;
 				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+					progressStructuresQry = progressStructuresQry + " and scg.fob_id_fk = ?";
+					arrSize++;
+				}
 				
 				progressStructuresQry = progressStructuresQry + " GROUP BY scg.fob_id_fk ORDER BY scg.fob_id_fk ASC";
 				
@@ -710,6 +714,10 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					pValues[i++] = obj.getTo_date();
 				}else {
 					pValues[i++] = obj.getFrom_date();
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
+					pValues[i++] = obj.getFob_id_fk();
 				}
 				
 				List<ActivitiesProgressReport> contractProgressStructuresList = jdbcTemplate.query( progressStructuresQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));

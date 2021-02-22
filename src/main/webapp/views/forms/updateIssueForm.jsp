@@ -157,7 +157,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
-                            <div class="row">
+                            <%-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                      <textarea id="description" name="description" class="materialize-textarea" data-length="1000">${issue.description }</textarea>
@@ -165,7 +165,7 @@
                                     <span id="descriptionError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div> --%>
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="location" name="location" type="text" class="validate" value="${issue.location }">
-                                    <label for="location">Location/Station/KM </label>
+                                    <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -247,7 +247,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000">${issue.corrective_measure }</textarea>
-                                    <label for="corrective_measure">Issue/Action Taken/Remarks</label>
+                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -293,14 +293,14 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row">
+                            <%-- <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
-                            </div>
+                            </div> --%>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -540,7 +540,7 @@
     			 	   	  },"date": {
     				 		required: true
     				 	  },"location": {
-    				 		required: false
+    				 		required: true
     				 	  },"latitude": {
     				 		required: false
     				 	  },"longitude": {
@@ -550,7 +550,7 @@
     				 	  },"responsible_person":{
     				 		 required: false
     				 	  },"corrective_measure": {
-    			 		    required: false,
+    			 		    required: true,
     			 	   	  },"resolved_date": {
     				 		required: false,
        				 		dateBefore1:"#date",

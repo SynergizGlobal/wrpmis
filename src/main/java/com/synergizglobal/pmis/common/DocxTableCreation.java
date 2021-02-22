@@ -452,7 +452,7 @@ public class DocxTableCreation {
 			tableHeader.add("HOD");
 			tableHeader.add("Name of\nContractor"); 
 			tableHeader.add("Location\n/Station\n/KM.");
-			tableHeader.add("Incident");
+			tableHeader.add("Description");
 			tableHeader.add("Date of\nIncident");
 			tableHeader.add("Impact");			
 			tableHeader.add("Category");			

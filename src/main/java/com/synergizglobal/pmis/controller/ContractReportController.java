@@ -75,98 +75,142 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.SafetyReportService;
+import com.synergizglobal.pmis.Iservice.ContractReportService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
+import com.synergizglobal.pmis.common.DocxTableCreationForContractReport;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.Safety;
-
+import com.synergizglobal.pmis.model.Contract;
 @Controller
-public class SafetyReportController {
+public class ContractReportController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-	
-	public static Logger logger = Logger.getLogger(SafetyReportController.class);	
+	public static Logger logger = Logger.getLogger(ContractReportController.class);
 	
 	@Autowired
-	SafetyReportService safetyService;
-	
+	ContractReportService service;
 	
 	@Value("${common.error.message}")
 	public String commonError;
 	
-
-	@RequestMapping(value="/safety-report",method=RequestMethod.GET)
-	public ModelAndView safetysReport(@ModelAttribute Safety obj,HttpSession session) {
-		ModelAndView model = new ModelAndView();
-		try {
-			model.setViewName(PageConstants2.safetyReport);			
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("safetysReport : " + e.getMessage());
-		}
-		return model;
-	}
+	@Value("${record.dataexport.success}")
+	public String dataExportSucess;
 	
-	@RequestMapping(value = "/ajax/getWorksListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Safety> getWorksListInSafetyReport(@ModelAttribute Safety obj) {
-		List<Safety> objsList = null;
-		try {
-			objsList = safetyService.getWorksListInSafetyReport(obj);
+	@Value("${record.dataexport.invalid.directory}")
+	public String dataExportInvalid;
+	
+	@Value("${record.dataexport.error}")
+	public String dataExportError;
+	
+	@Value("${record.dataexport.nodata}")
+	public String dataExportNoData;
+	
+	
+	@RequestMapping(value = "/contract-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView contractReport(@ModelAttribute Contract obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView(PageConstants2.contractReport);
+		try{
+			
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getWorksListInSafetyReport : " + e.getMessage());
-		}
-		return objsList;
-	}
-	
-	@RequestMapping(value = "/ajax/getContractsListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Safety> getContractsListInSafetyReport(@ModelAttribute Safety obj) {
-		List<Safety> objsList = null;
-		try {
-			objsList = safetyService.getContractsListInSafetyReport(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getContractsListInSafetyReport : " + e.getMessage());
-		}
-		return objsList;
-	}
-	
-	@RequestMapping(value = "/ajax/getHODListInSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Safety> getHODListInSafetyReport(@ModelAttribute Safety obj) {
-		List<Safety> objsList = null;
-		try {
-			objsList = safetyService.getHODListInSafetyReport(obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getHODListInSafetyReport : " + e.getMessage());
-		}
-		return objsList;
-	}
-	
-	
-	@RequestMapping(value = "/generate-safety-report", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView generatePendingSafetyReport(@ModelAttribute Safety obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/safety-report");
-		try{            
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date();
-            String currentDate = sqlDate.format(date);
-           
-			boolean flag = generatePendingSafetyReport(response,currentDate,obj);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("generatePendingSafetyReport : " + e.getMessage());
+			logger.error("contractReport : " + e.getMessage());
 		}
 		return model;
      }
+	
+	
+	@RequestMapping(value = "/ajax/getHODListInContractReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getHODListInContractReport(@ModelAttribute Contract obj) {
+		List<Contract> hodList = null;
+		try {
+			hodList = service.getHODListInContractReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHODListInContractReport : " + e.getMessage());
+		}
+		return hodList;
+	}
+	
+	@RequestMapping(value = "/ajax/getWorksListInContractReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getWorksListInContractReport(@ModelAttribute Contract obj) {
+		List<Contract> worksList = null;
+		try {
+			worksList = service.getWorksListInContractReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListInContractReport : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/getContractorsListInContractReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getContractorsListInContractReport(@ModelAttribute Contract obj) {
+		List<Contract> contractorsList = null;
+		try {
+			contractorsList = service.getContractorsListInContractReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractorsListInContractReport : " + e.getMessage());
+		}
+		return contractorsList;
+	}
+	
+	@RequestMapping(value = "/generate-contract-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generatContractReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/contract-report");
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+	           
+			boolean flag = generatContractReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/generate-contract-bg-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generatContractBankGuaranteeReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/contract-report");
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+	           
+			boolean flag = generatContractBankGuaranteeReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractBankGuaranteeReport : " + e.getMessage());
+		}
+		return model;
+    }
+	
+	@RequestMapping(value = "/generate-contract-insurance-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generatContractInsuranceReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView("redirect:/contract-report");
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+	           
+			boolean flag = generatContractInsuranceReport(response,currentDate,obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractInsuranceReport : " + e.getMessage());
+		}
+		return model;
+    }
 
-	private boolean generatePendingSafetyReport(HttpServletResponse response, String currentDate, Safety obj) {
+	private boolean generatContractReport(HttpServletResponse response, String currentDate, Contract obj) {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
 		byte[] byteArray;        
@@ -174,8 +218,7 @@ public class SafetyReportController {
 		boolean flag = false;
 		try{			
 			
-			//obj.setStatus_fk("Closed");
-			List<Safety> safetyData = safetyService.getSafetyReportData(obj);
+			List<Contract> list = service.getContractsListForReport(obj);
 			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -183,14 +226,14 @@ public class SafetyReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
-			String headerText = "PMIS Report - Safety Incidents";
+			String headerText = "PMIS Report - Contract Details";
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreation.createTableForSafetyReport(wordMLPackage, mp, factory,safetyData);
+			DocxTableCreationForContractReport.createTableForContractReport(wordMLPackage, mp, factory,list);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -198,7 +241,7 @@ public class SafetyReportController {
 				byteArray = bos.toByteArray();
 				InputStream targetStream = new ByteArrayInputStream(byteArray);
 				String FILE_EXTENSION = ".docx";
-				String fileName = "Safety Report - " + currentDate + FILE_EXTENSION;
+				String fileName = "Contracts Report - " + currentDate + FILE_EXTENSION;
 				
 				response.setContentType("application/.csv");
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -216,13 +259,137 @@ public class SafetyReportController {
 				flag = true;
 		    }catch (Exception e) {
 				e.printStackTrace();
-				logger.error("generatePendingSafetyReport >> FileNotFoundException occurs.." + e.getMessage());
+				logger.error("generatContractReport >> FileNotFoundException occurs.." + e.getMessage());
 				flag = false;
 		    }	
 		 	
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("generatePendingSafetyReport >> " + e.getMessage());
+			logger.error("generatContractReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}
+	
+	private boolean generatContractBankGuaranteeReport(HttpServletResponse response, String currentDate, Contract obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			
+			List<Contract> list = service.getContractsBankGuaranteeForReport(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String headerText = "PMIS Report - Status of Contract BG";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForContractBGReport(wordMLPackage, mp, factory,list);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Contract BG Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractBankGuaranteeReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractBankGuaranteeReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}
+	
+	private boolean generatContractInsuranceReport(HttpServletResponse response, String currentDate, Contract obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			
+			List<Contract> list = service.getContractsInsuranceForReport(obj);
+			
+			boolean landscape = true;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String headerText = "PMIS Report -  Status of Contract Insurance";
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForContractInsuranceReport(wordMLPackage, mp, factory,list);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "Contract Insurance Report - " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractInsuranceReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractInsuranceReport >> " + e.getMessage());
 			flag = false;
 		}
 		

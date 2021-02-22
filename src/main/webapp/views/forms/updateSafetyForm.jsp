@@ -107,6 +107,24 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row">
+                                <!-- row 4 -->
+                                <div class="col m2 hide-on-small-only"></div> 
+                                
+                                <div class="col s12 m4 input-field">
+                                	<p class="searchable_label"> HOD <span class="required">*</span></p>
+                                    <select id="hod_user_id_fk" name="hod_user_id_fk" class="searchable validate-dropdown">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${hodList }">
+                                      	   <option value= "${ obj.hod_user_id_fk}" <c:if test="${safety.hod_user_id_fk eq obj.hod_user_id_fk}">selected</c:if>>${obj.designation}</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="hod_user_id_fkError" class="error-msg" ></span>
+                                </div>
+                                
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
 
                             <div class="row">
                                 <!-- row 6 -->
@@ -215,7 +233,7 @@
                                         </div>
                                         <div class="col s12 m8 input-field">
                                             <input id="description" name="description" type="text" class="validate" value="${safety.description }">
-		                                    <label for="description">Description </label>
+		                                    <label for="description">Full Description<span class="required">*</span></label>
 		                                    <span id="descriptionError" class="error-msg" ></span>
                                         </div>
                                     </div>
@@ -233,7 +251,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="location" name="location" type="text" class="validate" value="${safety.location }">
-                                    <label for="location">Location/Station/KM </label>
+                                    <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -260,14 +278,14 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate" value="${safety.reported_by }">
-                                    <label for="reported_by">Reported By (HOD) </label>
+                                    <label for="reported_by">Reported By</label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <%-- <div class="col s12 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${safety.responsible_person }">
                                     <label for="responsible_person">Person Responsible in MRVC</label>
                                     <span id="responsible_personError" class="error-msg" ></span>
-                                </div>
+                                </div> --%>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
@@ -591,6 +609,8 @@
     				 		required: true
     				 	  },"contract_id_fk": {
     				 		required: true
+    				 	  },"hod_user_id_fk": {
+    				 		required: true
     				 	  },"department_fk": {
     				 		required: true
     				 	  },"category_fk": {
@@ -604,11 +624,11 @@
     			 	   	  },"title": {
     				 		required: true
     				 	  },"description": {
-    			 		    required: false
+    			 		    required: true
     			 	   	  },"date": {
     				 		required: true
     				 	  },"location": {
-    				 		required: false
+    				 		required: true
     				 	  },"latitude": {
     				 		required: false
     				 	  },"longitude": {
@@ -657,7 +677,9 @@
     			 			required: 'Required'
     			 	  	 },"contract_id_fk": {
     			 			required: 'Required'
-    			 	  	 },"department_fk": {
+    			 	  	 },"hod_user_id_fk": {
+     			 	  		required: 'Required'
+  				 	  	  },"department_fk": {
     			 			required: 'Required'
     			 	  	 },"category_fk": {
     			 			required: 'Required'
@@ -721,7 +743,10 @@
     			 	    }else if (element.attr("id") == "contract_id_fk" ){
     			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#contract_id_fkError');
-    			 	    }else if (element.attr("id") == "department_fk" ){
+    			 	    }else if (element.attr("id") == "hod_user_id_fk" ){
+	   			 	    	 document.getElementById("hod_user_id_fkError").innerHTML="";
+				 			 error.appendTo('#hod_user_id_fkError');
+				 	    }else if (element.attr("id") == "department_fk" ){
     			 		     document.getElementById("department_fkError").innerHTML="";
     			 			 error.appendTo('#department_fkError');
     			 	    }else if (element.attr("id") == "category_fk" ){

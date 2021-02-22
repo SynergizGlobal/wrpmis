@@ -12,7 +12,7 @@ public class Contract {
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
-	,code, bg_date, release_date,project_id,work_id,dy_hod_designation;
+	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
@@ -1154,6 +1154,22 @@ public class Contract {
 
 	public void setContractKeyPersonnelDesignations(String[] contractKeyPersonnelDesignations) {
 		this.contractKeyPersonnelDesignations = contractKeyPersonnelDesignations;
+	}
+
+	public String getHod_designation() {
+		return hod_designation;
+	}
+
+	public void setHod_designation(String hod_designation) {
+		this.hod_designation = hod_designation;
+	}
+
+	public String getInsurance_valid_upto() {
+		return insurance_valid_upto;
+	}
+
+	public void setInsurance_valid_upto(String insurance_valid_upto) {
+		this.insurance_valid_upto = insurance_valid_upto;
 	}
 	
 }

@@ -96,7 +96,7 @@ public class FileFormatModel {
 		/*String columns = "Sub Work^Item No.^Owner^Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING" + 
 				"^RISK CLASSIFICATION^Status^Priority^Mitigation Plan^Responsible Person^ATR Date^Action Taken^Code";*/
 		
-		String columns = "Work^Owner^Item No.^Risk Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^RISK RATING^RISK CLASSIFICATION^Status^Priority of Open Risks^Mitigation Plan for priority Risks^Responsible Person";
+		String columns = "Work^Owner^Item No.^Risk Area^Sub-Area^Date of Assessment^Probability (A)^Impact (B)^Risk Rating^Risk Classification^Status^Priority of Open Risks^Mitigation Plan for priority Risks^Responsible Person";
         
         String[] convertedColumnsArray = columns.split("\\^");
         

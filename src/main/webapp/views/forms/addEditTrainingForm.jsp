@@ -381,7 +381,7 @@
 																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks${indexx.count }${index.count }" >
 																                                            <option value="" >Select HOD</option>  
 																                                            <c:forEach var="obj" items="${usersList}">
-																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation } - ${obj.user_name }</option>
+																												<option value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }</option>
 																											</c:forEach>                                         
 																                                        </select>                                   
 																									</td>
@@ -448,7 +448,7 @@
 																                                        <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks00" >
 																                                            <option value="" >Select HOD</option>  
 																                                             <c:forEach var="obj" items="${usersList}">
-																												<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>
+																												<option value="${obj.hod_user_id_fk }">${obj.designation }</option>
 																											</c:forEach>                                           
 																                                        </select>                                   
 																								</td>
@@ -598,7 +598,7 @@
 																					<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks0" >
 																					<option value="" >Select HOD</option>
 																					 <c:forEach var="obj" items="${usersList}">
-																							<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>
+																							<option value="${obj.hod_user_id_fk }">${obj.designation }</option>
 																					</c:forEach>  
 																					</select>    
 																					</td>
@@ -974,7 +974,7 @@
 	                '<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +tNo+'" >'+
 	                '<option value="" >Select HOD</option>'+
 	                <c:forEach var="obj" items="${usersList}">
-						'<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>'+
+						'<option value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 					</c:forEach>
 	                '</select></td>'+
 	                '<td><select class="searchable validate-dropdown" name="attendees" id="attendees'+ rNo +tNo+'" >'+
@@ -1047,7 +1047,7 @@
 							'<td> <select class="searchable" name="hod_user_id_fks" id="hod_user_id_fks'+ rNo +i+'" >'+
 							'<option value="" >Select HOD</option>'+
 			                <c:forEach var="obj" items="${usersList}">
-								'<option value="${obj.hod_user_id_fk }">${obj.designation } - ${obj.user_name }</option>'+
+								'<option value="${obj.hod_user_id_fk }">${obj.designation }</option>'+
 							</c:forEach>
 			                '</select> </td>'+
 			                '</select></td>'+

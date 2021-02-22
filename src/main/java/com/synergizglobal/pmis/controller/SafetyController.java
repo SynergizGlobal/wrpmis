@@ -196,6 +196,9 @@ public class SafetyController {
 			List<Safety> contractsList = safetyService.getContractsListForSafetyForm(obj);
 			model.addObject("contractsList", contractsList);
 			
+			List<Safety> hodList = safetyService.getHODListForSafetyForm(obj);
+			model.addObject("hodList", hodList);
+			
 			List<Safety> safetyStatusList = safetyService.getSafetyStatusList();
 			model.addObject("safetyStatusList", safetyStatusList);
 			
@@ -305,9 +308,13 @@ public class SafetyController {
 			List<Safety> departmentList = safetyService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
 			
+			List<Safety> hodList = safetyService.getHODListForSafetyForm(obj);
+			model.addObject("hodList", hodList);
+			
 			Safety safety = safetyService.getSafety(obj);
 			model.addObject("safety", safety);
 		} catch (Exception e) {
+			e.printStackTrace();
 			attributes.addFlashAttribute("error", commonError);
 			logger.error("getSafety : " + e.getMessage());
 		}
@@ -337,6 +344,9 @@ public class SafetyController {
 			
 			List<Safety> departmentList = safetyService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
+			List<Safety> hodList = safetyService.getHODListForSafetyForm(obj);
+			model.addObject("hodList", hodList);
 			
 			obj.setSafety_id(safety_id);
 			Safety safety = safetyService.getSafety(obj);

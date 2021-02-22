@@ -41,4 +41,6 @@ public interface SafetyService {
 	List<Safety> getWorkListForSafetyForm(Safety obj) throws Exception;
 
 	List<Safety> getContractsListForSafetyForm(Safety obj) throws Exception;
+
+	List<Safety> getHODListForSafetyForm(Safety obj) throws Exception;
 }

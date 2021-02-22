@@ -297,6 +297,7 @@
                 closeOnClick: false,
             });
             $('#datatable-training').DataTable({
+            	"order": [],
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
@@ -341,6 +342,7 @@
     		
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-training').DataTable({
+    			"order": [],
         		"bStateSave": true,
         		fixedHeader: true,
                 "fnStateSave": function (oSettings, oData) {

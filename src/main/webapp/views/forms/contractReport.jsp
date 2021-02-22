@@ -112,44 +112,35 @@
                             <h6>Contract Report </h6>
                         </div>
                     </span>
-                    <div class="">
+                    <div class="">                    	
                         <div class="row no-mar">
                             <div class="col m2 hide-on-small-only"></div>
                             <div class="col m8 s12">
-                            	<form action="#" id="ContractReportForm" name="ContractReportForm" method="post" target="_blank">
+                            	<form id="contractReportForm" name="contractReportForm" method="post">
 	                                <div class="row">
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" name="title">
+	                                        <select id="hod_designation" name="hod_designation" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>
-	                                            <c:forEach var="obj" items="${scheduledTrainingTitles }">
-	                                            	<option value="${obj.title }">${obj.title } </option>
-	                                            </c:forEach>
 	                                        </select>
-	                                        <span id="hodError" class="error-msg" ></span>
+	                                        <span id="hod_designationError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" name="title">
-	                                            <option value="">Select </option>
-	                                            <c:forEach var="obj" items="${scheduledTrainingTitles }">
-	                                            	<option value="${obj.title }">${obj.title } </option>
-	                                            </c:forEach>
+	                                        <select id="work_id_fk" name="work_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
+	                                            <option value="">Select</option>
 	                                        </select>
-	                                        <span id="workError" class="error-msg" ></span>
+	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
-	                                        <select class="searchable validate-dropdown" name="title">
+	                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>
-	                                            <c:forEach var="obj" items="${scheduledTrainingTitles }">
-	                                            	<option value="${obj.title }">${obj.title } </option>
-	                                            </c:forEach>
 	                                        </select>
-	                                        <span id="contractError" class="error-msg" ></span>
+	                                        <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                </div>                                
-                                </form>
+                                </form> 
                             </div>
                             <div class="col m2 hide-on-small-only"></div>
                         </div>
@@ -160,22 +151,23 @@
 	                                    <div class="col s12 m4 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateContractReport()"> Contract Report</button>
+	                                            onclick="generateContractReport();"> Contract Report</button>
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateBGReport()"> BG Report</button>
+	                                            onclick="generateBGReport();"> BG Report</button>
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateInsurancceReport()"> Insurance Report</button>
+	                                            onclick="generateInsurancceReport();"> Insurance Report</button>
 	                                    </div>
 	                                </div>     
                             </div>
                             <div class="col m2 hide-on-small-only"></div>
-                        </div>                       
+                        </div> 
+                                             
                     </div>
                                             
                 </div>
@@ -211,21 +203,120 @@
     <script>
         $(document).ready(function(){
         	$('.searchable').select2();
+        	getResetFiltersList();
         });
         
-        function generateBGReport() {
-        	//$(".page-loader").show();
-        	$("#ContractReportForm").submit();
-		}
+        function getResetFiltersList(){
+        	getContractorsFilterList();
+        	getWorkFilterList();
+        	getDesignationFilterList();
+        }
         
-        function generateInsurancceReport() {
-        	//$(".page-loader").show();
-        	$("#ContractReportForm").submit();
-		}
+        function getDesignationFilterList(){
+        	$(".page-loader").show();
+        	var contractor_id_fk = $("#contractor_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var hod_designation = $("#hod_designation").val();
+            if ($.trim(hod_designation) == "") {
+            	$("#hod_designation option:not(:first)").remove();
+        	 	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getHODListInContractReport",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#hod_designation").append('<option value="' + val.designation + '">' + $.trim(val.designation)  + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+         }
+       
+        function getContractorsFilterList(){
+        	$(".page-loader").show();
+        	var contractor_id_fk = $("#contractor_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var hod_designation = $("#hod_designation").val();
+            if ($.trim(contractor_id_fk) == "") {
+            	$("#contractor_id_fk option:not(:first)").remove();
+            	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractorsListInContractReport",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           var contractor_name = '';
+    	                           if ($.trim(val.contractor_name) != '') { contractor_name = ' - ' + $.trim(val.contractor_name) }
+    	                           $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '">' + $.trim(val.contractor_id_fk)  + contractor_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+         }
+        
+    	 function getWorkFilterList(){
+    	 	$(".page-loader").show();
+    	 	var contractor_id_fk = $("#contractor_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var hod_designation = $("#hod_designation").val();
+    	    if ($.trim(work_id_fk) == "") {
+    	    	$("#work_id_fk option:not(:first)").remove();
+    	    	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksListInContractReport",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 var workShortName = '';
+                                 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
         
         function generateContractReport() {
         	//$(".page-loader").show();
-        	$("#ContractReportForm").submit();
+        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-report");
+        	$("#contractReportForm").submit();
+		}
+        function generateBGReport() {
+        	//$(".page-loader").show();
+        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-bg-report");
+        	$("#contractReportForm").submit();
+		}
+        function generateInsurancceReport() {
+        	//$(".page-loader").show();
+        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report");
+        	$("#contractReportForm").submit();
 		}
         
     </script>

@@ -83,7 +83,7 @@ public class TrainingDaoImpl implements TrainingDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + "  group by ts.training_id_fk";
+			qry = qry + "  group by ts.training_id_fk order by ts.start_time desc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			pValues[i++] = CommonConstants.YES;

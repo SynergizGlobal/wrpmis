@@ -126,7 +126,7 @@
 	                                            	<option value="${obj.title }">${obj.title } </option>
 	                                            </c:forEach>
 	                                        </select>
-	                                        <span id="attendeeError" class="error-msg" ></span>
+	                                        <!-- <span id="titleError" class="error-msg" ></span> -->
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">
@@ -178,7 +178,7 @@
 	                                            	<option value="${obj.title }">${obj.title } </option>
 	                                            </c:forEach>
 	                                        </select>
-	                                        <span id="attendeeError" class="error-msg" ></span>
+	                                        <!-- <span id="attendeeError" class="error-msg" ></span> -->
 	                                    </div>
 	
 	                                    <div class="col s12 m6 input-field">

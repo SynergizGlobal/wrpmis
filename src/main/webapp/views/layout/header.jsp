@@ -19,11 +19,21 @@
     	max-width:250px;
     	line-height:40px;
     }
+
+/* required fields star btn styling */    
     .required{
 		color:red;
 		font-size:1.3rem;
 		vertical-align: middle;
 	}
+	/* removing attachment styling */
+	.attachment-remove-btn{
+		float:right;  
+		color: #039be5;  
+		font-size: 1.1rem; 
+		cursor:pointer;
+	}
+	
    </style>
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />

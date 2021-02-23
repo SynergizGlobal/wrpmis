@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.ProjectDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
@@ -155,18 +156,40 @@ public class ProjectDaoImpl implements ProjectDao {
 				flag = true;
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-			if(flag) {				
+			if(flag) {	
+				String docFileName = null;
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(project.getProjectGalleryFileNames()) && project.getProjectGalleryFileNames().length > 0) {
+					project.setProjectGalleryFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectGalleryFileNames()));
+					if(arraySize < project.getProjectGalleryFileNames().length) {
+						arraySize = project.getProjectGalleryFileNames().length;
+						
+					}
+				}
 				List<MultipartFile> galleryFiles = project.getProjectGalleryFiles();
-				if(!StringUtils.isEmpty(galleryFiles) && galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty()) {					
-					String deleteQry ="delete from project_gallery where project_id_fk = ? ";
-					stmt = con.prepareStatement(deleteQry); 
-					stmt.setString(1, project.getProject_id());
-					stmt.executeUpdate();
-					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-					
-					String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(?,?,?)";
-					stmt = con.prepareStatement(galleryQry); 
-					
+				String deleteQry ="delete from project_gallery where project_id_fk = ? ";
+				stmt = con.prepareStatement(deleteQry); 
+				stmt.setString(1, project.getProject_id());
+				stmt.executeUpdate();
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				
+				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(?,?,?)";
+				stmt = con.prepareStatement(galleryQry); 
+				if(arraySize == project.getProjectGalleryFileNames().length) {
+					for (int i = 0; i < arraySize; i++) {
+						docFileName  = (project.getProjectGalleryFileNames().length > 0)?project.getProjectGalleryFileNames()[i]:null;
+					    if(docFileName == "A") {
+					    	docFileName = null;
+					    }
+					    if(docFileName != null) {
+							stmt.setString(1,docFileName); 
+							stmt.setString(2,project.getProject_id()); 
+							stmt.setString(3,project.getCreated_by());
+							stmt.addBatch();
+					    }
+					}
+				}
+				if(!StringUtils.isEmpty(galleryFiles) && galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty()) {		
 					for (MultipartFile multipartFile : galleryFiles) {
 						if (null != multipartFile && !multipartFile.isEmpty()){
 							String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + "/";
@@ -179,8 +202,9 @@ public class ProjectDaoImpl implements ProjectDao {
 							stmt.addBatch();
 						}
 					}
-					stmt.executeBatch();
-				}				
+				}
+				stmt.executeBatch();
+								
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

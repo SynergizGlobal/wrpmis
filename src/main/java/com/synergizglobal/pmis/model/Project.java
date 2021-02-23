@@ -14,10 +14,21 @@ public class Project {
 	private MultipartFile projectFile;
 	
 	private List<MultipartFile> projectGalleryFiles;
+	private String[] projectGalleryFileNames;
 	
 	private List<Work> worksInfo;
 	
 	private List<Project> projectGallery;
+
+
+
+	public String[] getProjectGalleryFileNames() {
+		return projectGalleryFileNames;
+	}
+
+	public void setProjectGalleryFileNames(String[] projectGalleryFileNames) {
+		this.projectGalleryFileNames = projectGalleryFileNames;
+	}
 
 	public String getId() {
 		return id;

@@ -201,7 +201,7 @@
 	                            <div class="col m8 s12">
 									<div class="file-field input-field">
 										<div class="btn bg-m t-c">
-											<span>Images</span> <input type="file" id="projectGalleryFiles"	name="projectGalleryFiles" multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/webm,video/avi,video/mkv" >
+											<span>Images</span> <input type="file" id="projectGalleryFiles"	name="projectGalleryFiles"   multiple accept="image/x-png,image/gif,image/jpeg,video/mp4,video/webm,video/avi,video/mkv" >
 										</div>
 										<div class="file-path-wrapper">
 											<input class="file-path validate" type="text" id="galleryFileNames" name="galleryFileNames" value="${projectDeatils.galleryFileNames}" >
@@ -210,10 +210,20 @@
 									<c:forEach var="obj" items="${fileNames }" varStatus="index">
 										<div><a href="<%=CommonConstants2.PROJECT_GALLERY%>${obj.project_id_fk }/${obj.file_name } "
 											class="filevalue" download>${obj.file_name }</a>
-											<span onclick="removeImages(this,'galleryFileNames')" class="attachment-remove-btn">X</span>
+											<span onclick="removeImages(this,'projectGalleryFiles${index.count },galleryFileNames')" class="attachment-remove-btn">X</span>
 										</div>
-									
+										 <c:choose>
+										 	 <c:when  test="${not empty obj.file_name }">
+										 	 	<input type="hidden" id="projectGalleryFiles${index.count }" name="projectGalleryFileNames" value="${obj.file_name }">
+										 	 </c:when>
+											
+									     </c:choose> 
 									</c:forEach>
+									
+									<c:if test="${ empty projectDeatils.file_name && empty projectDeatils.galleryFileNames}">
+										<input type="hidden"  name="projectGalleryFileNames" value="A" style="display:none" >
+									</c:if>
+									
 									<!-- have to hide this div, if images are 0
 									<div class="images-show">
 										<img src="/pmis/resources/images/mrvc.png">
@@ -371,14 +381,16 @@
     	  $(link).prev().text('');
     	  $(link).css('display','none');
        }        
-       function removeImages(link,id){
-     	  var text=$('#'+id).val();
+       function removeImages(link,id,galleryFileNames){
+    	
+     	  var text=$('#'+id).val('');
+     	 var text1=$('#'+galleryFileNames).val('');
      	 // text=text.indexOf(','+$(link).prev().text())?text.replace(','+$(link).prev().text(),''):( text.indexOf($(link).prev().text()+',') ? text.replace($(link).prev().text()+',','') : text.replace($(link).prev().text(),'')) ;
-     	  text= text.replace($(link).prev().text(),'') ;
-     	  text = text.replace(/,\s*$/, "");
+     	 // text= text.replace($(link).prev().text(),'') ;
+     	 // text = text.replace(/,\s*$/, "");
       	  //console.log(text);
-     	  $('#'+id).val(text);
-     	  $(link).prev().text('');
+     	 // $('#'+id).val(text);
+     	  $(link).prev().text(''); 
      	  $(link).css('display','none');
      	  
         } 

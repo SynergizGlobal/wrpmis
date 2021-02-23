@@ -308,8 +308,12 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<Project> getFileNmaes(String projectId) throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry ="SELECT id, file_name, project_id_fk, created_date, created_by FROM project_gallery";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
+			String qry ="SELECT id, file_name, project_id_fk, created_date, created_by FROM project_gallery where project_id_fk = ? ";
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = projectId;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Project>(Project.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

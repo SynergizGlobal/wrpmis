@@ -15,8 +15,7 @@
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">    
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-     
-     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">     
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
@@ -165,15 +164,17 @@
 											name="projectFile">
 									</div>
 									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text"
+										<input class="file-path validate" type="text" id="project_attachment" multiple
 											name="attachment" value="${projectDeatils.attachment }">
 									</div>
 								</div>
 								<c:if test="${not empty projectDeatils.attachment }">
-									<a
-										href="<%=CommonConstants.PROJECT_FILES %>${projectDeatils.attachment }"
+									<div><a href="<%=CommonConstants.PROJECT_FILES %>${projectDeatils.attachment }"
 										class="filevalue" download>${projectDeatils.attachment }</a>
+										<span onclick="removeMedia(this,'project_attachment')" class="attachment-remove-btn">X</span>
+									</div>
 								</c:if>
+							
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
 						</div>
@@ -205,6 +206,7 @@
 											<input class="file-path validate" type="text" id="galleryFileNames" name="galleryFileNames" value="${projectDeatils.galleryFileNames}" >
 										</div>
 									</div>
+
 									<!-- have to hide this div, if images are 0
 									<div class="images-show">
 										<img src="/pmis/resources/images/mrvc.png">
@@ -357,8 +359,11 @@
 				    	form.submit();
 				    }
 				});   
-       
-        
+       function removeMedia(link,id){
+    	  $('#'+id).val('');
+    	  $(link).prev().text('');
+    	  $(link).css('display','none');
+       }        
         
     </script>
 </body>

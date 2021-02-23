@@ -114,14 +114,21 @@
                             <div class="col m1 hide-on-small-only"></div>
                              <div class="col m10 s12"> 
 								<div class="col s6 m2 input-field">
-	                                <p class="searchable_label">Sub Work</p>
+	                                <p class="searchable_label">Work</p>
 	                                  <select id="sub_work" name="sub_work" onchange="getRiskList();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
                                       </select>
 	                            </div>
-	                            <div class="col s6 m2 input-field">
+	                             <!-- <div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Area</p>
 	                                  <select id="area" name="area" onchange="getRiskList();" class="searchable">
+	                                            <option value="" >Select </option>	                                           
+	                                 </select>
+	                            </div> -->
+	                            
+	                            <div class="col s6 m2 input-field">
+	                                <p class="searchable_label">Assessment Date</p>
+	                                 <select id="assessment_date" name="assessment_date" onchange="getRiskList();" class="searchable">
 	                                            <option value="" >Select </option>	                                           
 	                                 </select>
 	                            </div>
@@ -187,7 +194,7 @@
 	</div> 
   
     
-    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post">
+    <form action="<%=request.getContextPath()%>/mobileappwebview/get-risk-assessment" name="getForm" id="getForm" method="post">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
     </form>
 
@@ -263,7 +270,7 @@
     		
     		table.state.clear();		
     		var myParams = {sub_work : sub_work,area : area};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentList",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/mobileappwebview/ajax/getRiskAssessmentList",type:"POST",data:myParams,success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var risk_id_pk = "'"+val.risk_id_pk+"'";
@@ -304,7 +311,7 @@
             	$("#sub_work option:not(:first)").remove();
             	var myParams = {sub_work : sub_work,area : area};
             	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getSubWorksFilterListInRiskAssessmnt",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getSubWorksFilterListInRiskAssessmnt",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -332,12 +339,40 @@
             	$("#area option:not(:first)").remove();
         		var myParams = {sub_work : sub_work,area : area};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getAreasFilterListInRiskAssessment",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAreasFilterListInRiskAssessment",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
     	                           $("#area").append('<option value="' + val.risk_area_fk + '">' + $.trim(val.risk_area_fk)   +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getAssessmentDatesFilterList() {
+        	$(".page-loader").show();
+        	var sub_work = $("#sub_work").val();
+        	var assessment_date = $("#assessment_date").val();
+            if ($.trim(assessment_date) == "") {
+            	$("#assessment_date option:not(:first)").remove();
+        		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
+            	$.ajax({
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAssessmentDatesFilterListInRiskAssessment",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#assessment_date").append('<option value="' + val.assessment_date + '">' + $.trim(val.assessment_date)   +'</option>');
                             });
                         }
                         $('.searchable').select2();

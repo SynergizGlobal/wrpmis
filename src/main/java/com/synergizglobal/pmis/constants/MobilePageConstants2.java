@@ -24,6 +24,7 @@ public class MobilePageConstants2 {
 		
 		public static final String riskATRGrid = "mobileForms/riskATRGrid";
 		public static final String addEditRiskATRForm = "mobileForms/addEditRiskATRForm";
+		public static final String riskATRUpdateGrid = "mobileForms/riskATRUpdateGrid";
 		
 	
 

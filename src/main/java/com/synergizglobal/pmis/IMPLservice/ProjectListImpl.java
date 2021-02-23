@@ -38,6 +38,12 @@ public class ProjectListImpl implements ProjectService{
 		return projectDao.deleteProject(projectId,project);
 	}
 
+
+	@Override
+	public List<Project> getFileNmaes(String projectId) throws Exception {
+		return projectDao.getFileNmaes(projectId);
+	}
+
 }
 
 

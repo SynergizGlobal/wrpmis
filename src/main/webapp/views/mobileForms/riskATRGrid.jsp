@@ -120,7 +120,7 @@
 
                             <div class="col s12 m6 c-align">                            
                                 <div class="m-1">
-                                	 <form action="<%=request.getContextPath() %>/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
+                                	 <form action="<%=request.getContextPath() %>/mobileappwebview/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
 	                                    <div class="row">
 	                                        <div class="col s12 m4 input-field">
 	                                        	<p class="searchable_label left-align">Work</p>
@@ -138,14 +138,13 @@
 										        <span>Upload Risk Assessment</span>
 										        <input type="file" name="riskAssessmentFile" id="riskAssessmentFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
 										      </div>
-                                         	  <p style="line-height:3rem"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p> 
-										      </div>
 										    <div class="col s12 input-field" style="margin-top:0">
 										      <div class="file-path-wrapper">
 										        <input class="file-path validate" type="text">
 										      </div>
 										      <span id="riskAssessmentFileError" class="error-msg"></span>
 	                                        </div>
+	                                         </div>
 	                                        <div class="col s12 m2 input-field">
 	                                            <button type="button" class="btn waves-effect waves-light bg-s t-c disabled" id="uploadRisk" style="margin-top:5px;">
 	                                            	<strong><i class="fa arrow-circle-up"></i>Submit</strong>

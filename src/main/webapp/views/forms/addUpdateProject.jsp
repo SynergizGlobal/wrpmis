@@ -1,4 +1,5 @@
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -206,7 +207,13 @@
 											<input class="file-path validate" type="text" id="galleryFileNames" name="galleryFileNames" value="${projectDeatils.galleryFileNames}" >
 										</div>
 									</div>
-
+									<c:forEach var="obj" items="${fileNames }" varStatus="index">
+										<div><a href="<%=CommonConstants2.PROJECT_GALLERY%>${obj.project_id_fk }/${obj.file_name } "
+											class="filevalue" download>${obj.file_name }</a>
+											<span onclick="removeMedia(this,'file_name')" class="attachment-remove-btn">X</span>
+										</div>
+									
+									</c:forEach>
 									<!-- have to hide this div, if images are 0
 									<div class="images-show">
 										<img src="/pmis/resources/images/mrvc.png">

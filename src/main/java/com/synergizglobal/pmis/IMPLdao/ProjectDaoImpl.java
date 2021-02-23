@@ -19,6 +19,7 @@ import com.synergizglobal.pmis.Idao.ProjectDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Project;
 
 @Repository
@@ -300,6 +301,19 @@ public class ProjectDaoImpl implements ProjectDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return flag;
+	}
+
+
+	@Override
+	public List<Project> getFileNmaes(String projectId) throws Exception {
+		List<Project> objsList = null;
+		try {
+			String qry ="SELECT id, file_name, project_id_fk, created_date, created_by FROM project_gallery";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

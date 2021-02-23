@@ -494,8 +494,19 @@
 																											</c:forEach>                                           
 																                                        </select>                                   
 																								</td>
-																								<td data-head="Attendee" class="input-field"><input id="attendees00" name="attendees" type="text" class="validate" placeholder="Attendee"></td>	
-																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="designation00" ></td>																							
+																								<td data-head="Attendee" class="input-field">
+																										<!-- <input id="attendees${indexx.count }${index.count }" name="attendees" list="attendee${indexx.count }" class="validate" placeholder="Attendee" value="${dObj.attendee }">
+																										 <datalist id="attendee${indexx.count }">
+																											 <option value="Edge">
+																											 <option value="Firefox">
+																										 </datalist>   --> 
+																										 <select class="searchable validate-dropdown" name="attendees" id="attendees00">
+																											<option value="">Select Attendee</option>
+																											<c:forEach var="obj" items="${attendeesList}">
+																												<option value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.attendee }</option>
+																											</c:forEach>
+																										 </select>
+																								</td>																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="designation00" ></td>																							
 																								<td data-head="Mobile No" class="input-field"><input id="mobile_nos00" name="mobile_nos" type="number" class="validate" placeholder="Mobile">
 																								</td>
 																								<td data-head="Nominated" class="input-field">
@@ -637,11 +648,17 @@
 																					</select>    
 																					</td>
 																					<td data-head="Attendee" class="input-field">
-																						<input id="attendees0" name="attendees" list="attendee${indexx.count }" class="validate" placeholder="Attendee">
-																						<datalist id="attendee${indexx.count }">
-																						   <option value="Edge">
-																						   <option value="Firefox">
-																						</datalist>  
+																										<!-- <input id="attendees${indexx.count }${index.count }" name="attendees" list="attendee${indexx.count }" class="validate" placeholder="Attendee" value="${dObj.attendee }">
+																										 <datalist id="attendee${indexx.count }">
+																											 <option value="Edge">
+																											 <option value="Firefox">
+																										 </datalist>   --> 
+																										 <select class="searchable validate-dropdown" name="attendees" id="attendees0">
+																											<option value="">Select Attendee</option>
+																											<c:forEach var="obj" items="${attendeesList}">
+																												<option value="${obj.attendee }" <c:if test="${dObj.attendee eq obj.attendee }">selected</c:if>>${obj.attendee }</option>
+																											</c:forEach>
+																										 </select>
 																					</td>
 																					<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="designation0" ></td>
 																					<td data-head="Mobile No" class="input-field"><input id="mobile_nos0" name="mobile_nos" type="tel" class="validate num" placeholder="Mobile">

@@ -187,7 +187,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-					<form action="<%=request.getContextPath() %>/update-risk-assessment" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
+					<form action="<%=request.getContextPath() %>/mobileappwebview/update-risk-assessment" id="riskForm" name="riskForm" method="post" class="form-horizontal" role="form">
 						
                         <div class=" container-no-margin">                          
                             	
@@ -367,7 +367,7 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s black-text"
+                                        <a href="<%=request.getContextPath()%>/mobileappwebview/risk-atr-update" class="btn waves-effect waves-light bg-s black-text"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>

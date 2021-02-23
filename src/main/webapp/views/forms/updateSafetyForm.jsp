@@ -281,11 +281,11 @@
                                     <label for="reported_by">Reported By</label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
-                                <%-- <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field">
                                     <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${safety.responsible_person }">
                                     <label for="responsible_person">Person Responsible in MRVC</label>
                                     <span id="responsible_personError" class="error-msg" ></span>
-                                </div> --%>
+                                </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">

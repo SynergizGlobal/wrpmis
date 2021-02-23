@@ -210,7 +210,7 @@
 									<c:forEach var="obj" items="${fileNames }" varStatus="index">
 										<div><a href="<%=CommonConstants2.PROJECT_GALLERY%>${obj.project_id_fk }/${obj.file_name } "
 											class="filevalue" download>${obj.file_name }</a>
-											<span onclick="removeMedia(this,'file_name')" class="attachment-remove-btn">X</span>
+											<span onclick="removeImages(this,'galleryFileNames')" class="attachment-remove-btn">X</span>
 										</div>
 									
 									</c:forEach>
@@ -371,6 +371,17 @@
     	  $(link).prev().text('');
     	  $(link).css('display','none');
        }        
+       function removeImages(link,id){
+     	  var text=$('#'+id).val();
+     	 // text=text.indexOf(','+$(link).prev().text())?text.replace(','+$(link).prev().text(),''):( text.indexOf($(link).prev().text()+',') ? text.replace($(link).prev().text()+',','') : text.replace($(link).prev().text(),'')) ;
+     	  text= text.replace($(link).prev().text(),'') ;
+     	  text = text.replace(/,\s*$/, "");
+      	  //console.log(text);
+     	  $('#'+id).val(text);
+     	  $(link).prev().text('');
+     	  $(link).css('display','none');
+     	  
+        } 
         
     </script>
 </body>

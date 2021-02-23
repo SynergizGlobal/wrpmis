@@ -40,8 +40,8 @@ public class ProjectListImpl implements ProjectService{
 
 
 	@Override
-	public List<Project> getFileNmaes(String projectId) throws Exception {
-		return projectDao.getFileNmaes(projectId);
+	public List<Project> getFileNames(String projectId) throws Exception {
+		return projectDao.getFileNames(projectId);
 	}
 
 }

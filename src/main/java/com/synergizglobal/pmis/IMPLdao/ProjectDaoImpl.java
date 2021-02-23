@@ -305,7 +305,7 @@ public class ProjectDaoImpl implements ProjectDao {
 
 
 	@Override
-	public List<Project> getFileNmaes(String projectId) throws Exception {
+	public List<Project> getFileNames(String projectId) throws Exception {
 		List<Project> objsList = null;
 		try {
 			String qry ="SELECT id, file_name, project_id_fk, created_date, created_by FROM project_gallery where project_id_fk = ? ";

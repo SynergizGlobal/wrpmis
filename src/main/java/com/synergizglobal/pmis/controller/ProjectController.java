@@ -92,7 +92,7 @@ public class ProjectController {
 			Project projectDeatils = projectService.getProject(projectId, project);
 			model.addObject("projectDeatils", projectDeatils);
 			
-			List <Project> fileNames = projectService.getFileNmaes(projectId);
+			List <Project> fileNames = projectService.getFileNames(projectId);
 			model.addObject("fileNames", fileNames);	
 			
 		}catch (Exception e) {

@@ -16,7 +16,7 @@ public interface ProjectDao {
 
 	public boolean deleteProject(String projectId, Project project)throws Exception;
 
-	public List<Project> getFileNmaes(String projectId) throws Exception;
+	public List<Project> getFileNames(String projectId) throws Exception;
 
 
 }

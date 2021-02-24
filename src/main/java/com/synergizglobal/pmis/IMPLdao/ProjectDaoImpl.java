@@ -156,6 +156,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				flag = true;
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+			
 			if(flag) {	
 				String docFileName = null;
 				int arraySize = 0;
@@ -205,7 +206,6 @@ public class ProjectDaoImpl implements ProjectDao {
 					}
 				}
 				stmt.executeBatch();
-								
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

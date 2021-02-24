@@ -221,7 +221,7 @@
 									</c:forEach>
 									
 									<c:if test="${ empty projectDeatils.file_name && empty projectDeatils.galleryFileNames}">
-										<input type="hidden"  name="projectGalleryFileNames" value=" " style="display:none" >
+										<input type="hidden"  name="projectGalleryFileNames" value="" style="display:none" >
 									</c:if>
 									
 									<!-- have to hide this div, if images are 0

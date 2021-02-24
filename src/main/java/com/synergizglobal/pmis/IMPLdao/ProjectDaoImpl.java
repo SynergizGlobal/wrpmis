@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -160,52 +161,54 @@ public class ProjectDaoImpl implements ProjectDao {
 			if(flag) {	
 				String docFileName = null;
 				int arraySize = 0;
-				int size = 0;
-				if(!StringUtils.isEmpty(project.getProjectGalleryFileNames()) && project.getProjectGalleryFileNames().length > 0) {
+				String val = String.valueOf(project.getProjectGalleryFileNames()); 
+				if(!StringUtils.isEmpty(project.getProjectGalleryFileNames()) && project.getProjectGalleryFileNames().length > 0 ) {
 					project.setProjectGalleryFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectGalleryFileNames()));
 					if(arraySize < project.getProjectGalleryFileNames().length) {
 						arraySize = project.getProjectGalleryFileNames().length;
-						size = arraySize;
 					}
 				}
 				List<MultipartFile> galleryFiles = project.getProjectGalleryFiles();
-				String deleteQry ="delete from project_gallery where project_id_fk = ? ";
-				stmt = con.prepareStatement(deleteQry); 
-				stmt.setString(1, project.getProject_id());
-				stmt.executeUpdate();
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
-				
-				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(?,?,?)";
-				stmt = con.prepareStatement(galleryQry); 
-				if(arraySize == size) {
-					for (int i = 0; i < arraySize; i++) {
-						docFileName  = (project.getProjectGalleryFileNames().length > 0)?project.getProjectGalleryFileNames()[i]:null;
-					    if(docFileName == null) {
-					    	docFileName = null;
-					    }
-					    if(docFileName != null) {
-							stmt.setString(1,docFileName); 
-							stmt.setString(2,project.getProject_id()); 
-							stmt.setString(3,project.getCreated_by());
-							stmt.addBatch();
-					    }
-					}
-				}
-				if(!StringUtils.isEmpty(galleryFiles) && galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty()) {		
-					for (MultipartFile multipartFile : galleryFiles) {
-						if (null != multipartFile && !multipartFile.isEmpty()){
-							String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + "/";
-							String fileName = multipartFile.getOriginalFilename();
-							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-							
-							stmt.setString(1,fileName); 
-							stmt.setString(2,project.getProject_id()); 
-							stmt.setString(3,project.getCreated_by());
-							stmt.addBatch();
+				if(galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty() && !(arraySize > 1)) {arraySize = 1; }
+				if(!StringUtils.isEmpty(galleryFiles) && arraySize > 0) {
+					String deleteQry ="delete from project_gallery where project_id_fk = ? ";
+					stmt = con.prepareStatement(deleteQry); 
+					stmt.setString(1, project.getProject_id());
+					stmt.executeUpdate();
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(?,?,?)";
+					stmt = con.prepareStatement(galleryQry); 
+					if(arraySize > 0) {
+						for (int i = 0; i < arraySize; i++) {
+							docFileName  = (project.getProjectGalleryFileNames().length > 0)?project.getProjectGalleryFileNames()[i]:null;
+						    if(docFileName == null) {
+						    	docFileName = null;
+						    }
+						    if(docFileName != null) {
+								stmt.setString(1,docFileName); 
+								stmt.setString(2,project.getProject_id()); 
+								stmt.setString(3,project.getCreated_by());
+								stmt.addBatch();
+						    }
 						}
 					}
+					if(!StringUtils.isEmpty(galleryFiles) && galleryFiles.size() > 0 && !galleryFiles.get(0).isEmpty()) {		
+						for (MultipartFile multipartFile : galleryFiles) {
+							if (null != multipartFile && !multipartFile.isEmpty()){
+								String saveDirectory = CommonConstants2.PROJECT_GALLERY_FILE_SAVING_PATH + project.getProject_id() + "/";
+								String fileName = multipartFile.getOriginalFilename();
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+								
+								stmt.setString(1,fileName); 
+								stmt.setString(2,project.getProject_id()); 
+								stmt.setString(3,project.getCreated_by());
+								stmt.addBatch();
+							}
+						}
+					}
+					stmt.executeBatch();
 				}
-				stmt.executeBatch();
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

@@ -210,13 +210,12 @@
 									<c:forEach var="obj" items="${fileNames }" varStatus="index">
 										<div><a href="<%=CommonConstants2.PROJECT_GALLERY%>${obj.project_id_fk }/${obj.file_name } "
 											class="filevalue" download>${obj.file_name }</a>
-											<span onclick="removeImages(this,'projectGalleryFiles${index.count },galleryFileNames')" class="attachment-remove-btn">X</span>
+											<span onclick="removeImages(this,'projectGalleryFiles${index.count }','galleryFileNames')" class="attachment-remove-btn">X</span>
 										</div>
 										 <c:choose>
 										 	 <c:when  test="${not empty obj.file_name }">
 										 	 	<input type="hidden" id="projectGalleryFiles${index.count }" name="projectGalleryFileNames" value="${obj.file_name }">
-										 	 </c:when>
-											
+										 	 </c:when>											
 									     </c:choose> 
 									</c:forEach>
 									
@@ -383,13 +382,14 @@
        }        
        function removeImages(link,id,galleryFileNames){
     	
-     	  var text=$('#'+id).val('');
-     	 var text1=$('#'+galleryFileNames).val('');
+     	//  var text=$('#'+id).val('');
+     	 var text1=$('#'+galleryFileNames).val();
+     	 //console.log(text1)
      	 // text=text.indexOf(','+$(link).prev().text())?text.replace(','+$(link).prev().text(),''):( text.indexOf($(link).prev().text()+',') ? text.replace($(link).prev().text()+',','') : text.replace($(link).prev().text(),'')) ;
-     	 // text= text.replace($(link).prev().text(),'') ;
-     	 // text = text.replace(/,\s*$/, "");
-      	  //console.log(text);
-     	 // $('#'+id).val(text);
+     	  text1= text1.replace($(link).prev().text(),'') ;
+     	  text1 = text1.replace(/,\s*$/, "");
+     	 console.log(text1)
+     	  $('#'+galleryFileNames).val(text1)
      	  $(link).prev().text(''); 
      	  $(link).css('display','none');
      	  

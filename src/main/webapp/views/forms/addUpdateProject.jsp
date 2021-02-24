@@ -220,7 +220,7 @@
 									</c:forEach>
 									
 									<c:if test="${ empty projectDeatils.file_name && empty projectDeatils.galleryFileNames}">
-										<input type="hidden"  name="projectGalleryFileNames" value="A" style="display:none" >
+										<input type="hidden"  name="projectGalleryFileNames" value=" " style="display:none" >
 									</c:if>
 									
 									<!-- have to hide this div, if images are 0
@@ -382,13 +382,13 @@
        }        
        function removeImages(link,id,galleryFileNames){
     	
-     	//  var text=$('#'+id).val('');
+     	 var text=$('#'+id).val('');
      	 var text1=$('#'+galleryFileNames).val();
      	 //console.log(text1)
      	 // text=text.indexOf(','+$(link).prev().text())?text.replace(','+$(link).prev().text(),''):( text.indexOf($(link).prev().text()+',') ? text.replace($(link).prev().text()+',','') : text.replace($(link).prev().text(),'')) ;
      	  text1= text1.replace($(link).prev().text(),'') ;
      	  text1 = text1.replace(/,\s*$/, "");
-     	 console.log(text1)
+     	 //console.log(text1)
      	  $('#'+galleryFileNames).val(text1)
      	  $(link).prev().text(''); 
      	  $(link).css('display','none');

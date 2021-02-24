@@ -159,11 +159,12 @@ public class ProjectDaoImpl implements ProjectDao {
 			if(flag) {	
 				String docFileName = null;
 				int arraySize = 0;
+				int size = 0;
 				if(!StringUtils.isEmpty(project.getProjectGalleryFileNames()) && project.getProjectGalleryFileNames().length > 0) {
 					project.setProjectGalleryFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectGalleryFileNames()));
 					if(arraySize < project.getProjectGalleryFileNames().length) {
 						arraySize = project.getProjectGalleryFileNames().length;
-						
+						size = arraySize;
 					}
 				}
 				List<MultipartFile> galleryFiles = project.getProjectGalleryFiles();
@@ -175,10 +176,10 @@ public class ProjectDaoImpl implements ProjectDao {
 				
 				String galleryQry ="INSERT into project_gallery (file_name,project_id_fk,created_by)VALUES(?,?,?)";
 				stmt = con.prepareStatement(galleryQry); 
-				if(arraySize == project.getProjectGalleryFileNames().length) {
+				if(arraySize == size) {
 					for (int i = 0; i < arraySize; i++) {
 						docFileName  = (project.getProjectGalleryFileNames().length > 0)?project.getProjectGalleryFileNames()[i]:null;
-					    if(docFileName == "A") {
+					    if(docFileName == null) {
 					    	docFileName = null;
 					    }
 					    if(docFileName != null) {

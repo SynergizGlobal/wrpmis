@@ -161,7 +161,6 @@ public class ProjectDaoImpl implements ProjectDao {
 			if(flag) {	
 				String docFileName = null;
 				int arraySize = 0;
-				String val = String.valueOf(project.getProjectGalleryFileNames()); 
 				if(!StringUtils.isEmpty(project.getProjectGalleryFileNames()) && project.getProjectGalleryFileNames().length > 0 ) {
 					project.setProjectGalleryFileNames(CommonMethods.replaceEmptyByNullInSringArray(project.getProjectGalleryFileNames()));
 					if(arraySize < project.getProjectGalleryFileNames().length) {

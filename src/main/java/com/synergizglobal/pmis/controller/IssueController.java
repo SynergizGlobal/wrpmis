@@ -330,8 +330,14 @@ public class IssueController {
 		try {
 			model.setViewName(PageConstants2.updateIssueForm);
 			
-			List<Project> projectsList = homeService.getProjectsList();
+			List<Issue> projectsList = issueService.getProjectsListForIssueForm(obj);
 			model.addObject("projectsList", projectsList);
+			
+			List<Issue> worksList = issueService.getWorkListForIssueForm(obj);
+			model.addObject("worksList", worksList);
+			
+			List<Issue> contractsList = issueService.getContractsListForIssueForm(obj);
+			model.addObject("contractsList", contractsList);
 			
 			List<Issue> issuesStatusList = issueService.getIssuesStatusList();
 			model.addObject("issuesStatusList", issuesStatusList);
@@ -344,6 +350,10 @@ public class IssueController {
 			
 			List<Issue> departmentList = issueService.getDepartmentList();
 			model.addObject("departmentList", departmentList);
+			
+			List<Issue> railwayList = issueService.getRailwayList();
+			model.addObject("railwayList", railwayList);
+			
 			obj.setIssue_id(issue_id);
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);

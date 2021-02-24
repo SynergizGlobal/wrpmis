@@ -12,6 +12,8 @@ public interface ContractReportService {
 
 	List<Contract> getContractorsListInContractReport(Contract obj) throws Exception;
 
+	List<Contract> getContractStatusListInContractReport(Contract obj) throws Exception;
+
 	List<Contract> getContractsListForReport(Contract obj) throws Exception;
 
 	List<Contract> getContractsBankGuaranteeForReport(Contract obj) throws Exception;

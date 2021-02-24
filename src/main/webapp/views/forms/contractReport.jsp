@@ -139,7 +139,21 @@
 	                                        </select>
 	                                        <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                </div>                                
+	                                </div>  
+	                                <div class="row">
+	                                    <div class="col s12 m4 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
+	                                        <select id="contract_status_fk" name="contract_status_fk" class="searchable validate-dropdown">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="contract_status_fkError" class="error-msg" ></span>
+	                                    </div>
+	                                    <div class="col s12 m4 input-field">
+	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date"> Date</label>
+											<button type="button" id="date_icon" class="white"><i class="fa fa-calendar"></i></button>
+											<span id="dateError" class="error-msg"></span>
+	                                    </div>
+	                                </div>                              
                                 </form> 
                             </div>
                             <div class="col m2 hide-on-small-only"></div>
@@ -204,12 +218,28 @@
         $(document).ready(function(){
         	$('.searchable').select2();
         	getResetFiltersList();
+        	getContractStatusFilterList();
+        	
+        	$('#date_icon').click(function () {
+                event.stopPropagation();
+                $('#date').click();
+            });
+            
+            $('#date').datepicker({                   
+  	    	  //maxDate: new Date(),
+  	    	  format:'dd-mm-yyyy',
+  	    	  //perform click event on done button
+  	    	  onSelect: function () {
+  	    	     $('.confirmation-btns .datepicker-done').click();
+  	    	  }
+  	        });
+            
         });
         
         function getResetFiltersList(){
         	getContractorsFilterList();
         	getWorkFilterList();
-        	getDesignationFilterList();
+        	getDesignationFilterList();        	
         }
         
         function getDesignationFilterList(){
@@ -241,6 +271,39 @@
             }
          }
        
+
+        
+	   	 function getWorkFilterList(){
+	   	 	$(".page-loader").show();
+	   	 	var contractor_id_fk = $("#contractor_id_fk").val();
+	       	var work_id_fk = $("#work_id_fk").val();
+	       	var hod_designation = $("#hod_designation").val();
+	   	    if ($.trim(work_id_fk) == "") {
+	   	    	$("#work_id_fk option:not(:first)").remove();
+	   	    	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
+	               $.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getWorksListInContractReport",
+	                   data: myParams, cache: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                           	 var workShortName = '';
+	                                if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+	   	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+	                           });
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			      $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	               });
+	           }else{
+	           	  $(".page-loader").hide();
+	           }
+	       }
+   	 
         function getContractorsFilterList(){
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
@@ -272,36 +335,34 @@
             }
          }
         
-    	 function getWorkFilterList(){
-    	 	$(".page-loader").show();
-    	 	var contractor_id_fk = $("#contractor_id_fk").val();
+        function getContractStatusFilterList(){
+        	$(".page-loader").show();
+        	var contractor_id_fk = $("#contractor_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var hod_designation = $("#hod_designation").val();
-    	    if ($.trim(work_id_fk) == "") {
-    	    	$("#work_id_fk option:not(:first)").remove();
-    	    	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListInContractReport",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	 var workShortName = '';
-                                 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
+           	$("#contract_status_fk option:not(:first)").remove();
+           	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getContractStatusListInContractReport",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   if($.trim(val.contract_status_fk) == 'In Progress'){
+                        		   $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '" selected>' + $.trim(val.contract_status_fk) +'</option>');
+                        	   }else{    
+                        		   $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk) +'</option>');
+                               }
+   	                       });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+         }
         
         function generateContractReport() {
         	//$(".page-loader").show();

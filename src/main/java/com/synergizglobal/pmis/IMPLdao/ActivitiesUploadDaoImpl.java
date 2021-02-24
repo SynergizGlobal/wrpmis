@@ -516,7 +516,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	public int uploadActivities(List<Activity> activityList) throws Exception {
 		int count = 0;
 		try {			
-			String qry = "INSERT INTO activities (contract_id_fk,struture_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks) "
+			String qry = "INSERT INTO activities (contract_id_fk,struture_type_fk,section,line,structure,component,component_id,`order`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks) "
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 			int[] counts = jdbcTemplate.batchUpdate(qry,

@@ -207,6 +207,7 @@ public class DocxTableCreationForContractReport {
 			tableHeader.add("Amount");
 			tableHeader.add("Name of the Bank");
 			tableHeader.add("Address of the Bank");
+			tableHeader.add("Release Date");
 			//tableHeader.add("Remarks");
 			
 			for (String headerValue : tableHeader) {
@@ -249,6 +250,8 @@ public class DocxTableCreationForContractReport {
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getIssuing_bank(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getBank_address(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, cObj.getRelease_date(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				/*addTableCell(factory, wordMLPackage, contentRow, cObj.getRemarks(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
@@ -320,6 +323,7 @@ public class DocxTableCreationForContractReport {
 			tableHeader.add("Name of the Agency");
 			tableHeader.add("Address of the Agency");
 			tableHeader.add("Remarks");
+			tableHeader.add("Released");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -359,6 +363,8 @@ public class DocxTableCreationForContractReport {
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getAgency_address(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurence_remark(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, cObj.getReleased_fk(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				

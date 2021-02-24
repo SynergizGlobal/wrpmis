@@ -76,6 +76,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ContractReportService;
+import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.DocxTableCreationForContractReport;
 import com.synergizglobal.pmis.constants.PageConstants2;
@@ -159,6 +160,19 @@ public class ContractReportController {
 		return contractorsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getContractStatusListInContractReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getContractStatusListInContractReport(@ModelAttribute Contract obj) {
+		List<Contract> contractorsList = null;
+		try {
+			contractorsList = service.getContractStatusListInContractReport(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractStatusListInContractReport : " + e.getMessage());
+		}
+		return contractorsList;
+	}
+	
 	@RequestMapping(value = "/generate-contract-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/contract-report");
@@ -167,6 +181,8 @@ public class ContractReportController {
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
+            
+            obj.setDate(DateParser.parse(obj.getDate()));
 	           
 			boolean flag = generatContractReport(response,currentDate,obj);
 		}catch (Exception e) {
@@ -185,6 +201,8 @@ public class ContractReportController {
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
 	           
+            obj.setDate(DateParser.parse(obj.getDate()));
+            
 			boolean flag = generatContractBankGuaranteeReport(response,currentDate,obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -202,6 +220,8 @@ public class ContractReportController {
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
 	           
+            obj.setDate(DateParser.parse(obj.getDate()));
+            
 			boolean flag = generatContractInsuranceReport(response,currentDate,obj);
 		}catch (Exception e) {
 			e.printStackTrace();

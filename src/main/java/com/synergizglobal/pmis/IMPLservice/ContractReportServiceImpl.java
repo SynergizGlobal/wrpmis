@@ -30,6 +30,11 @@ public class ContractReportServiceImpl implements ContractReportService{
 	}
 
 	@Override
+	public List<Contract> getContractStatusListInContractReport(Contract obj) throws Exception {
+		return dao.getContractStatusListInContractReport(obj);
+	}
+
+	@Override
 	public List<Contract> getContractsListForReport(Contract obj) throws Exception {
 		return dao.getContractsListForReport(obj);
 	}

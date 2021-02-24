@@ -389,9 +389,9 @@
 	                    <div class="card-content">
 	                        <span class="card-title center-align">${pObj.project_name }</span>
 	                        <div class="line">
-	                            <p class="alignleft">Original Sanctioned Cost</p>
+	                            <p class="alignleft">Original Sanctioned Cost </p>
 	                            <p class="aligncenter">:</p>
-	                            <p class="alignright">${pObj.sanctioned_estimated_cost }</p>
+	                            <p class="alignright"><c:if test="${not empty pObj.sanctioned_estimated_cost }">₹  ${pObj.sanctioned_estimated_cost } Cr </c:if></p>
 	                        </div>
 	                        <div class="line">
 	                            <p class="alignleft">Sanctioned Year</p>
@@ -400,13 +400,13 @@
 	                        </div>
 	                        <div class="line">
 	                            <p class="alignleft">
-	                            <c:if test="${pObj.project_status eq 'Closed' }">Completion Cost</c:if>
-	                            <c:if test="${pObj.project_status eq 'Open' }">Latest Revised Cost</c:if>
+	                            <c:if test="${pObj.project_status eq 'Closed' }">Completion Cost </c:if>
+	                            <c:if test="${pObj.project_status eq 'Open' }">Latest Revised Cost </c:if>
 	                            </p>
 	                            <p class="aligncenter">:</p>
 	                            <p class="alignright">
-	                            <c:if test="${pObj.project_status eq 'Closed' }">${pObj.completion_cost }</c:if>
-	                            <c:if test="${pObj.project_status eq 'Open' }">${pObj.latest_revised_cost}</c:if>
+	                            <c:if test="${pObj.project_status eq 'Closed' }"><c:if test="${not empty pObj.completion_cost }">₹  ${pObj.completion_cost } Cr </c:if> </c:if>
+	                            <c:if test="${pObj.project_status eq 'Open' }"><c:if test="${not empty pObj.latest_revised_cost }">₹  ${pObj.latest_revised_cost } Cr </c:if></c:if>
 	                            </p>
 	                        </div>
 	                        <div class="line">
@@ -534,9 +534,9 @@
 		                                            <div class="card-content" style="cursor: pointer;" >
 		                                                <span class="card-title center-align">${wObj.work_short_name }</span>
 		                                                <div class="line">
-		                                                    <p class="alignleft">Original Sanctioned Cost</p>
+		                                                    <p class="alignleft">Original Sanctioned Cost </p>
 		                                                    <p class="aligncenter">:</p>
-		                                                    <p class="alignright">${wObj.sanctioned_estimated_cost }</p>
+		                                                    <p class="alignright"><c:if test="${not empty pObj.sanctioned_estimated_cost }">₹  ${pObj.sanctioned_estimated_cost } Cr </c:if></p>
 		                                                </div>
 		                                                <div class="line">
 		                                                    <p class="alignleft">Sanctioned Year</p>
@@ -546,13 +546,13 @@
 		                                                
 		                                                <div class="line">
 								                            <p class="alignleft">
-								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">Completion Cost</c:if>
-								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">Latest Revised Cost</c:if>
+								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">Completion Cost </c:if>
+								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">Latest Revised Cost </c:if>
 								                            </p>
 								                            <p class="aligncenter">:</p>
 								                            <p class="alignright">
-								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">${wObj.completion_cost }</c:if>
-								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">${wObj.latest_revised_cost}</c:if>
+								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}"><c:if test="${not empty pObj.completion_cost }">₹  ${pObj.completion_cost } Cr </c:if></c:if>
+								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}"><c:if test="${not empty pObj.latest_revised_cost }">₹  ${pObj.latest_revised_cost } Cr </c:if></c:if>
 								                            </p>
 								                        </div>
 								                        <div class="line">

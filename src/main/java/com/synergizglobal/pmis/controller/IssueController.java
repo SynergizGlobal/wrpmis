@@ -270,7 +270,7 @@ public class IssueController {
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));			
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
-				obj.setOther_organization(obj.getZonal_railway_fk() + " " + obj.getOther_organization());
+				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}
 			boolean flag = issueService.addIssue(obj);
 			if(flag) {
@@ -367,7 +367,7 @@ public class IssueController {
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
 			
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
-				obj.setOther_organization(obj.getZonal_railway_fk() + " " + obj.getOther_organization());
+				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}
 			
 			boolean flag = issueService.updateIssue(obj);

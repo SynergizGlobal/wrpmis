@@ -486,8 +486,8 @@ public class ActivitiesUploadController {
 								return model;
 							}
 							/********************************************************************************************************************/
-							int count = uploadActivities(activity, userId, userName, workbook);
-							attributes.addFlashAttribute("success", count + " Activities added successfully.");
+							int[] counts = uploadActivities(activity, userId, userName, workbook);
+							attributes.addFlashAttribute("success", counts[0] + " activities added and "+counts[1]+" activities updated successfully.");
 						}
 					}
 				}
@@ -514,10 +514,10 @@ public class ActivitiesUploadController {
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 
-	public int uploadActivities(Activity obj, String userId, String userName, XSSFWorkbook workbook)
+	public int[] uploadActivities(Activity obj, String userId, String userName, XSSFWorkbook workbook)
 			throws Exception {
 		Writer w = null;
-		int uploadedCount = 0;
+		int[] counts = null;
 		try {
 			MultipartFile excelfile = obj.getUploadFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -589,7 +589,7 @@ public class ActivitiesUploadController {
 										
 										activityObj.setWork_id(obj.getWork_id());
 										activityObj.setContract_id_fk(obj.getContract_id_fk());
-										activityObj.setStruture_type_fk(obj.getStruture_type_fk());
+										activityObj.setStructure_type_fk(obj.getStructure_type_fk());
 										
 										String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
 										int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
@@ -715,7 +715,7 @@ public class ActivitiesUploadController {
 							}
 							
 							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0){
-								uploadedCount  = service.uploadActivities(activityList);
+								counts  = service.uploadActivities(activityList);
 							}
 							
 						}
@@ -738,7 +738,7 @@ public class ActivitiesUploadController {
 			}
 		}
 
-		return uploadedCount;
+		return counts;
 	}
 	
 	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {

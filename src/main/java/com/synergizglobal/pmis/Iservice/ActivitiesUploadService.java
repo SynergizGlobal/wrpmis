@@ -22,7 +22,7 @@ public interface ActivitiesUploadService {
 	List<StripChart> getActivitiesList(StripChart obj, Integer startIndex, Integer offset, String searchParameter) throws Exception;
 
 
-	int uploadActivities(List<Activity> activityList) throws Exception;
+	int[] uploadActivities(List<Activity> activityList) throws Exception;
 
 	List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception;
 

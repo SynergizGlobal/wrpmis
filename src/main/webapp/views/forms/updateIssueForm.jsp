@@ -235,9 +235,14 @@
                                   <p class="searchable_label">Department Name </p> 
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${departmentList }">                                         	
-      										<c:set var = "string3" value = "${issue.zonal_railway_fk} ${obj.department_name}" />
-                                            <option value="${obj.department_name }" <c:if test="${issue.other_organization eq string3 }">selected</c:if>>${obj.department_name}</option>
+                                         <c:forEach var="obj" items="${departmentList }">          
+                                         	<c:set var = "string0" value = "${issue.other_organization}" />                               	
+      										<c:set var = "string1" value = "${issue.zonal_railway_fk} ${obj.department_name}" />
+      										<c:set var = "string2" value = "${issue.zonal_railway_fk} - ${obj.department_name}" />
+      										<c:set var = "string3" value = "${issue.zonal_railway_fk} -${obj.department_name}" />
+      										<c:set var = "string4" value = "${issue.zonal_railway_fk}- ${obj.department_name}" />
+      										<c:set var = "string4" value = "${issue.zonal_railway_fk}-${obj.department_name}" />
+                                            <option value="${obj.department_name }" <c:if test="${(string0 eq string1) or (string0 eq string2) or (string0 eq string3) or (string0 eq string4) }">selected</c:if>>${obj.department_name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

@@ -3,7 +3,7 @@ package com.synergizglobal.pmis.model;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Activity {
-	private String activities_id,contract_id_fk,struture_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
+	private String activities_id,contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
 	contract_id,contract_name,contract_short_name,struture_type,work_id,work_name,work_short_name,structure_type;
 	
 	private MultipartFile uploadFile;
@@ -24,12 +24,12 @@ public class Activity {
 		this.contract_id_fk = contract_id_fk;
 	}
 
-	public String getStruture_type_fk() {
-		return struture_type_fk;
+	public String getStructure_type_fk() {
+		return structure_type_fk;
 	}
 
-	public void setStruture_type_fk(String struture_type_fk) {
-		this.struture_type_fk = struture_type_fk;
+	public void setStructure_type_fk(String structure_type_fk) {
+		this.structure_type_fk = structure_type_fk;
 	}
 
 	public String getSection() {

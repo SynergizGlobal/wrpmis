@@ -311,12 +311,13 @@
                                             <input type="file" id="issueFile" name="issueFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment" value="${issue.attachment }">
+                                            <input class="file-path validate" type="text" name="attachment" value="${issue.attachment }" id="issueFileWrapper">
                                         </div>
                                     </div>
                                     
                                     <c:if test="${not empty issue.attachment }">
                                        	<a href="<%=CommonConstants2.ISSUE_FILES %>${issue.attachment }" class="filevalue" download>${issue.attachment }</a>
+										<span onclick="removeMedia(this,'issueFileWrapper')" class="attachment-remove-btn">X</span>											
                                    	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -786,7 +787,11 @@
             		$('#other_organization').val(name);
             	}        		
         	});
-        	
+        	function removeMedia(link,id){
+        	   	  $('#'+id).val('');
+        	   	  $(link).prev().text('');
+        	   	  $(link).css('display','none');
+        	}  
             
     </script>
 </body>

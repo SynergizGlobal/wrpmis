@@ -302,7 +302,7 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p><label>Railway Agency</label></p>
+                                <p class="searchable_label">Railway Agency</p>
                                   <select  class="searchable validate-dropdown" name="railway_id_fk" id="railway_id_fk" multiple="multiple" >
                                   		 <option value="" >select</option>
                                           <c:forEach var="obj" items="${railwaysList}">
@@ -316,7 +316,7 @@
                                       <span id="railway_id_fkError"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <p><label>Executed By</label></p>
+                                <p class="searchable_label">Executed By</p>
                                   <select  class="searchable validate-dropdown" name="executed_by_id_fk" id="executed_by_id_fk" multiple="multiple" >
                                    <option value="" >select</option>
                                    <c:forEach var="obj" items="${railwaysList}">
@@ -455,11 +455,14 @@
                                             <input type="file" id="workFile" name="workFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment" value="${workDeatils.attachment }">
+                                            <input class="file-path validate" type="text" name="attachment" value="${workDeatils.attachment }" id="work_attachment">
                                         </div>
                                     </div>                                    
                                     <c:if test="${not empty workDeatils.attachment }">
-                                       	<a href="<%=CommonConstants2.WORK_FILES %>${workDeatils.attachment }" class="filevalue" download>${workDeatils.attachment }</a>
+                                       	<div>
+                                       		<a href="<%=CommonConstants2.WORK_FILES %>${workDeatils.attachment }" class="filevalue" download>${workDeatils.attachment }</a>
+                                       		<span onclick="removeMedia(this,'work_attachment')" class="attachment-remove-btn">X</span>
+                                       	</div>
                                    	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -779,8 +782,11 @@
     	//alert("#revisionRow"+rowNo);
     	$("#revisionRow"+rowNo).remove();
     }
-  
-   
+     function removeMedia(link,id){
+   	  $('#'+id).val('');
+   	  $(link).prev().text('');
+   	  $(link).css('display','none');
+      }       
      
     </script>
 </body>

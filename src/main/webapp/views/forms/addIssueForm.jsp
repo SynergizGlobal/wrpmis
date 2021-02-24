@@ -312,7 +312,7 @@
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
-                                        </div>
+                                        </div>                                       
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -792,7 +792,7 @@
                 	$('#other_organization').val(name);
                 }
             });
-            
+           
     </script>
 </body>
 </html>

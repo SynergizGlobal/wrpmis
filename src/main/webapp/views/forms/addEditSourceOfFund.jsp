@@ -198,12 +198,15 @@
                                             <input type="file" name="fundFile">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment"  value="${fundDetails.attachment }" >
+                                            <input class="file-path validate" type="text" name="attachment"  value="${fundDetails.attachment }"  id="source_of_fund_attachment">
                                         </div>
                                     </div>
                                     
                                     <c:if test="${not empty fundDetails.attachment }">
-                                  		<a  class="filevalue" href="<%=CommonConstants.FUND_FILES %>${fundDetails.attachment }" download>${fundDetails.attachment }</a>
+                                  		<div>
+                                  			<a  class="filevalue" href="<%=CommonConstants.FUND_FILES %>${fundDetails.attachment }" download>${fundDetails.attachment }</a>
+                                  			<span onclick="removeMedia(this,'source_of_fund_attachment')" class="attachment-remove-btn">X</span>
+                                  		</div>                                  			
                                 	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -470,6 +473,11 @@
 	               $(this).valid();
 	           }
 	       });
+	       function removeMedia(link,id){
+	    	   	  $('#'+id).val('');
+	    	   	  $(link).prev().text('');
+	    	   	  $(link).css('display','none');
+	    }  
     </script>
 </body>
 

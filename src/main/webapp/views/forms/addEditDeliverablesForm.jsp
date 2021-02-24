@@ -205,13 +205,14 @@
 											name="deliverablesFile">
 									</div>
 									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text"	name="attachment" value="${deliverablesDetails.attachment }">
+										<input class="file-path validate" type="text" id="deliverableFileWrapper" name="attachment" value="${deliverablesDetails.attachment }">
 									</div>
 								</div>
 								 <c:if test="${not empty deliverablesDetails.attachment }">
 									<a
 										href="<%=CommonConstants.DELIVERABLES_FILES %>${deliverablesDetails.attachment }"
 										class="filevalue" download>${deliverablesDetails.attachment }</a>
+										<span onclick="removeMedia(this,'deliverableFileWrapper')" class="attachment-remove-btn">X</span>
 								</c:if>
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
@@ -514,6 +515,11 @@
 	        	        $(this).valid();
 	        	    }
 	        	});
+	            function removeMedia(link,id){
+	          	  $('#'+id).val('');
+	          	  $(link).prev().text('');
+	          	  $(link).css('display','none');
+	            } 
     </script>
 </body>
 </html>

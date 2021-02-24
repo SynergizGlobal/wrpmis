@@ -636,12 +636,15 @@
                                                     <input type="file" id="designFile" name="designFile">
                                                 </div>
                                                 <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text" name="attachment" value="${designDetails.attachment }">
+                                                    <input class="file-path validate" type="text" name="attachment" value="${designDetails.attachment }" id="design_attachment">
                                                 </div>
                                             </div>
                                             
                                             <c:if test="${not empty designDetails.attachment }">
-		                                       	<a href="<%=CommonConstants2.DESIGN_FILES %>${designDetails.attachment }" class="filevalue" download>${designDetails.attachment }</a>
+		                                       <div>
+		                                       		<a href="<%=CommonConstants2.DESIGN_FILES %>${designDetails.attachment }" class="filevalue" download>${designDetails.attachment }</a>
+		                                       		<span onclick="removeMedia(this,'design_attachment')" class="attachment-remove-btn">X</span>		                                       		
+		                                       </div>
 		                                   	</c:if>
 		                                   	
                                         </div>
@@ -1348,7 +1351,11 @@
 	  function removeRevision(rowNo){
 	    	$("#revisionRow"+rowNo).remove();
 	    }
-    
+	  function removeMedia(link,id){
+	   	  $('#'+id).val('');
+	   	  $(link).prev().text('');
+	   	  $(link).css('display','none');
+}  
     
     </script>
 

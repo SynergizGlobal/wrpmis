@@ -58,30 +58,20 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
-	public static List<String> getStripChartRefetenceData_FileFormat() {
+	public static List<String> getActivityRefetenceData_FileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Strip Chart Type, ,Component ID,Order,Latitude,Longitude";
-		String[] convertedColumnsArray = columns.split(",");
+		String columns = "Component ID^Order";
+		String[] convertedColumnsArray = columns.split("\\^");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}		
 		return fileFormat;
 	}
 	
-	public static List<String> getStripChartContractStructure_FileFormat() {
+	public static List<String> getActivityData_FileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Contract ID,Structure,Structure Name";
-		String[] convertedColumnsArray = columns.split(",");
-		for (String column : convertedColumnsArray) {
-			fileFormat.add(column.trim());
-		}		
-		return fileFormat;
-	}
-	
-	public static List<String> getStripChartData_FileFormat() {
-		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Contract ID,Structure,Component,Component ID,Activity,Line,Planned Start Date,Planned Finish Date,Actual Start Date,Actual Finish Date,Unit,Total Scope,Completed,Weightage Point,Components Detail,Section,Remarks,Strip Chart ID";
-		String[] convertedColumnsArray = columns.split(",");
+		String columns = "Section^Line^Structure^Component^Component ID^Activity^Planned Start Date^Planned Finish Date^Actual Start Date^Actual Finish Date^Unit^Total Scope^Completed^Weightage Point^Components Detail^Remarks";
+		String[] convertedColumnsArray = columns.split("\\^");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}		

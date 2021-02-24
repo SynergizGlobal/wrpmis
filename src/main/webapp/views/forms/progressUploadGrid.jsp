@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
@@ -71,6 +72,7 @@
 			width:200px !important;
 			max-width:200px;
 		}
+		label.error{color:red;}
     </style>
 </head>
 
@@ -81,11 +83,91 @@
     
     <div class="row">
         <div class="col s12 m12">
+        	
+        	<div class="card">
+                <div class="card-content">
+                    <span class="card-title headbg">
+                        <div class="center-align bg-m p-2 m-b-5">
+                            <h6>Upload Activities</h6>
+                        </div>
+                    </span>
+                </div>
+                
+                <form action="<%=request.getContextPath() %>/upload-activities" id="uploadActivitiesForm" name="uploadActivitiesForm" method="post" enctype="multipart/form-data">
+						<div class="container container-no-margin">
+							<div class="row">		
+								<div class="col s12">
+									<c:if test="${not empty success }">					        
+										<div class="center-align m-1 close-message">	
+										   ${success}
+										</div>
+									</c:if>
+									
+									<c:if test="${not empty error }">
+										<div class="center-align m-1 close-message">
+										   ${error}
+										</div>
+									</c:if>
+								</div>											
+								<div class="col s12 m3 input-field">
+									<p class="searchable_label">Work</p>
+									<select class="searchable validate-dropdown" id="work_id_upload" name="work_id" onchange="getContracts(this.value);">
+										<option value="">Select</option>
+									</select> 
+									<span id="work_idError" class="error-msg"></span>
+								</div>	
+								<div class="col s12 m3 input-field">
+									<p class="searchable_label">Contract</p>
+									<select class="searchable validate-dropdown" id="contract_id_fk_upload" name="contract_id_fk">
+										<option value="">Select</option>	
+									</select> 
+									<span id="contract_id_fkError" class="error-msg"></span>
+								</div>	
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Structure Type</p>
+									<select class="searchable validate-dropdown" id="structure_type_fk_upload" name="structure_type_fk">
+										<option value="">Select</option>
+									</select> 
+									<span id="structure_type_fkError" class="error-msg"></span>
+								</div>	
+								
+								<div class="col s12 m4 file-field input-field">
+								      <div class="btn bg-m t-c">
+								        <span>Browse File</span>
+								        <input type="file" name="uploadFile" id="uploadFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+								      </div>
+								      <div class="file-path-wrapper">
+								        <input class="file-path validate" type="text">
+								      </div>
+								      <span id="uploadFileError" class="error-msg"></span>
+                                </div>
+												
+							</div>
+							<div class="row">	
+								<div class="col s12 m6 input-field">
+									<div class="center-align m-1">
+										<!-- <button type="button" class="btn waves-effect waves-light bg-s t-c"	style="width: 100%" onclick="clearFilters();">Clear Filters</button> -->
+										<p style="padding-top:1rem">Click <a href="/pmis/Activities_Template.xlsx" download>here</a> for the template</p>
+									</div>
+								</div>
+								<div class="col s12 m6 input-field">
+									<div class="center-align m-1">
+										<button type="button" onclick="uploadActivities();"
+											class="btn waves-effect waves-light bg-m t-c"
+											style="width: 100%"><strong>Upload </strong></button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</form>
+					
+            </div>
             <div class="card">
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Progress Upload</h6>
+                            <h6>Activities</h6>
                         </div>
                     </span>
                     <div class="">
@@ -283,39 +365,30 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 
     <script type="text/javascript">
-     
-	    function  openUploadModal() {
-	 		$("#uploadFile").val('');
-	     	$("#upload_template").modal('open');
-	 	}
-	
-	 	function  closeUploadModal() {
-	 		$("#uploadFile").val('');
-	     	$("#upload_template").modal('close');
-	 	}
-        $(document).ready(function () {
-        	$('.modal').modal();
-            $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-            $('#datatable-activities').DataTable({
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "10px", "targets": [9] },
-                ],
-                "ScrollX": true,
-                "scrollCollapse": true,
-                "sScrollY": 400,
-                // paging: false,
-                initComplete: function () {
-                	$('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '100%!important', 'display': 'inline-block' });
+    
+	    $(document).ready(function () {
+	    	$('.modal').modal();
+	        $('select:not(.searchable)').formSelect();
+	        $('.searchable').select2();
+	        $('#datatable-activities').DataTable({
+	            columnDefs: [
+	                {
+	                    targets: [0, 1, 2],
+	                    className: 'mdl-data-table__cell--non-numeric',
+	                    targets: 'no-sort', orderable: false,
+	                },
+	                { "width": "10px", "targets": [9] },
+	            ],
+	            "ScrollX": true,
+	            "scrollCollapse": true,
+	            "sScrollY": 400,
+	            // paging: false,
+	            initComplete: function () {
+	            	$('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '100%!important', 'display': 'inline-block' });
 	                   /*  $('select[name="datatable-activities_length"]').addClass('browser-default table-length');
 	                	$('select[name="datatable-activities_length"]').parent().after($('select[name="datatable-activities_length"]'));
 	                	$('.dataTables_length .select-wrapper').remove(); */
-   	    	        
+		    	        
 	   	    	  /*   var input = $('.dataTables_filter input').unbind(),
 	   	            self = this.api(),
 	   	            $searchButton = $('<button class="btn-small bg-m t-c">')
@@ -331,11 +404,101 @@
 	   	                       }) 
 	   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
 		   	          $('.dataTables_filter div').append($searchButton, $clearButton); */
-                }
+	            }
+	        });
+	        
+	        getActivitiesList();
+	        
+	        getWorks();
+	        getContracts('');
+	        getStructureTypes();
+	        
+	        $('.close-message').delay(5000).fadeOut('slow');
+	    });
+     
+	    function  openUploadModal() {
+	 		$("#uploadFile").val('');
+	     	$("#upload_template").modal('open');
+	 	}
+	
+	 	function  closeUploadModal() {
+	 		$("#uploadFile").val('');
+	     	$("#upload_template").modal('close');
+	 	}
+        
+        
+        
+        function getWorks() {
+         	$(".page-loader").show();
+            $("#work_id_upload option:not(:first)").remove();
+            var myParams = {};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getWorksInActivitiesUpload",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var work_short_name = '';
+                        	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
+                            $("#work_id_upload").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + work_short_name +'</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                },error: function (jqXHR, exception) {
+ 	   			  $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+  	     	  }
             });
-            
-            getActivitiesList();
-        });
+        }
+        
+        function getContracts(work_id) {
+        	$(".page-loader").show();
+            $("#contract_id_fk_upload option:not(:first)").remove();
+            var myParams = {work_id : work_id};
+     		$.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getContractsInActivitiesUpload",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var contract_short_name = '';
+                        	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
+                           $("#contract_id_fk_upload").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + contract_short_name +'</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                },error: function (jqXHR, exception) {
+ 	   			  $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+  	     	  }
+            });
+        }
+        
+        
+        function getStructureTypes() {
+         	$(".page-loader").show();
+            $("#structure_type_fk_upload option:not(:first)").remove();
+            var myParams = {};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getStructureTypesInActivitiesUpload",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	$("#structure_type_fk_upload").append('<option value="' + val.structure_type + '">' + $.trim(val.structure_type) +'</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                },error: function (jqXHR, exception) {
+ 	   			  $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+  	     	  }
+            });
+        }
+        
         function clearFilters() {
             $('#work_id_fk').val("");
             $('#contract_id_fk').val("");
@@ -688,6 +851,70 @@
 	     	 $("#exportStrip_chart_component").val(strip_chart_component);
 	     	 $("#exportActivitiesForm ").submit();
 	  	}
+        
+        function uploadActivities() {
+        	if(validator.form()){
+    			$(".page-loader").show();
+    			$("#uploadActivitiesForm").submit();			
+    	 	}
+		}
+        
+        
+        var validator = $('#uploadActivitiesForm').validate({
+	    	ignore: ":hidden:not(.validate-dropdown)",
+			   rules: {
+				   	  "work_id": {
+				 		required: false
+				 	  },"contract_id_fk": {
+				 		required: true
+				 	  },"structure_type_fk": {
+				 		required: true
+			 	  	  },"uploadFile":{
+			 	  		required: true
+			 	  	  }
+				 				
+			 	},
+			    messages: {
+				     "work_id": {
+			 			required: 'Required'
+			 	  	 },"contract_id_fk": {
+			 			required: 'Required'
+			 	  	 },"structure_type_fk": {
+  			 			required: 'Required'
+  			 	  	 },"uploadFile":{
+  			 	  		required: 'Required'
+			 	  	 }
+			 				      
+		       },
+			   errorPlacement:
+			 	    function(error, element){
+					  	if (element.attr("id") == "work_id_upload" ){
+				 		     document.getElementById("work_idError").innerHTML="";
+				 			 error.appendTo('#work_idError');
+				 	    }else if (element.attr("id") == "contract_id_fk_upload" ){
+				 		     document.getElementById("contract_id_fkError").innerHTML="";
+				 			 error.appendTo('#contract_id_fkError');
+				 	    }else if (element.attr("id") == "structure_type_fk_upload" ){
+							 document.getElementById("structure_type_fkError").innerHTML="";
+							 error.appendTo('#structure_type_fkError');
+				        }else if (element.attr("id") == "uploadFile" ){
+							 document.getElementById("uploadFileError").innerHTML="";
+							 error.appendTo('#uploadFileError');
+				        }
+			  },invalidHandler: function (form, validator) {
+                 var errors = validator.numberOfInvalids();
+                 if (errors) {
+                     var position = validator.errorList[0].element;
+                     jQuery('html, body').animate({
+                         scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                     }, 1000);
+                 }
+              },submitHandler: function(form) {
+			    // do other things for a valid form
+			    form.submit();
+			    //return true;
+			  }
+		});
         
     </script>
 <body>

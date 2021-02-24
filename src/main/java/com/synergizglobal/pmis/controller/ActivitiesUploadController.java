@@ -8,16 +8,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -43,6 +45,7 @@ import com.synergizglobal.pmis.Iservice.ActivitiesUploadService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.ActivitiesPaginationObject;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.StripChart;
 
@@ -80,7 +83,7 @@ public class ActivitiesUploadController {
 	public String uploadformatError;
 
 	@RequestMapping(value = "/activities-upload", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView activitiesUpload(@ModelAttribute StripChart obj, HttpSession session) {
+	public ModelAndView activitiesUpload(@ModelAttribute Activity obj, HttpSession session) {
 		ModelAndView model = new ModelAndView(PageConstants2.progressUploadGrid);
 		try {
 
@@ -90,6 +93,53 @@ public class ActivitiesUploadController {
 		}
 		return model;
 	}
+	
+	
+	/***************************************************************/
+	
+	@RequestMapping(value = "/ajax/getWorksInActivitiesUpload", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getWorksInActivitiesUpload(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getWorksInActivitiesUpload(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksInActivitiesUpload : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	@RequestMapping(value = "/ajax/getContractsInActivitiesUpload", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getContractsInActivitiesUpload(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getContractsInActivitiesUpload(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsInActivitiesUpload : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	@RequestMapping(value = "/ajax/getStructureTypesInActivitiesUpload", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getStructureTypesInActivitiesUpload(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getStructureTypesInActivitiesUpload(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureTypesInActivitiesUpload : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	/***************************************************************/
 
 	@RequestMapping(value = "/ajax/getWorksListFilterInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -357,7 +407,7 @@ public class ActivitiesUploadController {
 	}
 
 	@RequestMapping(value = "/upload-activities", method = { RequestMethod.POST })
-	public ModelAndView uploadActivities(@ModelAttribute StripChart activity, RedirectAttributes attributes,
+	public ModelAndView uploadActivities(@ModelAttribute Activity activity, RedirectAttributes attributes,
 			HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		String userId = null;
@@ -367,8 +417,8 @@ public class ActivitiesUploadController {
 			userName = (String) session.getAttribute("USER_NAME");
 			model.setViewName("redirect:/activities-upload");
 
-			if (!StringUtils.isEmpty(activity.getStripChartFile())) {
-				MultipartFile multipartFile = activity.getStripChartFile();
+			if (!StringUtils.isEmpty(activity.getUploadFile())) {
+				MultipartFile multipartFile = activity.getUploadFile();
 				// Creates a workbook object from the uploaded excelfile
 				if (null != multipartFile && multipartFile.getSize() > 0) {
 					
@@ -382,7 +432,7 @@ public class ActivitiesUploadController {
 							XSSFRow headerRow = referenceDataSheet.getRow(1);
 							//checking given file format
 							if (headerRow != null) {
-								List<String> fileFormat = FileFormatModel.getStripChartRefetenceData_FileFormat();
+								List<String> fileFormat = FileFormatModel.getActivityRefetenceData_FileFormat();
 								;
 								int noOfColumns = headerRow.getLastCellNum();
 								if (noOfColumns == fileFormat.size()) {
@@ -404,44 +454,16 @@ public class ActivitiesUploadController {
 								attributes.addFlashAttribute("error", uploadformatError);
 								return model;
 							}
-							/********************************************************************************************************************/
-							XSSFSheet contractStructureSheet = workbook.getSheetAt(2);
-							//System.out.println(uploadFilesSheet.getSheetName());
-							//header row
-							headerRow = contractStructureSheet.getRow(1);
-							//checking given file format
-							if (headerRow != null) {
-								List<String> fileFormat = FileFormatModel.getStripChartContractStructure_FileFormat();
-								
-								int noOfColumns = headerRow.getLastCellNum();
-								if (noOfColumns == fileFormat.size()) {
-									for (int i = 0; i < fileFormat.size(); i++) {
-										//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
-										//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-										String columnName = headerRow.getCell(i).getStringCellValue().trim();
-										if (!columnName.equals(fileFormat.get(i).trim())
-												&& !columnName.contains(fileFormat.get(i).trim())) {
-											attributes.addFlashAttribute("error", uploadformatError);
-											return model;
-										}
-									}
-								} else {
-									attributes.addFlashAttribute("error", uploadformatError);
-									return model;
-								}
-							} else {
-								attributes.addFlashAttribute("error", uploadformatError);
-								return model;
-							}
+							
 							
 							/********************************************************************************************************************/
-							XSSFSheet stripChartSheet = workbook.getSheetAt(3);
+							XSSFSheet stripChartSheet = workbook.getSheetAt(2);
 							//System.out.println(uploadFilesSheet.getSheetName());
 							//header row
 							headerRow = stripChartSheet.getRow(1);
 							//checking given file format
 							if (headerRow != null) {
-								List<String> fileFormat = FileFormatModel.getStripChartData_FileFormat();
+								List<String> fileFormat = FileFormatModel.getActivityData_FileFormat();
 								
 								int noOfColumns = headerRow.getLastCellNum();
 								if (noOfColumns == fileFormat.size()) {
@@ -492,12 +514,12 @@ public class ActivitiesUploadController {
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 
-	public int uploadActivities(StripChart obj, String userId, String userName, XSSFWorkbook workbook)
+	public int uploadActivities(Activity obj, String userId, String userName, XSSFWorkbook workbook)
 			throws Exception {
 		Writer w = null;
-		int count = 0;
+		int uploadedCount = 0;
 		try {
-			MultipartFile excelfile = obj.getStripChartFile();
+			MultipartFile excelfile = obj.getUploadFile();
 			// Creates a workbook object from the uploaded excelfile
 			if (null != excelfile) {
 				if (excelfile.getSize() > 0)
@@ -506,148 +528,194 @@ public class ActivitiesUploadController {
 					if (workbook != null && !"".equals(workbook)) {
 						int sheetsCount = workbook.getNumberOfSheets();
 						if(sheetsCount > 0) {
-							XSSFSheet referenceDataSheet = workbook.getSheetAt(2);
-							//System.out.println(uploadFilesSheet.getSheetName());
-							//header row
-							//XSSFRow headerRow = uploadFilesSheet.getRow(0);
-							
-							Set<String> scTypeList = new HashSet<String>(); 
-							Set<String> orderList = new HashSet<String>(); 
-							Set<String> latitudeList = new HashSet<String>(); 
-							Set<String> longitudeList = new HashSet<String>(); 
+							XSSFSheet referenceDataSheet = workbook.getSheetAt(1);
 							
 							DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+							
+							List<Activity> componentIdList = new ArrayList<Activity>();
+							
+							String component_id = null,order = null;
+									
 							for(int i = 2; i<= referenceDataSheet.getLastRowNum();i++){
 								XSSFRow row = referenceDataSheet.getRow(i);	
-								
-								/**********************************************************************************/
-								int p = 0;
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
-									scTypeList.add(formatter.formatCellValue(row.getCell(p)).trim());
+								if(!StringUtils.isEmpty(row)) {
+									
+									String componentId_temp = null;
+									Cell cell = row.getCell(0);
+									if(!StringUtils.isEmpty(cell)) {
+										componentId_temp = formatter.formatCellValue(cell).trim();
+									}
+									
+									if(!StringUtils.isEmpty(componentId_temp) && !componentId_temp.equals("null")) {									
+										Activity componentIdObj = new Activity();
+										
+										String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
+										int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											component_id = getCellDataType(workbook,row.getCell(0));
+										}	
+										if(!StringUtils.isEmpty(component_id)) { componentIdObj.setComponent_id(component_id);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(1)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											order = getCellDataType(workbook,row.getCell(1));
+										}	
+										if(!StringUtils.isEmpty(order)) { componentIdObj.setOrder(order);}
+										
+										componentIdList.add(componentIdObj);
+									}
 								}
-								/**********************************************************************************/
-								p = 2;
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
-									orderList.add(formatter.formatCellValue(row.getCell(p)).trim());
-								}
-								/**********************************************************************************/
-								p = 3;
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
-									latitudeList.add(formatter.formatCellValue(row.getCell(p)).trim());
-								}
-								/**********************************************************************************/
-								p = 4;
-								if(!StringUtils.isEmpty(formatter.formatCellValue(row.getCell(p)).trim())) {
-									longitudeList.add(formatter.formatCellValue(row.getCell(p)).trim());
-								}
-								/**********************************************************************************/
 							}
+
 							
-							StripChart activityObj = null;
-							List<StripChart> activityList = new ArrayList<StripChart>();
+							XSSFSheet activityDataSheet = workbook.getSheetAt(2);
 							
-							Set<String> contractList = new HashSet<String>();
-							Set<String> componentList = new HashSet<String>(); 
-							Set<String> structureList = new HashSet<String>();
-							Set<String> lineList = new HashSet<String>();
-							Set<String> sectionList = new HashSet<String>();
+							List<Activity> activityList = new ArrayList<Activity>();
 							
-							XSSFSheet stripChartDataSheet = workbook.getSheetAt(3);
-							for(int j = 2; j<= stripChartDataSheet.getLastRowNum();j++){
-								XSSFRow stripChartRow = stripChartDataSheet.getRow(j);
-								activityObj = new StripChart();
-								int p = 0;
-								String contract_id_fk = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(contract_id_fk)) {
-									activityObj.setContract_id_fk(contract_id_fk);
-									contractList.add(contract_id_fk);
-								}p++;
-								String strip_chart_structure = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(strip_chart_structure)) {
-									activityObj.setStrip_chart_structure(strip_chart_structure);
-									structureList.add(strip_chart_structure);
-								}p++;
-								String strip_chart_component = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(strip_chart_component)) {
-									activityObj.setStrip_chart_component(strip_chart_component);
-									componentList.add(strip_chart_component);
-								}p++;
-								String strip_chart_component_id_name = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(strip_chart_component_id_name)) {
-									activityObj.setStrip_chart_component_id_name(strip_chart_component_id_name);									
-								}p++;
-								String strip_chart_activity_name = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(strip_chart_activity_name)) {
-									activityObj.setStrip_chart_activity_name(strip_chart_activity_name);									
-								}p++;
-								String strip_chart_line = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(strip_chart_line)) {
-									activityObj.setStrip_chart_line(strip_chart_line);
-									lineList.add(strip_chart_line);
-								}p++;
-								String planned_start = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(planned_start)) {
-									activityObj.setPlanned_start(planned_start);									
-								}p++;
-								String planned_finish = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(planned_finish)) {
-									activityObj.setPlanned_finish(planned_finish);									
-								}p++;
-								String actual_start = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(actual_start)) {
-									activityObj.setActual_start(actual_start);									
-								}p++;
-								String actual_finish = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(actual_finish)) {
-									activityObj.setActual_finish(actual_finish);									
-								}p++;
-								String unit_fk = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(unit_fk)) {
-									activityObj.setUnit_fk(unit_fk);									
-								}p++;
-								String scope = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(scope)) {
-									activityObj.setScope(scope);									
-								}p++;
-								String completed = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(completed)) {
-									activityObj.setCompleted(completed);									
-								}p++;
-								String weight = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(weight)) {
-									activityObj.setWeight(weight);									
-								}p++;
-								String component_details = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(component_details)) {
-									activityObj.setComponent_details(component_details);									
-								}p++;
-								String strip_chart_section_name = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(strip_chart_section_name)) {
-									activityObj.setStrip_chart_section_name(strip_chart_section_name);
-									sectionList.add(strip_chart_section_name);
-								}p++;
-								String remarks = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(remarks)) {
-									activityObj.setRemarks(remarks);									
-								}p++;
-								String strip_chart_id = formatter.formatCellValue(stripChartRow.getCell(p)).trim();
-								if(!StringUtils.isEmpty(strip_chart_id)) {
-									activityObj.setStrip_chart_id(strip_chart_id);									
-								}
-								
-								activityObj.setPlanned_start(DateParser.parse(activityObj.getPlanned_start()));
-								activityObj.setPlanned_finish(DateParser.parse(activityObj.getPlanned_finish()));
-								activityObj.setActual_start(DateParser.parse(activityObj.getActual_start()));
-								activityObj.setActual_finish(DateParser.parse(activityObj.getActual_finish()));
-								
-								if(!StringUtils.isEmpty(activityObj)) {
-									activityList.add(activityObj);
+							String activities_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
+							
+							for(int j = 2; j<= activityDataSheet.getLastRowNum();j++){
+								XSSFRow row = activityDataSheet.getRow(j);
+								if(!StringUtils.isEmpty(row)) {
+									String componentId_temp = null;
+									Cell cell = row.getCell(4);
+									if(!StringUtils.isEmpty(cell)) {
+										componentId_temp = formatter.formatCellValue(cell).trim();
+									}
+									
+									if(!StringUtils.isEmpty(componentId_temp) && !componentId_temp.equals("null")) {									
+										Activity activityObj = new Activity();
+										
+										activityObj.setWork_id(obj.getWork_id());
+										activityObj.setContract_id_fk(obj.getContract_id_fk());
+										activityObj.setStruture_type_fk(obj.getStruture_type_fk());
+										
+										String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
+										int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											section = getCellDataType(workbook,row.getCell(0));
+										}	
+										if(!StringUtils.isEmpty(section)) { activityObj.setSection(section);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(1)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											line = getCellDataType(workbook,row.getCell(1));
+										}	
+										if(!StringUtils.isEmpty(line)) { activityObj.setLine(line);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(2)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											structure = getCellDataType(workbook,row.getCell(2));
+										}	
+										if(!StringUtils.isEmpty(structure)) { activityObj.setStructure(structure);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(3)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											component = getCellDataType(workbook,row.getCell(3));
+										}	
+										if(!StringUtils.isEmpty(component)) { activityObj.setComponent(component);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(4)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											component_id = getCellDataType(workbook,row.getCell(4));
+										}	
+										if(!StringUtils.isEmpty(component_id)) { activityObj.setComponent_id(component_id);}
+										
+										for (Activity cObj : componentIdList) {
+											if(cObj.getComponent_id().equals(activityObj.getComponent_id())) {
+												activityObj.setOrder(cObj.getOrder());
+											}
+										}
+										
+										tempVal = formatter.formatCellValue(row.getCell(5)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											activity_name = getCellDataType(workbook,row.getCell(5));
+										}	
+										if(!StringUtils.isEmpty(activity_name)) { activityObj.setActivity_name(activity_name);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(6)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											planned_start = getCellDataType(workbook,row.getCell(6));
+										}	
+										if(!StringUtils.isEmpty(planned_start)) { activityObj.setPlanned_start(DateParser.parse(planned_start));}
+										
+										tempVal = formatter.formatCellValue(row.getCell(7)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											planned_finish = getCellDataType(workbook,row.getCell(7));
+										}	
+										if(!StringUtils.isEmpty(planned_finish)) { activityObj.setPlanned_finish(DateParser.parse(planned_finish));}
+										
+										tempVal = formatter.formatCellValue(row.getCell(8)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											actual_start = getCellDataType(workbook,row.getCell(8));
+										}	
+										if(!StringUtils.isEmpty(actual_start)) { activityObj.setActual_start(DateParser.parse(actual_start));}
+										
+										tempVal = formatter.formatCellValue(row.getCell(9)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											actual_finish = getCellDataType(workbook,row.getCell(9));
+										}	
+										if(!StringUtils.isEmpty(actual_finish)) { activityObj.setActual_finish(DateParser.parse(actual_finish));}
+										
+										tempVal = formatter.formatCellValue(row.getCell(10)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											unit = getCellDataType(workbook,row.getCell(10));
+										}	
+										if(!StringUtils.isEmpty(unit)) { activityObj.setUnit(unit);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(11)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											scope = getCellDataType(workbook,row.getCell(11));
+										}	
+										if(!StringUtils.isEmpty(scope)) { activityObj.setScope(scope);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(12)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											completed = getCellDataType(workbook,row.getCell(12));
+										}	
+										if(!StringUtils.isEmpty(completed)) { activityObj.setCompleted(completed);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(13)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											weightage = getCellDataType(workbook,row.getCell(13));
+										}	
+										if(!StringUtils.isEmpty(weightage)) { activityObj.setWeightage(weightage);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(14)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											component_details = getCellDataType(workbook,row.getCell(14));
+										}	
+										if(!StringUtils.isEmpty(component_details)) { activityObj.setComponent_details(component_details);}
+										
+										tempVal = formatter.formatCellValue(row.getCell(15)).trim();
+										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+										if(count != 2) {
+											remarks = getCellDataType(workbook,row.getCell(15));
+										}	
+										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
+										
+										activityList.add(activityObj);
+									}
 								}
 							}
 							
 							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0){
-								count  = service.uploadActivities(contractList,componentList,structureList,lineList,sectionList,
-																	scTypeList,orderList,latitudeList,longitudeList,activityList);
+								uploadedCount  = service.uploadActivities(activityList);
 							}
 							
 						}
@@ -670,7 +738,43 @@ public class ActivitiesUploadController {
 			}
 		}
 
-		return count;
+		return uploadedCount;
+	}
+	
+	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {
+		String val = null;
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
+
+		// existing Sheet, Row, and Cell setup
+
+		if (!StringUtils.isEmpty(cell) && cell.getCellType() == CellType.FORMULA) {
+		    switch (evaluator.evaluateFormulaCell(cell)) {
+		        case BOOLEAN:
+		            val = String.valueOf(cell.getBooleanCellValue());
+		            break;
+		        case NUMERIC:
+		        	val = String.valueOf(cell.getNumericCellValue());
+		            break;
+		        case STRING:
+		            val = cell.getStringCellValue();
+		            break;
+		        case BLANK:
+		        	val = cell.getStringCellValue();
+		            break;
+		        case ERROR:
+		            val = cell.getStringCellValue();
+		            break;
+		        case _NONE:
+		            val = cell.getStringCellValue();
+		            break;
+				default:
+					break;
+		    }
+		}else if (!StringUtils.isEmpty(cell)) {
+			DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+			val = formatter.formatCellValue(cell).trim();
+		}
+		return val;
 	}
 
 }

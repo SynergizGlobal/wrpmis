@@ -1,13 +1,13 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.ActivitiesUploadDao;
 import com.synergizglobal.pmis.Iservice.ActivitiesUploadService;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Service
@@ -52,11 +52,23 @@ public class ActivitiesUploadServiceImpl implements ActivitiesUploadService{
 	}
 
 	@Override
-	public int uploadActivities(Set<String> contractList, Set<String> componentList, Set<String> structureList,
-			Set<String> lineList, Set<String> sectionList, Set<String> scTypeList, Set<String> orderList,
-			Set<String> latitudeList, Set<String> longitudeList, List<StripChart> activityList) throws Exception {
-		return dao.uploadActivities(contractList,componentList,structureList,lineList,sectionList,
-										scTypeList,orderList,latitudeList,longitudeList,activityList);
+	public int uploadActivities(List<Activity> activityList) throws Exception {
+		return dao.uploadActivities(activityList);
+	}
+
+	@Override
+	public List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception {
+		return dao.getWorksInActivitiesUpload(obj);
+	}
+
+	@Override
+	public List<Activity> getContractsInActivitiesUpload(Activity obj) throws Exception {
+		return dao.getContractsInActivitiesUpload(obj);
+	}
+
+	@Override
+	public List<Activity> getStructureTypesInActivitiesUpload(Activity obj) throws Exception {
+		return dao.getStructureTypesInActivitiesUpload(obj);
 	}
 
 }

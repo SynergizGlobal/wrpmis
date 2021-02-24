@@ -1,28 +1,21 @@
 package com.synergizglobal.pmis.IMPLdao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.HashMap;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ActivitiesUploadDao;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Repository
@@ -520,125 +513,117 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	}
 
 	@Override
-	public int uploadActivities(Set<String> contractList, Set<String> componentList, Set<String> structureList,
-			Set<String> lineList, Set<String> sectionList, Set<String> scTypeList, Set<String> orderList,
-			Set<String> latitudeList, Set<String> longitudeList, List<StripChart> activityList) throws Exception {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
+	public int uploadActivities(List<Activity> activityList) throws Exception {
 		int count = 0;
 		try {			
-			connection = dataSource.getConnection();
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String qry = "INSERT INTO activities (contract_id_fk,struture_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
-			
-			String linesQry = "INSERT INTO strip_chart_line (strip_chart_line,contract_id_fk) SELECT * FROM (SELECT ?,?) AS tmp "
-					+ "WHERE NOT EXISTS ( SELECT strip_chart_line FROM strip_chart_line WHERE strip_chart_line = ? and contract_id_fk = ? LIMIT 1 );";
-			statement = connection.prepareStatement(linesQry);
-			if(!StringUtils.isEmpty(lineList) && lineList.size() > 0) {
-				for(String line : lineList){
-					if(!StringUtils.isEmpty(contractList) && contractList.size() > 0) {
-						for (String contract_id : contractList) {
-							statement.setString(1, line.toString());
-							statement.setString(2, contract_id.toString());
-							statement.setString(3, line.toString());
-							statement.setString(4, contract_id.toString());
-							statement.addBatch();
-						}
-					}
-		        }
-				int[] lineCount = statement.executeBatch();				
-			}
-			
-			
-			String sectionsQry = "INSERT INTO strip_chart_section (strip_chart_section_name,contract_id_fk) SELECT * FROM (SELECT ?,?) AS tmp "
-					+ "WHERE NOT EXISTS ( SELECT strip_chart_section_name FROM strip_chart_section WHERE strip_chart_section_name = ? and contract_id_fk = ? LIMIT 1 );";
-			statement = connection.prepareStatement(sectionsQry);
-			if(!StringUtils.isEmpty(sectionList) && sectionList.size() > 0) {
-				for(String section : sectionList){
-					if(!StringUtils.isEmpty(contractList) && contractList.size() > 0) {
-						for (String contract_id : contractList) {
-							statement.setString(1, section.toString());
-							statement.setString(2, contract_id.toString());
-							statement.setString(3, section.toString());
-							statement.setString(4, contract_id.toString());
-							statement.addBatch();
-						}
-					}
-		        }
-				int[] sectionCount = statement.executeBatch();				
-			}
-			
-			
-			String componentsQry = "INSERT INTO strip_chart_component (strip_chart_component,structure_type_fk) SELECT * FROM (SELECT ?,?) AS tmp "
-					+ "WHERE NOT EXISTS ( SELECT strip_chart_component FROM strip_chart_component WHERE strip_chart_component = ? and structure_type_fk = ? LIMIT 1 );";
-			statement = connection.prepareStatement(componentsQry);
-			if(!StringUtils.isEmpty(componentList) && componentList.size() > 0) {
-				for(String component : componentList){
-					if(!StringUtils.isEmpty(scTypeList) && scTypeList.size() > 0) {
-						for (String scType : scTypeList) {
-							statement.setString(1, component.toString());
-							statement.setString(2, scType.toString());
-							statement.setString(3, component.toString());
-							statement.setString(4, scType.toString());
-							statement.addBatch();
-						}
-					}
-		        }
-				int[] sectionCount = statement.executeBatch();				
-			}
-			
-			
-			
-			String qry = "INSERT INTO design (structure,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,data_date,weight,component_details,remarks) "
-					+ "VALUES(:structure,:strip_chart_component_id_fk,:strip_chart_activity_id_fk,:planned_start,:planned_finish,:actual_start,:actual_finish,:unit_fk,:scope,:completed,:data_date,:weight,:component_details,:remarks)";
-			
-			@SuppressWarnings("unchecked")
-			Map<String,Object>[] batchOfInputs = new HashMap[activityList.size()];
-	        int objCount = 0;
-	        for(StripChart obj : activityList){
-	           Map<String,Object> map = new HashMap<String,Object>();
-	           map.put("structure",obj.getStrip_chart_structure());
-	           map.put("strip_chart_component_id_fk",obj.getStrip_chart_component_id());
-	           map.put("strip_chart_activity_id_fk",obj.getStrip_chart_activity_id());	           
-	           map.put("planned_start",obj.getPlanned_start());
-	           map.put("planned_finish",obj.getPlanned_finish());
-	           map.put("actual_start",obj.getActual_start());	           
-	           map.put("actual_finish",obj.getActual_finish());	           
-	           map.put("unit_fk",obj.getUnit_fk());
-	           map.put("scope",obj.getScope());	           
-	           map.put("completed",obj.getCompleted());
-	           map.put("data_date",obj.getData_date());
-	           map.put("weight",obj.getWeight());
-	           map.put("component_details",obj.getComponent_details());
-	           map.put("remarks",obj.getRemarks());
-	           
-	           batchOfInputs[objCount++]= map;
-	        }
-	        int[] updateCounts = namedParamJdbcTemplate.batchUpdate(qry,batchOfInputs);
-
-								
-			for (StripChart obj : activityList) {
-				SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-			    KeyHolder keyHolder = new GeneratedKeyHolder();
-			    count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
-			    //return keyHolder.getKey().intValue();
-
-				//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-				//int count = namedParamJdbcTemplate.update(qry, paramSource);		
-			    String designId = null;
-				if(count > 0) {
-					 designId = String.valueOf(keyHolder.getKey().intValue());
-					 
-				}
-				
-			}
+			int[] counts = jdbcTemplate.batchUpdate(qry,
+		            new BatchPreparedStatementSetter() {		                 
+		                @Override
+		                public void setValues(PreparedStatement ps, int i) throws SQLException {
+		                	int p = 1;
+		                    ps.setString(p++, activityList.get(i).getContract_id_fk());
+		                    ps.setString(p++, activityList.get(i).getStruture_type_fk());
+		                    ps.setString(p++, activityList.get(i).getSection());	
+		                    ps.setString(p++, activityList.get(i).getLine());
+		                    ps.setString(p++, activityList.get(i).getStructure());
+		                    
+		                    ps.setString(p++, activityList.get(i).getComponent());
+		                    ps.setString(p++, activityList.get(i).getComponent_id());
+		                    ps.setString(p++, activityList.get(i).getOrder());	
+		                    ps.setString(p++, activityList.get(i).getActivity_name());
+		                    ps.setString(p++, activityList.get(i).getPlanned_start());
+		                    
+		                    ps.setString(p++, activityList.get(i).getPlanned_finish());
+		                    ps.setString(p++, activityList.get(i).getActual_start());
+		                    ps.setString(p++, activityList.get(i).getActual_finish());	
+		                    ps.setString(p++, activityList.get(i).getUnit());
+		                    ps.setString(p++, activityList.get(i).getScope());
+		                    
+		                    ps.setString(p++, activityList.get(i).getCompleted());
+		                    ps.setString(p++, activityList.get(i).getWeightage());
+		                    ps.setString(p++, activityList.get(i).getComponent_details());	
+		                    ps.setString(p++, activityList.get(i).getRemarks());
+		                }
+		                @Override  
+		                public int getBatchSize() {		                	
+		                    return activityList.size();
+		                }
+		            });
+			count = counts.length;
 			
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return count;
+	}
+	
+	@Override
+	public List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception {
+		List<Activity> objsList = null;
+		try {
+			String qry = "select work_id,work_name,work_short_name "
+					+ "from work "
+					+ "where work_id is not null " ;
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Activity> getContractsInActivitiesUpload(Activity obj) throws Exception {
+		List<Activity> objsList = null;
+		try {
+			String qry = "select contract_id,contract_name,contract_short_name "
+					+ "from contract "
+					+ "where contract_id is not null " ;
+			
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + "and work_id_fk = ? ";
+				arrSize++;
+			}	
+			
+			qry = qry + " GROUP BY contract_id ";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Activity> getStructureTypesInActivitiesUpload(Activity obj) throws Exception {
+		List<Activity> objsList = null;
+		try {
+			String qry = "select structure_type "
+					+ "from structure_type "
+					+ "where structure_type is not null " ;
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 
 }

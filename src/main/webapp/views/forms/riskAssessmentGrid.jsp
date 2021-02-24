@@ -91,14 +91,18 @@
                         </div>
                     </span>
                     <div class="">
-                    <c:if test="${not empty success }">
+                    	<c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
 							   ${success}
 							</div>
+						</c:if>
+						
+						<c:if test="${not empty updateSuccess }">					        
 							<div class="center-align m-1 close-message">	
 							   ${updateSuccess}
 							</div>
 						</c:if>
+						
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">
 							   ${error}

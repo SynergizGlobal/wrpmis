@@ -98,13 +98,13 @@
 							<div class="row">		
 								<div class="col s12">
 									<c:if test="${not empty success }">					        
-										<div class="center-align m-1 close-message">	
+										<div class="m-1 close-message">	
 										   ${success}
 										</div>
 									</c:if>
 									
 									<c:if test="${not empty error }">
-										<div class="center-align m-1 close-message">
+										<div class="m-1 close-message">
 										   ${error}
 										</div>
 									</c:if>
@@ -413,7 +413,7 @@
 	        getContracts('');
 	        getStructureTypes();
 	        
-	        $('.close-message').delay(5000).fadeOut('slow');
+	        //$('.close-message').delay(5000).fadeOut('slow');
 	    });
      
 	    function  openUploadModal() {

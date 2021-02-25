@@ -486,8 +486,10 @@ public class ActivitiesUploadController {
 								return model;
 							}
 							/********************************************************************************************************************/
-							int[] counts = uploadActivities(activity, userId, userName, workbook);
-							attributes.addFlashAttribute("success", counts[0] + " activities added and "+counts[1]+" activities updated successfully.");
+							/*int[] counts = uploadActivities(activity, userId, userName, workbook);
+							attributes.addFlashAttribute("success", counts[0] + " activities added and "+counts[1]+" activities updated successfully.");*/
+							String message = uploadActivities(activity, userId, userName, workbook);
+							attributes.addFlashAttribute("success", message);
 						}
 					}
 				}
@@ -514,10 +516,11 @@ public class ActivitiesUploadController {
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 
-	public int[] uploadActivities(Activity obj, String userId, String userName, XSSFWorkbook workbook)
+	public String uploadActivities(Activity obj, String userId, String userName, XSSFWorkbook workbook)
 			throws Exception {
 		Writer w = null;
 		int[] counts = null;
+		String message = "";
 		try {
 			MultipartFile excelfile = obj.getUploadFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -574,7 +577,7 @@ public class ActivitiesUploadController {
 							List<Activity> activityList = new ArrayList<Activity>();
 							
 							String activity_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
-							
+							String zero_total_scope = "",zero_completed_scope = "",null_actual_start_date = "",completedScope_gt_total_scope = "";
 							for(int j = 2; j<= activityDataSheet.getLastRowNum();j++){
 								XSSFRow row = activityDataSheet.getRow(j);
 								if(!StringUtils.isEmpty(row)) {
@@ -725,12 +728,14 @@ public class ActivitiesUploadController {
 											activityList.add(activityObj);
 										}
 										
-										if(completedScope == 0 || totalScope == 0 ) {
-											
-										} else if(completedScope > totalScope) {
-											
+										if(totalScope == 0) {
+											zero_total_scope = zero_total_scope + (!StringUtils.isEmpty(zero_total_scope)?",":"") + (j+1);
+										} else if (completedScope == 0) {
+											zero_completed_scope = zero_completed_scope + (!StringUtils.isEmpty(zero_completed_scope)?",":"") + (j+1);
+										} else if (completedScope > totalScope) {
+											completedScope_gt_total_scope = completedScope_gt_total_scope + (!StringUtils.isEmpty(completedScope_gt_total_scope)?",":"") + (j+1);
 										} else if (StringUtils.isEmpty(actual_start_date)){
-											
+											null_actual_start_date = null_actual_start_date + (!StringUtils.isEmpty(null_actual_start_date)?",":"") + (j+1);
 										}
 										
 									}
@@ -739,6 +744,27 @@ public class ActivitiesUploadController {
 							
 							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0){
 								counts  = service.uploadActivities(activityList);
+								if(counts[0] > 0) {
+									message = message + "<p style='color:green;'>" + counts[0] + " activities added successfully.</p>";
+								}
+								if(counts[1] > 0) {
+									message = message + "<p style='color:green;'>" + counts[1] + " activities updated successfully.</p>";
+								}
+								
+								if(!StringUtils.isEmpty(zero_total_scope)) {
+									message = message + "<p style='color:red;'>" + zero_total_scope + " rows are not inserted (Reason : Total Scope is 0 or empty).</p>";
+								}
+								if(!StringUtils.isEmpty(zero_completed_scope)) {
+									message = message + "<p style='color:red;'>" + zero_completed_scope + " rows are not inserted (Reason : Completed is 0 or empty).</p>";
+								}
+								if(!StringUtils.isEmpty(completedScope_gt_total_scope)) {
+									message = message + "<p style='color:red;'>" + completedScope_gt_total_scope + " rows are not inserted (Reason : Completed > Total Scope).</p>";
+								}
+								if(!StringUtils.isEmpty(null_actual_start_date)) {
+									message = message + "<p style='color:red;'>" + null_actual_start_date + " rows are not inserted (Reason : Actual Start Date is empty).</p>";
+								}
+								
+								message = message + "<br><br>";
 							}
 							
 						}
@@ -761,7 +787,7 @@ public class ActivitiesUploadController {
 			}
 		}
 
-		return counts;
+		return message;
 	}
 	
 	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {

@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -13,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -524,6 +530,9 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		int arr[] = new int[2];
 		try {			
 			con = dataSource.getConnection();
+			
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			
 			List<Activity> insertList = new ArrayList<Activity>();
 			List<Activity> updateList = new ArrayList<Activity>();
 			for (Activity activity : activityList) {
@@ -535,8 +544,8 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 				}
 			}
 			
-			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,section,line,structure,component,component_id,`order`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String insertQry = "INSERT INTO activities (contract_id_fk,structure_type_fk,section,line,structure,component,component_id,`order`,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,created_date,created_by_user_id_fk) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)";
 			
 			int[] insertCounts = jdbcTemplate.batchUpdate(insertQry,
 		            new BatchPreparedStatementSetter() {		                 
@@ -565,6 +574,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		                    ps.setString(p++, insertList.get(i).getWeightage());
 		                    ps.setString(p++, insertList.get(i).getComponent_details());	
 		                    ps.setString(p++, insertList.get(i).getRemarks());
+		                    ps.setString(p++, insertList.get(i).getCreated_by_user_id_fk());
 		                }
 		                @Override  
 		                public int getBatchSize() {		                	
@@ -573,7 +583,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		            });
 			
 			
-			String updateQry = "UPDATE activities SET `order` = ?,activity_name = ?,planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ? "
+			String updateQry = "UPDATE activities SET `order` = ?,activity_name = ?,planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
 					+ "WHERE contract_id_fk = ? and structure_type_fk = ? and section = ? and line = ? and structure = ? and component = ? and component_id = ? ";
 			int[] updateCounts = jdbcTemplate.batchUpdate(updateQry,
 		            new BatchPreparedStatementSetter() {		                 
@@ -594,6 +604,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		                    ps.setString(p++, updateList.get(i).getWeightage());
 		                    ps.setString(p++, updateList.get(i).getComponent_details());	
 		                    ps.setString(p++, updateList.get(i).getRemarks());
+		                    ps.setString(p++, updateList.get(i).getModified_by_user_id_fk());
 		                    
 		                    ps.setString(p++, updateList.get(i).getContract_id_fk());
 		                    ps.setString(p++, updateList.get(i).getStructure_type_fk());
@@ -609,6 +620,68 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		                }
 		            });
 			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			
+			double[] factors = new double[8];
+			factors[0] = 0.0014;factors[7] = 0.0014;
+			factors[1] = 0.0214;factors[6] = 0.0214;
+			factors[2] = 0.1359;factors[5] = 0.1359;
+			factors[3] = 0.3413;factors[4] = 0.3413;
+			
+			for (Activity aObj : activityList) {
+				String activity_id = getActivityId(aObj, con);
+				if(!StringUtils.isEmpty(activity_id)) {
+					aObj.setActivity_id_fk(activity_id);
+					String deleteQry = "DELETE FROM activity_progress where activity_id_fk = :activity_id_fk ";
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(aObj);		 
+					int cNo = namedParamJdbcTemplate.update(deleteQry, paramSource);
+					if(StringUtils.isEmpty(aObj.getActual_finish())) {
+						aObj.setActual_finish(dateFormat.format(date));
+					}
+					String progress_date = null;
+					double completed_scope = 0;
+					if(!StringUtils.isEmpty(aObj.getCompleted())) {
+						completed_scope = Double.parseDouble(aObj.getCompleted());
+					}
+					
+					String insert_qry = "INSERT into activity_progress (progress_date,activity_id_fk,completed_scope,attachment_url,remarks,created_date,created_by_user_id_fk) "
+							+"VALUES (?,?,?,?,?,CURRENT_TIMESTAMP,?)";
+					stmt = con.prepareStatement(insert_qry); 
+					
+					for (int i = 0;i < factors.length;i++) {
+						double activity_scope = completed_scope * factors[i];
+						Date actual_start = dateFormat.parse(aObj.getActual_start());
+						Date actual_finish = dateFormat.parse(aObj.getActual_finish());
+						long difference = Math.abs(actual_finish.getTime() - actual_start.getTime());
+				        int differenceDates = (int) (difference / (24 * 60 * 60 * 1000));
+
+				        //Convert long to String
+				        int days = differenceDates + ((i+1)/8);
+				        
+				        Calendar c = Calendar.getInstance();
+				    	//Setting the date to the given date
+				    	c.setTime(actual_start);
+				    	//Number of Days to add
+				    	c.add(Calendar.DAY_OF_MONTH, days);  
+				    	//Date after adding the days to the given date
+				    	progress_date = dateFormat.format(c.getTime());
+				    	
+				    	int p = 1;
+				    	stmt.setString(p++,progress_date);
+				    	stmt.setString(p++,activity_id);
+				    	stmt.setString(p++,String.valueOf(activity_scope));
+				    	stmt.setString(p++,aObj.getAttachment_url());
+				    	stmt.setString(p++,aObj.getRemarks());
+				    	stmt.setString(p++,aObj.getCreated_by_user_id_fk());
+				    	stmt.addBatch();
+					}
+					
+					stmt.executeBatch();
+					
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+				}
+			}
 			
 			arr[0] = insertCounts.length;
 		    arr[1] = updateCounts.length;
@@ -628,7 +701,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		boolean flag = false;
 		try {
 			String qry = "select contract_id_fk from activities "
-					+ "where activities_id is not null";
+					+ "where activity_id is not null";
 			if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
 			} else {
@@ -722,6 +795,108 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
 		}
 		return flag;
+	}
+	
+	private String getActivityId(Activity obj, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String activity_id = null;
+		try {
+			String qry = "select activity_id from activities "
+					+ "where activity_id is not null";
+			if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+			} else {
+				qry = qry + " and (contract_id_fk IS NULL OR contract_id_fk = '')";
+			}
+			
+			if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + " and structure_type_fk = ?";
+			} else {
+				qry = qry + " and (structure_type_fk IS NULL OR structure_type_fk = '')";
+			}
+			
+			if(!StringUtils.isEmpty(obj.getSection())) {
+				qry = qry + " and section = ?";
+			} else {
+				qry = qry + " and (section IS NULL OR section = '')";
+			}
+			
+			if(!StringUtils.isEmpty(obj.getLine())) {
+				qry = qry + " and line = ?";
+			} else {
+				qry = qry + " and (line IS NULL OR line = '')";
+			}
+			
+			if(!StringUtils.isEmpty(obj.getStructure())) {
+				qry = qry + " and structure = ?";
+			} else {
+				qry = qry + " and (structure IS NULL OR structure = '')";
+			}
+			
+			if(!StringUtils.isEmpty(obj.getComponent())) {
+				qry = qry + " and component = ?";
+			} else {
+				qry = qry + " and (component IS NULL OR component = '')";
+			}
+			
+			if(!StringUtils.isEmpty(obj.getComponent_id())) {
+				qry = qry + " and component_id = ?";
+			} else {
+				qry = qry + " and (component_id IS NULL OR component_id = '')";
+			}
+			
+			if(!StringUtils.isEmpty(obj.getActivity_name())) {
+				qry = qry + " and activity_name = ?";
+			} else {
+				qry = qry + " and (activity_name IS NULL OR activity_name = '')";
+			}
+			
+			stmt = con.prepareStatement(qry);
+			int k = 1;			
+			
+			if(!StringUtils.isEmpty(obj.getContract_id_fk())) {
+				stmt.setString(k++, obj.getContract_id_fk());
+			}
+			
+			if(!StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				stmt.setString(k++, obj.getStructure_type_fk());
+			}
+			
+			if(!StringUtils.isEmpty(obj.getSection())) {
+				stmt.setString(k++, obj.getSection());
+			}
+			
+			if(!StringUtils.isEmpty(obj.getLine())) {
+				stmt.setString(k++, obj.getLine());
+			}
+			
+			if(!StringUtils.isEmpty(obj.getStructure())) {
+				stmt.setString(k++, obj.getStructure());
+			}
+			
+			if(!StringUtils.isEmpty(obj.getComponent())) {
+				stmt.setString(k++, obj.getComponent());
+			}
+			
+			if(!StringUtils.isEmpty(obj.getComponent_id())) {
+				stmt.setString(k++, obj.getComponent_id());
+			}
+			
+			if(!StringUtils.isEmpty(obj.getActivity_name())) {
+				stmt.setString(k++, obj.getActivity_name());
+			}
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				activity_id = rs.getString("activity_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return activity_id;
 	}
 
 	@Override

@@ -573,7 +573,7 @@ public class ActivitiesUploadController {
 							
 							List<Activity> activityList = new ArrayList<Activity>();
 							
-							String activities_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
+							String activity_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
 							
 							for(int j = 2; j<= activityDataSheet.getLastRowNum();j++){
 								XSSFRow row = activityDataSheet.getRow(j);
@@ -590,6 +590,8 @@ public class ActivitiesUploadController {
 										activityObj.setWork_id(obj.getWork_id());
 										activityObj.setContract_id_fk(obj.getContract_id_fk());
 										activityObj.setStructure_type_fk(obj.getStructure_type_fk());
+										activityObj.setCreated_by_user_id_fk(userId);
+										activityObj.setModified_by_user_id_fk(userId);
 										
 										String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
 										int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
@@ -709,7 +711,28 @@ public class ActivitiesUploadController {
 										}	
 										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
 										
-										activityList.add(activityObj);
+										double totalScope = 0;
+										double completedScope = 0;
+										if(!StringUtils.isEmpty(activityObj.getScope())) {
+											totalScope = Double.parseDouble(activityObj.getScope());
+										}
+										if(!StringUtils.isEmpty(activityObj.getCompleted())) {
+											completedScope = Double.parseDouble(activityObj.getScope());
+										}
+										
+										String actual_start_date = activityObj.getActual_start();
+										if(totalScope != 0 && completedScope != 0 && completedScope <= totalScope && !StringUtils.isEmpty(actual_start_date) ) {
+											activityList.add(activityObj);
+										}
+										
+										if(completedScope == 0 || totalScope == 0 ) {
+											
+										} else if(completedScope > totalScope) {
+											
+										} else if (StringUtils.isEmpty(actual_start_date)){
+											
+										}
+										
 									}
 								}
 							}

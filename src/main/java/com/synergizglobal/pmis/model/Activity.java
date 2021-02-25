@@ -3,17 +3,53 @@ package com.synergizglobal.pmis.model;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Activity {
-	private String activities_id,contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
-	contract_id,contract_name,contract_short_name,struture_type,work_id,work_name,work_short_name,structure_type;
+	private String activity_id,contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
+	contract_id,contract_name,contract_short_name,struture_type,work_id,work_name,work_short_name,structure_type,
+	created_date,created_by_user_id_fk,modified_date,modified_by_user_id_fk,activity_id_fk,
+	progress_id,progress_date,completed_scope,attachment_url;
 	
 	private MultipartFile uploadFile;
+	
 
-	public String getActivities_id() {
-		return activities_id;
+
+	public String getProgress_id() {
+		return progress_id;
 	}
 
-	public void setActivities_id(String activities_id) {
-		this.activities_id = activities_id;
+	public void setProgress_id(String progress_id) {
+		this.progress_id = progress_id;
+	}
+
+	public String getProgress_date() {
+		return progress_date;
+	}
+
+	public void setProgress_date(String progress_date) {
+		this.progress_date = progress_date;
+	}
+
+	public String getCompleted_scope() {
+		return completed_scope;
+	}
+
+	public void setCompleted_scope(String completed_scope) {
+		this.completed_scope = completed_scope;
+	}
+
+	public String getAttachment_url() {
+		return attachment_url;
+	}
+
+	public void setAttachment_url(String attachment_url) {
+		this.attachment_url = attachment_url;
+	}
+
+	public String getActivity_id() {
+		return activity_id;
+	}
+
+	public void setActivity_id(String activity_id) {
+		this.activity_id = activity_id;
 	}
 
 	public String getContract_id_fk() {
@@ -238,6 +274,46 @@ public class Activity {
 
 	public void setStructure_type(String structure_type) {
 		this.structure_type = structure_type;
+	}
+
+	public String getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(String created_date) {
+		this.created_date = created_date;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getModified_date() {
+		return modified_date;
+	}
+
+	public void setModified_date(String modified_date) {
+		this.modified_date = modified_date;
+	}
+
+	public String getModified_by_user_id_fk() {
+		return modified_by_user_id_fk;
+	}
+
+	public void setModified_by_user_id_fk(String modified_by_user_id_fk) {
+		this.modified_by_user_id_fk = modified_by_user_id_fk;
+	}
+
+	public String getActivity_id_fk() {
+		return activity_id_fk;
+	}
+
+	public void setActivity_id_fk(String activity_id_fk) {
+		this.activity_id_fk = activity_id_fk;
 	}
 	
 	

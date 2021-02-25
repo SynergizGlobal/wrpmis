@@ -714,20 +714,28 @@ public class ActivitiesUploadController {
 										}	
 										if(!StringUtils.isEmpty(remarks)) { activityObj.setRemarks(remarks);}
 										
+										
 										double totalScope = 0;
 										double completedScope = 0;
 										if(!StringUtils.isEmpty(activityObj.getScope())) {
 											totalScope = Double.parseDouble(activityObj.getScope());
 										}
 										if(!StringUtils.isEmpty(activityObj.getCompleted())) {
-											completedScope = Double.parseDouble(activityObj.getScope());
+											completedScope = Double.parseDouble(activityObj.getCompleted());
 										}
 										
-										String actual_start_date = activityObj.getActual_start();
-										if(totalScope != 0 && completedScope != 0 && completedScope <= totalScope && !StringUtils.isEmpty(actual_start_date) ) {
+										if(completedScope <= totalScope) {
 											activityList.add(activityObj);
 										}
 										
+										if (completedScope > totalScope) {
+											completedScope_gt_total_scope = completedScope_gt_total_scope + (!StringUtils.isEmpty(completedScope_gt_total_scope)?",":"") + (j+1);
+										}
+										
+										/*String actual_start_date = activityObj.getActual_start();
+										if(totalScope != 0 && completedScope != 0 && completedScope <= totalScope && !StringUtils.isEmpty(actual_start_date) ) {
+											activityList.add(activityObj);
+										}
 										if(totalScope == 0) {
 											zero_total_scope = zero_total_scope + (!StringUtils.isEmpty(zero_total_scope)?",":"") + (j+1);
 										} else if (completedScope == 0) {
@@ -736,7 +744,7 @@ public class ActivitiesUploadController {
 											completedScope_gt_total_scope = completedScope_gt_total_scope + (!StringUtils.isEmpty(completedScope_gt_total_scope)?",":"") + (j+1);
 										} else if (StringUtils.isEmpty(actual_start_date)){
 											null_actual_start_date = null_actual_start_date + (!StringUtils.isEmpty(null_actual_start_date)?",":"") + (j+1);
-										}
+										}*/
 										
 									}
 								}
@@ -751,7 +759,11 @@ public class ActivitiesUploadController {
 									message = message + "<p style='color:green;'>" + counts[1] + " activities updated successfully.</p>";
 								}
 								
-								if(!StringUtils.isEmpty(zero_total_scope)) {
+								if(!StringUtils.isEmpty(completedScope_gt_total_scope)) {
+									message = message + "<p style='color:red;'> Row no(s) " + completedScope_gt_total_scope + " are not inserted (Reason : Completed > Total Scope).</p>";
+								}
+								
+								/*if(!StringUtils.isEmpty(zero_total_scope)) {
 									message = message + "<p style='color:red;'>" + zero_total_scope + " rows are not inserted (Reason : Total Scope is 0 or empty).</p>";
 								}
 								if(!StringUtils.isEmpty(zero_completed_scope)) {
@@ -762,7 +774,7 @@ public class ActivitiesUploadController {
 								}
 								if(!StringUtils.isEmpty(null_actual_start_date)) {
 									message = message + "<p style='color:red;'>" + null_actual_start_date + " rows are not inserted (Reason : Actual Start Date is empty).</p>";
-								}
+								}*/
 								
 								message = message + "<br><br>";
 							}

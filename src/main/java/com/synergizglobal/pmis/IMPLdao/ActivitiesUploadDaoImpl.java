@@ -631,7 +631,19 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			
 			for (Activity aObj : activityList) {
 				String activity_id = getActivityId(aObj, con);
-				if(!StringUtils.isEmpty(activity_id)) {
+				
+				double totalScope = 0;
+				double completedScope = 0;
+				if(!StringUtils.isEmpty(aObj.getScope())) {
+					totalScope = Double.parseDouble(aObj.getScope());
+				}
+				if(!StringUtils.isEmpty(aObj.getCompleted())) {
+					completedScope = Double.parseDouble(aObj.getCompleted());
+				}
+				
+				String actual_start_date = aObj.getActual_start();
+				
+				if(!StringUtils.isEmpty(activity_id) && totalScope != 0 && completedScope != 0 && !StringUtils.isEmpty(actual_start_date)) {					
 					aObj.setActivity_id_fk(activity_id);
 					String deleteQry = "DELETE FROM activity_progress where activity_id_fk = :activity_id_fk ";
 					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(aObj);		 
@@ -651,22 +663,41 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 					
 					for (int i = 0;i < factors.length;i++) {
 						double activity_scope = completed_scope * factors[i];
-						Date actual_start = dateFormat.parse(aObj.getActual_start());
-						Date actual_finish = dateFormat.parse(aObj.getActual_finish());
+						/*Date actual_start = dateFormat.parse(aObj.getActual_start());
+						Date actual_finish = null;
+						Date curr_date = new Date();
+						String now = dateFormat.format(curr_date);
+						if(!StringUtils.isEmpty(aObj.getActual_finish())) {
+							actual_finish = dateFormat.parse(aObj.getActual_finish());
+						}else {
+							actual_finish = dateFormat.parse(now);
+						}
 						long difference = Math.abs(actual_finish.getTime() - actual_start.getTime());
-				        int differenceDates = (int) (difference / (24 * 60 * 60 * 1000));
-
-				        //Convert long to String
-				        int days = differenceDates + ((i+1)/8);
-				        
-				        Calendar c = Calendar.getInstance();
-				    	//Setting the date to the given date
-				    	c.setTime(actual_start);
-				    	//Number of Days to add
-				    	c.add(Calendar.DAY_OF_MONTH, days);  
-				    	//Date after adding the days to the given date
-				    	progress_date = dateFormat.format(c.getTime());
+						int differenceDates = (int) (difference / (24 * 60 * 60 * 1000));
+						
+						//Convert long to String
+						int days = differenceDates + ((i+1)/8);
+						
+						Calendar c = Calendar.getInstance();
+						//Setting the date to the given date
+						c.setTime(actual_start);
+						//Number of Days to add
+						c.add(Calendar.DAY_OF_MONTH, days);  
+						//Date after adding the days to the given date
+						progress_date = dateFormat.format(c.getTime());
+						*/
+						
+						Date curr_date = new Date();
+						String now = dateFormat.format(curr_date);
+				    	String af = null;
+				    	if(!StringUtils.isEmpty(aObj.getActual_finish())) {
+				    		af = aObj.getActual_finish();
+						}else {
+							af = dateFormat.format(now);
+						}
 				    	
+				    	progress_date = getProgressdate(af,i+1,activity_id,con);
+						
 				    	int p = 1;
 				    	stmt.setString(p++,progress_date);
 				    	stmt.setString(p++,activity_id);
@@ -680,6 +711,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 					stmt.executeBatch();
 					
 					DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+					
 				}
 			}
 			
@@ -695,6 +727,34 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		return arr;
 	}
 	
+	private String getProgressdate(String af, int i, String activity_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String progress_date = null;
+		try {
+			String qry = "select (actual_start + INTERVAL (((TO_DAYS(?) - TO_DAYS(actual_start)) * ?) / 8) DAY) AS date "
+	    			+ "from activities where activity_id = ? ";
+	    	
+			
+			stmt = con.prepareStatement(qry);
+			int k = 1;			
+			
+			stmt.setString(k++, af);
+			stmt.setInt(k++, i);
+			stmt.setString(k++, activity_id);
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				progress_date = rs.getString("date");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return progress_date;
+	}
+
 	private boolean isActivityExist(Activity obj, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

@@ -536,7 +536,7 @@
 		                                                <div class="line">
 		                                                    <p class="alignleft">Original Sanctioned Cost </p>
 		                                                    <p class="aligncenter">:</p>
-		                                                    <p class="alignright"><c:if test="${not empty pObj.sanctioned_estimated_cost }">₹  ${pObj.sanctioned_estimated_cost } Cr </c:if></p>
+		                                                    <p class="alignright"><c:if test="${not empty wObj.sanctioned_estimated_cost }">₹  ${wObj.sanctioned_estimated_cost } Cr </c:if></p>
 		                                                </div>
 		                                                <div class="line">
 		                                                    <p class="alignleft">Sanctioned Year</p>
@@ -551,8 +551,8 @@
 								                            </p>
 								                            <p class="aligncenter">:</p>
 								                            <p class="alignright">
-								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}"><c:if test="${not empty pObj.completion_cost }">₹  ${pObj.completion_cost } Cr </c:if></c:if>
-								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}"><c:if test="${not empty pObj.latest_revised_cost }">₹  ${pObj.latest_revised_cost } Cr </c:if></c:if>
+								                            <c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}"><c:if test="${not empty wObj.completion_cost }">₹  ${wObj.completion_cost } Cr </c:if></c:if>
+								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}"><c:if test="${not empty wObj.latest_revised_cost }">₹  ${wObj.latest_revised_cost } Cr </c:if></c:if>
 								                            </p>
 								                        </div>
 								                        <div class="line">

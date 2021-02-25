@@ -20,20 +20,6 @@
     	line-height:40px;
     }
 
-/* required fields star btn styling */    
-    .required{
-		color:red;
-		font-size:1.3rem;
-		vertical-align: middle;
-	}
-	/* removing attachment styling */
-	.attachment-remove-btn{
-		float:right;  
-		color: #039be5;  
-		font-size: 1.1rem; 
-		cursor:pointer;
-	}
-	
    </style>
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -327,7 +313,7 @@
                       <div>
                           <input type="text"  name="srch-term" id="srch-term" class="browser-default searching empty"placeholder="&#xF002; Search Notifications...">
                       </div>
-                      <ul class="notifications_group" style="margin-top: 5px;" id="notificationList">
+                      <%-- <ul class="notifications_group" style="margin-top: 5px;" id="notificationList">
                        <!-- list of Notifications starts -->
                       	<c:forEach var="aObj" items="${dueActivities }">
                           <li class="head-item">${aObj.workId} - ${aObj.workName}</li>
@@ -337,15 +323,71 @@
 	                                  <span><i class="fa fa-${bObj.image }"></i> ${bObj.location } / ${bObj.activityType } / ${bObj.activity } / ${bObj.boqCompleteTotal }</span>
 	                                  <div><i class="fa fa-clock-o"></i> <span class="time">${bObj.timeAgo}</span></div>
 	                              </a>
-	                              <%-- <a href="${bObj.notificationLink}">
+	                              <a href="${bObj.notificationLink}">
 	                                  <span><i class="fa fa-edit"></i> ${bObj.description}</span>
 	                                  <div><i class="fa fa-clock-o"></i> <span class="time">${bObj.timeAgo}</span></div>
-	                              </a> --%>
+	                              </a>
 	                          </li>
                           </c:forEach>
                                  <!-- list of Notifications ends -->
                         </c:forEach>
+                      </ul> --%>
+                      
+                       <ul class="notifications_group" style="margin-top: 5px;" id="notificationList">
+                       <!-- list of Notifications starts -->
+                          <li class="head-item">Alert Level</li>
+                          <li class="item type-1">
+                              <a href="#">
+                              	 <span class="icon">
+                              	 	<i class="material-icons">security</i>
+                              	 	<span class="icon-text">Insurance</span>
+                              	 </span>                                  
+                                  <div>Work name</div>
+                                  <div>Contract Id</div>
+                                  <div>Contractor</div>
+                                  <div>Reason (Insurance)</div>
+                              </a>
+                          </li>                          
+                          <li class="item type-2">
+                              <a href="#">
+                              	<span class="icon">
+                              	 	<i class="material-icons">access_time</i>
+                              	 	<span class="icon-text">Contract Period</span>
+                              	 </span>                                   
+                                  <div>Work name</div>
+                                  <div>Contract Id</div>
+                                  <div>Contractor</div>
+                                  <div>Reason </div>
+                              </a>
+                          </li>                         
+                          <li class="item type-3">
+                              <a href="#">
+                                  <a href="#">
+                                  <span class="icon">
+                              	 	<i class="fa fa-money"></i>
+                              	 	<span class="icon-text">Contract Value</span>
+                              	  </span>                                   
+                                  <div>Work name</div>
+                                  <div>Contract Id</div>
+                                  <div>Contractor</div>
+                                  <div>Reason </div>
+                              </a>
+                              </a>
+                          </li>
+                           <li class="item type-1">
+                              <a href="#">
+                             	<span class="icon">
+                              	 	<i class="material-icons">account_balance</i>
+                              	 	<span class="icon-text">Bank Guarantee</span>
+                              	 </span>                                   
+                                 <div>Work name</div>
+                                 <div>Contract Id</div>
+                                 <div>Contractor</div>
+                                 <div>Reason </div>
+                              </a>
+                          </li>
                       </ul>
+                      
                       <!-- Notification dropdown body ends -->
                 </div>
           </li>

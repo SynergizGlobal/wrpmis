@@ -131,7 +131,7 @@
 									<span id="structure_type_fkError" class="error-msg"></span>
 								</div>	
 								
-								<div class="col s12 m4 file-field input-field">
+								<div class="col s12 m4 file-field input-field" style="padding-top: 18px;">
 								      <div class="btn bg-m t-c">
 								        <span>Browse File</span>
 								        <input type="file" name="uploadFile" id="uploadFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -171,7 +171,7 @@
                         </div>
                     </span>
                     <div class="">
-                        <div class="row plr-1">
+                        <!-- <div class="row plr-1">
                             <div class="col s12 m4">
                                 <div class="m-1 l-align">
                                     <a href="javascript:void(0);" onclick="openUploadModal();" class="btn waves-effect waves-light bg-s t-c">
@@ -187,42 +187,30 @@
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m1 hide-on-small-only"></div>
-                            <div class="col m10">
+                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m8">
                                 <div class="row">
-                                    <div class="col s12 m2 input-field">
+                                    <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Work</p>
                                         <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getActivitiesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
-                                    <div class="col s12 m2 input-field">
+                                    <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Contract</p>
                                         <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getActivitiesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
-                                    <div class="col s12 m2 input-field">
-                                        <p class="searchable_label">Structure</p>
+                                    <div class="col s12 m3 input-field">
+                                        <p class="searchable_label">Structure Type</p>
                                         <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" class="searchable" onchange="getActivitiesList();">
                                             <option value="">Select</option>
                                         </select>
-                                    </div>
-                                    <div class="col s12 m2 input-field">
-                                        <p class="searchable_label">Component ID</p>
-                                        <select id="strip_chart_component_id" name="strip_chart_component_id" class="searchable" onchange="getActivitiesList();">
-                                            <option value="">Select</option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m2 input-field">
-                                        <p class="searchable_label">Component</p>
-                                        <select id="strip_chart_component" name="strip_chart_component" class="searchable" onchange="getActivitiesList();">
-                                            <option value="">Select</option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m2">
+                                    </div>                                  
+                                    <div class="col s12 m3">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                             style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
                                             Filters</button>
@@ -230,7 +218,7 @@
                                 </div>
                             </div>
 
-                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col m2 hide-on-small-only"></div>
                         </div>
 
                         <div class="row">
@@ -238,7 +226,7 @@
                                 <table id="datatable-activities" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Contract</th>
+                                            <!--  <th>Contract</th>
                                             <th>Structure</th>
                                             <th>Component <br>ID</th>
                                             <th>Component</th>
@@ -247,8 +235,17 @@
                                             <th>Planned <br> Finish</th>
                                             <th>Scope</th>
                                             <th>Completed</th>
-                                            <th>Weightage</th>
-                                            <!-- <th class="no-sort">Action</th> -->
+                                            <th>Weightage</th>  -->
+                                            
+                                            <th>Work</th>
+											<th>Contract</th>
+											<th>Structure type</th>
+											<th>Uploaded File</th>
+											<th>Status</th>
+											<th>Remarks</th>
+											<th>Uploaded by </th>
+											<th>Uploaded On</th>
+											<th></th><th></th>
                                         </tr>
                                     </thead>
                                     <tbody>

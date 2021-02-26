@@ -322,9 +322,9 @@
                                             <th>Data Type</th>
                                             <th>Data Date </th>
                                             <th>Status</th>
-                                            <th>P6 File</th>
-                                            <th>Created By</th>
-                                            <th>Created Date</th>
+                                            <th>Uploaded File</th>
+                                            <th>Uploaded By</th>
+                                            <th>Uploaded Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>

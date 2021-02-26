@@ -10,7 +10,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Issues</title>
+    <title>Update Issue</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	 
@@ -44,7 +44,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6> Update Issues</h6>
+                                <h6>Update Issue</h6>
                             </div>
                         </span>
                     </div>

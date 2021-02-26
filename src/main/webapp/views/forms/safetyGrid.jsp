@@ -36,7 +36,9 @@
     	 	width:110px !important;
     	 	max-width:110px;
     	 }
-       
+       .input-field>.datepicker ~ label:not(.label-icon).active {
+		    background-color: transparent !important;
+		}
     </style>
 </head>
 <body>
@@ -85,26 +87,50 @@
                                         <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
                                 </div>
                             </div>
-                        </div>
+                        </div>                    
+                    </div>
+                 </div>
+              </div>
                     
+                <div class="card">
+                <div class="card-content">
+                     <span class="card-title headbg">
+                        <div class="center-align bg-m p-2 m-b-5">
+                            <h6>Update Safety Incident</h6>
+                        </div>
+                    </span>
                         <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 s12 input-field">
-                            	<p class="searchable_label">Work</p>
-                                 <select id="work_id_fk" name="work_id_fk" onchange="getSafetyList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     
-                                 </select>  
-                            </div>
-                            <div class="col s12 m2 input-field">
-                            	<p class="searchable_label">Contract</p>
-                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getSafetyList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%-- <c:forEach var="obj" items="${contracts }">
-		                               	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
-		                             </c:forEach> --%>
-                                 </select>                                
-                            </div>
-                            <div class="col s12 m2 input-field">
+                        	<div class="col m5 s12">
+                        		<div class="row">
+                        			  <div class="col m4 s12 input-field">
+		                            	<p class="searchable_label">Work</p>
+		                                 <select id="work_id_fk" name="work_id_fk" onchange="getSafetyList();" class="searchable">
+		                                     <option value="" >Select</option>		                                     
+		                                 </select>  
+                            		 </div>
+		                            <div class="col s12 m4 input-field">
+		                            	<p class="searchable_label">Contract</p>
+		                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getSafetyList();" class="searchable">
+		                                     <option value="" >Select</option>
+		                                     <%-- <c:forEach var="obj" items="${contracts }">
+				                               	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+				                             </c:forEach> --%>
+		                                 </select>                                
+		                            </div>
+		                            <div class="col s12 m4 input-field">
+		                            <p class="searchable_label">HOD</p>
+		                                <select id="hod_fk" name="hod_fk" onchange="getSafetyList();" class="searchable">
+		                                     <option value="" >Select</option>
+		                                     <%-- <c:forEach var="obj" items="${departments }">
+				                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
+				                             </c:forEach> --%>
+		                                 </select>
+		                            </div>
+                        		</div>
+                        	</div>
+                        	
+                          <div class="col m7 s12">
+                            <div class="col s12 m3 input-field">
                             <p class="searchable_label">Department</p>
                                 <select id="department_fk" name="department_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
@@ -113,7 +139,7 @@
 		                             </c:forEach> --%>
                                  </select>
                             </div>
-                            <div class="col s12 m2 input-field">
+                            <div class="col s12 m3 input-field">
                             <p class="searchable_label">Category</p>
                                  <select id="category_fk" name="category_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
@@ -122,7 +148,7 @@
 		                             </c:forEach> --%>
                                  </select>
                             </div>
-                            <div class="col s12 m2 input-field">
+                            <div class="col s12 m3 input-field">
                             <p class="searchable_label">Status</p>
                                  <select id="status_fk" name="status_fk" onchange="getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
@@ -131,9 +157,10 @@
 		                             </c:forEach> --%>
                                  </select>
                             </div>
-                            <div class="col s12 m2">
+                            <div class="col s12 m3">
                                 <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
                                     style="margin-top: 20px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
+                            </div>
                             </div>
                         </div>
                         
@@ -143,7 +170,7 @@
                                 <table id="datatable-safety" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <!-- <th>ID</th> -->
                                             <th class="fw-300">Contract</th>
                                             <th class="fw-110">Short Description </th>
                                             <th>Location </th>
@@ -151,7 +178,7 @@
                                             <th>Department </th>
                                             <th>Category </th>                                           
                                             <th>Status </th>                                           
-                                            <th class="no-sort">Action</th>
+                                            <th class="nosort">Action</th>
                                             <!-- <th>Project ID</th> -->
 <!--                                             <th>Work</th> -->
 <!--                                             <th>Date </th> -->
@@ -363,7 +390,7 @@
                             var contract_short_name = '';
                             if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
                             
-    	                   	rowArray.push($.trim(val.safety_id));
+    	                   	/* rowArray.push($.trim(val.safety_id)); */
     	                   	/* rowArray.push($.trim(val.project_id_fk)); */
     	                   	/* rowArray.push($.trim(val.work_id_fk) + workName); */
     	                   	rowArray.push($.trim(val.contract_id_fk) + contract_short_name);

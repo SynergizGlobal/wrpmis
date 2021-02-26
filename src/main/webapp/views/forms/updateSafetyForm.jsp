@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Safety Incidents</title>
+    <title>Update Safety Incident</title>
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
 	 
@@ -52,7 +52,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Update Safety Incidents</h6>
+                                <h6>Update Safety Incident</h6>
                             </div>
                         </span>
                     </div>
@@ -222,22 +222,21 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <!-- //row 7 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field ">
-                                    <div class="row">
-                                        <div class="col s12 m4 input-field ">
-                                            <input id="title" name="title" type="text" class="validate" value="${safety.title }">
-		                                    <label for="title">Short Description <span class="required">*</span></label>
-		                                    <span id="titleError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col s12 m8 input-field">
-                                            <input id="description" name="description" type="text" class="validate" value="${safety.description }">
-		                                    <label for="description">Full Description<span class="required">*</span></label>
-		                                    <span id="descriptionError" class="error-msg" ></span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="col s12 m8 input-field ">                                   
+                                      <textarea id="title" name="title" class="materialize-textarea validate" data-length="100">${safety.title }</textarea>
+	                                  <label for="title">Short Description <span class="required">*</span></label>
+	                                  <span id="titleError" class="error-msg" ></span>
+                                 </div>
+                                 <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                      <div class="col s12 m8 input-field">
+										<textarea id="description" name="description" class="materialize-textarea validate" data-length="1000">${safety.description }</textarea>                                            
+	                                    <label for="description">Full Description<span class="required">*</span></label>
+	                                    <span id="descriptionError" class="error-msg" ></span>
+                                      </div>                                    
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
@@ -355,16 +354,18 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             <div class="row">
-                                <!-- //row 7 -->
                                 <div class="col m2 hide-on-small-only"></div>
-
-                                <div class="col s12 m4 input-field">
-                                    <input id="corrective_measure_short_term" name="corrective_measure_short_term" type="text" class="validate" value="${safety.corrective_measure_short_term }">
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="corrective_measure_short_term" name="corrective_measure_short_term" class="materialize-textarea validate" data-length="1000">${safety.corrective_measure_short_term }</textarea>  
                                     <label for="corrective_measure_short_term">Corrective Measure (Short Term) </label>
                                     <span id="corrective_measure_short_termError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="corrective_measure_long_term" name="corrective_measure_long_term" type="text" class="validate" value="${safety.corrective_measure_long_term }">
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                               		<textarea id="corrective_measure_long_term" name="corrective_measure_long_term" class="materialize-textarea validate" data-length="1000">${safety.corrective_measure_long_term }</textarea>  
                                     <label for="corrective_measure_long_term">Corrective Measure (Long Term) </label>
                                     <span id="corrective_measure_long_termError" class="error-msg" ></span>
                                 </div>

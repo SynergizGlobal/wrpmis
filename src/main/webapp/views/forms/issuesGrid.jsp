@@ -110,12 +110,6 @@
                                    <option value="">Select</option>                                      
                                </select>
                           </div>
-                          <div class="col s12 m4 input-field">
-                            <p class="searchable_label">HOD </p>
-                               <select id="hod_fk" name="hod_fk" onchange="getIssues();" class="searchable">
-                                   <option value="">Select</option>                                      
-                               </select>
-                          </div>
                            <div class="col s12 m4 input-field">
                              <p class="searchable_label">Contract</p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="getIssues();" class="searchable">
@@ -125,6 +119,13 @@
 		                             </c:forEach> --%>
                                  </select>                                                               
                            </div>
+                           
+                          <div class="col s12 m4 input-field">
+                            <p class="searchable_label">HOD </p>
+                               <select id="hod" name="hod" onchange="getIssues();" class="searchable">
+                                   <option value="">Select</option>                                      
+                               </select>
+                          </div>
                            </div>
                         </div>
                        
@@ -190,28 +191,6 @@
                                     </thead>
                                     <tbody>
 
-                                        <!-- <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                           
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="Issues_new.html"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr> -->
-
                                     </tbody>
 
                                 </table>
@@ -253,7 +232,7 @@
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
          <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-          <input type="hidden" name="responsible_person" id="exportResponsible_person" />
+          <input type="hidden" name="hod" id="exportHod" />
 	</form>
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -309,7 +288,7 @@
         	$("#department_fk").val("");
         	$("#category_fk").val("");
         	$("#status_fk").val("");  
-        	$("#responsible_person").val("");  
+        	$("#hod").val("");  
         	$(".searchable").select2();
         	getIssues();
         }
@@ -321,14 +300,14 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
         	
         	getWorksListFilter();
         	getContractsListFilter();
         	getDepartmentsListFilter();
         	getCategoryListFilter();
         	getStatusListFilter();
-        	getResponsiblePersonsListFilter();
+        	getHODListFilter();
          	
          	table = $('#datatable-issues').DataTable();
     		 
@@ -365,7 +344,7 @@
     		
     		table.state.clear();		
     	 
-    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",type:"POST",data:myParams,success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
@@ -437,11 +416,11 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
          	
             if ($.trim(work_id_fk) == "") {
                 $("#work_id_fk option:not(:first)").remove();
-         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInIssue",
                     data: myParams, cache: false,
@@ -472,11 +451,11 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
 
             if ($.trim(contract_id_fk) == "") {
                 $("#contract_id_fk option:not(:first)").remove();
-        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInIssue",
                     data: myParams, cache: false,
@@ -510,11 +489,11 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
 
             if ($.trim(department_fk) == "") {
                 $("#department_fk option:not(:first)").remove();
-        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInIssue",
                     data: myParams, cache: false,
@@ -544,11 +523,11 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
 
             if ($.trim(category_fk) == "") {
                  $("#category_fk option:not(:first)").remove();
-         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInIssue",
                      data: myParams, cache: false,
@@ -578,11 +557,11 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
 
             if ($.trim(status_fk) == "") {
                  $("#status_fk option:not(:first)").remove();
-         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInIssue",
                      data: myParams, cache: false,
@@ -604,7 +583,7 @@
              }
         }
         
-        function getResponsiblePersonsListFilter() {
+        function getHODListFilter() {
          	$(".page-loader").show();
 
         	var work_id_fk = $("#work_id_fk").val();
@@ -612,20 +591,20 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
 
-            if ($.trim(responsible_person) == "") {
-                 $("#responsible_person option:not(:first)").remove();
-         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,responsible_person : responsible_person };
+            if ($.trim(hod) == "") {
+                 $("#hod option:not(:first)").remove();
+         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getResponsiblePersonsListFilterInIssue",
+                     url: "<%=request.getContextPath()%>/ajax/getHODListFilterInIssue",
                      data: myParams, cache: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
                             	 var user_name = '';
                              	if ($.trim(val.user_name) != '') { user_name = ' - ' + $.trim(val.user_name) } 
-                           	 	$("#responsible_person").append('<option value="' + val.responsible_person + '">' + $.trim(val.responsible_person) + user_name +'</option>');
+                           	 	$("#hod").append('<option value="' + val.designation + '">' + $.trim(val.designation) + user_name +'</option>');
                              });
                          }
                          $('.searchable').select2();
@@ -651,10 +630,10 @@
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
-        	var responsible_person = $("#responsible_person").val();
+        	var hod = $("#hod").val();
           	 
         	$("#exportWork_id_fk").val(work_id_fk);
-          	$("#exportResponsible_person").val(responsible_person);
+          	$("#exportHod").val(hod);
           	$("#exportContract_id_fk").val(contract_id_fk);
           	$("#exportDepartment_fk").val(department_fk);
           	$("#exportCategory_fk").val(category_fk);

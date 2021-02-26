@@ -181,7 +181,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY status_fk DESC";
+			qry = qry + " ORDER BY s.date DESC";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

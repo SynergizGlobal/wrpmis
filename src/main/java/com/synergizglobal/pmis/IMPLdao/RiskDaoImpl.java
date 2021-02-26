@@ -324,10 +324,13 @@ public class RiskDaoImpl implements RiskDao{
 					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
 					"left join project p on w.project_id_fk = p.project_id " +
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
-					"where risk_id_pk is not null and priority_fk <> 'Accepted' "+
-					"and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
+					"where risk_id_pk is not null and priority_fk <> 'Accepted' ";
+					//+"and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
 			
-			int arrSize = 0;			
+			int arrSize = 0;	
+			if(!StringUtils.isEmpty(obj) && StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				qry = qry + " and sub_work = ?";
 				arrSize++;
@@ -441,7 +444,8 @@ public class RiskDaoImpl implements RiskDao{
 					"from risk r " + 
 					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
-					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk) ";
+					//"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk) ";
+					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {

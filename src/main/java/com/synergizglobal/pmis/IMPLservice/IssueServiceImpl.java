@@ -108,5 +108,10 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getContractsListForIssueForm(Issue obj) throws Exception {
 		return issueDao.getContractsListForIssueForm(obj);
 	}
+
+	@Override
+	public List<Issue> getHODListFilterInIssue(Issue obj) throws Exception {
+		return issueDao.getHODListFilterInIssue(obj);
+	}
 	
 }

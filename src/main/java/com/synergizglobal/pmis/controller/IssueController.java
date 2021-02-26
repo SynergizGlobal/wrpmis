@@ -170,6 +170,19 @@ public class IssueController {
 		return objList;
 	}
 	
+	@RequestMapping(value = "/ajax/getHODListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getHODListFilterInIssue(@ModelAttribute Issue obj) {
+		List<Issue> objList = null;
+		try {
+			objList = issueService.getHODListFilterInIssue(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHODListFilterInIssue : " + e.getMessage());
+		}
+		return objList;
+	}
+	
 	@RequestMapping(value = "/ajax/getIssuesList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Issue> getIssuesList(@ModelAttribute Issue obj) {

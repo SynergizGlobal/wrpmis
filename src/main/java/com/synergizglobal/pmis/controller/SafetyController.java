@@ -166,6 +166,19 @@ public class SafetyController {
 		return objList;
 	}
 	
+	@RequestMapping(value = "/ajax/getHODListFilterInSafety", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getHODListFilterInSafety(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getHODListFilterInSafety(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHODListFilterInSafety : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/ajax/getSafetyList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Safety> getSafetyList(@ModelAttribute Safety obj) {

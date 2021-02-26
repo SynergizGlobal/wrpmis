@@ -44,4 +44,6 @@ public interface IssueDao {
 
 	List<Issue> getContractsListForIssueForm(Issue obj) throws Exception;
 
+	List<Issue> getHODListFilterInIssue(Issue obj) throws Exception;
+
 }

@@ -27,8 +27,6 @@ import com.synergizglobal.pmis.Idao.IssueDao;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
-import com.synergizglobal.pmis.model.Issue;
-import com.synergizglobal.pmis.model.Issue;
 
 @Repository
 public class IssueDaoImpl implements IssueDao {
@@ -50,6 +48,7 @@ public class IssueDaoImpl implements IssueDao {
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "LEFT OUTER JOIN department d ON i.department_fk  = d.department "
@@ -64,8 +63,8 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				qry = qry + " and responsible_person = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -90,8 +89,8 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				pValues[i++] = obj.getResponsible_person();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
@@ -140,6 +139,105 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			String qry = "select category from issue_category";			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Issue> getDepartmentList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select department as department_fk,department_name from department";			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getRailwayList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT railway_id,railway_name from railway";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Issue> getProjectsListForIssueForm(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry ="select project_id as project_id_fk,project_name from project order by project_id asc ";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getWorkListForIssueForm(Issue obj) throws Exception {
+		List<Issue> objsList = new ArrayList<Issue>();
+		try {
+			String qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
+					+ "from `work` w "
+					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + " order by work_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}	
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getContractsListForIssueForm(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk "
+					+ "from contract "
+					+ "where contract_id is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry + " order by contract_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -287,29 +385,7 @@ public class IssueDaoImpl implements IssueDao {
 		return false;
 	}
 
-	@Override
-	public List<Issue> getDepartmentList() throws Exception {
-		List<Issue> objsList = null;
-		try {
-			String qry = "select department as department_fk,department_name from department";			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Issue> getRailwayList() throws Exception {
-		List<Issue> objsList = null;
-		try {
-			String qry = "SELECT railway_id,railway_name from railway";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
+	
 	
 	@Override
 	public List<Issue> getContractsListFilter(Issue obj) throws Exception {
@@ -318,6 +394,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -341,10 +418,11 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and i.department_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				qry = qry + " and responsible_person = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			qry = qry + " GROUP BY contract_id_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -364,10 +442,10 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				pValues[i++] = obj.getResponsible_person();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
 			}
-			qry = qry + " GROUP BY contract_id_fk";
+			
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -384,6 +462,7 @@ public class IssueDaoImpl implements IssueDao {
 					+ "LEFT OUTER JOIN department d ON i.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where i.department_fk is not null and i.department_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -407,10 +486,11 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and i.department_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				qry = qry + " and responsible_person = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			qry = qry + " GROUP BY i.department_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -430,10 +510,10 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				pValues[i++] = obj.getResponsible_person();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
 			}
-			qry = qry + " GROUP BY i.department_fk";
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -448,6 +528,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT category_fk from issue i "
 			+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 			+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+			+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 			+ " where category_fk is not null and category_fk <> '' ";
 			
 			int arrSize = 0;
@@ -472,10 +553,11 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and i.department_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				qry = qry + " and responsible_person = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			qry = qry + " GROUP BY category_fk ";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -495,11 +577,11 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				pValues[i++] = obj.getResponsible_person();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
 			}
 			
-			qry = qry + " GROUP BY category_fk ";
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -514,6 +596,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT status_fk from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where status_fk is not null and status_fk <> '' ";
 			
 			int arrSize = 0;
@@ -538,10 +621,11 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and i.department_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				qry = qry + " and responsible_person = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			qry = qry + " GROUP BY status_fk ";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -561,11 +645,11 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				pValues[i++] = obj.getResponsible_person();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
 			}
 			
-			qry = qry + " GROUP BY status_fk ";
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -577,9 +661,11 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getWorksListFilter(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT work_id as work_id_fk,w.work_short_name from issue i "
+			String qry = "SELECT work_id as work_id_fk,w.work_short_name "
+					+ "from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where work_id_fk is not null and work_id_fk <> '' ";
 			
 			int arrSize = 0;
@@ -604,10 +690,11 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and i.department_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				qry = qry + " and responsible_person = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			qry = qry + " GROUP BY work_id_fk ";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -627,11 +714,11 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
-				pValues[i++] = obj.getResponsible_person();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
 			}
 			
-			qry = qry + " GROUP BY work_id_fk ";
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -675,6 +762,7 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and responsible_person = ?";
 				arrSize++;
 			}
+			qry = qry + " GROUP BY responsible_person ";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -698,87 +786,82 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getResponsible_person();
 			}
 			
-			qry = qry + " GROUP BY responsible_person ";
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
-
+	
 	@Override
-	public List<Issue> getProjectsListForIssueForm(Issue obj) throws Exception {
+	public List<Issue> getHODListFilterInIssue(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry ="select project_id as project_id_fk,project_name from project order by project_id asc ";
-				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Issue>(Issue.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Issue> getWorkListForIssueForm(Issue obj) throws Exception {
-		List<Issue> objsList = new ArrayList<Issue>();
-		try {
-			String qry = "select work_id as work_id_fk ,work_name,work_short_name,project_id_fk,project_name "
-					+ "from `work` w "
-					+ "LEFT OUTER JOIN `project` p ON project_id_fk = project_id "
-					+ "where work_id is not null ";
-					
+			String qry = "SELECT hod_user_id_fk,u.designation "
+					+ "from issue i "
+					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
+					+ "where hod_user_id_fk is not null and hod_user_id_fk <> '' ";
+			
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
-				arrSize++;
-			}
-			
-			qry = qry + " order by work_id asc";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				pValues[i++] = obj.getProject_id_fk();
-			}	
-			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
-			
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<Issue> getContractsListForIssueForm(Issue obj) throws Exception {
-		List<Issue> objsList = null;
-		try {
-			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk "
-					+ "from contract "
-					+ "where contract_id is not null ";
-			
-			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " order by contract_id asc";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				qry = qry + " and category_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and i.department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ?";
+				arrSize++;
+			}
+			qry = qry + " group by u.designation";
 			
 			Object[] pValues = new Object[arrSize];
 			
-			int i = 0;			
+			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-				
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
-				
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
+				pValues[i++] = obj.getCategory_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
+	
 
 }

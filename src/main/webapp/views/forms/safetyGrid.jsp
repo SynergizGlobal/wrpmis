@@ -119,11 +119,8 @@
 		                            </div>
 		                            <div class="col s12 m4 input-field">
 		                            <p class="searchable_label">HOD</p>
-		                                <select id="hod_fk" name="hod_fk" onchange="getSafetyList();" class="searchable">
+		                                <select id="hod_user_id_fk" name="hod_user_id_fk" onchange="getSafetyList();" class="searchable">
 		                                     <option value="" >Select</option>
-		                                     <%-- <c:forEach var="obj" items="${departments }">
-				                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
-				                             </c:forEach> --%>
 		                                 </select>
 		                            </div>
                         		</div>
@@ -179,55 +176,10 @@
                                             <th>Category </th>                                           
                                             <th>Status </th>                                           
                                             <th class="nosort">Action</th>
-                                            <!-- <th>Project ID</th> -->
-<!--                                             <th>Work</th> -->
-<!--                                             <th>Date </th> -->
-<!--                                             <th> Reported <br> By </th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                           
-                                            <td class="last-column"> <a href="safety_new.html"
-                                                    class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                           
-                                            <td class="last-column"> <a href="safety_new.html"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                                <a href="#" class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-trash"></i></a>
-                                            </td>
-
-                                        </tr> -->
+                                        
 
                                     </tbody>
 
@@ -270,6 +222,7 @@
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+         <input type="hidden" name="hod_user_id_fk" id="exportHod_user_id_fk" />
 	</form>
 
 
@@ -325,6 +278,7 @@
         	$("#department_fk").val("");
         	$("#category_fk").val("");
         	$("#status_fk").val("");
+        	$("#hod_user_id_fk").val("");
         	getSafetyList();
         }
             
@@ -335,12 +289,14 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
         	
         	getWorksListFilter();
         	getContractsListFilter();
         	getDepartmentsListFilter();
         	getCategoryListFilter();
         	getStatusListFilter();
+        	getHODListInSafetyFilter();
         	
          	table = $('#datatable-safety').DataTable();
     		 
@@ -377,7 +333,7 @@
     		
     		table.state.clear();		
     	 
-    		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+    		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getSafetyList",type:"POST",data:myParams,success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
@@ -447,12 +403,13 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-  	       
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	
          	$(".page-loader").show();
 
             if ($.trim(work_id_fk) == "") {
                 $("#work_id_fk option:not(:first)").remove();
-         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInSafety",
                     data: myParams, cache: false,
@@ -482,12 +439,13 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
   	       
          	$(".page-loader").show();
 
             if ($.trim(contract_id_fk) == "") {
                 $("#contract_id_fk option:not(:first)").remove();
-         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInSafety",
                     data: myParams, cache: false,
@@ -519,12 +477,13 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
   	       
          	$(".page-loader").show();
 
             if ($.trim(department_fk) == "") {
                 $("#department_fk option:not(:first)").remove();
-         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInSafety",
                     data: myParams, cache: false,
@@ -552,12 +511,13 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
   	       
          	$(".page-loader").show();
 
             if ($.trim(category_fk) == "") {
                  $("#category_fk option:not(:first)").remove();
-         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInSafety",
                      data: myParams, cache: false,
@@ -585,12 +545,13 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
   	       
          	$(".page-loader").show();
 
             if ($.trim(status_fk) == "") {
                  $("#status_fk option:not(:first)").remove();
-         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk };
+         		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInSafety",
                      data: myParams, cache: false,
@@ -612,6 +573,39 @@
              }
         }
         
+        function getHODListInSafetyFilter(){
+        	$(".page-loader").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+           	
+           	if ($.trim(hod_user_id_fk) == "") {
+           		$("#hod_user_id_fk option:not(:first)").remove();
+	           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
+	            $.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/getHODListFilterInSafety",
+	                   data: myParams, cache: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+	                           $.each(data, function (i, val) {
+	                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '">' + $.trim(val.designation) +'</option>');
+	                           });
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			  $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	            });
+           	}else{
+           		$(".page-loader").hide();
+           	}
+        }
+        
         
         function getSafety(safety_id) {
     		$("#safety_id").val(safety_id);
@@ -624,12 +618,14 @@
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
           	 
           	$("#exportContract_id_fk").val(contract_id_fk);
           	$("#exportWork_id_fk").val(work_id_fk);
           	$("#exportDepartment_fk").val(department_fk);
           	$("#exportCategory_fk").val(category_fk);
           	$("#exportStatus_fk").val(status_fk);
+          	$("#exportHod_user_id_fk").val(hod_user_id_fk);
           	$("#exportSafetyForm").submit();
        	}
     </script>

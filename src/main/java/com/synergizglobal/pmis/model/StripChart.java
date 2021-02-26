@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 public class StripChart {
-	private String strip_chart_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
+	private String strip_chart_id,activity_id_fk,activity_id,strip_chart_component_id_fk,strip_chart_activity_id_fk,planned_start,planned_finish,actual_start,actual_finish,unit_fk,scope,completed,component_details,remarks,
 	strip_chart_activity_id,strip_chart_activity_name, strip_chart_component,strip_chart_structure, strip_chart_component_id,strip_chart_component_id_name,contract_id_fk,
 	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longitude,activity_description,milestone_name,
 	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,id,total_scope,
@@ -14,10 +14,34 @@ public class StripChart {
 
 	private MultipartFile stripChartFile,uploadFile;
 	
-	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs;
+	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids;
 	
 	
 	
+	public String getActivity_id_fk() {
+		return activity_id_fk;
+	}
+
+	public void setActivity_id_fk(String activity_id_fk) {
+		this.activity_id_fk = activity_id_fk;
+	}
+
+	public String getActivity_id() {
+		return activity_id;
+	}
+
+	public void setActivity_id(String activity_id) {
+		this.activity_id = activity_id;
+	}
+
+	public String[] getActivity_ids() {
+		return activity_ids;
+	}
+
+	public void setActivity_ids(String[] activity_ids) {
+		this.activity_ids = activity_ids;
+	}
+
 	public String getMilestone_fk() {
 		return milestone_fk;
 	}

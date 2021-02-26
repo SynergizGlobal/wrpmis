@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 
-       <style>
+    <style>
         #revTable .datepicker~button,
         #example4 .datepicker~button {
             top: 30px;
@@ -67,7 +67,8 @@
             text-align: center;
         }
         td{
-        position:relative}
+        	position:relative
+        }
 
         /* change radio colors  */
         [type="radio"]:checked+span::after,
@@ -80,23 +81,29 @@
         [type="radio"].with-gap:checked+span::after {
             border: 2px solid #2E58AD !important;
         }
-          .input-field .searchable_label {
+        .input-field .searchable_label {
             font-size: 0.9rem;
         }
         p.prio{
-        	    margin-top: -10px !important;
+       	    margin-top: -10px !important;       	    
+        }
+        p.priokind{
+        	font-weight:600;
+        	margin-top: 10px !important;     
         }
         #revTable .select2-container{
 	        max-width:80px;
 	        text-align:left;
 	        margin-top:10px;
-        }
-        
+        }        
         .my-error-class {
    			 color:red;
 		}
 		.my-valid-class {
    			 color:green;
+		}
+		.input-field>.datepicker ~ label:not(.label-icon).active {
+		    transform: translateY(-11px) scale(.8);
 		}
     </style>
 </head>
@@ -190,8 +197,8 @@
                                 </c:if>
                                 <c:if test="${action eq 'edit'}">
                                 <div class="col s12 m4 input-field"> 
-									    <p class="searchable_label"> Contract <span class="required">*</span></p>
 	                                    <input type="text" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
+									    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
 	                                </div>
                                  </c:if>
                                 <div class="col s12 m4 input-field">
@@ -326,7 +333,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="contractor_drawing_no" name="contractor_drawing_no" type="text" class="validate" value="${designDetails.contractor_drawing_no }">
-                                    <label for="contractor_drawing_no"> Contractor Drawing No </label>
+                                    <label for="contractor_drawing_no">Contractor Drawing No </label>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="consultant_submission" name="consultant_submission" type="text" class="validate datepicker" value="${designDetails.consultant_submission }">
@@ -353,10 +360,12 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>                                
+                            <div class="row" style="margin-bottom:20px">
+                                <div class="col m2 hide-on-small-only"></div>  
+                                <div class="col s12 m4 input-field center-align">
+                                    <p class="priokind">Divisional submission ?</p>   
+                                </div>                           
                                 <div class="col s12 m4 input-field">
-                                    <p class="prio">Divisional submission ?</p>
                                     <p class="radiogroup">
                                         <label>
                                             <input class="with-gap" name="divisional_submission_fk" type="radio"
@@ -371,9 +380,11 @@
                                         </label>
                                     </p>
                                 </div>
-                                <div class="col m4 hide-on-small-only"></div>
+                                <div class="col m2 hide-on-small-only"></div>
                              </div>
-                              <div class="row divisional_submission_fk" style="display:none;">
+                             
+                              <div class="divisional_submission_fk" style="display:none;">
+                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>      
                                 <div class="col s12 m8 ">
                                 	<div class="row">                                
@@ -398,12 +409,33 @@
 		                             </div>
                            		</div>
                                 <div class="col m2 hide-on-small-only"></div>
+                               </div>
+                               <div class="row">
+                                	<div class="col m2 hide-on-small-only"></div>                                         
+	                                <div class="col s12 m4 input-field" >
+	                                    <input id="query_raised_by_division" name="query_raised_by_division" type="text" class="validate datepicker">
+	                                    <label for="query_raised_by_division">Query Raised By Division </label>
+	                                    <button type="button" id="query_raised_by_division_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="query_raised_by_divisionError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field" >
+	                                    <input id="query_replied_to_division" name="query_replied_to_division" type="text" class="validate datepicker" >
+	                                    <label for="query_replied_to_division">Query Replied to  Division  </label>
+	                                    <button type="button" id="query_replied_to_division_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="query_replied_to_divisionError" class="error-msg" ></span>
+	                                </div>		                            
+                                	<div class="col m2 hide-on-small-only"></div>
+                              </div>
 							</div>
 							
-                            <div class="row">
-                                <div class="col m4 hide-on-small-only"></div>                                
-                                <div class="col s12 m4 input-field">
-                                    <p class="prio">HQ submission ?</p>
+                             <div class="row" style="margin-bottom:20px">
+                                <div class="col m2 hide-on-small-only"></div>   
+                                <div class="col s12 m4 input-field center-align">
+                                    <p class="priokind">HQ submission ?</p>  
+                                </div>                               
+                                <div class="col s12 m4 input-field">                                    
                                     <p class="radiogroup">
                                         <label>
                                             <input class="with-gap" name="hq_submission_fk" type="radio"
@@ -418,10 +450,11 @@
                                         </label>
                                     </p>
                                 </div>
-                                <div class="col m4 hide-on-small-only"></div>  
+                                <div class="col m2 hide-on-small-only"></div>  
                             </div>           
                                  
-                            <div class="row hq_submission_fk" style="display:none;">
+                            <div class="hq_submission_fk" style="display:none;">
+                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>   
                                 <div class="col s12 m8 ">
                                 	<div class="row">           
@@ -446,8 +479,87 @@
 		                             </div>
 		                        </div>
                                 <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                	<div class="col m2 hide-on-small-only"></div>                                         
+	                                <div class="col s12 m4 input-field" >
+	                                    <input id="query_raised_by_hq" name="query_raised_by_hq" type="text" class="validate datepicker">
+	                                    <label for="query_raised_by_hq">Query Raised By HQ </label>
+	                                    <button type="button" id="query_raised_by_hq_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="query_raised_by_hqError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field" >
+	                                    <input id="query_replied_to_hq" name="query_replied_to_hq" type="text" class="validate datepicker" >
+	                                    <label for="query_replied_to_hq">Query Replied to  HQ </label>
+	                                    <button type="button" id="query_replied_to_hq_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="query_replied_to_hqError" class="error-msg" ></span>
+	                                </div>		                            
+                                	<div class="col m2 hide-on-small-only"></div>
+                              </div>
                             </div>
                             
+                            <div class="row" style="margin-bottom:20px">
+                            <div class="col m2 hide-on-small-only"></div>   
+                            <div class="col s12 m4 input-field center-align">
+                                <p class="priokind">CRS Sanction required ?</p>  
+                            </div>                               
+                            <div class="col s12 m4 input-field">                                    
+                                <p class="radiogroup">
+                                    <label>
+                                        <input class="with-gap" name="crs_sanction_required_fk" type="radio"
+                                            value="Yes" <c:if test="${designDetails.hq_submission_fk eq 'Yes'}">checked</c:if> />
+                                        <span>Yes</span>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input class="with-gap" name="crs_sanction_required_fk" type="radio"
+                                            value="No"  <c:if test="${designDetails.hq_submission_fk eq 'No'}">checked</c:if>/>
+                                        <span>No</span>
+                                    </label>
+                                </p>
+                            </div>
+                            <div class="col m2 hide-on-small-only"></div>  
+                        </div>
+                          <div class="crs_sanction_required_fk" style="display:none;">
+                            	<div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>                               
+		                                <div class="col s12 m4 input-field " >
+		                                    <input id="submitted_for_crs_sanction" name="submitted_for_crs_sanction" type="text" class="validate datepicker" >
+		                                    <label for="submitted_for_crs_sanction">Submitted for CRS Sanction </label>
+		                                    <button type="button" id="submitted_for_crs_sanction_icon"><i
+		                                            class="fa fa-calendar"></i></button>
+		                                    <span id="submitted_for_crs_sanctionError" class="error-msg" ></span>
+		                                </div>
+		                                <div class="col s12 m4 input-field ">
+		                                    <input id="query_raised_for_crs_sanction" name="query_raised_for_crs_sanction" type="text" class="validate datepicker" >
+		                                    <label for="query_raised_for_crs_sanction">Query Raised for CRS  Sanction </label>
+		                                    <button type="button" id="query_raised_for_crs_sanction_icon"><i
+		                                            class="fa fa-calendar"></i></button>
+		                                    <span id="query_raised_for_crs_sanctionError" class="error-msg" ></span>
+		                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+                                </div>
+                                <div class="row">
+                                	<div class="col m2 hide-on-small-only"></div>                                         
+	                                <div class="col s12 m4 input-field" >
+	                                    <input id="query_replied_for_crs_sanction" name="query_replied_for_crs_sanction" type="text" class="validate datepicker" >
+	                                    <label for="query_replied_for_crs_sanction">Query Replyied for CRS Sanction </label>
+	                                    <button type="button" id="query_replied_for_crs_sanction_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="query_replied_for_crs_sanctionError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field" >
+	                                    <input id="crs_sanction_approved" name="crs_sanction_approved" type="text" class="validate datepicker" >
+	                                    <label for="crs_sanction_approved">CRS Sanction Approved </label>
+	                                    <button type="button" id="crs_sanction_approved_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="crs_sanction_approvedError" class="error-msg" ></span>
+	                                </div>		                            
+                                	<div class="col m2 hide-on-small-only"></div>
+                              </div>
+                            </div>   
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -688,7 +800,7 @@
                                                     </c:forEach>
                                                 </select>
                                             </div>
-                                            <div class="col s12 m6 input-field" style="padding-top: 24px;">
+                                            <div class="col s12 m6 input-field" style="padding-top: 18px;">
                                                 <p class="prio">Priority</p>
                                                 <p class="radiogroup">
                                                     <label>
@@ -840,6 +952,16 @@
                 }
             });
             
+            $('input[name=crs_sanction_required_fk]').change(function () {
+                var radioval = $('input[name=crs_sanction_required_fk]:checked').val();
+                if (radioval == 'Yes') {
+                    $('.crs_sanction_required_fk').css("display", "block");
+                }
+                else if (radioval == 'No') {
+                    $('.crs_sanction_required_fk').css("display", "none");
+                }
+            });
+            
             var divisional_submission_fk = "${designDetails.divisional_submission_fk}";
             if($.trim(divisional_submission_fk) == 'Yes' ){
             	$('.divisional_submission_fk').css("display", "block");
@@ -850,6 +972,10 @@
             	$('.hq_submission_fk').css("display", "block");
             }
             
+            var crs_sanction_required_fk = "${designDetails.hq_submission_fk}";
+            if($.trim(crs_sanction_required_fk) == 'Yes' ){
+            	$('.crs_sanction_required_fk').css("display", "block");
+            }
             
             var projectId = "${designDetails.project_id_fk}";
             if($.trim(projectId) != ''){

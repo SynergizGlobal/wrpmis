@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,13 +19,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.ActivitiesUploadDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Activity;
-import com.synergizglobal.pmis.model.StripChart;
 
 @Repository
 public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
@@ -37,129 +43,19 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	JdbcTemplate jdbcTemplate ;
 	
 	@Autowired
-	DataSourceTransactionManager transactionManager;	
-	
+	DataSourceTransactionManager transactionManager;
+
+
 
 	@Override
-	public List<StripChart> getWorksListFilter(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
+	public List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception {
+		List<Activity> objsList = null;
 		try {
-			String qry = "select c.work_id_fk,w.work_id,w.work_name,w.work_short_name "
-					+ "from contract c "
-					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM strip_chart_general scv WHERE scv.strip_chart_id IS NOT NULL ";
-					
+			String qry = "select work_id,work_name,work_short_name "
+					+ "from work "
+					+ "where work_id is not null " ;
 			
-			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and c.work_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
-				arrSize++;
-			}
-			
-			qry = qry + " GROUP BY scv.contract_id_fk )";
-			
-			qry = qry + " GROUP BY c.work_id_fk ";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				pValues[i++] = obj.getStrip_chart_component();
-			}
-			
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<StripChart> getContractsListFilter(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select scv.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name "
-					+ "from strip_chart_general scv "
-					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "	
-					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where scv.contract_id_fk is not null " ;
-			
-			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and c.work_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
-				arrSize++;
-			}
-			
-			qry = qry + " GROUP BY scv.contract_id_fk ";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				pValues[i++] = obj.getStrip_chart_component();
-			}
-			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
 				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -168,360 +64,54 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	}
 
 	@Override
-	public List<StripChart> getStructureListFilter(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
+	public List<Activity> getContractsInActivitiesUpload(Activity obj) throws Exception {
+		List<Activity> objsList = null;
 		try {
-			String qry = "select scv.fob_id_fk as strip_chart_structure "
-					+ "from strip_chart_general scv "
-					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "	
-					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where scv.fob_id_fk is not null " ;
+			String qry = "select contract_id,contract_name,contract_short_name "
+					+ "from contract "
+					+ "where contract_id is not null " ;
 			
 			int arrSize = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and c.work_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
-				arrSize++;
-			}
-			
-			qry = qry + " GROUP BY scv.fob_id_fk ";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				pValues[i++] = obj.getStrip_chart_component();
-			}
-			
-			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<StripChart> getComponentIdsListFilter(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select scv.component_id as strip_chart_component_id,scv.component_id_name as strip_chart_component_id_name "
-					+ "from strip_chart_general scv "
-					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "	
-					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where scv.component_id is not null " ;
-			
-			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and c.work_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
-				arrSize++;
-			}
-			
-			qry = qry + " GROUP BY scv.component_id ";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				pValues[i++] = obj.getStrip_chart_component();
-			}
-			
-			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public List<StripChart> getComponentsListFilter(StripChart obj) throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select scv.component as strip_chart_component "
-					+ "from strip_chart_general scv "
-					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "	
-					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where scv.component is not null " ;
-			
-			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and c.work_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
-				arrSize++;
-			}
-			
-			qry = qry + " GROUP BY scv.component ";
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				pValues[i++] = obj.getStrip_chart_component();
-			}
-			
-			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public int getTotalRecords(StripChart obj, String searchParameter) throws Exception {
-		int totalRecords = 0;
-		try {
-			String qry ="SELECT count(*) as total_records "
-					+ "from strip_chart_general scv " 
-					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "	
-					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where strip_chart_id is not null ";
-			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and c.work_id_fk = ?";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ?";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
-				arrSize++;
-			}
-			
-			
-			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contract_id_fk like ? or c.contract_name like ? or fob_id_fk like ? or component_id_name like ? or component like ? or activity_name like ?)";
-				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
-			}
-			
-			Object[] pValues = new Object[arrSize];
-			
-			int i = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				pValues[i++] = obj.getStrip_chart_component();
-			}
-			
-			if(!StringUtils.isEmpty(searchParameter)) {
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-			}
-			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		return totalRecords;
-	}
-
-	@Override
-	public List<StripChart> getActivitiesList(StripChart obj, Integer startIndex, Integer offset, String searchParameter)
-			throws Exception {
-		List<StripChart> objsList = null;
-		try {
-			String qry = "select strip_chart_id,scv.contract_id_fk as contract_id,c.work_id_fk,c.contract_name,c.contract_short_name, scv.fob_id_fk as strip_chart_structure,component_id as strip_chart_component_id,component as strip_chart_component,component_id_name as strip_chart_component_id_name,activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name,planned_start "  
-					+",planned_finish,IFNULL(NULLIF(scope, '' ), 0) as scope,IFNULL(NULLIF(completed, '' ), 0) as completed,IFNULL(NULLIF(weight, '' ), 0) as weight "
-					+ "from strip_chart_general scv " 
-					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "	
-					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where strip_chart_id is not null ";
-			int arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and c.work_id_fk = ?";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + "and contract_id_fk = ?";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				qry = qry + "and fob_id_fk = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				qry = qry + "and component_id = ? ";
-				arrSize++;
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				qry = qry + "and component = ? ";
-				arrSize++;
-			}
-			
-			
-			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contract_id_fk like ? or c.contract_name like ? or fob_id_fk like ? or component_id_name like ? or component like ? or activity_name like ?)";
-				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
-				arrSize++;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + "and work_id_fk = ? ";
 				arrSize++;
 			}	
 			
-			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " ORDER BY strip_chart_id ASC limit ?,?";
-				arrSize++;
-				arrSize++;
-			}	
+			qry = qry + " GROUP BY contract_id ";
 			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				pValues[i++] = obj.getContract_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())) {
-				pValues[i++] = obj.getStrip_chart_structure_id_fk();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component_id())) {
-				pValues[i++] = obj.getStrip_chart_component_id();
-			}			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_component())) {
-				pValues[i++] = obj.getStrip_chart_component();
-			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}	
 			
-			if(!StringUtils.isEmpty(searchParameter)) {
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
-			}
-			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				pValues[i++] = startIndex;
-				pValues[i++] = offset;
-			}
-			
-			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
+				
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
 	}
 
+	@Override
+	public List<Activity> getStructureTypesInActivitiesUpload(Activity obj) throws Exception {
+		List<Activity> objsList = null;
+		try {
+			String qry = "select structure_type "
+					+ "from structure_type "
+					+ "where structure_type is not null " ;
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@Override
 	public int[] uploadActivities(List<Activity> activityList) throws Exception {
 		Connection con = null;
@@ -632,18 +222,18 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			for (Activity aObj : activityList) {
 				String activity_id = getActivityId(aObj, con);
 				
-				double totalScope = 0;
-				double completedScope = 0;
+				double total_scope = 0;
 				if(!StringUtils.isEmpty(aObj.getScope())) {
-					totalScope = Double.parseDouble(aObj.getScope());
+					total_scope = Double.parseDouble(aObj.getScope());
 				}
+				double completed_scope = 0;
 				if(!StringUtils.isEmpty(aObj.getCompleted())) {
-					completedScope = Double.parseDouble(aObj.getCompleted());
+					completed_scope = Double.parseDouble(aObj.getCompleted());
 				}
 				
 				String actual_start_date = aObj.getActual_start();
 				
-				if(!StringUtils.isEmpty(activity_id) && totalScope != 0 && completedScope != 0 && !StringUtils.isEmpty(actual_start_date)) {					
+				if(!StringUtils.isEmpty(activity_id) && total_scope != 0 && completed_scope != 0 && !StringUtils.isEmpty(actual_start_date)) {					
 					aObj.setActivity_id_fk(activity_id);
 					String deleteQry = "DELETE FROM activity_progress where activity_id_fk = :activity_id_fk ";
 					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(aObj);		 
@@ -652,10 +242,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 						aObj.setActual_finish(dateFormat.format(date));
 					}
 					String progress_date = null;
-					double completed_scope = 0;
-					if(!StringUtils.isEmpty(aObj.getCompleted())) {
-						completed_scope = Double.parseDouble(aObj.getCompleted());
-					}
+					
 					
 					String insert_qry = "INSERT into activity_progress (progress_date,activity_id_fk,completed_scope,attachment_url,remarks,created_date,created_by_user_id_fk) "
 							+"VALUES (?,?,?,?,?,CURRENT_TIMESTAMP,?)";
@@ -663,40 +250,17 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 					
 					for (int i = 0;i < factors.length;i++) {
 						double activity_scope = completed_scope * factors[i];
-						/*Date actual_start = dateFormat.parse(aObj.getActual_start());
-						Date actual_finish = null;
-						Date curr_date = new Date();
-						String now = dateFormat.format(curr_date);
-						if(!StringUtils.isEmpty(aObj.getActual_finish())) {
-							actual_finish = dateFormat.parse(aObj.getActual_finish());
-						}else {
-							actual_finish = dateFormat.parse(now);
-						}
-						long difference = Math.abs(actual_finish.getTime() - actual_start.getTime());
-						int differenceDates = (int) (difference / (24 * 60 * 60 * 1000));
-						
-						//Convert long to String
-						int days = differenceDates + ((i+1)/8);
-						
-						Calendar c = Calendar.getInstance();
-						//Setting the date to the given date
-						c.setTime(actual_start);
-						//Number of Days to add
-						c.add(Calendar.DAY_OF_MONTH, days);  
-						//Date after adding the days to the given date
-						progress_date = dateFormat.format(c.getTime());
-						*/
 						
 						Date curr_date = new Date();
-						String now = dateFormat.format(curr_date);
-				    	String af = null;
+						//String now = dateFormat.format(curr_date);
+				    	String actual_finish = null;
 				    	if(!StringUtils.isEmpty(aObj.getActual_finish())) {
-				    		af = aObj.getActual_finish();
+				    		actual_finish = aObj.getActual_finish();
 						}else {
-							af = dateFormat.format(now);
+							actual_finish = dateFormat.format(curr_date);
 						}
 				    	
-				    	progress_date = getProgressdate(af,i+1,activity_id,con);
+				    	progress_date = getProgressdate(actual_finish,i+1,activity_id,con);
 						
 				    	int p = 1;
 				    	stmt.setString(p++,progress_date);
@@ -727,7 +291,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		return arr;
 	}
 	
-	private String getProgressdate(String af, int i, String activity_id, Connection con) throws Exception {
+	private String getProgressdate(String actual_finish, int i, String activity_id, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String progress_date = null;
@@ -739,7 +303,7 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 			stmt = con.prepareStatement(qry);
 			int k = 1;			
 			
-			stmt.setString(k++, af);
+			stmt.setString(k++, actual_finish);
 			stmt.setInt(k++, i);
 			stmt.setString(k++, activity_id);
 			
@@ -958,50 +522,97 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		}
 		return activity_id;
 	}
+	
+	/**
+	 * @throws Exception ******************************************************************************/
+	
+
 
 	@Override
-	public List<Activity> getWorksInActivitiesUpload(Activity obj) throws Exception {
-		List<Activity> objsList = null;
+	public boolean addFileInActivitiesDataTable(String data_remarks, Activity obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		String activities_data_id = null;		
 		try {
-			String qry = "select work_id,work_name,work_short_name "
-					+ "from work "
-					+ "where work_id is not null " ;
-			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
+			obj.setRemarks(data_remarks);
+			obj.setStatus("Success");
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+			String qry = "INSERT INTO activities_data"
+					+ "(contract_id_fk,structure_type_fk,uploaded_file,status,remarks,uploaded_by_user_id_fk,uploaded_on) "
+					+ "VALUES "
+					+ "(:contract_id_fk,:structure_type_fk,:uploaded_file,:status,:remarks,:uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = template.update(qry, paramSource, keyHolder);
+			if(count > 0) {
+				activities_data_id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setActivities_data_id(activities_data_id);
+				flag = true;
 				
+				MultipartFile file = obj.getUploadFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants2.ACTIVITIES_UPLOAD_FILE_SAVING_PATH ;
+					String fileName = activities_data_id + "_" +file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+					
+					obj.setUploaded_file(fileName);
+					String updateQry = "UPDATE activities_data set uploaded_file= :uploaded_file where activities_data_id= :activities_data_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
+			}
+			transactionManager.commit(status);
 		}catch(Exception e){ 
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
-		return objsList;
+		return flag;
 	}
-
+	
 	@Override
-	public List<Activity> getContractsInActivitiesUpload(Activity obj) throws Exception {
+	public List<Activity> getWorksListFilter(Activity obj) throws Exception {
 		List<Activity> objsList = null;
 		try {
-			String qry = "select contract_id,contract_name,contract_short_name "
-					+ "from contract "
-					+ "where contract_id is not null " ;
+			String qry = "select c.work_id_fk,w.work_id,w.work_name,w.work_short_name "
+					+ "from activities_data ad "
+					+ "left join contract c on ad.contract_id_fk = c.contract_id "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE ad.contract_id_fk IS NOT NULL ";
+					
 			
 			int arrSize = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
-				qry = qry + "and work_id_fk = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and ad.contract_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + "and ad.structure_type_fk = ? ";
 				arrSize++;
 			}	
 			
-			qry = qry + " GROUP BY contract_id ";
+			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
-				pValues[i++] = obj.getWork_id();
-			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
 			
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
-				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -1009,15 +620,149 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 	}
 
 	@Override
-	public List<Activity> getStructureTypesInActivitiesUpload(Activity obj) throws Exception {
+	public List<Activity> getContractsListFilter(Activity obj) throws Exception {
 		List<Activity> objsList = null;
 		try {
-			String qry = "select structure_type "
-					+ "from structure_type "
-					+ "where structure_type is not null " ;
+			String qry = "select ad.contract_id_fk,c.contract_id,c.contract_name,c.contract_short_name "
+					+ "from activities_data ad "
+					+ "left join contract c on ad.contract_id_fk = c.contract_id "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE ad.contract_id_fk IS NOT NULL ";
+					
 			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Activity>(Activity.class));
-				
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and ad.contract_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + "and ad.structure_type_fk = ? ";
+				arrSize++;
+			}	
+			
+			qry = qry + " GROUP BY ad.contract_id_fk ORDER BY ad.contract_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Activity> getStructureTypesListFilter(Activity obj) throws Exception {
+		List<Activity> objsList = null;
+		try {
+			String qry = "select ad.structure_type_fk "
+					+ "from activities_data ad "
+					+ "left join contract c on ad.contract_id_fk = c.contract_id "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE ad.structure_type_fk IS NOT NULL ";
+					
+			
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and ad.contract_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + "and ad.structure_type_fk = ? ";
+				arrSize++;
+			}	
+			
+			qry = qry + " GROUP BY ad.structure_type_fk ORDER BY ad.structure_type_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Activity> getActivitiesUploadFilesList(Activity obj) throws Exception {
+		List<Activity> objsList = null;
+		try {
+			String qry = "select activities_data_id,contract_id_fk,structure_type_fk,uploaded_file,ad.status,ad.remarks,"
+					+ "uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%m-%Y') as uploaded_on,"
+					+ "c.work_id_fk,w.work_id,w.work_name,w.work_short_name,"
+					+ "c.contract_id,c.contract_name,c.contract_short_name "
+					+ "from activities_data ad "
+					+ "left join contract c on ad.contract_id_fk = c.contract_id "
+					+ "left outer join work w on c.work_id_fk = w.work_id "
+					+ "WHERE ad.activities_data_id IS NOT NULL ";
+					
+			
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and c.work_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and ad.contract_id_fk = ? ";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + "and ad.structure_type_fk = ? ";
+				arrSize++;
+			}	
+			
+			qry = qry + " ORDER BY c.work_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Activity>(Activity.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

@@ -1,8 +1,6 @@
 package com.synergizglobal.pmis.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -10,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -39,15 +35,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.ActivitiesUploadService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.ActivitiesPaginationObject;
 import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.FileFormatModel;
-import com.synergizglobal.pmis.model.StripChart;
 
 @Controller
 public class ActivitiesUploadController {
@@ -95,8 +87,6 @@ public class ActivitiesUploadController {
 	}
 	
 	
-	/***************************************************************/
-	
 	@RequestMapping(value = "/ajax/getWorksInActivitiesUpload", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -139,272 +129,6 @@ public class ActivitiesUploadController {
 		return objList;
 	}
 	
-	/***************************************************************/
-
-	@RequestMapping(value = "/ajax/getWorksListFilterInActivitiesUpload", method = { RequestMethod.GET,
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<StripChart> getWorksListFilter(@ModelAttribute StripChart obj) {
-		List<StripChart> objList = null;
-		try {
-			objList = service.getWorksListFilter(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getWorksListFilter : " + e.getMessage());
-		}
-		return objList;
-	}
-
-	@RequestMapping(value = "/ajax/getContractsListFilterInActivitiesUpload", method = { RequestMethod.GET,
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<StripChart> getContractsListFilter(@ModelAttribute StripChart obj) {
-		List<StripChart> objList = null;
-		try {
-			objList = service.getContractsListFilter(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getContractsListFilter : " + e.getMessage());
-		}
-		return objList;
-	}
-
-	@RequestMapping(value = "/ajax/getStructureListFilterInActivitiesUpload", method = { RequestMethod.GET,
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<StripChart> getStructureListFilter(@ModelAttribute StripChart obj) {
-		List<StripChart> objList = null;
-		try {
-			objList = service.getStructureListFilter(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getStructureListFilter : " + e.getMessage());
-		}
-		return objList;
-	}
-
-	@RequestMapping(value = "/ajax/getComponentIdsListFilterInActivitiesUpload", method = { RequestMethod.GET,
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<StripChart> getComponentIdsListFilter(@ModelAttribute StripChart obj) {
-		List<StripChart> objList = null;
-		try {
-			objList = service.getComponentIdsListFilter(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getComponentIdsListFilter : " + e.getMessage());
-		}
-		return objList;
-	}
-
-	@RequestMapping(value = "/ajax/getComponentsListFilterInActivitiesUpload", method = { RequestMethod.GET,
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<StripChart> getComponentsListFilter(@ModelAttribute StripChart obj) {
-		List<StripChart> objList = null;
-		try {
-			objList = service.getComponentsListFilter(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getComponentsListFilter : " + e.getMessage());
-		}
-		return objList;
-	}
-
-	@RequestMapping(value = "/ajax/getActivitiesList", method = { RequestMethod.POST, RequestMethod.GET })
-	public void getActivitiesList(@ModelAttribute StripChart obj, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) throws IOException {
-		PrintWriter pw = null;
-		//JSONObject json = new JSONObject();
-		String json2 = null;
-		String userId = null;
-		String userName = null;
-		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
-
-			pw = response.getWriter();
-			//Fetch the page number from client
-			Integer pageNumber = 0;
-			Integer pageDisplayLength = 0;
-			if (null != request.getParameter("iDisplayStart")) {
-				pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
-				pageNumber = (Integer.valueOf(request.getParameter("iDisplayStart")) / pageDisplayLength) + 1;
-			}
-			//Fetch search parameter
-			String searchParameter = request.getParameter("sSearch");
-
-			//Fetch Page display length
-			pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
-
-			List<StripChart> activityList = new ArrayList<StripChart>();
-
-			//Here is server side pagination logic. Based on the page number you could make call 
-			//to the data base create new list and send back to the client. For demo I am shuffling 
-			//the same list to show data randomly
-			int startIndex = 0;
-			int offset = pageDisplayLength;
-
-			if (pageNumber == 1) {
-				startIndex = 0;
-				offset = pageDisplayLength;
-				activityList = createPaginationData(startIndex, offset, obj, searchParameter);
-			} else {
-				startIndex = (pageNumber * offset) - offset;
-				offset = pageDisplayLength;
-				activityList = createPaginationData(startIndex, offset, obj, searchParameter);
-			}
-
-			//Search functionality: Returns filtered list based on search parameter
-			//activityList = getListBasedOnSearchParameter(searchParameter,activityList);
-
-			int totalRecords = getTotalRecords(obj, searchParameter);
-
-			ActivitiesPaginationObject personJsonObject = new ActivitiesPaginationObject();
-			//Set Total display record
-			personJsonObject.setiTotalDisplayRecords(totalRecords);
-			//Set Total record
-			personJsonObject.setiTotalRecords(totalRecords);
-			personJsonObject.setAaData(activityList);
-
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			json2 = gson.toJson(personJsonObject);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(
-					"getActivitiesList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
-		}
-
-		pw.println(json2);
-	}
-
-	/**
-	 * @param searchParameter 
-	 * @param activity 
-	 * @return
-	 */
-	public int getTotalRecords(StripChart obj, String searchParameter) {
-		int totalRecords = 0;
-		try {
-			totalRecords = service.getTotalRecords(obj, searchParameter);
-		} catch (Exception e) {
-			logger.error("getTotalRecords : " + e.getMessage());
-		}
-		return totalRecords;
-	}
-
-	/**
-	 * @param pageDisplayLength
-	 * @param offset 
-	 * @param activity 
-	 * @param clientId 
-	 * @return
-	 */
-	public List<StripChart> createPaginationData(int startIndex, int offset, StripChart obj, String searchParameter) {
-		List<StripChart> earthWorkList = null;
-		try {
-			earthWorkList = service.getActivitiesList(obj, startIndex, offset, searchParameter);
-		} catch (Exception e) {
-			logger.error("createPaginationData : " + e.getMessage());
-		}
-		return earthWorkList;
-	}
-
-	@RequestMapping(value = "/export-activities", method = { RequestMethod.GET, RequestMethod.POST })
-	public void exportActivities(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@ModelAttribute StripChart activity, RedirectAttributes attributes) {
-		ModelAndView view = new ModelAndView(PageConstants2.progressUploadGrid);
-		List<StripChart> dataList = new ArrayList<StripChart>();
-		String userId = null;
-		String userName = null;
-		try {
-			userId = (String) session.getAttribute("USER_ID");
-			userName = (String) session.getAttribute("USER_NAME");
-			view.setViewName("redirect:/activities-upload");
-			dataList = service.getActivitiesList(activity, null, null, null);
-			if (dataList != null && dataList.size() > 0) {
-				XSSFWorkbook workBook = new XSSFWorkbook();
-				XSSFSheet sheet = workBook.createSheet();
-				XSSFRow headingRow = sheet.createRow(0);
-				headingRow.createCell((short) 0).setCellValue("Contract");
-				headingRow.createCell((short) 1).setCellValue("Structure");
-				headingRow.createCell((short) 2).setCellValue("Component Id");
-				headingRow.createCell((short) 3).setCellValue("Component");
-				headingRow.createCell((short) 5).setCellValue("Activity");
-				headingRow.createCell((short) 6).setCellValue("Planned Start");
-				headingRow.createCell((short) 7).setCellValue("Planned Finish");
-				headingRow.createCell((short) 8).setCellValue("Scope");
-				headingRow.createCell((short) 9).setCellValue("Completed");
-				headingRow.createCell((short) 10).setCellValue("Weightage");
-
-				short rowNo = 1;
-				for (StripChart obj : dataList) {
-					XSSFRow row = sheet.createRow(rowNo);
-					String contract_short_name = "";
-					if (!StringUtils.isEmpty(obj.getContract_short_name())) {
-						contract_short_name = " - " + obj.getContract_short_name();
-					}
-					row.createCell((short) 0).setCellValue(obj.getContract_id() + contract_short_name);
-					row.createCell((short) 1).setCellValue(obj.getStrip_chart_structure());
-					row.createCell((short) 2).setCellValue(obj.getStrip_chart_component_id_name());
-					row.createCell((short) 3).setCellValue(obj.getStrip_chart_component());
-					row.createCell((short) 5).setCellValue(obj.getStrip_chart_activity_name());
-					row.createCell((short) 6).setCellValue(obj.getPlanned_start());
-					row.createCell((short) 7).setCellValue(obj.getPlanned_finish());
-					row.createCell((short) 8).setCellValue(obj.getScope());
-					row.createCell((short) 9).setCellValue(obj.getCompleted());
-					row.createCell((short) 10).setCellValue(obj.getWeight());
-					rowNo++;
-				}
-
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-				Date date = new Date();
-				String fileName = "Activities_" + dateFormat.format(date);
-
-				try {
-					/*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
-					workBook.write(fos);
-					fos.flush();*/
-
-					response.setContentType("application/.csv");
-					response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-					response.setContentType("application/vnd.ms-excel");
-					// add response header
-					response.addHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
-
-					//copies all bytes from a file to an output stream
-					workBook.write(response.getOutputStream()); // Write workbook to response.
-					workBook.close();
-					//flushes output stream
-					response.getOutputStream().flush();
-
-					attributes.addFlashAttribute("success", dataExportSucess);
-					//response.setContentType("application/vnd.ms-excel");
-					//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
-					//XSSFWorkbook  workbook = new XSSFWorkbook ();
-					// ...
-					// Now populate workbook the usual way.
-					// ...
-					//workbook.write(response.getOutputStream()); // Write workbook to response.
-					//workbook.close();
-				} catch (FileNotFoundException e) {
-					//e.printStackTrace();
-					attributes.addFlashAttribute("error", dataExportInvalid);
-				} catch (IOException e) {
-					//e.printStackTrace();
-					attributes.addFlashAttribute("error", dataExportError);
-				}
-			} else {
-				attributes.addFlashAttribute("error", dataExportNoData);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(
-					"exportActivities : : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
-			attributes.addFlashAttribute("error", commonError);
-		}
-		//return view;
-	}
 
 	@RequestMapping(value = "/upload-activities", method = { RequestMethod.POST })
 	public ModelAndView uploadActivities(@ModelAttribute Activity activity, RedirectAttributes attributes,
@@ -488,8 +212,17 @@ public class ActivitiesUploadController {
 							/********************************************************************************************************************/
 							/*int[] counts = uploadActivities(activity, userId, userName, workbook);
 							attributes.addFlashAttribute("success", counts[0] + " activities added and "+counts[1]+" activities updated successfully.");*/
-							String message = uploadActivities(activity, userId, userName, workbook);
-							attributes.addFlashAttribute("success", message);
+							String[] messages = uploadActivities(activity, userId, userName, workbook);
+							attributes.addFlashAttribute("success", messages[0]);
+							
+							if(messages.length > 0) {
+								String data_remarks = messages[1];
+								activity.setWork_id_fk(activity.getWork_id());
+								activity.setContract_id_fk(activity.getContract_id_fk());
+								activity.setStructure_type_fk(activity.getStructure_type_fk());
+								activity.setUploaded_by_user_id_fk(userId);
+								boolean flag = service.addFileInActivitiesDataTable(data_remarks,activity);
+							}
 						}
 					}
 				}
@@ -516,11 +249,13 @@ public class ActivitiesUploadController {
 	 * @throws IOException will raise an exception when abnormal termination occur.
 	 */
 
-	public String uploadActivities(Activity obj, String userId, String userName, XSSFWorkbook workbook)
+	public String[] uploadActivities(Activity obj, String userId, String userName, XSSFWorkbook workbook)
 			throws Exception {
 		Writer w = null;
 		int[] counts = null;
+		String[] messages = new String[2];
 		String message = "";
+		String data_remarks = "";
 		try {
 			MultipartFile excelfile = obj.getUploadFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -577,7 +312,9 @@ public class ActivitiesUploadController {
 							List<Activity> activityList = new ArrayList<Activity>();
 							
 							String activity_id = null,contract_id_fk = null,struture_type_fk = null,section = null,line = null,structure = null,component = null,activity_name = null,planned_start = null,planned_finish = null,actual_start = null,actual_finish = null,unit = null,scope = null,completed = null,weightage = null,component_details = null,remarks = null;
-							String zero_total_scope = "",zero_completed_scope = "",null_actual_start_date = "",completedScope_gt_total_scope = "";
+							String completed_scope_gt_total_scope = "",
+									planned_start_null = "",planned_finish_null = "",planned_start_gt_planned_finish = "",
+									actual_start_null = "",actual_start_gt_actual_finish = "";
 							for(int j = 2; j<= activityDataSheet.getLastRowNum();j++){
 								XSSFRow row = activityDataSheet.getRow(j);
 								if(!StringUtils.isEmpty(row)) {
@@ -633,9 +370,10 @@ public class ActivitiesUploadController {
 										
 										for (Activity cObj : componentIdList) {
 											if(cObj.getComponent_id().equals(activityObj.getComponent_id())) {
-												activityObj.setOrder(cObj.getOrder());
+												activityObj.setOrder(cObj.getOrder().trim());
 											}
 										}
+										if(StringUtils.isEmpty(activityObj.getOrder())) { activityObj.setOrder("9999");}
 										
 										tempVal = formatter.formatCellValue(row.getCell(5)).trim();
 										count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
@@ -723,28 +461,54 @@ public class ActivitiesUploadController {
 										if(!StringUtils.isEmpty(activityObj.getCompleted())) {
 											completedScope = Double.parseDouble(activityObj.getCompleted());
 										}
+										DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+										Date actual_start_date = null;
+										Date actual_finish_date = null;
+										Date planned_start_date = null;
+										Date planned_finish_date = null;
 										
-										if(completedScope <= totalScope) {
+										if(!StringUtils.isEmpty(activityObj.getActual_start())) {
+											actual_start_date = format.parse(activityObj.getActual_start());
+										}
+										if(!StringUtils.isEmpty(activityObj.getActual_finish())) {
+											actual_finish_date = format.parse(activityObj.getActual_finish());
+										}
+										if(!StringUtils.isEmpty(activityObj.getPlanned_start())) {
+											planned_start_date = format.parse(activityObj.getPlanned_start());
+										}
+										if(!StringUtils.isEmpty(activityObj.getPlanned_finish())) {
+											planned_finish_date = format.parse(activityObj.getPlanned_finish());
+										}
+										
+										if(completedScope <= totalScope 
+												&& ((!StringUtils.isEmpty(actual_start_date) && !StringUtils.isEmpty(actual_finish_date) && (actual_start_date.compareTo(actual_finish_date) < 0 || actual_start_date.compareTo(actual_finish_date) == 0))
+														|| (!StringUtils.isEmpty(actual_start_date) && StringUtils.isEmpty(actual_finish_date))
+														|| (StringUtils.isEmpty(actual_start_date) && StringUtils.isEmpty(actual_finish_date))) 
+												&& ((StringUtils.isEmpty(planned_start_date) && StringUtils.isEmpty(planned_finish_date)) || (!StringUtils.isEmpty(planned_start_date) && !StringUtils.isEmpty(planned_finish_date) && (planned_start_date.compareTo(planned_finish_date) < 0 || planned_start_date.compareTo(planned_finish_date) == 0)))
+												) {
 											activityList.add(activityObj);
 										}
 										
 										if (completedScope > totalScope) {
-											completedScope_gt_total_scope = completedScope_gt_total_scope + (!StringUtils.isEmpty(completedScope_gt_total_scope)?",":"") + (j+1);
+											completed_scope_gt_total_scope = completed_scope_gt_total_scope + (!StringUtils.isEmpty(completed_scope_gt_total_scope)?",":"") + (j+1);
 										}
 										
-										/*String actual_start_date = activityObj.getActual_start();
-										if(totalScope != 0 && completedScope != 0 && completedScope <= totalScope && !StringUtils.isEmpty(actual_start_date) ) {
-											activityList.add(activityObj);
+										if(StringUtils.isEmpty(planned_start_date) && !StringUtils.isEmpty(planned_finish_date)) {
+											planned_start_null = planned_start_null + (!StringUtils.isEmpty(planned_start_null)?",":"") + (j+1);
+										}else if (!StringUtils.isEmpty(planned_start_date) && StringUtils.isEmpty(planned_finish_date)) {
+											planned_finish_null = planned_finish_null + (!StringUtils.isEmpty(planned_finish_null)?",":"") + (j+1);
+										}else if (!StringUtils.isEmpty(planned_start_date) && !StringUtils.isEmpty(planned_finish_date) && planned_start_date.compareTo(planned_finish_date) > 0) {
+											//planned_start_date is after planned_finish_date (planned_start_date > planned_finish_date)
+											planned_start_gt_planned_finish = planned_start_gt_planned_finish + (!StringUtils.isEmpty(planned_start_gt_planned_finish)?",":"") + (j+1);
 										}
-										if(totalScope == 0) {
-											zero_total_scope = zero_total_scope + (!StringUtils.isEmpty(zero_total_scope)?",":"") + (j+1);
-										} else if (completedScope == 0) {
-											zero_completed_scope = zero_completed_scope + (!StringUtils.isEmpty(zero_completed_scope)?",":"") + (j+1);
-										} else if (completedScope > totalScope) {
-											completedScope_gt_total_scope = completedScope_gt_total_scope + (!StringUtils.isEmpty(completedScope_gt_total_scope)?",":"") + (j+1);
-										} else if (StringUtils.isEmpty(actual_start_date)){
-											null_actual_start_date = null_actual_start_date + (!StringUtils.isEmpty(null_actual_start_date)?",":"") + (j+1);
-										}*/
+										
+										if(StringUtils.isEmpty(actual_start_date) && !StringUtils.isEmpty(actual_finish_date)) {
+											actual_start_null = actual_start_null + (!StringUtils.isEmpty(actual_start_null)?",":"") + (j+1);
+										}else if (!StringUtils.isEmpty(actual_start_date) && !StringUtils.isEmpty(actual_finish_date) && actual_start_date.compareTo(actual_finish_date) > 0) {
+											//actual_start_date is after actual_finish_date (actual_start_date > actual_finish_date)
+											actual_start_gt_actual_finish = actual_start_gt_actual_finish + (!StringUtils.isEmpty(actual_start_gt_actual_finish)?",":"") + (j+1);
+										}
+										
 										
 									}
 								}
@@ -753,30 +517,44 @@ public class ActivitiesUploadController {
 							if(!StringUtils.isEmpty(activityList) && activityList.size() > 0){
 								counts  = service.uploadActivities(activityList);
 								if(counts[0] > 0) {
-									message = message + "<p style='color:green;'>" + counts[0] + " activities added successfully.</p>";
+									message = message + "<br><span style='color:green;'>" + counts[0] + " activities added successfully.</span>";
 								}
 								if(counts[1] > 0) {
-									message = message + "<p style='color:green;'>" + counts[1] + " activities updated successfully.</p>";
+									message = message + "<br><span style='color:green;'>" + counts[1] + " activities updated successfully.</span>";
 								}
 								
-								if(!StringUtils.isEmpty(completedScope_gt_total_scope)) {
-									message = message + "<p style='color:red;'> Row no(s) " + completedScope_gt_total_scope + " are not inserted (Reason : Completed > Total Scope).</p>";
+								if(!StringUtils.isEmpty(completed_scope_gt_total_scope)) {
+									message = message + "<br><span style='color:red;'> Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope).</span>";
+									data_remarks = data_remarks + "Row no(s) " + completed_scope_gt_total_scope + " are not inserted (Reason : Completed should not greater than Total Scope). ";
 								}
 								
-								/*if(!StringUtils.isEmpty(zero_total_scope)) {
-									message = message + "<p style='color:red;'>" + zero_total_scope + " rows are not inserted (Reason : Total Scope is 0 or empty).</p>";
+								if(!StringUtils.isEmpty(planned_start_null)) {
+									message = message + "<br><span style='color:red;'> Row no(s) " + planned_start_null + " are not inserted (Reason : Planned Start should not empty).</span>";
+									data_remarks = data_remarks + "Row no(s) " + planned_start_null + " are not inserted (Reason : Planned Start should not empty). ";
 								}
-								if(!StringUtils.isEmpty(zero_completed_scope)) {
-									message = message + "<p style='color:red;'>" + zero_completed_scope + " rows are not inserted (Reason : Completed is 0 or empty).</p>";
+								if(!StringUtils.isEmpty(planned_finish_null)) {
+									message = message + "<br><span style='color:red;'> Row no(s) " + planned_finish_null + " are not inserted (Reason : Planned Finish should not empty).</span>";
+									data_remarks = data_remarks + "Row no(s) " + planned_finish_null + " are not inserted (Reason : Planned Finish should not empty). ";
 								}
-								if(!StringUtils.isEmpty(completedScope_gt_total_scope)) {
-									message = message + "<p style='color:red;'>" + completedScope_gt_total_scope + " rows are not inserted (Reason : Completed > Total Scope).</p>";
+								if(!StringUtils.isEmpty(planned_start_gt_planned_finish)) {
+									message = message + "<br><span style='color:red;'> Row no(s) " + planned_start_gt_planned_finish + " are not inserted (Reason : Planned Start should not after Planned Finish).</span>";
+									data_remarks = data_remarks + "Row no(s) " + planned_start_gt_planned_finish + " are not inserted (Reason : Planned Start should not after Planned Finish). ";
 								}
-								if(!StringUtils.isEmpty(null_actual_start_date)) {
-									message = message + "<p style='color:red;'>" + null_actual_start_date + " rows are not inserted (Reason : Actual Start Date is empty).</p>";
-								}*/
 								
-								message = message + "<br><br>";
+								if(!StringUtils.isEmpty(actual_start_null)) {
+									message = message + "<br><span style='color:red;'> Row no(s) " + actual_start_null + " are not inserted (Reason : Actual Start should not empty).</span>";
+									data_remarks = data_remarks + "Row no(s) " + actual_start_null + " are not inserted (Reason : Actual Start should not empty). ";
+								}
+								if(!StringUtils.isEmpty(actual_start_gt_actual_finish)) {
+									message = message + "<br><span style='color:red;'> Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish).</span>";
+									data_remarks = data_remarks + "Row no(s) " + actual_start_gt_actual_finish + " are not inserted (Reason : Actual Start should not after Actual Finish). ";
+								}
+								
+								
+								message = message + "<br>";
+								
+								messages[0] = message;
+								messages[1] = data_remarks;
 							}
 							
 						}
@@ -799,7 +577,7 @@ public class ActivitiesUploadController {
 			}
 		}
 
-		return message;
+		return messages;
 	}
 	
 	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {
@@ -837,5 +615,65 @@ public class ActivitiesUploadController {
 		}
 		return val;
 	}
+	
+	/***************************************************************/
+
+	@RequestMapping(value = "/ajax/getWorksListFilterInActivitiesUpload", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getWorksListFilter(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getWorksListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilter : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	@RequestMapping(value = "/ajax/getContractsListFilterInActivitiesUpload", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getContractsListFilter(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getContractsListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractsListFilter : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	@RequestMapping(value = "/ajax/getStructureTypesListFilterInActivitiesUpload", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getStructureTypesListFilter(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getStructureTypesListFilter(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureListFilter : " + e.getMessage());
+		}
+		return objList;
+	}
+	
+	@RequestMapping(value = "/ajax/getActivitiesUploadFilesList", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Activity> getActivitiesUploadFilesList(@ModelAttribute Activity obj) {
+		List<Activity> objList = null;
+		try {
+			objList = service.getActivitiesUploadFilesList(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getActivitiesUploadFilesList : " + e.getMessage());
+		}
+		return objList;
+	}
+
+	
 
 }

@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -99,14 +100,24 @@
 								<div class="col s12">
 									<c:if test="${not empty success }">					        
 										<div class="m-1 close-message">	
-										   ${success}
+										   ${success} 
+										   <button type="button" onclick="closeMessage();"
+											class="btn waves-effect waves-light bg-m t-c"
+											style="width: 20%"><strong>Close </strong></button>
+											<hr><br>
 										</div>
+										
 									</c:if>
 									
 									<c:if test="${not empty error }">
 										<div class="m-1 close-message">
-										   ${error}
+										   ${error} 
+											<button type="button" onclick="closeMessage();"
+											class="btn waves-effect waves-light bg-m t-c"
+											style="width: 20%"><strong>Close </strong></button>
+											<hr><br>
 										</div>
+										
 									</c:if>
 								</div>											
 								<div class="col s12 m3 input-field">
@@ -171,42 +182,25 @@
                         </div>
                     </span>
                     <div class="">
-                        <!-- <div class="row plr-1">
-                            <div class="col s12 m4">
-                                <div class="m-1 l-align">
-                                    <a href="javascript:void(0);" onclick="openUploadModal();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem">Click <a href="/pmis/Activitiess.xlsx" download>here</a> for the template</p>
-                                </div>
-                            </div>
-                            <div class="col s12 m4">
-                            </div>
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportActivities();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m2 hide-on-small-only"></div>
                             <div class="col m8">
                                 <div class="row">
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Work</p>
-                                        <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getActivitiesList();">
+                                        <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Contract</p>
-                                        <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getActivitiesList();">
+                                        <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Structure Type</p>
-                                        <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" class="searchable" onchange="getActivitiesList();">
+                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="getActivitiesUploadFilesList();">
                                             <option value="">Select</option>
                                         </select>
                                     </div>                                  
@@ -225,18 +219,7 @@
                             <div class="col m12 s12">
                                 <table id="datatable-activities" class="mdl-data-table">
                                     <thead>
-                                        <tr>
-                                            <!--  <th>Contract</th>
-                                            <th>Structure</th>
-                                            <th>Component <br>ID</th>
-                                            <th>Component</th>
-                                            <th class="fw-200">Activity</th>
-                                            <th>Planned <br> Start</th>
-                                            <th>Planned <br> Finish</th>
-                                            <th>Scope</th>
-                                            <th>Completed</th>
-                                            <th>Weightage</th>  -->
-                                            
+                                        <tr>                                            
                                             <th>Work</th>
 											<th>Contract</th>
 											<th>Structure type</th>
@@ -245,7 +228,6 @@
 											<th>Remarks</th>
 											<th>Uploaded by </th>
 											<th>Uploaded On</th>
-											<th></th><th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -260,54 +242,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- update popup starts -->
-    <div id="upload_template" class="modal">
-        <div class="modal-content">
-            <div class="center-align p-2 bg-m modal-title">
-                <h6>Upload Users</h6>
-            </div>
-            <!-- form start-->
-            <div class="container">
-               <form action="<%=request.getContextPath() %>/upload-designs" method="post" enctype="multipart/form-data">
-                    <div class="row no-mar">
-                        <div class="col s12 m12 input-field center-align">
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="uploadFile" name="uploadFile" required="required">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row no-mar">
-                        <div class="col s12 m6">
-                            <div class="center-align m-1">
-                                <button type="submit" class="btn waves-effect waves-light bg-m"
-                                    style="width: 100%;">Update</button>
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="center-align m-1">
-                                <button type="button" class="btn waves-effect waves-light bg-s"
-                                    style="width: 100%;" onclick="closeUploadModal();">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>     
-         
   
 
 	<div class="page-loader" style="display: none;">
@@ -337,17 +271,6 @@
 	    </div>
 	  </div>
 	</div> 
-	
-	
-	
-        
-    <form action="<%=request.getContextPath() %>/export-activities" name="exportActivitiesForm" id="exportActivitiesForm" target="_blank" method="post">	
-       <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-       <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
-       <input type="hidden" name="strip_chart_structure_id_fk" id="exportStrip_chart_structure_id_fk" />
-       <input type="hidden" name="strip_chart_component_id" id="exportStrip_chart_component_id" />
-       <input type="hidden" name="strip_chart_component" id="exportStrip_chart_component" />
-	</form>
     
     
      <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -367,44 +290,8 @@
 	    	$('.modal').modal();
 	        $('select:not(.searchable)').formSelect();
 	        $('.searchable').select2();
-	        $('#datatable-activities').DataTable({
-	            columnDefs: [
-	                {
-	                    targets: [0, 1, 2],
-	                    className: 'mdl-data-table__cell--non-numeric',
-	                    targets: 'no-sort', orderable: false,
-	                },
-	                { "width": "10px", "targets": [9] },
-	            ],
-	            "ScrollX": true,
-	            "scrollCollapse": true,
-	            "sScrollY": 400,
-	            // paging: false,
-	            initComplete: function () {
-	            	$('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '100%!important', 'display': 'inline-block' });
-	                   /*  $('select[name="datatable-activities_length"]').addClass('browser-default table-length');
-	                	$('select[name="datatable-activities_length"]').parent().after($('select[name="datatable-activities_length"]'));
-	                	$('.dataTables_length .select-wrapper').remove(); */
-		    	        
-	   	    	  /*   var input = $('.dataTables_filter input').unbind(),
-	   	            self = this.api(),
-	   	            $searchButton = $('<button class="btn-small bg-m t-c">')
-	   	                       .text('Go')
-	   	                       .click(function() {
-	   	                          self.search(input.val()).draw();
-	   	                       }),
-	   	            $clearButton = $('<button class="btn-small bg-m t-c" style="margin-left:10px">')
-	   	                       .text('X')
-	   	                       .click(function() {
-	   	                          input.val('');
-	   	                          $searchButton.click(); 
-	   	                       }) 
-	   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
-		   	          $('.dataTables_filter div').append($searchButton, $clearButton); */
-	            }
-	        });
 	        
-	        getActivitiesList();
+	        getActivitiesUploadFilesList();
 	        
 	        getWorks();
 	        getContracts('');
@@ -412,17 +299,10 @@
 	        
 	        //$('.close-message').delay(5000).fadeOut('slow');
 	    });
-     
-	    function  openUploadModal() {
-	 		$("#uploadFile").val('');
-	     	$("#upload_template").modal('open');
-	 	}
-	
-	 	function  closeUploadModal() {
-	 		$("#uploadFile").val('');
-	     	$("#upload_template").modal('close');
-	 	}
-        
+	    
+	    function closeMessage() {
+	    	$('.close-message').delay(500).fadeOut('slow');
+		}
         
         
         function getWorks() {
@@ -496,358 +376,6 @@
             });
         }
         
-        function clearFilters() {
-            $('#work_id_fk').val("");
-            $('#contract_id_fk').val("");
-            $('#strip_chart_structure_id_fk').val("");
-            $('#strip_chart_component_id').val("");
-            $('#strip_chart_component').val("");
-            $('.searchable').select2();
-            getActivitiesList();
-        }
-        
-        
-        function getActivitiesList(){
-        	$(".page-loader-2").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var strip_chart_component_id = $("#strip_chart_component_id").val();
-        	var strip_chart_component = $("#strip_chart_component").val();
-        	
-        	getWorksListFilter();
-        	getContractsListFilter();
-        	getStructuresListFilter();
-        	getComponentIdsListFilter();
-        	getComponentsListFilter();
-        	
-        	
-        	table = $('#datatable-activities').DataTable();
-      		 
-    		table.destroy();
-    		
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-         	
-   			var myParams = "work_id_fk="+ work_id_fk+"&contract_id_fk="+ contract_id_fk+"&strip_chart_structure_id_fk="+ strip_chart_structure_id_fk+"&strip_chart_component_id="+ strip_chart_component_id+"&strip_chart_component="+ strip_chart_component ;
-     		 
-   		    /***************************************************************************************************/   
-   		        
-   		        $("#datatable-activities").DataTable( {
-   				        "bProcessing": true,
-   				        "bServerSide": true,
-   				        "sort": "position",
-   				        //bStateSave variable you can use to save state on client cookies: set value "true" 
-   				        "bStateSave": false,
-   				        //Default: Page display length
-   				        "iDisplayLength": 10,
-   				        "iData":{"start":52},
-   				        //We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-   				        "iDisplayStart": 0,
-   				        "fnDrawCallback": function () {
-   				            //Get page numer on client. Please note: number start from 0 So
-   				            //for the first page you will see 0 second page 1 third page 2...
-   				            //Un-comment below alert to see page number
-   				        	//alert("Current page number: "+this.fnPagingInfo().iPage);
-   				        },   				        
-   				        //"sDom": 'l<"toolbar">frtip',
-	   	                "initComplete": function () {
-	   	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px ', 'display': 'inline-block' });
-	   	                   /*  $('select[name="datatable-activities_length"]').addClass('browser-default table-length');
-	   	                	$('select[name="datatable-activities_length"]').parent().after($('select[name="datatable-activities_length"]'));
-	   	                	$('.dataTables_length .select-wrapper').remove(); */
-		   	    	        
-			   	    	   /*  var input = $('.dataTables_filter input').unbind(),
-			   	            self = this.api(),
-			   	            $searchButton = $('<button class="btn-small bg-m t-c">')
-			   	                       .text('Go')
-			   	                       .click(function() {
-			   	                          self.search(input.val()).draw();
-			   	                       }),
-			   	            $clearButton = $('<button class="btn-small bg-m t-c" style="margin-left:10px">')
-			   	                       .text('X')
-			   	                       .click(function() {
-			   	                          input.val('');
-			   	                          $searchButton.click(); 
-			   	                       }) 
-			   	                    $('.dataTables_filter').append('<div class="center-align"></div>');
-				   	          $('.dataTables_filter div').append($searchButton, $clearButton); */
-				   	          
-	   	                   var input = $('.dataTables_filter input').unbind(),
-			   	            self = this.api(),
-			   	            $searchButton = $('<i class="fa fa-search">')
-			   	                       //.text('Go')
-			   	                       .click(function() {			   	                    	 
-			   	                          self.search(input.val()).draw();
-			   	                       })			   	        
-				   	          $('.dataTables_filter label').append($searchButton);	
-	   	                },
-	   	             columnDefs: [
-	                     {
-	                         "targets": 'no-sort',
-	                         "orderable": false,
-	                     }
-	                 ],
-		   	            "sScrollX": "100%",
-		                "sScrollXInner": "100%",
-		                "bScrollCollapse": true,
-		                "language": {
-		                	 "info": "_START_ - _END_ of _TOTAL_",
-		                	 paginate: {
-		                		 next: '<i class="fa fa-angle-right"></i>', // or '→'
-		                		 previous: '<i class="fa fa-angle-left"></i>' // or '←' 
-		                	 }
-		                },
-   			            "bDestroy": true,
-   				        "sAjaxSource": "<%=request.getContextPath()%>/ajax/getActivitiesList?"+myParams,
-   				        "aoColumns": [
-   				            { "mData": function(data,type,row){
-   				            	var contract_short_name = '';
-   		                        if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
-   		                     	if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id + contract_short_name; }
-   	            			} },   				            
-   				            { "mData": function(data,type,row){
-   				            	if($.trim(data.strip_chart_structure) == ''){ return '-'; }else{ return data.strip_chart_structure; }
-   				            } },
-   				         	{ "mData": function(data,type,row){
-				            	if($.trim(data.strip_chart_component_id_name) == ''){ return '-'; }else{ return data.strip_chart_component_id_name; }
-				            } },
-				            { "mData": function(data,type,row){
-   				            	if($.trim(data.strip_chart_component) == ''){ return '-'; }else{ return data.strip_chart_component; }
-   				            } },
-   				         	{ "mData": function(data,type,row){
-				            	if($.trim(data.strip_chart_activity_name) == ''){ return '-'; }else{ return data.strip_chart_activity_name; }
-				            } },
-				            { "mData": function(data,type,row){
-   				            	if($.trim(data.planned_start) == ''){ return '-'; }else{ return data.planned_start; }
-   				            } },
-   				         	{ "mData": function(data,type,row){
-				            	if($.trim(data.planned_finish) == ''){ return '-'; }else{ return data.planned_finish; }
-				            } },
-				            { "mData": function(data,type,row){
-   				            	if($.trim(data.scope) == ''){ return '-'; }else{ return data.scope; }
-   				            } },
-   				         	{ "mData": function(data,type,row){
-				            	if($.trim(data.completed) == ''){ return '-'; }else{ return data.completed; }
-				            } },
-				            { "mData": function(data,type,row){
-   				            	if($.trim(data.weight) == ''){ return '-'; }else{ return data.weight; }
-   				            } }
-				            
-   				        ]
-   				    } );
-   		    
-   		     $(".page-loader-2").hide();  		     
-         	
-        }
-        
-      	//This function is used to get error message for all ajax calls
-        function getErrorMessage(jqXHR, exception) {
-        	    var msg = '';
-        	    if (jqXHR.status === 0) {
-        	        msg = 'Not connect.\n Verify Network.';
-        	    } else if (jqXHR.status == 404) {
-        	        msg = 'Requested page not found. [404]';
-        	    } else if (jqXHR.status == 500) {
-        	        msg = 'Internal Server Error [500].';
-        	    } else if (exception === 'parsererror') {
-        	        msg = 'Requested JSON parse failed.';
-        	    } else if (exception === 'timeout') {
-        	        msg = 'Time out error.';
-        	    } else if (exception === 'abort') {
-        	        msg = 'Ajax request aborted.';
-        	    } else {
-        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-        	    }
-        	    console.log(msg);
-        }
-      	
-      	
-        function getWorksListFilter() {
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var strip_chart_component_id = $("#strip_chart_component_id").val();
-        	var strip_chart_component = $("#strip_chart_component").val();
-  	       
-         	$(".page-loader").show();
-
-            if ($.trim(work_id_fk) == "") {
-                $("#work_id_fk option:not(:first)").remove();
-                var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, strip_chart_structure_id_fk : strip_chart_structure_id_fk, strip_chart_component_id : strip_chart_component_id, strip_chart_component : strip_chart_component };
-         		$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var work_short_name = '';
-                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
- 	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + work_short_name +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        function getContractsListFilter() {
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var strip_chart_component_id = $("#strip_chart_component_id").val();
-        	var strip_chart_component = $("#strip_chart_component").val();
-  	       
-         	$(".page-loader").show();
-
-            if ($.trim(contract_id_fk) == "") {
-                $("#contract_id_fk option:not(:first)").remove();
-                var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, strip_chart_structure_id_fk : strip_chart_structure_id_fk, strip_chart_component_id : strip_chart_component_id, strip_chart_component : strip_chart_component };
-         		$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var contract_short_name = '';
-                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
- 	                            $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + contract_short_name +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        
-        function getStructuresListFilter() {
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var strip_chart_component_id = $("#strip_chart_component_id").val();
-        	var strip_chart_component = $("#strip_chart_component").val();
-  	       
-         	$(".page-loader").show();
-
-            if ($.trim(strip_chart_structure_id_fk) == "") {
-                $("#strip_chart_structure_id_fk option:not(:first)").remove();
-                var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, strip_chart_structure_id_fk : strip_chart_structure_id_fk, strip_chart_component_id : strip_chart_component_id, strip_chart_component : strip_chart_component };
-         		$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getStructureListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	$("#strip_chart_structure_id_fk").append('<option value="' + val.strip_chart_structure + '">' + $.trim(val.strip_chart_structure) +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        
-        function getComponentIdsListFilter() {
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var strip_chart_component_id = $("#strip_chart_component_id").val();
-        	var strip_chart_component = $("#strip_chart_component").val();
-  	       
-         	$(".page-loader").show();
-
-            if ($.trim(strip_chart_component_id) == "") {
-                $("#strip_chart_component_id option:not(:first)").remove();
-                var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, strip_chart_structure_id_fk : strip_chart_structure_id_fk, strip_chart_component_id : strip_chart_component_id, strip_chart_component : strip_chart_component };
-         		$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getComponentIdsListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	$("#strip_chart_component_id").append('<option value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        function getComponentsListFilter() {
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var strip_chart_component_id = $("#strip_chart_component_id").val();
-        	var strip_chart_component = $("#strip_chart_component").val();
-  	       
-         	$(".page-loader").show();
-
-            if ($.trim(strip_chart_component) == "") {
-                $("#strip_chart_component option:not(:first)").remove();
-                var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, strip_chart_structure_id_fk : strip_chart_structure_id_fk, strip_chart_component_id : strip_chart_component_id, strip_chart_component : strip_chart_component };
-         		$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getComponentsListFilterInActivitiesUpload",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
-        
-        function exportActivities(){
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var strip_chart_component_id = $("#strip_chart_component_id").val();
-        	var strip_chart_component = $("#strip_chart_component").val();
-	     	 
-	     	 $("#exportWork_id_fk").val(work_id_fk);
-	     	 $("#exportContract_id_fk").val(contract_id_fk);
-	     	 $("#exportStrip_chart_structure_id_fk").val(strip_chart_structure_id_fk);
-	     	 $("#exportStrip_chart_component_id").val(strip_chart_component_id);
-	     	 $("#exportStrip_chart_component").val(strip_chart_component);
-	     	 $("#exportActivitiesForm ").submit();
-	  	}
         
         function uploadActivities() {
         	if(validator.form()){
@@ -912,6 +440,231 @@
 			    //return true;
 			  }
 		});
+        
+        /***************************************************************************************/
+        
+        
+        function getActivitiesUploadFilesList(){
+        	$(".page-loader-2").show();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
+        	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk} ;
+        	
+        	getWorksListFilter();
+        	getContractsListFilter();
+        	getStructureTypesListFilter();
+      		 
+        	table = $('#datatable-activities').DataTable();	   		 
+	   		table.destroy();	   		
+	   		$.fn.dataTable.moment('DD-MMM-YYYY');
+	   		table = $('#datatable-activities').DataTable({
+	       		"bStateSave": true,
+	       		fixedHeader: true,
+	               "fnStateSave": function (oSettings, oData) {
+	                   localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+	               },
+	               "fnStateLoad": function (oSettings) {
+	                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
+	               },
+	               columnDefs: [
+	                   {
+	                       targets: [0, 1, 2],
+	                       className: 'mdl-data-table__cell--non-numeric'
+	                   },
+	                   { orderable: false, 'aTargets': ['nosort'] }
+	               ],
+	               // "ScrollX": true,
+	               //"scrollCollapse": true,
+	               //"sScrollY": 400,
+	               "sScrollX": "100%",
+	               "sScrollXInner": "100%",
+	               "bScrollCollapse": true,
+	               initComplete: function () {
+	                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	               }
+	           }).rows().remove().draw();
+	   		
+	   		
+	   		table.state.clear();
+         	
+   			
+     		 
+   		    /***************************************************************************************************/   
+   		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getActivitiesUploadFilesList",type:"POST",data:myParams,
+   		    	success : function(data){    				
+	    			if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	             			var rowArray = [];    	                 
+	    
+	                    	var workShortName = '';
+	                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+	                        
+	                        var contractShortName = '';
+	                        if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
+	                        
+							var filePath = "";
+	                        
+	                        if($.trim(val.uploaded_file) != ''){
+	                        	filePath = '<a href="<%=CommonConstants2.ACTIVITIES_UPLOAD_FILES%>'+ val.uploaded_file +'">'+val.uploaded_file + '</a>';
+	                        }
+	                       
+	                       	rowArray.push($.trim(val.work_id) + workName);
+	                       	rowArray.push($.trim(val.contract_id) + contractShortName);
+	                       	rowArray.push($.trim(val.structure_type_fk));
+	                    	rowArray.push(filePath);
+	                       	rowArray.push($.trim(val.status));
+	                       	rowArray.push($.trim(val.remarks));
+	                       	rowArray.push($.trim(val.uploaded_by_user_id_fk));
+	                    	rowArray.push($.trim(val.uploaded_on));
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
+	    			
+	    		},error: function (jqXHR, exception) {
+	    			$(".page-loader-2").hide();
+	             	getErrorMessage(jqXHR, exception);
+	         	}
+	    	});
+   		    
+   		    $(".page-loader-2").hide();  		     
+         	
+        }
+        
+      	
+    	function clearFilters() {
+            $('#work_id_fk').val("");
+            $('#contract_id_fk').val("");
+            $('#structure_type_fk').val("");
+            $('.searchable').select2();
+            getActivitiesUploadFilesList();
+        }
+      	
+      	
+        function getWorksListFilter() {
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var structure_type_fk = $("#structure_type_fk").val();
+        	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk} ;
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(work_id_fk) == "") {
+                $("#work_id_fk option:not(:first)").remove();
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInActivitiesUpload",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var work_short_name = '';
+                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + work_short_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        function getContractsListFilter() {
+       		var work_id_fk = $("#work_id_fk").val();
+           	var contract_id_fk = $("#contract_id_fk").val();
+           	var structure_type_fk = $("#structure_type_fk").val();
+           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk} ;
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(contract_id_fk) == "") {
+                $("#contract_id_fk option:not(:first)").remove();
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInActivitiesUpload",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_short_name = '';
+                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + contract_short_name +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+        
+        function getStructureTypesListFilter() {
+       		var work_id_fk = $("#work_id_fk").val();
+           	var contract_id_fk = $("#contract_id_fk").val();
+           	var structure_type_fk = $("#structure_type_fk").val();
+           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk} ;
+      	       
+         	$(".page-loader").show();
+
+            if ($.trim(structure_type_fk) == "") {
+                $("#structure_type_fk option:not(:first)").remove();
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getStructureTypesListFilterInActivitiesUpload",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '">' + $.trim(val.structure_type_fk) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+  	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+        
+	    //This function is used to get error message for all ajax calls
+	    function getErrorMessage(jqXHR, exception) {
+	       	    var msg = '';
+	       	    if (jqXHR.status === 0) {
+	       	        msg = 'Not connect.\n Verify Network.';
+	       	    } else if (jqXHR.status == 404) {
+	       	        msg = 'Requested page not found. [404]';
+	       	    } else if (jqXHR.status == 500) {
+	       	        msg = 'Internal Server Error [500].';
+	       	    } else if (exception === 'parsererror') {
+	       	        msg = 'Requested JSON parse failed.';
+	       	    } else if (exception === 'timeout') {
+	       	        msg = 'Time out error.';
+	       	    } else if (exception === 'abort') {
+	       	        msg = 'Ajax request aborted.';
+	       	    } else {
+	       	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+	       	    }
+	       	    console.log(msg);
+	    }
         
     </script>
 <body>

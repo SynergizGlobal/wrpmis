@@ -6,11 +6,53 @@ public class Activity {
 	private String activity_id,contract_id_fk,structure_type_fk,section,line,structure,component,component_id,order,activity_name,planned_start,planned_finish,actual_start,actual_finish,unit,scope,completed,weightage,component_details,remarks,
 	contract_id,contract_name,contract_short_name,struture_type,work_id,work_name,work_short_name,structure_type,
 	created_date,created_by_user_id_fk,modified_date,modified_by_user_id_fk,activity_id_fk,
-	progress_id,progress_date,completed_scope,attachment_url;
+	progress_id,progress_date,completed_scope,attachment_url,work_id_fk;
+	
+	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on;
 	
 	private MultipartFile uploadFile;
 	
 
+
+	public String getActivities_data_id() {
+		return activities_data_id;
+	}
+
+	public void setActivities_data_id(String activities_data_id) {
+		this.activities_data_id = activities_data_id;
+	}
+
+	public String getUploaded_file() {
+		return uploaded_file;
+	}
+
+	public void setUploaded_file(String uploaded_file) {
+		this.uploaded_file = uploaded_file;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUploaded_by_user_id_fk() {
+		return uploaded_by_user_id_fk;
+	}
+
+	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
+		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
+
+	public String getUploaded_on() {
+		return uploaded_on;
+	}
+
+	public void setUploaded_on(String uploaded_on) {
+		this.uploaded_on = uploaded_on;
+	}
 
 	public String getProgress_id() {
 		return progress_id;
@@ -314,6 +356,14 @@ public class Activity {
 
 	public void setActivity_id_fk(String activity_id_fk) {
 		this.activity_id_fk = activity_id_fk;
+	}
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
 	}
 	
 	

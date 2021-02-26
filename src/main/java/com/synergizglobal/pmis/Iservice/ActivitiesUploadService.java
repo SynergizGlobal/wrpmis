@@ -3,24 +3,8 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Activity;
-import com.synergizglobal.pmis.model.StripChart;
 
 public interface ActivitiesUploadService {
-	
-	List<StripChart> getWorksListFilter(StripChart obj) throws Exception;
-
-	List<StripChart> getContractsListFilter(StripChart obj) throws Exception;
-
-	List<StripChart> getStructureListFilter(StripChart obj) throws Exception;
-
-	List<StripChart> getComponentIdsListFilter(StripChart obj) throws Exception;
-
-	List<StripChart> getComponentsListFilter(StripChart obj) throws Exception;
-
-	int getTotalRecords(StripChart obj, String searchParameter) throws Exception;
-
-	List<StripChart> getActivitiesList(StripChart obj, Integer startIndex, Integer offset, String searchParameter) throws Exception;
-
 
 	int[] uploadActivities(List<Activity> activityList) throws Exception;
 
@@ -29,5 +13,17 @@ public interface ActivitiesUploadService {
 	List<Activity> getContractsInActivitiesUpload(Activity obj) throws Exception;
 
 	List<Activity> getStructureTypesInActivitiesUpload(Activity obj) throws Exception;
+	
+	boolean addFileInActivitiesDataTable(String data_remarks, Activity activity) throws Exception;
+
+	List<Activity> getWorksListFilter(Activity obj) throws Exception;
+
+	List<Activity> getContractsListFilter(Activity obj) throws Exception;
+
+	List<Activity> getStructureTypesListFilter(Activity obj) throws Exception;
+
+	List<Activity> getActivitiesUploadFilesList(Activity obj) throws Exception;
+
+	
 
 }

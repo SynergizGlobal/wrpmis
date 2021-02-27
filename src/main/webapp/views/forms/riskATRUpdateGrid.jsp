@@ -194,7 +194,7 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
-    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post">
+    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post" target="_blank">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
     </form>
 

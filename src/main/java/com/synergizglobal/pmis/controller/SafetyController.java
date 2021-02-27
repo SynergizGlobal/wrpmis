@@ -13,7 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -425,74 +434,169 @@ public class SafetyController {
 			            XSSFWorkbook  workBook = new XSSFWorkbook ();
 			            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Safety"));
 				        workBook.setSheetOrder(sheet.getSheetName(), 0);
+				        
+				        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+				        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+				        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+				        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+				        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+				        
+				        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+				        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+				        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+				        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+				        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+				        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+				        
+				        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+				        
+				        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+				        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+				        
+				        
+				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            headingRow.createCell((short)0).setCellValue("Safety ID");
-			            headingRow.createCell((short)1).setCellValue("Project ID");
-			            headingRow.createCell((short)2).setCellValue("Work ID");
-			            headingRow.createCell((short)3).setCellValue("Contract ID");
-			            headingRow.createCell((short)4).setCellValue("Title");
-			            headingRow.createCell((short)5).setCellValue("Description");
-			            headingRow.createCell((short)6).setCellValue("Date");
-			            headingRow.createCell((short)7).setCellValue("Location");
-			            headingRow.createCell((short)8).setCellValue("Latitude");
-			            headingRow.createCell((short)9).setCellValue("Longitude");
-			            headingRow.createCell((short)10).setCellValue("Reported By");
-			            headingRow.createCell((short)11).setCellValue("Responsible Person");
-			            headingRow.createCell((short)12).setCellValue("Department");
-			            headingRow.createCell((short)13).setCellValue("Category");
-			            headingRow.createCell((short)14).setCellValue("Status");
-			            headingRow.createCell((short)15).setCellValue("Impact");
-			            headingRow.createCell((short)16).setCellValue("Root Cause");
-			            headingRow.createCell((short)17).setCellValue("LTI Hours");
-			            headingRow.createCell((short)18).setCellValue("Equipment Impact");
-			            headingRow.createCell((short)19).setCellValue("People Impact");
-			            headingRow.createCell((short)20).setCellValue("Work Impact");
-			            headingRow.createCell((short)21).setCellValue("Committee Formed");
-			            headingRow.createCell((short)22).setCellValue("Committee Requried");
-			            headingRow.createCell((short)23).setCellValue("Investigation Completed");
-			            headingRow.createCell((short)24).setCellValue("Corrective Measure Short Term");
-			            headingRow.createCell((short)25).setCellValue("Corrective Measure long Term");
-			            headingRow.createCell((short)26).setCellValue("Status Remark");
-			            headingRow.createCell((short)27).setCellValue("Compensation");
-			            headingRow.createCell((short)28).setCellValue("Payment Date");
-			            headingRow.createCell((short)29).setCellValue("Remarks");
+			            String headerString = "Safety ID^Project ID^Work ID^Contract ID^Title^Description^Date^Location^Latitude^Longitude"
+			            		+ "^Reported By^Responsible Person^Department^Category^Status^Impact^Root Cause^LTI Hours^Equipment Impact^"
+			            		+ "People Impact^Work Impact^Committee Formed^Committee Requried^Investigation Completed^Corrective Measure Short Term^"
+			            		+ "Corrective Measure long Term^Status Remark^Compensation^Payment Date^Remarks";
+			            
+			            String[] firstHeaderStringArr = headerString.split("\\^");
+			            
+			            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+				        	Cell cell = headingRow.createCell(i);
+					        cell.setCellStyle(greenStyle);
+							cell.setCellValue(firstHeaderStringArr[i]);
+						}
+			            
 			            short rowNo = 1;
 			            for (Safety obj : dataList) {
 			                XSSFRow row = sheet.createRow(rowNo);
-			                row.createCell((short)0).setCellValue(obj.getSafety_id());
-			                row.createCell((short)1).setCellValue(obj.getProject_id_fk());
-			                row.createCell((short)2).setCellValue(obj.getWork_id_fk());
-			                row.createCell((short)3).setCellValue(obj.getContract_id_fk());
-			                row.createCell((short)4).setCellValue(obj.getTitle());
-			                row.createCell((short)5).setCellValue(obj.getDescription());
-			                row.createCell((short)6).setCellValue(obj.getDate());
-			                row.createCell((short)7).setCellValue(obj.getLocation());
-			                row.createCell((short)8).setCellValue(obj.getLatitude());
-			                row.createCell((short)9).setCellValue(obj.getLongitude());
-			                row.createCell((short)10).setCellValue(obj.getReported_by());
-			                row.createCell((short)11).setCellValue(obj.getResponsible_person());
-			                row.createCell((short)12).setCellValue(obj.getDepartment_name());
-			                row.createCell((short)13).setCellValue(obj.getCategory_fk());
-			                row.createCell((short)14).setCellValue(obj.getStatus_fk());
-			                row.createCell((short)15).setCellValue(obj.getImpact_fk());
-			                row.createCell((short)16).setCellValue(obj.getRoot_cause_fk());
-			                row.createCell((short)17).setCellValue(obj.getLti_hours());
-			                row.createCell((short)18).setCellValue(obj.getEquipment_impact());
-			                row.createCell((short)19).setCellValue(obj.getPeople_impact());
-			                row.createCell((short)20).setCellValue(obj.getWork_impact());
-			                row.createCell((short)21).setCellValue(obj.getCommittee_formed_fk());
-			                row.createCell((short)22).setCellValue(obj.getCommittee_required_fk());
-			                row.createCell((short)23).setCellValue(obj.getInvestigation_completed());
-			                row.createCell((short)24).setCellValue(obj.getCorrective_measure_short_term());
-			                row.createCell((short)25).setCellValue(obj.getCorrective_measure_long_term());
-			                row.createCell((short)26).setCellValue(obj.getStatus_remark_fk());
-			                row.createCell((short)27).setCellValue(obj.getCompensation());
-			                row.createCell((short)28).setCellValue(obj.getPayment_date());
-			                row.createCell((short)29).setCellValue(obj.getRemarks());
+			                int c = 0;
+			                
+			                Cell cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getSafety_id());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getProject_id_fk());
+							
+			                cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getWork_id_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getContract_id_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getTitle());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getDescription());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getDate());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getLocation());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getLatitude());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getLongitude());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getReported_by());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getResponsible_person());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getDepartment_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCategory_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getStatus_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getImpact_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getRoot_cause_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getLti_hours());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getEquipment_impact());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getPeople_impact());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getWork_impact());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCommittee_formed_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCommittee_required_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getInvestigation_completed());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCorrective_measure_short_term());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCorrective_measure_long_term());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getStatus_remark_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCompensation());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getPayment_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getRemarks());
 			                
 			                rowNo++;
 			            }
-			            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
+			            for(int columnIndex = 0; columnIndex < firstHeaderStringArr.length; columnIndex++) {
 			        		sheet.setColumnWidth(columnIndex, 25 * 200);
 						}
 		                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
@@ -542,6 +646,38 @@ public class SafetyController {
 			attributes.addFlashAttribute("error", commonError);			
 		}
 		//return view;
+	}
+	
+	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+		CellStyle style = workBook.createCellStyle();
+		//Setting Background color  
+		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		if (style instanceof XSSFCellStyle) {
+		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+		}
+		//style.setFillPattern(FillPatternType.ALT_BARS);
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setAlignment(hAllign);
+		style.setVerticalAlignment(vAllign);
+		style.setWrapText(isWrapText);
+		
+		Font font = workBook.createFont();
+        //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+        font.setFontHeightInPoints((short)fontSize);  
+        font.setFontName(fontName);  //"Times New Roman"
+        
+        font.setItalic(isItalicText); 
+        font.setBold(isBoldText);
+        // Applying font to the style  
+        style.setFont(font); 
+        
+        return style;
 	}
 	
 }

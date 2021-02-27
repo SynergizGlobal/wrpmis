@@ -262,7 +262,7 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-	 <form action="<%=request.getContextPath()%>/get-design" id="getForm" name="getForm" method="post">
+	 <form action="<%=request.getContextPath()%>/get-design" id="getForm" name="getForm" method="post" target="_blank">
   		<input type="hidden" name="design_id" id="design_id"/>
     </form>
     

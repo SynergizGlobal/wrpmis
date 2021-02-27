@@ -91,7 +91,7 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col s12 m12">
                                 <div class="row">
-                                    <div class="col s12 m1 input-field">
+                                    <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Work </p>
                                         <select id="work_id_fk" name="work_id_fk" onchange="getDesignList();" class="searchable">
                                             <option value="">Select</option>
@@ -118,7 +118,7 @@
 	                                             </c:forEach>
                                         </select>
                                     </div>
-                                    <div class="col s12 m2 input-field">
+                                    <div class="col s12 m1 input-field">
                                        <p class="searchable_label">HOD </p>
                                         <select id="hod" name="hod" onchange="getDesignList();" class="searchable">
                                             <option value="">Select</option>

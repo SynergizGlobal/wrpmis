@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -39,7 +40,7 @@ public class AlertsController {
 	//@Scheduled(cron = "0 0/3 * * * *")	//  = every minute.
 	//@Scheduled(cron = "0 50 10 * * *")	//  = every day 2:10 am.
 	//@Scheduled(cron = "0 10 16 * * *")	//  = every day 4:10 pm.
-	//@Scheduled(cron = "${cron.expression.generate.alerts}")
+	@Scheduled(cron = "${cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){		
 	     String message = "Method executed every day. Current time is :: "+ new Date();
 	     
@@ -61,7 +62,7 @@ public class AlertsController {
 	}
 	
 	//@Scheduled(cron = "0 25 15 * * MON")
-	//@Scheduled(cron = "${cron.expression.sending.alert.mails}")
+	@Scheduled(cron = "${cron.expression.sending.alert.mails}")
 	public void sendNotificationAlertMailsToAllByCronJob(){		
 	     String message = "Method executed every Monday. Current time is :: "+ new Date();
 	     

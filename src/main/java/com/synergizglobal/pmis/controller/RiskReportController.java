@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -188,8 +189,7 @@ public class RiskReportController {
 		byte[] byteArray;        
         //ObjectFactory objectFactory = new ObjectFactory();
 		boolean flag = false;
-		try{			
-			
+		try{
 			
 			RiskReport reportData = riskReportService.getRiskAnalysisReportData(obj);
 			
@@ -203,6 +203,10 @@ public class RiskReportController {
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
 			ObjectFactory factory = Context.getWmlObjectFactory();
 			
+			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			String report_created_date = df.format(new Date()); 
+			
+			
 			//String imagePath = CommonConstants2.DOCX_LOGO+"/"+"mrvc.png";
 			
 			//JcEnumeration imageAlignment = JcEnumeration.LEFT;
@@ -210,10 +214,12 @@ public class RiskReportController {
 			//String headerTextMiddle = "No.	MRVC/W/Risk	Analysis/2019";
 			
 			//String headerTextRight = currentDate;
+			String headerTextRight = "Date : " + report_created_date;
 			
-			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);			 
-			//createHeaderReference(wordMLPackage, mp, factory, relationship);
-			Relationship relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight);		
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
 			DocxTableCreation.createTableForRiskAnalysisReport(wordMLPackage, mp, factory,reportData,prioritizationOfRisks,reductionPlanRisks);
@@ -504,6 +510,17 @@ public class RiskReportController {
 		return rel;
 	}
 	
+	public Relationship createHeaderPart(
+			WordprocessingMLPackage wordprocessingMLPackage,
+			MainDocumentPart t, ObjectFactory factory,String headerText) throws Exception {
+		HeaderPart headerPart = new HeaderPart();
+		Relationship rel = t.addTargetPart(headerPart);
+		// After addTargetPart, so image can be added properly
+		headerPart.setJaxbElement(getHdr(wordprocessingMLPackage, factory,
+				headerPart,headerText));
+		return rel;
+	}
+	
 	public Hdr getHdr(WordprocessingMLPackage wordprocessingMLPackage,
 			ObjectFactory factory, HeaderPart sourcePart,
 			String imagePath, JcEnumeration imageAlignment, String headerTextMiddle, String headerTextRight) throws Exception {
@@ -559,6 +576,45 @@ public class RiskReportController {
 			r.setRPr(boldRPr);
 			p.getContent().add(r);
 		}
+		
+		hdr.getContent().add(p);	
+		
+		return hdr;
+	}
+	
+	public Hdr getHdr(WordprocessingMLPackage wordprocessingMLPackage,
+			ObjectFactory factory, HeaderPart sourcePart,String headerText) throws Exception {
+		Hdr hdr = factory.createHdr();
+		
+		P p = factory.createP();
+		R r = factory.createR();		
+		
+		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+				true, false, false, false);
+		
+		
+		if(!StringUtils.isEmpty(headerText)) {			
+			PPr pPr = p.getPPr();
+			if (pPr == null) {
+				pPr = factory.createPPr();
+			}
+			Jc jc = pPr.getJc();
+			if (jc == null) {
+				jc = new Jc();
+			}
+			jc.setVal(JcEnumeration.RIGHT);
+			pPr.setJc(jc);
+			p.setPPr(pPr);
+
+			Text txt = factory.createText();
+			txt.setValue(headerText);
+			r = factory.createR();
+			r.getContent().add(txt);
+			r.setRPr(boldRPr);
+			p.getContent().add(r);
+		}
+		
+		
 		
 		hdr.getContent().add(p);	
 		

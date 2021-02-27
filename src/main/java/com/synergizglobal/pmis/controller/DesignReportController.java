@@ -131,6 +131,9 @@ public class DesignReportController {
 		ModelAndView model = new ModelAndView("redirect:/design-drawing-report");
 		try{
 			
+			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			String report_created_date = df.format(new Date()); 
+			
 			Map<String,List<DesignReport>> reportData = service.getDesignReportData(obj);			
 			
 			XSSFWorkbook  workBook = new XSSFWorkbook();
@@ -162,6 +165,19 @@ public class DesignReportController {
 	        if(!reportData.isEmpty()) {
 	        	XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Drawings"));
 		        workBook.setSheetOrder(sheet.getSheetName(), sheetNo++);
+		        
+		        XSSFRow dateRow = sheet.createRow(0);
+		        
+		        Cell cell = dateRow.createCell(2);
+		        cell.setCellStyle(indexWhiteStyle);
+				cell.setCellValue("Date : " + report_created_date);
+		        for (int i = 3; i < 9; i++) {		        	
+			        cell = dateRow.createCell(i);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("");
+				}	
+		        sheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
+		        
 		        int rowNo = 2;
 		        for (Map.Entry<String,List<DesignReport>> entry : reportData.entrySet()) {  
 		            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
@@ -170,7 +186,7 @@ public class DesignReportController {
 		        	
 			        XSSFRow mainHeadingRow = sheet.createRow(rowNo);
 			        
-			        Cell cell = mainHeadingRow.createCell(2);
+			        cell = mainHeadingRow.createCell(2);
 			        cell.setCellStyle(indexWhiteStyle);
 					cell.setCellValue(keyName + " Wise: Drawings pending with Aprroving authrity");
 			        for (int i = 3; i < 9; i++) {		        	

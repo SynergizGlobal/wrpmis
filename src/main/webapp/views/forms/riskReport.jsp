@@ -323,6 +323,17 @@
 			    }
 			}); 
         
+        $('select').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        
+        $('input').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
 
     </script>
 

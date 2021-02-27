@@ -180,6 +180,10 @@ public class ActivitiesProgressReportController {
 	public void generateStripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
 		try{
+			
+			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			String report_created_date = df.format(new Date());
+			
 			String reporting_date = obj.getReporting_date();
 			//obj.setReporting_date(DateParser.parse(obj.getReporting_date()));
 			
@@ -231,10 +235,22 @@ public class ActivitiesProgressReportController {
 			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName(details.getContract_short_name()));
 			        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
 			        
+			        XSSFRow dateRow = dprSheet.createRow(0);
+			        
+			        Cell cell = dateRow.createCell(2);
+			        cell.setCellStyle(whiteStyle);
+					cell.setCellValue("Date : " + report_created_date);
+			        for (int i = 3; i < 9; i++) {		        	
+				        cell = dateRow.createCell(i);
+				        cell.setCellStyle(whiteStyle);
+						cell.setCellValue("");
+					}	
+			        dprSheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
+			        
 			        	
 			        XSSFRow mainHeadingRow = dprSheet.createRow(2);
 			        
-			        Cell cell = mainHeadingRow.createCell(2);
+			        cell = mainHeadingRow.createCell(2);
 			        cell.setCellStyle(greenStyle);
 					cell.setCellValue("Activities Progress Report ");
 			        for (int i = 3; i < 9; i++) {		        	

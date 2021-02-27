@@ -413,14 +413,14 @@
                                <div class="row">
                                 	<div class="col m2 hide-on-small-only"></div>                                         
 	                                <div class="col s12 m4 input-field" >
-	                                    <input id="query_raised_by_division" name="query_raised_by_division" type="text" class="validate datepicker">
+	                                    <input id="query_raised_by_division" name="query_raised_by_division" type="text" class="validate datepicker" value="${designDetails.query_raised_by_division }">
 	                                    <label for="query_raised_by_division">Query Raised By Division </label>
 	                                    <button type="button" id="query_raised_by_division_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_raised_by_divisionError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field" >
-	                                    <input id="query_replied_to_division" name="query_replied_to_division" type="text" class="validate datepicker" >
+	                                    <input id="query_replied_to_division" name="query_replied_to_division" type="text" class="validate datepicker" value="${designDetails.query_replied_to_division }">
 	                                    <label for="query_replied_to_division">Query Replied to  Division  </label>
 	                                    <button type="button" id="query_replied_to_division_icon"><i
 	                                            class="fa fa-calendar"></i></button>
@@ -483,14 +483,14 @@
                                 <div class="row">
                                 	<div class="col m2 hide-on-small-only"></div>                                         
 	                                <div class="col s12 m4 input-field" >
-	                                    <input id="query_raised_by_hq" name="query_raised_by_hq" type="text" class="validate datepicker">
+	                                    <input id="query_raised_by_hq" name="query_raised_by_hq" type="text" class="validate datepicker" value="${designDetails.query_raised_by_hq }">
 	                                    <label for="query_raised_by_hq">Query Raised By HQ </label>
 	                                    <button type="button" id="query_raised_by_hq_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_raised_by_hqError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field" >
-	                                    <input id="query_replied_to_hq" name="query_replied_to_hq" type="text" class="validate datepicker" >
+	                                    <input id="query_replied_to_hq" name="query_replied_to_hq" type="text" class="validate datepicker" value="${designDetails.query_replied_to_hq }">
 	                                    <label for="query_replied_to_hq">Query Replied to  HQ </label>
 	                                    <button type="button" id="query_replied_to_hq_icon"><i
 	                                            class="fa fa-calendar"></i></button>
@@ -508,32 +508,32 @@
                             <div class="col s12 m4 input-field">                                    
                                 <p class="radiogroup">
                                     <label>
-                                        <input class="with-gap" name="crs_sanction_required_fk" type="radio"
-                                            value="Yes" <c:if test="${designDetails.hq_submission_fk eq 'Yes'}">checked</c:if> />
+                                        <input class="with-gap" name="crs_sanction_fk" type="radio"
+                                            value="Yes" <c:if test="${designDetails.crs_sanction_fk eq 'Yes'}">checked</c:if> />
                                         <span>Yes</span>
                                     </label>
                                     &nbsp;
                                     <label>
-                                        <input class="with-gap" name="crs_sanction_required_fk" type="radio"
-                                            value="No"  <c:if test="${designDetails.hq_submission_fk eq 'No'}">checked</c:if>/>
+                                        <input class="with-gap" name="crs_sanction_fk" type="radio"
+                                            value="No"  <c:if test="${designDetails.crs_sanction_fk eq 'No'}">checked</c:if>/>
                                         <span>No</span>
                                     </label>
                                 </p>
                             </div>
                             <div class="col m2 hide-on-small-only"></div>  
                         </div>
-                          <div class="crs_sanction_required_fk" style="display:none;">
+                          <div class="crs_sanction_fk" style="display:none;">
                             	<div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>                               
 		                                <div class="col s12 m4 input-field " >
-		                                    <input id="submitted_for_crs_sanction" name="submitted_for_crs_sanction" type="text" class="validate datepicker" >
+		                                    <input id="submitted_for_crs_sanction" name="submitted_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.submitted_for_crs_sanction }">
 		                                    <label for="submitted_for_crs_sanction">Submitted for CRS Sanction </label>
 		                                    <button type="button" id="submitted_for_crs_sanction_icon"><i
 		                                            class="fa fa-calendar"></i></button>
 		                                    <span id="submitted_for_crs_sanctionError" class="error-msg" ></span>
 		                                </div>
 		                                <div class="col s12 m4 input-field ">
-		                                    <input id="query_raised_for_crs_sanction" name="query_raised_for_crs_sanction" type="text" class="validate datepicker" >
+		                                    <input id="query_raised_for_crs_sanction" name="query_raised_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_raised_for_crs_sanction }">
 		                                    <label for="query_raised_for_crs_sanction">Query Raised for CRS  Sanction </label>
 		                                    <button type="button" id="query_raised_for_crs_sanction_icon"><i
 		                                            class="fa fa-calendar"></i></button>
@@ -544,14 +544,14 @@
                                 <div class="row">
                                 	<div class="col m2 hide-on-small-only"></div>                                         
 	                                <div class="col s12 m4 input-field" >
-	                                    <input id="query_replied_for_crs_sanction" name="query_replied_for_crs_sanction" type="text" class="validate datepicker" >
+	                                    <input id="query_replied_for_crs_sanction" name="query_replied_for_crs_sanction" type="text" class="validate datepicker" value="${designDetails.query_replied_for_crs_sanction }">
 	                                    <label for="query_replied_for_crs_sanction">Query Replyied for CRS Sanction </label>
 	                                    <button type="button" id="query_replied_for_crs_sanction_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="query_replied_for_crs_sanctionError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col s12 m4 input-field" >
-	                                    <input id="crs_sanction_approved" name="crs_sanction_approved" type="text" class="validate datepicker" >
+	                                    <input id="crs_sanction_approved" name="crs_sanction_approved" type="text" class="validate datepicker" value="${designDetails.crs_sanction_approved }">
 	                                    <label for="crs_sanction_approved">CRS Sanction Approved </label>
 	                                    <button type="button" id="crs_sanction_approved_icon"><i
 	                                            class="fa fa-calendar"></i></button>
@@ -952,13 +952,13 @@
                 }
             });
             
-            $('input[name=crs_sanction_required_fk]').change(function () {
-                var radioval = $('input[name=crs_sanction_required_fk]:checked').val();
+            $('input[name=crs_sanction_fk]').change(function () {
+                var radioval = $('input[name=crs_sanction_fk]:checked').val();
                 if (radioval == 'Yes') {
-                    $('.crs_sanction_required_fk').css("display", "block");
+                    $('.crs_sanction_fk').css("display", "block");
                 }
                 else if (radioval == 'No') {
-                    $('.crs_sanction_required_fk').css("display", "none");
+                    $('.crs_sanction_fk').css("display", "none");
                 }
             });
             
@@ -972,9 +972,9 @@
             	$('.hq_submission_fk').css("display", "block");
             }
             
-            var crs_sanction_required_fk = "${designDetails.hq_submission_fk}";
-            if($.trim(crs_sanction_required_fk) == 'Yes' ){
-            	$('.crs_sanction_required_fk').css("display", "block");
+            var crs_sanction_fk = "${designDetails.crs_sanction_fk}";
+            if($.trim(crs_sanction_fk) == 'Yes' ){
+            	$('.crs_sanction_fk').css("display", "block");
             }
             
             var projectId = "${designDetails.project_id_fk}";

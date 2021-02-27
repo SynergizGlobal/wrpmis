@@ -13,7 +13,8 @@ public class Design {
 	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,work_short_name,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
-	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,
+	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq,
+	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,
 	 project_id,work_id,project_name,contract_id,revision_status;
 	
 	
@@ -23,6 +24,78 @@ public class Design {
 	
 	private List<Design> designRevisions;
 	
+
+	public String getQuery_raised_by_division() {
+		return query_raised_by_division;
+	}
+
+	public void setQuery_raised_by_division(String query_raised_by_division) {
+		this.query_raised_by_division = query_raised_by_division;
+	}
+
+	public String getQuery_replied_to_division() {
+		return query_replied_to_division;
+	}
+
+	public void setQuery_replied_to_division(String query_replied_to_division) {
+		this.query_replied_to_division = query_replied_to_division;
+	}
+
+	public String getQuery_raised_by_hq() {
+		return query_raised_by_hq;
+	}
+
+	public void setQuery_raised_by_hq(String query_raised_by_hq) {
+		this.query_raised_by_hq = query_raised_by_hq;
+	}
+
+	public String getQuery_replied_to_hq() {
+		return query_replied_to_hq;
+	}
+
+	public void setQuery_replied_to_hq(String query_replied_to_hq) {
+		this.query_replied_to_hq = query_replied_to_hq;
+	}
+
+	public String getCrs_sanction_fk() {
+		return crs_sanction_fk;
+	}
+
+	public void setCrs_sanction_fk(String crs_sanction_fk) {
+		this.crs_sanction_fk = crs_sanction_fk;
+	}
+
+	public String getSubmitted_for_crs_sanction() {
+		return submitted_for_crs_sanction;
+	}
+
+	public void setSubmitted_for_crs_sanction(String submitted_for_crs_sanction) {
+		this.submitted_for_crs_sanction = submitted_for_crs_sanction;
+	}
+
+	public String getQuery_raised_for_crs_sanction() {
+		return query_raised_for_crs_sanction;
+	}
+
+	public void setQuery_raised_for_crs_sanction(String query_raised_for_crs_sanction) {
+		this.query_raised_for_crs_sanction = query_raised_for_crs_sanction;
+	}
+
+	public String getQuery_replied_for_crs_sanction() {
+		return query_replied_for_crs_sanction;
+	}
+
+	public void setQuery_replied_for_crs_sanction(String query_replied_for_crs_sanction) {
+		this.query_replied_for_crs_sanction = query_replied_for_crs_sanction;
+	}
+
+	public String getCrs_sanction_approved() {
+		return crs_sanction_approved;
+	}
+
+	public void setCrs_sanction_approved(String crs_sanction_approved) {
+		this.crs_sanction_approved = crs_sanction_approved;
+	}
 
 	public String getProject_id() {
 		return project_id;

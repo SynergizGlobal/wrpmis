@@ -468,6 +468,15 @@ public class DesignController {
 			obj.setSubmitted_to_division(DateParser.parse(obj.getSubmitted_to_division()));
 			obj.setSubmitted_to_hq(DateParser.parse(obj.getSubmitted_to_hq()));
 			
+			obj.setQuery_raised_by_division(DateParser.parse(obj.getQuery_raised_by_division()));
+			obj.setQuery_replied_to_division(DateParser.parse(obj.getQuery_replied_to_division()));
+			obj.setQuery_raised_by_hq(DateParser.parse(obj.getQuery_raised_by_hq()));
+			obj.setQuery_replied_to_hq(DateParser.parse(obj.getQuery_replied_to_hq()));
+			obj.setSubmitted_for_crs_sanction(DateParser.parse(obj.getSubmitted_for_crs_sanction()));
+			obj.setQuery_raised_for_crs_sanction(DateParser.parse(obj.getQuery_raised_for_crs_sanction()));
+			obj.setQuery_replied_for_crs_sanction(DateParser.parse(obj.getQuery_replied_for_crs_sanction()));
+			obj.setCrs_sanction_approved(DateParser.parse(obj.getCrs_sanction_approved()));
+			
 			boolean flag =  designService.addDesign(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Design Added Succesfully.");
@@ -501,6 +510,15 @@ public class DesignController {
 			obj.setAs_built_date(DateParser.parse(obj.getAs_built_date()));
 			obj.setSubmitted_to_division(DateParser.parse(obj.getSubmitted_to_division()));
 			obj.setSubmitted_to_hq(DateParser.parse(obj.getSubmitted_to_hq()));
+			
+			obj.setQuery_raised_by_division(DateParser.parse(obj.getQuery_raised_by_division()));
+			obj.setQuery_replied_to_division(DateParser.parse(obj.getQuery_replied_to_division()));
+			obj.setQuery_raised_by_hq(DateParser.parse(obj.getQuery_raised_by_hq()));
+			obj.setQuery_replied_to_hq(DateParser.parse(obj.getQuery_replied_to_hq()));
+			obj.setSubmitted_for_crs_sanction(DateParser.parse(obj.getSubmitted_for_crs_sanction()));
+			obj.setQuery_raised_for_crs_sanction(DateParser.parse(obj.getQuery_raised_for_crs_sanction()));
+			obj.setQuery_replied_for_crs_sanction(DateParser.parse(obj.getQuery_replied_for_crs_sanction()));
+			obj.setCrs_sanction_approved(DateParser.parse(obj.getCrs_sanction_approved()));
 
 			boolean flag =  designService.updateDesign(obj);
 			if(flag) {

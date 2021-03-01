@@ -2,10 +2,91 @@ package com.synergizglobal.pmis.model;
 
 public class Alerts {
 	private String alert_id,alert_level,alert_type_fk,alert_type_id,alert_type,contract_id,created_date,alert_status,alert_value,count,
-	hod,work_short_name,contract_short_name,hod_email,dy_hod_email,contractor_name,remarks;
+	hod,work_short_name,contract_short_name,hod_email,dy_hod_email,contract_id_fk,contractor_id_fk,contractor_id,contractor_name,remarks,
+	email_id,user_id,work_id,work_id_fk,contract_name,work_name,user_name,designation,user_role_name;
 
 	
 	
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
+	}
+
+	public String getWork_name() {
+		return work_name;
+	}
+
+	public void setWork_name(String work_name) {
+		this.work_name = work_name;
+	}
+
+	public String getContract_id_fk() {
+		return contract_id_fk;
+	}
+
+	public void setContract_id_fk(String contract_id_fk) {
+		this.contract_id_fk = contract_id_fk;
+	}
+
+	public String getContractor_id_fk() {
+		return contractor_id_fk;
+	}
+
+	public void setContractor_id_fk(String contractor_id_fk) {
+		this.contractor_id_fk = contractor_id_fk;
+	}
+
+	public String getContractor_id() {
+		return contractor_id;
+	}
+
+	public void setContractor_id(String contractor_id) {
+		this.contractor_id = contractor_id;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getWork_id() {
+		return work_id;
+	}
+
+	public void setWork_id(String work_id) {
+		this.work_id = work_id;
+	}
+
+	public String getWork_id_fk() {
+		return work_id_fk;
+	}
+
+	public void setWork_id_fk(String work_id_fk) {
+		this.work_id_fk = work_id_fk;
+	}
+
 	public String getHod() {
 		return hod;
 	}
@@ -140,6 +221,22 @@ public class Alerts {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getEmail_id() {
+		return email_id;
+	}
+
+	public void setEmail_id(String email_id) {
+		this.email_id = email_id;
+	}
+
+	public String getUser_role_name() {
+		return user_role_name;
+	}
+
+	public void setUser_role_name(String user_role_name) {
+		this.user_role_name = user_role_name;
 	}
 	
 }

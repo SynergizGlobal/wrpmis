@@ -59,7 +59,7 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 	public List<StripChart> getAcivitiesBulkUpdateWorksList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select c.work_id_fk,w.work_id,w.work_name "
+			String qry = "select c.work_id_fk,w.work_id,w.work_name ,w.work_short_name "
 					+ "from contract c "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE c.contract_id IN (select a.contract_id_fk FROM activities a WHERE a.contract_id_fk IS NOT NULL GROUP BY a.contract_id_fk ) ";

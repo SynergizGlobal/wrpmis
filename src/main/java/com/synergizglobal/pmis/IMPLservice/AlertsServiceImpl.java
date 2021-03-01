@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.AlertsDao;
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.User;
 
 @Service
 public class AlertsServiceImpl implements AlertsService{
@@ -63,6 +62,11 @@ public class AlertsServiceImpl implements AlertsService{
 	@Override
 	public List<Alerts> getAlertTypesFilterListInAlerts(Alerts obj) throws Exception {
 		return dao.getAlertTypesFilterListInAlerts(obj);
+	}
+
+	@Override
+	public boolean addAlertRemarks(Alerts obj) throws Exception {
+		return dao.addAlertRemarks(obj);
 	}
 
 }

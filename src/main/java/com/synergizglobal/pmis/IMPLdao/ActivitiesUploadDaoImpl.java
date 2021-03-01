@@ -172,43 +172,42 @@ public class ActivitiesUploadDaoImpl implements ActivitiesUploadDao{
 		                }
 		            });
 			
-			
-			String updateQry = "UPDATE activities SET `order` = ?,activity_name = ?,planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
-					+ "WHERE contract_id_fk = ? and structure_type_fk = ? and section = ? and line = ? and structure = ? and component = ? and component_id = ? ";
+			String updateQry = "UPDATE activities SET planned_start = ?,planned_finish = ?,actual_start = ?,actual_finish = ?,unit = ?,scope = ?,completed = ?,weightage = ?,component_details = ?,remarks = ?,modified_date = CURRENT_TIMESTAMP,modified_by_user_id_fk = ? "
+					+ "WHERE (contract_id_fk = ? OR contract_id_fk IS NULL OR contract_id_fk = '') and (structure_type_fk = ? OR structure_type_fk IS NULL OR structure_type_fk = '') "
+					+ "and (section = ? OR section IS NULL OR section = '') and (line = ? OR line IS NULL OR line = '') and (structure = ? OR structure IS NULL OR structure = '') and (component = ? OR component IS NULL OR component = '') "
+					+ "and (component_id = ? OR component_id IS NULL OR component_id = '') and (activity_name = ? OR activity_name IS NULL OR activity_name = '') ";
 			int[] updateCounts = jdbcTemplate.batchUpdate(updateQry,
-		            new BatchPreparedStatementSetter() {		                 
-		                @Override
-		                public void setValues(PreparedStatement ps, int i) throws SQLException {
-		                	int p = 1;
-		                    ps.setString(p++, updateList.get(i).getOrder());	
-		                    ps.setString(p++, updateList.get(i).getActivity_name());
-		                    ps.setString(p++, updateList.get(i).getPlanned_start());
-		                    
-		                    ps.setString(p++, updateList.get(i).getPlanned_finish());
-		                    ps.setString(p++, updateList.get(i).getActual_start());
-		                    ps.setString(p++, updateList.get(i).getActual_finish());	
-		                    ps.setString(p++, updateList.get(i).getUnit());
-		                    ps.setString(p++, updateList.get(i).getScope());
-		                    
-		                    ps.setString(p++, updateList.get(i).getCompleted());
-		                    ps.setString(p++, updateList.get(i).getWeightage());
-		                    ps.setString(p++, updateList.get(i).getComponent_details());	
-		                    ps.setString(p++, updateList.get(i).getRemarks());
-		                    ps.setString(p++, updateList.get(i).getModified_by_user_id_fk());
-		                    
-		                    ps.setString(p++, updateList.get(i).getContract_id_fk());
-		                    ps.setString(p++, updateList.get(i).getStructure_type_fk());
-		                    ps.setString(p++, updateList.get(i).getSection());	
-		                    ps.setString(p++, updateList.get(i).getLine());
-		                    ps.setString(p++, updateList.get(i).getStructure());		                    
-		                    ps.setString(p++, updateList.get(i).getComponent());
-		                    ps.setString(p++, updateList.get(i).getComponent_id());
-		                }
-		                @Override  
-		                public int getBatchSize() {		                	
-		                    return updateList.size();
-		                }
-		            });
+			        new BatchPreparedStatementSetter() {		                 
+			            @Override
+			            public void setValues(PreparedStatement ps, int i) throws SQLException {
+			            	int p = 1;
+			                ps.setString(p++, updateList.get(i).getPlanned_start());		                    
+			                ps.setString(p++, updateList.get(i).getPlanned_finish());
+			                ps.setString(p++, updateList.get(i).getActual_start());
+			                ps.setString(p++, updateList.get(i).getActual_finish());	
+			                ps.setString(p++, updateList.get(i).getUnit());
+			                ps.setString(p++, updateList.get(i).getScope());
+			                
+			                ps.setString(p++, updateList.get(i).getCompleted());
+			                ps.setString(p++, updateList.get(i).getWeightage());
+			                ps.setString(p++, updateList.get(i).getComponent_details());	
+			                ps.setString(p++, updateList.get(i).getRemarks());
+			                ps.setString(p++, updateList.get(i).getModified_by_user_id_fk());
+			                
+			                ps.setString(p++, updateList.get(i).getContract_id_fk());
+			                ps.setString(p++, updateList.get(i).getStructure_type_fk());
+			                ps.setString(p++, updateList.get(i).getSection());	
+			                ps.setString(p++, updateList.get(i).getLine());
+			                ps.setString(p++, updateList.get(i).getStructure());		                    
+			                ps.setString(p++, updateList.get(i).getComponent());
+			                ps.setString(p++, updateList.get(i).getComponent_id());		                	
+			                ps.setString(p++, updateList.get(i).getActivity_name());
+			            }
+			            @Override  
+			            public int getBatchSize() {		                	
+			                return updateList.size();
+			            }
+			        });
 			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();

@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
@@ -154,8 +154,25 @@ public class AlertsController {
 	     return model;
 	}
 	
+	@RequestMapping(value="/generate-alerts-manually",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView generateAlertsManually(){		
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+	     try {
+	    	logger.error("generateAlertsManually : start");
+	    	//System.out.println("Start "+ new Date());
+            boolean flag = service.generateAterts();
+            //System.out.println("End "+ new Date());
+	    	logger.error("generateAlertsManually : "+flag);
+			
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("generateAlertsByManual() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
 	@RequestMapping(value="/get-alerts",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getAlerts(HttpSession session){		
+	public ModelAndView getAlertsList(HttpSession session){		
 		 ModelAndView model = new ModelAndView(PageConstants2.alertsGrid);	    
 	     try {
 	    	 //String user_Id = (String) session.getAttribute("USER_ID");
@@ -163,8 +180,6 @@ public class AlertsController {
 	    	 User uObj = (User) session.getAttribute("user");
 	    	 model.addObject("email_id", uObj.getEmail_id());
 	    	 model.addObject("user_role_name", uObj.getUser_role_name_fk());
-	    	 /*List<Alerts> alerts = service.getAlerts(uObj);
-	    	 model.addObject("alerts", alerts);*/
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("getAlerts() : "+e.getMessage());
@@ -172,7 +187,7 @@ public class AlertsController {
 	     return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getAlerts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getAlerts", method = {RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Alerts> getAlerts(@ModelAttribute Alerts obj) {
 		List<Alerts> objsList = null;  
@@ -248,6 +263,25 @@ public class AlertsController {
 			logger.error("getAlertTypesFilterListInAlerts : " + e.getMessage());
 		}
 		return objsList;
+	}
+	
+	@RequestMapping(value="/add-alert-remarks",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addAlertRemarks(@ModelAttribute Alerts obj,HttpSession session,RedirectAttributes attributes){		
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+	     try {
+	    	 String user_Id = (String) session.getAttribute("USER_ID");
+	    	 //String userName = (String) session.getAttribute("USER_NAME");
+	    	 boolean flag = service.addAlertRemarks(obj);
+	    	 if(flag) {
+	    		 attributes.addFlashAttribute("success", "Remarks addedd successfully.");
+	    	 }else {
+	    		 attributes.addFlashAttribute("error", "Adding remarks failed.");
+	    	 }
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("addAlertRemarks() : "+e.getMessage());
+		 }
+	     return model;
 	}
 	
 }

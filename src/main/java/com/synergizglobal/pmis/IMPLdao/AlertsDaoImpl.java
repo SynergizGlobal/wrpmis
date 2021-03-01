@@ -26,7 +26,6 @@ import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.User;
 @Repository
 public class AlertsDaoImpl implements AlertsDao{
 	
@@ -52,7 +51,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** BG alerts*******************************************************/
 			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
+					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -66,7 +65,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
+					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ " from contract c " +
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -80,7 +79,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
+					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -95,7 +94,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Insurance alerts*******************************************************/
 			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
+					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
 					+ "from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -109,7 +108,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String insuranceQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
+					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -123,7 +122,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String insuranceQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
+					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -261,21 +260,34 @@ public class AlertsDaoImpl implements AlertsDao{
 			jdbcTemplate.update(updateQry,pValues);	
 			
 			
-			String qryUserPermissions = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,hod_email,dy_hod_email) VALUES  (?,?,?,?,?,?,?,?)";		
+			String qryUserPermissions = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,hod_email,dy_hod_email,remarks) VALUES  (?,?,?,?,?,?,?,?,?)";		
 			
 			int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions, new BatchPreparedStatementSetter() { 
 								@Override
 				                public void setValues(PreparedStatement ps, int i) throws SQLException {
-				                    ps.setString(1, list.get(i).getAlert_level());
-				                    ps.setString(2, list.get(i).getAlert_type());
-				                    ps.setString(3, list.get(i).getContract_id());
+									String alert_level = list.get(i).getAlert_level();
+									String alert_type = list.get(i).getAlert_type();
+									String contract_id = list.get(i).getContract_id();
+									String alert_value = list.get(i).getAlert_value();
+									
+				                    ps.setString(1, alert_level);
+				                    ps.setString(2, alert_type);
+				                    ps.setString(3, contract_id);
 				                    ps.setString(4, CommonConstants.ACTIVE);
-				                    ps.setString(5, list.get(i).getAlert_value());
+				                    ps.setString(5, alert_value);
 				                    ps.setString(6, "1");
 				                    ps.setString(7, list.get(i).getHod_email());
 				                    ps.setString(8, list.get(i).getDy_hod_email());
+				                    ps.setString(9, getAlertRemarks(alert_type,contract_id,alert_value));
 				                }
-				                @Override  
+				                private String getAlertRemarks(String alert_type, String contract_id,
+										String alert_value) {
+				                	String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? and created_date = (NOW() - INTERVAL 1 DAY)";
+				        			Object[] pValues = new Object[] {alert_type,contract_id,alert_value};
+				        			String remarks = jdbcTemplate.queryForObject( remarksQry,pValues, String.class);
+									return remarks;
+								}
+								@Override  
 				                public int getBatchSize() {
 				                	 return list.size();
 				                }
@@ -635,7 +647,8 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getAlerts(Alerts obj) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,a.remarks,count,u.designation as hod,"
+					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
 					+ "from alerts a " 
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
@@ -1056,6 +1069,23 @@ public class AlertsDaoImpl implements AlertsDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+
+	@Override
+	public boolean addAlertRemarks(Alerts obj) throws Exception {
+		boolean flag = false;
+		try {
+			String updateQry = "update alerts set remarks = ? where alert_id = ?";	
+			Object[] pValues = new Object[] {obj.getRemarks(),obj.getAlert_id()};
+			int c = jdbcTemplate.update(updateQry,pValues);	
+			if(c > 0) {
+				flag = true;
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return flag;
 	}
 
 	

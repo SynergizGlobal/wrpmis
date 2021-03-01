@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
     <style>
         .modal-header {
             text-align: center;
@@ -126,7 +127,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    	<c:forEach var="obj" items="${alerts }">
+                                    	<%-- <c:forEach var="obj" items="${alerts }">
 	                                        <tr>
 	                                            <td>${obj.hod }</td>
 	                                            <td>${obj.work_short_name }</td>
@@ -140,7 +141,7 @@
 	                                                <a href="javascript:void(0);" onclick="addAlertRemarks('${obj.alert_id }');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
 	                                            </td>
 	                                        </tr>
-                                        </c:forEach>
+                                        </c:forEach> --%>
                                     </tbody>
                                 </table>
                             </div>
@@ -162,7 +163,7 @@
                <div class="row no-mar">
                    <div class="col m1 hide-on-small-only"></div>
                    <div class="input-field col s12 m10">
-                       <textarea id="remarks"
+                       <textarea id="remarks" name="remarks"
                            class="materialize-textarea"
                            data-length="500" maxlength="500" required="required"></textarea>
                        <label for="remarks">Remarks</label>
@@ -231,41 +232,42 @@
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-
+	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+	
     <script>
+    
 	    var email_id = '${email_id}';
 	    var user_role_name = '${user_role_name}';
     
-        $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
+	    $(document).ready(function(){
+			var successMessage = '${success}';
+			var errorMessage = '${error}';
+			if(successMessage){
+				swal("Success!", successMessage);
+			}
+			if(errorMessage){
+				swal("Failed!", errorMessage, "error");
+			}
+			
+			$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.modal').modal();
             $('.materialize-textarea').characterCounter();
-            $('#notifications-table').DataTable({
-                columnDefs: [
-                    {
-                        targets: 'no-sort', orderable: false,
-                    },
-                    { "width": "10px", "targets": [8] },
-                ],
-                "ScrollX": true,
-                "scrollCollapse": true,
-                "sScrollY": 400,
-                // paging: false,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
             
             getAlerts();
-        });
+	            
+		});
+	    
         function clearFilters() {
+        	
             $('#hod').val("");
             $('#work_id_fk').val("");
             $('#contract_id_fk').val("");
             $('#contractor_id_fk').val("");
             $('#alert_type_fk').val("");
             $('.searchable').select2();
+            
+            getAlerts();
         }
         
 		function getAlerts(){
@@ -317,7 +319,11 @@
     		table.state.clear();		
     	 
     		var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlerts",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlerts",
+    			data:myParams,
+    			type:'POST',
+    			dataType: 'json',
+    			success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var alert_id = "'"+val.alert_id+"'";
@@ -368,7 +374,7 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
    	                url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInAlerts",
-   	                data: myParams, cache: false,
+   	                data: myParams,type:"POST", cache: false,
    	                success: function (data) {   	                	
    	                    if (data.length > 0) {
    	                        $.each(data, function (i, val) {
@@ -400,7 +406,7 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHODFilterListInAlerts",
-                    data: myParams, cache: false,
+                    data: myParams,type:"POST", cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -432,7 +438,7 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInAlerts",
-                    data: myParams, cache: false,
+                    data: myParams,type:"POST", cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -464,7 +470,7 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInAlerts",
-                    data: myParams, cache: false,
+                    data: myParams,type:"POST", cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -496,7 +502,7 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getAlertTypesFilterListInAlerts",
-                    data: myParams, cache: false,
+                    data: myParams,type:"POST", cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {

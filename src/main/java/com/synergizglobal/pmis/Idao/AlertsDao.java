@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.Idao;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.User;
 
 public interface AlertsDao {
 
@@ -26,5 +25,7 @@ public interface AlertsDao {
 	List<Alerts> getWorksFilterListInAlerts(Alerts obj) throws Exception;
 
 	List<Alerts> getAlertTypesFilterListInAlerts(Alerts obj) throws Exception;
+
+	boolean addAlertRemarks(Alerts obj) throws Exception;
 	
 }

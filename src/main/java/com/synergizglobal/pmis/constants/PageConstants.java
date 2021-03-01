@@ -9,6 +9,7 @@ public class PageConstants {
 	public static final String profile = "profile";
 	
 	public static final String stripChart="/forms/stripChart";
+	public static final String activitiesProgress="/forms/activitiesProgressForm";
 	
 	public static final String work = "forms/work";
 	public static final String addEditWork = "forms/addUpdateWork";
@@ -51,6 +52,7 @@ public class PageConstants {
 	public static final String addEditExpenditure = "forms/addEditExpenditure";
 	
 	public static final String progressBulkUpdate = "forms/progressBulkUpdate";
+	public static final String activitiesBulkUpdate = "forms/activitiesBulkUpdate";
 	
 	public static final String documentGrid = "forms/documentGrid";
 	public static final String addEditDocumentForm = "forms/addEditDocumentForm";

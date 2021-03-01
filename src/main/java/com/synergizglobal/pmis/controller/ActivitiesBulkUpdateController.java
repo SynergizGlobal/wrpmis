@@ -41,7 +41,7 @@ public class ActivitiesBulkUpdateController {
 
 	@RequestMapping(value="/activities-bulk-update",method=RequestMethod.GET)
 	public ModelAndView AcivitiesBulkUpload(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
-		ModelAndView model = new ModelAndView(PageConstants.progressBulkUpdate);
+		ModelAndView model = new ModelAndView(PageConstants.activitiesBulkUpdate);
 		try {
 			List<StripChart> projectsList = activitiesBulkUpdateService.getAcivitiesBulkUpdateProjectsList(obj);
 			model.addObject("projectsList", projectsList);

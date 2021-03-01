@@ -158,7 +158,7 @@ public class AlertsController {
 	    	 String userName = (String) session.getAttribute("USER_NAME");
 	    	 User uObj = (User) session.getAttribute("user");
 	    	 List<Alerts> alerts = service.getAlerts(uObj);
-			
+	    	 model.addObject("alerts", alerts);
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("getAlerts() : "+e.getMessage());

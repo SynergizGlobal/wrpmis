@@ -50,7 +50,7 @@ public class ActivitiesController {
 	
 	@RequestMapping(value="/activity-progress",method=RequestMethod.GET)
 	public ModelAndView sctivities(@ModelAttribute StripChart obj,HttpSession session) throws IOException {
-		ModelAndView model = new ModelAndView(PageConstants.stripChart);
+		ModelAndView model = new ModelAndView(PageConstants.activitiesProgress);
 		try {
 			List<StripChart> projectsList = activitiesService.getActivitiesProjectsList(obj);
 			model.addObject("projectsList", projectsList);
@@ -77,7 +77,7 @@ public class ActivitiesController {
 	
 	@RequestMapping(value="/activity-progress/{activityId}",method=RequestMethod.GET)
 	public ModelAndView getActivitiesData(@PathVariable("activityId")String activityId,@ModelAttribute StripChart obj,HttpSession session) throws IOException {
-		ModelAndView model = new ModelAndView(PageConstants.stripChart);
+		ModelAndView model = new ModelAndView(PageConstants.activitiesProgress);
 		try {
 			
 			List<StripChart> projectsList = activitiesService.getActivitiesProjectsList(obj);

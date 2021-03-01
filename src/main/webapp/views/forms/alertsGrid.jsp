@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,59 +150,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column">
-                                                <a href="#modal1"
-                                                    class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
-
-                                                <!-- Modal Structure -->
-                                                <div id="modal1" class="modal">
-                                                    <div class="modal-content">
-                                                        <h5 class="modal-header"> Update Remark <span
-                                                                class="right modal-action modal-close"><span
-                                                                    class="material-icons">close</span></span></h5>
-                                                        <form>
-                                                            <div class="row no-mar">
-                                                                <div class="col m1 hide-on-small-only"></div>
-                                                                <div class="input-field col s12 m10">
-                                                                    <textarea id="textarea1"
-                                                                        class="materialize-textarea"
-                                                                        data-length="1000"></textarea>
-                                                                    <label for="textarea1">Textarea</label>
-                                                                </div>
-                                                                <div class="col m1 hide-on-small-only"></div>
-                                                            </div>
-                                                            <div class="row no-mar">
-                                                                <div class="col m1 hide-on-small-only"></div>
-                                                                <div class="col s12 m5">
-                                                                    <div class="center-align m-1">
-                                                                        <button type="button" style="width: 100%;"
-                                                                            class="btn waves-effect waves-light bg-m">Update</button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col s12 m5">
-                                                                    <div class="center-align m-1">
-                                                                        <button type="button" style="width: 100%;"
-                                                                            class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col m1 hide-on-small-only"></div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    	<c:forEach var="obj" items="${alerts }">
+	                                        <tr>
+	                                            <td>${obj.hod }</td>
+	                                            <td>${obj.work_short_name }</td>
+	                                            <td>${obj.contract_short_name }</td>
+	                                            <td>${obj.contractor_name }</td>
+	                                            <td>${obj.alert_type_fk }</td>
+	                                            <td>${obj.alert_level }</td>
+	                                            <td>${obj.alert_value }</td>
+	                                            <td>${obj.remarks }</td>
+	                                            <td class="last-column">
+	                                                <a href="#modal1" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
+	                                            </td>
+	                                        </tr>
+                                        </c:forEach>
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
@@ -209,6 +174,43 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal Structure -->
+   <div id="modal1" class="modal">
+       <div class="modal-content">
+           <h5 class="modal-header"> Update Remark <span
+                   class="right modal-action modal-close"><span
+                       class="material-icons">close</span></span></h5>
+           <form>
+               <div class="row no-mar">
+                   <div class="col m1 hide-on-small-only"></div>
+                   <div class="input-field col s12 m10">
+                       <textarea id="textarea1"
+                           class="materialize-textarea"
+                           data-length="1000"></textarea>
+                       <label for="textarea1">Textarea</label>
+                   </div>
+                   <div class="col m1 hide-on-small-only"></div>
+               </div>
+               <div class="row no-mar">
+                   <div class="col m1 hide-on-small-only"></div>
+                   <div class="col s12 m5">
+                       <div class="center-align m-1">
+                           <button type="button" style="width: 100%;"
+                               class="btn waves-effect waves-light bg-m">Update</button>
+                       </div>
+                   </div>
+                   <div class="col s12 m5">
+                       <div class="center-align m-1">
+                           <button type="button" style="width: 100%;"
+                               class="btn waves-effect waves-light bg-s modal-close">Cancel</button>
+                       </div>
+                   </div>
+                   <div class="col m1 hide-on-small-only"></div>
+               </div>
+           </form>
+       </div>
+   </div>
 
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>

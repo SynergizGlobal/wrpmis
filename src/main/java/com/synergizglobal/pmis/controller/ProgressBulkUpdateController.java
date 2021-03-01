@@ -36,19 +36,19 @@ public class ProgressBulkUpdateController {
 	Logger logger = Logger.getLogger(HomeController.class);
 	
 	@Autowired
-	ProgressBulkUpdateService progressBulkUpdateervice;
+	ProgressBulkUpdateService progressBulkUpdatService;
 	
 	
 	@RequestMapping(value="/progress-bulk-update",method=RequestMethod.GET)
 	public ModelAndView progressBulkUpload(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
 		ModelAndView model = new ModelAndView(PageConstants.progressBulkUpdate);
 		try {
-			List<StripChart> projectsList = progressBulkUpdateervice.getProgressBulkUpdateProjectsList(obj);
+			List<StripChart> projectsList = progressBulkUpdatService.getProgressBulkUpdateProjectsList(obj);
 			model.addObject("projectsList", projectsList);
 			
-			List<StripChart> worksList = progressBulkUpdateervice.getProgressBulkUpdateWorksList(obj);
+			List<StripChart> worksList = progressBulkUpdatService.getProgressBulkUpdateWorksList(obj);
 			model.addObject("worksList", worksList);
-			List<StripChart> contractsList = progressBulkUpdateervice.getProgressBulkUpdateContractsList(obj);
+			List<StripChart> contractsList = progressBulkUpdatService.getProgressBulkUpdateContractsList(obj);
 			model.addObject("contractsList", contractsList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,7 +63,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkUpdateProjectsList(@ModelAttribute StripChart obj){
 		List<StripChart> projects = null;
 		try{
-			projects = progressBulkUpdateervice.getProgressBulkUpdateProjectsList(obj);			
+			projects = progressBulkUpdatService.getProgressBulkUpdateProjectsList(obj);			
 		}catch(Exception e){
 			logger.error("getProgressBulkUpdateProjectsList() : "+e.getMessage());
 		}
@@ -75,7 +75,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkUpdateWorksList(@ModelAttribute StripChart obj){
 		List<StripChart> works = null;
 		try{
-			works = progressBulkUpdateervice.getProgressBulkUpdateWorksList(obj);			
+			works = progressBulkUpdatService.getProgressBulkUpdateWorksList(obj);			
 		}catch(Exception e){
 			logger.error("geStripCharttWorksList() : "+e.getMessage());
 		}
@@ -87,7 +87,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkUpdateContractsList(@ModelAttribute StripChart obj){
 		List<StripChart> contracts = null;
 		try{
-			contracts = progressBulkUpdateervice.getProgressBulkUpdateContractsList(obj);			
+			contracts = progressBulkUpdatService.getProgressBulkUpdateContractsList(obj);			
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getProgressBulkUpdateContractsList() : "+e.getMessage());
@@ -100,7 +100,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkUpdateStructures(@ModelAttribute StripChart obj){
 		List<StripChart> structures = null;
 		try{
-			structures = progressBulkUpdateervice.getProgressBulkUpdateStructures(obj);			
+			structures = progressBulkUpdatService.getProgressBulkUpdateStructures(obj);			
 		}catch(Exception e){
 			logger.error("getProgressBulkUpdateStructures() : "+e.getMessage());
 		}
@@ -112,7 +112,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkUpdateLines(@ModelAttribute StripChart obj){
 		List<StripChart> structures = null;
 		try{
-			structures = progressBulkUpdateervice.getProgressBulkUpdateLines(obj);			
+			structures = progressBulkUpdatService.getProgressBulkUpdateLines(obj);			
 		}catch(Exception e){
 			logger.error("getProgressBulkUpdateLines() : "+e.getMessage());
 		}
@@ -124,7 +124,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkUpdateSections(@ModelAttribute StripChart obj){
 		List<StripChart> structures = null;
 		try{
-			structures = progressBulkUpdateervice.getProgressBulkUpdateSections(obj);			
+			structures = progressBulkUpdatService.getProgressBulkUpdateSections(obj);			
 		}catch(Exception e){
 			logger.error("getProgressBulkUpdateSections() : "+e.getMessage());
 		}
@@ -136,7 +136,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkUpdateComponentIds(@ModelAttribute StripChart obj){
 		List<StripChart> componentIds = null;
 		try{
-			componentIds = progressBulkUpdateervice.getProgressBulkUpdateComponentIds(obj);			
+			componentIds = progressBulkUpdatService.getProgressBulkUpdateComponentIds(obj);			
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getProgressBulkUpdateComponentIds() : "+e.getMessage());
@@ -149,7 +149,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getProgressBulkActivitiesList(@ModelAttribute StripChart obj){
 		List<StripChart> activities = null;
 		try{
-			activities = progressBulkUpdateervice.getProgressBulkActivitiesList(obj);	
+			activities = progressBulkUpdatService.getProgressBulkActivitiesList(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getProgressBulkActivitiesList() : "+e.getMessage());
@@ -162,7 +162,7 @@ public class ProgressBulkUpdateController {
 	public StripChart getProgressBulkUpdateDetails(@ModelAttribute StripChart obj){
 		StripChart data = null;
 		try{
-			data = progressBulkUpdateervice.getProgressBulkUpdateDetails(obj);	
+			data = progressBulkUpdatService.getProgressBulkUpdateDetails(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getProgressBulkUpdateDetails() : "+e.getMessage());
@@ -175,7 +175,7 @@ public class ProgressBulkUpdateController {
 	public List<StripChart> getStripChartfilterList(@ModelAttribute StripChart obj){
 		List<StripChart> fileterData = null;
 		try{
-			fileterData = progressBulkUpdateervice.getstripChartfilterList(obj);	
+			fileterData = progressBulkUpdatService.getstripChartfilterList(obj);	
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getStripChartfilterList() : "+e.getMessage());
@@ -193,7 +193,7 @@ public class ProgressBulkUpdateController {
 			userId = (String) session.getAttribute("USER_ID");
 			obj.setCreated_by_user_id_fk(userId);
 			obj.setProgress_date(DateParser.parse(obj.getProgress_date()));
-			boolean flag =  progressBulkUpdateervice.updateProgressBulk(obj);
+			boolean flag =  progressBulkUpdatService.updateProgressBulk(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "ProgressBulk Updated Succesfully.");
 			}

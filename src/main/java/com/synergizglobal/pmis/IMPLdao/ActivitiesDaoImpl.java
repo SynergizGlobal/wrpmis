@@ -688,17 +688,17 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 	public StripChart getActivitiesData(StripChart obj) throws Exception {
 		StripChart sObj = null;
 		try {
-			String qry = "select scv.strip_chart_id,scv.contract_id_fk AS contract_id,scv.fob_id_fk AS strip_chart_structure_id,scv.component_id AS strip_chart_component_id,scv.component_id_name AS strip_chart_component_id_name,"
-					+ "scv.component AS strip_chart_component,scv.activity_id AS strip_chart_activity_id,scv.activity_name AS strip_chart_activity_name,"
-					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section_id AS strip_chart_section_id,scv.section AS strip_chart_section_name,completed,scope,(scope - completed) as remaining,unit as unit_fk,scv.`status` AS status_name,scv.remarks,"
-					+ "DATE_FORMAT(scv.actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(scv.actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(scv.planned_start,'%d-%m-%Y') AS planned_start,"
-					+ "DATE_FORMAT(scv.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
-					+ "from strip_chart_general scv "
-					+ "left outer join contract c on scv.contract_id_fk = c.contract_id "
+			String qry = "select a.activity_id,a.contract_id_fk AS contract_id,a.structure AS strip_chart_structure_id,a.component_id AS strip_chart_component_id,"
+					+ "a.component AS strip_chart_component,a.activity_id AS strip_chart_activity_id,a.activity_name AS strip_chart_activity_name,"
+					+ "a.line AS strip_chart_line,a.structure AS structure_type,a.section AS strip_chart_section_id,completed,scope,(scope - completed) as remaining,unit as unit_fk,a.remarks,"
+					+ "DATE_FORMAT(a.actual_start,'%d-%m-%Y') AS actual_start,DATE_FORMAT(a.actual_finish,'%d-%m-%Y') AS actual_finish,DATE_FORMAT(a.planned_start,'%d-%m-%Y') AS planned_start,"
+					+ "DATE_FORMAT(a.planned_finish,'%d-%m-%Y') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
+					+ "from activities a "
+					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join work w on c.work_id_fk = w.work_id "
-					+ "where strip_chart_id = ? ";
+					+ "where activity_id = ? ";
 			
-			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, new Object[] {obj.getStrip_chart_id()}, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			sObj =  (StripChart) jdbcTemplate.queryForObject( qry, new Object[] {obj.getActivity_id()}, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());

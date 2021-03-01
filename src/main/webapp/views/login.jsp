@@ -11,6 +11,7 @@
     <title>SynTrack - PMIS Login</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -45,6 +46,52 @@
 		  #support {
 		    width:38%;
 		  }
+		}
+		.help-icon{
+		    position: absolute;
+		    display: inline-block;
+		    right: .5%;
+		}
+		.help-icon img{
+		    width: 40px;
+		    height: 40px;
+		    position: relative;
+		    right: 5px;
+		    bottom: 5px;
+		}
+		#help-dropdown.dropdown-content{
+		    width: 250px !important;
+		    bottom: 31px;
+		    top: inherit !important;
+		}
+		#help-dropdown.dropdown-content li>a {
+		    color: #444;
+		}
+		#help-dropdown.dropdown-content li>a:hover {
+		    color: #000;
+		}
+		.dropdown-content li>a>i{
+		    float:right;
+		    margin:auto;
+		}
+		#help-dropdown.dropdown-content li>a i {
+		    color: #444;
+		}
+		#help-dropdown.dropdown-content li>a:hover i,
+		#help-dropdown.dropdown-content li>a i:hover{
+		    color: #26a69a;
+		}
+		
+		.support-link{
+		    padding:14px 16px;
+		    text-align:center;
+		}
+		.support-link >a{
+		    padding:0 !important;
+		    font-size: .9rem !important;
+		}
+		.support-link >a:hover{
+		    color: #26a69a !important;
 		}
     </style>
 </head>
@@ -153,7 +200,18 @@
       <footer class="page-footer">
         <div class="container">
             <p class="footer-text">Copyright <span id="year"></span> @ mrvc.indianrailways.gov.in | Designed & Developed by
-                <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"></p>
+                <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"> 
+                <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
+        			<img src="/pmis/resources/images/help_icon_white.svg">        
+        		</a>
+        </p>
+          <!-- Dropdown Structure -->
+	  <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
+	    <li><a href="#!">PMIS Manual <i class="fa fa-download"></i></a></li>
+	    <li><a href="#!">Primavera Manual <i class="fa fa-download"></i></a></li>
+	    <li class="divider" tabindex="-1"></li>
+	    <li class="support-link"> Contact us :  <br> <a href="mailto:support_pmis@mrvc.gov.in">support_pmis@mrvc.gov.in</a></li>
+	  </ul>
         </div>
     </footer>
           <!-- footer ends here -->
@@ -238,6 +296,11 @@
 		    	    }
 		    	});
 						
+		        $('.dropdown-trigger').dropdown({
+		       	 coverTrigger:false,    	 
+		       	 closeOnClick: false,
+		       	 aboveOrigin:true,
+		        });
 			 });
 		    //material components initialization
 		    $(document).ready(function(){

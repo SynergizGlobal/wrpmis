@@ -2,7 +2,7 @@ package com.synergizglobal.pmis.model;
 
 public class Alerts {
 	private String alert_id,alert_level,alert_type_fk,alert_type_id,alert_type,contract_id,created_date,alert_status,alert_value,count,
-	hod,work_short_name,contract_short_name,hod_email,dy_hod_email,contractor_name;
+	hod,work_short_name,contract_short_name,hod_email,dy_hod_email,contractor_name,remarks;
 
 	
 	
@@ -132,6 +132,14 @@ public class Alerts {
 
 	public void setContractor_name(String contractor_name) {
 		this.contractor_name = contractor_name;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 	
 }

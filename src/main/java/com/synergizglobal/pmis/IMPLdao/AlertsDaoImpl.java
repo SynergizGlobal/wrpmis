@@ -626,24 +626,68 @@ public class AlertsDaoImpl implements AlertsDao{
 	public List<Alerts> getAlerts(User uObj) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
-			EMailSender emailSender = new EMailSender();
 			
-			String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
-			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
+			Object[] pValues = null;
+			/*String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
+			pValues = new Object[] {CommonConstants.ACTIVE};
 			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, String.class);
 			
 			String hodQry ="select group_concat(distinct hod_email) from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
 			pValues = new Object[] {CommonConstants.ACTIVE};
 			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
-						
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  " + 
-					"from alerts a " + 
-					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
-					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+			*/	
+			String qry = "";
+			if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("cmd@mrvc.gov.in")){
+				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
+						+ "from alerts a " 
+						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
+						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+						+ "and alert_level = ? "
+						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				
+				pValues = new Object[] {CommonConstants.ACTIVE,"3rd Alert"};				
+			}else if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
+						+ "from alerts a " 
+						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
+						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+						+ "and (alert_type_fk = ? OR alert_type_fk = ?) "
+						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				
+				pValues = new Object[] {CommonConstants.ACTIVE,"Bank Guarantee","Insurance"};	
+			}else if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
+						+ "from alerts a " 
+						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
+						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+						+ "and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level <> ?  "
+						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				
+				pValues = new Object[] {CommonConstants.ACTIVE,"Bank Guarantee","Insurance","3rd Alert"};
+			}else if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("df@mrvc.gov.in")) {
+				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
+						+ "from alerts a " 
+						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
+						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+						+ "and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level = ?  "
+						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				
+				pValues = new Object[] {CommonConstants.ACTIVE,"Bank Guarantee","Insurance","3rd Alert"};
+			}else {
+				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
+						+ "from alerts a " 
+						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
+						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+						+ "and (a.hod_email = ? OR a.dy_hod_email = ?) "
+						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				
+				pValues = new Object[] {CommonConstants.ACTIVE,uObj.getEmail_id(),uObj.getEmail_id()};
+			}
 			
-			pValues = new Object[] {CommonConstants.ACTIVE};
-			List<Alerts> allAlertsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
 			/*dyfacao1@mrvc.gov.in - 1st 2nd 3rd of BG & Insurance
 			facao2@mrvc.gov.in - 2nd 3rd of BG & Insurance
@@ -652,120 +696,6 @@ public class AlertsDaoImpl implements AlertsDao{
 			dy HOD - 1st, 2nd 3rd alert of their contracts
 			HOD - 2nd, 3rd alerts of their contracts
 			cmd@mrvc.gov.in - only 3rd alerts of all contracts..*/
-			
-			
-			List<Alerts> dyfacao1AlertsList = new ArrayList<Alerts>();
-			List<Alerts> facao2AlertsList = new ArrayList<Alerts>();
-			List<Alerts> dfAlertsList = new ArrayList<Alerts>();
-			
-			if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0) {
-				for (Alerts alerts : allAlertsList) {
-					if(alerts.getAlert_type_fk().equals("Bank Guarantee") || alerts.getAlert_type_fk().equals("Insurance")) {
-						dyfacao1AlertsList.add(alerts);
-						if(alerts.getAlert_level().equals("3rd Alert")) {
-							dfAlertsList.add(alerts);						
-						}else {
-							facao2AlertsList.add(alerts);
-						}
-					}
-				}
-			}
-			
-			if(!StringUtils.isEmpty(dyHODEmails)) {
-				
-				List<String> dyHODEmailsList = Arrays.asList(dyHODEmails.split(",", -1));
-				
-				for (String emailId : dyHODEmailsList) {
-					List<Alerts> dyHodAlertsList = new ArrayList<Alerts>();
-					for (Alerts alerts : allAlertsList) {
-						if(!StringUtils.isEmpty(alerts.getDy_hod_email()) && alerts.getDy_hod_email().equals(emailId)) {
-							dyHodAlertsList.add(alerts);						
-						}
-					}
-				}
-			}
-			/***************************************************************************/
-			
-			/***************************************************************************/
-			if(!StringUtils.isEmpty(hodEmails)) {
-				List<String> hodEmailsList = Arrays.asList(hodEmails.split(",", -1));
-				for (String emailId : hodEmailsList) {
-					List<Alerts> hodAlertsList = new ArrayList<Alerts>();
-					for (Alerts alerts : allAlertsList) {
-						if(!StringUtils.isEmpty(alerts.getHod_email()) && alerts.getHod_email().equals(emailId)) {
-							hodAlertsList.add(alerts);						
-						}
-					}					
-				}
-			}
-			/***************************************************************************/
-			
-			/***************************************************************************/	
-			List<Alerts> cmdAlertsList = new ArrayList<Alerts>();
-			for (Alerts alerts : allAlertsList) {
-				if(alerts.getAlert_level().equals("3rd Alert")) {
-					cmdAlertsList.add(alerts);						
-				}
-			}
-			
-			if(!StringUtils.isEmpty(cmdAlertsList) && cmdAlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
-				
-				Mail mail = new Mail();
-				mail.setMailTo("cmd@mrvc.gov.in");
-				mail.setMailSubject(emailSubject);
-				mail.setTemplateName("alerts.vm");
-				
-				logger.error("sendNotificationAlertMails() >> Sending mail to cmd@mrvc.gov.in: Start ");	
-				emailSender.sendEmailWithAlerts(mail,cmdAlertsList); 
-				logger.error("sendNotificationAlertMails() >> Sending mail to cmd@mrvc.gov.in: End ");
-			}
-			/***************************************************************************/
-			
-			/***************************************************************************/
-			if(!StringUtils.isEmpty(dyfacao1AlertsList) && dyfacao1AlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
-				
-				Mail mail = new Mail();
-				mail.setMailTo("dyfacao1@mrvc.gov.in");
-				mail.setMailSubject(emailSubject);
-				mail.setTemplateName("alerts.vm");
-				
-				logger.error("sendNotificationAlertMails() >> Sending mail to dyfacao1@mrvc.gov.in: Start ");	
-				emailSender.sendEmailWithAlerts(mail,dyfacao1AlertsList); 
-				logger.error("sendNotificationAlertMails() >> Sending mail to dyfacao1@mrvc.gov.in: End ");
-			}
-			/***************************************************************************/
-			
-			/***************************************************************************/
-			if(!StringUtils.isEmpty(facao2AlertsList) && facao2AlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
-				
-				Mail mail = new Mail();
-				mail.setMailTo("facao2@mrvc.gov.in");
-				mail.setMailSubject(emailSubject);
-				mail.setTemplateName("alerts.vm");
-				
-				logger.error("sendNotificationAlertMails() >> Sending mail to facao2@mrvc.gov.in: Start ");	
-				emailSender.sendEmailWithAlerts(mail,facao2AlertsList); 
-				logger.error("sendNotificationAlertMails() >> Sending mail to facao2@mrvc.gov.in: End ");
-			}
-			/***************************************************************************/
-			
-			/***************************************************************************/
-			if(!StringUtils.isEmpty(dfAlertsList) && dfAlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
-				
-				Mail mail = new Mail();
-				mail.setMailTo("df@mrvc.gov.in");
-				mail.setMailSubject(emailSubject);
-				mail.setTemplateName("alerts.vm");
-				
-				logger.error("sendNotificationAlertMails() >> Sending mail to df@mrvc.gov.in: Start ");	
-				emailSender.sendEmailWithAlerts(mail,dfAlertsList); 
-				logger.error("sendNotificationAlertMails() >> Sending mail to df@mrvc.gov.in: End ");
-			}
-			/***************************************************************************/
 			
 
 		}catch(Exception e){ 

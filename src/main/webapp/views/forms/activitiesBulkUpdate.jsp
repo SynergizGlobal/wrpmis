@@ -141,7 +141,7 @@
         }
 
         #dotgroup1 .dot.in-progress {
-            background-color: #FD7E29;
+            background-color: #FFFF00;
         }
 
 
@@ -237,7 +237,7 @@
         }
 
         .box.in-progress {
-            background-color: #f60;
+            background-color: #FFFF00;
         }
 
         .box.completed {
@@ -442,22 +442,22 @@
                                     </div> 
 
 									<div class="row legends" id="legends" style="display:none;">
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s3 center-align">
                                             <span class="box not-started"></span>
                                             <span class="description">Not Started</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s3 center-align">
                                             <span class="box in-progress"></span>
                                             <span class="description">In Progress</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s3 center-align">
                                             <span class="box completed"></span>
                                             <span class="description">Completed</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <!-- <div class="col m3 s6 center-align">
                                             <span class="box delayed"></span>
                                             <span class="description">Delayed</span>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <div class="row">                                     

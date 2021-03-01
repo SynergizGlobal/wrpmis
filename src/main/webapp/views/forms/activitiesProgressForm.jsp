@@ -146,7 +146,7 @@
         }
 
         #dotgroup1 .dot.in-progress {
-            background-color: #FD7E29;
+            background-color: #FFFF00;
         }
 
 
@@ -154,10 +154,10 @@
             background-color: #05a705;
         }
 
-
+/* 
         #dotgroup1 .dot.delayed {
             background-color: #f00;
-        }
+        } */
         
         .page-loader {
 		    background: #332e2ec2!important;
@@ -217,16 +217,16 @@
         }
 
         .box.in-progress {
-            background-color: #f60;
+            background-color: #FFFF00;
         }
 
         .box.completed {
             background-color: #05a705;
         }
 
-        .box.delayed {
+       /*  .box.delayed {
             background-color: #f00;
-        }
+        } */
 
         @media only screen and (max-width: 700px) {
             .legends .col {
@@ -427,22 +427,22 @@
                                     </div>
 
  									<div class="row legends" id="legends" style="display:none;">
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s3 center-align">
                                             <span class="box not-started"></span>
                                             <span class="description">Not Started</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s3  center-align">
                                             <span class="box in-progress"></span>
                                             <span class="description">In Progress</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s3  center-align">
                                             <span class="box completed"></span>
                                             <span class="description">Completed</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <!-- <div class="col m3 s6 center-align">
                                             <span class="box delayed"></span>
                                             <span class="description">Delayed</span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="row">
                                     	
@@ -456,7 +456,7 @@
                                         
                                         <div class="col m4 s12 input-field">
                                         	<p class="searchable_label">Component</p>
-                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2rem;" readonly="readonly">
+                                            <input id="strip_chart_component" name="strip_chart_component" type="text" style="height: 2.75rem;" readonly="readonly">
                                             <!-- <p>Component</p>
                                             <select class="searchable validate-dropdown" id="strip_chart_component" name="strip_chart_component">
                                                 <option value="">Select</option>

@@ -144,7 +144,7 @@
 								
 								<div class="col s12 m4 file-field input-field" style="padding-top: 18px;">
 								      <div class="btn bg-m t-c">
-								        <span>Browse File</span>
+								        <span>Upload File</span>
 								        <input type="file" name="uploadFile" id="uploadFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
 								      </div>
 								      <div class="file-path-wrapper">

@@ -334,7 +334,6 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 		ResultSet rs = null;
 		String color = "";
 		try {	
-			
 			String qry = " select (case "  
 					+" when ((select count(*) from activities s1 where s1.scope - s1.completed <> 0 "
 					+ " and s1.contract_id_fk = ? and s1.structure = ? and s1.component_id = ? ";
@@ -345,16 +344,16 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 						qry = qry + " and s1.section = ?";
 					}	
 					qry = qry + ") = 0) then 'completed' "  
-					+" when ((select count(*) from activities where (select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') from activities s2 where "
-					+ " s2.completed <> 0 and s2.contract_id_fk = ? and s2.structure = ? and s2.component_id = ? ";
-					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
-						qry = qry + " and s2.line = ?";
-					}			
-					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_name())) {
-						qry = qry + " and s2.section = ?";
-					}	
-					qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
-					+" when ((select count(*) from activities s3 where s3.completed = 0  "
+					//+" when ((select count(*) from activities where (select DATE_FORMAT(max(planned_finish),'%Y-%m-%d') from activities s2 where "
+					//+ " s2.completed <> 0 and s2.contract_id_fk = ? and s2.structure = ? and s2.component_id = ? ";
+				//	if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+				//		qry = qry + " and s2.line = ?";
+				//	}			
+				//	if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_name())) {
+					//	qry = qry + " and s2.section = ?";
+					//}	
+					//qry = qry + ") < CURDATE() ) > 0) then 'delayed' "  
+					+" when ((select count(*) from activities s3 where s3.completed = 0 and scope <> 0 "
 					+ "and s3.contract_id_fk = ? and s3.structure = ? and s3.component_id = ? ";
 					if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
 						qry = qry + " and s3.line = ?";
@@ -381,15 +380,15 @@ public class ActivitiesBulkUpdateDaoImpl implements ActivitiesBulkUpdateDao{
 			}	
 			
 			//stmt.setString(p++,CommonConstants2.STATUS_NOT_STARTED );
-			stmt.setString(p++,sobj.getContract_id_fk());
-			stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
-			stmt.setString(p++,sobj.getStrip_chart_component_id());
-			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
-				stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
-			}			
-			if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_name())) {
-				stmt.setString(p++,sobj.getStrip_chart_section_name());
-			}
+			//stmt.setString(p++,sobj.getContract_id_fk());
+			//stmt.setString(p++,sobj.getStrip_chart_structure_id_fk());
+			//stmt.setString(p++,sobj.getStrip_chart_component_id());
+			//if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_line_id_fk())) {
+			//	stmt.setString(p++,sobj.getStrip_chart_line_id_fk());
+			//}			
+			//if(!StringUtils.isEmpty(sobj) && !StringUtils.isEmpty(sobj.getStrip_chart_section_name())) {
+			//	stmt.setString(p++,sobj.getStrip_chart_section_name());
+			//}
 			
 			//stmt.setString(p++,CommonConstants2.STATUS_NOT_STARTED );
 			stmt.setString(p++,sobj.getContract_id_fk());

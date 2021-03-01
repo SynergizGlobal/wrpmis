@@ -258,7 +258,7 @@ public class ContractReportController {
 			
 			JcEnumeration imageAlignment = JcEnumeration.LEFT;
 			
-			String headerTextMiddle = "PMIS Report - Contract Details";
+			String headerTextMiddle = "PMIS Report - Contracts List";
 			
 			String headerTextRight = "Date : " + report_created_date;
 			

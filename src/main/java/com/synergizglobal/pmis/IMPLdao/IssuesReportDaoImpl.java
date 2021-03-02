@@ -172,7 +172,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY i.date ASC";
+			qry = qry + " ORDER BY i.date,location ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			

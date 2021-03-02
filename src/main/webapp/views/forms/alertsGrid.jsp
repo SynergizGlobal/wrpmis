@@ -327,7 +327,8 @@
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var alert_id = "'"+val.alert_id+"'";
-    	                    var actions = '<a href="javascript:void(0);" onclick="addAlertRemarks('+alert_id+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>';    	                   	
+    	         			var remarks = "'"+val.remarks+"'";
+    	                    var actions = '<a href="javascript:void(0);" onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>';    	                   	
     	                   	var rowArray = [];    	                 
     	                   	
     	                	var workName = '';
@@ -521,10 +522,15 @@
             }
         }
         
-        function addAlertRemarks(alert_id){        	
-        	$("#alert_id").val(alert_id);
-        	$("#remarks").val("");
+        function addAlertRemarks(alert_id,remarks){   
         	$("#remarksModal").modal("open");
+        	$("#remarks").val('');
+        	$("#alert_id").val(alert_id);
+        	if($.trim(remarks) != '' && $.trim(remarks) != 'null'){
+        		$("#remarks").val(remarks);
+        		$("#remarks").show().focus()
+        	}        	
+        	
         }
     </script>
 

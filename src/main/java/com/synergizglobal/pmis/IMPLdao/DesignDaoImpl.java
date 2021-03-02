@@ -54,10 +54,13 @@ public class DesignDaoImpl implements DesignDao{
 		List<Design> objsList = null;
 		try {
 			String qry ="select design_id,c.work_id_fk,w.project_id_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
-					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
-					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,"
-					+ "DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval," + 
-					"DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
+					"d.prepared_by_id_fk,d.structure_type_fk,d.component,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,DATE_FORMAT(d.query_replied_to_hq,'%d-%m-%Y') AS query_replied_to_hq,"
+					+ "DATE_FORMAT(d.query_raised_by_hq,'%d-%m-%Y') AS query_raised_by_hq,DATE_FORMAT(d.query_replied_to_division,'%d-%m-%Y') AS query_replied_to_division,DATE_FORMAT(d.query_raised_by_division,'%d-%m-%Y') AS query_raised_by_division" + 
+					",d.hq_drawing_no,d.drawing_title,DATE_FORMAT(d.planned_start,'%d-%m-%Y') AS planned_start,DATE_FORMAT(d.planned_finish,'%d-%m-%Y') AS planned_finish,d.revision,DATE_FORMAT(d.submitted_to_division,'%d-%m-%Y') AS submitted_to_division,"
+					+ "DATE_FORMAT(d.submitted_to_hq,'%d-%m-%Y') AS submitted_to_hq,crs_sanction_fk,DATE_FORMAT(d.consultant_submission,'%d-%m-%Y') AS consultant_submission,DATE_FORMAT(d.mrvc_reviewed,'%d-%m-%Y') AS mrvc_reviewed,DATE_FORMAT(d.divisional_approval,'%d-%m-%Y') AS divisional_approval,"
+					+ "DATE_FORMAT(d.submitted_for_crs_sanction,'%d-%m-%Y') AS submitted_for_crs_sanction,DATE_FORMAT(d.query_raised_for_crs_sanction,'%d-%m-%Y') AS query_raised_for_crs_sanction,"
+					+ "DATE_FORMAT(d.query_replied_for_crs_sanction,'%d-%m-%Y') AS query_replied_for_crs_sanction,DATE_FORMAT(d.crs_sanction_approved,'%d-%m-%Y') AS crs_sanction_approved," + 
+					 "DATE_FORMAT(d.hq_approval,'%d-%m-%Y') AS hq_approval,DATE_FORMAT(d.gfc_released,'%d-%m-%Y') AS gfc_released,d.as_built_status,DATE_FORMAT(d.as_built_date,'%d-%m-%Y') AS as_built_date,d.remarks,d.attachment,d.divisional_submission_fk,d.hq_submission_fk "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON c.work_id_fk  =  w.work_id " 

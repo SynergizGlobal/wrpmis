@@ -73,6 +73,15 @@
         	max-width:250px;
         }      
 		.error-msg label{color:red!important;}
+		.mt-1{
+			margin-top:.5rem !important;
+		}
+		.mt-2{
+			margin-top:1rem !important;
+		}
+		.b-text p,.b-text{
+			font-weight:600;
+		}
     </style>
 </head>
 
@@ -90,42 +99,121 @@
                             <h6>Risk Assessment</h6>
                         </div>
                     </span>
-                    <div class="">
-                    	<c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
-						
-						<c:if test="${not empty updateSuccess }">					        
-							<div class="center-align m-1 close-message">	
-							   ${updateSuccess}
-							</div>
-						</c:if>
-						
-						<c:if test="${not empty error }">
+
+						<c:if test="${not empty updateSuccess }">
 							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+								${updateSuccess}</div>
 						</c:if>
-						
-						  <div class="row plr-1 no-mar">
-                            <div class="col m3 hide-on-small-only"> </div>
-                            <div class="col s12 m6 c-align"> 
-                            <div class="row no-mar">
-	                            <!--  <div class="col hide-on-small-only m3"></div> -->
-	                             <div class="col s12 m12 input-field">
-	                              <a class="btn waves-effect waves-light bg-s t-c" href="/pmis/Risk_Template.xlsx" download style="width:100%">Click here for the Risk Assessment Form</a> 	                              	
-	                             </div>
-	                        </div>
-	                        </div>
-	                     </div>
-	                              
-                        <div class="row plr-1 no-mar">
+
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">${error}</div>
+						</c:if>
+					</div>
+					<div class="container container-no-margin">
+						<form
+							action="<%=request.getContextPath()%>/upload-risk-assessment"
+							id="riskUploadForm" name="riskUploadForm" method="post"
+							enctype="multipart/form-data">
+							<div class="row">
+								<div class="col m1 hide-on-small-only"></div>
+								<div class="col m10">
+									<div class="row">
+										<div class="col m2 s3 input-field b-text">
+											<p class="mt-1">Step 1 :</p>
+										</div>
+										<div class="col m10 s9 input-field">
+											<a class="btn waves-effect waves-light bg-s t-c"
+												href="/pmis/Risk_Template.xlsx" download style="width: 100%">Click
+												here for the Risk Assessment Form</a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col m2 s3 input-field b-text">
+											<p class="">Step 2 :</p>
+										</div>
+										<div class="col m10 s9 input-field">
+											<p class="b-text">Assess risk offline on the downloaded form</p>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col m2 s3 input-field b-text">
+											<p class="mt-2">Step 3 :</p>
+										</div>
+										<div class="col m5 s12 input-field">
+											<p class="mt-2 b-text">Select the work</p>
+										</div>
+										<div class="col m5 s12 input-field">
+											<p class="searchable_label left-align">Work</p>
+											<select id="work_id_fk" name="work_id_fk"
+												class="searchable validate-dropdown">
+												<option value="">Select</option>
+												<c:forEach var="obj" items="${worksList}">
+													<option name="${obj.work_short_name }"
+														value="${obj.work_id}">${obj.work_id}-
+														${obj.work_short_name}</option>
+												</c:forEach>
+											</select> <span id="work_id_fkError" class="error-msg"></span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col m2 s3 input-field b-text">
+											<p class="mt-2">Step 4 :</p>
+										</div>
+										<div class="col m5 s9 input-field ">
+											<p class="mt-2 b-text">upload the completed Risk Assessment form</p>
+										</div>
+										<div class="col m5 s12 input-field file-field">
+											<input type="hidden" id="work_short_name"
+												name="work_short_name" />
+											<!--  <div class="col s12 m6 file-field input-field"> -->
+											<div class="btn bg-m t-c disabled" id="uploadRiskBtn">
+												<span>Upload Risk Assessment</span> <input type="file"
+													name="riskAssessmentFile" id="riskAssessmentFile"
+													accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+											</div>
+											<div class="file-path-wrapper">
+												<input class="file-path validate" type="text">
+											</div>
+											<span id="riskAssessmentFileError" class="error-msg"></span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col m2 s3 input-field b-text">
+											<p class="mt-1">Step 5 :</p>
+										</div>
+										<div class="col m5 s9 input-field"></div>
+										<div class="col m5 s9 input-field">
+											<button type="button"
+												class="btn waves-effect waves-light bg-s t-c disabled"
+												id="uploadRisk" style="width:100%">
+												<strong><i class="fa arrow-circle-up"></i>Submit</strong>
+											</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col m2 s3 input-field b-text">
+										</div>
+										<div class="col m10 s9 input-field b-text">
+											<p class="mt-1 center-align">To update ATR on the
+												Mitigation Plan of Prioritized risk Update Froms > Risk >
+												Update ATR</p>
+										</div>
+									</div>
+								</div>
+								<div class="col m1 hide-on-small-only"></div>
+							</div>
+						</form>
+					</div>
+
+					<!-- <div class="row plr-1 no-mar">
                             <div class="col s12 m3 l-align"> </div>
                             <div class="col s12 m6 c-align">                            
                                 <div class="m-1">
-                                	 <form action="<%=request.getContextPath() %>/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
+                                	 <form action="<%=request.getContextPath()%>/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
 	                                    <div class="row">
 	                                        <div class="col s12 m4 input-field">
 	                                        	<p class="searchable_label left-align">Work</p>
@@ -159,13 +247,13 @@
                                 </div> 
                             </div>
                             <div class="col s12 m3 r-align">     </div>
-                        </div>
+                        </div> -->
                  
                     </div>
                 </div>
             </div>
             
-             <div class="card">
+         <!--     <div class="card">
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
@@ -181,11 +269,11 @@
                                             <option value="">Select</option>
                                         </select>
                                     </div>                                 
-                                    <!-- <div class="col s12 m3">
+                                    <div class="col s12 m3">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                             style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
                                             Filters</button>
-                                    </div> -->                          
+                                    </div>                          
                             <div class="col m5 hide-on-small-only"></div>
                         </div>
 
@@ -219,7 +307,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

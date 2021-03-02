@@ -110,7 +110,7 @@
 						</c:if>
 						
 						  <div class="row plr-1 no-mar">
-                            <div class="col m3  hide-on-small-only"> </div>
+                            <div class="col m3 hide-on-small-only"> </div>
                             <div class="col s12 m6 c-align"> 
                             <div class="row no-mar">
 	                            <!--  <div class="col hide-on-small-only m3"></div> -->
@@ -121,7 +121,7 @@
 	                        </div>
 	                     </div>
 	                              
-                        <div class="row plr-1">
+                        <div class="row plr-1 no-mar">
                             <div class="col s12 m3 l-align"> </div>
                             <div class="col s12 m6 c-align">                            
                                 <div class="m-1">
@@ -158,10 +158,65 @@
                                     </form>
                                 </div> 
                             </div>
-
                             <div class="col s12 m3 r-align">     </div>
                         </div>
                  
+                    </div>
+                </div>
+            </div>
+            
+             <div class="card">
+                <div class="card-content">
+                    <span class="card-title headbg">
+                        <div class="center-align bg-m p-2 m-b-5">
+                            <h6>Update Risk Assessment</h6>
+                        </div>
+                    </span>
+                    <div class="">
+                        <div class="row no-mar" >
+                            <div class="col m5 hide-on-small-only"></div>                            
+                                    <div class="col s12 m2 input-field">
+                                        <p class="searchable_label">Work</p>
+                                        <select id="work_id_fk1" name="work_id_fk1" class="searchable" onchange="">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>                                 
+                                    <!-- <div class="col s12 m3">
+                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+                                            style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
+                                            Filters</button>
+                                    </div> -->                          
+                            <div class="col m5 hide-on-small-only"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <table id="datatable-risk-assessment" class="mdl-data-table">
+                                    <thead>
+                                        <tr>                                            
+                                            <th>Work</th>											
+											<th>Uploaded File</th>
+											<th>Status</th>
+											<th>Remarks</th>
+											<th>Uploaded by </th>
+											<th>Uploaded On</th>
+                                        </tr>
+                                    </thead>
+									<tbody>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+
+									</tbody>
+
+								</table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -201,6 +256,32 @@
 	          $('select:not(.searchable)').formSelect();
 	          $('.searchable').select2();
 	          $('.tabs').tabs();
+	          table = $('#datatable-risk-assessment').DataTable({
+		       		"bStateSave": true,
+		       		fixedHeader: true,
+		               "fnStateSave": function (oSettings, oData) {
+		                   localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+		               },
+		               "fnStateLoad": function (oSettings) {
+		                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
+		               },
+		               columnDefs: [
+		                   {
+		                       targets: [0, 1, 2],
+		                       className: 'mdl-data-table__cell--non-numeric'
+		                   },
+		                   { orderable: false, 'aTargets': ['nosort'] }
+		               ],
+		               // "ScrollX": true,
+		               //"scrollCollapse": true,
+		               //"sScrollY": 400,
+		               "sScrollX": "100%",
+		               "sScrollXInner": "100%",
+		               "bScrollCollapse": true,
+		               initComplete: function () {
+		                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+		               }
+		           });
 	          
 	          $("#work_id_fk").change(function () {
 	              if ($("#work_id_fk").val() == '') {

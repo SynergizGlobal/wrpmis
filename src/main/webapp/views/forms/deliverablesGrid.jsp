@@ -38,101 +38,117 @@
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Deliverables</h6>
-                        </div>
-                    </span>
-                    <div class="">
-                    	<c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Deliverables</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
-						</c:if>  
-                        <div class="row plr-1">
-                            <div class="col s12 m4">
-                                <!-- <div class="m-1 l-align">
+							<div class="center-align m-1 close-message">${error}</div>
+						</c:if>
+						<div class="row plr-1">
+							<div class="col s12 m4">
+								<!-- <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem">Click <a href="#"> here </a>for the template</p>
                                 </div> -->
-                            </div>
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-deliverables-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Deliverables</strong></a>
-                                </div>
-                            </div>
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportDeliverables();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m1 hide-on-small-only"></div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Project</p>
-                                 <select id="project_id_fk" name="project_id_fk" class="searchable" onchange="getDeliverablesList();">
-                                    <option value="">Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Work</p>
-                                <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getDeliverablesList();">
-                                    <option value="">Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Contract</p>
-                                <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getDeliverablesList();">
-                                    <option value="">Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Status</p>
-                                 <select id="status_fk" name="status_fk" class="searchable" onchange="getDeliverablesList();">
-                                    <option value="">Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2">
-                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
-                                    Filters</button>
-                            </div>
-                            <div class="col m1 hide-on-small-only"></div>
-                        </div>
+							</div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-deliverables-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Deliverables</strong></a>
+								</div>
+							</div>
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportDeliverables();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update Deliverable</h6>
+							</div>
+						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col m1 hide-on-small-only"></div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Project</p>
+								<select id="project_id_fk" name="project_id_fk"
+									class="searchable" onchange="getDeliverablesList();">
+									<option value="">Select</option>
 
-                        <div class="row">
-                            <div class="col m12 s12">
-                                <table id="datatable-deliverables" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th> Project</th>
-                                            <th class="fw-300"> Work</th>
-                                            <th> Contract</th>
-                                            <th> Deliverables Type</th>
-                                            <th> Description</th>
-                                            <th> Status</th>
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- <tr>
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Work</p>
+								<select id="work_id_fk" name="work_id_fk" class="searchable"
+									onchange="getDeliverablesList();">
+									<option value="">Select</option>
+
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Contract</p>
+								<select id="contract_id_fk" name="contract_id_fk"
+									class="searchable" onchange="getDeliverablesList();">
+									<option value="">Select</option>
+
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Status</p>
+								<select id="status_fk" name="status_fk" class="searchable"
+									onchange="getDeliverablesList();">
+									<option value="">Select</option>
+
+								</select>
+							</div>
+							<div class="col s12 m2">
+								<button
+									class="btn bg-m waves-effect waves-light t-c clear-filters"
+									style="margin-top: 20px; width: 100%;" onclick="clearFilters()">Clear
+									Filters</button>
+							</div>
+							<div class="col m1 hide-on-small-only"></div>
+						</div>
+
+						<div class="row">
+							<div class="col m12 s12">
+								<table id="datatable-deliverables" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Project</th>
+											<th class="fw-300">Work</th>
+											<th>Contract</th>
+											<th>Deliverables Type</th>
+											<th>Description</th>
+											<th>Status</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -146,17 +162,17 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr> -->
-                                    </tbody>
+									</tbody>
 
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Page Loader starts-->
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page Loader starts-->
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">

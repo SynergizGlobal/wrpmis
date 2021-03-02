@@ -53,105 +53,121 @@
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Training</h6>
-                        </div>
-                    </span>
-                    <div class="">
-						 <c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Training</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                                 <!-- <div class="m-1 l-align">
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4">
+								<!-- <div class="m-1 l-align">
                                     <a href="javascript:void(0);" onclick="openUploadTrainingModal();" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="/pmis/Training_Template.xlsx">here</a> for the template</p>
                                 </div>  -->
-                            </div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-training-form"  class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Training</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-training-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Training</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                 <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportTraining();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div> 
-                            </div>
-                        </div>
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportTraining();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
 
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12 ">
-                                <div class="row" style="margin-bottom: 0;">
-                                    <div class="col s12 m3 input-field">
-                                       <p class="searchable_label">Type</p>
-                                        <select class="searchable" name="training_type_fk" id="training_type_fk" onchange="getTraningList();" >
-                                            <option value="" >Select Type</option>
-                                           
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m3 input-field">
-                                       <p class="searchable_label">Category</p>
-                                        <select class="searchable" name="training_category_fk" id="training_category_fk" onchange="getTraningList();">
-                                            <option value="" >Select Category</option>
-                                           
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m3 input-field">
-                                       <p class="searchable_label">Status</p>
-                                        <select class="searchable" name="status_fk" id="status_fk" onchange="getTraningList();">
-                                            <option value="" >Select Status</option>
-                                           
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m3 input-field">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters" onclick="clearFilter();"
-                                            style="margin-top: 6px;width: 100%;">Clear Filters</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col m2 hide-on-small-only"></div>
-                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Updte Training</h6>
+							</div>
+						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col m8 s12 ">
+								<div class="row" style="margin-bottom: 0;">
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Type</p>
+										<select class="searchable" name="training_type_fk"
+											id="training_type_fk" onchange="getTraningList();">
+											<option value="">Select Type</option>
 
-                        <div class="row">
-                            <div class="col m12 s12">
-                                <table id="datatable-training" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Type &nbsp;</th>
-                                            <th>Category</th>
-                                            <th class="fw-370">Title </th>
-                                            <th>Faculty</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Hours</th>
-                                            <th>Status  &nbsp; &nbsp;</th>
-                                            <th class="fw-90">Nominated </th>
-                                            <th class="fw-90">Attended </th>
-                                            <th class="nosort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       <!--  <tr>
+										</select>
+									</div>
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Category</p>
+										<select class="searchable" name="training_category_fk"
+											id="training_category_fk" onchange="getTraningList();">
+											<option value="">Select Category</option>
+
+										</select>
+									</div>
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Status</p>
+										<select class="searchable" name="status_fk" id="status_fk"
+											onchange="getTraningList();">
+											<option value="">Select Status</option>
+
+										</select>
+									</div>
+									<div class="col s12 m3 input-field">
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											onclick="clearFilter();"
+											style="margin-top: 6px; width: 100%;">Clear Filters</button>
+									</div>
+								</div>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+
+						<div class="row">
+							<div class="col m12 s12">
+								<table id="datatable-training" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Type &nbsp;</th>
+											<th>Category</th>
+											<th class="fw-370">Title</th>
+											<th>Faculty</th>
+											<th>Start Date</th>
+											<th>End Date</th>
+											<th>Hours</th>
+											<th>Status &nbsp; &nbsp;</th>
+											<th class="fw-90">Nominated</th>
+											<th class="fw-90">Attended</th>
+											<th class="nosort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!--  <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -170,18 +186,18 @@
 
                                         </tr> -->
 
-                                    </tbody>
+									</tbody>
 
-                                </table>
+								</table>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-      <!-- update popup starts -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- update popup starts -->
     <div id="upload_template" class="modal">
         <div class="modal-content headbg">
             <div class="center-align p-2 bg-m modal-title">

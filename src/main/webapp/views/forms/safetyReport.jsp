@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
       <style>
@@ -136,7 +136,7 @@
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateReport()">Generate
 	                                            Report</button>

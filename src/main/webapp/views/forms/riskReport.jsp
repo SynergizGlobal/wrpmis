@@ -121,14 +121,14 @@
 	                                        </select>
 	                                        <span id="report_work_idError" class="error-msg" ></span>
 	                                    </div> -->
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Sub Work</p>
 	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getAssessmentDateListInRiskReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="sub_workError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label">Assessment Date</p>
 	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date">
 	                                            <option value="">Select </option>
@@ -136,7 +136,7 @@
 	                                        <span id="report_assessment_dateError" class="error-msg" ></span>
 	                                    </div>
 	
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m4 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateReport()">Generate

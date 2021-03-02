@@ -53,114 +53,137 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
 
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Zonal Railway</h6>
-                        </div>
-                    </span>
-                     <c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
-						</c:if>
-						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
-						</c:if>
-                    <div class="">
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                                <!-- <div class="m-1 l-align">
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Zonal Railway</h6>
+						</div>
+					</span>
+					<c:if test="${not empty success }">
+						<div class="center-align m-1 close-message">${success}</div>
+					</c:if>
+					<c:if test="${not empty error }">
+						<div class="center-align m-1 close-message">${error}</div>
+					</c:if>
+					<div class="">
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4">
+								<!-- <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
                                 </div> -->
-                            </div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-zonal-railway-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Zonal Railway</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-zonal-railway-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Zonal Railway</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                 <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportZonalRaiway();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div> 
-                            </div>
-                        </div>
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportZonalRaiway();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update Zonal Railway</h6>
+							</div>
+						</span>
+						<div class="row no-mar">
+							<form action="#">
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Project</p>
+									<select class="searchable" id="project_id_fk"
+										name="project_id_fk" onchange="getZonalRailwayList();">
+										<option value="">Select</option>
 
-                        <div class="row no-mar">
-                            <form action="#">
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Project</p>
-                                    <select class="searchable" id="project_id_fk" name="project_id_fk" onchange="getZonalRailwayList();">
-                                        <option value="">Select</option>
-                                      
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Work</p>
-                                    <select class="searchable" id="work_id_fk" name="work_id_fk" onchange="getZonalRailwayList();" >
-                                        <option value="">Select</option>
-                                       
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Execution Agency</p>
-                                    <select class="searchable" id="execution_agency_railway_fk" name="execution_agency_railway_fk" onchange="getZonalRailwayList();">
-                                        <option value="">Select</option>
-                                       
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Source of Fund</p>
-                                    <select class="searchable" id="source_of_funds" name="source_of_funds" onchange="getZonalRailwayList();">
-                                        <option value="">Select</option>
-                                       
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Status</p>
-                                    <select class="searchable" id="status_fk" name="status_fk" onchange="getZonalRailwayList();">
-                                        <option value="">Select</option>
-                                       
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                        style="margin-top: 6px;width: 100%;" onclick="clearFilters()">Clear
-                                        Filters</button>
-                                </div>
-                            </form>
-                        </div>
+									</select>
+								</div>
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Work</p>
+									<select class="searchable" id="work_id_fk" name="work_id_fk"
+										onchange="getZonalRailwayList();">
+										<option value="">Select</option>
 
-                        <div class="row">
-                            <div class="col m12 s12">
+									</select>
+								</div>
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Execution Agency</p>
+									<select class="searchable" id="execution_agency_railway_fk"
+										name="execution_agency_railway_fk"
+										onchange="getZonalRailwayList();">
+										<option value="">Select</option>
 
-                                <table id="zonal_railway_table" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="fw-370">Sub Work</th>
-                                            <th>Execution <br>Agency</th>
-                                            <th>Source <br>of Fund</th>
-                                            <th>Status &nbsp;</th>
-                                            <th>As on &nbsp;<br> Date</th>
-                                            <th>Expected <br>Finish</th>
-                                            <th>Actual &nbsp;<br>Finish</th>
-                                            <th>Cumilative <br>Expenditure</th>
-                                            <th class="no-sort fw-80">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-<!-- 
+									</select>
+								</div>
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Source of Fund</p>
+									<select class="searchable" id="source_of_funds"
+										name="source_of_funds" onchange="getZonalRailwayList();">
+										<option value="">Select</option>
+
+									</select>
+								</div>
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Status</p>
+									<select class="searchable" id="status_fk" name="status_fk"
+										onchange="getZonalRailwayList();">
+										<option value="">Select</option>
+
+									</select>
+								</div>
+								<div class="col s12 m2 input-field">
+									<button
+										class="btn bg-m waves-effect waves-light t-c clear-filters"
+										style="margin-top: 6px; width: 100%;" onclick="clearFilters()">Clear
+										Filters</button>
+								</div>
+							</form>
+						</div>
+
+						<div class="row">
+							<div class="col m12 s12">
+
+								<table id="zonal_railway_table" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th class="fw-370">Sub Work</th>
+											<th>Execution <br>Agency
+											</th>
+											<th>Source <br>of Fund
+											</th>
+											<th>Status &nbsp;</th>
+											<th>As on &nbsp;<br> Date
+											</th>
+											<th>Expected <br>Finish
+											</th>
+											<th>Actual &nbsp;<br>Finish
+											</th>
+											<th>Cumilative <br>Expenditure
+											</th>
+											<th class="no-sort fw-80">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!-- 
                                         <tr>
                                             <td></td>
                                             <td></td>
@@ -179,19 +202,19 @@
 
                                         </tr> -->
 
-                                    </tbody>
+									</tbody>
 
-                                </table>
+								</table>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <div class="page-loader" style="display: none;">
+	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">

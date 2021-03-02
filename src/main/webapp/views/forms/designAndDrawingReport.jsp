@@ -122,7 +122,7 @@
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select class="searchable validate-dropdown" id="hod" name="hod">
 	                                            <option value="">Select </option>

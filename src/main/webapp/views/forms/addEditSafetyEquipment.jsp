@@ -15,7 +15,6 @@
  	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
      
-     
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/safety.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
@@ -24,6 +23,8 @@
     <style>
          .fixed-width {
             width: 100%;
+            margin-right:auto !important;
+            margin-left:auto !important;
         }
 
         .fixed-width .table-inside {
@@ -62,16 +63,7 @@
             display: block;
             margin-top: 10px;
         }
-         /* .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}	
-		.preloader-wrapper{top: 45%!important;left:47%!important;} */
+        
 		.my-error-class {
    			 color:red;
 		}
@@ -144,18 +136,18 @@
                                      <div class="row">
                                         <div class="col m2 hide-on-small-only"></div>
                                         <div class="col s12 m8 input-field">                                          
-                                            <p> <label>Contract </p>
+                                             <p class="searchable_label"> Contract </p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                        			 <option value="">Select</option>
                                        			  <c:forEach var="obj" items="${contractsList }">
-                                      	    		<option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	    		<option id="${obj.work_id_fk }" value="${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                         		 </c:forEach>
                                   			 </select>                                  			
                                    			 <span id="contract_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m2 hide-on-small-only"></div>
                                     </div>
-                                </div>
+                                <!-- </div> -->
                                  </c:if>
                                 <!-- <div class="col m2 hide-on-small-only"></div>
                             </div> -->
@@ -380,7 +372,7 @@
 
             </div>
         </div>
-    </div>
+   <!--  </div> -->
  <!-- Page Loader -->
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">

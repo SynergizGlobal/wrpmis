@@ -92,7 +92,7 @@
                             <h6>Upload Activities</h6>
                         </div>
                     </span>
-                </div>
+               <!--  </div> -->
                 
                 <form action="<%=request.getContextPath() %>/upload-activities" id="uploadActivitiesForm" name="uploadActivitiesForm" method="post" enctype="multipart/form-data">
 						<div class="container container-no-margin">
@@ -173,6 +173,7 @@
 						</div>
 					</form>
 					
+            </div>
             </div>
             <div class="card">
                 <div class="card-content">

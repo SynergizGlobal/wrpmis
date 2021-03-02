@@ -30,110 +30,130 @@
 <body>
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
-	
-	
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Users</h6>
-                        </div>
-                    </span>
-                    <div class="">
-                    	<c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+
+
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Users</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                                <div class="m-1 l-align">
-                                    <a href="javascript:void(0);" onclick="openUploadUsersModal();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="/pmis/Users.xlsx" download>here</a> for the template</p>
-                                </div>
-                            </div>
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4">
+								<div class="m-1 l-align">
+									<a href="javascript:void(0);" onclick="openUploadUsersModal();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
+									<p style="padding-top: 1rem">
+										Click <a href="/pmis/Users.xlsx" download>here</a> for the
+										template
+									</p>
+								</div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-user-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Users</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-user-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Users</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a  href="javascript:void(0);" onclick="exportUser();"class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
-                                <div class="row" style="margin-bottom: 0;">
-                                    <div class="col s12 m3 input-field">
-                                    	 <p class="searchable_label">User Role</p>
-                                        <select id="user_role_name_fk" name="user_role_name_fk" class="searchable" onchange="getUsersList();">
-                                            <option value="">Select</option>
-                                            <%-- <c:forEach var="obj" items="${roles }">
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportUser();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update User</h6>
+							</div>
+						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col m8 s12">
+								<div class="row" style="margin-bottom: 0;">
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">User Role</p>
+										<select id="user_role_name_fk" name="user_role_name_fk"
+											class="searchable" onchange="getUsersList();">
+											<option value="">Select</option>
+											<%-- <c:forEach var="obj" items="${roles }">
                                             	<option value="${obj.user_role_name }">${obj.user_role_name }</option>
                                             </c:forEach> --%>
-                                        </select>                                       
-                                    </div>
-                                    <div class="col s12 m3 input-field">
-                                    	<p class="searchable_label">Department</p>
-                                        <select id="department_fk" name="department_fk" class="searchable" onchange="getUsersList();">
-                                            <option value="">Select</option>
-                                            <%-- <c:forEach var="obj" items="${departments }">
+										</select>
+									</div>
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Department</p>
+										<select id="department_fk" name="department_fk"
+											class="searchable" onchange="getUsersList();">
+											<option value="">Select</option>
+											<%-- <c:forEach var="obj" items="${departments }">
                                             	<option value="${obj.department }">${obj.department_name }</option>
                                             </c:forEach> --%>
-                                        </select>                                        
-                                    </div>
-                                    <div class="col s12 m3 input-field">
-                                    	<p class="searchable_label">Reporting To</p>
-                                        <select id="reporting_to_id_srfk" name="reporting_to_id_srfk" class="searchable" onchange="getUsersList();">
-                                            <option value="">Select</option>
-                                            <%-- <c:forEach var="obj" items="${reportingToList }">
+										</select>
+									</div>
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Reporting To</p>
+										<select id="reporting_to_id_srfk" name="reporting_to_id_srfk"
+											class="searchable" onchange="getUsersList();">
+											<option value="">Select</option>
+											<%-- <c:forEach var="obj" items="${reportingToList }">
                                             	<option value="${obj.user_id }"><c:if test="${not empty obj.designation}">${obj.designation } - </c:if>${obj.user_name }</option>
                                             </c:forEach> --%>
-                                        </select>                                        
-                                    </div>
-                                    <div class="col s12 m3">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 20px;width:100%" onclick="clearFilter();">Clear Filters</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col m2 hide-on-small-only"></div>
-                        </div>
+										</select>
+									</div>
+									<div class="col s12 m3">
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											style="margin-top: 20px; width: 100%"
+											onclick="clearFilter();">Clear Filters</button>
+									</div>
+								</div>
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
 
-                        <div class="row">
-                            <div class="col m12 s12">
+						<div class="row">
+							<div class="col m12 s12">
 
-                                <table id="datatable-users" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Designation</th>
-                                            <th>Department </th>
-                                            <th>Reporting To </th>
-                                            <th>User Role </th>
-                                            <th class="no-sort">Action</th>
+								<table id="datatable-users" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Designation</th>
+											<th>Department</th>
+											<th>Reporting To</th>
+											<th>User Role</th>
+											<th class="no-sort">Action</th>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+										</tr>
+									</thead>
+									<tbody>
 
-                                        <!-- <tr>
+										<!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -148,19 +168,19 @@
 
                                         </tr> -->
 
-                                    </tbody>
+									</tbody>
 
-                                </table>
+								</table>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-	
-	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<!-- update popup starts -->
     <div id="upload_template" class="modal">
         <div class="modal-content">

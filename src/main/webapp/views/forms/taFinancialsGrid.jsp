@@ -39,79 +39,96 @@
     <!-- header  starts-->
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h5> TA Financials</h5>
-                        </div>
-                    </span>
-                    <c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>TA Financials</h6>
+						</div>
+					</span>
+					<c:if test="${not empty success }">
+						<div class="center-align m-1 close-message">${success}</div>
 					</c:if>
 					<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+						<div class="center-align m-1 close-message">${error}</div>
 					</c:if>
-                    <div class="">
+					<div class="">
 
-                        <div class="row center-align">
-                            <div class="col s12 m4 "> </div>
+						<div class="row center-align">
+							<div class="col s12 m4 "></div>
 
-                            <div class="col s12 m4 c-align">
-                                <a  href="<%=request.getContextPath() %>/add-ta-financials-form" class="btn waves-effect waves-light bg-s t-c">
-                                    <strong><i class="fa fa-plus-circle"></i> Add TA Financials</strong></a>
-                            </div>
+							<div class="col s12 m4 c-align">
+								<a href="<%=request.getContextPath()%>/add-ta-financials-form"
+									class="btn waves-effect waves-light bg-s t-c"> <strong><i
+										class="fa fa-plus-circle"></i> Add TA Financials</strong></a>
+							</div>
 
-                            <div class="col s12 m4"> </div>
-                        </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12">
-                                <div class="row" style="margin-bottom: 0;">
-                                    <div class="col s12 m4 input-field">
-                                        <p class="searchable_label">Work</p>
-                                        <select class="searchable" name="work_id_fk" id="work_id_fk" onchange="getTAFinancialList();">
-                                            <option value="" disabled selected>Select </option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <p class="searchable_label">Contract</p>
-                                        <select class="searchable" name="contract_id_fk" id="contract_id_fk" onchange="getTAFinancialList();">
-                                            <option value="" disabled selected>Select</option>
-                                            
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 6px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col m3 hide-on-small-only"></div>
-                        </div>
+							<div class="col s12 m4"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update TA Financial</h6>
+							</div>
+						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col m3 hide-on-small-only"></div>
+							<div class="col m6 s12">
+								<div class="row" style="margin-bottom: 0;">
+									<div class="col s12 m4 input-field">
+										<p class="searchable_label">Work</p>
+										<select class="searchable" name="work_id_fk" id="work_id_fk"
+											onchange="getTAFinancialList();">
+											<option value="" disabled selected>Select</option>
+										</select>
+									</div>
+									<div class="col s12 m4 input-field">
+										<p class="searchable_label">Contract</p>
+										<select class="searchable" name="contract_id_fk"
+											id="contract_id_fk" onchange="getTAFinancialList();">
+											<option value="" disabled selected>Select</option>
 
-                        <div class="row">
-                            <div class="col m12 s12">
+										</select>
+									</div>
+									<div class="col s12 m4 input-field">
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											style="margin-top: 6px; width: 100%;"
+											onclick="clearFilter();">Clear Filters</button>
+									</div>
+								</div>
+							</div>
+							<div class="col m3 hide-on-small-only"></div>
+						</div>
 
-                                <table id="tafinancials" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="fw-300">Work</th>
-                                            <th class="fw-300">Contract</th>
-                                            <th>Planned Invoicing <br> Till Date</th>
-                                            <th>Actual Invoicing <br>Till Date</th>
-                                            <th>Payment Received <br>Till Date</th>
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       <!--  <tr>
+						<div class="row">
+							<div class="col m12 s12">
+
+								<table id="tafinancials" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th class="fw-300">Work</th>
+											<th class="fw-300">Contract</th>
+											<th>Planned Invoicing <br> Till Date
+											</th>
+											<th>Actual Invoicing <br>Till Date
+											</th>
+											<th>Payment Received <br>Till Date
+											</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!--  <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -124,17 +141,17 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr> -->
-                                    </tbody>
-                                </table>
+									</tbody>
+								</table>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<div class="page-loader" style="display: none;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">

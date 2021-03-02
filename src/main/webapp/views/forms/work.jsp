@@ -23,104 +23,116 @@
  <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
 
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Work</h6>
-                        </div>
-                    </span>
-                    
-			<div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-               		<c:if test="${not empty success }">
-				        <div class="center-align m-1 close-message">	
-						   ${success}
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Work</h6>
 						</div>
-					</c:if>
-					<c:if test="${not empty error }">
-						<div class="center-align m-1 close-message">
-						   ${error}
+					</span>
+
+					<div class="row clearfix">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<c:if test="${not empty success }">
+								<div class="center-align m-1 close-message">${success}</div>
+							</c:if>
+							<c:if test="${not empty error }">
+								<div class="center-align m-1 close-message">${error}</div>
+							</c:if>
 						</div>
-					</c:if>
-			</div>
-			</div>
-                    
-                    <div class="">
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                                <!-- <div class="m-1 l-align">
+					</div>
+
+					<div class="">
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4">
+								<!-- <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
                                 </div> -->
-                            </div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="add-Work-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Work</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="add-Work-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Work</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportWork();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col m12 s12">
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportWork();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
 
-                                <table id="datatable-works" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Project </th>
-                                            <th>Work ID</th>
-                                            <th>Work Name </th>
-                                            <th>Sanctioned Year </th>
-                                            <th>Railway Agency </th>
-                                            <th>Executed By </th>
-                                            <th class="no-sort">&nbsp; Remarks &nbsp;</th>
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
- 									 <c:forEach var="obj" items="${workList }">
-                                        <tr>
-                                       
-                                            <td>${ obj.project_id_fk} - ${obj.project_name } </td>
-                                            <td>${ obj.work_id }</td>
-                                            <td>${ obj.work_name }</td>
-                                            <td>${ obj.sanctioned_year_fk }</td>
-                                            <td>${ obj.railway }</td>
-                                            <td>${ obj.executed_by }</td>
-                                            <td>&nbsp;${ obj.remarks }</td>
-                                            <td class="last-column"> <a href="javascript:void(0);" 
-                                            				onclick="getWork('${ obj.work_id }');"
-                                                    class="btn waves-effect waves-light bg-m t-c "><i
-                                                        class="fa fa-pencil"></i> </a>
-                                            <%--  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update Work</h6>
+							</div>
+						</span>
+
+						<div class="row">
+							<div class="col m12 s12">
+
+								<table id="datatable-works" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Project</th>
+											<th>Work ID</th>
+											<th>Work Name</th>
+											<th>Sanctioned Year</th>
+											<th>Railway Agency</th>
+											<th>Executed By</th>
+											<th class="no-sort">&nbsp; Remarks &nbsp;</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="obj" items="${workList }">
+											<tr>
+
+												<td>${ obj.project_id_fk}- ${obj.project_name }</td>
+												<td>${ obj.work_id }</td>
+												<td>${ obj.work_name }</td>
+												<td>${ obj.sanctioned_year_fk }</td>
+												<td>${ obj.railway }</td>
+												<td>${ obj.executed_by }</td>
+												<td>&nbsp;${ obj.remarks }</td>
+												<td class="last-column"><a href="javascript:void(0);"
+													onclick="getWork('${ obj.work_id }');"
+													class="btn waves-effect waves-light bg-m t-c "><i
+														class="fa fa-pencil"></i> </a> <%--  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
                                                         class="fa fa-trash"></i></a> --%>
-                                            </td>
-                                             
-                                        </tr>
-                                         </c:forEach> 
-                                    </tbody>
-                                </table>
+												</td>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 
-<div class="page-loader" style="display: none;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">

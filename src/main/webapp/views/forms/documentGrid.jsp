@@ -34,114 +34,137 @@
 <body>
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
-    
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Documents</h6>
-                        </div>
-                    </span>
-                    <div class="">
-                    <c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Documents</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
-						</c:if>   
-                        <div class="row plr-1">
-                            <div class="col s12 m4">
-                                <!-- <div class="m-1 l-align">
+							<div class="center-align m-1 close-message">${error}</div>
+						</c:if>
+						<div class="row plr-1">
+							<div class="col s12 m4">
+								<!-- <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem">Click <a href="#"> here </a>for the template</p>
                                 </div> -->
-                            </div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-document-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Docuemnt</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-document-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Docuemnt</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportDocument();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col s12 m1 input-field">
-                                 <p class="searchable_label">Project</p>
-                                 <select name="project_id_fk" id="project_id_fk" onchange="getDocumentList();" class="searchable validate-dropdown">
-                                     <option value="">Select</option>                                                    
-                                 </select>
-                             </div> 
-                             <div class="col s12 m1 input-field">
-                                 <p class="searchable_label">Work</p>
-                                 <select name="work_id_fk" id="work_id_fk" onchange="getDocumentList();" class="searchable validate-dropdown">
-                                     <option value="">Select</option>                                                    
-                                 </select>
-                             </div> 
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Contract</p>
-                                <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getDocumentList();">
-                                    <option value="">Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Priority</p>
-                                <select id="project_priority_fk" name="project_priority_fk" class="searchable" onchange="getDocumentList();">
-                                    <option value=""  >Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Document Type</p>
-                                <select id="document_type_fk" name="document_type_fk" class="searchable" onchange="getDocumentList();">
-                                    <option value=""  >Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Responsible For Approval</p>
-                                <select id="responsible_for_approval" name="responsible_for_approval" class="searchable" onchange="getDocumentList();">
-                                    <option value=""  >Select</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col s12 m2">
-                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
-                                    Filters</button>
-                            </div>
-                        </div>
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportDocument();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
 
-                        <div class="row">
-                            <div class="col m12 s12">
-                                <table id="datatable-document" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th> Work</th>
-                                            <th> Contract</th>
-                                            <th> Priority</th>
-                                            <th> Document Type</th>
-                                            <th> Document Name</th>
-                                            <th> Responsible for <br>Approval</th>
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       <!--  <tr>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update Document</h6>
+							</div>
+						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col s12 m1 input-field">
+								<p class="searchable_label">Project</p>
+								<select name="project_id_fk" id="project_id_fk"
+									onchange="getDocumentList();"
+									class="searchable validate-dropdown">
+									<option value="">Select</option>
+								</select>
+							</div>
+							<div class="col s12 m1 input-field">
+								<p class="searchable_label">Work</p>
+								<select name="work_id_fk" id="work_id_fk"
+									onchange="getDocumentList();"
+									class="searchable validate-dropdown">
+									<option value="">Select</option>
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Contract</p>
+								<select id="contract_id_fk" name="contract_id_fk"
+									class="searchable" onchange="getDocumentList();">
+									<option value="">Select</option>
+
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Priority</p>
+								<select id="project_priority_fk" name="project_priority_fk"
+									class="searchable" onchange="getDocumentList();">
+									<option value="">Select</option>
+
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Document Type</p>
+								<select id="document_type_fk" name="document_type_fk"
+									class="searchable" onchange="getDocumentList();">
+									<option value="">Select</option>
+
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Responsible For Approval</p>
+								<select id="responsible_for_approval"
+									name="responsible_for_approval" class="searchable"
+									onchange="getDocumentList();">
+									<option value="">Select</option>
+
+								</select>
+							</div>
+							<div class="col s12 m2">
+								<button
+									class="btn bg-m waves-effect waves-light t-c clear-filters"
+									style="margin-top: 20px; width: 100%;" onclick="clearFilters()">Clear
+									Filters</button>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col m12 s12">
+								<table id="datatable-document" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Work</th>
+											<th>Contract</th>
+											<th>Priority</th>
+											<th>Document Type</th>
+											<th>Document Name</th>
+											<th>Responsible for <br>Approval
+											</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!--  <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -155,16 +178,16 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr> -->
-                                    </tbody>
+									</tbody>
 
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Page Loader starts-->
 	<div class="page-loader" style="display: none;">

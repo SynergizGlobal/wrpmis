@@ -9,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-   		  <c:if test="${action eq 'edit'}">Update Deliverables </c:if>
-		  <c:if test="${action eq 'add'}"> Add Deliverables </c:if>
+   		  <c:if test="${action eq 'edit'}">Update Deliverable </c:if>
+		  <c:if test="${action eq 'add'}">Add Deliverable </c:if>
 	</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
@@ -47,8 +47,8 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
                                 <h6>
-                               		 <c:if test="${action eq 'edit'}">Update Deliverables </c:if>
-		  							 <c:if test="${action eq 'add'}"> Add Deliverables </c:if>
+                               		 <c:if test="${action eq 'edit'}">Update Deliverable </c:if>
+		  							 <c:if test="${action eq 'add'}"> Add Deliverable </c:if>
                                 </h6>
                             </div>
                         </span>

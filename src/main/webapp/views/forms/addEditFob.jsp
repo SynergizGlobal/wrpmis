@@ -333,18 +333,20 @@
 	                            <div class="col m8 s12">
 	                               <div class="file-field input-field">
 	                                   <div class="btn bg-m">
-	                                   	<c:if test="${not empty fob.attachment }">
-	                                       <span>Change Image</span>
+	                                   	   <c:if test="${not empty fob.attachment }">
+	                                       		<span>Change Image</span>
 	                                       </c:if>
 	                                       <c:if test="${empty fob.attachment }">
-	                                       <span>Attach Image</span>
+	                                       		<span>Attach Image</span>
 	                                       </c:if>
 	                                       <input type="file" id="fobFile" name="fobFile" accept="image/*" onchange="readURL(this);">
 	                                   </div>
 	                                   <div class="file-path-wrapper">
 	                                       <input class="file-path validate" type="text" name="attachment" value="${fob.attachment}">
 	                                       <img style="height: 20%;width: 20%;<c:if test="${empty fob.attachment }">display:none;</c:if>" id="fobImagePreview" src="<%=CommonConstants2.FOB_FILES %>${fob.attachment }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="FOB Image" />
+	                                       <span onclick="removeMedia(this,'fobFile')" class="attachment-remove-btn" style="<c:if test="${empty fob.attachment }">display:none;</c:if>">X</span>
 	                                   </div>
+	                                   
 	                               </div>
 	                            </div>
 	                            <div class="col m2 hide-on-small-only"></div>
@@ -853,6 +855,12 @@
 	                $('#fobImagePreview').show();
 	            }
 	     }
+		 function removeMedia(link,id){
+		   	  $('#'+id).val('');
+		   	 // $(link).prev().text('');
+		   	  $('#fobImagePreview').hide();
+		   	  $(link).css('display','none');
+		 }  
     </script>
 	
 </body>

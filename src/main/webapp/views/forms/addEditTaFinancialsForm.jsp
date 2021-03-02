@@ -9,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>
-     	 <c:if test="${action eq 'edit'}">Update TA Financials</c:if>
-		 <c:if test="${action eq 'add'}">Add TA Financials</c:if>
+     	 <c:if test="${action eq 'edit'}">Update TA Financial</c:if>
+		 <c:if test="${action eq 'add'}">Add TA Financial</c:if>
     </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -99,10 +99,10 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>
-                                 <c:if test="${action eq 'edit'}">Update TA Financials</c:if>
-								 <c:if test="${action eq 'add'}">Add TA Financials</c:if>
-                                </h5>
+                                <h6>
+                                 <c:if test="${action eq 'edit'}">Update TA Financial</c:if>
+								 <c:if test="${action eq 'add'}">Add TA Financial</c:if>
+                                </h6>
                             </div>
                         </span>
                     </div>

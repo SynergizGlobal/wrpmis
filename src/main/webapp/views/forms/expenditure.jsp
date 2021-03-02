@@ -43,119 +43,143 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Expenditure</h6>
-                        </div>
-                    </span>
-                    <div class="">
- 						<c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Expenditure</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                                 <div class="m-1 l-align">
-                                    <a href="javascript:void(0);" onclick="openUploadExpendituresModal();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                   <p style="padding-top:1rem"> Click <a href="/pmis/Expenditure_Template.xlsx" download>here</a> for the template</p>
-                                </div> 
-                            </div>
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4">
+								<div class="m-1 l-align">
+									<a href="javascript:void(0);"
+										onclick="openUploadExpendituresModal();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
+									<p style="padding-top: 1rem">
+										Click <a href="/pmis/Expenditure_Template.xlsx" download>here</a>
+										for the template
+									</p>
+								</div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-expenditure-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Expenditure</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-expenditure-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Expenditure</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a  href="javascript:void(0);" onclick="exportExpenditure();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-mar">
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Work</p>
-                                <select id="work_id_fk" name="work_id_fk" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%--  <c:forEach var="obj" items="${worksList}">
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportExpenditure();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update Expenditure</h6>
+							</div>
+						</span>
+						<div class="row no-mar">
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Work</p>
+								<select id="work_id_fk" name="work_id_fk"
+									onchange="getExpenditureList();" class="searchable">
+									<option value="">Select</option>
+									<%--  <c:forEach var="obj" items="${worksList}">
                  						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
                                       </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Contract </p>
-                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%--  <c:forEach var="obj" items="${contractsList}">
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Contract</p>
+								<select id="contract_id_fk" name="contract_id_fk"
+									onchange="getExpenditureList();" class="searchable">
+									<option value="">Select</option>
+									<%--  <c:forEach var="obj" items="${contractsList}">
                  						  <option value="${obj.contract_id_fk }" <c:if test="${param.contract_id_fk eq obj.contract_id_fk }">selected</c:if>>${obj.contract_id_fk }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
                                       </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Ledger Account</p>
-                                <select id="ledger_account" name="ledger_account" onchange="getExpenditureList();" class="searchable">
-                                    <option value="" >Select</option>
-                                     <%--   <c:forEach var="obj" items="${ledgerAccountsList}">
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Ledger Account</p>
+								<select id="ledger_account" name="ledger_account"
+									onchange="getExpenditureList();" class="searchable">
+									<option value="">Select</option>
+									<%--   <c:forEach var="obj" items="${ledgerAccountsList}">
                  						  <option value="${obj.ledger_account }" <c:if test="${param.ledger_account eq obj.ledger_account }"></c:if>>${obj.ledger_account }</option>
                                       </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Contractor Name</p>
-                                <select id="contractor_name" name="contractor_name" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select</option>
-                                     <%--  <c:forEach var="obj" items="${contractorNamesList}">
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Contractor Name</p>
+								<select id="contractor_name" name="contractor_name"
+									onchange="getExpenditureList();" class="searchable">
+									<option value="">Select</option>
+									<%--  <c:forEach var="obj" items="${contractorNamesList}">
                  						  <option value="${obj.contractor_name }" <c:if test="${param.contractor_name eq obj.contractor_name }">selected</c:if>>${obj.contractor_name }</option>
                                       </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <p class="searchable_label">Voucher Type</p>
-                                <select id="voucher_type" name="voucher_type" onchange="getExpenditureList();" class="searchable">
-                                     <option value="" >Select</option>
-                                      <%-- <c:forEach var="obj" items="${voucherTypesList}">
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<p class="searchable_label">Voucher Type</p>
+								<select id="voucher_type" name="voucher_type"
+									onchange="getExpenditureList();" class="searchable">
+									<option value="">Select</option>
+									<%-- <c:forEach var="obj" items="${voucherTypesList}">
                  						  <option value="${obj.voucher_type }" <c:if test="${param.voucher_type eq obj.voucher_type }">selected</c:if>>${obj.voucher_type }</option>
                                       </c:forEach> --%>
-                                 </select>
-                            </div>
-                            <div class="col s12 m2 input-field">
-                                <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                    style="margin-top: 8px;width: 100%;" onclick="clearFilter();" >Clear Filters</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+								</select>
+							</div>
+							<div class="col s12 m2 input-field">
+								<button
+									class="btn bg-m waves-effect waves-light t-c clear-filters"
+									style="margin-top: 8px; width: 100%;" onclick="clearFilter();">Clear
+									Filters</button>
+							</div>
+						</div>
+					<!-- </div>
+				</div> -->
 
-                <div class="row">
-                    <div class="col m12 s12">
-                        <table id="datatable-expenditure" class="mdl-data-table">
-                            <thead>
-                                <tr>
-                                    <th class="fw-300">Work</th>
-                                    <th class="fw-250">Contract</th>
-                                    <th>Ledger Account</th>
-                                    <th>Contractor <br> Name</th>
-                                    <th>Date</th>
-                                    <th>Vocher Type </th>
-                                    <th class="no-sort">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- <tr>
+				<div class="row">
+					<div class="col m12 s12">
+						<table id="datatable-expenditure" class="mdl-data-table">
+							<thead>
+								<tr>
+									<th class="fw-300">Work</th>
+									<th class="fw-250">Contract</th>
+									<th>Ledger Account</th>
+									<th>Contractor <br> Name
+									</th>
+									<th>Date</th>
+									<th>Vocher Type</th>
+									<th class="no-sort">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -171,16 +195,16 @@
 
                                 </tr> -->
 
-                            </tbody>
+							</tbody>
 
-                        </table>
+						</table>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-     <div id="upload_template" class="modal">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="upload_template" class="modal">
         <div class="modal-content">
             <div class="center-align p-2 bg-m headbg modal-title">
                 <h6>Upload Expenditures</h6>

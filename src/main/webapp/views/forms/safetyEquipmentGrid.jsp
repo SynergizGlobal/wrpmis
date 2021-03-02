@@ -27,94 +27,112 @@
 <body>
 <!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
-	
-	
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Safety Equipment</h6>
-                        </div>
-                    </span>
-                    <div class="">
-                     <c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+
+
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Safety Equipment</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
 
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                                <!-- <div class="m-1 l-align">
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4">
+								<!-- <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
                                 </div> -->
-                            </div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-safety-equipment-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Safety Equipment</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a
+										href="<%=request.getContextPath()%>/add-safety-equipment-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Safety Equipment</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportSafetyEquipment()" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportSafetyEquipment()"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update Safety Equipment</h6>
+							</div>
+						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col m3 hide-on-small-only"></div>
+							<div class="col m6 s12">
+								<div class="row" style="margin-bottom: 0;">
+									<div class="col m2 hide-on-small-only"></div>
+									<div class="col s12 m4 input-field">
+										<p>
+											<label>Contract</label>
+										</p>
+										<select id="contract_id_fk" name="contract_id_fk"
+											class="searchable" onchange="getSafetyEquiptmentList();">
+											<option value="">Select</option>
+											<c:forEach var="obj" items="${contractList}">
+												<option value="${obj.contract_id_fk }">${obj.contract_id_fk }<c:if
+														test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="col s12 m4 input-field">
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
+											onclick="clearFilter();"
+											style="margin-top: 18px; width: 100%;">Clear Filters</button>
+									</div>
+								</div>
+							</div>
+							<div class="col m3 hide-on-small-only"></div>
+						</div>
+						<div class="row">
+							<div class="col m12 s12">
 
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12">
-                                <div class="row" style="margin-bottom: 0;">
-                                    <div class="col m2 hide-on-small-only"></div>
-                                    <div class="col s12 m4 input-field">
-                                        <p><label>Contract</label></p>
-                                        <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getSafetyEquiptmentList();">
-                                            <option value="">Select</option>
-                                            <c:forEach var="obj" items="${contractList}">
-	                       						  <option value="${obj.contract_id_fk }">${obj.contract_id_fk }<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
-	                                        </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text" onclick="clearFilter();"
-                                            style="margin-top: 18px;width: 100%;">Clear Filters</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col m3 hide-on-small-only"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col m12 s12">
+								<table id="datatable-safety" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Contract</th>
+											<th>Equipment No</th>
+											<th>Equipment Details</th>
+											<th>Validity of Equipment</th>
+											<th>Inspecting <br> Official
+											</th>
+											<th>Last Inspection</th>
+											<th>Next Inspection Due</th>
+											<th class="no-sort">Action</th>
 
-                                <table id="datatable-safety" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Contract</th>
-                                            <th>Equipment No</th>
-                                            <th>Equipment Details</th>
-                                            <th> Validity of Equipment</th>
-                                            <th>Inspecting <br> Official</th>
-                                            <th>Last Inspection</th>
-                                            <th>Next Inspection Due</th>
-                                            <th class="no-sort">Action</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- <tr>
+										</tr>
+									</thead>
+									<tbody>
+										<!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -127,7 +145,7 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr> -->
-                                      <!--   <tr>
+										<!--   <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -140,20 +158,20 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr> -->
-                                    </tbody>
+									</tbody>
 
-                                </table>
+								</table>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-	
-	
-<div class="page-loader" style="display: none;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">

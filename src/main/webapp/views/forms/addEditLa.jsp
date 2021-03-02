@@ -1565,7 +1565,7 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#issue_description,#jm_remarks').characterCounter();
+            $('#issue_description,#jm_remarks,#remarks').characterCounter();
             // commented code placed next script tag from here
 			forestGovernmentPrivateDivShowOrHide();
             $('input[name=is_there_issue]').change(function () {

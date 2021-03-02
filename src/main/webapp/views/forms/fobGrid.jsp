@@ -18,114 +18,113 @@
 	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
 	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	 <style>
- /*       p a {
-            color: blue;
-       }
-       td{
-	        word-break: break-word;
-	    	word-wrap: break-word;
-	   		white-space: initial;
-     	}
-     	td:last-child,td:last-of-type{
-     		white-space:inherit;
-     	} */
      	.fw-400{
      		max-width:400px;
      		width:400px;
      	}
-      /*  .page-loader {
-		    background: #332e2ec2!important;
-		    position: fixed;
-		    width: 100%;
-		    height: 100%;
-		    top: 0;
-		    left: 0;
-		    z-index: 1000;
-		}		
-		.preloader-wrapper{top: 45%!important;left:47%!important;} */
+
     </style>
 </head>
 <body>
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
-	
- <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> FOB</h6>
-                        </div>
-                    </span>
-                    <div class="">
-                    	<c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>FOB</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">                               
-                            </div>
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-fob-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add FOB</strong></a>
-                                </div>
-                            </div>
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportFOB();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>                   
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4"></div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-fob-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add FOB</strong></a>
+								</div>
+							</div>
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportFOB();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update FOB</h6>
+							</div>
+						</span>
+
 						<div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12 ">
-                                <div class="row" style="margin-bottom: 0;">
-                                    <div class="col s12 m4 input-field">
-                                    <p><label>Contract</label></p>
-                                       <select id="contract_id_fk" name="contract_id_fk" onchange="getFOBList();" class="searchable">
-                                            <option value="" >Select</option>
-                                           
-                                        </select>                                        
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                    <p><label>Work Status</label></p>
-                                       <select id="work_status_fk" name="work_status_fk" onchange="getFOBList();" class="searchable">
-                                            <option value="" >Select</option>     
-                                                                                 
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 18px;width: 100%;" onclick="clearFilter();">Clear Filters</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col m3 hide-on-small-only"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col m12 s12">
-                                <table id="datatable-fob" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Work </th>
-                                            <th class="fw-400">Contract </th>
-                                            <th>FOB ID </th>
-                                            <th>FOB Name </th>                                          
-                                            <th>Work Status </th>                                           
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- <tr>
+							<div class="col m3 hide-on-small-only"></div>
+							<div class="col m6 s12 ">
+								<div class="row" style="margin-bottom: 0;">
+									<div class="col s12 m4 input-field">
+										<p>
+											<label>Contract</label>
+										</p>
+										<select id="contract_id_fk" name="contract_id_fk"
+											onchange="getFOBList();" class="searchable">
+											<option value="">Select</option>
+
+										</select>
+									</div>
+									<div class="col s12 m4 input-field">
+										<p>
+											<label>Work Status</label>
+										</p>
+										<select id="work_status_fk" name="work_status_fk"
+											onchange="getFOBList();" class="searchable">
+											<option value="">Select</option>
+
+										</select>
+									</div>
+									<div class="col s12 m4 input-field">
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											style="margin-top: 18px; width: 100%;"
+											onclick="clearFilter();">Clear Filters</button>
+									</div>
+								</div>
+							</div>
+							<div class="col m3 hide-on-small-only"></div>
+						</div>
+						<div class="row">
+							<div class="col m12 s12">
+								<table id="datatable-fob" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th>Work</th>
+											<th class="fw-400">Contract</th>
+											<th>FOB ID</th>
+											<th>FOB Name</th>
+											<th>Work Status</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>                                         
@@ -138,17 +137,17 @@
                                                         class="fa fa-trash"></i></a>
                                             </td>
                                         </tr> -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	 <!-- Page Loader -->
+	<!-- Page Loader -->
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">

@@ -101,6 +101,20 @@
                                 </div> -->
                             </div>
                         </div> 
+              </div>
+              </div>
+              </div>
+              </div>
+                <div class="row">
+        <div class="col s12 m12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title headbg">
+                        <div class="center-align bg-m p-2 m-b-5">
+                            <h6>Upadate Land Acquisition</h6>
+                        </div>
+                    </span>          
+                        
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Project</p>

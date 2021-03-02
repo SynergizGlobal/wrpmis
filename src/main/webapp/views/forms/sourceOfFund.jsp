@@ -37,98 +37,114 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 
-    <div class="row">
-        <div class="col s12 m12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Source of Fund</h6>
-                        </div>
-                    </span>
-                    <div class="">
- 						<c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
+	<div class="row">
+		<div class="col s12 m12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title headbg">
+						<div class="center-align bg-m p-2 m-b-5">
+							<h6>Source of Fund</h6>
+						</div>
+					</span>
+					<div class="">
+						<c:if test="${not empty success }">
+							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
+							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                               <!--  <div class="m-1 l-align">
+						<div class="row plr-1 center-align">
+							<div class="col s12 m4">
+								<!--  <div class="m-1 l-align">
                                     <a href="#" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
                                     <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
                                 </div> -->
-                            </div>
+							</div>
 
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-fund-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Source of Fund</strong></a>
-                                </div>
-                            </div>
+							<div class="col s12 m4">
+								<div class="m-1 c-align">
+									<a href="<%=request.getContextPath()%>/add-fund-form"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-plus-circle"></i> Add Source of Fund</strong></a>
+								</div>
+							</div>
 
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a  href="javascript:void(0);" onclick="exportFunds();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-mar" style="margin-bottom: 0;">
-                            <div class="col m3 hide-on-small-only"></div>
-                            <div class="col m6 s12">
-                                <div class="row" style="margin-bottom: 0;">
-                                    <!-- <div class="col s12 m3 input-field">
+							<div class="col s12 m4 r-align">
+								<div class="m-1 ">
+									<a href="javascript:void(0);" onclick="exportFunds();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-download"></i> Export Data</strong></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title headbg">
+							<div class="center-align bg-m p-2 m-b-5">
+								<h6>Update Source of Fund</h6>
+							</div>
+						</span>
+						<div class="row no-mar" style="margin-bottom: 0;">
+							<div class="col m3 hide-on-small-only"></div>
+							<div class="col m6 s12">
+								<div class="row" style="margin-bottom: 0;">
+									<!-- <div class="col s12 m3 input-field">
                                        <p class="searchable_label">Work</p>
                                          <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
                                             <option value="" >Select</option>
                                         </select>
                                     </div> -->
-                                    <div class="col s12 m4 input-field">
-                                       <p class="searchable_label">Source of Fund</p>
-                                         <select id="source_of_funds_fk" name="source_of_funds_fk" onchange="getFundList();" class="searchable">
-                                            <option value="" >Select</option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                       <p class="searchable_label"> Railway</p>
-                                        <select id="sub_category_railway_id_fk" name="sub_category_railway_id_fk" onchange="getFundList();" class="searchable">
-                                            <option value="" >Select</option>
-                                        </select>
-                                    </div>
-                                    <div class="col s12 m4 input-field">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 8px;width: 100%;" onclick="clearFilter();" >Clear Filters</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col m3 hide-on-small-only"></div>
-                        </div>
+									<div class="col s12 m4 input-field">
+										<p class="searchable_label">Source of Fund</p>
+										<select id="source_of_funds_fk" name="source_of_funds_fk"
+											onchange="getFundList();" class="searchable">
+											<option value="">Select</option>
+										</select>
+									</div>
+									<div class="col s12 m4 input-field">
+										<p class="searchable_label">Railway</p>
+										<select id="sub_category_railway_id_fk"
+											name="sub_category_railway_id_fk" onchange="getFundList();"
+											class="searchable">
+											<option value="">Select</option>
+										</select>
+									</div>
+									<div class="col s12 m4 input-field">
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											style="margin-top: 8px; width: 100%;"
+											onclick="clearFilter();">Clear Filters</button>
+									</div>
+								</div>
+							</div>
+							<div class="col m3 hide-on-small-only"></div>
+						</div>
 
-                        <div class="row">
-                            <div class="col m12 s12">
+						<div class="row">
+							<div class="col m12 s12">
 
-                                <table id="datatable-fund" class="mdl-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="fw-400">Project</th>
-                                            <th>Source of Fund</th>
-                                            <th>Railway</th>
-                                            <th>Funding Date </th>
-                                            <th> Fund Amount </th>
-                                            <th>Ledger Account </th>
-                                            <th class="no-sort">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+								<table id="datatable-fund" class="mdl-data-table">
+									<thead>
+										<tr>
+											<th class="fw-400">Project</th>
+											<th>Source of Fund</th>
+											<th>Railway</th>
+											<th>Funding Date</th>
+											<th>Fund Amount</th>
+											<th>Ledger Account</th>
+											<th class="no-sort">Action</th>
+										</tr>
+									</thead>
+									<tbody>
 
-                                     <!--    <tr>
+										<!--    <tr>
 
                                             <td></td>
                                             <td></td>
@@ -145,19 +161,19 @@
 
                                         </tr> -->
 
-                                    </tbody>
+									</tbody>
 
-                                </table>
+								</table>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-   <div class="page-loader" style="display: none;">
+	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
 	      <div class="circle-clipper left">

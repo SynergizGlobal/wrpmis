@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
+import java.util.Map;
 
 import com.synergizglobal.pmis.model.Alerts;
 
@@ -27,5 +28,7 @@ public interface AlertsService {
 	List<Alerts> getAlertTypesFilterListInAlerts(Alerts obj) throws Exception;
 
 	boolean addAlertRemarks(Alerts obj) throws Exception;
+
+	Map<String,List<Alerts>> getAlertsForHeaderNotifications(Alerts aObj) throws Exception;
 	
 }

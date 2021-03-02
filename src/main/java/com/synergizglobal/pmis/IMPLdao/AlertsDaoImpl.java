@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -1173,6 +1175,239 @@ public class AlertsDaoImpl implements AlertsDao{
 			throw new Exception(e);
 		}
 		return flag;
+	}
+
+
+	@Override
+	public Map<String,List<Alerts>> getAlertsForHeaderNotifications(Alerts obj) throws Exception {
+		Map<String,List<Alerts>> objs = new HashMap<String,List<Alerts>>();
+		try {
+			
+			
+			String qry = "select alert_level "
+					+ "from alerts a " 
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+				qry = qry + " and alert_level = ? ";	
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) ";
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level <> ? ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level = ? ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
+				
+			}else{
+				qry = qry + " and (a.hod_email = ? OR a.dy_hod_email = ?) ";
+				arrSize++;
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			
+			qry = qry + " group by alert_level order by alert_level desc";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+				pValues[i++] = "3rd Alert";				
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+				pValues[i++] = "3rd Alert";
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+				pValues[i++] = "3rd Alert";
+			}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
+				
+			}else{
+				pValues[i++] = obj.getEmail_id();	
+				pValues[i++] = obj.getEmail_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			
+			List<Alerts> alertLevelsobjsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			
+			for (Alerts alertLevel : alertLevelsobjsList) {
+				
+				obj.setAlert_level(alertLevel.getAlert_level());
+				
+				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,IFNULL(a.remarks,'') as remarks,count,u.designation as hod,"
+						+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,c.work_id_fk,work_id,work_name,c.contract_short_name "
+						+ "from alerts a " 
+						+ "left outer join contract c on a.contract_id = c.contract_id " 
+						+ "left outer join work w on c.work_id_fk = w.work_id " 
+						+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+						+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+						+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+				
+				arrSize = 1;
+				if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+					qry = qry + " and alert_level = ? ";	
+					arrSize++;
+				}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+					qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) ";
+					arrSize++;
+					arrSize++;
+				}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+					qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level <> ? ";
+					arrSize++;
+					arrSize++;
+					arrSize++;
+				}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+					qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level = ? ";
+					arrSize++;
+					arrSize++;
+					arrSize++;
+				}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
+					
+				}else{
+					qry = qry + " and (a.hod_email = ? OR a.dy_hod_email = ?) ";
+					arrSize++;
+					arrSize++;
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and c.work_id_fk = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+					qry = qry + " and a.contract_id = ?";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					qry = qry + " and c.contractor_id_fk = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+					qry = qry + " and a.alert_type_fk = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+					qry = qry + " and u.designation = ? ";
+					arrSize++;
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+					qry = qry + " and a.alert_level = ?";
+					arrSize++;
+				}
+				
+				qry = qry + " order by hod,work_short_name,a.contract_id asc, alert_level desc";
+				
+				pValues = new Object[arrSize];
+				i = 0;
+				pValues[i++] = CommonConstants.ACTIVE;
+				if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+					pValues[i++] = "3rd Alert";				
+				}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+					pValues[i++] = "Bank Guarantee";	
+					pValues[i++] = "Insurance";	
+				}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+					pValues[i++] = "Bank Guarantee";	
+					pValues[i++] = "Insurance";	
+					pValues[i++] = "3rd Alert";
+				}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+					pValues[i++] = "Bank Guarantee";	
+					pValues[i++] = "Insurance";	
+					pValues[i++] = "3rd Alert";
+				}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
+					
+				}else{
+					pValues[i++] = obj.getEmail_id();	
+					pValues[i++] = obj.getEmail_id();
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+					pValues[i++] = obj.getContract_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+					pValues[i++] = obj.getContractor_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+					pValues[i++] = obj.getAlert_type_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+					pValues[i++] = obj.getHod();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_level())) {
+					pValues[i++] = obj.getAlert_level();
+				}
+				
+				List<Alerts> objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+				objs.put(alertLevel.getAlert_level(), objsList);
+			}
+			
+			
+			/*dyfacao1@mrvc.gov.in - 1st 2nd 3rd of BG & Insurance
+			facao2@mrvc.gov.in - 2nd 3rd of BG & Insurance
+			df@mrvc.gov.in - 3rd of BG & Insurance
+			
+			dy HOD - 1st, 2nd 3rd alert of their contracts
+			HOD - 2nd, 3rd alerts of their contracts
+			cmd@mrvc.gov.in - only 3rd alerts of all contracts..*/
+			
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objs;
 	}
 
 	

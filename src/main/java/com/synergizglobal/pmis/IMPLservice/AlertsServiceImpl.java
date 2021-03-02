@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,11 @@ public class AlertsServiceImpl implements AlertsService{
 	@Override
 	public boolean addAlertRemarks(Alerts obj) throws Exception {
 		return dao.addAlertRemarks(obj);
+	}
+
+	@Override
+	public Map<String,List<Alerts>> getAlertsForHeaderNotifications(Alerts aObj) throws Exception {
+		return dao.getAlertsForHeaderNotifications(aObj);
 	}
 
 }

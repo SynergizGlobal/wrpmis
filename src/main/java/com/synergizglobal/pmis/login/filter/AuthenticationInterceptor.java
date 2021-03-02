@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.login.filter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,11 +12,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.WebDocumentsService;
 import com.synergizglobal.pmis.Iservice.WebLinksService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
@@ -63,6 +66,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	@Autowired
 	WebLinksService webLinksService;
 	
+	@Autowired
+	AlertsService alertsService;
+	
 	@Override
     public void postHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler,
@@ -102,6 +108,13 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				List<Forms> reportForms = service.getReportFormsList(base);
 				model.addObject("reportForms", reportForms);
+				
+				/*Alerts aObj = new Alerts();
+				aObj.setEmail_id(userDetails.getEmail_id());
+				aObj.setUser_role_name(userDetails.getUser_role_name_fk());
+				Map<String,List<Alerts>> alerts = alertsService.getAlertsForHeaderNotifications(aObj);
+				model.addObject("alerts", alerts);*/
+				
 			}
 			
 			

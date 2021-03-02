@@ -306,7 +306,14 @@
           <!-- Notification code starts -->
           		<a class='notification dropdown-trigger' data-target='dropdown1'>
                   <span class="material-icons-outlined">notifications</span>
-                  <span class="badge red" id="notificationCount"></span>
+                  <span class="badge red" id="notificationCount">
+                  	<c:if test="${alerts.size() > 99 }">
+                  	99+
+                  </c:if>
+                  <c:if test="${alerts.size() < 100 }">
+                  	${alerts.size() }
+                  </c:if>
+                  </span>
                 </a>
                 <div class="notification_body dropdown-content" id='dropdown1'>
                   <!-- Notification dropdown body starts -->
@@ -335,57 +342,61 @@
                       
                        <ul class="notifications_group" style="margin-top: 5px;" id="notificationList">
                        <!-- list of Notifications starts -->
-                          <li class="head-item">Alert Level</li>
-                          <li class="item type-1">
-                              <a href="#">
-                              	 <span class="icon">
-                              	 	<i class="material-icons">security</i>
-                              	 	<span class="icon-text">Insurance</span>
-                              	 </span>                                  
-                                  <div>Work name</div>
-                                  <div>Contract Id</div>
-                                  <div>Contractor</div>
-                                  <div>Reason (Insurance)</div>
-                              </a>
-                          </li>                          
-                          <li class="item type-2">
-                              <a href="#">
-                              	<span class="icon">
-                              	 	<i class="material-icons">access_time</i>
-                              	 	<span class="icon-text">Contract Period</span>
-                              	 </span>                                   
-                                  <div>Work name</div>
-                                  <div>Contract Id</div>
-                                  <div>Contractor</div>
-                                  <div>Reason </div>
-                              </a>
-                          </li>                         
-                          <li class="item type-3">
-                              <a href="#">
-                                  <a href="#">
-                                  <span class="icon">
-                              	 	<i class="fa fa-money"></i>
-                              	 	<span class="icon-text">Contract Value</span>
-                              	  </span>                                   
-                                  <div>Work name</div>
-                                  <div>Contract Id</div>
-                                  <div>Contractor</div>
-                                  <div>Reason </div>
-                              </a>
-                              </a>
-                          </li>
-                           <li class="item type-1">
-                              <a href="#">
-                             	<span class="icon">
-                              	 	<i class="material-icons">account_balance</i>
-                              	 	<span class="icon-text">Bank Guarantee</span>
-                              	 </span>                                   
-                                 <div>Work name</div>
-                                 <div>Contract Id</div>
-                                 <div>Contractor</div>
-                                 <div>Reason </div>
-                              </a>
-                          </li>
+                       <c:forEach var="obj" items="${alerts }">
+                          <li class="head-item">${obj.key}</li>
+                          <c:forEach var="aObj" items="${obj.value}">
+	                          <li class="item type-1">
+	                              <a href="#">
+	                              	 <span class="icon">
+	                              	 	<i class="material-icons">security</i>
+	                              	 	<span class="icon-text">Insurance</span>
+	                              	 </span>                                  
+	                                  <div>Work name</div>
+	                                  <div>Contract Id</div>
+	                                  <div>Contractor</div>
+	                                  <div>Reason (Insurance)</div>
+	                              </a>
+	                          </li>                          
+	                          <li class="item type-2">
+	                              <a href="#">
+	                              	<span class="icon">
+	                              	 	<i class="material-icons">access_time</i>
+	                              	 	<span class="icon-text">Contract Period</span>
+	                              	 </span>                                   
+	                                  <div>Work name</div>
+	                                  <div>Contract Id</div>
+	                                  <div>Contractor</div>
+	                                  <div>Reason </div>
+	                              </a>
+	                          </li>                         
+	                          <li class="item type-3">
+	                              <a href="#">
+	                                  <a href="#">
+	                                  <span class="icon">
+	                              	 	<i class="fa fa-money"></i>
+	                              	 	<span class="icon-text">Contract Value</span>
+	                              	  </span>                                   
+	                                  <div>Work name</div>
+	                                  <div>Contract Id</div>
+	                                  <div>Contractor</div>
+	                                  <div>Reason </div>
+	                              </a>
+	                              </a>
+	                          </li>
+	                           <li class="item type-1">
+	                              <a href="#">
+	                             	<span class="icon">
+	                              	 	<i class="material-icons">account_balance</i>
+	                              	 	<span class="icon-text">Bank Guarantee</span>
+	                              	 </span>                                   
+	                                 <div>Work name</div>
+	                                 <div>Contract Id</div>
+	                                 <div>Contractor</div>
+	                                 <div>Reason </div>
+	                              </a>
+	                          </li>
+                          </c:forEach>
+                      </c:forEach>
                       </ul>
                       
                       <!-- Notification dropdown body ends -->
@@ -730,7 +741,7 @@
                 input.removeClass('empty');
             }
         });
-        var count = 0;
+        /* var count = 0;
         <c:forEach var="aObj" items="${dueActivities }">
         	if("${aObj.dueActivities.size()}" != null && "${aObj.dueActivities.size()}" != ''){
         		count = Number(count) + Number("${aObj.dueActivities.size()}")
@@ -741,7 +752,7 @@
 			count = "99+"
 		}
     	$("#notificationCount").html(count);
-    	$("#notificationCountMobile").html(count);
+    	$("#notificationCountMobile").html(count); */
 	});
 	//getting project list from database
 	function getProjectsListForSearch(){

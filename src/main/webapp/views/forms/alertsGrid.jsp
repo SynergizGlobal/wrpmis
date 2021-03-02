@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
     <style>
         .modal-header {
             text-align: center;
@@ -73,58 +74,34 @@
                             <form action="">
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">HOD</p>
-                                    <select id="hod" class="searchable" name="hod">
-                                        <option value="" disabled>Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                    <select id="hod" name="hod" class="searchable" onchange="getAlerts();">
+                                        <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Work</p>
-                                    <select id="work" class="searchable" name="work">
-                                        <option value="" disabled>Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                    <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getAlerts();">
+                                        <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Contract</p>
-                                    <select id="contract" class="searchable" name="contract">
-                                        <option value="" disabled>Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getAlerts();">
+                                        <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Contractor</p>
-                                    <select id="contractor" class="searchable" name="contractor">
-                                        <option value="" disabled>Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                    <select id="contractor_id_fk" name="contractor_id_fk" class="searchable" onchange="getAlerts();">
+                                        <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Alert Type</p>
-                                    <select id="alert_type" class="searchable" name="alert_type">
-                                        <option value="" disabled>Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                    <select id="alert_type_fk" name="alert_type_fk" class="searchable" onchange="getAlerts();">
+                                        <option value="">Select</option>
                                     </select>
                                 </div>
-                                <!-- <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Activity Level</p>
-                                    <select id="activity_level" class="searchable" name="activity_level">
-                                        <option value="" disabled>Select</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
-                                    </select>
-                                </div> -->
                                 <div class="col s12 m2">
                                     <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                         style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
@@ -150,7 +127,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    	<c:forEach var="obj" items="${alerts }">
+                                    	<%-- <c:forEach var="obj" items="${alerts }">
 	                                        <tr>
 	                                            <td>${obj.hod }</td>
 	                                            <td>${obj.work_short_name }</td>
@@ -161,10 +138,10 @@
 	                                            <td>${obj.alert_value }</td>
 	                                            <td>${obj.remarks }</td>
 	                                            <td class="last-column">
-	                                                <a href="#modal1" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
+	                                                <a href="javascript:void(0);" onclick="addAlertRemarks('${obj.alert_id }');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>
 	                                            </td>
 	                                        </tr>
-                                        </c:forEach>
+                                        </c:forEach> --%>
                                     </tbody>
                                 </table>
                             </div>
@@ -176,19 +153,20 @@
     </div>
     
     <!-- Modal Structure -->
-   <div id="modal1" class="modal">
+   <div id="remarksModal" class="modal">
        <div class="modal-content">
-           <h5 class="modal-header"> Update Remark <span
+           <h5 class="modal-header"> Add Remarks <span
                    class="right modal-action modal-close"><span
                        class="material-icons">close</span></span></h5>
-           <form>
+           <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post">
+           	   <input type="hidden" id="alert_id" name="alert_id" />
                <div class="row no-mar">
                    <div class="col m1 hide-on-small-only"></div>
                    <div class="input-field col s12 m10">
-                       <textarea id="textarea1"
+                       <textarea id="remarks" name="remarks"
                            class="materialize-textarea"
-                           data-length="1000"></textarea>
-                       <label for="textarea1">Textarea</label>
+                           data-length="500" maxlength="500" required="required"></textarea>
+                       <label for="remarks">Remarks</label>
                    </div>
                    <div class="col m1 hide-on-small-only"></div>
                </div>
@@ -196,7 +174,7 @@
                    <div class="col m1 hide-on-small-only"></div>
                    <div class="col s12 m5">
                        <div class="center-align m-1">
-                           <button type="button" style="width: 100%;"
+                           <button type="submit" style="width: 100%;"
                                class="btn waves-effect waves-light bg-m">Update</button>
                        </div>
                    </div>
@@ -211,6 +189,38 @@
            </form>
        </div>
    </div>
+   
+   <div class="page-loader" style="display: none;">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="page-loader-2" style="display: none;">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -222,37 +232,299 @@
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-
+	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+	
     <script>
-        $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
+    
+	    var email_id = '${email_id}';
+	    var user_role_name = '${user_role_name}';
+    
+	    $(document).ready(function(){
+			var successMessage = '${success}';
+			var errorMessage = '${error}';
+			if(successMessage){
+				swal("Success!", successMessage);
+			}
+			if(errorMessage){
+				swal("Failed!", errorMessage, "error");
+			}
+			
+			$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('.modal').modal();
             $('.materialize-textarea').characterCounter();
-            $('#notifications-table').DataTable({
+            
+            getAlerts();
+	            
+		});
+	    
+        function clearFilters() {
+        	
+            $('#hod').val("");
+            $('#work_id_fk').val("");
+            $('#contract_id_fk').val("");
+            $('#contractor_id_fk').val("");
+            $('#alert_type_fk').val("");
+            $('.searchable').select2();
+            
+            getAlerts();
+        }
+        
+		function getAlerts(){
+			$(".page-loader-2").show();
+			var hod = $("#hod").val();
+   	    	var work_id_fk = $("#work_id_fk").val();
+   	    	var contractor_id_fk = $("#contractor_id_fk").val();
+   	    	var contract_id_fk = $("#contract_id_fk").val();
+   	    	var alert_type_fk = $("#alert_type_fk").val();
+        	
+        	getContractsFilterList();
+			getHODFilterList();
+			getContractorsFilterList();
+			getWorkFilterList();
+			getAlertTypesFilterList();
+
+         	table = $('#notifications-table').DataTable();
+    		 
+    		table.destroy();
+    		
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#notifications-table').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true, 
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
                 columnDefs: [
                     {
-                        targets: 'no-sort', orderable: false,
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
                     },
-                    { "width": "10px", "targets": [8] },
+                    { orderable: false, 'aTargets': ['nosort'] }
                 ],
-                "ScrollX": true,
-                "scrollCollapse": true,
-                "sScrollY": 400,
-                // paging: false,
+                // "ScrollX": true,
+                //"scrollCollapse": true,
+                "sScrollX": "100%",
+                "sScrollXInner": "100%",
+                "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
-            });
-        });
-        function clearFilters() {
-            $('#hod').val("");
-            $('#work').val("");
-            $('#contract').val("");
-            $('#contractor').val("");
-            $('#alert_type').val("");
-            //$('#activity_level').val("");
-            $('.searchable').select2();
+            }).rows().remove().draw();
+    		
+    		
+    		table.state.clear();		
+    	 
+    		var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlerts",
+    			data:myParams,
+    			type:'POST',
+    			dataType: 'json',
+    			success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+    	         		$.each(data,function(key,val){
+    	         			var alert_id = "'"+val.alert_id+"'";
+    	                    var actions = '<a href="javascript:void(0);" onclick="addAlertRemarks('+alert_id+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>';    	                   	
+    	                   	var rowArray = [];    	                 
+    	                   	
+    	                	var workName = '';
+                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                            
+                            var contractName = '';
+                            if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
+                            
+                            rowArray.push($.trim(val.hod));
+    	                   	rowArray.push($.trim(val.work_id_fk) + workName);
+    	                   	rowArray.push($.trim(val.contract_id) + contractName);
+    	                   	rowArray.push($.trim(val.contractor_name));
+    	                   	rowArray.push($.trim(val.alert_type_fk));
+    	                   	rowArray.push($.trim(val.alert_level));
+    	                   	rowArray.push($.trim(val.alert_value));
+    	                   	rowArray.push($.trim(val.remarks));
+    	                   	rowArray.push($.trim(actions));
+    	                   	
+    	                    table.row.add(rowArray).draw( true );
+    	                    		                       
+    					});
+    	         		
+    	         		$(".page-loader-2").hide();
+    				}else{
+    					$(".page-loader-2").hide();
+    				}
+    				
+    			},error: function (jqXHR, exception) {
+    				$(".page-loader-2").hide();
+    	         	getErrorMessage(jqXHR, exception);
+    	     }});
+		}
+        
+	   	function getContractsFilterList(){
+   	    	$(".page-loader").show();
+   	    	var hod = $("#hod").val();
+   	    	var work_id_fk = $("#work_id_fk").val();
+   	    	var contractor_id_fk = $("#contractor_id_fk").val();
+   	    	var contract_id_fk = $("#contract_id_fk").val();
+   	    	var alert_type_fk = $("#alert_type_fk").val();
+   	    	
+   	        if ($.trim(contract_id_fk) == "") {   	        	
+   	        	$("#contract_id_fk option:not(:first)").remove();
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	            $.ajax({
+   	                url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInAlerts",
+   	                data: myParams,type:"POST", cache: false,
+   	                success: function (data) {   	                	
+   	                    if (data.length > 0) {
+   	                        $.each(data, function (i, val) {
+   		                        $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) +" - "+ $.trim(val.contract_short_name) +'</option>');
+   	                        });
+   	                    }
+   	                    $('.searchable').select2();
+   	                    $(".page-loader").hide();
+   	                },error: function (jqXHR, exception) {
+   	 	   			 	  $(".page-loader").hide();
+   		   	          	  getErrorMessage(jqXHR, exception);
+   		   	     	  }
+   	            });
+   	        }else{
+   	        	  $(".page-loader").hide();
+   	        }
+	   	}
+        
+        function getHODFilterList(){
+        	$(".page-loader").show();
+        	var hod = $("#hod").val();
+   	    	var work_id_fk = $("#work_id_fk").val();
+   	    	var contractor_id_fk = $("#contractor_id_fk").val();
+   	    	var contract_id_fk = $("#contract_id_fk").val();
+   	    	var alert_type_fk = $("#alert_type_fk").val();
+   	    	
+   	        if ($.trim(hod) == "") {
+   	        	$("#hod option:not(:first)").remove();
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	            $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getHODFilterListInAlerts",
+                    data: myParams,type:"POST", cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#hod").append('<option value="' + val.hod + '">' + $.trim(val.hod)  + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+         }
+       
+        function getContractorsFilterList(){
+        	$(".page-loader").show();
+        	var hod = $("#hod").val();
+   	    	var work_id_fk = $("#work_id_fk").val();
+   	    	var contractor_id_fk = $("#contractor_id_fk").val();
+   	    	var contract_id_fk = $("#contract_id_fk").val();
+   	    	var alert_type_fk = $("#alert_type_fk").val();
+   	    	
+   	        if ($.trim(contractor_id_fk) == "") {
+   	        	$("#contractor_id_fk option:not(:first)").remove();
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	            $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInAlerts",
+                    data: myParams,type:"POST", cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+    	                           $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '">' + $.trim(val.contractor_id_fk) +" - "+ $.trim(val.contractor_name) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+         }
+    	 
+    	 function getWorkFilterList(){
+    	 	$(".page-loader").show();
+    	 	var hod = $("#hod").val();
+   	    	var work_id_fk = $("#work_id_fk").val();
+   	    	var contractor_id_fk = $("#contractor_id_fk").val();
+   	    	var contract_id_fk = $("#contract_id_fk").val();
+   	    	var alert_type_fk = $("#alert_type_fk").val();
+   	    	
+   	        if ($.trim(work_id_fk) == "") {
+   	        	$("#work_id_fk option:not(:first)").remove();
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	            $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInAlerts",
+                    data: myParams,type:"POST", cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) +" - "+ $.trim(val.work_short_name) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                });
+            }else{
+            	  $(".page-loader").hide();
+            }
+        }
+    	 
+    	function getAlertTypesFilterList(){
+     	 	$(".page-loader").show();
+     	 	var hod = $("#hod").val();
+   	    	var work_id_fk = $("#work_id_fk").val();
+   	    	var contractor_id_fk = $("#contractor_id_fk").val();
+   	    	var contract_id_fk = $("#contract_id_fk").val();
+   	    	var alert_type_fk = $("#alert_type_fk").val();
+   	    	
+   	        if ($.trim(alert_type_fk) == "") {
+   	        	$("#alert_type_fk option:not(:first)").remove();
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	            $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getAlertTypesFilterListInAlerts",
+                    data: myParams,type:"POST", cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	 $("#alert_type_fk").append('<option value="' + val.alert_type_fk + '">' + $.trim(val.alert_type_fk) +'</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+    	   	          	  getErrorMessage(jqXHR, exception);
+    	   	     	  }
+                 });
+            }else{
+             	 $(".page-loader").hide();
+            }
+        }
+        
+        function addAlertRemarks(alert_id){        	
+        	$("#alert_id").val(alert_id);
+        	$("#remarks").val("");
+        	$("#remarksModal").modal("open");
         }
     </script>
 

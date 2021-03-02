@@ -207,8 +207,8 @@
         </p>
           <!-- Dropdown Structure -->
 	  <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-	    <li><a href="#!">PMIS Manual <i class="fa fa-download"></i></a></li>
-	    <li><a href="#!">Primavera Manual <i class="fa fa-download"></i></a></li>
+	    <li><a href="/pmis/PMIS User Manual Ver-1.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
+	    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
 	    <li class="divider" tabindex="-1"></li>
 	    <li class="support-link"> Contact us :  <br> <a href="mailto:support_pmis@mrvc.gov.in">support_pmis@mrvc.gov.in</a></li>
 	  </ul>

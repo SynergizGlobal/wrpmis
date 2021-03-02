@@ -26,7 +26,6 @@ import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.User;
 @Repository
 public class AlertsDaoImpl implements AlertsDao{
 	
@@ -52,7 +51,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** BG alerts*******************************************************/
 			String bgQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
+					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -66,7 +65,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String bgQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
+					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ " from contract c " +
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -80,7 +79,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String bgQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Bank Guarantee' as alert_type,"
 					+ "(case when bg.bg_type_fk is not null then CONCAT(bg.bg_type_fk, ' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Bank guarantee valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
+					+ "else CONCAT('Bank guarantee ',bg.bg_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ " from contract c " + 
 					"left outer join bank_guarantee bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -95,7 +94,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/***************************** Insurance alerts*******************************************************/
 			String insuranceQryAlert1 = "select bg.contract_id_fk as contract_id, '1st Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
+					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
 					+ "from contract c " + 
 					"left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -109,7 +108,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String insuranceQryAlert2 = "select bg.contract_id_fk as contract_id, '2nd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
+					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk " 
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -123,7 +122,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String insuranceQryAlert3 = "select bg.contract_id_fk as contract_id, '3rd Alert' as alert_level,'Insurance' as alert_type,"
 					+ "(case when bg.insurance_type_fk is not null then CONCAT(bg.insurance_type_fk, ' Valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) " 
-					+ "else CONCAT('Insurance valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
+					+ "else CONCAT('Insurance ',bg.insurance_number,' valid upto ',DATE_FORMAT(valid_upto,'%d-%b-%Y') ) end ) as alert_value,u1.email_id as hod_email,u2.email_id as dy_hod_email "
 					+ " from contract c "
 					+ "left outer join insurance bg on c.contract_id = bg.contract_id_fk "
 					+ "left outer join user u1 on c.hod_user_id_fk = u1.user_id "
@@ -261,21 +260,34 @@ public class AlertsDaoImpl implements AlertsDao{
 			jdbcTemplate.update(updateQry,pValues);	
 			
 			
-			String qryUserPermissions = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,hod_email,dy_hod_email) VALUES  (?,?,?,?,?,?,?,?)";		
+			String qryUserPermissions = "INSERT INTO alerts (alert_level,alert_type_fk,contract_id,alert_status,alert_value,`count`,hod_email,dy_hod_email,remarks) VALUES  (?,?,?,?,?,?,?,?,?)";		
 			
 			int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions, new BatchPreparedStatementSetter() { 
 								@Override
 				                public void setValues(PreparedStatement ps, int i) throws SQLException {
-				                    ps.setString(1, list.get(i).getAlert_level());
-				                    ps.setString(2, list.get(i).getAlert_type());
-				                    ps.setString(3, list.get(i).getContract_id());
+									String alert_level = list.get(i).getAlert_level();
+									String alert_type = list.get(i).getAlert_type();
+									String contract_id = list.get(i).getContract_id();
+									String alert_value = list.get(i).getAlert_value();
+									
+				                    ps.setString(1, alert_level);
+				                    ps.setString(2, alert_type);
+				                    ps.setString(3, contract_id);
 				                    ps.setString(4, CommonConstants.ACTIVE);
-				                    ps.setString(5, list.get(i).getAlert_value());
+				                    ps.setString(5, alert_value);
 				                    ps.setString(6, "1");
 				                    ps.setString(7, list.get(i).getHod_email());
 				                    ps.setString(8, list.get(i).getDy_hod_email());
+				                    ps.setString(9, getAlertRemarks(alert_type,contract_id,alert_value));
 				                }
-				                @Override  
+				                private String getAlertRemarks(String alert_type, String contract_id,
+										String alert_value) {
+				                	String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? and created_date = (NOW() - INTERVAL 1 DAY)";
+				        			Object[] pValues = new Object[] {alert_type,contract_id,alert_value};
+				        			String remarks = jdbcTemplate.queryForObject( remarksQry,pValues, String.class);
+									return remarks;
+								}
+								@Override  
 				                public int getBatchSize() {
 				                	 return list.size();
 				                }
@@ -307,10 +319,13 @@ public class AlertsDaoImpl implements AlertsDao{
 			pValues = new Object[] {CommonConstants.ACTIVE};
 			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
 						
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  " + 
-					"from alerts a " + 
-					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
-					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,remarks " 
+					+ "from alerts a "  
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id " 
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
 					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 			
 			pValues = new Object[] {CommonConstants.ACTIVE};
@@ -504,10 +519,13 @@ public class AlertsDaoImpl implements AlertsDao{
 			pValues = new Object[] {CommonConstants.ACTIVE};
 			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
 						
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  " + 
-					"from alerts a " + 
-					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
-					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,remarks " 
+					+ "from alerts a " 
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
 					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 			
 			pValues = new Object[] {CommonConstants.ACTIVE};
@@ -591,10 +609,13 @@ public class AlertsDaoImpl implements AlertsDao{
 			/*String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
 					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";*/
 			
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name  " + 
-					"from alerts a " + 
-					"left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id " + 
-					"where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,remarks " 
+					+ "from alerts a " 
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id " 
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
 					+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
 			
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
@@ -623,69 +644,105 @@ public class AlertsDaoImpl implements AlertsDao{
 
 
 	@Override
-	public List<Alerts> getAlerts(User uObj) throws Exception {
+	public List<Alerts> getAlerts(Alerts obj) throws Exception {
 		List<Alerts> objsList = new ArrayList<Alerts>();
 		try {
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,a.remarks,count,u.designation as hod,"
+					+ "work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
+					+ "from alerts a " 
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
 			
-			Object[] pValues = null;
-			/*String dyHODQry ="select group_concat(distinct dy_hod_email) from alerts where alert_status = ? and dy_hod_email is not null and dy_hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
-			pValues = new Object[] {CommonConstants.ACTIVE};
-			String dyHODEmails = jdbcTemplate.queryForObject( dyHODQry,pValues, String.class);
-			
-			String hodQry ="select group_concat(distinct hod_email) from alerts where alert_status = ? and hod_email is not null and hod_email <> '' and contract_id is not null and contract_id <> '' and count <> 0 group by alert_status";
-			pValues = new Object[] {CommonConstants.ACTIVE};
-			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
-			*/	
-			String qry = "";
-			if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("cmd@mrvc.gov.in")){
-				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
-						+ "from alerts a " 
-						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
-						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-						+ "and alert_level = ? "
-						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+				qry = qry + " and alert_level = ? ";	
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) ";
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level <> ? ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level = ? ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
 				
-				pValues = new Object[] {CommonConstants.ACTIVE,"3rd Alert"};				
-			}else if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
-				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
-						+ "from alerts a " 
-						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
-						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-						+ "and (alert_type_fk = ? OR alert_type_fk = ?) "
-						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
-				
-				pValues = new Object[] {CommonConstants.ACTIVE,"Bank Guarantee","Insurance"};	
-			}else if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("facao2@mrvc.gov.in")) {
-				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
-						+ "from alerts a " 
-						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
-						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-						+ "and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level <> ?  "
-						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
-				
-				pValues = new Object[] {CommonConstants.ACTIVE,"Bank Guarantee","Insurance","3rd Alert"};
-			}else if(!StringUtils.isEmpty(uObj) && uObj.getEmail_id().equals("df@mrvc.gov.in")) {
-				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
-						+ "from alerts a " 
-						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
-						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-						+ "and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level = ?  "
-						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
-				
-				pValues = new Object[] {CommonConstants.ACTIVE,"Bank Guarantee","Insurance","3rd Alert"};
-			}else {
-				qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email  "
-						+ "from alerts a " 
-						+ "left outer join contract_view cv on a.contract_id COLLATE utf8mb4_unicode_ci = cv.contract_id "
-						+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
-						+ "and (a.hod_email = ? OR a.dy_hod_email = ?) "
-						+ "order by hod,work_short_name,a.contract_id asc, alert_level desc";
-				
-				pValues = new Object[] {CommonConstants.ACTIVE,uObj.getEmail_id(),uObj.getEmail_id()};
+			}else{
+				qry = qry + " and (a.hod_email = ? OR a.dy_hod_email = ?) ";
+				arrSize++;
+				arrSize++;
 			}
 			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
 			
+			qry = qry + " order by hod,work_short_name,a.contract_id asc, alert_level desc";
 			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+				pValues[i++] = "3rd Alert";				
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+				pValues[i++] = "3rd Alert";
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+				pValues[i++] = "3rd Alert";
+			}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
+				
+			}else{
+				pValues[i++] = obj.getEmail_id();	
+				pValues[i++] = obj.getEmail_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
@@ -702,6 +759,333 @@ public class AlertsDaoImpl implements AlertsDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+
+	@Override
+	public List<Alerts> getContractorsFilterListInAlerts(Alerts obj) throws Exception {
+		List<Alerts> objsList = null;
+		try {
+			String qry = "SELECT c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name "
+					+ "from alerts a "
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "and c.contractor_id_fk is not null and c.contractor_id_fk <> '' ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY c.contractor_id_fk ORDER BY c.contractor_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Alerts> getContractsFilterListInAlerts(Alerts obj) throws Exception {
+		List<Alerts> objsList = null;
+		try {
+			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "
+					+ "from alerts a "
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "and a.contract_id is not null and a.contract_id <> '' ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY a.contract_id ORDER BY a.contract_id";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Alerts> getHODFilterListInAlerts(Alerts obj) throws Exception {
+		List<Alerts> objsList = null;
+		try {
+			String qry = "SELECT u.user_id,u.user_name,u.designation as hod "
+					+ "from alerts a "
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "and u.designation is not null and u.designation <> '' ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY u.designation ORDER BY u.designation";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Alerts> getWorksFilterListInAlerts(Alerts obj) throws Exception {
+		List<Alerts> objsList = null;
+		try {
+			String qry = "SELECT c.work_id_fk,work_id,work_name,work_short_name "
+					+ "from alerts a "
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "and c.work_id_fk is not null and c.work_id_fk <> '' ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY c.work_id_fk ORDER BY c.work_id_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public List<Alerts> getAlertTypesFilterListInAlerts(Alerts obj) throws Exception {
+		List<Alerts> objsList = null;
+		try {
+			String qry = "SELECT alert_type_fk "
+					+ "from alerts a "
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where alert_status = ? and a.contract_id is not null and a.contract_id <> '' and count <> 0 "
+					+ "and c.work_id_fk is not null and c.work_id_fk <> '' ";
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			qry = qry + " GROUP BY alert_type_fk ORDER BY alert_type_fk";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public boolean addAlertRemarks(Alerts obj) throws Exception {
+		boolean flag = false;
+		try {
+			String updateQry = "update alerts set remarks = ? where alert_id = ?";	
+			Object[] pValues = new Object[] {obj.getRemarks(),obj.getAlert_id()};
+			int c = jdbcTemplate.update(updateQry,pValues);	
+			if(c > 0) {
+				flag = true;
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return flag;
 	}
 
 	

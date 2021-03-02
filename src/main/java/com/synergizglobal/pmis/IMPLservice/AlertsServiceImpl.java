@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.AlertsDao;
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.User;
 
 @Service
 public class AlertsServiceImpl implements AlertsService{
@@ -36,8 +35,38 @@ public class AlertsServiceImpl implements AlertsService{
 	}
 
 	@Override
-	public List<Alerts> getAlerts(User uObj) throws Exception {
-		return dao.getAlerts(uObj);
+	public List<Alerts> getAlerts(Alerts obj) throws Exception {
+		return dao.getAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getContractorsFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getContractorsFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getContractsFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getContractsFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getHODFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getHODFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getWorksFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getWorksFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getAlertTypesFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getAlertTypesFilterListInAlerts(obj);
+	}
+
+	@Override
+	public boolean addAlertRemarks(Alerts obj) throws Exception {
+		return dao.addAlertRemarks(obj);
 	}
 
 }

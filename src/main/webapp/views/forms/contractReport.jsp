@@ -165,7 +165,7 @@
 	                                    <div class="col s12 m4 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateContractReport();"> Contract Report</button>
+	                                            onclick="generateContractReport();"> Contracts List</button>
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"

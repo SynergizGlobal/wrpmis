@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Alerts;
-import com.synergizglobal.pmis.model.User;
 
 public interface AlertsService {
 
@@ -15,6 +14,18 @@ public interface AlertsService {
 	
 	boolean sendAlertsToRajivRavi() throws Exception;
 
-	List<Alerts> getAlerts(User uObj) throws Exception;
+	List<Alerts> getAlerts(Alerts obj) throws Exception;
+
+	List<Alerts> getContractorsFilterListInAlerts(Alerts obj) throws Exception;
+
+	List<Alerts> getContractsFilterListInAlerts(Alerts obj) throws Exception;
+
+	List<Alerts> getHODFilterListInAlerts(Alerts obj) throws Exception;
+
+	List<Alerts> getWorksFilterListInAlerts(Alerts obj) throws Exception;
+
+	List<Alerts> getAlertTypesFilterListInAlerts(Alerts obj) throws Exception;
+
+	boolean addAlertRemarks(Alerts obj) throws Exception;
 	
 }

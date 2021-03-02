@@ -83,7 +83,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/generate-and-send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndSendAlertsToAllByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/home");	    
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
 	     try {
 	    	logger.error("generateAndSendAlertsToAllByManual : start");
 	    	//System.out.println("Start "+ new Date());
@@ -103,7 +103,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/send-alerts-to-hod-dyhod",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView sendAlertsToHodDyHodByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/home");	    
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
 	     try {
 	    	boolean flag = service.sendAlertsToHodDyHodByManual();
 			logger.error("sendAlertsToHodDyHodByManual >> sendMailAlerts >> Sending mails : "+ flag); 
@@ -118,7 +118,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/generate-and-send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndSendAlertsToRajivRaviByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/home");	    
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
 	     try {
 	    	logger.error("generateAndSendAlertsToRajivRaviByManual : start");
 	    	//System.out.println("Start "+ new Date());
@@ -139,7 +139,7 @@ public class AlertsController {
 	
 	@RequestMapping(value="/send-alerts-rajiv-ravi",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView sendAlertsToRajivRaviByManual(){		
-		 ModelAndView model = new ModelAndView("redirect:/home");	    
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
 	     try {
 	    	logger.error("sendAlertsToRajivRaviByManual : start");
 	    	 

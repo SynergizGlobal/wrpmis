@@ -406,7 +406,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			pValues = new Object[] {CommonConstants.ACTIVE};
 			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
 						
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,remarks " 
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,a.remarks " 
 					+ "from alerts a "  
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
@@ -606,7 +606,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			pValues = new Object[] {CommonConstants.ACTIVE};
 			String hodEmails = jdbcTemplate.queryForObject( hodQry,pValues, String.class);
 						
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,remarks " 
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.hod_email,a.dy_hod_email,a.remarks " 
 					+ "from alerts a " 
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 
@@ -696,7 +696,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			/*String qry ="select alert_id,alert_level,alert_type_fk,contract_id,created_date,alert_status,alert_value,count"
 					+ " from alerts where alert_status = ? and contract_id is not null and contract_id <> '' and count <> 0 ";*/
 			
-			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,remarks " 
+			String qry = "select alert_id,alert_level,alert_type_fk,a.contract_id,created_date,alert_status,alert_value,count,u.designation as hod,work_short_name,contract_short_name,contractor_name,a.remarks " 
 					+ "from alerts a " 
 					+ "left outer join contract c on a.contract_id = c.contract_id " 
 					+ "left outer join work w on c.work_id_fk = w.work_id " 

@@ -151,10 +151,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ "from contract c " 
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null " 
 					+ "LEFT JOIN user u1 ON c.hod_user_id_fk = u1.user_id "
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
-					+ "where c.contract_status_fk = 'In Progress' and (revised_doc is not null OR doc is not null) " 
+					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 15)";
 			
@@ -176,10 +176,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ "from contract c " 
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null " 
 					+ "LEFT JOIN user u1 ON c.hod_user_id_fk = u1.user_id "
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
-					+ "where c.contract_status_fk = 'In Progress' and (revised_doc is not null OR doc is not null) " 
+					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 15 " 
 					+ "and DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 7)";
 			
@@ -200,10 +200,10 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email " 
 					+ "from contract c " 
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' " 
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_doc is not null " 
 					+ "LEFT JOIN user u1 ON c.hod_user_id_fk = u1.user_id "
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
-					+ "where c.contract_status_fk = 'In Progress' and (revised_doc is not null OR doc is not null) " 
+					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (DATEDIFF((CASE WHEN (cr.action = 'Yes' and cr.revised_doc is not null) THEN revised_doc WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7) ";
 			
 			List<Alerts> cpQryAlert3List = jdbcTemplate.query( cpQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -229,7 +229,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ ") AS alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' "  
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "  
 					+ "LEFT JOIN user u1 ON c.hod_user_id_fk = u1.user_id "  
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
 					+ "where c.contract_status_fk = 'In Progress' " 
@@ -259,7 +259,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ ") AS alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' "  
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "  
 					+ "LEFT JOIN user u1 ON c.hod_user_id_fk = u1.user_id "  
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
 					+ "where c.contract_status_fk = 'In Progress' " 
@@ -289,7 +289,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ ") AS alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email "  
 					+ "from contract c "  
-					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' "  
+					+ "LEFT JOIN contract_revision cr on cr.contract_id_fk = c.contract_id and cr.action = 'Yes' and cr.revised_amount is not null "  
 					+ "LEFT JOIN user u1 ON c.hod_user_id_fk = u1.user_id "  
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
 					+ "where c.contract_status_fk = 'In Progress' " 

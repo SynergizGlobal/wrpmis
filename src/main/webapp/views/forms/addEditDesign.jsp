@@ -91,6 +91,10 @@
         	font-weight:600;
         	margin-top: 10px !important;     
         }
+        p.priokind >i{
+        	margin-left:10px;
+        	vertical-align:inherit;
+        }
         #revTable .select2-container{
 	        max-width:80px;
 	        text-align:left;
@@ -328,7 +332,33 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                            
+                           <!--  newly added code starts here  -->
+                             <div class="row" >
+                                <div class="col m2 hide-on-small-only"></div>  
+                                <div class="col s12 m4 input-field center-align">
+                                    <p class="priokind">Clearance to Consultant ?   
+                                    	<i class="fa fa-info-circle tooltipped" data-position="bottom" data-tooltip='If GAD for the structure is approved and handedover to consultant then  write "Yes" else "No" '></i>
+                                    </p>   
+                                </div>                           
+                                <div class="col s12 m4 input-field">
+                                    <p class="radiogroup">
+                                        <label>
+                                            <input class="with-gap" name="clearance_to_consultant" type="radio"
+                                                value="Yes"  <c:if test="${designDetails.divisional_submission_fk eq 'Yes'}">checked</c:if>/>
+                                            <span>Yes</span>
+                                        </label>
+                                        &nbsp;
+                                        <label>
+                                            <input class="with-gap" name="clearance_to_consultant" type="radio"
+                                                value="No" <c:if test="${designDetails.divisional_submission_fk eq 'No'}">checked</c:if> />
+                                            <span>No</span>
+                                        </label>
+                                    </p>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                             </div>
+							<!--  newly added code ends here  -->
+                             
                              <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
@@ -920,7 +950,7 @@
             $('select:not(.searchable)').formSelect();
          	$('.searchable').select2();
             $('#remarks,#issueDesc').characterCounter();
-            
+            $('.tooltipped').tooltip();
 
             $('input[name=is_there_issue]').change(function () {
                 var radioval = $('input[name=is_there_issue]:checked').val();

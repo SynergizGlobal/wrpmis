@@ -344,13 +344,13 @@
                                     <p class="radiogroup">
                                         <label>
                                             <input class="with-gap" name="clearance_to_consultant" type="radio"
-                                                value="Yes"  <c:if test="${designDetails.divisional_submission_fk eq 'Yes'}">checked</c:if>/>
+                                                value="Yes"  <c:if test="${designDetails.clearance_to_consultant eq 'Yes'}">checked</c:if>/>
                                             <span>Yes</span>
                                         </label>
                                         &nbsp;
                                         <label>
                                             <input class="with-gap" name="clearance_to_consultant" type="radio"
-                                                value="No" <c:if test="${designDetails.divisional_submission_fk eq 'No'}">checked</c:if> />
+                                                value="No" <c:if test="${designDetails.clearance_to_consultant eq 'No'}">checked</c:if> />
                                             <span>No</span>
                                         </label>
                                     </p>

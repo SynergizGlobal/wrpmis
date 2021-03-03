@@ -256,7 +256,7 @@
                     </div>
                 </div>
                 
-                
+                <c:if test="${USER_ROLE_CODE eq 'IT' }">
                 <div class="card">
 	                <div class="card-content">
 	                    <span class="card-title headbg">
@@ -312,7 +312,7 @@
 	                    </div>
 	                </div>
 	            </div>
-                
+                </c:if>
             </div>
         </div>
  

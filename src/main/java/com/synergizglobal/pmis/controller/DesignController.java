@@ -1020,39 +1020,42 @@ public class DesignController {
 							if(!StringUtils.isEmpty(val)) { design.setRevision(val);}
 							
 							val = formatter.formatCellValue(row.getCell(21)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setConsultant_submission(val);}
+							if(!StringUtils.isEmpty(val)) { design.setClearance_to_consultant(val);}
 							
 							val = formatter.formatCellValue(row.getCell(22)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setMrvc_reviewed(val);}
+							if(!StringUtils.isEmpty(val)) { design.setConsultant_submission(val);}
 							
 							val = formatter.formatCellValue(row.getCell(23)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivisional_submission_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setMrvc_reviewed(val);}
 							
 							val = formatter.formatCellValue(row.getCell(24)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_division(val);}
+							if(!StringUtils.isEmpty(val)) { design.setDivisional_submission_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(25)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivisional_approval(val);}
+							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_division(val);}
 							
 							val = formatter.formatCellValue(row.getCell(26)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHq_submission_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setDivisional_approval(val);}
 							
 							val = formatter.formatCellValue(row.getCell(27)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_hq(val);}
+							if(!StringUtils.isEmpty(val)) { design.setHq_submission_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(28)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHq_approval(val);}
+							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_hq(val);}
 							
 							val = formatter.formatCellValue(row.getCell(29)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}
+							if(!StringUtils.isEmpty(val)) { design.setHq_approval(val);}
 							
 							val = formatter.formatCellValue(row.getCell(30)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setAs_built_status(val);}
+							if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}
 							
 							val = formatter.formatCellValue(row.getCell(31)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setAs_built_date(val);}
+							if(!StringUtils.isEmpty(val)) { design.setAs_built_status(val);}
 							
 							val = formatter.formatCellValue(row.getCell(32)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setAs_built_date(val);}
+							
+							val = formatter.formatCellValue(row.getCell(33)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setRemarks(val);}
 							
 							design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getSubmited_to_proof_consultant_fk()));

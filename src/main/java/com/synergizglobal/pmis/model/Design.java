@@ -10,7 +10,7 @@ public class Design {
 	
 	private String design_id, contract_id_fk, department_id_fk,department_name, work_name,hod, dy_hod,designation, prepared_by_id_fk, consultant_contract_id_fk,
 	proof_consultant_contract_id_fk,contract_name, structure_type_fk, component, drawing_type_fk, contractor_drawing_no, mrvc_drawing_no,project_id_fk,
-	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision, consultant_submission,work_id_fk,department_fk,work_short_name,
+	division_drawing_no, hq_drawing_no, drawing_title, planned_start, planned_finish, revision,clearance_to_consultant, consultant_submission,work_id_fk,department_fk,work_short_name,
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
 	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq,
@@ -629,6 +629,14 @@ public class Design {
 
 	public void setRevision_status(String revision_status) {
 		this.revision_status = revision_status;
+	}
+
+	public String getClearance_to_consultant() {
+		return clearance_to_consultant;
+	}
+
+	public void setClearance_to_consultant(String clearance_to_consultant) {
+		this.clearance_to_consultant = clearance_to_consultant;
 	}
 
 }

@@ -109,11 +109,11 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				List<Forms> reportForms = service.getReportFormsList(base);
 				model.addObject("reportForms", reportForms);
 				
-				/*Alerts aObj = new Alerts();
+				Alerts aObj = new Alerts();
 				aObj.setEmail_id(userDetails.getEmail_id());
 				aObj.setUser_role_name(userDetails.getUser_role_name_fk());
 				Map<String,List<Alerts>> alerts = alertsService.getAlertsForHeaderNotifications(aObj);
-				model.addObject("alerts", alerts);*/
+				model.addObject("alerts", alerts);
 				
 			}
 			

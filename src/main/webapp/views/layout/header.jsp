@@ -344,8 +344,44 @@
                        <!-- list of Notifications starts -->
                        <c:forEach var="obj" items="${alerts }">
                           <li class="head-item">${obj.key}</li>
+                          <c:if test="${obj.key eq '3rd Alert'}">
+                          	<c:set var="bgClass" value="type-3"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '2nd Alert'}">
+                          	<c:set var="bgClass" value="type-2"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '1st Alert'}">
+                          	<c:set var="bgClass" value="type-1"></c:set>
+                          </c:if>
                           <c:forEach var="aObj" items="${obj.value}">
-	                          <li class="item type-1">
+                          	  
+                          	  <c:if test="${aObj.alert_type_fk eq 'Bank Guarantee'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>account_balance</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Insurance'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>security</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Period'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>access_time</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
+	                          	<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
+	                          </c:if>
+                          	  
+                          	  <li class="item ${bgClass }">
+	                              <a href="#">
+	                              	<span class="icon">
+	                              	 	<!-- <i class="material-icons">access_time</i> -->
+	                              	 	${bgIcon }
+	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
+	                              	 </span>                                   
+	                                 <div>Work name : ${aObj.work_short_name }</div>
+	                                 <div>Contract Id : ${aObj.contract_id }</div>
+	                                 <div>Contractor : ${aObj.contractor_name }</div>
+	                                 <div>Reason : ${aObj.alert_value }</div>
+	                              </a>
+	                          </li>
+	                          <!-- <li class="item type-1">
 	                              <a href="#">
 	                              	 <span class="icon">
 	                              	 	<i class="material-icons">security</i>
@@ -394,7 +430,7 @@
 	                                 <div>Contractor</div>
 	                                 <div>Reason </div>
 	                              </a>
-	                          </li>
+	                          </li> -->
                           </c:forEach>
                       </c:forEach>
                       </ul>

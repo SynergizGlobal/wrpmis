@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -1180,7 +1180,7 @@ public class AlertsDaoImpl implements AlertsDao{
 
 	@Override
 	public Map<String,List<Alerts>> getAlertsForHeaderNotifications(Alerts obj) throws Exception {
-		Map<String,List<Alerts>> objs = new HashMap<String,List<Alerts>>();
+		Map<String,List<Alerts>> objs = new LinkedHashMap<String,List<Alerts>>();
 		try {
 			
 			

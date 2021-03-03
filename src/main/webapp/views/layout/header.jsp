@@ -307,12 +307,6 @@
           		<a class='notification dropdown-trigger' data-target='dropdown1'>
                   <span class="material-icons-outlined">notifications</span>
                   <span class="badge red" id="notificationCount">
-                  	<c:if test="${alerts.size() > 99 }">
-                  	99+
-                  </c:if>
-                  <c:if test="${alerts.size() < 100 }">
-                  	${alerts.size() }
-                  </c:if>
                   </span>
                 </a>
                 <div class="notification_body dropdown-content" id='dropdown1'>
@@ -705,17 +699,97 @@
                       </div>
                       <ul class="notifications_group" style="margin-top: 5px;" id="notificationListMobile">
                        <!-- Mobile notification body starts here -->
-                      	<c:forEach var="aObj" items="${dueActivities }">
-                          <li class="head-item">${aObj.workId} - ${aObj.workName}</li>
-                          <c:forEach var="bObj" items="${aObj.dueActivities }">
-	                          <li class="item <c:if test="${bObj.readUnreadStatus eq 'Read' }">read</c:if>">
-	                              <a href="${bObj.notificationLink}">
-	                                  <span><i class="fa fa-${bObj.image }"></i> ${bObj.location } / ${bObj.activityType } / ${bObj.activity } / ${bObj.boqCompleteTotal }</span>
-	                                  <div><i class="fa fa-clock-o"></i> <span class="time">${bObj.timeAgo}</span></div>
+                      	<c:forEach var="obj" items="${alerts }">
+                          <li class="head-item">${obj.key}</li>
+                          <c:if test="${obj.key eq '3rd Alert'}">
+                          	<c:set var="bgClass" value="type-3"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '2nd Alert'}">
+                          	<c:set var="bgClass" value="type-2"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '1st Alert'}">
+                          	<c:set var="bgClass" value="type-1"></c:set>
+                          </c:if>
+                          <c:forEach var="aObj" items="${obj.value}">
+                          	  
+                          	  <c:if test="${aObj.alert_type_fk eq 'Bank Guarantee'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>account_balance</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Insurance'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>security</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Period'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>access_time</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
+	                          	<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
+	                          </c:if>
+                          	  
+                          	  <li class="item ${bgClass }">
+	                              <a href="#">
+	                              	<span class="icon">
+	                              	 	<!-- <i class="material-icons">access_time</i> -->
+	                              	 	${bgIcon }
+	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
+	                              	 </span>                                   
+	                                 <div>Work name : ${aObj.work_short_name }</div>
+	                                 <div>Contract Id : ${aObj.contract_id }</div>
+	                                 <div>Contractor : ${aObj.contractor_name }</div>
+	                                 <div>Reason : ${aObj.alert_value }</div>
 	                              </a>
 	                          </li>
+	                          <!-- <li class="item type-1">
+	                              <a href="#">
+	                              	 <span class="icon">
+	                              	 	<i class="material-icons">security</i>
+	                              	 	<span class="icon-text">Insurance</span>
+	                              	 </span>                                  
+	                                  <div>Work name</div>
+	                                  <div>Contract Id</div>
+	                                  <div>Contractor</div>
+	                                  <div>Reason (Insurance)</div>
+	                              </a>
+	                          </li>                          
+	                          <li class="item type-2">
+	                              <a href="#">
+	                              	<span class="icon">
+	                              	 	<i class="material-icons">access_time</i>
+	                              	 	<span class="icon-text">Contract Period</span>
+	                              	 </span>                                   
+	                                  <div>Work name</div>
+	                                  <div>Contract Id</div>
+	                                  <div>Contractor</div>
+	                                  <div>Reason </div>
+	                              </a>
+	                          </li>                         
+	                          <li class="item type-3">
+	                              <a href="#">
+	                                  <a href="#">
+	                                  <span class="icon">
+	                              	 	<i class="fa fa-money"></i>
+	                              	 	<span class="icon-text">Contract Value</span>
+	                              	  </span>                                   
+	                                  <div>Work name</div>
+	                                  <div>Contract Id</div>
+	                                  <div>Contractor</div>
+	                                  <div>Reason </div>
+	                              </a>
+	                              </a>
+	                          </li>
+	                           <li class="item type-1">
+	                              <a href="#">
+	                             	<span class="icon">
+	                              	 	<i class="material-icons">account_balance</i>
+	                              	 	<span class="icon-text">Bank Guarantee</span>
+	                              	 </span>                                   
+	                                 <div>Work name</div>
+	                                 <div>Contract Id</div>
+	                                 <div>Contractor</div>
+	                                 <div>Reason </div>
+	                              </a>
+	                          </li> -->
                           </c:forEach>
-                        </c:forEach>
+                      </c:forEach>
                          <!-- Mobile notification body ends here -->
                       </ul>
                 </div>
@@ -777,10 +851,10 @@
                 input.removeClass('empty');
             }
         });
-        /* var count = 0;
-        <c:forEach var="aObj" items="${dueActivities }">
-        	if("${aObj.dueActivities.size()}" != null && "${aObj.dueActivities.size()}" != ''){
-        		count = Number(count) + Number("${aObj.dueActivities.size()}")
+        var count = 0;
+        <c:forEach var="aObj" items="${alerts }">
+        	if("${aObj.value}" != null){
+        		count = Number(count) + Number("${fn:length(aObj.value)}")
         	}
         </c:forEach>
         
@@ -788,7 +862,7 @@
 			count = "99+"
 		}
     	$("#notificationCount").html(count);
-    	$("#notificationCountMobile").html(count); */
+    	$("#notificationCountMobile").html(count);
 	});
 	//getting project list from database
 	function getProjectsListForSearch(){

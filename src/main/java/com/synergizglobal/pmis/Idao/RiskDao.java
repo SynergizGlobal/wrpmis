@@ -26,6 +26,12 @@ public interface RiskDao {
 
 	public List<Risk> getRiskAssessmentDates(Risk obj) throws Exception;
 	
+	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception;
+
+	public List<Risk> getWorksListFromRiskUploads(Risk obj) throws Exception;
+	
+	public boolean saveRiskAssessmentUploadFile(Risk risk) throws Exception;
+	
 	/*******************************************************/
 	
 	public List<Risk> getRiskList(Risk obj) throws Exception;

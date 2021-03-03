@@ -15,15 +15,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.RiskDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
 @Repository
@@ -35,7 +43,8 @@ public class RiskDaoImpl implements RiskDao{
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
 
-
+	@Autowired
+	DataSourceTransactionManager transactionManager;
 
 	@Override
 	public List<Risk> getWorksList(Risk obj) throws Exception {
@@ -168,11 +177,19 @@ public class RiskDaoImpl implements RiskDao{
 		ResultSet rs = null;
 		String risk_revision_id = null;
 		try{
-			String riskIdQry = "SELECT risk_revision_id from risk_revision where  risk_id_pk_fk = ? and date = ? ";
+			String riskIdQry = "SELECT risk_revision_id from risk_revision where  risk_id_pk_fk = ? ";
+			if(!StringUtils.isEmpty(date)) {
+				riskIdQry = riskIdQry + " and date = ? ";
+			}else {
+				riskIdQry = riskIdQry + " and date IS NULL ";
+			}
+					
 			stmt = con.prepareStatement(riskIdQry);
 			int k =1;
-			stmt.setString(k++, risk_id_pk);
-			stmt.setString(k++, date);
+			stmt.setString(k++, risk_id_pk);			
+			if(!StringUtils.isEmpty(date)) {
+				stmt.setString(k++, date);
+			}
 			rs = stmt.executeQuery();  
 			if(rs.next()) {
 				risk_revision_id = rs.getString("risk_revision_id");
@@ -499,6 +516,104 @@ public class RiskDaoImpl implements RiskDao{
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+	
+
+
+	@Override
+	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "SELECT risk_upload_id,work_id_fk,r.attachment,status,r.remarks,uploaded_by_user_id_fk,DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on,work_id,user_name as uploaded_by,work_name,work_short_name "
+					+ "from risk_upload r " 
+					+ "LEFT JOIN work w ON r.work_id_fk = w.work_id " 
+					+ "LEFT JOIN user u ON r.uploaded_by_user_id_fk = u.user_id "
+					+ "where work_id_fk is not null";
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}	
+			qry = qry + " order by uploaded_on desc";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Risk> getWorksListFromRiskUploads(Risk obj) throws Exception {
+		List<Risk> objsList = null;
+		try {
+			String qry = "SELECT work_id_fk,work_id,work_name,work_short_name "
+					+ "from risk_upload r "
+					+ "LEFT JOIN work w ON r.work_id_fk = w.work_id " 
+					+ "where work_id_fk is not null";
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}	
+			qry = qry + " group by work_id_fk";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	
+	@Override
+	public boolean saveRiskAssessmentUploadFile(Risk obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		String risk_upload_id = null;		
+		try {
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+			String qry = "INSERT INTO risk_upload"
+					+ "(work_id_fk,attachment,status,remarks,uploaded_by_user_id_fk,uploaded_on) "
+					+ "VALUES "
+					+ "(:work_id_fk,:attachment,:status,:remarks,:uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = template.update(qry, paramSource, keyHolder);
+			if(count > 0) {
+				risk_upload_id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setRisk_upload_id(risk_upload_id);
+				flag = true;
+				
+				MultipartFile file = obj.getRiskAssessmentFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH ;
+					String fileName = risk_upload_id + "_" +file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+					
+					obj.setAttachment(fileName);
+					String updateQry = "UPDATE risk_upload set attachment= :attachment where risk_upload_id= :risk_upload_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
+			}
+			transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			throw new Exception(e.getMessage());
+		}
+		return flag;
 	}
 	
 	

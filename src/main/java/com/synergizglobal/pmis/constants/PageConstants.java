@@ -74,11 +74,13 @@ public class PageConstants {
 	
 	public static final String riskReport = "forms/riskReport";
 	
+	/****************************** We can Remove below****************************************/	
 	public static final String riskGrid = "forms/riskGrid";
 	public static final String addEditRiskForm = "forms/addEditRiskForm";
 	
 	public static final String updateRiskGrid = "forms/updateRiskGrid";
-	public static final String uploadDownloadRiskGrid = "forms/uploadDownloadRiskGrid";
+	public static final String uploadDownloadRiskGrid = "forms/uploadDownloadRiskGrid";	
+	/**********************************************************************/
 	
 	public static final String safetyInstruction = "forms/safetyInstruction";
 	

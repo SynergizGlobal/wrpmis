@@ -23,6 +23,7 @@ public class CommonConstants2 {
 	public final static String PROJECT_GALLERY = "/pmis/PROJECT_GALLERY/";	
 	public final static String ACTIVITY_PROGRESS_REPORT = "/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILES = "/pmis/ACTIVITIES_UPLOAD_FILES/";
+	public final static String RISK_ASSESSMENT_UPLOADED_FILES = "/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
 	
 	/*********** LOCAL ****************************************************/
 	
@@ -38,6 +39,7 @@ public class CommonConstants2 {
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/ACTIVITIES_UPLOAD_FILES/";
+	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "E:/Development/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
 	
 	/*********** PRODUCTION ****************************************************/
 	
@@ -52,7 +54,8 @@ public class CommonConstants2 {
 	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/WEB_DOCUMENTS/";
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/PROJECT_GALLERY/";
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
-	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/ACTIVITIES_UPLOAD_FILES/";*/
+	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/ACTIVITIES_UPLOAD_FILES/";
+	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "usr/share/nginx/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";*/
 	
 	/*public final static String ALERTS_EMAIL = "rajiv.dhupkar@synergizglobal.com,raviteja.reddy@synergizglobal.com";
 	public final static String ISSUE_FILE_SAVING_PATH = "D:"+File.separator+"PMISApplicationServer"+File.separator+"nginx-1.9.9"+File.separator+"html"+File.separator+"pmis"+File.separator+"ISSUE_FILES"+File.separator;
@@ -66,6 +69,7 @@ public class CommonConstants2 {
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/PROJECT_GALLERY/";
 	public final static String ACTIVITY_PROGRESS_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/ACTIVITY_PROGRESS_REPORTS/";
 	public final static String ACTIVITIES_UPLOAD_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/ACTIVITIES_UPLOAD_FILES/";
+	public final static String RISK_ASSESSMENT_UPLOADED_FILE_SAVING_PATH = "D:/PMISApplicationServer/nginx-1.9.9/html/pmis/RISK_ASSESSMENT_UPLOADED_FILES/";
 	*/
 	
 }

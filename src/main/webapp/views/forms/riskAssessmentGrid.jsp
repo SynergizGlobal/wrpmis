@@ -1,5 +1,7 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -255,7 +257,7 @@
                 </div>
                 
                 
-                <!-- <div class="card">
+                <div class="card">
 	                <div class="card-content">
 	                    <span class="card-title headbg">
 	                        <div class="center-align bg-m p-2 m-b-5">
@@ -267,7 +269,7 @@
 	                            <div class="col m5 hide-on-small-only"></div>                            
 	                                    <div class="col s12 m2 input-field">
 	                                        <p class="searchable_label">Work</p>
-	                                        <select id="work_id_fk1" name="work_id_fk1" class="searchable" onchange="">
+	                                        <select id="work_id_fk_filter" name="work_id_fk" class="searchable" onchange="">
 	                                            <option value="">Select</option>
 	                                        </select>
 	                                    </div>                                 
@@ -281,7 +283,7 @@
 	
 	                        <div class="row">
 	                            <div class="col m12 s12">
-	                                <table id="datatable-risk-assessment" class="mdl-data-table">
+	                                <table id="datatable-risk-uploads" class="mdl-data-table">
 	                                    <thead>
 	                                        <tr>                                            
 	                                            <th>Work</th>											
@@ -293,14 +295,14 @@
 	                                        </tr>
 	                                    </thead>
 										<tbody>
-											<tr>
+											<!-- <tr>
 												<td></td>
 												<td></td>
 												<td></td>
 												<td></td>
 												<td></td>
 												<td></td>
-											</tr>
+											</tr> -->
 	
 										</tbody>
 	
@@ -309,7 +311,7 @@
 	                        </div>
 	                    </div>
 	                </div>
-	            </div> -->
+	            </div>
                 
             </div>
         </div>
@@ -346,32 +348,6 @@
 	          $('select:not(.searchable)').formSelect();
 	          $('.searchable').select2();
 	          $('.tabs').tabs();
-	          table = $('#datatable-risk-assessment').DataTable({
-		       		"bStateSave": true,
-		       		fixedHeader: true,
-		               "fnStateSave": function (oSettings, oData) {
-		                   localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-		               },
-		               "fnStateLoad": function (oSettings) {
-		                   return JSON.parse(localStorage.getItem('MRVCDataTables'));
-		               },
-		               columnDefs: [
-		                   {
-		                       targets: [0, 1, 2],
-		                       className: 'mdl-data-table__cell--non-numeric'
-		                   },
-		                   { orderable: false, 'aTargets': ['nosort'] }
-		               ],
-		               // "ScrollX": true,
-		               //"scrollCollapse": true,
-		               //"sScrollY": 400,
-		               "sScrollX": "100%",
-		               "sScrollXInner": "100%",
-		               "bScrollCollapse": true,
-		               initComplete: function () {
-		                   $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-		               }
-		           });
 	          
 	          $("#work_id_fk").change(function () {
 	              if ($("#work_id_fk").val() == '') {
@@ -387,6 +363,8 @@
 	                  $("#uploadRisk").removeClass('disabled');
 	              }
 	          });
+	          
+	          getRiskUploadsList();
 	      });
 	      
 	      $("#uploadRisk").on("click",function(){
@@ -431,6 +409,130 @@
 				    //return true;
 			   }
 			});
+       	  
+       	  
+       	  
+       	function clearFilters() {
+            $('#work_id_fk_filter').val('');
+            getRiskUploadsList();
+            $('.searchable').select2();
+        }
+        
+        
+        function getRiskUploadsList(){
+        	$(".page-loader-2").show();
+        	var work_id_fk = $("#work_id_fk_filter").val();
+        	getWorksFilterList();
+        	table = $('#datatable-risk-uploads').DataTable();
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#datatable-risk-uploads').DataTable({
+    			"order": [],
+        		"bStateSave": false,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();		
+    		var myParams = {work_id_fk : work_id_fk};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentUploadsList",type:"POST",data:myParams,success : function(data){    				
+    			if(data != null && data != '' && data.length > 0){    					
+             		$.each(data,function(key,val){
+             			var risk_id_pk = "'"+val.risk_id_pk+"'";
+                        var filePath = "";
+                        
+                        if($.trim(val.attachment) != ''){
+                        	filePath = '<a href="<%=CommonConstants2.RISK_ASSESSMENT_UPLOADED_FILES%>'+ val.attachment +'">'+val.attachment + '</a>';
+                        }
+                        var rowArray = [];    	                 
+    
+                    	var workName = '';
+                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                        
+                        rowArray.push($.trim(val.work_id_fk) + workName);
+                       	rowArray.push(filePath);
+                       	rowArray.push($.trim(val.status));
+                       	rowArray.push($.trim(val.remarks));
+                       	rowArray.push($.trim(val.uploaded_by));
+                       	rowArray.push($.trim(val.uploaded_on)); 
+                       	
+                        table.row.add(rowArray).draw( true );
+                        		                       
+    				});
+             		
+             		$(".page-loader-2").hide();
+    			}else{
+    				$(".page-loader-2").hide();
+    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
+        
+        
+        function getWorksFilterList() {
+        	$(".page-loader").show();
+           	$("#work_id_fk_filter option:not(:first)").remove();
+           	var myParams = {};
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getWorksListFromRiskUploads",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                           	$("#work_id_fk_filter").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_short_name) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+        }
+        
+      //This function is used to get error message for all ajax calls
+        function getErrorMessage(jqXHR, exception) {
+        	    var msg = '';
+        	    if (jqXHR.status === 0) {
+        	        msg = 'Not connect.\n Verify Network.';
+        	    } else if (jqXHR.status == 404) {
+        	        msg = 'Requested page not found. [404]';
+        	    } else if (jqXHR.status == 500) {
+        	        msg = 'Internal Server Error [500].';
+        	    } else if (exception === 'parsererror') {
+        	        msg = 'Requested JSON parse failed.';
+        	    } else if (exception === 'timeout') {
+        	        msg = 'Time out error.';
+        	    } else if (exception === 'abort') {
+        	        msg = 'Ajax request aborted.';
+        	    } else {
+        	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        	    }
+        	    console.log(msg);
+         }
 
     </script>
 

@@ -111,6 +111,7 @@ public class RiskController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
+			
 			//model.setViewName("redirect:/risk");
 			model.setViewName("redirect:/risk-assessment");
 			if(!StringUtils.isEmpty(risk.getRiskAssessmentFile())){
@@ -151,17 +152,20 @@ public class RiskController {
 						}
 						
 						int[] arr = uploadRiskAssessment(risk,userId,userName);
-						if(arr[0] == 1) {
-							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully.");
-						}else {
-							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risks updated successfully.");
+						String msg = "";
+						if(arr[0] > 0) {
+							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully. ");
+							msg = msg + arr[0] + " Risk updated successfully. ";
+						}
+						if(arr[1] > 0) {
+							attributes.addFlashAttribute("success", arr[1] + " Risk added successfully. ");
+							msg = msg + arr[1] + " Risk added successfully. ";
+						}
 						
-						}
-						if(arr[1] == 1) {
-							attributes.addFlashAttribute("success", arr[1] + " Risk added successfully.");
-						}else {
-							attributes.addFlashAttribute("success", arr[1] + " Risks added successfully.");
-						}
+						risk.setUploaded_by_user_id_fk(userId);
+						risk.setStatus("Success");
+						risk.setRemarks(msg);
+						boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 					}
 					workbook.close();
 				}
@@ -415,6 +419,19 @@ public class RiskController {
 	}
 	
 	
+	@RequestMapping(value="/risk-atr-update",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView riskATRUpdate(@ModelAttribute Risk obj,HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.riskATRUpdateGrid);
+		try {
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("riskATRUpdate : " + e.getMessage());
+		}
+		return model;
+	}
+
+	
 	@RequestMapping(value = "/get-risk-assessment", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getRiskAssessment(@ModelAttribute Risk obj){
 		ModelAndView model = new ModelAndView();
@@ -453,19 +470,6 @@ public class RiskController {
 		return model;
 	}
 	
-	
-	@RequestMapping(value="/risk-atr-update",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView riskATRUpdate(@ModelAttribute Risk obj,HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants.riskATRUpdateGrid);
-		try {
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("riskATRUpdate : " + e.getMessage());
-		}
-		return model;
-	}
-
 	
 	@RequestMapping(value = "/ajax/getRiskAssessmentList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -524,7 +528,31 @@ public class RiskController {
 	}
 	
 	
+	@RequestMapping(value = "/ajax/getRiskAssessmentUploadsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Risk> getRiskAssessmentUploadsList(@ModelAttribute Risk obj) {
+		List<Risk> riskList = null;
+		try {
+			riskList = riskService.getRiskAssessmentUploadsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getRiskAssessmentUploadsList : " + e.getMessage());
+		}
+		return riskList;
+	}
 	
+	@RequestMapping(value = "/ajax/getWorksListFromRiskUploads", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Risk> getWorksListFromRiskUploads(@ModelAttribute Risk obj) {
+		List<Risk> riskList = null;
+		try {
+			riskList = riskService.getWorksListFromRiskUploads(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFromRiskUploads : " + e.getMessage());
+		}
+		return riskList;
+	}
 	
 	
 	

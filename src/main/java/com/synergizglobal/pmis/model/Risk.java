@@ -12,6 +12,8 @@ public class Risk {
 	priority, probability,item_no,priority_fk,work_short_name, impact, owner, responsible_person,assessment_date, risk_action_id,mitigation_plan, action_taken, attachment,
 	sub_area, risk_area_fk,classification,atr_date,work_id,risk_rating,status,sub_work,area_item_no,sub_area_item_no,risk_revision_id_fk;
 
+	private String risk_upload_id,remarks,uploaded_by_user_id_fk,uploaded_on,uploaded_by;
+	
 	private MultipartFile riskFile;
 	private MultipartFile riskAssessmentFile;
 
@@ -23,6 +25,38 @@ public class Risk {
 	private List<Risk> risks; 
 	private List<Risk> riskActions; 
 	
+
+	public String getRisk_upload_id() {
+		return risk_upload_id;
+	}
+
+	public void setRisk_upload_id(String risk_upload_id) {
+		this.risk_upload_id = risk_upload_id;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getUploaded_by_user_id_fk() {
+		return uploaded_by_user_id_fk;
+	}
+
+	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
+		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
+
+	public String getUploaded_on() {
+		return uploaded_on;
+	}
+
+	public void setUploaded_on(String uploaded_on) {
+		this.uploaded_on = uploaded_on;
+	}
 
 	public MultipartFile getRiskFile() {
 		return riskFile;
@@ -495,5 +529,13 @@ public class Risk {
 
 	public void setAssessment_dates(String [] assessment_dates) {
 		this.assessment_dates = assessment_dates;
+	}
+
+	public String getUploaded_by() {
+		return uploaded_by;
+	}
+
+	public void setUploaded_by(String uploaded_by) {
+		this.uploaded_by = uploaded_by;
 	}
 }

@@ -236,7 +236,7 @@
 										      </div>
 										      <span id="riskAssessmentFileError" class="error-msg"></span>
                                          	 <!--  <p style="padding-top:.7rem; text-align:left"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p>  -->
-	                                        </div>
+	                                        <!-- </div>
 	                                        <div class="col s12 m2 input-field">
 	                                            <button type="button" class="btn waves-effect waves-light bg-s t-c disabled" id="uploadRisk" style="margin-top:5px;">
 	                                            	<strong><i class="fa arrow-circle-up"></i>Submit</strong>

@@ -224,8 +224,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String cvQryAlert1 = "select c.contract_id,'1st Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
 					+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
-					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN estimated_cost is not null THEN ', Estimated Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
-					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
+					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
+					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
 					+ ") AS alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email "  
 					+ "from contract c "  
@@ -234,8 +234,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 95 "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 120))";
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 95 "  
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 120))";
 			
 			List<Alerts> cvQryAlert1List = jdbcTemplate.query( cvQryAlert1, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert1List) && cvQryAlert1List.size() > 0) {
@@ -254,8 +254,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String cvQryAlert2 = "select c.contract_id,'2nd Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
 					+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
-					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN estimated_cost is not null THEN ', Estimated Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
-					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
+					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
+					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
 					+ ") AS alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email "  
 					+ "from contract c "  
@@ -264,8 +264,8 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 120 "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 145))";
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 120 "  
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 145))";
 			
 			
 			List<Alerts> cvQryAlert2List = jdbcTemplate.query( cvQryAlert2, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -284,8 +284,8 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String cvQryAlert3 = "select c.contract_id,'3rd Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
 					+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
-					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN estimated_cost is not null THEN ', Estimated Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
-					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
+					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN ', Revised Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END), "  
+					+ "(CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"  
 					+ ") AS alert_value," 
 					+ "u1.email_id as hod_email,u2.email_id as dy_hod_email "  
 					+ "from contract c "  
@@ -294,7 +294,7 @@ public class AlertsDaoImpl implements AlertsDao{
 					+ "LEFT JOIN user u2 ON c.dy_hod_user_id_fk = u2.user_id " 
 					+ "where c.contract_status_fk = 'In Progress' " 
 					+ "and (((select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id) is not null "  
-					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 145 ))";
+					+ "and (( (select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id)* 100) / (CASE WHEN (cr.action = 'Yes' and cr.revised_amount is not null) THEN cr.revised_amount WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 145 ))";
 			
 			
 			List<Alerts> cvQryAlert3List = jdbcTemplate.query( cvQryAlert3, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -367,8 +367,10 @@ public class AlertsDaoImpl implements AlertsDao{
 										String alert_value) {
 				                	String remarks = null;
 				                	try {
-				                		String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? and DATE(created_date) = DATE((NOW() - INTERVAL 1 DAY))";
-					        			Object[] pValues = new Object[] {alert_type,contract_id,alert_value};
+				                		//String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? and DATE(created_date) = DATE((NOW() - INTERVAL 1 DAY))";
+				                		String remarksQry ="select remarks from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? "
+				                				+ "AND created_date = (select max(created_date) from alerts where alert_type_fk = ? and contract_id = ? and alert_value = ? )";
+				                		Object[] pValues = new Object[] {alert_type,contract_id,alert_value,alert_type,contract_id,alert_value};
 					        			remarks = jdbcTemplate.queryForObject( remarksQry,pValues, String.class);
 									} catch (Exception e) {
 										// TODO: handle exception

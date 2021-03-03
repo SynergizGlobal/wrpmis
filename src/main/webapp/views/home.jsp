@@ -427,7 +427,10 @@
                                 
                                 <p class="alignleft">Physical Progress (%)</p>
                                 <p class="aligncenter">:</p>
-                                <p class="alignright"></p>
+                                <p class="alignright"> 
+	                                <c:if test="${pObj.project_status eq 'Closed' }">100% </c:if>
+		                            <c:if test="${pObj.project_status eq 'Open' }">  </c:if>
+	                            </p>
                                 
 		                    </div> 
 		                     <div class="line">
@@ -436,7 +439,10 @@
                                 <p class="alignright">${pObj.plan_head_number }</p> --%>
                                 <p class="alignleft">Financial Progress (%)</p>
                                 <p class="aligncenter">:</p>
-                                <p class="alignright"></p>
+                                <p class="alignright">
+                                	<c:if test="${pObj.project_status eq 'Closed' }">100% </c:if>
+	                            	<c:if test="${pObj.project_status eq 'Open' }">  </c:if>
+                                </p>
                                 
 		                    </div> 
 	                        <div class="button">
@@ -587,8 +593,27 @@
 							                                <p class="alignleft">Execution Agency</p>
 							                                <p class="aligncenter">:</p>
 							                                <p class="alignright">${wObj.executedBy}</p>
-									                    </div> 
-									                    <div class="button">
+									                    </div>
+														<div class="line">
+			
+															<p class="alignleft">Physical Progress (%)</p>
+															<p class="aligncenter">:</p>
+															<p class="alignright">
+																<%-- <c:if test="${wObj.project_status eq 'Closed' }"> </c:if> --%>
+																<c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">100% </c:if>
+															</p>
+			
+														</div>
+														<div class="line">
+															<p class="alignleft">Financial Progress (%)</p>
+															<p class="aligncenter">:</p>
+															<p class="alignright">
+																<%-- <c:if test="${wObj.project_status eq 'Closed' }">100% </c:if> --%>
+																<c:if test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">100% </c:if>
+															</p>
+			
+														</div>
+											<div class="button">
 									                    <c:choose>
 								                           <c:when test="${not empty wObj.work_attachment}">
 															  <a class="btn btn-left" href="<%=CommonConstants2.WORK_FILES %>${wObj.work_attachment }" download><i class="fa fa-download"></i></a> 
@@ -635,9 +660,9 @@
             $('.notification.dropdown-trigger').dropdown({
                 coverTrigger: false,
                 closeOnClick: false,
-                onOpenStart: function() {
+             /*    onOpenStart: function() {
                     $('<div class="modal-overlay" style="z-index:9998; display: block; opacity: 0.7;"></div>').insertAfter('#dropdown1');
-                },
+                }, */
                 onCloseStart: function() {
                     $('#dropdown1').next('.modal-overlay').remove();
                 }

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Upcoming Alerts</title>
+<title>PMIS Contract Alerts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
@@ -15,7 +15,7 @@
                     <tr>
                         <td align="center" bgcolor="#22223B"
                             style="color: #ffffff; font-size: 20px; font-weight: bold; font-family: Arial, sans-serif;padding: 10px;">
-                            Upcoming Alerts
+                            PMIS Contract Alerts
                         </td>
                     </tr>
                     <tr>
@@ -61,7 +61,7 @@
                                                                     <b>Reason for alert</b></td>
                                                                 <td
                                                                     style="padding:10px 0;color: #eeeeee; font-family: Arial, sans-serif; font-size: 13px;background-color:#4A4E69;position:sticky;top: 0;">
-                                                                    <b>Remarks</b></td>
+                                                                    <b>Action Taken</b></td>
                                                             </tr>
 
                                                         </thead>

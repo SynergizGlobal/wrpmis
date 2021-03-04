@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alerts</title>
+    <title>PMIS Contract Alerts</title>
+    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -45,7 +46,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5>Alerts</h5>
+                            <h5>PMIS Contract Alerts</h5>
                         </div>
                     </span>
                     <div class="">
@@ -122,8 +123,8 @@
                                             <th>Alert Type </th>
                                             <th>Alert Level</th>
                                             <th>Reason</th>
-                                            <th>Remarks</th>
-                                            <th class="no-sort">Action</th>
+                                            <th>Action Taken</th>
+                                            <th class="no-sort">&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -155,7 +156,7 @@
     <!-- Modal Structure -->
    <div id="remarksModal" class="modal">
        <div class="modal-content">
-           <h5 class="modal-header"> Add Remarks <span
+           <h5 class="modal-header"> Add Action Taken <span
                    class="right modal-action modal-close"><span
                        class="material-icons">close</span></span></h5>
            <form action="<%=request.getContextPath() %>/add-alert-remarks" method="post">
@@ -166,7 +167,7 @@
                        <textarea id="remarks" name="remarks"
                            class="materialize-textarea"
                            data-length="500" maxlength="500" required="required"></textarea>
-                       <label for="remarks">Remarks</label>
+                       <label for="remarks">Action Taken</label>
                    </div>
                    <div class="col m1 hide-on-small-only"></div>
                </div>
@@ -175,7 +176,7 @@
                    <div class="col s12 m5">
                        <div class="center-align m-1">
                            <button type="submit" style="width: 100%;"
-                               class="btn waves-effect waves-light bg-m">Update</button>
+                               class="btn waves-effect waves-light bg-m">ADD</button>
                        </div>
                    </div>
                    <div class="col s12 m5">
@@ -328,7 +329,7 @@
     	         		$.each(data,function(key,val){
     	         			var alert_id = "'"+val.alert_id+"'";
     	         			var remarks = "'"+val.remarks+"'";
-    	                    var actions = '<a href="javascript:void(0);" onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Remarks</a>';    	                   	
+    	                    var actions = '<a href="javascript:void(0);" onclick="addAlertRemarks('+alert_id+','+remarks+');" class="btn waves-effect waves-light bg-m t-c modal-trigger">Action Taken</a>';    	                   	
     	                   	var rowArray = [];    	                 
     	                   	
     	                	var workName = '';

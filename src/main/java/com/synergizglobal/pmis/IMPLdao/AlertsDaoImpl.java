@@ -458,7 +458,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							dyHodAlertsList.add(alerts);						
 						}
 					}
-					String emailSubject = "Upcoming alerts";
+					String emailSubject = "PMIS Contract Alerts";
 					
 					Mail mail = new Mail();
 					mail.setMailTo(emailId);
@@ -485,7 +485,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							hodAlertsList.add(alerts);						
 						}
 					}
-					String emailSubject = "Upcoming alerts";
+					String emailSubject = "PMIS Contract Alerts";
 					
 					Mail mail = new Mail();
 					mail.setMailTo(emailId);
@@ -511,7 +511,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			if(!StringUtils.isEmpty(cmdAlertsList) && cmdAlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
+				String emailSubject = "PMIS Contract Alerts";
 				
 				Mail mail = new Mail();
 				mail.setMailTo("cmd@mrvc.gov.in");
@@ -527,7 +527,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************************************************************/
 			if(!StringUtils.isEmpty(dyfacao1AlertsList) && dyfacao1AlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
+				String emailSubject = "PMIS Contract Alerts";
 				
 				Mail mail = new Mail();
 				mail.setMailTo("dyfacao1@mrvc.gov.in");
@@ -543,7 +543,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************************************************************/
 			if(!StringUtils.isEmpty(facao2AlertsList) && facao2AlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
+				String emailSubject = "PMIS Contract Alerts";
 				
 				Mail mail = new Mail();
 				mail.setMailTo("facao2@mrvc.gov.in");
@@ -559,7 +559,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************************************************************/
 			if(!StringUtils.isEmpty(dfAlertsList) && dfAlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
+				String emailSubject = "PMIS Contract Alerts";
 				
 				Mail mail = new Mail();
 				mail.setMailTo("df@mrvc.gov.in");
@@ -575,7 +575,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			/***************************************************************************/
 			/*if(!StringUtils.isEmpty(allAlertsList) && allAlertsList.size() > 0){
-				String emailSubject = "Upcoming alerts";
+				String emailSubject = "PMIS Contract Alerts";
 				
 				Mail mail = new Mail();
 				mail.setMailTo(CommonConstants2.ALERTS_EMAIL);
@@ -641,7 +641,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							dyHodAlertsList.add(alerts);						
 						}
 					}
-					String emailSubject = "Upcoming alerts";
+					String emailSubject = "PMIS Contract Alerts";
 					
 					Mail mail = new Mail();
 					mail.setMailTo(emailId);
@@ -668,7 +668,7 @@ public class AlertsDaoImpl implements AlertsDao{
 							hodAlertsList.add(alerts);						
 						}
 					}
-					String emailSubject = "Upcoming alerts";
+					String emailSubject = "PMIS Contract Alerts";
 					
 					Mail mail = new Mail();
 					mail.setMailTo(emailId);
@@ -712,7 +712,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			Object[] pValues = new Object[] {CommonConstants.ACTIVE};
 			List<Alerts> objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			
-			String emailSubject = "Upcoming alerts";
+			String emailSubject = "PMIS Contract Alerts";
 			
 			Mail mail = new Mail();
 			mail.setMailTo(CommonConstants2.ALERTS_EMAIL);

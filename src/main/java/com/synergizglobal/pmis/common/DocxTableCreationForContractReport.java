@@ -75,21 +75,25 @@ public class DocxTableCreationForContractReport {
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
 			tableHeader.add("S NO");
-			tableHeader.add("HOD");
-			tableHeader.add("Dy HOD");
+			/*tableHeader.add("HOD");
+			tableHeader.add("Dy HOD");*/
 			tableHeader.add("Contract Name");
 			tableHeader.add("Contractor Name");
 			tableHeader.add("LOA Letter No");
 			tableHeader.add("LOA Date");
 			tableHeader.add("CA No");
 			tableHeader.add("CA Date");
-			tableHeader.add("Awarded Cost");
+			tableHeader.add("Awarded Cost (Rs. In Lakhs)");
 			tableHeader.add("Contractual Date of Completion");
-			tableHeader.add("Revision");
-			tableHeader.add("Revised Contract Cost");
+			/*tableHeader.add("Revision");*/
+			tableHeader.add("Revised Contract Cost (Rs. In Lakhs)");
 			tableHeader.add("Revised Date of Completion");
-			tableHeader.add("Actual Date of Start ");
-			tableHeader.add("Status of Contract");
+			/*tableHeader.add("Actual Date of Start");
+			tableHeader.add("Status of Contract");*/
+			tableHeader.add("Cumulative Expenditure till date (Rs. In Lakhs)");
+			tableHeader.add("Insurance Valid till");
+			tableHeader.add("PBG Valid till");
+			tableHeader.add("Remarks");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -106,10 +110,10 @@ public class DocxTableCreationForContractReport {
 				
 				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getHod_designation(),
+				/*addTableCell(factory, wordMLPackage, contentRow, cObj.getHod_designation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getDy_hod_designation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(),
@@ -126,15 +130,24 @@ public class DocxTableCreationForContractReport {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, (!StringUtils.isEmpty(cObj.getRevised_doc())?cObj.getRevised_doc():cObj.getDoc()),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getRevision(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				/*addTableCell(factory, wordMLPackage, contentRow, cObj.getRevision(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_amount(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getDate_of_start(),
+				/*addTableCell(factory, wordMLPackage, contentRow, cObj.getDate_of_start(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_status_fk(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+				
+				addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, cObj.getPbg_valid_till(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, cObj.getRemarks(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				

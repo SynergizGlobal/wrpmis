@@ -534,7 +534,7 @@ public class RiskDaoImpl implements RiskDao{
 				qry = qry + " and work_id_fk = ?";
 				arrSize++;
 			}	
-			qry = qry + " order by uploaded_on desc";
+			qry = qry + " order by risk_upload_id desc";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

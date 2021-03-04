@@ -12,7 +12,7 @@ public class Contract {
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
-	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date;
+	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
@@ -1178,6 +1178,30 @@ public class Contract {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getCumulative_expenditure() {
+		return cumulative_expenditure;
+	}
+
+	public void setCumulative_expenditure(String cumulative_expenditure) {
+		this.cumulative_expenditure = cumulative_expenditure;
+	}
+
+	public String getInsurance_valid_till() {
+		return insurance_valid_till;
+	}
+
+	public void setInsurance_valid_till(String insurance_valid_till) {
+		this.insurance_valid_till = insurance_valid_till;
+	}
+
+	public String getPbg_valid_till() {
+		return pbg_valid_till;
+	}
+
+	public void setPbg_valid_till(String pbg_valid_till) {
+		this.pbg_valid_till = pbg_valid_till;
 	}
 	
 }

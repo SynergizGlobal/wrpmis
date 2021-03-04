@@ -108,6 +108,7 @@ public class RiskController {
 	public ModelAndView uploadRiskAssessment(@ModelAttribute Risk risk,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String userId = null;String userName = null;
+		String msg = "";
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
@@ -139,6 +140,13 @@ public class RiskController {
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
 										
 				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		
+				                		msg = uploadformatError;
+										risk.setUploaded_by_user_id_fk(userId);
+										risk.setStatus("Fail");
+										risk.setRemarks(msg);
+										boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
+										
 				                		return model;
 				                	}
 								}
@@ -148,11 +156,18 @@ public class RiskController {
 							}*/
 						}else{
 							attributes.addFlashAttribute("error",uploadformatError);
+							
+							msg = uploadformatError;
+							risk.setUploaded_by_user_id_fk(userId);
+							risk.setStatus("Fail");
+							risk.setRemarks(msg);
+							boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
+							
 	                		return model;
 						}
 						
 						int[] arr = uploadRiskAssessment(risk,userId,userName);
-						String msg = "";
+						
 						if(arr[0] > 0) {
 							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully. ");
 							msg = msg + arr[0] + " Risk updated successfully. ";
@@ -160,6 +175,11 @@ public class RiskController {
 						if(arr[1] > 0) {
 							attributes.addFlashAttribute("success", arr[1] + " Risk added successfully. ");
 							msg = msg + arr[1] + " Risk added successfully. ";
+						}
+						
+						if(arr[0] == 0 && arr[1] == 0) {
+							attributes.addFlashAttribute("success", "No risks found in file.");
+							msg = msg + " No risks found in file. ";
 						}
 						
 						risk.setUploaded_by_user_id_fk(userId);
@@ -171,12 +191,29 @@ public class RiskController {
 				}
 			} else {
 				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				
+				msg = "No file exists";
+				risk.setUploaded_by_user_id_fk(userId);
+				risk.setStatus("Fail");
+				risk.setRemarks(msg);
+				boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
 			logger.fatal("updateDataDate() : "+e.getMessage());
+			
+			msg = "Something went wrong. Please try after some time";
+			risk.setUploaded_by_user_id_fk(userId);
+			risk.setStatus("Fail");
+			risk.setRemarks(msg);
+			try {
+				boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
+			} catch (Exception e1) {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				logger.fatal("saveRiskAssessmentUploadFile() : "+e.getMessage());
+			}
 		}
 		return model;
 	}

@@ -308,7 +308,7 @@
                 <div class="notification_body dropdown-content" id='dropdown1'>
                   <!-- Notification dropdown body starts -->
                       <div>
-                          <input type="text"  name="srch-term" id="srch-term" class="browser-default searching empty"placeholder="&#xF002; Search Notifications...">
+                          <input type="text"  name="srch-term" id="srch-term" class="browser-default searching empty"placeholder="&#xF002; Search Alerts...">
                       </div>
                       <%-- <ul class="notifications_group" style="margin-top: 5px;" id="notificationList">
                        <!-- list of Notifications starts -->
@@ -366,7 +366,7 @@
 	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
 	                              	 </span>                                   
 	                                 <div>Work : ${aObj.work_short_name }</div>
-	                                 <div>Contract : ${aObj.contract_id }</div>
+	                                 <div>Contract : ${aObj.contract_short_name }</div>
 	                                 <div>Contractor : ${aObj.contractor_name }</div>
 	                                 <div>Reason : ${aObj.alert_value }</div>
 	                              </a>
@@ -642,7 +642,7 @@
                       <div class="top-fix">
                        <!-- mobile notification sidenav will close after clicking back-->
                        <a class="sidenav-close white-text" href="#!"><i class="fa fa-arrow-left"></i> Back</a>
-                          <input type="text"  name="srch-term" id="srch-term-mobile" class="browser-default searching empty"placeholder="&#xF002; Search Notifications...">
+                          <input type="text"  name="srch-term" id="srch-term-mobile" class="browser-default searching empty"placeholder="&#xF002; Search Alerts...">
                       </div>
                       <ul class="notifications_group" style="margin-top: 5px;" id="notificationListMobile">
                        <!-- Mobile notification body starts here -->
@@ -679,8 +679,8 @@
 	                              	 	${bgIcon }
 	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
 	                              	 </span>                                   
-	                                 <div>Work name : ${aObj.work_short_name }</div>
-	                                 <div>Contract Id : ${aObj.contract_id }</div>
+	                                 <div>Work : ${aObj.work_short_name }</div>
+	                                 <div>Contract : ${aObj.contract_short_name }</div>
 	                                 <div>Contractor : ${aObj.contractor_name }</div>
 	                                 <div>Reason : ${aObj.alert_value }</div>
 	                              </a>

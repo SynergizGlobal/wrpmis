@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class ContractReportServiceImpl implements ContractReportService{
 	}
 
 	@Override
-	public List<Contract> getContractsListForReport(Contract obj) throws Exception {
+	public Map<String,List<Contract>> getContractsListForReport(Contract obj) throws Exception {
 		return dao.getContractsListForReport(obj);
 	}
 

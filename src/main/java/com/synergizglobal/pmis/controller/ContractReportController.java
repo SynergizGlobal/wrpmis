@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -244,7 +245,7 @@ public class ContractReportController {
 			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
 			String report_created_date = df.format(new Date()); 
 			
-			List<Contract> list = service.getContractsListForReport(obj);
+			Map<String,List<Contract>> list = service.getContractsListForReport(obj);
 			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);

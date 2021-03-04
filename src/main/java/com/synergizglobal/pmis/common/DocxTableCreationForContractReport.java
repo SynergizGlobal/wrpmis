@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.common;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
 
@@ -44,18 +45,19 @@ import org.docx4j.wml.UnderlineEnumeration;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.model.Contract;
+import com.synergizglobal.pmis.model.DesignReport;
 
 public class DocxTableCreationForContractReport {	
 
 	public static void createTableForContractReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, List<Contract> contracts) throws Exception {
+			ObjectFactory factory, Map<String,List<Contract>> contractsData) throws Exception {
 		
 		try {
 		
-			RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+			RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "12", STHint.EAST_ASIA,
 					true, false, false, false);
 			
-			RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+			RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "12",
 					STHint.EAST_ASIA, false, false, false, false);
 			
 			RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
@@ -68,112 +70,122 @@ public class DocxTableCreationForContractReport {
 			RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
 					false, false, false, false);		
 			
-			
-			Tbl table = factory.createTbl();
-			addBorders(table, "2");
-			
-			Tr titleRow = factory.createTr();		
-			List<String> tableHeader = new ArrayList<String>();
-			tableHeader.add("S NO");
-			/*tableHeader.add("HOD");
-			tableHeader.add("Dy HOD");*/
-			tableHeader.add("Contract Name");
-			tableHeader.add("Contractor Name");
-			tableHeader.add("LOA Letter No");
-			tableHeader.add("LOA Date");
-			tableHeader.add("CA No");
-			tableHeader.add("CA Date");
-			tableHeader.add("Awarded Cost (Rs. In Lakhs)");
-			tableHeader.add("Contractual Date of Completion");
-			/*tableHeader.add("Revision");*/
-			tableHeader.add("Revised Contract Cost (Rs. In Lakhs)");
-			tableHeader.add("Revised Date of Completion");
-			/*tableHeader.add("Actual Date of Start");
-			tableHeader.add("Status of Contract");*/
-			tableHeader.add("Cumulative Expenditure till date (Rs. In Lakhs)");
-			tableHeader.add("Insurance Valid till");
-			tableHeader.add("PBG Valid till");
-			tableHeader.add("Remarks");
-			
-			for (String headerValue : tableHeader) {
-				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
-						JcEnumeration.LEFT, true, "ecf2ff");
-			}		
-			table.getContent().add(titleRow);
-			
-			
-			int sNo = 1;
-			for (Contract cObj : contracts) {
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();	
+			for (Map.Entry<String,List<Contract>> entry : contractsData.entrySet()) {  
+	            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
+	        	List<Contract> contracts = entry.getValue();
+	            String keyName = entry.getKey();
+	            
+	            addParagraph(mp, factory);
+	            addHeading(wordMLPackage, mp, factory,JcEnumeration.LEFT,fontRPr,keyName);
+	            
+				Tbl table = factory.createTbl();
+				addBorders(table, "2");
 				
-				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				/*addTableCell(factory, wordMLPackage, contentRow, cObj.getHod_designation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getDy_hod_designation(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_letter_number(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getCa_no(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getCa_date(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getAwarded_cost(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, (!StringUtils.isEmpty(cObj.getRevised_doc())?cObj.getRevised_doc():cObj.getDoc()),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				/*addTableCell(factory, wordMLPackage, contentRow, cObj.getRevision(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_amount(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				/*addTableCell(factory, wordMLPackage, contentRow, cObj.getDate_of_start(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_status_fk(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+				Tr titleRow = factory.createTr();		
+				List<String> tableHeader = new ArrayList<String>();
+				tableHeader.add("S NO");
+				/*tableHeader.add("HOD");
+				tableHeader.add("Dy HOD");*/
+				tableHeader.add("Contract Name");
+				tableHeader.add("Contractor Name");
+				tableHeader.add("LOA Letter No");
+				tableHeader.add("LOA Date");
+				tableHeader.add("CA No");
+				tableHeader.add("CA Date");
+				tableHeader.add("Awarded Cost (Rs. In Lakhs)");
+				tableHeader.add("Contractual Date of Completion");
+				/*tableHeader.add("Revision");*/
+				tableHeader.add("Revised Contract Cost (Rs. In Lakhs)");
+				tableHeader.add("Revised Date of Completion");
+				/*tableHeader.add("Actual Date of Start");
+				tableHeader.add("Status of Contract");*/
+				tableHeader.add("Cumulative Expenditure till date (Rs. In Lakhs)");
+				tableHeader.add("Insurance Valid till");
+				tableHeader.add("PBG Valid till");
+				tableHeader.add("Remarks");
 				
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getPbg_valid_till(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, cObj.getRemarks(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-				
-				
-				table.getContent().add(contentRow);
-			}
-			if(StringUtils.isEmpty(contracts) || contracts.isEmpty()) {
-				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();	
-				
-				List<String> noDataRow = new ArrayList<String>();
-				noDataRow.add("NO CONTACTS");
-				for (int i = 0; i < 15; i++) {
-					noDataRow.add("");
-				}
-				
-				for (String headerValue : noDataRow) {
-					addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
-							JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				for (String headerValue : tableHeader) {
+					addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
+							JcEnumeration.LEFT, true, "ecf2ff");
 				}		
-				table.getContent().add(contentRow);	
-				mergeCellsHorizontal(table, 1, 0, 4);
+				table.getContent().add(titleRow);
+			
+			
+			
+				int sNo = 1;
+				for (Contract cObj : contracts) {
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();	
+					
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					/*addTableCell(factory, wordMLPackage, contentRow, cObj.getHod_designation(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getDy_hod_designation(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_short_name(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getContractor_name(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_letter_number(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getLoa_date(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getCa_no(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getCa_date(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getAwarded_cost(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, (!StringUtils.isEmpty(cObj.getRevised_doc())?cObj.getRevised_doc():cObj.getDoc()),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					/*addTableCell(factory, wordMLPackage, contentRow, cObj.getRevision(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_amount(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getRevised_doc(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					/*addTableCell(factory, wordMLPackage, contentRow, cObj.getDate_of_start(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getContract_status_fk(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+					
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getCumulative_expenditure(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getInsurance_valid_till(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getPbg_valid_till(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow, cObj.getRemarks(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					
+					
+					table.getContent().add(contentRow);
+				}
+				if(StringUtils.isEmpty(contracts) || contracts.isEmpty()) {
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();	
+					
+					List<String> noDataRow = new ArrayList<String>();
+					noDataRow.add("NO CONTACTS");
+					for (int i = 0; i < 15; i++) {
+						noDataRow.add("");
+					}
+					
+					for (String headerValue : noDataRow) {
+						addTableCell(factory, wordMLPackage, contentRow, headerValue, titleRpr,
+								JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					}		
+					table.getContent().add(contentRow);	
+					mergeCellsHorizontal(table, 1, 0, 4);
+				}
+				setTableAlign(factory, table, JcEnumeration.CENTER);
+				mp.addObject(table);
 			}
 			
-			setTableAlign(factory, table, JcEnumeration.CENTER);
-			mp.addObject(table);
+			
 		} catch (Exception e) {
 			throw new Exception(e);
 		}

@@ -15,10 +15,6 @@
         top: 45%!important;
         left:47%!important;
     }
-    .fourth-level-menu>li, .third-level-menu>li, .second-level-menu>li {
-    	max-width:250px;
-    	line-height:40px;
-    }
 
    </style>
    
@@ -369,62 +365,13 @@
 	                              	 	${bgIcon }
 	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
 	                              	 </span>                                   
-	                                 <div>Work name : ${aObj.work_short_name }</div>
-	                                 <div>Contract Id : ${aObj.contract_id }</div>
+	                                 <div>Work : ${aObj.work_short_name }</div>
+	                                 <div>Contract : ${aObj.contract_id }</div>
 	                                 <div>Contractor : ${aObj.contractor_name }</div>
 	                                 <div>Reason : ${aObj.alert_value }</div>
 	                              </a>
 	                          </li>
-	                          <!-- <li class="item type-1">
-	                              <a href="#">
-	                              	 <span class="icon">
-	                              	 	<i class="material-icons">security</i>
-	                              	 	<span class="icon-text">Insurance</span>
-	                              	 </span>                                  
-	                                  <div>Work name</div>
-	                                  <div>Contract Id</div>
-	                                  <div>Contractor</div>
-	                                  <div>Reason (Insurance)</div>
-	                              </a>
-	                          </li>                          
-	                          <li class="item type-2">
-	                              <a href="#">
-	                              	<span class="icon">
-	                              	 	<i class="material-icons">access_time</i>
-	                              	 	<span class="icon-text">Contract Period</span>
-	                              	 </span>                                   
-	                                  <div>Work name</div>
-	                                  <div>Contract Id</div>
-	                                  <div>Contractor</div>
-	                                  <div>Reason </div>
-	                              </a>
-	                          </li>                         
-	                          <li class="item type-3">
-	                              <a href="#">
-	                                  <a href="#">
-	                                  <span class="icon">
-	                              	 	<i class="fa fa-money"></i>
-	                              	 	<span class="icon-text">Contract Value</span>
-	                              	  </span>                                   
-	                                  <div>Work name</div>
-	                                  <div>Contract Id</div>
-	                                  <div>Contractor</div>
-	                                  <div>Reason </div>
-	                              </a>
-	                              </a>
-	                          </li>
-	                           <li class="item type-1">
-	                              <a href="#">
-	                             	<span class="icon">
-	                              	 	<i class="material-icons">account_balance</i>
-	                              	 	<span class="icon-text">Bank Guarantee</span>
-	                              	 </span>                                   
-	                                 <div>Work name</div>
-	                                 <div>Contract Id</div>
-	                                 <div>Contractor</div>
-	                                 <div>Reason </div>
-	                              </a>
-	                          </li> -->
+	                         
                           </c:forEach>
                       </c:forEach>
                       </ul>

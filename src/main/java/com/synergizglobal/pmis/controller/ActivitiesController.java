@@ -29,6 +29,7 @@ import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.StripChart;
@@ -259,7 +260,7 @@ public class ActivitiesController {
 			
 			MultipartFile file = obj.getStripChartFile();
 			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.STRIPCHART_FILE_SAVING_PATH + "STRIPCHART_"+obj.getStrip_chart_id() + File.separator;
+				String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + "ACTIVITIES_PROGRESS_"+obj.getActivity_id() + File.separator;
 				String fileName = file.getOriginalFilename();
 				FileUploads.singleFileSaving(file, saveDirectory, fileName);
 				obj.setAttachment_url(fileName);

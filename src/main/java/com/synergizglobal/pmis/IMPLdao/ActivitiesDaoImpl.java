@@ -537,7 +537,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 			String department_id = getDepartment(obj.getContract_id_fk());
 			String issueId = null;
 			if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-				String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk,location,activity)VALUES(?,?,?,?,?,?,?,CURDATE(),?,?,?)";				
+				String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk,location,attachment)VALUES(?,?,?,?,?,?,?,CURDATE(),?,?,?)";				
 				KeyHolder holder = new GeneratedKeyHolder();
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					@Override
@@ -545,7 +545,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 						PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
 						int i = 1;
 						ps.setString(i++, !StringUtils.isEmpty(obj.getContract_id_fk())?obj.getContract_id_fk():null);
-						ps.setString(i++, obj.getIssue_description());
+						ps.setString(i++, !StringUtils.isEmpty(activity_name)?activity_name:null);
 						ps.setString(i++, obj.getIssue_description());
 						ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
@@ -553,7 +553,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 						ps.setString(i++, "Raised");
 						ps.setString(i++, !StringUtils.isEmpty(department_id)?department_id:null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())?obj.getStrip_chart_structure_id_fk():null);
-						ps.setString(i++, !StringUtils.isEmpty(activity_name)?activity_name:null);
+						ps.setString(i++, !StringUtils.isEmpty(obj.getAttachment_url())?obj.getAttachment_url():null);
 						return ps;
 					}
 				}, holder);
@@ -564,12 +564,12 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 			}
 			
 			String qry = "INSERT INTO activity_progress"
-					+ "(progress_date,activity_id_fk,completed_scope,attachment_url,remarks,"
+					+ "(progress_date,activity_id_fk,completed_scope,remarks,"
 					//+ "issue_id_fk,"
 					+ "created_by_user_id_fk) "
-					+ "VALUES (?,?,?,?,?,?)";
+					+ "VALUES (?,?,?,?,?)";
 			
-			int arrSize = 6;
+			int arrSize = 5;
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -578,7 +578,6 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 				pValues[i++] = obj.getProgress_date();			
 				pValues[i++] = obj.getActivity_id();
 				pValues[i++] = obj.getProgress();
-				pValues[i++] = obj.getAttachment_url();
 				pValues[i++] = obj.getRemarks();
 				//pValues[i++] = issueId;
 				pValues[i++] = obj.getCreated_by_user_id_fk();

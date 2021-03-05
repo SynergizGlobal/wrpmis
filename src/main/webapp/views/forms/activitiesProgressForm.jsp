@@ -526,17 +526,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col m6 s12">
-                                            <div class="file-field input-field">
-                                                <div class="btn bg-m">
-                                                    <span>Attachment</span>
-                                                    <input type="file" id="stripChartFile" name="stripChartFile">
-                                                </div>
-                                                <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
+                                      
                                         <div class="col m6 s12">
                                             <div class="row">
                                                 <!-- row 7 -->
@@ -554,10 +544,21 @@
                                                         </label>
                                                         <label>
                                                             <input class="with-gap" name="is_there_issue" type="radio"
-                                                                value="no" />
+                                                                value="no" Checked/>
                                                             <span>No</span>
                                                         </label>
                                                     </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                          <div class="col m6 s12" id="issue_yes_attachment" style="display: none;">
+                                            <div class="file-field input-field" >
+                                                <div class="btn bg-m">
+                                                    <span>Attachment</span>
+                                                    <input type="file" id="stripChartFile" name="stripChartFile">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                    <input class="file-path validate" type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -635,7 +636,7 @@
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
                                                 <button type="reset" class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;">Reset</button>
+                                                    style="width: 100%;">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
@@ -737,11 +738,13 @@
   	     
 	  	    $('input[name=is_there_issue]').change(function () {
 	              var radioval = $('input[name=is_there_issue]:checked').val();
-	              if (radioval == 'yes') {
+	              if (radioval == 'yes') {											
 	                  $('#issue_yes').css("display", "block");
+	              	  $('#issue_yes_attachment').css("display", "block");
 	                  getIssuesCategoryList();
 	              } else if (radioval == 'no') {
 	                  $('#issue_yes').css("display", "none");
+	                  $('#issue_yes_attachment').css("display", "none");
 	                  $("#issue_category_id option:not(:first)").remove();
 	                  $('#issue_category_id').formSelect();
 	              }

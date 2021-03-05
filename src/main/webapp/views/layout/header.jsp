@@ -15,7 +15,16 @@
         top: 45%!important;
         left:47%!important;
     }
-
+  	textarea.materialize-textarea {
+	    line-height: normal;
+	    overflow-y: hidden;
+	    padding: .8rem 0 .8rem 0;
+	    resize: none;
+	    min-height: 3rem;
+	    -webkit-box-sizing: border-box;
+	    box-sizing: border-box;
+	    max-height:100px;
+   }
    </style>
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />

@@ -31,6 +31,9 @@
     	 closeOnClick: false,
     	 aboveOrigin:true,
      });
+ 	$('textarea.materialize-textarea').on('input propertychange',function(){
+		 if($(this).height() > 44) {			 $(this).css('overflow-y','auto');	 $(this).css('box-sizing','content-box'); }
+	});
      </script>
 </body>
 </html>

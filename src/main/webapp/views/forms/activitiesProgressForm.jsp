@@ -223,6 +223,10 @@
         .box.completed {
             background-color: #05a705;
         }
+         p.priokind{
+        	font-weight:600;
+        	margin-top: 10px !important;     
+        }
 
        /*  .box.delayed {
             background-color: #f00;
@@ -525,49 +529,30 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                      
-                                        <div class="col m6 s12">
-                                            <div class="row">
-                                                <!-- row 7 -->
-                                                <div class="col s6 m6 input-field center-align">
-                                                    <div style="margin-top: 8px;">Any Issue ?</div>
-
-                                                </div>
-                                                <div class="col s6 m6 input-field">
-                                                    <p class="radiogroup"
-                                                        style="padding-bottom: 10px;padding-top: 10px;">
-                                                        <label>
-                                                            <input class="with-gap" name="is_there_issue" type="radio"
-                                                                value="yes" />
-                                                            <span>Yes</span>
-                                                        </label>
-                                                        <label>
-                                                            <input class="with-gap" name="is_there_issue" type="radio"
-                                                                value="no" Checked/>
-                                                            <span>No</span>
-                                                        </label>
-                                                    </p>
-                                                </div>
-                                            </div>
+                                    <div class="row">                
+                                        <div class="col s6 m6 input-field center-align">
+                                            <p class="priokind">Any Issue ?</p>  
                                         </div>
-                                          <div class="col m6 s12" id="issue_yes_attachment" style="display: none;">
-                                            <div class="file-field input-field" >
-                                                <div class="btn bg-m">
-                                                    <span>Attachment</span>
-                                                    <input type="file" id="stripChartFile" name="stripChartFile">
-                                                </div>
-                                                <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div class="col s6 m6 input-field">
+                                            <p class="radiogroup"
+                                                style="padding-bottom: 10px;padding-top: 10px;">
+                                                <label>
+                                                    <input class="with-gap" name="is_there_issue" type="radio"
+                                                        value="yes" />
+                                                    <span>Yes</span>
+                                                </label>
+                                                <label>
+                                                    <input class="with-gap" name="is_there_issue" type="radio"
+                                                        value="no" Checked/>
+                                                    <span>No</span>
+                                                </label>
+                                            </p>
+                                        </div>                                  
                                     </div>
-
+                                           
                                     <div id="issue_yes" style="display: none;">
                                         <div class="row">
-                                            <h6 class="center-align" style="color:#2E58AD;font-weight:600">Issue Details
-                                            </h6>
+                                            <h6 class="center-align" style="color:#2E58AD;font-weight:600">Issue Details   </h6>
                                             <!-- <div class="col s12 m6 input-field" style="margin-top: 40px;"> -->
                                             <div class="col s12 m6 input-field" style="margin-top: 23px;">
                                             	<p>Issue Category</p>
@@ -602,13 +587,24 @@
                                                 <span id="issue_priority_idError" class="error-msg" ></span>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col s12 m12 input-field">
                                                 <textarea id="issue_description" name="issue_description" class="materialize-textarea"
                                                     data-length="500"></textarea>
                                                 <label for="issue_description">Issue Description</label>
                                                 <span id="issue_descriptionError" class="error-msg" ></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                       <!--  <div class="col m12 s12" id="issue_yes_attachment" style="display: none;"> -->
+                                            <div class="col m12 s12 file-field input-field" >
+                                                <div class="btn bg-m">
+                                                    <span>Attachment</span>
+                                                    <input type="file" id="stripChartFile" name="stripChartFile">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                    <input class="file-path validate" type="text">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -740,11 +736,9 @@
 	              var radioval = $('input[name=is_there_issue]:checked').val();
 	              if (radioval == 'yes') {											
 	                  $('#issue_yes').css("display", "block");
-	              	  $('#issue_yes_attachment').css("display", "block");
 	                  getIssuesCategoryList();
 	              } else if (radioval == 'no') {
 	                  $('#issue_yes').css("display", "none");
-	                  $('#issue_yes_attachment').css("display", "none");
 	                  $("#issue_category_id option:not(:first)").remove();
 	                  $('#issue_category_id').formSelect();
 	              }

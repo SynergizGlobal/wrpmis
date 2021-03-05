@@ -286,7 +286,7 @@ public class ContractReportController {
 			Contract contractClosureDetails = service.getContractClosureDetails(obj);
 			Contract contractorDetails = service.getContractorDetails(obj);
 			
-			boolean landscape = true;
+			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
 			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
@@ -304,7 +304,7 @@ public class ContractReportController {
 			
 			//String headerText = "PMIS Report - Contract Details";
 			
-			int tabs1 = 8;int tabs2 = 5;
+			int tabs1 = 4;int tabs2 = 2;
 			
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
 			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
@@ -312,7 +312,8 @@ public class ContractReportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			//DocxTableCreationForContractReport.createTableForContractDetailReport(wordMLPackage, mp, factory,list);
+			DocxTableCreationForContractReport.createTableForContractDetailsReport(wordMLPackage, mp, factory,
+					contractDetails,progressDetailsAsOnDate,milestoneDetails,bgDetails,insuranceDetails,contractClosureDetails,contractorDetails);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

@@ -155,13 +155,13 @@
 											<button type="button" id="date_icon" class="white"><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
-	                                    <!-- <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
 	                                        <select id="contract_id" name="contract_id" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="contract_idError" class="error-msg" ></span>
-	                                    </div> -->
+	                                    </div>
 	                                </div>                              
                                 </form> 
                             </div>
@@ -171,26 +171,26 @@
                             <div class="col m2 hide-on-small-only"></div>
                             <div class="col m8 s12">
 	                                <div class="row">	                                  	
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateContractReport();"> Contracts List</button>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateBGReport();"> BG Report</button>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateInsurancceReport();"> Insurance Report</button>
 	                                    </div>
-	                                    <!-- <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateContractDetailReport();"> Contract Detail Report</button>
-	                                    </div> -->
+	                                    </div>
 	                                </div>     
                             </div>
                             <div class="col m2 hide-on-small-only"></div>
@@ -256,7 +256,7 @@
         	getContractorsFilterList();
         	getWorkFilterList();
         	getDesignationFilterList();  
-        	//getContractListFilter();
+        	getContractListFilter();
         }
         
         function getDesignationFilterList(){

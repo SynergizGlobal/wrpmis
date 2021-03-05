@@ -520,7 +520,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 									",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
 									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
+									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required,department_name,"
+									+ "u.designation as hod_designation,us.designation as dy_hod_designation " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -572,6 +573,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				contract.setBg_required(resultSet.getString("bg_required"));
 				contract.setInsurance_required(resultSet.getString("insurance_required"));
 				contract.setRemarks(resultSet.getString("remarks"));
+				contract.setDepartment_name(resultSet.getString("department_name"));
+				contract.setHod_designation(resultSet.getString("hod_designation"));
+				contract.setDy_hod_designation(resultSet.getString("dy_hod_designation"));
 
 				
 				contract.setContract_revision(getContract_revision(contract.getContract_id(),con));	
@@ -619,9 +623,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	@Override
 	public Contract getProgressDetailsAsOnDate(Contract obj) throws Exception {
 		Contract pObj = null;
-		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
+		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry ="select (select cast(IFNULL(sum(gross_work_done),0) as CHAR) from expenditure where contract_id_fk = contract_id) as payment_made, "
+			String qry ="select contract_status_fk,"
+					+ "(select cast(IFNULL(sum(gross_work_done),0) as CHAR) from expenditure where contract_id_fk = contract_id) as payment_made, "
 					+ "(select cast(IFNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as revised_amount,"
 					+ "cast(awarded_cost as CHAR) as awarded_cost,"
 					+ "(SELECT sum(contract_per) FROM activities_scurve where contract_id_fk = contract_id and category = 'Actual') as actual_physical_progress,"
@@ -632,11 +637,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			Object[] pValues = new Object[]{obj.getContract_id()};
 			
-			pObj = jdbcTemplate.queryForObject( qry,pValues, Contract.class);	
+			pObj = jdbcTemplate.queryForObject( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 			if(!StringUtils.isEmpty(pObj)) {
-				String physical_progress = pObj.getActual_physical_progress();
-				if(!StringUtils.isEmpty(physical_progress)) {
-					physical_progress = numberFormatter.format(Double.parseDouble(physical_progress));
+				double physical_progress = 0;
+				String p_progress = pObj.getActual_physical_progress();
+				if(!StringUtils.isEmpty(p_progress)) {
+					physical_progress = Double.parseDouble(p_progress);
 				}
 				
 				double revised_amount = 0;
@@ -655,14 +661,20 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					payment_made = Double.parseDouble(p_made);
 				}
 				double financial_progress = 0;
-				if(revised_amount != 0) {
-					financial_progress = (revised_amount*100)/payment_made;
-				}else {
-					financial_progress = (awarded_cost*100)/payment_made;
+				if(payment_made != 0) {
+					if(payment_made != 0) {
+						financial_progress = (revised_amount*100)/payment_made;
+					}else {
+						financial_progress = (awarded_cost*100)/payment_made;
+					}					
 				}
-				
-				pObj.setActual_physical_progress(physical_progress);
-				pObj.setActual_financial_progress(numberFormatter.format(financial_progress));
+				String contract_status = pObj.getContract_status_fk();
+				if(!StringUtils.isEmpty(contract_status) && contract_status.equals("Completed")) {
+					physical_progress = 100;
+					financial_progress = 100;
+				}
+				pObj.setActual_physical_progress(numberFormatter.format(physical_progress) + " %");
+				pObj.setActual_financial_progress(numberFormatter.format(financial_progress) + " %");
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -767,7 +779,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				iObj.setAgency_address(resultSet.getString("agency_address"));
 				iObj.setInsurance_number(resultSet.getString("insurance_number"));
 				iObj.setInsurance_value(resultSet.getString("insurance_value"));
-				iObj.setInsurence_valid_upto(resultSet.getString("valid_upto"));
+				iObj.setInsurance_valid_upto(resultSet.getString("valid_upto"));
 				iObj.setRemarks(resultSet.getString("remarks"));
 				iObj.setRevision(resultSet.getString("revision"));
 				iObj.setInsurance_status(resultSet.getString("insurance_status"));

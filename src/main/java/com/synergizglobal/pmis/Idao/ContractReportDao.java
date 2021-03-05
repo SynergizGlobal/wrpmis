@@ -35,5 +35,7 @@ public interface ContractReportDao {
 	Contract getContractClosureDetails(Contract obj) throws Exception;
 
 	Contract getContractorDetails(Contract obj) throws Exception;
+
+	List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception;
 	
 }

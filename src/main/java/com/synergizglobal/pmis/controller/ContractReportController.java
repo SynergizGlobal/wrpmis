@@ -285,6 +285,7 @@ public class ContractReportController {
 			List<Contract> insuranceDetails = service.getInsuranceDetailsForReport(obj);			
 			Contract contractClosureDetails = service.getContractClosureDetails(obj);
 			Contract contractorDetails = service.getContractorDetails(obj);
+			List<Contract> keyPersonnels = service.getKeyPersonnelForReport(obj);
 			
 			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -313,7 +314,8 @@ public class ContractReportController {
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
 			DocxTableCreationForContractReport.createTableForContractDetailsReport(wordMLPackage, mp, factory,
-					contractDetails,progressDetailsAsOnDate,milestoneDetails,bgDetails,insuranceDetails,contractClosureDetails,contractorDetails);
+					contractDetails,progressDetailsAsOnDate,milestoneDetails,bgDetails,insuranceDetails,contractClosureDetails,
+					contractorDetails,keyPersonnels);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

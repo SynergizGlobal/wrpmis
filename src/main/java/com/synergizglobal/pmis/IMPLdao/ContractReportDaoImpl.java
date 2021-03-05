@@ -184,6 +184,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public Map<String,List<Contract>> getContractsListForReport(Contract obj) throws Exception {
 		Map<String,List<Contract>> mapObjsList = new LinkedHashMap<String, List<Contract>>();
 		List<Contract> objsList = null;
+		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			
 			String hodQry ="select u.designation as hod_designation,c.hod_user_id_fk,DATE_FORMAT(doc,'%d-%b-%Y') AS doc,doc as doc_date, "
@@ -321,6 +322,22 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				}
 					
 				objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+				
+				for (Contract contract : objsList) {
+					double awarded_cost = 0,revised_contract_cost = 0,cumulative_expenditure = 0;
+					if(!StringUtils.isEmpty(contract.getAwarded_cost())) {
+						awarded_cost = Double.parseDouble(contract.getAwarded_cost());
+					}
+					if(!StringUtils.isEmpty(contract.getRevised_amount())) {
+						revised_contract_cost = Double.parseDouble(contract.getRevised_amount());
+					}
+					if(!StringUtils.isEmpty(contract.getCumulative_expenditure())) {
+						cumulative_expenditure = Double.parseDouble(contract.getCumulative_expenditure());
+					}
+					contract.setAwarded_cost(numberFormatter.format(awarded_cost));
+					contract.setRevised_amount(numberFormatter.format(revised_contract_cost));
+					contract.setCumulative_expenditure(numberFormatter.format(cumulative_expenditure));
+				}
 				
 				mapObjsList.put(hodObj.getHod_designation(), objsList);
 			}	
@@ -883,9 +900,39 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			cObj = jdbcTemplate.queryForObject( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
 		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		return cObj;
+	}
+
+	@Override
+	public List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		try{
+			con = dataSource.getConnection();
+			String qry ="SELECT name,cast(mobile_no as CHAR) as mobile_no,email_id,designation from contract_key_personnel where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, obj.getContract_id());
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setName(resultSet.getString("name"));
+				obj.setMobile_no(resultSet.getString("mobile_no"));
+				obj.setEmail_id(resultSet.getString("email_id"));
+				obj.setDesignation(resultSet.getString("designation"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
+		}
+		return objsList;
 	}
 
 	

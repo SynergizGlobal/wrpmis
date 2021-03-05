@@ -37,4 +37,6 @@ public interface ContractReportService {
 
 	Contract getContractorDetails(Contract obj) throws Exception;
 
+	List<Contract> getKeyPersonnelForReport(Contract obj) throws Exception;
+
 }

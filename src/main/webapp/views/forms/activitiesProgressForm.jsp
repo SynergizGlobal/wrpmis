@@ -631,8 +631,8 @@
                                         </div>
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="reset" class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;">Cancel</button>
+                                                <a class="btn waves-effect waves-light bg-s"
+                                                    style="width: 100%;" href="<%=request.getContextPath() %>/activity-progress">Cancel</a>
                                             </div>
                                         </div>
                                     </div>
@@ -1311,9 +1311,9 @@
             }
         }
 
-        $('form').on('reset', function () {
+        /* $('form').on('reset', function () {
             $(".searchable").trigger("change");
-        });
+        }); */
         
         function saveProgress(){
     		if(validator.form()){ // validation perform

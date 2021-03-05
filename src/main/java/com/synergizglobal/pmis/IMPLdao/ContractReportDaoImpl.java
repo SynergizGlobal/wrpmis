@@ -1,5 +1,11 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +20,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ContractReportDao;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Contract;
 
 @Repository
@@ -454,6 +462,418 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<Contract> getContractListInContractReport(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select contract_id,contract_name,contract_short_name "
+					+ "from contract c "
+					+ "LEFT JOIN user u ON hod_user_id_fk = user_id "
+					+ "where contract_id IS NOT NULL and contract_id <> ''";
+
+			int arrSize = 0;
+			
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ?";
+				arrSize++;
+			}	
+			
+			qry = qry + " group by contract_id order by contract_id ";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				pValues[i++] = obj.getHod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public Contract getContractDetailsForReport(Contract obj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		Contract contract = null;
+		try{
+			con = dataSource.getConnection();
+			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+									",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
+									"from contract c " + 
+									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+									"left join project p on w.project_id_fk = p.project_id " + 
+									"left join user u on c.hod_user_id_fk = u.user_id "+
+									"left join user us on c.dy_hod_user_id_fk = us.user_id "
+									+"left join department dt on c.department_fk = dt.department "
+									+ "where contract_id = ?" ;
+			stmt = con.prepareStatement(contract_updateQry);
+			stmt.setString(1, obj.getContract_id());
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				contract = new Contract();
+				contract.setWork_name(resultSet.getString("work_name"));
+				contract.setWork_id_fk(resultSet.getString("work_id_fk"));
+				contract.setDesignation(resultSet.getString("designation"));
+				contract.setUser_name(resultSet.getString("user_name"));
+				contract.setContract_id_code(resultSet.getString("contract_id_code"));
+				contract.setProject_id_fk(resultSet.getString("project_id_fk"));
+				contract.setProject_name(resultSet.getString("project_name"));
+				contract.setContract_id(resultSet.getString("contract_id"));
+				contract.setContract_type_fk(resultSet.getString("contract_type_fk"));
+				contract.setContract_name(resultSet.getString("contract_name"));
+				contract.setContract_short_name(resultSet.getString("contract_short_name"));
+				contract.setContractor_id_fk(resultSet.getString("contractor_id_fk"));
+				contract.setContractor_name(resultSet.getString("contractor_name"));
+				contract.setDepartment_fk(resultSet.getString("department_fk"));
+				contract.setHod_user_id_fk(resultSet.getString("hod_user_id_fk"));
+				contract.setDy_hod_user_id_fk(resultSet.getString("dy_hod_user_id_fk"));
+				contract.setScope_of_contract(resultSet.getString("scope_of_contract"));
+				contract.setDoc(resultSet.getString("doc"));
+				contract.setAwarded_cost(resultSet.getString("awarded_cost"));
+				contract.setLoa_letter_number(resultSet.getString("loa_letter_number"));
+				contract.setLoa_date(resultSet.getString("loa_date"));
+				contract.setCa_no(resultSet.getString("ca_no"));
+				contract.setCa_date(resultSet.getString("ca_date"));
+				contract.setActual_completion_date(resultSet.getString("actual_completion_date"));
+				contract.setCompleted_cost(resultSet.getString("completed_cost"));
+				contract.setEstimated_cost(resultSet.getString("estimated_cost"));
+				contract.setDate_of_start(resultSet.getString("date_of_start"));
+				contract.setContract_closure_date(resultSet.getString("contract_closure_date"));
+				contract.setCompletion_certificate_release(resultSet.getString("completion_certificate_release"));
+				contract.setFinal_takeover(resultSet.getString("final_takeover"));
+				contract.setFinal_bill_release(resultSet.getString("final_bill_release"));
+				contract.setDefect_liability_period(resultSet.getString("defect_liability_period"));
+				contract.setRetention_money_release(resultSet.getString("retention_money_release"));
+				contract.setPbg_release(resultSet.getString("pbg_release"));
+				contract.setContract_status_fk(resultSet.getString("contract_status_fk"));
+				contract.setBg_required(resultSet.getString("bg_required"));
+				contract.setInsurance_required(resultSet.getString("insurance_required"));
+				contract.setRemarks(resultSet.getString("remarks"));
+
+				
+				contract.setContract_revision(getContract_revision(contract.getContract_id(),con));	
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
+		}		
+		return contract;
+	}
+	
+	private List<Contract> getContract_revision(String contract_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> contract_revision = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="SELECT revision_number,cast(revised_amount as CHAR) as revised_amount ,DATE_FORMAT(revised_doc,'%d-%m-%Y') AS revised_doc"
+					+ ",action as revision_status,remarks from contract_revision where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setRevision_number(resultSet.getString("revision_number"));
+				obj.setRevised_amount(resultSet.getString("revised_amount"));
+				obj.setRevised_doc(resultSet.getString("revised_doc"));
+				obj.setRevision_status(resultSet.getString("revision_status"));
+				obj.setRemarks(resultSet.getString("remarks"));
+				contract_revision.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return contract_revision;
+	}
+	
+	@Override
+	public Contract getProgressDetailsAsOnDate(Contract obj) throws Exception {
+		Contract pObj = null;
+		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
+		try {
+			String qry ="select (select cast(IFNULL(sum(gross_work_done),0) as CHAR) from expenditure where contract_id_fk = contract_id) as payment_made, "
+					+ "(select cast(IFNULL(revised_amount,0) as CHAR) from contract_revision where revised_amount is not null and action = 'Yes' and contract_id_fk = contract_id limit 1) as revised_amount,"
+					+ "cast(awarded_cost as CHAR) as awarded_cost,"
+					+ "(SELECT sum(contract_per) FROM activities_scurve where contract_id_fk = contract_id and category = 'Actual') as actual_physical_progress,"
+					+ "DATE_FORMAT(date_of_start,'%d-%b-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%b-%Y') AS doc "
+					+ "from contract c "
+					+ "where c.contract_id = ?";
+	
+			
+			Object[] pValues = new Object[]{obj.getContract_id()};
+			
+			pObj = jdbcTemplate.queryForObject( qry,pValues, Contract.class);	
+			if(!StringUtils.isEmpty(pObj)) {
+				String physical_progress = pObj.getActual_physical_progress();
+				if(!StringUtils.isEmpty(physical_progress)) {
+					physical_progress = numberFormatter.format(Double.parseDouble(physical_progress));
+				}
+				
+				double revised_amount = 0;
+				double awarded_cost = 0;
+				String r_amount = pObj.getRevised_amount();
+				String a_cost = pObj.getAwarded_cost();
+				if(!StringUtils.isEmpty(r_amount)) {
+					revised_amount = Double.parseDouble(r_amount);
+				}
+				if(!StringUtils.isEmpty(a_cost)) {
+					awarded_cost = Double.parseDouble(a_cost);
+				}
+				String p_made = pObj.getPayment_made();
+				double payment_made = 0;
+				if(!StringUtils.isEmpty(p_made)) {
+					payment_made = Double.parseDouble(p_made);
+				}
+				double financial_progress = 0;
+				if(revised_amount != 0) {
+					financial_progress = (revised_amount*100)/payment_made;
+				}else {
+					financial_progress = (awarded_cost*100)/payment_made;
+				}
+				
+				pObj.setActual_physical_progress(physical_progress);
+				pObj.setActual_financial_progress(numberFormatter.format(financial_progress));
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return pObj;
+	}
+
+	@Override
+	public List<Contract> getMilestoneDetailsForReport(Contract obj) throws Exception {
+		Connection con  = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> milestones = new ArrayList<Contract>();
+		Contract mObj = null;
+		try {
+			con = dataSource.getConnection();
+			String qry ="SELECT contract_milestones_id,milestone_id,milestone_name,DATE_FORMAT(milestone_date,'%d-%m-%Y') AS milestone_date,DATE_FORMAT(actual_date,'%d-%m-%Y') AS actual_date, revision"
+					+ ",remarks from contract_milestones where contract_id_fk = ? and status = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, obj.getContract_id());
+			stmt.setString(2, CommonConstants.ACTIVE);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				mObj = new Contract();
+				mObj.setContract_milestones_id(resultSet.getString("contract_milestones_id"));
+				mObj.setMilestone_id(resultSet.getString("milestone_id"));
+				mObj.setMilestone_name(resultSet.getString("milestone_name"));
+				mObj.setMilestone_date(resultSet.getString("milestone_date"));
+				mObj.setActual_date(resultSet.getString("actual_date"));
+				mObj.setRevision(resultSet.getString("revision"));
+				mObj.setRemarks(resultSet.getString("remarks"));
+				milestones.add(mObj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
+		}
+		return milestones;
+	}
+
+	@Override
+	public List<Contract> getBGDetailsForReport(Contract obj) throws Exception {
+		Connection con  = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract bObj = null;
+		try {
+			con = dataSource.getConnection();
+			String qry ="SELECT code,bg_type_fk,issuing_bank, bg_number,cast(bg_value as CHAR) as bg_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
+					+ ",DATE_FORMAT(bg_date,'%d-%m-%Y') AS bg_date,DATE_FORMAT(release_date,'%d-%m-%Y') AS release_date"
+					+ " from bank_guarantee where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, obj.getContract_id());
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				bObj = new Contract();
+				
+				bObj.setCode(resultSet.getString("code"));
+				bObj.setBg_type_fk(resultSet.getString("bg_type_fk"));
+				bObj.setIssuing_bank(resultSet.getString("issuing_bank"));
+				bObj.setBg_number(resultSet.getString("bg_number"));
+				bObj.setBg_value(resultSet.getString("bg_value"));
+				bObj.setBg_valid_upto(resultSet.getString("valid_upto"));
+				bObj.setBg_date(resultSet.getString("bg_date"));
+				bObj.setRelease_date(resultSet.getString("release_date"));
+				objsList.add(bObj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
+		}
+		return objsList;
+	}
+	
+	
+
+	@Override
+	public List<Contract> getInsuranceDetailsForReport(Contract obj) throws Exception {
+		Connection con  = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> objsList = new ArrayList<Contract>();
+		Contract iObj = null;
+		try {
+			con = dataSource.getConnection();
+			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(insurance_value as CHAR) as insurance_value,DATE_FORMAT(valid_upto,'%d-%m-%Y') AS valid_upto"
+					+ ",remarks,revision,released_fk as insurance_status from insurance where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, obj.getContract_id());
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				iObj = new Contract();
+				iObj.setInsurance_type_fk(resultSet.getString("insurance_type_fk"));
+				iObj.setIssuing_agency(resultSet.getString("issuing_agency"));
+				iObj.setAgency_address(resultSet.getString("agency_address"));
+				iObj.setInsurance_number(resultSet.getString("insurance_number"));
+				iObj.setInsurance_value(resultSet.getString("insurance_value"));
+				iObj.setInsurence_valid_upto(resultSet.getString("valid_upto"));
+				iObj.setRemarks(resultSet.getString("remarks"));
+				iObj.setRevision(resultSet.getString("revision"));
+				iObj.setInsurance_status(resultSet.getString("insurance_status"));
+				objsList.add(iObj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, resultSet);
+		}
+		return objsList;
+	}
+
+	@Override
+	public Contract getContractClosureDetails(Contract obj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		Contract contract = null;
+		try{
+			con = dataSource.getConnection();
+			String contract_updateQry = "select w.work_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+									",scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,DATE_FORMAT(date_of_start,'%d-%m-%Y') AS date_of_start,DATE_FORMAT(doc,'%d-%m-%Y') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,DATE_FORMAT(loa_date,'%d-%m-%Y') AS loa_date,ca_no,DATE_FORMAT(ca_date,'%d-%m-%Y') AS ca_date,DATE_FORMAT(actual_completion_date,'%d-%m-%Y') AS actual_completion_date,c.remarks,"
+									+"DATE_FORMAT(contract_closure_date,'%d-%m-%Y') AS contract_closure_date,DATE_FORMAT(completion_certificate_release,'%d-%m-%Y') AS completion_certificate_release,DATE_FORMAT(final_takeover,'%d-%m-%Y') AS final_takeover,DATE_FORMAT(final_bill_release,'%d-%m-%Y') AS final_bill_release,DATE_FORMAT(defect_liability_period,'%d-%m-%Y') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
+									+"DATE_FORMAT(retention_money_release,'%d-%m-%Y') AS retention_money_release,DATE_FORMAT(pbg_release,'%d-%m-%Y') AS pbg_release,contract_status_fk,bg_required,insurance_required " + 
+									"from contract c " + 
+									"left join work w on c.work_id_fk = w.work_id COLLATE utf8mb4_unicode_ci " + 
+									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+									"left join project p on w.project_id_fk = p.project_id " + 
+									"left join user u on c.hod_user_id_fk = u.user_id "+
+									"left join user us on c.dy_hod_user_id_fk = us.user_id "
+									+"left join department dt on c.department_fk = dt.department "
+									+ "where contract_id = ?" ;
+			stmt = con.prepareStatement(contract_updateQry);
+			stmt.setString(1, obj.getContract_id());
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				contract = new Contract();
+				contract.setWork_name(resultSet.getString("work_name"));
+				contract.setWork_id_fk(resultSet.getString("work_id_fk"));
+				contract.setDesignation(resultSet.getString("designation"));
+				contract.setUser_name(resultSet.getString("user_name"));
+				contract.setContract_id_code(resultSet.getString("contract_id_code"));
+				contract.setProject_id_fk(resultSet.getString("project_id_fk"));
+				contract.setProject_name(resultSet.getString("project_name"));
+				contract.setContract_id(resultSet.getString("contract_id"));
+				contract.setContract_type_fk(resultSet.getString("contract_type_fk"));
+				contract.setContract_name(resultSet.getString("contract_name"));
+				contract.setContract_short_name(resultSet.getString("contract_short_name"));
+				contract.setContractor_id_fk(resultSet.getString("contractor_id_fk"));
+				contract.setContractor_name(resultSet.getString("contractor_name"));
+				contract.setDepartment_fk(resultSet.getString("department_fk"));
+				contract.setHod_user_id_fk(resultSet.getString("hod_user_id_fk"));
+				contract.setDy_hod_user_id_fk(resultSet.getString("dy_hod_user_id_fk"));
+				contract.setScope_of_contract(resultSet.getString("scope_of_contract"));
+				contract.setDoc(resultSet.getString("doc"));
+				contract.setAwarded_cost(resultSet.getString("awarded_cost"));
+				contract.setLoa_letter_number(resultSet.getString("loa_letter_number"));
+				contract.setLoa_date(resultSet.getString("loa_date"));
+				contract.setCa_no(resultSet.getString("ca_no"));
+				contract.setCa_date(resultSet.getString("ca_date"));
+				contract.setActual_completion_date(resultSet.getString("actual_completion_date"));
+				contract.setCompleted_cost(resultSet.getString("completed_cost"));
+				contract.setEstimated_cost(resultSet.getString("estimated_cost"));
+				contract.setDate_of_start(resultSet.getString("date_of_start"));
+				contract.setContract_closure_date(resultSet.getString("contract_closure_date"));
+				contract.setCompletion_certificate_release(resultSet.getString("completion_certificate_release"));
+				contract.setFinal_takeover(resultSet.getString("final_takeover"));
+				contract.setFinal_bill_release(resultSet.getString("final_bill_release"));
+				contract.setDefect_liability_period(resultSet.getString("defect_liability_period"));
+				contract.setRetention_money_release(resultSet.getString("retention_money_release"));
+				contract.setPbg_release(resultSet.getString("pbg_release"));
+				contract.setContract_status_fk(resultSet.getString("contract_status_fk"));
+				contract.setBg_required(resultSet.getString("bg_required"));
+				contract.setInsurance_required(resultSet.getString("insurance_required"));
+				contract.setRemarks(resultSet.getString("remarks"));
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
+		}		
+		return contract;
+	}
+
+	@Override
+	public Contract getContractorDetails(Contract obj) throws Exception {
+		Contract cObj = null;
+		try {
+			String qry ="SELECT ctr.contractor_id, ctr.contractor_name, ctr.contractor_specilization_fk, ctr.address, ctr.primary_contact_name, "
+					+ "ctr.phone_number, ctr.email_id, ctr.pan_number, ctr.gst_number, ctr.bank_name, ctr.account_number, ctr.ifsc_code, ctr.remarks "
+					+ "FROM contract c "
+					+ "LEFT JOIN contractor ctr ON contractor_id_fk = contractor_id "
+					+ "WHERE contract_id = ?";
+			
+			Object[] pValues = new Object[]{obj.getContract_id()};
+			
+			cObj = jdbcTemplate.queryForObject( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return cObj;
 	}
 
 	

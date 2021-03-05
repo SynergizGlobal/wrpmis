@@ -781,7 +781,7 @@ public class ContractDaoImpl implements ContractDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}		
 		return contract;	
-		}
+	}
 
 	private List<Contract> getContractDocuments(String contract_id, Connection con) throws Exception {
 		PreparedStatement stmt = null;

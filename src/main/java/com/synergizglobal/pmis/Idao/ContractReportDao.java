@@ -19,4 +19,21 @@ public interface ContractReportDao {
 	List<Contract> getContractsBankGuaranteeForReport(Contract obj) throws Exception;
 
 	List<Contract> getContractsInsuranceForReport(Contract obj) throws Exception;
+
+	List<Contract> getContractListInContractReport(Contract obj) throws Exception;
+	
+	Contract getContractDetailsForReport(Contract obj) throws Exception;
+
+	Contract getProgressDetailsAsOnDate(Contract obj) throws Exception;
+
+	List<Contract> getMilestoneDetailsForReport(Contract obj) throws Exception;
+
+	List<Contract> getBGDetailsForReport(Contract obj) throws Exception;
+
+	List<Contract> getInsuranceDetailsForReport(Contract obj) throws Exception;
+
+	Contract getContractClosureDetails(Contract obj) throws Exception;
+
+	Contract getContractorDetails(Contract obj) throws Exception;
+	
 }

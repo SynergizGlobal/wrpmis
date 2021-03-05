@@ -12,7 +12,8 @@ public class Contract {
 	bg_type_fk,issuing_bank,bank_address,bg_number,bg_value,bg_valid_upto, insurance_type_fk, issuing_agency, agency_address, insurance_number, insurance_value,insurence_remark,insurence_valid_upto
 	,contract_milestones_id,milestone_name, milestone_date, actual_date, revision,mile_remark,milestone_id,status,released_fk,
 	contract_revision_id, revision_number, revision_date, revised_amount, revised_doc,revision_remark,work_short_name,bank_status,insurance_status,revision_status
-	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till;
+	,code, bg_date, release_date,project_id,work_id,hod_designation,dy_hod_designation,insurance_valid_upto,date,cumulative_expenditure,insurance_valid_till,pbg_valid_till,
+	payment_made,actual_physical_progress,actual_financial_progress;
 	
 	private String contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id;
 
@@ -20,6 +21,9 @@ public class Contract {
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts, revised_docs,revision_remarks;
+	
+	private String contractor_id, contractor_specilization_fk, address,
+	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code;
 	
 	private MultipartFile contractFile;
 	
@@ -34,6 +38,110 @@ public class Contract {
 	private List<Contract> contractKeyPersonnels;
 	
 	
+
+	public String getPayment_made() {
+		return payment_made;
+	}
+
+	public void setPayment_made(String payment_made) {
+		this.payment_made = payment_made;
+	}
+
+	public String getActual_physical_progress() {
+		return actual_physical_progress;
+	}
+
+	public void setActual_physical_progress(String actual_physical_progress) {
+		this.actual_physical_progress = actual_physical_progress;
+	}
+
+	public String getActual_financial_progress() {
+		return actual_financial_progress;
+	}
+
+	public void setActual_financial_progress(String actual_financial_progress) {
+		this.actual_financial_progress = actual_financial_progress;
+	}
+
+	public String getContractor_id() {
+		return contractor_id;
+	}
+
+	public void setContractor_id(String contractor_id) {
+		this.contractor_id = contractor_id;
+	}
+
+	public String getContractor_specilization_fk() {
+		return contractor_specilization_fk;
+	}
+
+	public void setContractor_specilization_fk(String contractor_specilization_fk) {
+		this.contractor_specilization_fk = contractor_specilization_fk;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPrimary_contact_name() {
+		return primary_contact_name;
+	}
+
+	public void setPrimary_contact_name(String primary_contact_name) {
+		this.primary_contact_name = primary_contact_name;
+	}
+
+	public String getPhone_number() {
+		return phone_number;
+	}
+
+	public void setPhone_number(String phone_number) {
+		this.phone_number = phone_number;
+	}
+
+	public String getPan_number() {
+		return pan_number;
+	}
+
+	public void setPan_number(String pan_number) {
+		this.pan_number = pan_number;
+	}
+
+	public String getGst_number() {
+		return gst_number;
+	}
+
+	public void setGst_number(String gst_number) {
+		this.gst_number = gst_number;
+	}
+
+	public String getBank_name() {
+		return bank_name;
+	}
+
+	public void setBank_name(String bank_name) {
+		this.bank_name = bank_name;
+	}
+
+	public String getAccount_number() {
+		return account_number;
+	}
+
+	public void setAccount_number(String account_number) {
+		this.account_number = account_number;
+	}
+
+	public String getIfsc_code() {
+		return ifsc_code;
+	}
+
+	public void setIfsc_code(String ifsc_code) {
+		this.ifsc_code = ifsc_code;
+	}
 
 	public String getDy_hod_designation() {
 		return dy_hod_designation;

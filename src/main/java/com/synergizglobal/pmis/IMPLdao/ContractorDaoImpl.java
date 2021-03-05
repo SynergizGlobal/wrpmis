@@ -18,11 +18,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ContractorDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Contractor;
-import com.synergizglobal.pmis.model.FOB;
-import com.synergizglobal.pmis.model.Project;
 
 @Repository
 public class ContractorDaoImpl implements ContractorDao {

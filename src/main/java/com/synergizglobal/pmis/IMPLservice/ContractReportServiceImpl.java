@@ -50,4 +50,44 @@ public class ContractReportServiceImpl implements ContractReportService{
 		return dao.getContractsInsuranceForReport(obj);
 	}
 
+	@Override
+	public List<Contract> getContractListInContractReport(Contract obj) throws Exception {
+		return dao.getContractListInContractReport(obj);
+	}
+
+	@Override
+	public Contract getContractDetailsForReport(Contract obj) throws Exception {
+		return dao.getContractDetailsForReport(obj);
+	}
+
+	@Override
+	public Contract getProgressDetailsAsOnDate(Contract obj) throws Exception {
+		return dao.getProgressDetailsAsOnDate(obj);
+	}
+
+	@Override
+	public List<Contract> getMilestoneDetailsForReport(Contract obj) throws Exception {
+		return dao.getMilestoneDetailsForReport(obj);
+	}
+
+	@Override
+	public List<Contract> getBGDetailsForReport(Contract obj) throws Exception {
+		return dao.getBGDetailsForReport(obj);
+	}
+
+	@Override
+	public List<Contract> getInsuranceDetailsForReport(Contract obj) throws Exception {
+		return dao.getInsuranceDetailsForReport(obj);
+	}
+
+	@Override
+	public Contract getContractClosureDetails(Contract obj) throws Exception {
+		return dao.getContractClosureDetails(obj);
+	}
+
+	@Override
+	public Contract getContractorDetails(Contract obj) throws Exception {
+		return dao.getContractorDetails(obj);
+	}
+
 }

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/contract.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
       <style>
         p a {
             color: blue;
@@ -96,6 +97,7 @@
 			text-align:left ;
 			line-height: 50px;
 		}
+		.error-msg{color:red!important;}
     </style>
 </head>
 
@@ -121,21 +123,21 @@
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select id="hod_designation" name="hod_designation" onchange="getResetFiltersList();" class="searchable validate-dropdown">
-	                                            <option value="">Select </option>
+	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="hod_designationError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select id="work_id_fk" name="work_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
-	                                            <option value="">Select</option>
+	                                            <option value="">All</option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
 	                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="getResetFiltersList();" class="searchable validate-dropdown">
-	                                            <option value="">Select </option>
+	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contractor_id_fkError" class="error-msg" ></span>
 	                                    </div>
@@ -144,7 +146,7 @@
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract Status</p>
 	                                        <select id="contract_status_fk" name="contract_status_fk" class="searchable validate-dropdown">
-	                                            <option value="">Select </option>
+	                                            <option value="">All </option>
 	                                        </select>
 	                                        <span id="contract_status_fkError" class="error-msg" ></span>
 	                                    </div>
@@ -153,6 +155,13 @@
 											<button type="button" id="date_icon" class="white"><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
 	                                    </div>
+	                                    <!-- <div class="col s12 m4 input-field">
+	                                        <p class="searchable_label" style="text-align:left">Contract</p>
+	                                        <select id="contract_id" name="contract_id" class="searchable validate-dropdown">
+	                                            <option value="">Select </option>
+	                                        </select>
+	                                        <span id="contract_idError" class="error-msg" ></span>
+	                                    </div> -->
 	                                </div>                              
                                 </form> 
                             </div>
@@ -177,6 +186,11 @@
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateInsurancceReport();"> Insurance Report</button>
 	                                    </div>
+	                                    <!-- <div class="col s12 m3 input-field">
+	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            onclick="generateContractDetailReport();"> Contract Detail Report</button>
+	                                    </div> -->
 	                                </div>     
                             </div>
                             <div class="col m2 hide-on-small-only"></div>
@@ -213,7 +227,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-    
+    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
         $(document).ready(function(){
         	$('.searchable').select2();
@@ -234,12 +248,15 @@
   	    	  }
   	        });
             
+            getContractListFilter();
+            
         });
         
         function getResetFiltersList(){
         	getContractorsFilterList();
         	getWorkFilterList();
-        	getDesignationFilterList();        	
+        	getDesignationFilterList();  
+        	//getContractListFilter();
         }
         
         function getDesignationFilterList(){
@@ -364,6 +381,33 @@
                });
          }
         
+        function getContractListFilter(){
+        	$(".page-loader").show();
+        	var contractor_id_fk = $("#contractor_id_fk").val();
+        	var work_id_fk = $("#work_id_fk").val();
+        	var hod_designation = $("#hod_designation").val();
+           	$("#contract_id option:not(:first)").remove();
+           	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
+               $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getContractListInContractReport",
+                   data: myParams, cache: false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   var contractName = '';
+	                           if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
+                        	   $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + contractName+'</option>');
+   	                       });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			      $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+               });
+         }
+        
         function generateContractReport() {
         	//$(".page-loader").show();
         	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-report");
@@ -379,6 +423,27 @@
         	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report");
         	$("#contractReportForm").submit();
 		}
+        
+        function generateContractDetailReport() {
+        	//$(".page-loader").show();
+        	var contract_id = $("#contract_id").val();
+        	if($.trim(contract_id) != ''){
+        		$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-detail-report");
+            	$("#contractReportForm").submit();
+        	}else{
+        		var errorMessage = "Please select contract";
+        		$("#contract_idError").html(errorMessage);
+        		//swal("Required!", errorMessage, "error");
+        	}
+        	
+		}
+        
+        $('#contract_id').change(function(){
+    	    if ($(this).val() != ""){
+    	    	$("#contract_idError").html('');
+    	    }
+    	});
+        
         
     </script>
 

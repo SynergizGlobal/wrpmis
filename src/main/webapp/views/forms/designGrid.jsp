@@ -37,6 +37,9 @@
          .right-btns .fa+.fa{
          	right:-10px;
          }
+         .row.no-mar{
+         	margin-bottom:0;
+         }
     </style>
 </head>
 <body>
@@ -94,7 +97,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row no-mar">
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
@@ -210,6 +213,63 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col m12 s12">
+				 <div class="card">
+	                <div class="card-content">
+	                    <span class="card-title headbg">
+	                        <div class="center-align bg-m p-2 m-b-5">
+	                            <h6>Uploded Design Data</h6>
+	                        </div>
+	                    </span>
+	                    <div class="">
+	                      <!--   <div class="row no-mar" >
+	                            <div class="col m5 hide-on-small-only"></div>                            
+	                                    <div class="col s12 m2 input-field">
+	                                        <p class="searchable_label">Work</p>
+	                                        <select id="work_id_fk_filter" name="work_id_fk" class="searchable" onchange="">
+	                                            <option value="">Select</option>
+	                                        </select>
+	                                    </div>                                 
+	                                    <div class="col s12 m3">
+	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
+	                                            Filters</button>
+	                                    </div>                          
+	                            <div class="col m5 hide-on-small-only"></div>
+	                        </div> -->
+	                        <div class="row">
+	                            <div class="col m12 s12">
+	                                <table id="design-table" class="mdl-data-table">
+	                                    <thead>
+	                                        <tr>                                            
+												<th>Uploaded File</th>
+												<th>Status</th>
+												<th>Remarks</th>
+												<th>Uploaded by </th>
+												<th>Uploaded On</th>
+	                                        </tr>
+	                                    </thead>
+										<tbody>
+											<!-- <tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr> -->
+	
+										</tbody>
+	
+									</table>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
 			</div>
 		</div>
 	</div>
@@ -337,6 +397,25 @@
 			$('.searchable').select2();
 			$('.close-message').delay(3000).fadeOut('slow');
 
+		     $('#design-table').DataTable({
+	                columnDefs: [
+	                    {
+	                        targets: [0],
+	                        className: 'mdl-data-table__cell--non-numeric',
+	                        targets: 'nosort', orderable: false,
+	                    },
+	                    //{ "width": "10px", "targets": [2] },
+	                ],
+	                "sScrollX": "100%",
+	                "sScrollXInner": "100%",
+	                "bScrollCollapse": true,
+	                "bAutoWidth": true,
+	                "ordering": false, //to stop sorting option                
+	                fixedHeader: true, // to change the language of data table	          
+	                initComplete: function () {
+	                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+	                }
+	            });
 			getDesignList();
 		});
 

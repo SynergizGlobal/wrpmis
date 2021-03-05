@@ -176,10 +176,10 @@
                                     <p class="searchable_label"> Work :</p>
 									<p>${risk.sub_work}</p>
                                 </div>
-                                <%-- <div class="col s12 m4 input-field">
-                                     <p class="searchable_label"> Risk ID :</p>
-									 <p>${risk.risk_id }</p>
-                                </div>  --%>                               
+                                <div class="col s12 m4 input-field">
+                                     <p class="searchable_label"> Assessment Date :</p>
+									 <p></p>
+                                </div>                               
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
@@ -232,7 +232,7 @@
 											<table id="riskReview" class="mdl-data-table update-table">
 												<thead>
 													<tr>
-														<th style="width:25%">Assessment Date</th>
+													<!-- 	<th style="width:25%">Assessment Date</th> -->
 														<th style="width:25%">ATR Date</th>
 														<th>Action Taken</th>
 														<th class="fw-60">Action</th>
@@ -243,14 +243,14 @@
 														<c:when	test="${not empty risk.riskActions && fn:length(risk.riskActions) gt 0 }">
 															<c:forEach var="aObj" items="${risk.riskActions }"	varStatus="index">
 																<tr id="actionRow${index.count }">																	
-					                                                <td>
+					                                                <%-- <td>
 					                                                    <select id="assessment_dates${index.count }" name="assessment_dates" class="select searchable">
 					                                                        <option value="" selected>Select</option>
 					                                                          <c:forEach var="obj" items="${assessmentDates }">
 					                                      					   <option value= "${obj.risk_revision_id}" <c:if test="${aObj.risk_revision_id_fk eq obj.risk_revision_id}">selected</c:if>>${ obj.assessment_date}</option>
 					                                        				  </c:forEach>
 					                                                    </select>
-					                                                </td>
+					                                                </td> --%>
 																	<td>
 																		<div class="input-field">
 																			<input id="atr_dates${index.count }"
@@ -278,14 +278,14 @@
 														</c:when>
 														<c:otherwise>
 															<tr id="actionRow0">
-																<td>
+																<%-- <td>
 				                                                    <select id="assessment_dates0" name="assessment_dates" class="select searchable">
 				                                                        <option value="" selected>Select</option>
 				                                                          <c:forEach var="obj" items="${assessmentDates }">
 				                                      					   <option value= "${obj.risk_revision_id}" >${obj.assessment_date}</option>
 				                                        				  </c:forEach>
 				                                                    </select>
-				                                                </td>
+				                                                </td> --%>
 																<td><input type="hidden"
 																	id="rowCounts0" name="rowCounts"
 																	value="1" class="hide" />
@@ -409,13 +409,13 @@
             var rowNo = $("#rowNo").val();
             var rNo = Number(rowNo)+1;
             var html = '<tr id="actionRow' + rNo + '">'
-               +'<td> <div>'
+            /*    +'<td> <div>'
 			   +'<select  name="assessment_dates" id="assessment_dates'+rNo+'" class="select searchable">'	   			
 			   +'<option value="" >Select</option>'
 			   <c:forEach var="obj" items="${assessmentDates }">
 				  +' <option value= "${obj.risk_revision_id}">${obj.assessment_date}</option>'
 			  </c:forEach>
-			+'</select></div></td>'
+			+'</select></div></td>' */
 			+'<td><div class="input-field"><input id="atr_dates' + rNo +'" name="atr_dates" type="text"  class="validate datepicker" placeholder="ATR  Date">'
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></div></td>'
 			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '

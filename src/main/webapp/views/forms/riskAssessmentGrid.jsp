@@ -146,7 +146,7 @@
 											<p class="mt-2">Step 3 :</p>
 										</div>
 										<div class="col m5 s12 input-field">
-											<p class="mt-2 b-text">Select the work</p>
+											<p class="mt-2 b-text">Select the Work</p>
 										</div>
 										<div class="col m5 s12 input-field">
 											<p class="searchable_label left-align">Work</p>
@@ -166,7 +166,7 @@
 											<p class="mt-2">Step 4 :</p>
 										</div>
 										<div class="col m5 s9 input-field ">
-											<p class="mt-2 b-text">upload the completed Risk Assessment form</p>
+											<p class="mt-2 b-text">Upload the Completed Risk Assessment form</p>
 										</div>
 										<div class="col m5 s12 input-field file-field">
 											<input type="hidden" id="work_short_name"
@@ -187,7 +187,7 @@
 										<div class="col m2 s3 input-field b-text">
 											<p class="mt-1">Step 5 :</p>
 										</div>
-										<div class="col m5 s9 input-field"></div>
+										<!-- <div class="col m5 s9 input-field"></div> -->
 										<div class="col m5 s9 input-field">
 											<button type="button"
 												class="btn waves-effect waves-light bg-s t-c disabled"
@@ -201,8 +201,8 @@
 										</div>
 										<div class="col m10 s9 input-field b-text">
 											<p class="mt-1 center-align">To update ATR on the
-												Mitigation Plan of Prioritized risk Update Froms > Risk >
-												Update ATR</p>
+												Mitigation Plan of prioritized risk, go to <a href="<%=request.getContextPath()%>/risk-atr-update" target="_blank">Update Forms > Risk >
+												Update ATR </a></p>
 										</div>
 									</div>
 								</div>

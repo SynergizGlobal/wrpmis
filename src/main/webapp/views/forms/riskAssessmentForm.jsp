@@ -178,7 +178,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                      <p class="searchable_label"> Assessment Date :</p>
-									 <p></p>
+									 <p>${risk.assessment_date }</p>
                                 </div>                               
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>

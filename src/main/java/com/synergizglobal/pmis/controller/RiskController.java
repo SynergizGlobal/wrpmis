@@ -126,7 +126,7 @@ public class RiskController {
 						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(2);
 						//System.out.println(uploadFilesSheet.getSheetName());
 						//header row
-						XSSFRow headerRow = risksDrawingsSheet.getRow(1);
+						XSSFRow headerRow = risksDrawingsSheet.getRow(2);
 						//checking given file format
 						if(headerRow != null){
 							List<String> fileFormat = FileFormatModel.getRiskFileFormat();	
@@ -136,8 +136,10 @@ public class RiskController {
 				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
 									String columnName = headerRow.getCell(i).getStringCellValue().trim();
-									//System.out.println(columnName + " = " + fileFormat.get(i));
-									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+									columnName = columnName.replaceAll("[\r\n]", "");
+									String tempName = fileFormat.get(i).replaceAll("[\r\n]", "");
+									//System.out.println(columnName + " = " + tempName);									
+									if(!columnName.equals(tempName.trim()) && !columnName.contains(tempName.trim())){
 										
 				                		attributes.addFlashAttribute("error",uploadformatError);
 				                		
@@ -242,7 +244,7 @@ public class RiskController {
 							date = null,probability = null,impact = null,mitigation_plan = null,priority = null,
 							responsible_person = null;
 					String risk_base_text = "";
-					for(int i = 2; i <= risksDrawingsSheet.getLastRowNum();i++){
+					for(int i = 3; i <= risksDrawingsSheet.getLastRowNum();i++){
 						
 						XSSFRow row = risksDrawingsSheet.getRow(i);
 						// Sets the Read data to the model class

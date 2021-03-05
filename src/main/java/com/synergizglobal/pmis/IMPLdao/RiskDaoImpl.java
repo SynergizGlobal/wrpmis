@@ -236,7 +236,8 @@ public class RiskDaoImpl implements RiskDao{
 					+ "(select owner from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as owner,"
 					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person, "
 					+ "(select priority_fk from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as priority_fk,"
-					+ "(select mitigation_plan from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as mitigation_plan "
+					+ "(select mitigation_plan from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as mitigation_plan, "
+					+ "(select DATE_FORMAT(max(date),'%d-%m-%Y') from risk_revision where risk_id_pk_fk = ? ) as assessment_date "
 					+"from risk r "+
 					"LEFT OUTER join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
@@ -244,7 +245,7 @@ public class RiskDaoImpl implements RiskDao{
 					"LEFT join project p on w.project_id_fk = p.project_id " +
 					"where risk_id_pk = ?";
 			
-			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
+			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
 			
 			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
 			

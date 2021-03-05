@@ -34,8 +34,10 @@ import com.synergizglobal.pmis.Idao.DesignDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.Risk;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -753,11 +755,13 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,component,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "planned_start,planned_finish,revision,clearance_to_consultant,consultant_submission,mrvc_reviewed,divisional_approval,hq_approval,"
-					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,submitted_to_division,hq_submission_fk,submitted_to_hq,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk) "
+					+ "gfc_released,as_built_status,as_built_date,remarks,attachment,divisional_submission_fk,submitted_to_division,hq_submission_fk,submitted_to_hq,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,query_raised_by_division,query_replied_to_division,query_raised_by_hq," + 
+					"query_replied_to_hq,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:component,:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,:planned_start,:planned_finish,"
 					+ ":revision,:clearance_to_consultant,:consultant_submission,:mrvc_reviewed,:divisional_approval,:hq_approval,:gfc_released,:as_built_status,:as_built_date,:remarks,:attachment,"
-					+ ":divisional_submission_fk,:submitted_to_division,:hq_submission_fk,:submitted_to_hq,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk)";
+					+ ":divisional_submission_fk,:submitted_to_division,:hq_submission_fk,:submitted_to_hq,:submited_to_proof_consultant_fk,:approval_by_proof_consultant_fk,:query_raised_by_division,:query_replied_to_division"  
+					+ ",:query_raised_by_hq,:query_replied_to_hq,:submitted_for_crs_sanction,:query_raised_for_crs_sanction,:query_replied_for_crs_sanction,:crs_sanction_approved)";
 			
 			for (Design obj : designsList) {
 				/*String department = null;
@@ -1305,6 +1309,63 @@ public class DesignDaoImpl implements DesignDao{
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean saveDesignDataUploadFile(Design design) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		String design_data_id = null;		
+		try {
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+			String qry = "INSERT INTO design_data"
+					+ "(uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on) "
+					+ "VALUES "
+					+ "( :uploaded_file, :status, :remarks, :uploaded_by_user_id_fk,CURRENT_TIMESTAMP)";	
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(design);		 
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = template.update(qry, paramSource, keyHolder);
+			if(count > 0) {
+				design_data_id = String.valueOf(keyHolder.getKey().intValue());
+				design.setDesign_data_id(design_data_id);
+				flag = true;
+				
+				MultipartFile file = design.getDesignFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants.DESIGN_UPLOADED_FILE_SAVING_PATH ;
+					String fileName = design_data_id + "_" +file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+					
+					design.setUploaded_file(fileName);
+					String updateQry = "UPDATE design_data set uploaded_file= :uploaded_file where design_data_id= :design_data_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(design);		
+					template.update(updateQry, paramSource1);
+				}
+			}
+			transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+
+	@Override
+	public List<Design> getDesignUploadsList(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, DATE_FORMAT(uploaded_on,'%d-%b-%Y') as uploaded_on "
+					+ "from design_data dd " 
+					+ "LEFT JOIN user u ON dd.uploaded_by_user_id_fk = u.user_id "
+					+ "where design_data_id is not null";
+			
+		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
+
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}

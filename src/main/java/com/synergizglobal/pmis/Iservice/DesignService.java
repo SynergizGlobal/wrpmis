@@ -51,6 +51,10 @@ public interface DesignService {
 	List<Design> getWorkListForDesignForm(Design obj) throws Exception;
 
 	List<Design> getContractsListForDesignForm(Design obj) throws Exception;
+
+	public boolean saveDesignDataUploadFile(Design design) throws Exception;
+
+	public List<Design> getDesignUploadsList(Design obj) throws Exception;
 	
 
 }

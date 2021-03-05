@@ -128,4 +128,14 @@ public class DesignServiceImpl implements DesignService{
 		return designDao.getContractsListForDesignForm(obj);
 	}
 
+	@Override
+	public boolean saveDesignDataUploadFile(Design design) throws Exception {
+		return designDao.saveDesignDataUploadFile(design);
+	}
+
+	@Override
+	public List<Design> getDesignUploadsList(Design obj) throws Exception {
+		return designDao.getDesignUploadsList(obj);
+	}
+
 }

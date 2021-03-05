@@ -59,6 +59,7 @@ import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.DesignsPaginationObject;
 
 @Controller
@@ -452,6 +453,19 @@ public class DesignController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getContractsListForDesignForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getDesignUploadsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getDesignUploadsList(@ModelAttribute Design obj) {
+		List<Design> objsList = null;
+		try {
+			objsList = designService.getDesignUploadsList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDesignUploadsList : " + e.getMessage());
 		}
 		return objsList;
 	}
@@ -860,6 +874,7 @@ public class DesignController {
 	public ModelAndView uploadDesigns(@ModelAttribute Design design,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String userId = null;String userName = null;
+		String msg = "";
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
@@ -888,11 +903,21 @@ public class DesignController {
 									String columnName = headerRow.getCell(i).getStringCellValue().trim();
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
 				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		msg = uploadformatError;
+				                		design.setUploaded_by_user_id_fk(userId);
+				                		design.setStatus("Fail");
+				                		design.setRemarks(msg);
+										boolean flag = designService.saveDesignDataUploadFile(design);
 				                		return model;
 				                	}
 								}
 							}else{
 								attributes.addFlashAttribute("error",uploadformatError);
+								msg = uploadformatError;
+		                		design.setUploaded_by_user_id_fk(userId);
+		                		design.setStatus("Fail");
+		                		design.setRemarks(msg);
+								boolean flag = designService.saveDesignDataUploadFile(design);
 		                		return model;
 							}
 						}else{
@@ -902,17 +927,39 @@ public class DesignController {
 						
 						int count = uploadDesigns(design,userId,userName);
 						attributes.addFlashAttribute("success", count + " Designs added successfully.");	
+						msg = count + " Designs added successfully.";
+						design.setUploaded_by_user_id_fk(userId);
+						design.setStatus("Success");
+						design.setRemarks(msg);
+						boolean flag = designService.saveDesignDataUploadFile(design);
 					}
 					workbook.close();
 				}
 			} else {
 				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+
+				msg = "No file exists";
+				design.setUploaded_by_user_id_fk(userId);
+				design.setStatus("Fail");
+				design.setRemarks(msg);
+				boolean flag = designService.saveDesignDataUploadFile(design);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
 			logger.fatal("updateDataDate() : "+e.getMessage());
+			
+			msg = "Something went wrong. Please try after some time";
+			design.setUploaded_by_user_id_fk(userId);
+			design.setStatus("Fail");
+			design.setRemarks(msg);
+			try {
+				boolean flag = designService.saveDesignDataUploadFile(design);
+			} catch (Exception e1) {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				logger.fatal("saveDesignDataUploadFile() : "+e.getMessage());
+			}
 		}
 		return model;
 	}
@@ -1035,27 +1082,54 @@ public class DesignController {
 							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_division(val);}
 							
 							val = formatter.formatCellValue(row.getCell(26)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivisional_approval(val);}
+							if(!StringUtils.isEmpty(val)) { design.setQuery_raised_by_division(val);}
 							
 							val = formatter.formatCellValue(row.getCell(27)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHq_submission_fk(val);}
+							if(!StringUtils.isEmpty(val)) { design.setQuery_replied_to_division(val);}
 							
 							val = formatter.formatCellValue(row.getCell(28)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_hq(val);}
+							if(!StringUtils.isEmpty(val)) { design.setDivisional_approval(val);}
 							
 							val = formatter.formatCellValue(row.getCell(29)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setHq_approval(val);}
+							if(!StringUtils.isEmpty(val)) { design.setHq_submission_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(30)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}
-							
+							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to_hq(val);}
+
 							val = formatter.formatCellValue(row.getCell(31)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setAs_built_status(val);}
-							
+							if(!StringUtils.isEmpty(val)) { design.setQuery_raised_by_hq(val);}
+
 							val = formatter.formatCellValue(row.getCell(32)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setAs_built_date(val);}
+							if(!StringUtils.isEmpty(val)) { design.setQuery_replied_to_hq(val);}
 							
 							val = formatter.formatCellValue(row.getCell(33)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setHq_approval(val);}
+							
+							val = formatter.formatCellValue(row.getCell(34)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}
+
+							val = formatter.formatCellValue(row.getCell(35)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setCrs_sanction_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(36)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setSubmitted_for_crs_sanction(val);}
+							
+							val = formatter.formatCellValue(row.getCell(37)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setQuery_raised_for_crs_sanction(val);}
+							
+							val = formatter.formatCellValue(row.getCell(38)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setQuery_replied_for_crs_sanction(val);}
+							
+							val = formatter.formatCellValue(row.getCell(39)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setCrs_sanction_approved(val);}
+							
+							val = formatter.formatCellValue(row.getCell(40)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setAs_built_status(val);}
+							
+							val = formatter.formatCellValue(row.getCell(41)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setAs_built_date(val);}
+							
+							val = formatter.formatCellValue(row.getCell(42)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setRemarks(val);}
 							
 							design.setSubmited_to_proof_consultant_fk(DateParser.parse(design.getSubmited_to_proof_consultant_fk()));
@@ -1068,9 +1142,18 @@ public class DesignController {
 							design.setHq_approval(DateParser.parse(design.getHq_approval()));
 							design.setGfc_released(DateParser.parse(design.getGfc_released()));
 							design.setAs_built_date(DateParser.parse(design.getAs_built_date()));
-							
+
 							design.setSubmitted_to_division(DateParser.parse(design.getSubmitted_to_division()));
 							design.setSubmitted_to_hq(DateParser.parse(design.getSubmitted_to_hq()));
+							design.setQuery_raised_by_division(DateParser.parse(design.getQuery_raised_by_division()));
+							design.setQuery_replied_to_division(DateParser.parse(design.getQuery_replied_to_division()));
+							design.setQuery_raised_by_hq(DateParser.parse(design.getQuery_raised_by_hq()));
+							design.setQuery_replied_to_hq(DateParser.parse(design.getQuery_replied_to_hq()));
+							design.setSubmitted_for_crs_sanction(DateParser.parse(design.getSubmitted_for_crs_sanction()));
+							design.setQuery_raised_for_crs_sanction(DateParser.parse(design.getQuery_raised_for_crs_sanction()));
+							design.setQuery_replied_for_crs_sanction(DateParser.parse(design.getQuery_replied_for_crs_sanction()));
+							design.setCrs_sanction_approved(DateParser.parse(design.getCrs_sanction_approved()));
+							
 						}
 						List<Design> pObjList = new ArrayList<Design>();
 						

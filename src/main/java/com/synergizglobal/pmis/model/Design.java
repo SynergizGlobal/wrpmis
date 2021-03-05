@@ -15,7 +15,7 @@ public class Design {
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
 	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq,
 	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,
-	 project_id,work_id,project_name,contract_id,revision_status;
+	 project_id,work_id,project_name,contract_id,revision_status,status,uploaded_by_user_id_fk,design_data_id, uploaded_file, uploaded_on;
 	
 	
 	private String[] revisions, consultant_submissions, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
@@ -24,6 +24,46 @@ public class Design {
 	
 	private List<Design> designRevisions;
 	
+
+	public String getDesign_data_id() {
+		return design_data_id;
+	}
+
+	public void setDesign_data_id(String design_data_id) {
+		this.design_data_id = design_data_id;
+	}
+
+	public String getUploaded_file() {
+		return uploaded_file;
+	}
+
+	public void setUploaded_file(String uploaded_file) {
+		this.uploaded_file = uploaded_file;
+	}
+
+	public String getUploaded_on() {
+		return uploaded_on;
+	}
+
+	public void setUploaded_on(String uploaded_on) {
+		this.uploaded_on = uploaded_on;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUploaded_by_user_id_fk() {
+		return uploaded_by_user_id_fk;
+	}
+
+	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
+		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
 
 	public String getQuery_raised_by_division() {
 		return query_raised_by_division;

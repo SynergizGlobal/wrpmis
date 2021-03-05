@@ -215,7 +215,7 @@
 				</div>
 			</div>
 		</div>
-		
+		<c:if test="${USER_ROLE_CODE eq 'IT' }">
 		<div class="row">
 			<div class="col m12 s12">
 				 <div class="card">
@@ -272,6 +272,7 @@
 	            </div>
 			</div>
 		</div>
+	</c:if>
 	</div>
 
 	<!-- update popup starts -->
@@ -417,6 +418,7 @@
 	                }
 	            });
 			getDesignList();
+			getDesignUploadsList();
 		});
 
 		function clearFilter() {
@@ -428,8 +430,76 @@
 			$("#drawing_type_fk").val('');
 			$('.searchable').select2();
 			getDesignList();
+			getDesignUploadsList();
 		}
-
+        
+        function getDesignUploadsList(){
+        	$(".page-loader-2").show();
+        	
+        	table = $('#design-table').DataTable();
+    		table.destroy();
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+    		table = $('#design-table').DataTable({
+    			"order": [],
+        		"bStateSave": false,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    },
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "sScrollX": "100%",
+                 "sScrollXInner": "100%",
+                 "bScrollCollapse": true,
+                initComplete: function () {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+                }
+            }).rows().remove().draw();
+    		
+    		table.state.clear();		
+    		var myParams = {};
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesignUploadsList",type:"POST",data:myParams,success : function(data){    				
+    			if(data != null && data != '' && data.length > 0){    					
+             		$.each(data,function(key,val){
+             			var design_data_id = "'"+val.design_data_id+"'"; 
+                        var filePath = "";
+                        
+                        if($.trim(val.uploaded_file) != ''){
+                        	filePath = '<a href="<%=CommonConstants.DESIGN_UPLOADED_FILES%>'+ val.uploaded_file +'">'+val.uploaded_file + '</a>';
+                        }
+                        var rowArray = [];    	                 
+                        
+                       	rowArray.push(filePath);
+                       	rowArray.push($.trim(val.status));
+                       	rowArray.push($.trim(val.remarks));
+                       	rowArray.push($.trim(val.uploaded_by_user_id_fk));
+                       	rowArray.push($.trim(val.uploaded_on)); 
+                       	
+                        table.row.add(rowArray).draw( true );
+                        		                       
+    				});
+             		
+             		$(".page-loader-2").hide();
+    			}else{
+    				$(".page-loader-2").hide();
+    			}
+    			
+    		},error: function (jqXHR, exception) {
+    			$(".page-loader-2").hide();
+             	getErrorMessage(jqXHR, exception);
+         }});
+       }
+        
+        
 		function getDesignList() {
 			$(".page-loader-2").show();
 			var work_id_fk = $("#work_id_fk").val();

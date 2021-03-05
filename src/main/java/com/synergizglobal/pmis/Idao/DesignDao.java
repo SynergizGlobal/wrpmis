@@ -52,4 +52,8 @@ public interface DesignDao {
 
 	List<Design> getContractsListForDesignForm(Design obj) throws Exception;
 
+	public boolean saveDesignDataUploadFile(Design design) throws Exception;
+
+	public List<Design> getDesignUploadsList(Design obj) throws Exception;
+
 }

@@ -21,7 +21,7 @@ public class FileFormatModel {
 	
 	public static List<String> getDesignFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work ID, Contract ID,Department,HOD,Dy HOD,Prepared By,Consultant,Proof Consultant ID ,Submitted to Proof Consultant,approval by Proof Consultant,Structure,Structure ID,Drawing Type,Contractor Drawing No,MRVC Drawing No,Division Drawing No,HQ Drawing No,Drawing Title,Planned Start,Planned Finish,Revision,Clearance to Consultant , Consultant Submission,MRVC Reviewed/ approval,Submission to Division,Submitted to Division ,Divisional Approval,Submission to HQ,Submitted to HQ,HQ Approval,GFC Released,As Built Drawing Status,As Built Drawing Date,Remarks";
+		String columns = "Work ID, Contract ID,Department,HOD,Dy HOD,Prepared By,Consultant,Proof Consultant ID ,Submitted to Proof Consultant,approval by Proof Consultant,Structure,Structure ID,Drawing Type,Contractor Drawing No,MRVC Drawing No,Division Drawing No,HQ Drawing No,Drawing Title,Planned Start,Planned Finish,Revision,Clearance to Consultant , Consultant Submission,MRVC Reviewed/ approval,Submission to Division,Submitted to Division,Query Raised By Division,Query Replyied to  Division,Divisional Approval,Submission to HQ,Submitted to HQ,Query Raised By HQ ,Query Replyied to  HQ ,HQ Approval,GFC Released,CRS Sanction Required(Yes/No),Submitted for CRS Sanction ,Query Raised for CRS  Sanction,Query Replyied for   CRS Sanction, CRS Sanction Approved ,As Built Drawing Status,As Built Drawing Date,Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

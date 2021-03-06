@@ -214,7 +214,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="actual_completion_date" name="actual_completion_date" type="text" class="validate datepicker" value="${fob.actual_completion_date }">
-                                    <label for="actual_completion_date">Actual Completion Date </label>
+                                    <label for="actual_completion_date">Completion Date </label>
                                     <button type="button" id="actual_completion_date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="actual_completion_dateError" class="error-msg" ></span>
                                 </div>

@@ -75,4 +75,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.getAlertsForHeaderNotifications(aObj);
 	}
 
+	@Override
+	public int getAlertsCount(Alerts obj) throws Exception {
+		return dao.getAlertsCount(obj);
+	}
+
 }

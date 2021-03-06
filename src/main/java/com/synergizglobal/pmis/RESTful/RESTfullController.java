@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.RESTful;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.TableauDashboardService;
@@ -22,6 +24,7 @@ import com.synergizglobal.pmis.Iservice.WebDocumentsService;
 import com.synergizglobal.pmis.Iservice.WebLinksService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
@@ -49,6 +52,9 @@ public class RESTfullController {
 	
 	@Autowired
 	TableauDashboardService tableauDashboardService;
+	
+	@Autowired
+	AlertsService alertsService;
 	
 	@Value("${Login.Form.Invalid}")
 	public String invalidUserName;
@@ -304,6 +310,42 @@ public class RESTfullController {
 			response.setResult(webLinksList);
 		}catch(Exception e){
 			logger.error("getQuickLinksList() : "+e.getMessage());
+			response.setSuccess(false);
+			response.setError(commonError);
+		}
+		return response;
+	}
+	
+	@RequestMapping(value = "/getAlertsCount", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Response getAlertsCount(@RequestBody Alerts obj){
+		Response response = new Response();
+		int count = 0;
+		try{
+			count = alertsService.getAlertsCount(obj);
+			response.setSuccess(true);
+			response.setResult(count);
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("getAlertsList() : "+e.getMessage());
+			response.setSuccess(false);
+			response.setError(commonError);
+		}
+		return response;
+	}
+	
+	@RequestMapping(value = "/getAlertsList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Response getAlertsList(){
+		Response response = new Response();
+		Map<String,List<Alerts>> alertsList = null;
+		try{
+			Alerts obj = new Alerts();
+			alertsList = alertsService.getAlertsForHeaderNotifications(obj);
+			response.setSuccess(true);
+			response.setResult(alertsList);
+		}catch(Exception e){
+			logger.error("getAlertsList() : "+e.getMessage());
 			response.setSuccess(false);
 			response.setError(commonError);
 		}

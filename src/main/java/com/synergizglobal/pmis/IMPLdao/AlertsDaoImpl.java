@@ -1412,5 +1412,121 @@ public class AlertsDaoImpl implements AlertsDao{
 		return objs;
 	}
 
+
+	@Override
+	public int getAlertsCount(Alerts obj) throws Exception {
+		int count = 0;;
+		try {
+			String qry = "select count(*) "
+					+ "from alerts a " 
+					+ "left outer join contract c on a.contract_id = c.contract_id " 
+					+ "left outer join work w on c.work_id_fk = w.work_id " 
+					+ "left outer join contractor ctr on c.contractor_id_fk = ctr.contractor_id " 
+					+ "left outer join user u on c.hod_user_id_fk = u.user_id "
+					+ "where a.contract_id is not null and a.contract_id <> '' and count <> 0 and alert_status = ? ";
+			
+			int arrSize = 1;
+			if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+				qry = qry + " and alert_level = ? ";	
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) ";
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level <> ? ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+				qry = qry + " and (alert_type_fk = ? OR alert_type_fk = ?) and alert_level = ? ";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
+				
+			}else{
+				qry = qry + " and (a.hod_email = ? OR a.dy_hod_email = ?) ";
+				arrSize++;
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and a.contract_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				qry = qry + " and a.alert_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("cmd@mrvc.gov.in")){
+				pValues[i++] = "3rd Alert";				
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("dyfacao1@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("facao2@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+				pValues[i++] = "3rd Alert";
+			}else if(!StringUtils.isEmpty(obj) && obj.getEmail_id().equals("df@mrvc.gov.in")) {
+				pValues[i++] = "Bank Guarantee";	
+				pValues[i++] = "Insurance";	
+				pValues[i++] = "3rd Alert";
+			}else if(!StringUtils.isEmpty(obj) && obj.getUser_role_name().equals("IT Admin")) {
+				
+			}else{
+				pValues[i++] = obj.getEmail_id();	
+				pValues[i++] = obj.getEmail_id();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAlert_type_fk())) {
+				pValues[i++] = obj.getAlert_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			
+			count = jdbcTemplate.queryForObject( qry,pValues, (Integer.class));
+			
+			/*dyfacao1@mrvc.gov.in - 1st 2nd 3rd of BG & Insurance
+			facao2@mrvc.gov.in - 2nd 3rd of BG & Insurance
+			df@mrvc.gov.in - 3rd of BG & Insurance
+			
+			dy HOD - 1st, 2nd 3rd alert of their contracts
+			HOD - 2nd, 3rd alerts of their contracts
+			cmd@mrvc.gov.in - only 3rd alerts of all contracts..*/
+			
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return count;
+	}
+
 	
 }

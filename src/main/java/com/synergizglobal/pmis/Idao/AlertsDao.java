@@ -30,5 +30,7 @@ public interface AlertsDao {
 	boolean addAlertRemarks(Alerts obj) throws Exception;
 
 	Map<String,List<Alerts>> getAlertsForHeaderNotifications(Alerts aObj) throws Exception;
+
+	int getAlertsCount(Alerts obj) throws Exception;
 	
 }

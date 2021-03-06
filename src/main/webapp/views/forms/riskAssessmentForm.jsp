@@ -340,6 +340,7 @@
 							</div>
 							
 							<input  type="hidden"   name="risk_id_pk" value="${risk.risk_id_pk }" />
+							<input  type="hidden"   name="risk_revision_id" value="${risk.risk_revision_id }" />
 							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">

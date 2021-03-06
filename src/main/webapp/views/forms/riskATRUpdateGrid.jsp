@@ -196,6 +196,7 @@
     
     <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post" target="_blank">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
+    	<input type="hidden" name="risk_revision_id" id="risk_revision_id" />
     </form>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -266,7 +267,8 @@
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var risk_id_pk = "'"+val.risk_id_pk+"'";
-                        var actions = '<a href="javascript:void(0);"  onclick="getRisk('+ risk_id_pk +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
+             			var risk_revision_id = "'"+val.risk_revision_id+"'";
+                        var actions = '<a href="javascript:void(0);"  onclick="getRisk('+ risk_id_pk +','+risk_revision_id +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
     					var rowArray = [];    	                 
     
                     	var workName = '';
@@ -381,8 +383,9 @@
             }
         }
         
-        function getRisk(risk_id_pk){
+        function getRisk(risk_id_pk,risk_revision_id){
         	$("#risk_id_pk").val(risk_id_pk);
+        	$("#risk_revision_id").val(risk_revision_id);
         	$('#getForm').submit();
         }
         

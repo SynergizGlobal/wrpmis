@@ -477,8 +477,8 @@ public class RiskController {
 		try{
 			model.setViewName(PageConstants.riskAssessmentForm);
 			
-			List<Risk> assessmentDates = riskService.getRiskAssessmentDates(obj);
-			model.addObject("assessmentDates", assessmentDates);
+			/*List<Risk> assessmentDates = riskService.getRiskAssessmentDates(obj);
+			model.addObject("assessmentDates", assessmentDates);*/
 			
 			Risk risk = riskService.getRiskAssessment(obj);
 			model.addObject("risk", risk);

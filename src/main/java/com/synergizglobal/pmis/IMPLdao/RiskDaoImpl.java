@@ -31,7 +31,6 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.RiskReport;
 @Repository
@@ -224,111 +223,7 @@ public class RiskDaoImpl implements RiskDao{
 		}
 		return risk_id_pk;
 	}
-
-	@Override
-	public Risk getRiskAssessment(Risk obj) throws Exception {
-		Risk sObj =null;
-		
-		try {
-			String qry = "SELECT risk_id_pk,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
-					+ "ra.area,p.project_name,risk_id,sub_area_fk,"
-					//+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
-					+ "(select owner from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as owner,"
-					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person, "
-					+ "(select priority_fk from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as priority_fk,"
-					+ "(select mitigation_plan from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as mitigation_plan, "
-					+ "(select DATE_FORMAT(max(date),'%d-%m-%Y') from risk_revision where risk_id_pk_fk = ? ) as assessment_date "
-					+"from risk r "+
-					"LEFT OUTER join work w on r.work_id_fk = w.work_id " + 
-					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
-					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
-					"LEFT join project p on w.project_id_fk = p.project_id " +
-					"where risk_id_pk = ?";
-			
-			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
-			
-			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
-			
-			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getRisk_id_pk())) {
-				String qryDetails = "select risk_action_id,risk_revision_id_fk,action_taken,DATE_FORMAT(atr_date,'%d-%m-%Y') AS atr_date " + 
-						"from risk_action "
-						+"where risk_revision_id_fk in (select risk_revision_id from risk_revision where risk_id_pk_fk = ?) ";
-				
-				List<Risk> objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getRisk_id_pk()}, new BeanPropertyRowMapper<Risk>(Risk.class));	
-				sObj.setRiskActions(objsList); 
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			throw new Exception(e.getMessage());
-		}
-		return sObj;
-	}
-
-	@Override
-	public boolean updateRiskAssessment(Risk obj) throws Exception {
-		boolean flag = false;
-		Connection con = null;
-		PreparedStatement stmt = null;
-		PreparedStatement insertStmt = null;
-		ResultSet rs = null;		 
-		try{
-			con = dataSource.getConnection();
-			
-			int	arraySize = 0;		
-			
-			if(!StringUtils.isEmpty(obj.getAssessment_dates()) && obj.getAssessment_dates().length > 0) {
-				obj.setAssessment_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAssessment_dates()));
-				if(arraySize < obj.getAction_takens().length) {
-					arraySize = obj.getAction_takens().length;
-				}
-			}
-			
-			if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().length > 0) {
-				obj.setAction_takens(CommonMethods.replaceEmptyByNullInSringArray(obj.getAction_takens()));
-				if(arraySize < obj.getAction_takens().length) {
-					arraySize = obj.getAction_takens().length;
-				}
-			}
-		
-			if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
-				obj.setAtr_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAtr_dates()));
-				if(arraySize < obj.getAtr_dates().length) {
-					arraySize = obj.getAtr_dates().length;
-				}
-			}
-			
-			
-			String deleteQry = "DELETE from risk_action where risk_revision_id_fk in (select risk_revision_id from risk_revision where risk_id_pk_fk = ?)";	
-			stmt = con.prepareStatement(deleteQry);
-			stmt.setString(1, obj.getRisk_id_pk());
-			stmt.executeUpdate();
-			
-			String qry = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date)VALUES (?,?,?)";	
-			insertStmt = con.prepareStatement(qry);
-			for(int i = 0; i < arraySize; i++) {	
-				int k = 1;
-				insertStmt.setString(k++,(obj.getAssessment_dates().length > 0)?obj.getAssessment_dates()[i]:null);
-				insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
-				insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
-				insertStmt.addBatch();
-			}
-			int[] insertCount = insertStmt.executeBatch();
-			if(insertCount.length > 0) {
-				  flag = true;
-			}
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e);
-		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
-			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
-		}
-		return flag;
-	}
 	
-	
-
-
 	@Override
 	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception {
 		List<Risk> objsList =null;		
@@ -346,7 +241,7 @@ public class RiskDaoImpl implements RiskDao{
 					//+"and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
 			
 			int arrSize = 0;	
-			if(!StringUtils.isEmpty(obj) && StringUtils.isEmpty(obj.getAssessment_date())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
 				qry = qry + " and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
@@ -390,8 +285,9 @@ public class RiskDaoImpl implements RiskDao{
 			String qry = "SELECT sub_work,risk_area_fk from risk r " + 
 					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
-					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
-			int arrSize = 0;			
+					//"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
+					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted'";
+					int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				qry = qry + " and sub_work = ?";
 				arrSize++;
@@ -455,15 +351,13 @@ public class RiskDaoImpl implements RiskDao{
 	@Override
 	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(Risk obj) throws Exception {
 		List<Risk> objsList = null;
-		try {
-			
-			
+		try {			
 			String qry = "SELECT DATE_FORMAT(date,'%d-%b-%Y') AS assessment_date "+
 					"from risk r " + 
 					"LEFT JOIN risk_sub_area rs on r.sub_area_fk = rs.sub_area "+
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
 					//"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk) ";
-					"where sub_work is not null and sub_work <> '' and priority_fk <> 'Accepted' ";
+					"where date is not null and priority_fk <> 'Accepted' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
@@ -518,6 +412,121 @@ public class RiskDaoImpl implements RiskDao{
 		}
 		return objsList;
 	}
+
+	@Override
+	public Risk getRiskAssessment(Risk obj) throws Exception {
+		Risk sObj =null;
+		
+		try {
+			/*String qry = "SELECT risk_id_pk,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
+					+ "ra.area,p.project_name,risk_id,sub_area_fk,"
+					//+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
+					+ "(select owner from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as owner,"
+					+ "(select responsible_person from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as responsible_person, "
+					+ "(select priority_fk from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as priority_fk,"
+					+ "(select mitigation_plan from risk_revision where risk_id_pk_fk = ? and date = (select max(date) from risk_revision where risk_id_pk_fk = ?)) as mitigation_plan, "
+					+ "(select DATE_FORMAT(max(date),'%d-%m-%Y') from risk_revision where risk_id_pk_fk = ? ) as assessment_date "
+					+"from risk r "+
+					"LEFT OUTER join work w on r.work_id_fk = w.work_id " + 
+					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
+					"left join risk_area ra on rsa.risk_area_fk = ra.area " +
+					"LEFT join project p on w.project_id_fk = p.project_id " +
+					"where risk_id_pk = ?";
+			
+			Object[] pValues = new Object[] {obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk(),obj.getRisk_id_pk()};
+			*/
+			String qry = "SELECT risk_id_pk,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
+					+ "ra.area,p.project_name,risk_id,sub_area_fk,"
+					+ "risk_revision_id,risk_id_pk_fk,DATE_FORMAT(date,'%d-%m-%Y') AS assessment_date,priority_fk,probability,impact,owner,responsible_person,mitigation_plan "
+					+ "from risk_revision rr "
+					+ "LEFT OUTER join risk r on rr.risk_id_pk_fk = r.risk_id_pk "
+					+ "LEFT OUTER join work w on r.work_id_fk = w.work_id " 
+					+ "left join risk_sub_area rsa on r.sub_area_fk = sub_area " 
+					+ "left join risk_area ra on rsa.risk_area_fk = ra.area "
+					+ "LEFT join project p on w.project_id_fk = p.project_id "
+					+ "where risk_revision_id = ?";
+			
+			Object[] pValues = new Object[] {obj.getRisk_revision_id()};
+			sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
+			
+			if(!StringUtils.isEmpty(sObj) && !StringUtils.isEmpty(sObj.getRisk_id_pk())) {
+				String qryDetails = "select risk_action_id,risk_revision_id_fk,action_taken,DATE_FORMAT(atr_date,'%d-%m-%Y') AS atr_date " + 
+						"from risk_action "
+						+"where risk_revision_id_fk = ? ";
+				
+				List<Risk> objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getRisk_revision_id()}, new BeanPropertyRowMapper<Risk>(Risk.class));	
+				sObj.setRiskActions(objsList); 
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return sObj;
+	}
+
+	@Override
+	public boolean updateRiskAssessment(Risk obj) throws Exception {
+		boolean flag = false;
+		Connection con = null;
+		PreparedStatement stmt = null;
+		PreparedStatement insertStmt = null;
+		ResultSet rs = null;		 
+		try{
+			con = dataSource.getConnection();
+			
+			int	arraySize = 0;		
+			
+			/*if(!StringUtils.isEmpty(obj.getAssessment_dates()) && obj.getAssessment_dates().length > 0) {
+				obj.setAssessment_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAssessment_dates()));
+				if(arraySize < obj.getAction_takens().length) {
+					arraySize = obj.getAction_takens().length;
+				}
+			}*/
+			
+			if(!StringUtils.isEmpty(obj.getAction_takens()) && obj.getAction_takens().length > 0) {
+				obj.setAction_takens(CommonMethods.replaceEmptyByNullInSringArray(obj.getAction_takens()));
+				if(arraySize < obj.getAction_takens().length) {
+					arraySize = obj.getAction_takens().length;
+				}
+			}
+		
+			if(!StringUtils.isEmpty(obj.getAtr_dates()) && obj.getAtr_dates().length > 0) {
+				obj.setAtr_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getAtr_dates()));
+				if(arraySize < obj.getAtr_dates().length) {
+					arraySize = obj.getAtr_dates().length;
+				}
+			}
+			
+			
+			String deleteQry = "DELETE from risk_action where risk_revision_id_fk = ?";	
+			stmt = con.prepareStatement(deleteQry);
+			stmt.setString(1, obj.getRisk_revision_id());
+			stmt.executeUpdate();
+			
+			String qry = "INSERT into risk_action (risk_revision_id_fk,action_taken,atr_date)VALUES (?,?,?)";	
+			insertStmt = con.prepareStatement(qry);
+			for(int i = 0; i < arraySize; i++) {	
+				int k = 1;
+				insertStmt.setString(k++,obj.getRisk_revision_id());
+				insertStmt.setString(k++,(obj.getAction_takens().length > 0)?obj.getAction_takens()[i]:null);
+				insertStmt.setString(k++,DateParser.parse((obj.getAtr_dates().length > 0)?obj.getAtr_dates()[i]:null));
+				insertStmt.addBatch();
+			}
+			int[] insertCount = insertStmt.executeBatch();
+			if(insertCount.length > 0) {
+				  flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
+		}
+		return flag;
+	}
+
+	
 	
 
 

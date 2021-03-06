@@ -679,10 +679,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				}
 				double financial_progress = 0;
 				if(payment_made != 0) {
-					if(payment_made != 0) {
-						financial_progress = (revised_amount*100)/payment_made;
+					if(revised_amount != 0) {
+						financial_progress = (payment_made*100)/revised_amount;
 					}else {
-						financial_progress = (awarded_cost*100)/payment_made;
+						financial_progress = (payment_made*100)/awarded_cost;
 					}					
 				}
 				String contract_status = pObj.getContract_status_fk();

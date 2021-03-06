@@ -193,7 +193,7 @@ public class WebViewContractController {
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
 			
-			List<User> dyHodList = contractService.setDyHodList();
+			List<User> dyHodList = contractService.getDyHodList();
 			model.addObject("dyHodList", dyHodList);
 			
 			List<Contract> contractors = contractService.getContractorsList();
@@ -299,7 +299,7 @@ public class WebViewContractController {
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
 			
-			List<User> dyHodList = contractService.setDyHodList();
+			List<User> dyHodList = contractService.getDyHodList();
 			model.addObject("dyHodList", dyHodList);
 			
 			List<Contract> contractor = contractService.getContractorsList();

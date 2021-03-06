@@ -238,35 +238,27 @@ public class RiskDaoImpl implements RiskDao{
 					"left join project p on w.project_id_fk = p.project_id " +
 					"left join risk_revision rr on r.risk_id_pk = rr.risk_id_pk_fk " + 
 					"where risk_id_pk is not null and priority_fk <> 'Accepted' ";
-					//+"and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
 			
 			int arrSize = 0;	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
+				qry = qry + " and date = ?";
+				arrSize++;
+			}else {
 				qry = qry + " and date = (select max(date) from risk_revision where risk_id_pk_fk = risk_id_pk)";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				qry = qry + " and sub_work = ?";
 				arrSize++;
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
-				qry = qry + " and risk_area_fk = ?";
-				arrSize++;
-			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
-				qry = qry + " and date = ?";
-				arrSize++;
-			}
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
-				pValues[i++] = obj.getSub_work();
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getArea())) {
-				pValues[i++] = obj.getArea();
-			}
+
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
 				pValues[i++] = obj.getAssessment_date();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
+				pValues[i++] = obj.getSub_work();
 			}
 			
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	

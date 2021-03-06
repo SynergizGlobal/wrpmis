@@ -122,26 +122,17 @@
                                                 </c:forEach>  --%>
 									</select>
 								</div>
-								<div class="col s12 m2 input-field">
+								<%-- <div class="col s12 m2 input-field">
 									<p class="searchable_label">Department</p>
 									<select id="department_fk" name="department_fk"
 										onchange="getContractList();" class="searchable">
 										<option value="">Select</option>
-										<%--  <c:forEach var="obj" items="${departmentList }">
+										 <c:forEach var="obj" items="${departmentList }">
                                                     <option name="${obj.work_id_fk }" value="${obj.department_fk }" >${obj.department_fk}</option>
-                                                </c:forEach>  --%>
+                                                </c:forEach> 
 									</select>
-								</div>
-								<div class="col s12 m2 input-field">
-									<p class="searchable_label">Contractor</p>
-									<select id="contractor_id_fk" name="contractor_id_fk"
-										onchange="getContractList();" class="searchable">
-										<option value="">Select</option>
-										<%--  <c:forEach var="obj" items="${contractorsList }">
-                                                    <option value="${obj.contractor_id_fk }" >${obj.contractor_id_fk}<c:if test="${not empty obj.contractor_name}"> - </c:if> ${obj.contractor_name }</option>
-                                                </c:forEach>  --%>
-									</select>
-								</div>
+								</div> --%>
+								
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">HOD</p>
 									<select id="designation" name="designation"
@@ -156,6 +147,23 @@
 										onchange="getContractList();" class="searchable">
 										<option value="">Select</option>
 
+									</select>
+								</div>
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Contractor</p>
+									<select id="contractor_id_fk" name="contractor_id_fk"
+										onchange="getContractList();" class="searchable">
+										<option value="">Select</option>
+										<%--  <c:forEach var="obj" items="${contractorsList }">
+                                                    <option value="${obj.contractor_id_fk }" >${obj.contractor_id_fk}<c:if test="${not empty obj.contractor_name}"> - </c:if> ${obj.contractor_name }</option>
+                                                </c:forEach>  --%>
+									</select>
+								</div>
+								<div class="col s12 m2 input-field">
+									<p class="searchable_label">Status</p>
+									<select id="contract_status_fk" name="contract_status_fk"
+										onchange="getContractList();" class="searchable">
+										<option value="">Select</option>
 									</select>
 								</div>
 							</div>
@@ -255,7 +263,7 @@
         <input type="hidden" name="dy_hod_designation" id="exportDy_hod_designation" />
         <input type="hidden" name="designation" id="exportDesignation" />
         <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
-        <input type="hidden" name="department_fk" id="exportDepartment_fk" />
+        <input type="hidden" name="contract_status_fk" id="exportContract_status_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
 	</form>
@@ -309,11 +317,11 @@
     
     function clearFilter(){
     	$("#contractor_id_fk").val("");
-    	$("#department_fk").val("");
     	$("#work_id_fk").val("");
     	$("#project_id_fk").val("");
     	$("#designation").val("");
     	$("#dy_hod_designation").val("");
+    	$("#contract_status_fk").val("");
     	$('.searchable').select2();
     	getContractList();
     }
@@ -321,17 +329,17 @@
     function getContractList(){
     	$(".page-loader-2").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var department_fk = $("#department_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
     	var project_id_fk = $("#project_id_fk").val();
     	var designation = $("#designation").val();
     	var dy_hod_designation = $("#dy_hod_designation").val();
+    	var contract_status_fk = $("#contract_status_fk").val();
     	getContractorsFilterList();
-    	getDeptFilterList();
     	getWorkFilterList();
     	getProjectFilterList();
     	getDesignationFilterList();
     	getDyHODDesignationFilterList();
+    	getStatusFilterList();
 
      	table = $('#datatable-contract').DataTable();
 		 
@@ -367,7 +375,7 @@
 		
 		table.state.clear();		
 	 
-	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContracts",type:"POST",data:myParams,success : function(data){    				
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
@@ -405,14 +413,14 @@
     function getDyHODDesignationFilterList(){
     	$(".page-loader").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var department_fk = $("#department_fk").val();
+    	var contract_status_fk = $("#contract_status_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
     	var project_id_fk = $("#project_id_fk").val();
     	var designation = $("#designation").val();
     	var dy_hod_designation = $("#dy_hod_designation").val();
         if ($.trim(dy_hod_designation) == "") {
         	$("#dy_hod_designation option:not(:first)").remove();
-    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDyHODDesignationsFilterListInContract",
                 data: myParams, cache: false,
@@ -437,14 +445,14 @@
     function getDesignationFilterList(){
     	$(".page-loader").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var department_fk = $("#department_fk").val();
+    	var contract_status_fk = $("#contract_status_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
     	var project_id_fk = $("#project_id_fk").val();
     	var designation = $("#designation").val();
     	var dy_hod_designation = $("#dy_hod_designation").val();
         if ($.trim(designation) == "") {
         	$("#designation option:not(:first)").remove();
-    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDesignationsFilterListInContract",
                 data: myParams, cache: false,
@@ -469,14 +477,14 @@
     function getContractorsFilterList(){
     	$(".page-loader").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var department_fk = $("#department_fk").val();
+    	var contract_status_fk = $("#contract_status_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
     	var project_id_fk = $("#project_id_fk").val();
     	var designation = $("#designation").val();
     	var dy_hod_designation = $("#dy_hod_designation").val();
         if ($.trim(contractor_id_fk) == "") {
         	$("#contractor_id_fk option:not(:first)").remove();
-    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInContract",
                 data: myParams, cache: false,
@@ -532,17 +540,49 @@
 	        }
 	 }
 	 
+	 function getStatusFilterList(){
+		 	$(".page-loader").show();
+		 	var contractor_id_fk = $("#contractor_id_fk").val();
+	    	var contract_status_fk = $("#contract_status_fk").val();
+	    	var work_id_fk = $("#work_id_fk").val();
+	    	var project_id_fk = $("#project_id_fk").val();
+	    	var designation = $("#designation").val();
+	    	var dy_hod_designation = $("#dy_hod_designation").val();
+		    if ($.trim(contract_status_fk) == "") {
+		    	$("#contract_status_fk option:not(:first)").remove();
+			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInContract",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) {
+	                        $.each(data, function (i, val) {
+	                        	 $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk)+'</option>');
+	                        });
+	                    }
+	                    $('.searchable').select2();
+	                    $(".page-loader").hide();
+	                },error: function (jqXHR, exception) {
+	 	   			      $(".page-loader").hide();
+		   	          	  getErrorMessage(jqXHR, exception);
+		   	     	  }
+	            });
+	        }else{
+	        	  $(".page-loader").hide();
+	        }
+	    }
+	 
 	 function getWorkFilterList(){
 	 	$(".page-loader").show();
 	 	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var department_fk = $("#department_fk").val();
+    	var contract_status_fk = $("#contract_status_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
     	var project_id_fk = $("#project_id_fk").val();
     	var designation = $("#designation").val();
     	var dy_hod_designation = $("#dy_hod_designation").val();
 	    if ($.trim(work_id_fk) == "") {
 	    	$("#work_id_fk option:not(:first)").remove();
-		 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+		 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
                 data: myParams, cache: false,
@@ -569,14 +609,14 @@
 	 function getProjectFilterList(){
 		 	$(".page-loader").show();
 		 	var contractor_id_fk = $("#contractor_id_fk").val();
-	    	var department_fk = $("#department_fk").val();
+	    	var contract_status_fk = $("#contract_status_fk").val();
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var project_id_fk = $("#project_id_fk").val();
 	    	var designation = $("#designation").val();
 	    	var dy_hod_designation = $("#dy_hod_designation").val();
 		    if ($.trim(project_id_fk) == "") {
 		    	$("#project_id_fk option:not(:first)").remove();
-			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
+			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInContract",
 	                data: myParams, cache: false,
@@ -630,13 +670,13 @@
     	 var dy_hod_designation = $("#dy_hod_designation").val();
     	 var designation = $("#designation").val();
      	 var contractor_id_fk = $("#contractor_id_fk").val();
-     	 var department_fk = $("#department_fk").val();
+     	 var contract_status_fk = $("#contract_status_fk").val();
      	 var work_id_fk = $("#work_id_fk").val();
      	 var project_id_fk = $("#project_id_fk").val();
      	 
      	 $("#exportProject_id_fk").val(project_id_fk);
      	 $("#exportContractor_id_fk").val(contractor_id_fk);
-     	 $("#exportDepartment_fk").val(department_fk);
+     	 $("#exportContract_status_fk").val(contract_status_fk);
      	 $("#exportWork_id_fk").val(work_id_fk);
      	 $("#exportDy_hod_designation").val(dy_hod_designation);
      	 $("#exportDesignation").val(designation);

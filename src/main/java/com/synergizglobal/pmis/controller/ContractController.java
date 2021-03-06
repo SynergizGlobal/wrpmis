@@ -198,6 +198,21 @@ public class ContractController {
 		return dyHODDesignationsFilterList;
 	}
 	
+
+	
+	@RequestMapping(value = "/ajax/getStatusFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getStatusFilterListInContract(@ModelAttribute Contract obj) {
+		List<Contract> dataList = null;  
+		try {
+			dataList = contractService.getStatusFilterListInContract(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusFilterListInContract : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
 	@RequestMapping(value = "/ajax/getDepartmentsListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getDepartmentsList(@ModelAttribute Contract obj) {
@@ -228,7 +243,7 @@ public class ContractController {
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
 			
-			List<User> dyHodList = contractService.setDyHodList();
+			List<User> dyHodList = contractService.getDyHodList();
 			model.addObject("dyHodList", dyHodList);
 			
 			List<Contract> contractors = contractService.getContractorsList();
@@ -334,7 +349,7 @@ public class ContractController {
 			List<User> hodList = contractService.setHodList();
 			model.addObject("hodList", hodList);
 			
-			List<User> dyHodList = contractService.setDyHodList();
+			List<User> dyHodList = contractService.getDyHodList();
 			model.addObject("dyHodList", dyHodList);
 			
 			List<Contract> contractor = contractService.getContractorsList();

@@ -85,6 +85,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -104,6 +109,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
 			}
 				
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
@@ -1504,6 +1512,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
 			qry = qry + " GROUP BY contractor_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1524,6 +1537,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1568,6 +1584,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
 			qry = qry + " GROUP BY c.department_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1588,6 +1609,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
 			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
@@ -1631,6 +1655,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
 			qry = qry + "GROUP BY work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1652,7 +1681,10 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
-			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -1694,6 +1726,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
 			qry = qry + "GROUP BY project_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1715,7 +1752,10 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
-			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -1802,6 +1842,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
 			qry = qry + "GROUP BY us.designation ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1823,8 +1868,11 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
 				
-			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -1866,6 +1914,11 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and us.designation = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
 			qry = qry + "GROUP BY us.designation ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1887,8 +1940,84 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
 				pValues[i++] = obj.getDy_hod_designation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
 				
-			 objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@Override
+	public List<Contract> getStatusFilterListInContract(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "SELECT contract_status_fk "
+					+ "from contract c " + 
+					"left join user u on c.hod_user_id_fk = u.user_id "+
+					"left join user us on c.dy_hod_user_id_fk = us.user_id "+
+					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
+					"where contract_status_fk is not null and contract_status_fk <> '' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and c.department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				qry = qry + " and c.contractor_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
+				qry = qry + " and u.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
+				qry = qry + " and us.designation = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and c.contract_status_fk = ?";
+				arrSize++;
+			}
+			
+			qry = qry + "GROUP BY contract_status_fk ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+				pValues[i++] = obj.getContractor_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDesignation())) {
+				pValues[i++] = obj.getDesignation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDy_hod_designation())) {
+				pValues[i++] = obj.getDy_hod_designation();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -1896,7 +2025,7 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	@Override
-	public List<User> setDyHodList() throws Exception {
+	public List<User> getDyHodList() throws Exception {
 		List<User> objsList = null;
 		try {
 			String qry ="select user_id,user_name,designation from user where designation is not null and designation <>'' and user_type_fk = ?";

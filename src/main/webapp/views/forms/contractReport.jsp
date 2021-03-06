@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contract Report</title>
+    <title>Contract Reports</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
@@ -111,7 +111,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Contract Report </h6>
+                            <h6>Contract Reports </h6>
                         </div>
                     </span>
                     <div class="">                    	
@@ -157,7 +157,7 @@
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
-	                                        <select id="contract_id" name="contract_id" class="searchable validate-dropdown">
+	                                        <select id="contract_id" name="contract_id" class="searchable">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="contract_idError" class="error-msg" ></span>

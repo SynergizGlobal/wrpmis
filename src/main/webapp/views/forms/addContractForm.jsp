@@ -372,7 +372,31 @@
 	                                     <span id="estimated_costError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
-	                            </div>	                           
+	                            </div>	   
+	                            
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>	                                
+	                                <div class="col s12 m4 input-field">
+	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
+	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
+	                                        <option value="" selected>Select</option>
+	                                       		 <c:forEach var="obj" items="${contract_Statustype }">
+			                                    	 <option value="${obj.contract_status_fk }" >${obj.contract_status_fk }</option>
+			                                      </c:forEach>
+	                                    </select>
+	                                    <span id="contract_status_fkError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            
+	                            <div class="row">
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m8 input-field">
+	                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
+	                                    <label for="remarks">Remarks</label>
+	                                      <span id="remarksError" class="error-msg"></span>
+	                                </div>
+	                            </div>                        
 	                           
 	                            <%-- <div class="row">
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -937,7 +961,7 @@
 	                                    <label for="contract_closure"> Contract Closure Comment</label>
 	                                    <span id="ontract_closureError" class="error-msg" ></span>
 	                                </div> -->
-	                                <div class="col s12 m4 input-field">
+	                                <%-- <div class="col s12 m4 input-field">
 	                                 <p class="searchable_label"> <label>Status of Contract</label> </p>
 	                                    <select class="validate-dropdown searchable" id="contract_status_fk" name="contract_status_fk">
 	                                        <option value="" selected>Select</option>
@@ -946,17 +970,9 @@
 			                                      </c:forEach>
 	                                    </select>
 	                                    <span id="contract_status_fkError" class="error-msg" ></span>
-	                                </div>
+	                                </div> --%>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="remarks">Remarks</label>
-                                      <span id="remarksError" class="error-msg"></span>
-                                </div>
-                            </div>
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>

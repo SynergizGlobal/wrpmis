@@ -157,10 +157,10 @@
 	                                    </div>
 	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
-	                                        <select id="contract_id" name="contract_id" class="searchable">
+	                                        <select id="contract_id_fk" name="contract_id" class="searchable validate-dropdown">
 	                                            <option value="">Select </option>
 	                                        </select>
-	                                        <span id="contract_idError" class="error-msg" ></span>
+	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                </div>                              
                                 </form> 
@@ -232,7 +232,8 @@
         $(document).ready(function(){
         	$('.searchable').select2();
         	getResetFiltersList();
-        	getContractStatusFilterList();
+        	getContractStatusFilterList();        	  
+        	getContractListFilter();
         	
         	$('#date_icon').click(function () {
                 event.stopPropagation();
@@ -248,15 +249,12 @@
   	    	  }
   	        });
             
-            getContractListFilter();
-            
         });
         
         function getResetFiltersList(){
         	getContractorsFilterList();
         	getWorkFilterList();
-        	getDesignationFilterList();  
-        	getContractListFilter();
+        	getDesignationFilterList();
         }
         
         function getDesignationFilterList(){
@@ -386,7 +384,7 @@
         	var contractor_id_fk = $("#contractor_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var hod_designation = $("#hod_designation").val();
-           	$("#contract_id option:not(:first)").remove();
+           	$("#contract_id_fk option:not(:first)").remove();
            	var myParams = {hod_designation : hod_designation,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk};
                $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractListInContractReport",
@@ -396,7 +394,7 @@
                            $.each(data, function (i, val) {
                         	   var contractName = '';
 	                           if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
-                        	   $("#contract_id").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + contractName+'</option>');
+                        	   $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + contractName+'</option>');
    	                       });
                        }
                        $('.searchable').select2();
@@ -426,13 +424,13 @@
         
         function generateContractDetailReport() {
         	//$(".page-loader").show();
-        	var contract_id = $("#contract_id").val();
+        	var contract_id = $("#contract_id_fk").val();
         	if($.trim(contract_id) != ''){
         		$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-detail-report");
             	$("#contractReportForm").submit();
         	}else{
         		var errorMessage = "Please select contract";
-        		$("#contract_idError").html(errorMessage);
+        		$("#contract_id_fkError").html(errorMessage);
         		//swal("Required!", errorMessage, "error");
         	}
         	
@@ -440,7 +438,7 @@
         
         $('#contract_id').change(function(){
     	    if ($(this).val() != ""){
-    	    	$("#contract_idError").html('');
+    	    	$("#contract_id_fkError").html('');
     	    }
     	});
         

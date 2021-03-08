@@ -168,9 +168,9 @@ public class RiskController {
 	                		return model;
 						}
 						
-						int[] arr = uploadRiskAssessment(risk,userId,userName);
-						
-						if(arr[0] > 0) {
+						msg = uploadRiskAssessment(risk,userId,userName);
+						attributes.addFlashAttribute("success", msg);
+						/*if(arr[0] > 0) {
 							attributes.addFlashAttribute("updateSuccess", arr[0] + " Risk updated successfully. ");
 							msg = msg + arr[0] + " Risk updated successfully. ";
 						}
@@ -182,7 +182,7 @@ public class RiskController {
 						if(arr[0] == 0 && arr[1] == 0) {
 							attributes.addFlashAttribute("success", "No risks found in file.");
 							msg = msg + " No risks found in file. ";
-						}
+						}*/
 						
 						risk.setUploaded_by_user_id_fk(userId);
 						risk.setStatus("Success");
@@ -220,12 +220,13 @@ public class RiskController {
 		return model;
 	}
 
-	private int[] uploadRiskAssessment(Risk obj, String userId, String userName)  throws Exception{
+	private String uploadRiskAssessment(Risk obj, String userId, String userName)  throws Exception{
 		Risk risk = null;
 		List<Risk> risksList = new ArrayList<Risk>();
 		
 		Writer w = null;
-		int[] arr = null ;
+		//int[] arr = null;
+		String msg = "";
 		try {	
 			MultipartFile excelfile = obj.getRiskAssessmentFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -244,9 +245,12 @@ public class RiskController {
 							date = null,probability = null,impact = null,mitigation_plan = null,priority = null,
 							responsible_person = null;
 					String risk_base_text = "";
-					for(int i = 3; i <= risksDrawingsSheet.getLastRowNum();i++){
-						
-						XSSFRow row = risksDrawingsSheet.getRow(i);
+
+					String risk_rows_error = "";
+					int rowNo = 0;
+					for(int j = 3; j <= risksDrawingsSheet.getLastRowNum();j++){						
+						rowNo = j+1;
+						XSSFRow row = risksDrawingsSheet.getRow(j);
 						// Sets the Read data to the model class
 						// Cell cell = row.getCell(0);
 						// String j_username = formatter.formatCellValue(row.getCell(0));
@@ -255,150 +259,163 @@ public class RiskController {
 						String val = null;
 						
 						if(!StringUtils.isEmpty(row)) {	
-							String item_no_temp = null;
-							Cell cell = row.getCell(1);
-							if(!StringUtils.isEmpty(cell)) {
-								item_no_temp = formatter.formatCellValue(cell).trim();
-							}
+								
+							risk.setWork_id_fk(obj.getWork_id_fk());
+							//System.out.println(i + " = "+ val);
 							
-							if(!StringUtils.isEmpty(item_no_temp) && !item_no_temp.equals("null")) {
-								
-								risk.setWork_id_fk(obj.getWork_id_fk());
-								//System.out.println(i + " = "+ val);
-								
-								String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
-								int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									sub_work = getCellDataType2(workbook,row.getCell(0));
-								}								
-								if(!StringUtils.isEmpty(sub_work)) { 
-									String tempSubWork = sub_work.replaceAll("\\&", "and");
-									risk.setSub_work(tempSubWork);
-								}else if(!StringUtils.isEmpty(obj.getWork_short_name())){
-									String tempSubWork = obj.getWork_short_name().replaceAll("\\&", "and");
-									risk.setSub_work(tempSubWork);
-								}	
-								
-								//val = getCellDataType2(workbook,row.getCell(1));
-								tempVal = formatter.formatCellValue(row.getCell(1)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									owner = getCellDataType2(workbook,row.getCell(1));
-								}
-								if(!StringUtils.isEmpty(owner)) { risk.setOwner(owner);}
-								
-								//val = getCellDataType2(workbook,row.getCell(2));
-								tempVal = formatter.formatCellValue(row.getCell(2)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									item_no = getCellDataType2(workbook,row.getCell(2));
-								}
-								if(!StringUtils.isEmpty(item_no)) { risk.setItem_no(item_no);}
-								
-								//val = getCellDataType2(workbook,row.getCell(3));
-								tempVal = formatter.formatCellValue(row.getCell(3)).trim();	
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									risk_area_fk = getCellDataType2(workbook,row.getCell(3));
-								}
-								if(!StringUtils.isEmpty(risk_area_fk)) { risk.setRisk_area_fk(risk_area_fk);}	
-								
-								//val = getCellDataType2(workbook,row.getCell(4));
-								tempVal = formatter.formatCellValue(row.getCell(4)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									risk_sub_area_fk = getCellDataType2(workbook,row.getCell(4));
-								}
-								if(!StringUtils.isEmpty(risk_sub_area_fk)) { risk.setSub_area_fk(risk_sub_area_fk);}					
-								
-								//val = getCellDataType2(workbook,row.getCell(5));
-								tempVal = formatter.formatCellValue(row.getCell(5)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									date = getCellDataType2(workbook,row.getCell(5));
-								}
-								if(!StringUtils.isEmpty(date)) { risk.setDate(date);}								
-								
-								//val = getCellDataType2(workbook,row.getCell(6));
-								tempVal = formatter.formatCellValue(row.getCell(6)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									probability = getCellDataType2(workbook,row.getCell(6));
-								}
-								if(!StringUtils.isEmpty(probability)) { risk.setProbability(probability);}										
-								
-								//val = getCellDataType2(workbook,row.getCell(7));
-								tempVal = formatter.formatCellValue(row.getCell(7)).trim();	
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									impact = getCellDataType2(workbook,row.getCell(7));
-								}
-								if(!StringUtils.isEmpty(impact)) { risk.setImpact(impact);}
-								
-								val = getCellDataType2(workbook,row.getCell(8));
-								if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
-								
-								val = getCellDataType2(workbook,row.getCell(9));
-								if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
-								
-								val = getCellDataType2(workbook,row.getCell(10));
-								if(!StringUtils.isEmpty(val)) { risk.setStatus(val);}
-								
+							String tempVal = formatter.formatCellValue(row.getCell(0)).trim();
+							int count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								sub_work = getCellDataType2(workbook,row.getCell(0));
+							}								
+							if(!StringUtils.isEmpty(sub_work)) { 
+								String tempSubWork = sub_work.replaceAll("\\&", "and");
+								risk.setSub_work(tempSubWork);
+							}else if(!StringUtils.isEmpty(obj.getWork_short_name())){
+								String tempSubWork = obj.getWork_short_name().replaceAll("\\&", "and");
+								risk.setSub_work(tempSubWork);
+							}	
+							
+							//val = getCellDataType2(workbook,row.getCell(1));
+							tempVal = formatter.formatCellValue(row.getCell(1)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								owner = getCellDataType2(workbook,row.getCell(1));
+							}
+							if(!StringUtils.isEmpty(owner)) { risk.setOwner(owner);}
+							
+							//val = getCellDataType2(workbook,row.getCell(2));
+							tempVal = formatter.formatCellValue(row.getCell(2)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								item_no = getCellDataType2(workbook,row.getCell(2));
+							}
+							if(!StringUtils.isEmpty(item_no)) { risk.setItem_no(item_no);}
+							
+							//val = getCellDataType2(workbook,row.getCell(3));
+							tempVal = formatter.formatCellValue(row.getCell(3)).trim();	
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								risk_area_fk = getCellDataType2(workbook,row.getCell(3));
+							}
+							if(!StringUtils.isEmpty(risk_area_fk)) { risk.setRisk_area_fk(risk_area_fk);}	
+							
+							//val = getCellDataType2(workbook,row.getCell(4));
+							tempVal = formatter.formatCellValue(row.getCell(4)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								risk_sub_area_fk = getCellDataType2(workbook,row.getCell(4));
+							}
+							if(!StringUtils.isEmpty(risk_sub_area_fk)) { risk.setSub_area_fk(risk_sub_area_fk);}					
+							
+							//val = getCellDataType2(workbook,row.getCell(5));
+							tempVal = formatter.formatCellValue(row.getCell(5)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								date = getCellDataType2(workbook,row.getCell(5));
+							}
+							if(!StringUtils.isEmpty(date)) { risk.setDate(date);}								
+							
+							//val = getCellDataType2(workbook,row.getCell(6));
+							tempVal = formatter.formatCellValue(row.getCell(6)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								probability = getCellDataType2(workbook,row.getCell(6));
+							}
+							if(!StringUtils.isEmpty(probability)) { risk.setProbability(probability);}										
+							
+							//val = getCellDataType2(workbook,row.getCell(7));
+							tempVal = formatter.formatCellValue(row.getCell(7)).trim();	
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								impact = getCellDataType2(workbook,row.getCell(7));
+							}
+							if(!StringUtils.isEmpty(impact)) { risk.setImpact(impact);}
+							
+							val = getCellDataType2(workbook,row.getCell(8));
+							if(!StringUtils.isEmpty(val)) { risk.setRisk_rating(val);}
+							
+							val = getCellDataType2(workbook,row.getCell(9));
+							if(!StringUtils.isEmpty(val)) { risk.setClassification(val);}
+							
+							val = getCellDataType2(workbook,row.getCell(10));
+							if(!StringUtils.isEmpty(val)) { risk.setStatus(val);}
+							
 
-								//val = getCellDataType2(workbook,row.getCell(11));
-								tempVal = formatter.formatCellValue(row.getCell(11)).trim();								
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									priority = getCellDataType2(workbook,row.getCell(11));
+							//val = getCellDataType2(workbook,row.getCell(11));
+							tempVal = formatter.formatCellValue(row.getCell(11)).trim();								
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								priority = getCellDataType2(workbook,row.getCell(11));
+							}
+							if(!StringUtils.isEmpty(priority)) { risk.setPriority_fk(priority);}
+							
+							//val = getCellDataType2(workbook,row.getCell(12));
+							tempVal = formatter.formatCellValue(row.getCell(12)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								mitigation_plan = getCellDataType2(workbook,row.getCell(12));
+							}
+							if(!StringUtils.isEmpty(mitigation_plan)) { risk.setMitigation_plan(mitigation_plan);}
+							
+							
+							//val = getCellDataType2(workbook,row.getCell(13));
+							tempVal = formatter.formatCellValue(row.getCell(13)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								responsible_person = getCellDataType2(workbook,row.getCell(13));
+							}								
+							if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
+							
+							/*//val = getCellDataType2(workbook,row.getCell(16));
+							tempVal = formatter.formatCellValue(row.getCell(16)).trim();
+							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
+							if(count != 2) {
+								if(!StringUtils.isEmpty(tempVal)) {
+									risk_base_text = getCellDataType2(workbook,row.getCell(16));
+									risk_id = risk_base_text + "-Risk-"+(i-1);
+								}else {
+									risk_id = risk_base_text + "-Risk-"+(i-1);
 								}
-								if(!StringUtils.isEmpty(priority)) { risk.setPriority_fk(priority);}
-								
-								//val = getCellDataType2(workbook,row.getCell(12));
-								tempVal = formatter.formatCellValue(row.getCell(12)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									mitigation_plan = getCellDataType2(workbook,row.getCell(12));
-								}
-								if(!StringUtils.isEmpty(mitigation_plan)) { risk.setMitigation_plan(mitigation_plan);}
-								
-								
-								//val = getCellDataType2(workbook,row.getCell(13));
-								tempVal = formatter.formatCellValue(row.getCell(13)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									responsible_person = getCellDataType2(workbook,row.getCell(13));
-								}								
-								if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
-								
-								/*//val = getCellDataType2(workbook,row.getCell(16));
-								tempVal = formatter.formatCellValue(row.getCell(16)).trim();
-								count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-								if(count != 2) {
-									if(!StringUtils.isEmpty(tempVal)) {
-										risk_base_text = getCellDataType2(workbook,row.getCell(16));
-										risk_id = risk_base_text + "-Risk-"+(i-1);
-									}else {
-										risk_id = risk_base_text + "-Risk-"+(i-1);
-									}
-								}
-								if(!StringUtils.isEmpty(risk_id)) { risk.setRisk_id(risk_id);}*/
-								
-								
-								risk.setDate(DateParser.parse(risk.getDate()));
-								
-								boolean flag = risk.checkNullOrEmpty();
-								
-								if(!flag) {
-									risksList.add(risk);
-								}
-								
+							}
+							if(!StringUtils.isEmpty(risk_id)) { risk.setRisk_id(risk_id);}*/
+							
+							
+							risk.setDate(DateParser.parse(risk.getDate()));
+							
+							/*boolean flag = risk.checkNullOrEmpty();
+							
+							if(!flag) {
+								risksList.add(risk);
+							}*/
+							
+							if(!StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
+									&& !StringUtils.isEmpty(risk.getOwner()) && !StringUtils.isEmpty(risk.getPriority_fk())  && !StringUtils.isEmpty(risk.getResponsible_person()) 
+									 && (risk.getProbability().equals("1") || risk.getProbability().equals("3") || risk.getProbability().equals("5")) && (risk.getImpact().equals("1") || risk.getImpact().equals("3") || risk.getImpact().equals("5"))) {
+								risksList.add(risk);
+							} else {
+								risk_rows_error = risk_rows_error + (!StringUtils.isEmpty(risk_rows_error)?",":"") + rowNo;
 							}
 						}						
 						
 					}
 					if(!risksList.isEmpty()){
-						arr  = riskService.uploadRiskAssessments(risksList);
+						int[] arr  = riskService.uploadRiskAssessments(risksList);
+						
+						if(arr[0] > 0) {
+							msg = msg + arr[0] + " Risk updated successfully. ";
+						}
+						if(arr[1] > 0) {
+							msg = msg + arr[1] + " Risk added successfully. ";
+						}
+						
+						msg = msg + "<span style='color:green;'> "+msg+"</span>";
 					}
+					if(!StringUtils.isEmpty(risk_rows_error)) {
+						risk_rows_error = "<br><span style='color:red;'> Row no(s) " + risk_rows_error + " are not inserted (Reason : Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty. And Probability and impact should have values 1 or 3 or 5 ).</span> ";
+					}
+					
+					msg = msg + risk_rows_error;
 				}
 				workbook.close();
 			}
@@ -418,7 +435,7 @@ public class RiskController {
 		    }
 		}
 		
-		return arr;
+		return msg;
 	}
 	
 	private String getCellDataType2(XSSFWorkbook workbook, XSSFCell cell) {

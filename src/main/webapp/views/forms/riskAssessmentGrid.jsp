@@ -101,19 +101,25 @@
                             <h6>Risk Assessment</h6>
                         </div>
                     </span>
-					<div class="">
-						<c:if test="${not empty success }">
-							<div class="center-align m-1 close-message">${success}</div>
-						</c:if>
-
-						<c:if test="${not empty updateSuccess }">
-							<div class="center-align m-1 close-message">
-								${updateSuccess}</div>
-						</c:if>
-
-						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">${error}</div>
-						</c:if>
+					<div class="row">
+						<div class="col m2 hide-on-small-only"></div>
+						<div class="col m8">
+							<div class="">
+								<c:if test="${not empty success }">
+									<div class="center-align m-1 close-message">${success}</div>
+								</c:if>
+		
+								<c:if test="${not empty updateSuccess }">
+									<div class="center-align m-1 close-message">
+										${updateSuccess}</div>
+								</c:if>
+		
+								<c:if test="${not empty error }">
+									<div class="center-align m-1 close-message">${error}</div>
+								</c:if>
+							</div>
+						</div>
+						<div class="col m2 hide-on-small-only"></div>
 					</div>
 					<div class="container container-no-margin">
 						<form
@@ -269,7 +275,7 @@
 	                            <div class="col m5 hide-on-small-only"></div>                            
 	                                    <div class="col s12 m2 input-field">
 	                                        <p class="searchable_label">Work</p>
-	                                        <select id="work_id_fk_filter" name="work_id_fk" class="searchable" onchange="">
+	                                        <select id="work_id_fk_filter" name="work_id_fk" class="searchable" onchange="getRiskUploadsList(this.value);">
 	                                            <option value="">Select</option>
 	                                        </select>
 	                                    </div>                                 
@@ -364,7 +370,8 @@
 	              }
 	          });
 	          
-	          getRiskUploadsList();
+	          getWorksFilterList();
+	          getRiskUploadsList('');
 	      });
 	      
 	      $("#uploadRisk").on("click",function(){
@@ -414,15 +421,13 @@
        	  
        	function clearFilters() {
             $('#work_id_fk_filter').val('');
-            getRiskUploadsList();
+            getRiskUploadsList('');
             $('.searchable').select2();
         }
         
         
-        function getRiskUploadsList(){
+        function getRiskUploadsList(work_id_fk){
         	$(".page-loader-2").show();
-        	var work_id_fk = $("#work_id_fk_filter").val();
-        	getWorksFilterList();
         	table = $('#datatable-risk-uploads').DataTable();
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');

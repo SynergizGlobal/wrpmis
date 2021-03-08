@@ -90,29 +90,24 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		
 		try {
 			
-			String filter1 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter1 = filter1 + " and d2.hod = ?"; }
-		    
-		    String filter2 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter2 = filter2 + " and d3.hod = ?"; }
+			String filter2 = "";
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter2 = filter2 + " and d2.hod = ?"; }
 		    
 		    String filter3 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter3 = filter3 + " and d4.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter3 = filter3 + " and d3.hod = ?"; }
 		    
 		    String filter4 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter4 = filter4 + " and d5.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter4 = filter4 + " and d4.hod = ?"; }
 		    
 		    String filter5 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter5 = filter5 + " and d6.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter5 = filter5 + " and d5.hod = ?"; }
 		    
 		    String filter6 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter6 = filter6 + " and d7.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter6 = filter6 + " and d6.hod = ?"; }
 		    
 		    String filter7 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter7 = filter7 + " and d8.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getHod())) { filter7 = filter7 + " and d7.hod = ?"; }
 		    
-		    String filter8 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter8 = filter8 + " and d9.hod = ?"; }
 		    
 		    
 			/*String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name,"+
@@ -129,12 +124,12 @@ public class DesignReportDaoImpl implements DesignReportDao{
 					"where d1.design_id is not null";*/
 			
 			 String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name," + 
-			    		"(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk"+filter1+") as total_scope," + 
-			    		"(select count(*) from design d3 where d3.work_id_fk = d1.work_id_fk"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
-			    		"(select count(*) from design d4 where d4.work_id_fk = d1.work_id_fk"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
-			    		"(select count(*) from design d5 where d5.work_id_fk = d1.work_id_fk"+filter4+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
-			    		"(select count(*) from design d6 where d6.work_id_fk = d1.work_id_fk"+filter5+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
-			    		"(select count(*) from design d8 where d8.work_id_fk = d1.work_id_fk"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
+			    		"(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk"+filter2+") as total_scope," + 
+			    		"(select count(*) from design d3 where d3.work_id_fk = d1.work_id_fk"+filter3+" and gfc_released is not null) as total_drawings_approved," + 
+			    		"(select count(*) from design d4 where d4.work_id_fk = d1.work_id_fk"+filter4+" and consultant_submission is not null) as total_submitted_by_consultans," + 
+			    		"(select count(*) from design d5 where d5.work_id_fk = d1.work_id_fk"+filter5+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
+			    		"(select count(*) from design d6 where d6.work_id_fk = d1.work_id_fk"+filter6+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
+			    		"(select count(*) from design d7 where d7.work_id_fk = d1.work_id_fk"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
 			    		"from design d1 "
 			    		+"left join work on d1.work_id_fk = work_id "
 			    		+ "where d1.design_id is not null";
@@ -146,7 +141,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			}
 			if(!StringUtils.isEmpty(obj.getHod())) {
 				workWiseQry = workWiseQry + " and d1.hod = ?";
-				arrSize = arrSize + 1 + 8;
+				arrSize = arrSize + 1 + 6;
 			}
 			workWiseQry = workWiseQry + " group by d1.work_id_fk order by d1.work_id_fk";
 			
@@ -154,7 +149,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj.getHod())) {
-				for (int j = 0; j < 8; j++) {
+				for (int j = 0; j < 6; j++) {
 					pValues[i++] = obj.getHod();
 				}
 			}
@@ -203,40 +198,24 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			}*/
 		    
 		    /********************************* HOD wise  *****************************************************************/
-		    filter1 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter1 = filter1 + " and d2.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter1 = filter1 + " and d2.hod = ?"; }
-		    
 		    filter2 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter2 = filter2 + " and d3.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter2 = filter2 + " and d3.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter2 = filter2 + " and d2.work_id_fk = ?"; }
 		    
 		    filter3 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter3 = filter3 + " and d4.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter3 = filter3 + " and d4.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter3 = filter3 + " and d3.work_id_fk = ?"; }
 		    
 		    filter4 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter4 = filter4 + " and d5.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter4 = filter4 + " and d5.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter4 = filter4 + " and d4.work_id_fk = ?"; }
 		    
 		    filter5 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter5 = filter5 + " and d6.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter5 = filter5 + " and d6.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter5 = filter5 + " and d5.work_id_fk = ?"; }
 		    
 		    filter6 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter6 = filter6 + " and d7.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter6 = filter6 + " and d7.hod = ?"; }
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter6 = filter6 + " and d6.work_id_fk = ?"; }
 		    
 		    filter7 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter7 = filter7 + " and d8.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter7 = filter7 + " and d8.hod = ?"; }
-		    
-		    filter8 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter8 = filter8 + " and d9.work_id_fk = ?"; }
-		    //if(!StringUtils.isEmpty(obj.getHod())) { filter8 = filter8 + " and d9.hod = ?"; }
-		    
-		    
-		    
+		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter7 = filter7 + " and d7.work_id_fk = ?"; }
+		    		    
 		    
 			/* String hodWiseQry = "select d1.hod as name," + 
 					"(select count(*) from design d2 where d2.hod = d1.hod"+filter1+") as total_scope," + 
@@ -250,23 +229,22 @@ public class DesignReportDaoImpl implements DesignReportDao{
 					"from design d1 where d1.design_id is not null";*/
 		    
 		    String hodWiseQry = "select d1.hod as name," + 
-		    		"(select count(*) from design d2 where d2.hod = d1.hod"+filter1+") as total_scope," + 
-		    		"(select count(*) from design d3 where d3.hod = d1.hod"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
-		    		"(select count(*) from design d4 where d4.hod = d1.hod"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
-		    		"(select count(*) from design d5 where d5.hod = d1.hod"+filter4+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
-		    		"(select count(*) from design d6 where d6.hod = d1.hod"+filter5+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
-		    		"(select count(*) from design d8 where d8.hod = d1.hod"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
+		    		"(select count(*) from design d2 where d2.hod = d1.hod"+filter2+") as total_scope," + 
+		    		"(select count(*) from design d3 where d3.hod = d1.hod"+filter3+" and gfc_released is not null) as total_drawings_approved," + 
+		    		"(select count(*) from design d4 where d4.hod = d1.hod"+filter4+" and consultant_submission is not null) as total_submitted_by_consultans," + 
+		    		"(select count(*) from design d5 where d5.hod = d1.hod"+filter5+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
+		    		"(select count(*) from design d6 where d6.hod = d1.hod"+filter6+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
+		    		"(select count(*) from design d7 where d7.hod = d1.hod"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
 		    		"from design d1 where d1.design_id is not null";
 			
 			arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				hodWiseQry = hodWiseQry + " and d1.work_id_fk = ?";
-				arrSize = arrSize + 1 + 8;
+				arrSize = arrSize + 1 + 6;
 			}
 			if(!StringUtils.isEmpty(obj.getHod())) {
 				hodWiseQry = hodWiseQry + " and d1.hod = ?";
-				//arrSize = arrSize + 1 + 8;
 				arrSize++;
 			}
 			hodWiseQry = hodWiseQry + " group by d1.hod order by d1.hod";
@@ -276,9 +254,13 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			i = 0;
 			
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				for (int j = 0; j < 9; j++) {
+				for (int j = 0; j < 6; j++) {
 					pValues[i++] = obj.getWork_id_fk();
 				}				
+			}
+			
+			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
 			}
 			
 			if(!StringUtils.isEmpty(obj.getHod())) {

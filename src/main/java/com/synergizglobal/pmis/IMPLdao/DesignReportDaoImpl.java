@@ -115,7 +115,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		    if(!StringUtils.isEmpty(obj.getHod())) { filter8 = filter8 + " and d9.hod = ?"; }
 		    
 		    
-			String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name,"+
+			/*String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name,"+
 					"(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk"+filter1+") as total_scope," + 
 					"(select count(*) from design d3 where d3.work_id_fk = d1.work_id_fk"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
 					"(select count(*) from design d4 where d4.work_id_fk = d1.work_id_fk"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
@@ -126,7 +126,18 @@ public class DesignReportDaoImpl implements DesignReportDao{
 					"(select count(*) from design d9 where d9.work_id_fk = d1.work_id_fk"+filter8+" and hq_approval is not null) as total_hq_approval " + 
 					"from design d1 "+
 					"left join work on d1.work_id_fk = work_id " +
-					"where d1.design_id is not null";
+					"where d1.design_id is not null";*/
+			
+			 String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name," + 
+			    		"(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk"+filter1+") as total_scope," + 
+			    		"(select count(*) from design d3 where d3.work_id_fk = d1.work_id_fk"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
+			    		"(select count(*) from design d4 where d4.work_id_fk = d1.work_id_fk"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
+			    		"(select count(*) from design d5 where d5.work_id_fk = d1.work_id_fk"+filter4+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
+			    		"(select count(*) from design d6 where d6.work_id_fk = d1.work_id_fk"+filter5+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
+			    		"(select count(*) from design d8 where d8.work_id_fk = d1.work_id_fk"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
+			    		"from design d1 "
+			    		+"left join work on d1.work_id_fk = work_id "
+			    		+ "where d1.design_id is not null";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -156,9 +167,9 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			
 			List<DesignReport> workWiseObjsList = jdbcTemplate.query( workWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
 		    
-		    if(!StringUtils.isEmpty(workWiseObjsList) && workWiseObjsList.size() > 0) {		    	
-		    	for (DesignReport dObj : workWiseObjsList) {
-		    		int under_review_by_mrvc = 0,under_review_by_division = 0,under_review_by_hq = 0;
+			/*if(!StringUtils.isEmpty(workWiseObjsList) && workWiseObjsList.size() > 0) {		    	
+				for (DesignReport dObj : workWiseObjsList) {
+					int under_review_by_mrvc = 0,under_review_by_division = 0,under_review_by_hq = 0;
 			    	int total_submitted_by_consultans = 0,total_mrvc_reviewed = 0,total_submitted_to_division = 0,
 			    			total_divisional_approval = 0,total_submitted_to_hq = 0,total_hq_approval = 0;
 			    	
@@ -189,7 +200,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			    	dObj.setUnder_review_by_division(String.valueOf(under_review_by_division));
 			    	dObj.setUnder_review_by_hq(String.valueOf(under_review_by_hq));
 				}
-		    }
+			}*/
 		    
 		    /********************************* HOD wise  *****************************************************************/
 		    filter1 = "";
@@ -227,15 +238,24 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		    
 		    
 		    
+			/* String hodWiseQry = "select d1.hod as name," + 
+					"(select count(*) from design d2 where d2.hod = d1.hod"+filter1+") as total_scope," + 
+					"(select count(*) from design d3 where d3.hod = d1.hod"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
+					"(select count(*) from design d4 where d4.hod = d1.hod"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
+					"(select count(*) from design d5 where d5.hod = d1.hod"+filter4+" and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
+					"(select count(*) from design d6 where d6.hod = d1.hod"+filter5+" and submitted_to_division is not null) as total_submitted_to_division," + 
+					"(select count(*) from design d7 where d7.hod = d1.hod"+filter6+" and divisional_approval is not null) as total_divisional_approval," + 
+					"(select count(*) from design d8 where d8.hod = d1.hod"+filter7+" and submitted_to_hq is not null) as total_submitted_to_hq," + 
+					"(select count(*) from design d9 where d9.hod = d1.hod"+filter8+" and hq_approval is not null) as total_hq_approval " + 
+					"from design d1 where d1.design_id is not null";*/
+		    
 		    String hodWiseQry = "select d1.hod as name," + 
 		    		"(select count(*) from design d2 where d2.hod = d1.hod"+filter1+") as total_scope," + 
 		    		"(select count(*) from design d3 where d3.hod = d1.hod"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
 		    		"(select count(*) from design d4 where d4.hod = d1.hod"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
-		    		"(select count(*) from design d5 where d5.hod = d1.hod"+filter4+" and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
-		    		"(select count(*) from design d6 where d6.hod = d1.hod"+filter5+" and submitted_to_division is not null) as total_submitted_to_division," + 
-		    		"(select count(*) from design d7 where d7.hod = d1.hod"+filter6+" and divisional_approval is not null) as total_divisional_approval," + 
-		    		"(select count(*) from design d8 where d8.hod = d1.hod"+filter7+" and submitted_to_hq is not null) as total_submitted_to_hq," + 
-		    		"(select count(*) from design d9 where d9.hod = d1.hod"+filter8+" and hq_approval is not null) as total_hq_approval " + 
+		    		"(select count(*) from design d5 where d5.hod = d1.hod"+filter4+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
+		    		"(select count(*) from design d6 where d6.hod = d1.hod"+filter5+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
+		    		"(select count(*) from design d8 where d8.hod = d1.hod"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
 		    		"from design d1 where d1.design_id is not null";
 			
 			arrSize = 0;
@@ -308,9 +328,9 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			
 			List<DesignReport> hodWiseObjsList = jdbcTemplate.query( hodWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
 		    
-		    if(!StringUtils.isEmpty(hodWiseObjsList) && hodWiseObjsList.size() > 0) {		    	
-		    	for (DesignReport dObj : hodWiseObjsList) {
-		    		int under_review_by_mrvc = 0,under_review_by_division = 0,under_review_by_hq = 0;
+			/*if(!StringUtils.isEmpty(hodWiseObjsList) && hodWiseObjsList.size() > 0) {		    	
+				for (DesignReport dObj : hodWiseObjsList) {
+					int under_review_by_mrvc = 0,under_review_by_division = 0,under_review_by_hq = 0;
 			    	int total_submitted_by_consultans = 0,total_mrvc_reviewed = 0,total_submitted_to_division = 0,
 			    			total_divisional_approval = 0,total_submitted_to_hq = 0,total_hq_approval = 0;
 			    	
@@ -341,7 +361,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 			    	dObj.setUnder_review_by_division(String.valueOf(under_review_by_division));
 			    	dObj.setUnder_review_by_hq(String.valueOf(under_review_by_hq));
 				}
-		    }
+			}*/
 		    
 		    /************************************ Departments wise  **************************************************************/
 		    
@@ -422,8 +442,9 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		    
 		    objsMap.put("Department", departmentWiseObjsList);
 		    */
-		    objsMap.put("Responsibily", hodWiseObjsList);
+		    
 		    objsMap.put("Project", workWiseObjsList);
+		    objsMap.put("Responsibily", hodWiseObjsList);
 
 		}catch(Exception e){ 
 			throw new Exception(e);

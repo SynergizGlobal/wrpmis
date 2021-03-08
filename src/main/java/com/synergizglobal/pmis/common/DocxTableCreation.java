@@ -743,13 +743,14 @@ public class DocxTableCreation {
 		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
-		String employeeName = null,designation = null, reportingTo = null,nominated = null, attended = null;
+		String employeeName = null,trainee_designation = null,department = null, reportingTo = null,nominated = null, attended = null;
 		for (Training aObj : employeeTrainings) {
 			employeeName = aObj.getAttendee();
-			designation = aObj.getDepartment_name();
+			department = aObj.getDepartment_name();
 			reportingTo = aObj.getReporting_to();
 			nominated = aObj.getNominated();
 			attended = aObj.getAttended();
+			trainee_designation = aObj.getTrainee_designation();
 			break;
 		}
 		
@@ -763,62 +764,60 @@ public class DocxTableCreation {
 		/*===========================================================*/
 		Tr titleTableRow = factory.createTr();		
 		addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", titleRpr,
-				JcEnumeration.LEFT, false, null);
+				JcEnumeration.LEFT, true, "ecf2ff");
 		addTableCell(factory, wordMLPackage, titleTableRow, employeeName, titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
-		
-	  	titleTable.getContent().add(titleTableRow);	
-		mergeCellsHorizontal(titleTable, 0, 1, 2);
-		/*===========================================================*/
-		titleTableRow = factory.createTr();	
-		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Department", titleRpr,
-				JcEnumeration.LEFT, false, null);
-		addTableCell(factory, wordMLPackage, titleTableRow, designation, titleRpr,
+	  	
+	  	addTableCell(factory, wordMLPackage, titleTableRow, "Designation", titleRpr,
+				JcEnumeration.LEFT, true, "ecf2ff");
+		addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		
-	  	titleTable.getContent().add(titleTableRow);	
-		mergeCellsHorizontal(titleTable, 1, 1, 2);
+	  	titleTable.getContent().add(titleTableRow);		
+		mergeCellsHorizontal(titleTable, 0, 1, 2);
+		mergeCellsHorizontal(titleTable, 0, 4, 5);	
 		/*===========================================================*/
 		titleTableRow = factory.createTr();	
-		
-		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, "Department", titleRpr,
+				JcEnumeration.LEFT, true, "ecf2ff");
+		addTableCell(factory, wordMLPackage, titleTableRow, department, titleRpr,
 				JcEnumeration.LEFT, false, null);
+		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
+				JcEnumeration.LEFT, false, null);
+		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", titleRpr,
+				JcEnumeration.LEFT, true, "ecf2ff");
 		addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		
+		
 	  	titleTable.getContent().add(titleTableRow);	
-		mergeCellsHorizontal(titleTable, 2, 1, 2);
+		mergeCellsHorizontal(titleTable, 1, 1, 2);
+		mergeCellsHorizontal(titleTable, 1, 4, 5);
 		/*===========================================================*/
 		titleTableRow = factory.createTr();	
-		
 		addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", titleRpr,
-				JcEnumeration.LEFT, false, null);
+				JcEnumeration.LEFT, true, "ecf2ff");
 		addTableCell(factory, wordMLPackage, titleTableRow, nominated, titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		
-	  	titleTable.getContent().add(titleTableRow);	
-		mergeCellsHorizontal(titleTable, 3, 1, 2);
-		/*===========================================================*/
-		titleTableRow = factory.createTr();	
-		
 		addTableCell(factory, wordMLPackage, titleTableRow, "Attended", titleRpr,
-				JcEnumeration.LEFT, false, null);
+				JcEnumeration.LEFT,  true, "ecf2ff");
 		addTableCell(factory, wordMLPackage, titleTableRow, attended, titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		
 	  	titleTable.getContent().add(titleTableRow);	
-		mergeCellsHorizontal(titleTable, 3, 1, 2);
+	  	mergeCellsHorizontal(titleTable, 2, 1, 2);
+		mergeCellsHorizontal(titleTable, 2, 4, 5);
 		/*===========================================================*/
 		
 		
@@ -846,8 +845,6 @@ public class DocxTableCreation {
 		}		
 		table.getContent().add(titleRow);
 		
-		
-		int sNo = 1;
 		for (Training aObj : employeeTrainings) {
 			boolean hasBgColor = false;
 			String backgroundColor = null;

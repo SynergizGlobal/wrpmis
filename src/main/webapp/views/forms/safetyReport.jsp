@@ -122,7 +122,7 @@
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s12 m3 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Sub Work</p>
+	                                        <p class="searchable_label" style="text-align:left">Contract</p>
 	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="getHODListInSafetyReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>

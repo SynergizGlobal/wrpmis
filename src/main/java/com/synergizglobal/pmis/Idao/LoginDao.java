@@ -12,6 +12,8 @@ public interface LoginDao {
 	
 	public String changePassword(User user) throws Exception;
 
+	public boolean saveLogoutAction(String userId) throws Exception;
+
 }
 
 

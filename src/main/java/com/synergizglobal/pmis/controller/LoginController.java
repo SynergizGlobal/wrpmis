@@ -227,11 +227,19 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/logout", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView logout(HttpSession session){
-		ModelAndView view = new ModelAndView();
-		view.setViewName(PageConstants.login);
-		session.invalidate();
-		view.addObject("success",logOutMessage);
-		return view;
+		ModelAndView model = new ModelAndView();		
+		try {
+			model.setViewName(PageConstants.login);
+			String userId = (String) session.getAttribute("USER_ID");
+			boolean flag = loginService.saveLogoutAction(userId);
+			session.invalidate();
+			model.addObject("success",logOutMessage);
+		} catch (Exception e) {
+			logger.error("resetPassword : " + e.getMessage());
+			model.addObject("error", commonError);
+		}
+		
+		return model;
 	}
 	
 	/**

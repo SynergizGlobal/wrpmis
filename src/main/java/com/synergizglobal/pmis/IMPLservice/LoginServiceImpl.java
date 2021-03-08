@@ -41,5 +41,10 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.changePassword(user);
 	}
 
+	@Override
+	public boolean saveLogoutAction(String userId) throws Exception {
+		return loginDao.saveLogoutAction(userId);
+	}
+
 	
 }

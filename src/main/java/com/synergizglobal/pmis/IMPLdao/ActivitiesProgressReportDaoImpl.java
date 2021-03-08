@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -580,7 +581,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	public Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> getStripChartReportData(ActivitiesProgressReport obj)
 			throws Exception {
 		//Map<ActivitiesProgressReport, List<ActivitiesProgressReport>> mapObjsList = new HashMap<ActivitiesProgressReport, List<ActivitiesProgressReport>>();
-		Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> mapObjsList = new HashMap<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>>();
+		Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> mapObjsList = new LinkedHashMap<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>>();
 		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
 			/*String qry = "select strip_chart_id_fk,contract_id_fk,work_id,project_id,project_name "
@@ -637,7 +638,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			
-			contractsQry = contractsQry + " GROUP BY scg.contract_id_fk ORDER BY scg.contract_id_fk DESC";
+			contractsQry = contractsQry + " GROUP BY scg.contract_id_fk ORDER BY scg.contract_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -677,7 +678,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 			
 			for (ActivitiesProgressReport cObj : contractsList) {
 				
-				Map<String,List<ActivitiesProgressReport>> structureProgresses = new HashMap<String, List<ActivitiesProgressReport>>();
+				Map<String,List<ActivitiesProgressReport>> structureProgresses = new LinkedHashMap<String, List<ActivitiesProgressReport>>();
 
 				ActivitiesProgressReport sObj = new ActivitiesProgressReport();
 				/*******************************************************************************************************************/

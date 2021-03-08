@@ -10,6 +10,9 @@ public class CommonConstants2 {
 	public final static String  STATUS_NOT_STARTED = "Not Started";
 	public final static String  STATUS_ON_HOLD = "On Hold";
 	
+	public final static String  LOGIN_EVENT_TYPE_LOGIN = "Login";
+	public final static String  LOGIN_EVENT_TYPE_LOGOUT = "Logout";
+	
 	public static final String USER_IMAGES = "/pmis/USER_IMAGES/";
 	public static final String CONTRACT_FILES = "/pmis/CONTRACT_FILES/";
 	public static final String FOB_FILES = "/pmis/FOB_FILES/";

@@ -11,5 +11,7 @@ public interface LoginService {
 	public User validateUser(User user) throws SQLException,NoKeyException;
 	
 	public String changePassword(User user) throws Exception;
+
+	public boolean saveLogoutAction(String userId) throws Exception;
 	
 }

@@ -141,10 +141,10 @@ public class UserController {
 	@ResponseBody
 	public List<User> getUsersList(@ModelAttribute User obj) {
 		List<User> users = null;
-		List<User> usersExport = null;
+		//List<User> usersExport = null;
 		try {
 			users = userService.getUsersList(obj);
-			usersExport = userService.getUsersExportList(obj);
+			//usersExport = userService.getUsersExportList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("getUsersList : " + e.getMessage());

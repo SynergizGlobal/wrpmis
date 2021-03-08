@@ -147,6 +147,9 @@
 											<th>Department</th>
 											<th>Reporting To</th>
 											<th>User Role</th>
+											<th>Last Login</th>
+											<th>No.of Logins In Last 7 days</th>
+											<th>No.of Logins In Last 30 days</th>
 											<th class="no-sort">Action</th>
 
 										</tr>
@@ -398,6 +401,10 @@
     	                   	rowArray.push($.trim(val.department_name));
     	                   	rowArray.push($.trim(val.reporting_to_name));
     	                   	rowArray.push($.trim(val.user_role_name_fk));
+    	                   	
+    	                   	rowArray.push($.trim(val.last_login));
+    	                   	rowArray.push($.trim(val.last7DaysLogins));
+    	                   	rowArray.push($.trim(val.last30DaysLogins));
     	                   	
     	                   	rowArray.push($.trim(actions));   	                   	
     	                   	

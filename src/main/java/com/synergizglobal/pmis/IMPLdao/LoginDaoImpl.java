@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.LoginDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.model.User;
 
@@ -96,30 +97,18 @@ public class LoginDaoImpl implements LoginDao{
 		ResultSet rs = null;
 		boolean flag = false;
 		try {			
-			String updateQry = "UPDATE user_login set last_login = CURRENT_TIMESTAMP,number_of_logins = number_of_logins + 1 WHERE user_id_fk = ?";
-			stmt = con.prepareStatement(updateQry);	
+			
+			String insertQry = "INSERT INTO user_login (user_id_fk,login_event_date,login_event_type_fk)"  
+					+ " VALUES (?,CURRENT_TIMESTAMP,?)";
+			stmt = con.prepareStatement(insertQry);
 			stmt.setString(1,user_id );
+			stmt.setString(2,CommonConstants2.LOGIN_EVENT_TYPE_LOGIN );
 			
 			int c = stmt.executeUpdate();
 			if (c > 0) {
-				flag = true;					
-			}	
-			
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-			
-			if(!flag) {
-				String insertQry = "INSERT INTO user_login (user_id_fk,last_login,number_of_logins)"  
-						+ " VALUES (?,CURRENT_TIMESTAMP,?)";
-				stmt = con.prepareStatement(insertQry);
-				
-				int s = 1;
-				stmt.setString(s++,user_id);
-				stmt.setInt(s++,1);
-				c = stmt.executeUpdate();
-				if (c > 0) {
-					flag = true;				
-				}
+				flag = true;				
 			}
+			
 		}catch(SQLException e){ 
 			throw new SQLException(e.getMessage());
 		}
@@ -174,6 +163,35 @@ public class LoginDaoImpl implements LoginDao{
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return temp;
+	}
+
+
+	@Override
+	public boolean saveLogoutAction(String userId) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		try {			
+			con = dataSource.getConnection();
+			String insertQry = "INSERT INTO user_login (user_id_fk,login_event_date,login_event_type_fk)"  
+					+ " VALUES (?,CURRENT_TIMESTAMP,?)";
+			stmt = con.prepareStatement(insertQry);
+			stmt.setString(1,userId );
+			stmt.setString(2,CommonConstants2.LOGIN_EVENT_TYPE_LOGOUT );
+			
+			int c = stmt.executeUpdate();
+			if (c > 0) {
+				flag = true;				
+			}
+			
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return flag;
 	}
 
 }

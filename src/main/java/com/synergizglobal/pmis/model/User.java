@@ -13,7 +13,7 @@ public class User  {
 	
 	private String reporting_to_name,reporting_to_designation,department,department_name,user_access_type,user_access_table,user_id_fk,user_type_fk,
 	last_login,number_of_logins,user_role_name,user_access_type_fk,access_value,contract_id,contract_name,module_name,work_id,work_name,
-	access_value_id,access_value_name,user_role_code;
+	access_value_id,access_value_name,user_role_code,last7DaysLogins,last30DaysLogins,login_event_date,login_event_type,login_event_type_fk;
 	
 	private List<User> userPermissions;
 	
@@ -22,6 +22,36 @@ public class User  {
 	private MultipartFile userImageFile;
 	
 	private String[] user_access_types,user_access_values;
+
+
+	public String getLogin_event_date() {
+		return login_event_date;
+	}
+
+
+	public void setLogin_event_date(String login_event_date) {
+		this.login_event_date = login_event_date;
+	}
+
+
+	public String getLogin_event_type() {
+		return login_event_type;
+	}
+
+
+	public void setLogin_event_type(String login_event_type) {
+		this.login_event_type = login_event_type;
+	}
+
+
+	public String getLogin_event_type_fk() {
+		return login_event_type_fk;
+	}
+
+
+	public void setLogin_event_type_fk(String login_event_type_fk) {
+		this.login_event_type_fk = login_event_type_fk;
+	}
 
 
 	public String getHod_user_id_fk() {
@@ -498,6 +528,26 @@ public class User  {
 
 	public void setPersonal_contact_number(String personal_contact_number) {
 		this.personal_contact_number = personal_contact_number;
+	}
+
+
+	public String getLast7DaysLogins() {
+		return last7DaysLogins;
+	}
+
+
+	public void setLast7DaysLogins(String last7DaysLogins) {
+		this.last7DaysLogins = last7DaysLogins;
+	}
+
+
+	public String getLast30DaysLogins() {
+		return last30DaysLogins;
+	}
+
+
+	public void setLast30DaysLogins(String last30DaysLogins) {
+		this.last30DaysLogins = last30DaysLogins;
 	}
 	
 	

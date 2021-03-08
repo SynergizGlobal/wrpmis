@@ -38,12 +38,22 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> budgetList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " + 
+			/*String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " + 
 					"cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " + 
 					",b.remarks from budget b " + 
 					"left join work w on b.work_id_fk = w.work_id " + 
 					"left join financial_year f on b.financial_year_fk = f.financial_year " + 
-					"left join project p on  w.project_id_fk = p.project_id where budget_id is not null and status = ? ";
+					"left join project p on  w.project_id_fk = p.project_id where budget_id is not null and status = ? ";*/
+			
+			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " 
+					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant, " 
+					+ "b.remarks from budget b "
+					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
+					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
+					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "AND budget_id is not null and status = ? ";
+			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id = ?";
@@ -535,12 +545,14 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<Budget> getBudgetExportList(Budget obj) throws Exception {
 		List<Budget> objsList = null;
 		try {
-			String qry ="select budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,b.financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " + 
-					"cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " + 
-					",b.remarks from budget b " + 
-					"left join work w on b.work_id_fk = w.work_id " + 
-					"left join financial_year f on b.financial_year_fk = f.financial_year " + 
-					"left join project p on  w.project_id_fk = p.project_id where budget_id is not null and status = ? ";
+			String qry ="SELECT budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,b.financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " 
+					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
+					+ ",b.remarks from budget b " 
+					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
+					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
+					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
+					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(NOW()) >= 4 THEN concat(YEAR(NOW()), '-',SUBSTR(YEAR(NOW())+1,3,2)) ELSE concat(YEAR(NOW())-1,'-', SUBSTR(YEAR(NOW()),3,2)) END) AS financial_year) " 
+					+ "AND budget_id is not null and status = ? ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and project_id = ?";

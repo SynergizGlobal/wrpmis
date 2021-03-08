@@ -1,6 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,7 +86,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 
 	@Override
 	public Map<String,List<DesignReport>> getDesignReportData(DesignReport obj) throws Exception {
-		Map<String,List<DesignReport>> objsMap = new HashMap<String,List<DesignReport>>();
+		Map<String,List<DesignReport>> objsMap = new LinkedHashMap<String,List<DesignReport>>();
 		
 		try {
 			

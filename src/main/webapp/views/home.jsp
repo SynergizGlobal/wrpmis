@@ -367,6 +367,8 @@
 			  background-image: linear-gradient(to right, #16D58A, #00BDE7);
 			  text-align:justify;
 			  box-shadow:0 0 5px 2px #aaa;
+			  white-space: pre-wrap;
+			  border-radius: 10px;
 		}
     </style>
 </head>

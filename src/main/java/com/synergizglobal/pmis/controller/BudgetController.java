@@ -90,10 +90,10 @@ public class BudgetController {
 	@ResponseBody
 	public List<Budget> getBudgetList(@ModelAttribute Budget obj) {
 		List<Budget> budgetList = null;
-		List<Budget> budgetExportList = null;
+		//List<Budget> budgetExportList = null;
 		try {
 			budgetList = budgetService.budgetList(obj);
-			budgetExportList = budgetService.getBudgetExportList(obj);
+			//budgetExportList = budgetService.getBudgetExportList(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("budgetList : " + e.getMessage());

@@ -29,7 +29,8 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	public List<Issue> getWorksListInIssuesReport(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT work_id as work_id_fk,w.work_short_name from issue i "
+			String qry = "SELECT work_id as work_id_fk,w.work_short_name "
+					+ "from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "where work_id_fk is not null and work_id_fk <> '' ";
@@ -43,6 +44,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk <> ?";
+				arrSize++;
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -52,6 +57,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
 			}
 			qry = qry + " GROUP BY work_id_fk ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
@@ -78,6 +86,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk <> ?";
+				arrSize++;
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -87,6 +99,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
 			}
 			qry = qry + " GROUP BY contract_id_fk";
 			
@@ -117,6 +132,10 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk <> ?";
+				arrSize++;
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -127,6 +146,9 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
 			}
 			
 			qry = qry + " GROUP BY hod_user_id_fk";

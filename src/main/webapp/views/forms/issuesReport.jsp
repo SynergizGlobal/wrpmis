@@ -211,7 +211,7 @@
         function getWorksListInIssuesReport() {
         	$(".page-loader").show();
            	$("#work_id_fk option:not(:first)").remove();
-           	var myParams = {}
+           	var myParams = {status_fk : 'Closed'}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getWorksListInIssuesReport",
                    data: myParams, cache: false,
@@ -236,7 +236,7 @@
         function getContractsListInIssuesReport(work_id_fk){
         	$(".page-loader").show();
            	$("#contract_id_fk option:not(:first)").remove();
-           	var myParams = {work_id_fk : work_id_fk}
+           	var myParams = {work_id_fk : work_id_fk,status_fk : 'Closed'}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractsListInIssuesReport",
                    data: myParams, cache: false,
@@ -261,7 +261,7 @@
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
            	$("#hod_user_id_fk option:not(:first)").remove();
-           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk}
+           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,status_fk : 'Closed'}
            	$.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getHODListInIssuesReport",
                    data: myParams, cache: false,

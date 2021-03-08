@@ -346,6 +346,28 @@
     		top: -70px;
 		    margin-bottom: 0;
         }
+              
+        .material-tooltip {
+			  padding: 20px;
+			  z-index: 2000;
+			  border-radius: 2px;
+			  color: #fff;
+			  min-height: 36px;
+			  line-height: 120%;
+			  border:1px solid black;
+			  opacity: 0;
+			  position: absolute;
+			  max-width:50%;
+			  overflow: hidden;
+			  left: 0;
+			  top: 0;
+			  pointer-events: none;
+			  visibility: hidden;
+			  background-color: #1565C0cc;
+			  background-image: linear-gradient(to right, #16D58A, #00BDE7);
+			  text-align:justify;
+			  box-shadow:0 0 5px 2px #aaa;
+		}
     </style>
 </head>
 
@@ -516,7 +538,7 @@
 			                        </script>
 		                        </c:if>
 		                        <c:if test="${not empty pObj.benefits }">
-		                        	<a class="btn btn-center tooltipped" data-position="top" data-tooltip="${pObj.benefits }">Benefits</a>
+		                        	<a class="btn btn-center tooltipped " data-position="top" data-tooltip="${pObj.benefits }">Benefits</a> 
 		                        </c:if>
 		                             
 			                    <a class="btn btn-right" onclick="closeOther('${index.count }')">More</a>

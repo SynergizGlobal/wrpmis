@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -180,6 +181,23 @@ public class AlertsController {
 	    	 User uObj = (User) session.getAttribute("user");
 	    	 model.addObject("email_id", uObj.getEmail_id());
 	    	 model.addObject("user_role_name", uObj.getUser_role_name_fk());
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("getAlerts() : "+e.getMessage());
+		 }
+	     return model;
+	}
+	
+	@RequestMapping(value="/get-alerts/{alert_id}",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getAlertsList(@PathVariable("alert_id") String alert_id,HttpSession session){		
+		 ModelAndView model = new ModelAndView(PageConstants2.alertsGrid);	    
+	     try {
+	    	 //String user_Id = (String) session.getAttribute("USER_ID");
+	    	 //String userName = (String) session.getAttribute("USER_NAME");
+	    	 User uObj = (User) session.getAttribute("user");
+	    	 model.addObject("email_id", uObj.getEmail_id());
+	    	 model.addObject("user_role_name", uObj.getUser_role_name_fk());	    	 
+	    	 model.addObject("alert_id", alert_id);
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("getAlerts() : "+e.getMessage());

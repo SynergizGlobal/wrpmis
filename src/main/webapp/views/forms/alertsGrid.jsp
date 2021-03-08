@@ -273,6 +273,9 @@
         
 		function getAlerts(){
 			$(".page-loader-2").show();
+			
+			var alert_id_from_tableau = '${alert_id}';
+			
 			var hod = $("#hod").val();
    	    	var work_id_fk = $("#work_id_fk").val();
    	    	var contractor_id_fk = $("#contractor_id_fk").val();
@@ -349,6 +352,11 @@
     	                   	rowArray.push($.trim(actions));
     	                   	
     	                    table.row.add(rowArray).draw( true );
+    	                    
+    	                    
+    	                    if($.trim(alert_id_from_tableau) == $.trim(val.alert_id) ){
+    	                    	addAlertRemarks(val.alert_id,val.remarks);
+    	                    }
     	                    		                       
     					});
     	         		

@@ -16,45 +16,45 @@ public class ActivitiesProgressReportServiceImpl implements ActivitiesProgressRe
 	ActivitiesProgressReportDao dao;
 	
 	@Override
-	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
-		return dao.getProjectsFilterListInStripChartReport(obj);
+	public List<ActivitiesProgressReport> getProjectsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
+		return dao.getProjectsFilterListInActivitiesReport(obj);
 	}
 	
 	@Override
-	public List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
-		return dao.getWorksFilterListInStripChartReport(obj);
+	public List<ActivitiesProgressReport> getWorksFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
+		return dao.getWorksFilterListInActivitiesReport(obj);
 	}
 
 	@Override
-	public List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
-		return dao.getContractsFilterListInStripChartReport(obj);
+	public List<ActivitiesProgressReport> getContractsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
+		return dao.getContractsFilterListInActivitiesReport(obj);
 	}
 
 	@Override
-	public List<ActivitiesProgressReport> getFobFilterListInStripChartReport(ActivitiesProgressReport obj)
+	public List<ActivitiesProgressReport> getFobFilterListInActivitiesReport(ActivitiesProgressReport obj)
 			throws Exception {
-		return dao.getFobFilterListInStripChartReport(obj);
+		return dao.getFobFilterListInActivitiesReport(obj);
 	}
 
 	@Override
-	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
-		return dao.getContractorsFilterListInStripChartReport(obj);
+	public List<ActivitiesProgressReport> getContractorsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
+		return dao.getContractorsFilterListInActivitiesReport(obj);
 	}
 
 	@Override
-	public List<ActivitiesProgressReport> getHodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
-		return dao.getHodFilterListInStripChartReport(obj);
+	public List<ActivitiesProgressReport> getHodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
+		return dao.getHodFilterListInActivitiesReport(obj);
 	}
 
 	@Override
-	public List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
-		return dao.getDyhodFilterListInStripChartReport(obj);
+	public List<ActivitiesProgressReport> getDyhodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
+		return dao.getDyhodFilterListInActivitiesReport(obj);
 	}
 
 	@Override
-	public Map<ActivitiesProgressReport, Map<String, List<ActivitiesProgressReport>>> getStripChartReportData(ActivitiesProgressReport obj)
+	public Map<ActivitiesProgressReport, Map<String, List<ActivitiesProgressReport>>> getActivitiesReportData(ActivitiesProgressReport obj)
 			throws Exception {
-		return dao.getStripChartReportData(obj);
+		return dao.getActivitiesReportData(obj);
 	}
 	
 	/*****************************************************************************************************/

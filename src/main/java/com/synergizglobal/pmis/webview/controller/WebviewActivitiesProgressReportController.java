@@ -89,80 +89,80 @@ public class WebviewActivitiesProgressReportController {
 		return model;
     }
 	
-	@RequestMapping(value = "/ajax/getProjectsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectsFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getProjectsFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> projectsList = null;
 		try {
-			projectsList = service.getProjectsFilterListInStripChartReport(obj);
+			projectsList = service.getProjectsFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getProjectsFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getProjectsFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return projectsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorksFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getWorksFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> worksList = null;
 		try {
-			worksList = service.getWorksFilterListInStripChartReport(obj);
+			worksList = service.getWorksFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getWorksFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getWorksFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return worksList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getContractsFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> contractsList = null;
 		try {
-			contractsList = service.getContractsFilterListInStripChartReport(obj);
+			contractsList = service.getContractsFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractsFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getContractsFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return contractsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractorsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractorsFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getContractorsFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> contractorsList = null;
 		try {
-			contractorsList = service.getContractorsFilterListInStripChartReport(obj);
+			contractorsList = service.getContractorsFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractorsFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getContractorsFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return contractorsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getHodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getHodFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getHodFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getHodFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> hodList = null;
 		try {
-			hodList = service.getHodFilterListInStripChartReport(obj);
+			hodList = service.getHodFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getHodFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getHodFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return hodList;
 	}
 	
-	@RequestMapping(value = "/ajax/getDyhodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getDyhodFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getDyhodFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> dyhodList = null;
 		try {
-			dyhodList = service.getDyhodFilterListInStripChartReport(obj);
+			dyhodList = service.getDyhodFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getDyhodFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getDyhodFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return dyhodList;
 	}
@@ -179,10 +179,10 @@ public class WebviewActivitiesProgressReportController {
 			obj.setFrom_date(DateParser.parse(obj.getFrom_date()));
 			obj.setTo_date(DateParser.parse(obj.getTo_date()));
 			
-			//StripChartReport details = service.getStripChartDPRReportDetails(obj);
-			//List<StripChartReport> dprDataList = service.getStripChartDPRReportData(obj);
+			//ActivitiesReport details = service.getStripChartDPRReportDetails(obj);
+			//List<ActivitiesReport> dprDataList = service.getStripChartDPRReportData(obj);
 			
-			Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> reportData = service.getStripChartReportData(obj);
+			Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> reportData = service.getActivitiesReportData(obj);
 			
 			
 			
@@ -365,7 +365,7 @@ public class WebviewActivitiesProgressReportController {
 						        
 						        cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(dObj.getFob_id_fk());
+								cell.setCellValue(dObj.getStructure());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
@@ -373,7 +373,7 @@ public class WebviewActivitiesProgressReportController {
 								
 						        cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(dObj.getComponent_id_name());
+								cell.setCellValue(dObj.getComponent_id());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
@@ -412,7 +412,7 @@ public class WebviewActivitiesProgressReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "StripChart_"+dateFormat.format(date)+".xlsx";
+            String fileName = "Activities_Report_"+dateFormat.format(date)+".xlsx";
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

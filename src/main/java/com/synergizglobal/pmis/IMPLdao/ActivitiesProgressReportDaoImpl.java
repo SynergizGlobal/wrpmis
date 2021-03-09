@@ -30,7 +30,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	DataSourceTransactionManager transactionManager;
 	
 	@Override
-	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+	public List<ActivitiesProgressReport> getProjectsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT p.project_id,p.project_name "+
@@ -105,7 +105,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	}
 	
 	@Override
-	public List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+	public List<ActivitiesProgressReport> getWorksFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
@@ -182,7 +182,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	}
 
 	@Override
-	public List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+	public List<ActivitiesProgressReport> getContractsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "+
@@ -261,7 +261,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 
 
 	@Override
-	public List<ActivitiesProgressReport> getFobFilterListInStripChartReport(ActivitiesProgressReport obj)
+	public List<ActivitiesProgressReport> getFobFilterListInActivitiesReport(ActivitiesProgressReport obj)
 			throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
@@ -341,7 +341,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	}
 	
 	@Override
-	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+	public List<ActivitiesProgressReport> getContractorsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			
@@ -420,7 +420,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	}
 	
 	@Override
-	public List<ActivitiesProgressReport> getHodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+	public List<ActivitiesProgressReport> getHodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {			
 			String qry = "SELECT user_id,user_name,designation "+
@@ -499,7 +499,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	}
 	
 	@Override
-	public List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception {
+	public List<ActivitiesProgressReport> getDyhodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT user_id,user_name,designation "+
@@ -577,7 +577,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 	}
 
 	@Override
-	public Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> getStripChartReportData(ActivitiesProgressReport obj)
+	public Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> getActivitiesReportData(ActivitiesProgressReport obj)
 			throws Exception {
 		//Map<ActivitiesProgressReport, List<ActivitiesProgressReport>> mapObjsList = new HashMap<ActivitiesProgressReport, List<ActivitiesProgressReport>>();
 		Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> mapObjsList = new LinkedHashMap<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>>();

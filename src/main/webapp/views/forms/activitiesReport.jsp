@@ -46,7 +46,7 @@
 						</span>
 					</div>
 					<!-- form start-->
-					<form action="<%=request.getContextPath() %>/generate-strip-chart-dpr-report" id="stripChartReportForm" name="stripChartReportForm" method="post" target="_blank">
+					<form action="<%=request.getContextPath() %>/generate-activities-dpr-report" id="activitiesReportForm" name="activitiesReportForm" method="post" target="_blank">
 						<div class="container container-no-margin">
 							<div class="row">
 								<div class="col s12 m3 input-field">
@@ -247,7 +247,7 @@
             	$("#project_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInStripChartReport",
+	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInActivitiesReport",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -280,7 +280,7 @@
             	$("#work_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInStripChartReport",
+	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInActivitiesReport",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -316,7 +316,7 @@
             	$("#contract_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id, fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInStripChartReport",
+	            	url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInActivitiesReport",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -352,7 +352,7 @@
             	$("#fob_id_fk option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk :fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getFobFilterListInStripChartReport",
+                    url: "<%=request.getContextPath()%>/ajax/getFobFilterListInActivitiesReport",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -392,7 +392,7 @@
             	$("#contractor_id option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInStripChartReport",
+	            	url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInActivitiesReport",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -425,7 +425,7 @@
             	$("#hod option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getHodFilterListInStripChartReport",
+	            	url: "<%=request.getContextPath()%>/ajax/getHodFilterListInActivitiesReport",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -458,7 +458,7 @@
             	$("#dyhod option:not(:first)").remove();
             	var myParams = {project_id : project_id, work_id : work_id, contract_id : contract_id,fob_id_fk : fob_id_fk, contractor_id : contractor_id, hod : hod, dyhod : dyhod };
                 $.ajax({
-	            	url: "<%=request.getContextPath()%>/ajax/getDyhodFilterListInStripChartReport",
+	            	url: "<%=request.getContextPath()%>/ajax/getDyhodFilterListInActivitiesReport",
 	                data: myParams, cache: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -499,7 +499,7 @@
         	    console.log(msg);
          }
         
-        var validator = $('#stripChartReportForm').validate({
+        var validator = $('#activitiesReportForm').validate({
 	    	ignore: ":hidden:not(.validate-dropdown)",
 			   rules: {
 				   	  "work_id": {

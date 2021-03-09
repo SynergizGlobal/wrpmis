@@ -7,21 +7,21 @@ import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 
 public interface ActivitiesProgressReportDao {
 	
-	List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getProjectsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 
-	List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getWorksFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 
-	List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getContractsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 
-	List<ActivitiesProgressReport> getFobFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getFobFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 	
-	List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getContractorsFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 
-	List<ActivitiesProgressReport> getHodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getHodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 
-	List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(ActivitiesProgressReport obj) throws Exception;
+	List<ActivitiesProgressReport> getDyhodFilterListInActivitiesReport(ActivitiesProgressReport obj) throws Exception;
 
-	Map<ActivitiesProgressReport, Map<String, List<ActivitiesProgressReport>>> getStripChartReportData(ActivitiesProgressReport obj) throws Exception;
+	Map<ActivitiesProgressReport, Map<String, List<ActivitiesProgressReport>>> getActivitiesReportData(ActivitiesProgressReport obj) throws Exception;
 	
 	/****************************************************************************************/
 

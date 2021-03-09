@@ -75,7 +75,7 @@ public class ActivitiesProgressReportController {
 	
 	@RequestMapping(value = "/activities-progress-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView stripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView(PageConstants.stripChartReport);
+		ModelAndView model = new ModelAndView(PageConstants.activitiesReport);
 		try{
 			
 		}catch (Exception e) {
@@ -85,98 +85,98 @@ public class ActivitiesProgressReportController {
 		return model;
     }
 	
-	@RequestMapping(value = "/ajax/getProjectsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getProjectsFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getProjectsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getProjectsFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> projectsList = null;
 		try {
-			projectsList = service.getProjectsFilterListInStripChartReport(obj);
+			projectsList = service.getProjectsFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getProjectsFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getProjectsFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return projectsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getWorksFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getWorksFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getWorksFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getWorksFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> worksList = null;
 		try {
-			worksList = service.getWorksFilterListInStripChartReport(obj);
+			worksList = service.getWorksFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getWorksFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getWorksFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return worksList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractsFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getContractsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getContractsFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> contractsList = null;
 		try {
-			contractsList = service.getContractsFilterListInStripChartReport(obj);
+			contractsList = service.getContractsFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractsFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getContractsFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return contractsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getFobFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getFobFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getFobFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getFobFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> fobList = null;
 		try {
-			fobList = service.getFobFilterListInStripChartReport(obj);
+			fobList = service.getFobFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getFobFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getFobFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return fobList;
 	}
 	
-	@RequestMapping(value = "/ajax/getContractorsFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getContractorsFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getContractorsFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getContractorsFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> contractorsList = null;
 		try {
-			contractorsList = service.getContractorsFilterListInStripChartReport(obj);
+			contractorsList = service.getContractorsFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getContractorsFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getContractorsFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return contractorsList;
 	}
 	
-	@RequestMapping(value = "/ajax/getHodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getHodFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getHodFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getHodFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> hodList = null;
 		try {
-			hodList = service.getHodFilterListInStripChartReport(obj);
+			hodList = service.getHodFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getHodFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getHodFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return hodList;
 	}
 	
-	@RequestMapping(value = "/ajax/getDyhodFilterListInStripChartReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getDyhodFilterListInActivitiesReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ActivitiesProgressReport> getDyhodFilterListInStripChartReport(@ModelAttribute ActivitiesProgressReport obj) {
+	public List<ActivitiesProgressReport> getDyhodFilterListInActivitiesReport(@ModelAttribute ActivitiesProgressReport obj) {
 		List<ActivitiesProgressReport> dyhodList = null;
 		try {
-			dyhodList = service.getDyhodFilterListInStripChartReport(obj);
+			dyhodList = service.getDyhodFilterListInActivitiesReport(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getDyhodFilterListInStripChartReport : " + e.getMessage());
+			logger.error("getDyhodFilterListInActivitiesReport : " + e.getMessage());
 		}
 		return dyhodList;
 	}
 	
-	@RequestMapping(value = "/generate-strip-chart-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-activities-dpr-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public void generateStripChartDPRReport(@ModelAttribute ActivitiesProgressReport obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
 		try{
@@ -192,10 +192,10 @@ public class ActivitiesProgressReportController {
 			obj.setFrom_date(DateParser.parse(obj.getFrom_date()));
 			obj.setTo_date(DateParser.parse(obj.getTo_date()));
 			
-			//StripChartReport details = service.getStripChartDPRReportDetails(obj);
-			//List<StripChartReport> dprDataList = service.getStripChartDPRReportData(obj);
+			//ActivitiesReport details = service.getStripChartDPRReportDetails(obj);
+			//List<ActivitiesReport> dprDataList = service.getStripChartDPRReportData(obj);
 			
-			Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> reportData = service.getStripChartReportData(obj);
+			Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> reportData = service.getActivitiesReportData(obj);
 			
 			
 			

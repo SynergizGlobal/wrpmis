@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +34,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT p.project_id,p.project_name "+
-					"from strip_chart_general scv " + 
-					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"from activities a " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where project_id is not null and project_id <> '' ";
@@ -56,7 +55,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				qry = qry + " and scv.fob_id_fk = ?";
+				qry = qry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -110,8 +109,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_id,w.work_name,w.work_short_name "+
-					"from strip_chart_general scv " + 
-					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"from activities a " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where w.work_id is not null and w.work_id <> '' ";
@@ -131,7 +130,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				qry = qry + " and scv.fob_id_fk = ?";
+				qry = qry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -187,8 +186,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT c.contract_id,c.contract_name,c.contract_short_name "+
-					"from strip_chart_general scv " + 
-					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"from activities a " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.contract_id is not null and c.contract_id <> '' ";
@@ -208,7 +207,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				qry = qry + " and scv.fob_id_fk = ?";
+				qry = qry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -268,9 +267,9 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		try {
 			
 			String qry = "SELECT fob_id,fob_name "+
-					"from strip_chart_general scv " + 
-					"LEFT JOIN fob f on scv.fob_id_fk = f.fob_id " + 
-					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"from activities a " + 
+					"LEFT JOIN fob f on a.structure = f.fob_id " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where fob_id is not null and fob_id <> '' ";
@@ -290,7 +289,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				qry = qry + " and scv.fob_id_fk = ?";
+				qry = qry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -347,8 +346,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		try {
 			
 			String qry = "SELECT c.contractor_id_fk,contractor_id,contractor_name "+
-					"from strip_chart_general scv " + 
-					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"from activities a " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN contractor ctr on c.contractor_id_fk = ctr.contractor_id " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -369,7 +368,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				qry = qry + " and scv.fob_id_fk = ?";
+				qry = qry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -425,8 +424,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {			
 			String qry = "SELECT user_id,user_name,designation "+
-					"from strip_chart_general scv " + 
-					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"from activities a " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN user u on c.hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -448,7 +447,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				qry = qry + " and scv.fob_id_fk = ?";
+				qry = qry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -504,8 +503,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		List<ActivitiesProgressReport> objsList = null;
 		try {
 			String qry = "SELECT user_id,user_name,designation "+
-					"from strip_chart_general scv " + 
-					"LEFT JOIN contract c on scv.contract_id_fk = c.contract_id " + 
+					"from activities a " + 
+					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN user u on c.dy_hod_user_id_fk = u.user_id " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
@@ -526,7 +525,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				qry = qry + " and scv.fob_id_fk = ?";
+				qry = qry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -590,10 +589,10 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					+ "left outer join contract_view cv on scg.contract_id_fk = cv.contract_id "
 					+ "where progress_date = ? ";*/
 			
-			String contractsQry = "select strip_chart_id_fk,contract_id_fk,work_id,project_id,project_name "
-					+ "from scope_progress sp " 
-					+ "LEFT JOIN strip_chart_general scg on strip_chart_id_fk = strip_chart_id  " 
-					+ "LEFT JOIN contract c on scg.contract_id_fk = c.contract_id "
+			String contractsQry = "select activity_id_fk,contract_id_fk,work_id,project_id,project_name "
+					+ "from activity_progress ap " 
+					+ "LEFT JOIN activities a on activity_id_fk = activity_id " 
+					+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 					+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
 					+ "where progress_date is not null";
@@ -622,7 +621,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-				contractsQry = contractsQry + " and scg.fob_id_fk = ?";
+				contractsQry = contractsQry + " and a.structure = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id())) {
@@ -638,7 +637,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			
-			contractsQry = contractsQry + " GROUP BY scg.contract_id_fk ORDER BY scg.contract_id_fk ASC";
+			contractsQry = contractsQry + " GROUP BY a.contract_id_fk ORDER BY a.contract_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -682,11 +681,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 
 				ActivitiesProgressReport sObj = new ActivitiesProgressReport();
 				/*******************************************************************************************************************/
-				String progressStructuresQry = "select sp.strip_chart_id_fk,scg.contract_id_fk,scg.fob_id_fk "
-						+ "from scope_progress sp "  
-						+ "left join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id "  
-						+ "left join contract c on scg.contract_id_fk = c.contract_id "  
-						+ "where scg.contract_id_fk = ?";
+				String progressStructuresQry = "select ap.activity_id_fk,a.contract_id_fk,a.structure "
+						+ "from activity_progress ap "  
+						+ "left join activities a on ap.activity_id_fk = a.activity_id "  
+						+ "left join contract c on a.contract_id_fk = c.contract_id "  
+						+ "where a.contract_id_fk = ?";
 				
 				
 				arrSize = 1;
@@ -700,11 +699,11 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					arrSize++;
 				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFob_id_fk())) {
-					progressStructuresQry = progressStructuresQry + " and scg.fob_id_fk = ?";
+					progressStructuresQry = progressStructuresQry + " and a.structure = ?";
 					arrSize++;
 				}
 				
-				progressStructuresQry = progressStructuresQry + " GROUP BY scg.fob_id_fk ORDER BY scg.fob_id_fk ASC";
+				progressStructuresQry = progressStructuresQry + " GROUP BY a.structure ORDER BY a.structure ASC";
 				
 				pValues = new Object[arrSize];
 				
@@ -728,13 +727,13 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select progress_date,strip_chart_id_fk,contract_id_fk,work_id,project_id,project_name "
-							+ "from scope_progress sp " 
-							+ "LEFT JOIN strip_chart_general scg on strip_chart_id_fk = strip_chart_id  " 
-							+ "LEFT JOIN contract c on scg.contract_id_fk = c.contract_id "
+					String contractProgressDatesQry = "select progress_date,activity_id_fk,contract_id_fk,work_id,project_id,project_name "
+							+ "from activity_progress ap " 
+							+ "LEFT JOIN activities a on activity_id_fk = activity_id  " 
+							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
 							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
 							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
-							+ "where scg.contract_id_fk = ?";
+							+ "where a.contract_id_fk = ?";
 					
 					arrSize = 1;
 					
@@ -747,8 +746,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 						arrSize++;
 					}
 					
-					if(!StringUtils.isEmpty(contractProgressStructure) && !StringUtils.isEmpty(contractProgressStructure.getFob_id_fk())) {
-						contractProgressDatesQry = contractProgressDatesQry + " and scg.fob_id_fk = ?";
+					if(!StringUtils.isEmpty(contractProgressStructure) && !StringUtils.isEmpty(contractProgressStructure.getStructure())) {
+						contractProgressDatesQry = contractProgressDatesQry + " and a.structure = ?";
 						arrSize++;
 					}
 					
@@ -773,19 +772,19 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					List<ActivitiesProgressReport> totalContractProgresList = new ArrayList<ActivitiesProgressReport>();
 					for (ActivitiesProgressReport contractProgressDate : contractProgressDatesList) {
 						
-						String progressQry = "select sp.progress_date,sp.strip_chart_id_fk,sp.completed_scope,scg.strip_chart_id,scg.contract_id_fk,scg.fob_id_fk,scg.component_id_name," + 
-								"scg.component,scg.activity_name,scg.structure,scg.scope,scg.completed,c.contract_name,c.contract_short_name," + 
-								"(scg.completed - IFNULL((select sum(completed_scope) " + 
-								"from scope_progress sp1 " + 
-								"left outer join strip_chart_general scg1 on sp1.strip_chart_id_fk = scg1.strip_chart_id " + 
-								"left outer join contract c1 on scg1.contract_id_fk = c1.contract_id " + 
-								"where scg1.contract_id_fk = ? and sp1.progress_date > ? and scg1.fob_id_fk = ? and sp1.strip_chart_id_fk = sp.strip_chart_id_fk),0)) as cumulative_completed " + 
-								"from scope_progress sp " + 
-								"left outer join strip_chart_general scg on sp.strip_chart_id_fk = scg.strip_chart_id " + 
-								"left outer join contract c on scg.contract_id_fk = c.contract_id " + 
-								"where scg.contract_id_fk = ? and sp.progress_date = ? and scg.fob_id_fk = ?";
+						String progressQry = "select ap.progress_date,ap.activity_id_fk,ap.completed_scope,a.activity_id,a.contract_id_fk,a.structure_type_fk,a.component_id," + 
+								"a.component,a.activity_name,a.structure,a.scope,a.completed,c.contract_name,c.contract_short_name," + 
+								"(a.completed - IFNULL((select sum(completed_scope) " + 
+								"from activity_progress ap1 " + 
+								"left outer join activities a1 on ap1.activity_id_fk = a1.activity_id " + 
+								"left outer join contract c1 on a1.contract_id_fk = c1.contract_id " + 
+								"where a1.contract_id_fk = ? and ap1.progress_date > ? and a1.structure = ? and ap1.activity_id_fk = ap.activity_id_fk),0)) as cumulative_completed " + 
+								"from activity_progress ap " + 
+								"left outer join activities a on ap.activity_id_fk = a.activity_id " + 
+								"left outer join contract c on a.contract_id_fk = c.contract_id " + 
+								"where a.contract_id_fk = ? and ap.progress_date = ? and a.structure = ?";
 						
-						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getFob_id_fk(),cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getFob_id_fk()};
+						pValues = new Object[] {cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure(),cObj.getContract_id_fk(),contractProgressDate.getProgress_date(),contractProgressStructure.getStructure()};
 						
 						List<ActivitiesProgressReport> pList = jdbcTemplate.query( progressQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
 						

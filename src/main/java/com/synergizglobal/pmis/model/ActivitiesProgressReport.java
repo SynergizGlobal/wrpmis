@@ -1,10 +1,26 @@
 package com.synergizglobal.pmis.model;
 
 public class ActivitiesProgressReport {
-	private String progress_date,strip_chart_id_fk,completed_scope,strip_chart_id,contract_id_fk,fob_id_fk,component_id_name, 
+	private String progress_date,activity_id_fk,completed_scope,activity_id,contract_id_fk,fob_id_fk,component_id_name, 
 	component,activity_name,structure,scope,completed,contract_name,contract_short_name,work_name,work_short_name,contractor_name,hod,dyhod,
 	work_id,contract_id,reporting_date,work_id_fk,contractor_id_fk,cumulative_completed,excluded_scope,from_date,to_date,
-	project_id,project_name,project_id_fk,contractor_id,user_id,user_name,designation,fob_id,fob_name;
+	project_id,project_name,project_id_fk,contractor_id,user_id,user_name,designation,fob_id,fob_name,structure_type_fk,structure_type,component_id;
+
+	public String getStructure_type_fk() {
+		return structure_type_fk;
+	}
+
+	public void setStructure_type_fk(String structure_type_fk) {
+		this.structure_type_fk = structure_type_fk;
+	}
+
+	public String getStructure_type() {
+		return structure_type;
+	}
+
+	public void setStructure_type(String structure_type) {
+		this.structure_type = structure_type;
+	}
 
 	public String getFob_id() {
 		return fob_id;
@@ -102,28 +118,12 @@ public class ActivitiesProgressReport {
 		this.progress_date = progress_date;
 	}
 
-	public String getStrip_chart_id_fk() {
-		return strip_chart_id_fk;
-	}
-
-	public void setStrip_chart_id_fk(String strip_chart_id_fk) {
-		this.strip_chart_id_fk = strip_chart_id_fk;
-	}
-
 	public String getCompleted_scope() {
 		return completed_scope;
 	}
 
 	public void setCompleted_scope(String completed_scope) {
 		this.completed_scope = completed_scope;
-	}
-
-	public String getStrip_chart_id() {
-		return strip_chart_id;
-	}
-
-	public void setStrip_chart_id(String strip_chart_id) {
-		this.strip_chart_id = strip_chart_id;
 	}
 
 	public String getContract_id_fk() {
@@ -300,6 +300,30 @@ public class ActivitiesProgressReport {
 
 	public void setContractor_id(String contractor_id) {
 		this.contractor_id = contractor_id;
+	}
+
+	public String getActivity_id_fk() {
+		return activity_id_fk;
+	}
+
+	public void setActivity_id_fk(String activity_id_fk) {
+		this.activity_id_fk = activity_id_fk;
+	}
+
+	public String getActivity_id() {
+		return activity_id;
+	}
+
+	public void setActivity_id(String activity_id) {
+		this.activity_id = activity_id;
+	}
+
+	public String getComponent_id() {
+		return component_id;
+	}
+
+	public void setComponent_id(String component_id) {
+		this.component_id = component_id;
 	}
 	
 	

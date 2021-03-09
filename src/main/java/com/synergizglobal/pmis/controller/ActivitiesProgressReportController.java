@@ -390,7 +390,7 @@ public class ActivitiesProgressReportController {
 						        
 						        cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(dObj.getFob_id_fk());
+								cell.setCellValue(dObj.getStructure());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
@@ -398,7 +398,7 @@ public class ActivitiesProgressReportController {
 								
 						        cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
-								cell.setCellValue(dObj.getComponent_id_name());
+								cell.setCellValue(dObj.getComponent_id());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(sectionStyle);
@@ -437,7 +437,7 @@ public class ActivitiesProgressReportController {
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Date date = new Date();
-            String fileName = "StripChart_"+dateFormat.format(date);
+            String fileName = "Activities_Report_"+dateFormat.format(date);
             
             try{
                 /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");

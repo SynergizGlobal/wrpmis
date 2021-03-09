@@ -763,8 +763,8 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 					}else {
 						pValues[i++] = obj.getFrom_date();
 					}
-					if(!StringUtils.isEmpty(contractProgressStructure) && !StringUtils.isEmpty(contractProgressStructure.getFob_id_fk())) {
-						pValues[i++] = contractProgressStructure.getFob_id_fk();
+					if(!StringUtils.isEmpty(contractProgressStructure) && !StringUtils.isEmpty(contractProgressStructure.getStructure())) {
+						pValues[i++] = contractProgressStructure.getStructure();
 					}
 					
 					List<ActivitiesProgressReport> contractProgressDatesList = jdbcTemplate.query( contractProgressDatesQry, pValues, new BeanPropertyRowMapper<ActivitiesProgressReport>(ActivitiesProgressReport.class));
@@ -796,7 +796,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 						totalContractProgresList.addAll(pList);
 					}
 					
-					structureProgresses.put(contractProgressStructure.getFob_id_fk(), totalContractProgresList);
+					structureProgresses.put(contractProgressStructure.getStructure(), totalContractProgresList);
 				}
 				
 				String sQry = "select contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name " + 

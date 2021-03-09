@@ -53,7 +53,7 @@
                       
                        <ul class="notifications_group" style="margin-top: 4px;" id="notificationList">
                        <!-- list of Notifications starts -->
-                      <%--  <c:forEach var="obj" items="${alerts }">
+                       <c:forEach var="obj" items="${alerts }">
                           <li class="head-item">${obj.key}</li>
                           <c:if test="${obj.key eq '3rd Alert'}">
                           	<c:set var="bgClass" value="type-3"></c:set>
@@ -94,14 +94,14 @@
 	                          </li>
 	                         
                           </c:forEach>
-                      </c:forEach> --%>
+                      </c:forEach>
                       
                       <!-- 	removable code starts here -->
-                      <li class="head-item">3rd Alert</li>
+                      <!-- <li class="head-item">3rd Alert</li>
                       <li class="item type-3">
                           <a href="#">
                           	<span class="icon">
-                          	 	<!-- <i class="material-icons">access_time</i> -->
+                          	 	<i class="material-icons">access_time</i>
                           	 	<i class="material-icons">security</i>
                           	 	<span class="icon-text">Insurance</span>
                           	 </span>                                   
@@ -114,7 +114,7 @@
                       <li class="item type-3">
 	                              <a href="#">
 	                              	<span class="icon">
-	                              	 	<!-- <i class="material-icons">access_time</i> -->
+	                              	 	<i class="material-icons">access_time</i>
 	                              	 	<i class="fa fa-money"></i>
 	                              	 	<span class="icon-text">Contract Value</span>
 	                              	 </span>                                   
@@ -128,7 +128,7 @@
 	                          <li class="item type-1">
 	                              <a href="#">
 	                              	<span class="icon">
-	                              	 	<!-- <i class="material-icons">access_time</i> -->
+	                              	 	<i class="material-icons">access_time</i>
 	                              	 	<i class="material-icons">access_time</i>
 	                              	 	<span class="icon-text">Contract Period</span>
 	                              	 </span>                                   
@@ -141,7 +141,7 @@
 	                          <li class="item type-1">
 	                              <a href="#">
 	                              	<span class="icon">
-	                              	 	<!-- <i class="material-icons">access_time</i> -->
+	                              	 	<i class="material-icons">access_time</i>
 	                              	 	<i class="material-icons">account_balance</i>
 	                              	 	<span class="icon-text">Bank Guarantee</span>
 	                              	 </span>                                   
@@ -150,7 +150,7 @@
 	                                 <div>Contractor : M/s. CEIL, Mumbai</div>
 	                                 <div>Reason : Performance Guarantee OGT0001190035274 valid upto 31-Mar-2021</div>
 	                              </a>
-	                          </li>
+	                          </li> -->
 	                          
 	                       <!-- 	removable code ends here -->
                       </ul>
@@ -193,32 +193,21 @@
 	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script> -->
 	
   <script>
-  $("#srch-term").on("keyup", function() {
-	    var value = $(this).val().toLowerCase();
-	    $("#notificationList li.item").filter(function() {
-	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-	    });
-	});
-	
-  $('.searching').on('keyup', function () {
-      var input = $(this);
-      if (input.val().length === 0) {
-          input.addClass('empty');
-      } else {
-          input.removeClass('empty');
-      }
-  });
-  
-  var count = 0;
-  <c:forEach var="aObj" items="${alerts }">
-  	if("${aObj.value}" != null){
-  		count = Number(count) + Number("${fn:length(aObj.value)}")
-  	}
-  </c:forEach>
-  
-	if(count > 99){
-		count = "99+"
-	}
+	  $("#srch-term").on("keyup", function() {
+		    var value = $(this).val().toLowerCase();
+		    $("#notificationList li.item").filter(function() {
+		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		    });
+		});
+		
+	  $('.searching').on('keyup', function () {
+	      var input = $(this);
+	      if (input.val().length === 0) {
+	          input.addClass('empty');
+	      } else {
+	          input.removeClass('empty');
+	      }
+	  });
   </script>
 
 </body>

@@ -321,10 +321,12 @@ public class RESTfullController {
 	public Response getAlertsCount(@RequestBody Alerts obj){
 		Response response = new Response();
 		int count = 0;
+		Alerts aObj = new Alerts();
 		try{
 			count = alertsService.getAlertsCount(obj);
+			aObj.setCount(String.valueOf(count));
 			response.setSuccess(true);
-			response.setResult(count);
+			response.setResult(aObj);
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("getAlertsList() : "+e.getMessage());

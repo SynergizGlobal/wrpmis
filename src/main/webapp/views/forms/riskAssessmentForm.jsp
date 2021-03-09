@@ -269,10 +269,12 @@
 																			name="action_takens" class="materialize-textarea"
 																			placeholder="Action Taken" style="height: 44px;">${aObj.action_taken}</textarea>
 																	</td>
-																	<td><a
-																		onclick="removeActions('${index.count }');"
-																		class="btn waves-effect waves-light red t-c "> <i
-																			class="fa fa-close"></i></a></td>
+																	<td>
+																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
+																	<i class="fa fa-close"></i></a> --%>
+																	<a onclick="removeActions('${index.count }');" style="font-size: 20px;"> 
+																	<i class="fa fa-close"></i></a>
+																	</td>
 																</tr>															
 															</c:forEach>
 														</c:when>
@@ -303,10 +305,14 @@
 																		name="action_takens" class="materialize-textarea"
 																		placeholder="Action Taken" style="height: 44px;"></textarea>
 																</td>
-																<td><a
-																	onclick="removeActions('0');"
-																	class="btn waves-effect waves-light red t-c "> <i
-																		class="fa fa-close"></i></a></td>
+																<td>
+																	<!-- <a onclick="removeActions('0');"
+																		class="btn waves-effect waves-light red t-c "> <i
+																		class="fa fa-close"></i></a> -->
+																		
+																		<a onclick="removeActions('0');" style="font-size: 20px;"> 
+																	<i class="fa fa-close"></i></a>
+																</td>
 															</tr>
 														</c:otherwise>
 													</c:choose>
@@ -350,7 +356,9 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
+                                        <%-- <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a> --%>
+                                            <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
                                             style="width:100%">Cancel</a>
                                     </div>
                                 </div>
@@ -404,6 +412,10 @@
            
         });
         
+        function closeTab(){
+        	 window.top.close();
+        }
+        
         
         
         function addRiskRow() {        	
@@ -421,7 +433,7 @@
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></div></td>'
 			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
 			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'
-			+'<td><a onclick="removeActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td></tr>';
+			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
             $("#rowNo").val(rNo);

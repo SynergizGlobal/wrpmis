@@ -543,7 +543,7 @@ public class RiskReportController {
 					filenameHint, id1, id2, imageAlignment);
 		}
 		
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
@@ -589,7 +589,7 @@ public class RiskReportController {
 		P p = factory.createP();
 		R r = factory.createR();		
 		
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				true, false, false, false);
 		
 		
@@ -697,7 +697,7 @@ public class RiskReportController {
 	
 	public void addEmptyParagraph(WordprocessingMLPackage wordMLPackage,
 			MainDocumentPart t, ObjectFactory factory) throws Exception {
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, false, false, false);
 		P paragraph = factory.createP();
 		setParagraphAlign(factory, paragraph, JcEnumeration.CENTER);
@@ -713,11 +713,11 @@ public class RiskReportController {
 	
 	public void addHeading(WordprocessingMLPackage wordMLPackage,
 			MainDocumentPart t, ObjectFactory factory,String contentValue) throws Exception {
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
 		P paragraph = factory.createP();
@@ -797,7 +797,7 @@ public class RiskReportController {
 	public Ftr createFooterWithPageNr(ObjectFactory factory) {
 		Ftr ftr = factory.createFtr();
 		P paragraph = factory.createP();
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);
 		R run = factory.createR();
 		run.setRPr(fontRPr);

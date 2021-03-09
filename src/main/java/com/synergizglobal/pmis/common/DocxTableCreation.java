@@ -52,20 +52,20 @@ import com.synergizglobal.pmis.model.Training;
 public class DocxTableCreation {	
 	public static void createTableForRiskAnalysisReport(WordprocessingMLPackage wordMLPackage,
 			MainDocumentPart t, ObjectFactory factory,RiskReport obj, List<RiskReport> prioritizationOfRisks, List<RiskReport> reductionPlanRisks) throws Exception {
-		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
 		
-		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "18",
+		RPr contentRpr = getRPr(factory, "Calibri", "000000", "18",
 				STHint.EAST_ASIA, false, false, false, false);
 		
-		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);
 		
 		addHeading(wordMLPackage, t, factory,JcEnumeration.RIGHT,fontRPr,"Annexure-I");
@@ -236,7 +236,7 @@ public class DocxTableCreation {
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
@@ -277,15 +277,16 @@ public class DocxTableCreation {
 			
 			Tr titleRow = factory.createTr();		
 			List<String> tableHeader = new ArrayList<String>();
-			tableHeader.add("PRIORITY\n" + 
+			tableHeader.add("PRIORITY \n" + 
 					"NO.");
-			tableHeader.add("ITEM NO(of Ann-I)");
-			tableHeader.add("RISK\n" + 
+			tableHeader.add("ITEM NO (of Ann-I)");
+			tableHeader.add("RISK \n" + 
 					"RATING");
-			tableHeader.add("RISK\n" + 
+			tableHeader.add("RISK \n" + 
 					"CLASSIFICATION");
-			tableHeader.add("MITIGATION/REDUCTION\n" + 
+			tableHeader.add("MITIGATION / REDUCTION\n" + 
 					"PLAN");			
+			tableHeader.add("ATR DATE");
 			tableHeader.add("ACTION TAKEN");
 			
 			for (String headerValue : tableHeader) {
@@ -303,10 +304,12 @@ public class DocxTableCreation {
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getClassification(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getAtr_date(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getAction_taken(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
@@ -328,20 +331,20 @@ public class DocxTableCreation {
 	
 	public static void createTableForPendingIssuesReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
 			ObjectFactory factory, List<Issue> pendingIssues) {
-		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
-		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
-		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
 		Tbl table = factory.createTbl();
@@ -423,20 +426,20 @@ public class DocxTableCreation {
 
 	public static void createTableForSafetyReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart t,
 			ObjectFactory factory, List<Safety> safetyData) {
-		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
-		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
-		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
 		Tbl table = factory.createTbl();
@@ -519,20 +522,20 @@ public class DocxTableCreation {
 
 	public static void createTableForScheduledTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, List<Training> scheduledTrainings) {
-		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
-		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
-		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
 		
@@ -727,20 +730,20 @@ public class DocxTableCreation {
 
 	public static void createTableForEmployeeTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, List<Training> employeeTrainings) {
-		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
-		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
-		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
 		String employeeName = null,trainee_designation = null,department = null, reportingTo = null,nominated = null, attended = null;
@@ -897,20 +900,20 @@ public class DocxTableCreation {
 
 	public static void createTableForCompletedTrainingReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, List<Training> completedTrainings) {
-		RPr titleRpr = getRPr(factory, "ralewaymedium", "000000", "18", STHint.EAST_ASIA,
+		RPr titleRpr = getRPr(factory, "Calibri", "000000", "18", STHint.EAST_ASIA,
 				true, false, false, false);
 		
-		RPr contentRpr = getRPr(factory, "ralewaymedium", "000000", "14",
+		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
-		RPr contentRprParent = getRPr(factory, "ralewaymedium", "000000", "20",
+		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
-		RPr titleRPr = getRPr(factory, "ralewaymedium", "000000", "28", STHint.EAST_ASIA,
+		RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA,
 				true, true, false, false);
-		RPr boldRPr = getRPr(factory, "ralewaymedium", "000000", "22", STHint.EAST_ASIA,
+		RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);
-		RPr fontRPr = getRPr(factory, "ralewaymedium", "000000", "20", STHint.EAST_ASIA,
+		RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA,
 				false, false, false, false);		
 		
 		

@@ -734,7 +734,7 @@
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
-	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
 	                        if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
 	                        	id1 = val.work_id;
 	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
@@ -826,7 +826,7 @@
 	                if (data.length > 0) {
 	                    $.each(data, function (i, val) {
 	                        var workName = '';
-	                        if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
+	                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
 	                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
 	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
 	                        } else {

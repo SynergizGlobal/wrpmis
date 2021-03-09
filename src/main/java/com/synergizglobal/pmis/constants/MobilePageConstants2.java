@@ -3,7 +3,7 @@ package com.synergizglobal.pmis.constants;
 public class MobilePageConstants2 {
 		public static final String webDocuments = "mobileForms/webDocuments";
 		
-		public static final String progress = "mobileForms/progress";
+		public static final String activitiesProgressForm = "mobileForms/activitiesProgressForm";
 		
 		public static final String issuesGrid = "mobileForms/issueGrid";
 		public static final String issueForm = "mobileForms/issueForm";	
@@ -11,7 +11,7 @@ public class MobilePageConstants2 {
 		public static final String safetyGrid = "mobileForms/safetyIncidentsGrid";
 		public static final String safetyForm = "mobileForms/safetyIncidentsForm";
 		
-		public static final String progressBulkUpdate = "mobileForms/progressBulkUpdate";
+		public static final String activitiesBulkUpdate = "mobileForms/activitiesBulkUpdate";
 		
 		public static final String contractGrid = "mobileForms/contractGrid";
 		public static final String addEditContractForm = "mobileForms/addEditContractForm";

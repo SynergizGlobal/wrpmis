@@ -1034,13 +1034,13 @@
                                     //}
                                     html = html + '</div>';
                                 	
-                                	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                                	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id) + '</option>');
                                 } else {                
                                 	
                                 	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
                                     + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getActivitiesActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
                                     + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
-                                   // if(i != 0){
+                                   // if(i != 0){ 
                                     	html = html + '<span class="dot-line"></span>';
                                    // }
                                     html = html + '</div>';

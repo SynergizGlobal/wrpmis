@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Update Form</title>
+    <title>Acivities Update Form</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">    
      
@@ -143,7 +143,7 @@
         }
 
         #dotgroup1 .dot.in-progress {
-            background-color: #FD7E29;
+            background-color: #FFFF00;
         }
 
 
@@ -246,7 +246,7 @@
         }
 
         .box.in-progress {
-            background-color: #f60;
+            background-color: #FFFF00;
         }
 
         .box.completed {
@@ -276,7 +276,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Progress Update Form</h6>
+                                <h6>Acivities Update Form</h6>
                             </div>
                         </span>
                     </div>
@@ -293,17 +293,17 @@
 								   ${error}
 								</div>
 							</c:if>
-                            <form id="stripChartForm" name="stripChartForm" method="post" enctype="multipart/form-data">
+                            <form id="activitiesChartForm" name="activitiesChartForm" method="post" enctype="multipart/form-data">
                                 <div class="col m1 hide-on-small-only"></div>
                                 <div class="col m10 s12">
                                     <div class="row">
                                         <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id"
-                                                onchange="getStripChartWorksList(this.value);">
+                                                onchange="getActivitiesWorksList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
-                                                    <option value="${obj.project_id }" <c:if test="${obj.project_id eq stripChartData.project_id }">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                                    <option value="${obj.project_id }" <c:if test="${obj.project_id eq activitiesData.project_id }">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
@@ -311,10 +311,10 @@
                                         <div class="col m8 s6 input-field">
                                             <p class="searchable_label">Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                                onchange="getStripChartContractsList(this.value);">
+                                                onchange="getActivitiesContractsList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq stripChartData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq activitiesData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="work_id_fkError" class="error-msg" ></span>
@@ -322,12 +322,12 @@
                                         <div class="col m12 s6 input-field">
                                             <p class="searchable_label">Contract</p>
                                             <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
-                                                onchange="getComponentIdsList('1');getStripChartStructures(); getStripChartLines(); getStripChartSections();"> -->
+                                                onchange="getComponentIdsList('1');getActivitiesStructures(); getActivitiesLines(); getActivitiesSections();"> -->
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
-                                                onchange="resetWorksAndProjectsDropdowns();getStripChartStructures(); getStripChartLines(); getStripChartSections();">
+                                                onchange="resetWorksAndProjectsDropdowns();getActivitiesStructures(); getActivitiesLines(); getActivitiesSections();">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq stripChartData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
+                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -373,22 +373,22 @@
                                     </div>
 
  									<div class="row legends" id="legends" style="display:none;">
-                                        <div class="col m3 s6 center-align mb-2">
+                                        <div class="col m4 s3 center-align">
                                             <span class="box not-started"></span>
                                             <span class="description">Not Started</span>
                                         </div>
-                                        <div class="col m3 s6 center-align mb-2">
+                                        <div class="col m4 s3  center-align">
                                             <span class="box in-progress"></span>
                                             <span class="description">In Progress</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s3  center-align">
                                             <span class="box completed"></span>
                                             <span class="description">Completed</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <!-- <div class="col m3 s6 center-align">
                                             <span class="box delayed"></span>
                                             <span class="description">Delayed</span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="row">
                                     	
@@ -413,7 +413,7 @@
                                         <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Activity</p>
                                             <select id="strip_chart_activity_id" name="strip_chart_activity_id"
-                                                class="searchable validate-dropdown" onchange="getStripChartDetails(this.value);">
+                                                class="searchable validate-dropdown" onchange="getActivitiesDetails(this.value);">
                                                 <option value="">Select</option>
                                             </select>
                                             <span id="strip_chart_activity_idError" class="error-msg" ></span>
@@ -473,17 +473,6 @@
 
                                     <div class="row">
                                         <div class="col m6 s12">
-                                            <div class="file-field input-field">
-                                                <div class="btn bg-m">
-                                                    <span>Attachment</span>
-                                                    <input type="file" id="stripChartFile" name="stripChartFile">
-                                                </div>
-                                                <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col m6 s12">
                                             <div class="row">
                                                 <!-- row 7 -->
                                                 <div class="col s5 m6 input-field center-align">
@@ -500,7 +489,7 @@
                                                         </label>
                                                         <label>
                                                             <input class="with-gap" name="is_there_issue" type="radio"
-                                                                value="no" />
+                                                                value="no" Checked/>
                                                             <span>No</span>
                                                         </label>
                                                     </p>
@@ -550,20 +539,32 @@
                                                 <span id="issue_category_idError" class="error-msg" ></span>
                                             </div>
                                             <div class="col s6 m12 input-field" style="margin-top:23px">
-                                                <textarea id="issue_description" name="issue_description" class="materialize-textarea datelike"></textarea>
+                                                <textarea id="issue_description" name="issue_description" class="materialize-textarea datelike" data-length="500"></textarea>
                                                 <label for="issue_description">Issue Description</label>
                                                 <span id="issue_descriptionError" class="error-msg" ></span>
                                             </div>
+                                            <div class="row">
+                                       <!--  <div class="col m12 s12" id="issue_yes_attachment" style="display: none;"> -->
+                                            <div class="col m8 s12 file-field input-field" >
+                                                <div class="btn bg-m">
+                                                    <span>Attachment</span>
+                                                    <input type="file" id="stripChartFile" name="stripChartFile">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                    <input class="file-path validate" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col m12 s12 input-field">
                                             <textarea id="remarks" name="remarks" class="materialize-textarea"
-                                                data-length="500">${stripChartData.remarks}</textarea>
+                                                data-length="500">${activitiesData.remarks}</textarea>
                                             <label for="remarks" class="">Remarks</label>
                                         </div>
                                     </div>
-                                    <input type="hidden" id="strip_chart_id" name="strip_chart_id" value="${stripChartData.strip_chart_id}" />
+                                    <input type="hidden" id="activity_id" name="activity_id" value="${activitiesData.activity_id}" />
                                     
                                     <input type="hidden" id="strip_chart_component_id_name" name="strip_chart_component_id_name" />
                                     <input type="hidden" id="strip_chart_line" name="strip_chart_line" />
@@ -580,7 +581,7 @@
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
                                                 <button type="reset" class="btn waves-effect waves-light bg-s"
-                                                    style="width: 100%;">Reset</button>
+                                                    style="width: 100%;">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
@@ -691,18 +692,18 @@
 	        });
   	      
 
-            var project_id = "${stripChartData.project_id}";
+            var project_id = "${activitiesData.project_id}";
             if ($.trim(project_id) != '') {
             	$("#project_id").val(project_id);
             	$("#project_id").select2();
-            	getStripChartWorksList(project_id);
+            	getActivitiesWorksList(project_id);
             }
            
         });
 
 
         //geting works list from database    
-        function getStripChartWorksList(projectId) { 
+        function getActivitiesWorksList(projectId) { 
         	$(".page-loader").show();
         	$("#contract_id_fk option:not(:first)").remove();    	
             $("#work_id_fk option:not(:first)").remove();
@@ -718,11 +719,11 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartWorksList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesWorksList",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
-                        var id2 = "${stripChartData.work_id}";
+                        var id2 = "${activitiesData.work_id}";
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var workName = '';
@@ -739,7 +740,7 @@
                         $(".page-loader").hide();
                         
                         if ($.trim(id1) != '' && $.trim(id2) != '') {
-                        	getStripChartContractsList(id2);
+                        	getActivitiesContractsList(id2);
                         }
                     }
                 });
@@ -749,7 +750,7 @@
         }
 
         //geting contracts list    
-        function getStripChartContractsList(work_id_fk) {
+        function getActivitiesContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
             
@@ -762,11 +763,11 @@
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartContractsList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesContractsList",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
-                    	var id2 = "${stripChartData.contract_id}";                        
+                    	var id2 = "${activitiesData.contract_id}";                        
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var contract_short_name = '';
@@ -783,7 +784,7 @@
                         $(".page-loader").hide();
                         
                         if ($.trim(id1) != '' && $.trim(id2) != '') {
-                        	getStripChartStructures(id2);
+                        	getActivitiesStructures(id2);
                         }
                     }
                 });
@@ -812,7 +813,7 @@
        			$("#work_id_fk option:not(:first)").remove();
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartWorksList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesWorksList",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -854,21 +855,21 @@
         	$("#completed").val('');
         	$("#remaining").val('');
         	$(".unit_fk").html("");
-        	$("#strip_chart_id").val("");        	
+        	$("#activity_id").val("");        	
         }
         
-        function getStripChartStructures() {
+        function getActivitiesStructures() {
         	$(".page-loader-2").show();
         	var contract_id_fk = $("#contract_id_fk").val();
             $("#strip_chart_structure_id_fk option:not(:first)").remove();
             if ($.trim(contract_id_fk) != "") {
             	var myParams = { contract_id_fk: contract_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartStructures",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesStructures",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
-                    	var id2 = "${stripChartData.strip_chart_structure_id}";
+                    	var id2 = "${activitiesData.strip_chart_structure_id}";
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
 	                            if ($.trim(id2) != '' && val.strip_chart_structure_id_fk == $.trim(id2)) {
@@ -893,13 +894,13 @@
             }
         }
         
-        function getStripChartLines() {
+        function getActivitiesLines() {
         	var contract_id_fk = $("#contract_id_fk").val();
             $("#strip_chart_line_id_fk option:not(:first)").remove();
             if ($.trim(contract_id_fk) != "") {
             	var myParams = { contract_id_fk: contract_id_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartLines",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesLines",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -916,13 +917,13 @@
             }
         }
         
-        function getStripChartSections() {
+        function getActivitiesSections() {
         	var contract_id_fk = $("#contract_id_fk").val();
             $("#strip_chart_section_id_fk option:not(:first)").remove();
             if ($.trim(contract_id_fk) != "") {
             	var myParams = { contract_id_fk: contract_id_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartSections",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesSections",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -958,8 +959,8 @@
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
-                    	var id2 = "${stripChartData.strip_chart_component_id}";
-                        var strip_chart_component = "${stripChartData.strip_chart_component}";
+                    	var id2 = "${activitiesData.strip_chart_component_id}";
+                        var strip_chart_component = "${activitiesData.strip_chart_component}";
                         
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -973,19 +974,19 @@
                                 if(val.component_id_color == "completed"){
                                 	pointerEvent = "pointer-events: none;";
                                 	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'" >'
-                                    + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
-                                    + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
+                                    + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getActivitiesActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                    + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
                                    // if(i != 0){
                                     	html = html + '<span class="dot-line"></span>';
                                     //}
                                     html = html + '</div>';
                                 	
-                                	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+                                	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" disabled>' + $.trim(val.strip_chart_component_id) + '</option>');
                                 } else {                
                                 	
                                 	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                    + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getStripChartActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
-                                    + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
+                                    + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getActivitiesActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+'" >'
+                                    + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
                                    // if(i != 0){
                                     	html = html + '<span class="dot-line"></span>';
                                    // }
@@ -993,9 +994,9 @@
                                 	
                                 	if ($.trim(id2) != '' && val.strip_chart_component_id == $.trim(id2)) {
                                 		id1 = val.strip_chart_component_id;
-    	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+    	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id) + '</option>');
     	                            } else {
-    	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
+    	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id) + '</option>');
     	                            }
                                 }                                
                             });
@@ -1014,7 +1015,7 @@
                         
                         
                         if ($.trim(id1) != '' && $.trim(id2) != '') {
-                        	getStripChartActivitiesList(id2,strip_chart_component);
+                        	getActivitiesActivitiesList(id2,strip_chart_component);
                         }
                     }
                 });
@@ -1034,13 +1035,13 @@
         	$("#completed").val(completed);
         	$("#remaining").val(remaining);
         	$(".unit_fk").html("");
-        	$("#strip_chart_id").val("");
+        	$("#activity_id").val("");
         }
 
-        function getStripChartActivitiesList(componentId,componentName) {
+        function getActivitiesActivitiesList(componentId,componentName) {
         	
         	$( ".dot" ).removeClass( "active" );
-        	$( "#"+componentId ).addClass( "active" );
+        	$( "#"+componentName ).addClass( "active" );
         	
         	/* $("#strip_chart_component option:not(:first)").remove();
         	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
@@ -1063,11 +1064,11 @@
                 		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
                 		strip_chart_section_id_fk : strip_chart_section_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartActivitiesList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesActivitiesList",
                     data: myParams, cache: false,
                     success: function (data) {
                     	var id1 = "";
-                    	var id2 = "${stripChartData.strip_chart_activity_id}";
+                    	var id2 = "${activitiesData.strip_chart_activity_id}";
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
 	                            if ($.trim(id2) != '' && val.strip_chart_activity_id == $.trim(id2)) {
@@ -1082,7 +1083,7 @@
                         $(".page-loader").hide();                        
                         
                         if ($.trim(id1) != '' && $.trim(id2) != '') {
-                        	getStripChartDetails(id2);
+                        	getActivitiesDetails(id2);
                         }
                     }
                 });
@@ -1099,7 +1100,7 @@
         	$("#completed").val(completed);
         	$("#remaining").val(remaining);
         	$(".unit_fk").html("");
-        	$("#strip_chart_id").val("");
+        	$("#activity_id").val("");
         }
         
         function getComponentAndActivitiesList(componentId){
@@ -1133,7 +1134,7 @@
                 		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
                 		strip_chart_section_id_fk : strip_chart_section_id_fk };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartActivitiesList",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesActivitiesList",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -1158,14 +1159,14 @@
         	$("#completed").val(completed);
         	$("#remaining").val(remaining);
         	$(".unit_fk").html("");
-        	$("#strip_chart_id").val("");
+        	$("#activity_id").val("");
         }
         
         
         function getIssuesCategoryList() {
         	$("#issue_category_id option:not(:first)").remove();
             $.ajax({
-                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getIssuesCategoryList",
+                url: "<%=request.getContextPath()%>/ajax/getIssuesCategoryListForActivities",
                 cache: false,
                 success: function (data) {
                     if (data.length > 0) {
@@ -1178,7 +1179,7 @@
             });
         }
 
-        function getStripChartDetails(activitiId) {
+        function getActivitiesDetails(activitiId) {
         	$(".page-loader").show();
         	
         	$("#plannedStart").html("");
@@ -1190,7 +1191,7 @@
         	$("#completed").val(completed);
         	$("#remaining").val(remaining);
         	$(".unit_fk").html("");
-        	$("#strip_chart_id").val("");
+        	$("#activity_id").val("");
         	
             var componentId = $("#strip_chart_component_id").val();
             var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
@@ -1224,7 +1225,7 @@
                 		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
                 		strip_chart_section_id_fk : strip_chart_section_id_fk};
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getStripChartDetails",
+                    url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getActivitiesDetails",
                     data: myParams, cache: false,
                     success: function (data) {
                     	$("#plannedStart").html(data.planned_start);
@@ -1247,7 +1248,7 @@
                     	
                     	$(".unit_fk").html(data.unit_fk);
                     	
-                    	$("#strip_chart_id").val(data.strip_chart_id);
+                    	$("#activity_id").val(data.activity_id);
                     	
                     	$(".page-loader").hide();
                     }
@@ -1264,8 +1265,8 @@
         function saveProgress(){
     		if(validator.form()){ // validation perform
     			 $(".page-loader").show();
-    			document.getElementById("stripChartForm").action = "<%=request.getContextPath() %>/mobileappwebview/update-stripchart";
-    			document.getElementById("stripChartForm").submit();			
+    			document.getElementById("activitiesChartForm").action = "<%=request.getContextPath() %>/mobileappwebview/update-activity-progress";
+    			document.getElementById("activitiesChartForm").submit();			
     	 	}
     	}
     	    	
@@ -1273,7 +1274,7 @@
     	
     	// to validate apartment form inputs thruogh jquery.
     	   
-    	    var validator = $('#stripChartForm').validate({
+    	    var validator = $('#activitiesChartForm').validate({
     	    	ignore: ":hidden:not(.validate-dropdown)",
     			   rules: {
 	    				  "project_id": {

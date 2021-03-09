@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Bulk Update</title>
+    <title>Activities Bulk Update</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
@@ -124,7 +124,7 @@
             background-color: #fff;
         }
         #dotgroup1 .dot.in-progress {
-            background-color: #FD7E29;
+            background-color:  #FFFF00;
         }
         #dotgroup1 .dot.completed {
             background-color: #05a705;
@@ -220,7 +220,7 @@
             background-color: #fff;
         }
         .box.in-progress {
-            background-color: #f60;
+            background-color:  #FFFF00;
         }
         .box.completed {
             background-color: #05a705;
@@ -253,7 +253,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h6>Progress Bulk Update Form</h6>
+                                <h6>Activities Bulk Update Form</h6>
                             </div>
                         </span>
                     </div>
@@ -268,7 +268,7 @@
 						   ${error}
 						</div>
 				    </c:if>
-                    <form action="<%=request.getContextPath() %>/mobileappwebview/update-progress-bulk" id="ProgressBulkUpdateForm" name="ProgressBulkUpdateForm" method="post" >
+                    <form action="<%=request.getContextPath() %>/mobileappwebview/update-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" >
                     <div class="container container-no-margin">
                         <div class="row">                          
                                 <div class="col m1 hide-on-small-only"></div>
@@ -277,7 +277,7 @@
                                         <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id"
-                                                onchange="getProgressBulkUpdateWorksList(this.value);">
+                                                onchange="getAcivitiesBulkUpdateWorksList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${projectsList }">
                                                     <option value="${obj.project_id }">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
@@ -288,7 +288,7 @@
                                         <div class="col m8 s6 input-field">
                                             <p class="searchable_label">Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                                onchange="getProgressBulkUpdateContractsList(this.value);">
+                                                onchange="getAcivitiesBulkUpdateContractsList(this.value);">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${worksList }">
                                                     <option value="${obj.work_id }">${obj.work_id}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
@@ -301,7 +301,7 @@
                                     	<div class="col m12 s6 input-field">
                                             <p class="searchable_label">Contract</p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"
-                                                onchange="resetWorksAndProjectsDropdowns();getProgressBulkUpdateStructures(); getProgressBulkUpdateLines(); getProgressBulkUpdateSections();">
+                                                onchange="resetWorksAndProjectsDropdowns();getAcivitiesBulkUpdateStructures(); getAcivitiesBulkUpdateLines(); getAcivitiesBulkUpdateSections();">
                                                 <option value="">Select</option>
                                                 <c:forEach var="obj" items="${contractsList }">
                                                 	<option name="${obj.work_id_fk }" value="${obj.contract_id }" >${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if>${obj.contract_short_name}</option>
@@ -343,23 +343,23 @@
                                         </div>
                                     </div> 
 
-									<div class="row legends" id="legends" style="/*display:none;*/">
-                                        <div class="col m3 s6 center-align mb-2">
+									<div class="row legends" id="legends" style="display:none;">
+                                        <div class="col m4 s6 center-align">
                                             <span class="box not-started"></span>
                                             <span class="description">Not Started</span>
                                         </div>
-                                        <div class="col m3 s6 center-align mb-2">
+                                        <div class="col m4 s6 center-align">
                                             <span class="box in-progress"></span>
                                             <span class="description">In Progress</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <div class="col m4 s6 center-align" style ="margin-top: 10px">
                                             <span class="box completed"></span>
                                             <span class="description">Completed</span>
                                         </div>
-                                        <div class="col m3 s6 center-align">
+                                        <!-- <div class="col m3 s6 center-align">
                                             <span class="box delayed"></span>
                                             <span class="description">Delayed</span>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <div class="row">                                     
@@ -469,11 +469,11 @@
                                             <label for="remarks" class="">Remarks</label>
                                         </div>
                                     </div>
-                                    <input type="hidden" id="strip_chart_id" name="strip_chart_id" />
+                                    <input type="hidden" id="activity_id" name="activity_id" />
                                     <div class="row">
                                         <div class="col s12 m6">
                                             <div class="center-align m-1">
-                                                <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m"
+                                                <button type="button" onclick="updateAcivities();" id="btn" class="btn waves-effect waves-light bg-m"
                                                     style="width: 100%;" >Update</button>
                                             </div>
                                         </div>
@@ -610,7 +610,7 @@
 	    });
 	});
 	
-	function getProgressBulkUpdateWorksList(projectId) { 
+	function getAcivitiesBulkUpdateWorksList(projectId) { 
 		$(".page-loader").show();
 		$("#contract_id_fk option:not(:first)").remove();    	
 	    $("#work_id_fk option:not(:first)").remove();
@@ -626,7 +626,7 @@
 	    if ($.trim(projectId) != "") {
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateWorksList",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateWorksList",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	            	var id1 = "";
@@ -647,7 +647,7 @@
 	                $(".page-loader").hide();
 	                
 	                if ($.trim(id1) != '' && $.trim(id2) != '') {
-	                	getProgressBulkUpdateContractsList(id2);
+	                	getAcivitiesBulkUpdateContractsList(id2);
 	                }
 	            }
 	        });
@@ -657,7 +657,7 @@
 	}
 	
 	//geting contracts list    
-	function getProgressBulkUpdateContractsList(work_id_fk) {
+	function getAcivitiesBulkUpdateContractsList(work_id_fk) {
 		$(".page-loader").show();
 	    $("#contract_id_fk option:not(:first)").remove();
 	    
@@ -670,7 +670,7 @@
 	    if ($.trim(work_id_fk) != "") {
 	        var myParams = { work_id_fk: work_id_fk };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateContractsList",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateContractsList",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	            	var id1 = "";
@@ -691,7 +691,7 @@
 	                $(".page-loader").hide();
 	                
 	                if ($.trim(id1) != '' && $.trim(id2) != '') {
-	                	getProgressBulkUpdateStructures(id2);
+	                	getAcivitiesBulkUpdateStructures(id2);
 	                }
 	            }
 	        });
@@ -720,7 +720,7 @@
 				$("#work_id_fk option:not(:first)").remove();
 	        var myParams = { project_id_fk: projectId };
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateWorksList",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateWorksList",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -759,14 +759,14 @@
          $("#table_show").hide();    	
      } 
 	
-	  function getProgressBulkUpdateStructures() {
+	  function getAcivitiesBulkUpdateStructures() {
       	$(".page-loader-2").show();
       	var contract_id_fk = $("#contract_id_fk").val();
           $("#strip_chart_structure_id_fk option:not(:first)").remove();
           if ($.trim(contract_id_fk) != "") {
           	var myParams = { contract_id_fk: contract_id_fk };
               $.ajax({
-                  url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateStructures",
+                  url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateStructures",
                   data: myParams, cache: false,
                   success: function (data) {
                   	var id1 = "";
@@ -796,13 +796,13 @@
       }
 	  
 	  
-	function getProgressBulkUpdateLines() {
+	function getAcivitiesBulkUpdateLines() {
 		var contract_id_fk = $("#contract_id_fk").val();
 	    $("#strip_chart_line_id_fk option:not(:first)").remove();
 	    if ($.trim(contract_id_fk) != "") {
 	    	var myParams = { contract_id_fk: contract_id_fk};
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateLines",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateLines",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -819,13 +819,13 @@
 	    }
 	}
 	
-	function getProgressBulkUpdateSections() {
+	function getAcivitiesBulkUpdateSections() {
 		var contract_id_fk = $("#contract_id_fk").val();
 	    $("#strip_chart_section_id_fk option:not(:first)").remove();
 	    if ($.trim(contract_id_fk) != "") {
 	    	var myParams = { contract_id_fk: contract_id_fk};
 	        $.ajax({
-	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateSections",
+	            url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateSections",
 	            data: myParams, cache: false,
 	            success: function (data) {
 	                if (data.length > 0) {
@@ -856,7 +856,7 @@
 
          if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" ) {                
              $.ajax({
-                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateComponentIdsList",
+                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateComponentIdsList",
                  data: myParams, cache: false,
                  success: function (data) {
                  	var id1 = "";
@@ -875,8 +875,8 @@
                              if(val.component_id_color == "completed"){
                              	pointerEvent = "pointer-events: none;";
                              	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getProgressBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
-                                 + '<span class="project '+className+'" >'+val.strip_chart_component_id_name+'</span></a>';
+                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
+                                 + '<span class="project '+className+'" >'+val.strip_chart_component_id+'</span></a>';
                                 // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
                                 // }
@@ -886,8 +886,8 @@
                              } else {                
                              	
                              	html = html + '<div class="dot-container" id="dd'+val.strip_chart_component_id+'">'
-                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getProgressBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
-                                 + '<span class="project '+className+'">'+val.strip_chart_component_id_name+'</span></a>';
+                                 + '<a href="javascript:void(0);" id="'+val.strip_chart_component_id+'" style="'+pointerEvent+'" onclick="getAcivitiesBulkUpdateActivitiesList('+componentIdAndName+');" class="dot '+val.component_id_color+' clearData" >'
+                                 + '<span class="project '+className+'">'+val.strip_chart_component_id+'</span></a>';
                                 // if(i != 0){
                                  	html = html + '<span class="dot-line"></span>';
                                 // }
@@ -895,9 +895,9 @@
                              	
                              	if ($.trim(id2) != '' && val.strip_chart_component_id == $.trim(id2)) {
                              		id1 = val.strip_chart_component_id;
- 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id_name) + '</option>');
+ 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '" selected>' + $.trim(val.strip_chart_component_id) + '</option>');
  	                            } else {
- 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id_name) + '</option>');
+ 	                            	$("#strip_chart_component_id").append('<option name="' + val.strip_chart_component + '" value="' + val.strip_chart_component_id + '">' + $.trim(val.strip_chart_component_id) + '</option>');
  	                            }
                              }                                
                          });
@@ -916,7 +916,7 @@
                      
                      
                      if ($.trim(id1) != '' && $.trim(id2) != '') {
-                     	getProgressBulkUpdateActivitiesList(id2,strip_chart_component);
+                     	getAcivitiesBulkUpdateActivitiesList(id2,strip_chart_component);
                      }
                  }
              });
@@ -928,9 +928,9 @@
          }
      }
 	 
-	 function getProgressBulkUpdateActivitiesList(componentId,componentName) {
+	 function getAcivitiesBulkUpdateActivitiesList(componentId,componentName) {
      	$( ".dot" ).removeClass( "active" );
-     	$( "#"+componentId ).addClass( "active" );
+     	$( "#"+componentName ).addClass( "active" );
      	
      	/* $("#strip_chart_component option:not(:first)").remove();
      	$("#strip_chart_component").append('<option value="' + componentName + '" selected>' + $.trim(componentName) + '</option>');
@@ -953,7 +953,7 @@
              		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
              		strip_chart_section_id_fk : strip_chart_section_id_fk };
              $.ajax({
-                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateActivitiesList",
+                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateActivitiesList",
                  data: myParams, cache: false,
                  success: function (data) {
                  	var id1 = "";
@@ -1010,7 +1010,7 @@
              		strip_chart_line_id_fk : strip_chart_line_id_fk,strip_chart_structure_id_fk : strip_chart_structure_id_fk,
              		strip_chart_section_id_fk : strip_chart_section_id_fk };
              $.ajax({
-                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getProgressBulkUpdateActivitiesList",
+                 url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getAcivitiesBulkUpdateActivitiesList",
                  data: myParams, cache: false,
                  success: function (data) {
                      if (data.length > 0) {
@@ -1053,7 +1053,7 @@
  	                    	 var num = $('#table tbody tr').length;
  	                    	 html = '<tr id="row'+num+'">'+
  	                    	 	'<td><label><input type="hidden" class="check" name="activity_check" id="check_'+num+'"/><span></span></label></td>'
- 	                    		+'<input type="hidden" name="strip_chart_ids"  id="strip_chart_id'+num+'"  value="' + $.trim(val.strip_chart_id) + '" /></td>'
+ 	                    		+'<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
  	            	 			+'<td data-head="Component ID"><div>' + $.trim(val.strip_chart_component_id_name) + '</div></td>'
  	            	 			+'<td data-head="Component"><div>' + $.trim(val.strip_chart_component) + '</div></td>'
  	            	 			+'<td data-head="Activity"><div>' + $.trim(val.strip_chart_activity_name) + '</div></td>'
@@ -1169,14 +1169,14 @@
      }
   
      //update button functionality
-     function updateProgress(){
+     function updateAcivities(){
     	 if(validator.form()){ // validation perform
 	        	$(".page-loader").show();	    		
-	   			document.getElementById("ProgressBulkUpdateForm").submit();	
+	   			document.getElementById("ActivitiesBulkUpdateForm").submit();	
      	}
      }
   
-     var validator = $('#ProgressBulkUpdateForm').validate({
+     var validator = $('#ActivitiesBulkUpdateForm').validate({
     	 ignore: ":hidden:not(.validate-dropdown)",
     	 rules: {
     		  "project_id": {

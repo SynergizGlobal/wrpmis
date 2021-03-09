@@ -1,4 +1,4 @@
-package com.synergizglobal.pmis.controller;
+package com.synergizglobal.pmis.webview.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,34 +24,34 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ActivitiesService;
-import com.synergizglobal.pmis.Iservice.IssueService;
-import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.constants.MobilePageConstants2;
+import com.synergizglobal.pmis.controller.HomeController;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.StripChart;
 
 @Controller
-public class ActivitiesController {
+@RequestMapping("/mobileappwebview")
+public class WebviewActivityProgressController {
+
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
 	Logger logger = Logger.getLogger(HomeController.class);
-	@Autowired
-	ActivitiesService activitiesService;
 	
 	@Autowired
-	IssueService issueService;
+	ActivitiesService activitiesService;
+
 	
 	
 	@RequestMapping(value="/activity-progress",method=RequestMethod.GET)
-	public ModelAndView activities(@ModelAttribute StripChart obj,HttpSession session) throws IOException {
-		ModelAndView model = new ModelAndView(PageConstants.activitiesProgress);
+	public ModelAndView stripChart(@ModelAttribute StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(MobilePageConstants2.activitiesProgressForm);
 		try {
 			List<StripChart> projectsList = activitiesService.getActivitiesProjectsList(obj);
 			model.addObject("projectsList", projectsList);
@@ -63,13 +63,13 @@ public class ActivitiesController {
 			model.addObject("contractsList", contractsList);
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_id())) {
-				StripChart activitiesData = activitiesService.getActivitiesData(obj);
-				model.addObject("activitiesData", activitiesData);
+				StripChart stripChartData = activitiesService.getActivitiesData(obj);
+				model.addObject("stripChartData", stripChartData);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("activities : " + e.getMessage());
+			logger.error("Activities : " + e.getMessage());
 		}
 		return model;
 	}
@@ -78,21 +78,21 @@ public class ActivitiesController {
 	
 	@RequestMapping(value="/activity-progress/{activityId}",method=RequestMethod.GET)
 	public ModelAndView getActivitiesData(@PathVariable("activityId")String activityId,@ModelAttribute StripChart obj,HttpSession session) throws IOException {
-		ModelAndView model = new ModelAndView(PageConstants.activitiesProgress);
+		ModelAndView model = new ModelAndView(MobilePageConstants2.activitiesProgressForm);
 		try {
 			
 			List<StripChart> projectsList = activitiesService.getActivitiesProjectsList(obj);
 			model.addObject("projectsList", projectsList);
 			
-			/*List<StripChart> worksList = activitiesService.getActivitiesWorksList(obj);
+			/*List<StripChart> worksList = activitiesService.getStripChartWorksList(obj);
 			model.addObject("worksList", worksList);
 			
-			List<StripChart> contractsList = activitiesService.getActivitiesContractsList(obj);
+			List<StripChart> contractsList = activitiesService.getStripChartContractsList(obj);
 			model.addObject("contractsList", contractsList);*/
 			
 			obj.setActivity_id(activityId);
-			StripChart activitiesData = activitiesService.getActivitiesData(obj);
-			model.addObject("activitiesData", activitiesData);
+			StripChart stripChartData = activitiesService.getActivitiesData(obj);
+			model.addObject("stripChartData", stripChartData);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,7 +120,7 @@ public class ActivitiesController {
 		try{
 			works = activitiesService.getActivitiesWorksList(obj);			
 		}catch(Exception e){
-			logger.error("geStripCharttWorksList() : "+e.getMessage());
+			logger.error("geActivitiestWorksList() : "+e.getMessage());
 		}
 		return works;
 	}
@@ -174,7 +174,7 @@ public class ActivitiesController {
 		return structures;
 	}
 	
-	@RequestMapping(value = "/ajax/getActivityComponentIdsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getComponentIdsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getActivitiesComponentIds(@ModelAttribute StripChart obj){
 		List<StripChart> componentIds = null;
@@ -251,7 +251,7 @@ public class ActivitiesController {
 	
 	@RequestMapping(value="/update-activity-progress",method=RequestMethod.POST)
 	public ModelAndView updateActivities(@ModelAttribute StripChart obj, HttpSession session,RedirectAttributes attributes) throws IOException {
-		ModelAndView model = new ModelAndView("redirect:/activity-progress");
+		ModelAndView model = new ModelAndView("redirect:/mobileappwebview/activity-progress");
 		String user_Id = null;String userName = null;
 		try {			
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
@@ -278,11 +278,12 @@ public class ActivitiesController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			attributes.addFlashAttribute("error", "Something went wrong. Please try again.");
-			logger.error("updateStripChart : " + e.getMessage());
+			logger.error("updateActivities : " + e.getMessage());
 		}
 		return model;
 	}
 	
 
 }
+
 

@@ -232,7 +232,7 @@ public class DocxTableCreation {
 				String backgroundColor = null;
 				Tr contentRow = factory.createTr();	
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
@@ -286,8 +286,8 @@ public class DocxTableCreation {
 					"CLASSIFICATION");
 			tableHeader.add("MITIGATION / REDUCTION\n" + 
 					"PLAN");			
-			tableHeader.add("ATR DATE");
 			tableHeader.add("ACTION TAKEN");
+			tableHeader.add("ATR DATE");
 			
 			for (String headerValue : tableHeader) {
 				addTableCell(factory, wordMLPackage, titleRow, headerValue, titleRpr,
@@ -300,7 +300,7 @@ public class DocxTableCreation {
 				String backgroundColor = null;
 				Tr contentRow = factory.createTr();	
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getPriority(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getArea_item_no()+"."+pObj.getSub_area_item_no(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getRisk_rating(),
@@ -309,9 +309,9 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getMitigation_plan(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getAtr_date(),
-						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getAction_taken(),
+						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getAtr_date(),
 						contentRpr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
 				reportTable.getContent().add(contentRow);

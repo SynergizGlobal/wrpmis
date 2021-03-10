@@ -173,7 +173,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj = new Forms();
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
-				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
 				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
@@ -239,7 +239,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj = new Forms();
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
-				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
 				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
@@ -288,7 +288,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj = new Forms();
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
-				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
 				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
@@ -540,7 +540,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj = new Forms();
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
-				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
 				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));
@@ -605,7 +605,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj = new Forms();
 				obj.setFormId(resultSet.getString("form_id"));
 				obj.setFormName(resultSet.getString("form_name"));
-				obj.setWebFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("web_form_url"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
 				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
 				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
 				obj.setPriority(resultSet.getString("priority"));

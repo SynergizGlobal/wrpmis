@@ -157,7 +157,7 @@
 	                  <c:forEach var="form" items="${forms }" varStatus="index">
 	           			<c:if test="${empty form.formsSubMenu}">
 			              	<li>
-			              		<a href="${form.webFormUrl }">
+			              		<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 					 				<span class="nav-label">${form.formName }</span>
 					 			</a>
 					 		</li>
@@ -177,7 +177,7 @@
 	              						</li> -->
 		                             <c:if test="${ empty subList.formsSubMenuLevel2}">
 		                             	<li>
-	      									<a href="${subList.webFormUrl }">
+	      									<a href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 	      										<span class="nav-label">${subList.formName }</span>
 	          								</a>
 	              						</li>
@@ -188,7 +188,7 @@
 					           			<ul class="fourth-level-menu">
 					           				<c:forEach var="subListLevel2" items="${subList.formsSubMenuLevel2}">
 					           					<li> 
-					           						<a href="${subListLevel2.webFormUrl }"> ${subListLevel2.formName }	  	</a>
+					           						<a href="<%=request.getContextPath()%>/${subListLevel2.webFormUrl }"> ${subListLevel2.formName }	  	</a>
 					           					</li>
 					           				</c:forEach>
 					           			</ul>
@@ -220,7 +220,7 @@
                   <c:forEach var="form" items="${reportForms }" varStatus="index">
            			<c:if test="${empty form.formsSubMenu}">
 		              	<li>
-		              		<a href="${form.webFormUrl }">
+		              		<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 				 				<span class="nav-label">${form.formName }</span>
 				 			</a>
 				 		</li>
@@ -234,7 +234,7 @@
 	                         <!-- 2nd level Dropdown starts -->
 	                             <c:forEach var="subList" items="${form.formsSubMenu }">
 				           			<li>
-      									<a href="${subList.webFormUrl }">
+      									<a href="<%=request.getContextPath()%>/${subList.webFormUrl }">
       										<span class="nav-label">${subList.formName }</span>
           								</a>
               						</li>
@@ -528,7 +528,7 @@
           	  <c:forEach var="form" items="${forms }" varStatus="index">
          			<c:if test="${empty form.formsSubMenu}">
 		              	<li>
-		              		<a href="${form.webFormUrl }">
+		              		<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 				 				<span class="nav-label">${form.formName }</span>
 				 			</a>
 				 		</li>
@@ -541,7 +541,7 @@
 	                        <ul class="dropdown-data collapsible-body third-lvl">
 	                            <c:forEach var="subList" items="${form.formsSubMenu }">
 			           			<li>
-	    									<a href="${subList.webFormUrl }">
+	    									<a href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 	    										<span class="nav-label">${subList.formName }</span>
 	        								</a>
 	            						</li>
@@ -564,7 +564,7 @@
           	  <c:forEach var="form" items="${reportForms }" varStatus="index">
          			<c:if test="${empty form.formsSubMenu}">
 		              	<li>
-		              		<a href="${form.webFormUrl }">
+		              		<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 				 				<span class="nav-label">${form.formName }</span>
 				 			</a>
 				 		</li>
@@ -577,7 +577,7 @@
 	                        <ul class="dropdown-data collapsible-body third-lvl">
 	                            <c:forEach var="subList" items="${form.formsSubMenu }">
 			           			<li>
-	    									<a href="${subList.webFormUrl }">
+	    									<a href="<%=request.getContextPath()%>/${subList.webFormUrl }">
 	    										<span class="nav-label">${subList.formName }</span>
 	        								</a>
 	            						</li>

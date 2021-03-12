@@ -281,7 +281,7 @@ public class DocxTableCreationForContractReport {
 
 				List<String> noDataRow = new ArrayList<String>();
 				noDataRow.add("NO BG");
-				for (int i = 0; i < 15; i++) {
+				for (int i = 0; i < 14; i++) {
 					noDataRow.add("");
 				}
 
@@ -290,7 +290,7 @@ public class DocxTableCreationForContractReport {
 							hasBgColor, backgroundColor);
 				}
 				table.getContent().add(contentRow);
-				mergeCellsHorizontal(table, 1, 0, 4);
+				mergeCellsHorizontal(table, 1, 0, 14);
 			}
 
 			setTableAlign(factory, table, JcEnumeration.CENTER);
@@ -387,7 +387,7 @@ public class DocxTableCreationForContractReport {
 
 				List<String> noDataRow = new ArrayList<String>();
 				noDataRow.add("NO INSURANCE");
-				for (int i = 0; i < 15; i++) {
+				for (int i = 0; i < 13; i++) {
 					noDataRow.add("");
 				}
 
@@ -396,7 +396,7 @@ public class DocxTableCreationForContractReport {
 							hasBgColor, backgroundColor);
 				}
 				table.getContent().add(contentRow);
-				mergeCellsHorizontal(table, 1, 0, 4);
+				mergeCellsHorizontal(table, 1, 0, 13);
 			}
 
 			setTableAlign(factory, table, JcEnumeration.CENTER);

@@ -467,31 +467,33 @@
     		
     		table.state.clear();		
     		var myParams = {};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesignUploadsList",type:"POST",data:myParams,success : function(data){    				
-    			if(data != null && data != '' && data.length > 0){    					
-             		$.each(data,function(key,val){
-             			var design_data_id = "'"+val.design_data_id+"'"; 
-                        var filePath = "";
-                        
-                        if($.trim(val.uploaded_file) != ''){
-                        	filePath = '<a href="<%=CommonConstants.DESIGN_UPLOADED_FILES%>'+ val.uploaded_file +'">'+val.uploaded_file + '</a>';
-                        }
-                        var rowArray = [];    	                 
-                        
-                       	rowArray.push(filePath);
-                       	rowArray.push($.trim(val.status));
-                       	rowArray.push($.trim(val.remarks));
-                       	rowArray.push($.trim(val.uploaded_by_user_id_fk));
-                       	rowArray.push($.trim(val.uploaded_on)); 
-                       	
-                        table.row.add(rowArray).draw( true );
-                        		                       
-    				});
-             		
-             		$(".page-loader-2").hide();
-    			}else{
-    				$(".page-loader-2").hide();
-    			}
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesignUploadsList",type:"POST",
+    			data:myParams,async: false,
+    			success : function(data){    				
+    				if(data != null && data != '' && data.length > 0){    					
+	             		$.each(data,function(key,val){
+	             			var design_data_id = "'"+val.design_data_id+"'"; 
+	                        var filePath = "";
+	                        
+	                        if($.trim(val.uploaded_file) != ''){
+	                        	filePath = '<a href="<%=CommonConstants.DESIGN_UPLOADED_FILES%>'+ val.uploaded_file +'">'+val.uploaded_file + '</a>';
+	                        }
+	                        var rowArray = [];    	                 
+	                        
+	                       	rowArray.push(filePath);
+	                       	rowArray.push($.trim(val.status));
+	                       	rowArray.push($.trim(val.remarks));
+	                       	rowArray.push($.trim(val.uploaded_by_user_id_fk));
+	                       	rowArray.push($.trim(val.uploaded_on)); 
+	                       	
+	                        table.row.add(rowArray).draw( true );
+	                        		                       
+	    				});
+	             		
+	             		$(".page-loader-2").hide();
+	    			}else{
+	    				$(".page-loader-2").hide();
+	    			}
     			
     		},error: function (jqXHR, exception) {
     			$(".page-loader-2").hide();
@@ -502,12 +504,7 @@
         
 		function getDesignList() {
 			$(".page-loader-2").show();
-			var work_id_fk = $("#work_id_fk").val();
-			var contract_id_fk = $("#contract_id_fk").val();
-			var department_id_fk = $("#department_id_fk").val();
-			var hod = $("#hod").val();
-			var structure_type_fk = $("#structure_type_fk").val();
-			var drawing_type_fk = $("#drawing_type_fk").val();
+			
 
 			getWorksListFilter();
 			getHodListFilter();
@@ -515,6 +512,13 @@
 			getContractListFilter();
 			getStructureListFilter();
 			getDrawingTypeListFilter();
+			
+			var work_id_fk = $("#work_id_fk").val();
+			var contract_id_fk = $("#contract_id_fk").val();
+			var department_id_fk = $("#department_id_fk").val();
+			var hod = $("#hod").val();
+			var structure_type_fk = $("#structure_type_fk").val();
+			var drawing_type_fk = $("#drawing_type_fk").val();
 
 			table = $('#datatable-design').DataTable();
 
@@ -642,91 +646,6 @@
 		  $(".page-loader-2").hide();  		     
       	
      }
-	 
-	 function getDesignList2(){
-	    	$(".page-loader-2").show();
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	var contract_id_fk = $("#contract_id_fk").val();
-	    	var department_id_fk = $("#department_id_fk").val();
-	    	var hod = $("#hod").val();
-	    	var structure_type_fk = $("#structure_type_fk").val();
-	    	var drawing_type_fk = $("#drawing_type_fk").val();
-
-	    	getWorksListFilter();
-	    	getHodListFilter();
-	    	getDepartmentListFilter();
-	    	getContractListFilter();
-	    	getStructureListFilter();
-	    	getDrawingTypeListFilter();
-	     	
-	     	table = $('#datatable-design').DataTable();
-			 
-			table.destroy();
-			
-			$.fn.dataTable.moment('DD-MMM-YYYY');
-			table = $('#datatable-design').DataTable({
-	    		"bStateSave": true,
-	    		fixedHeader: true,
-	            "fnStateSave": function (oSettings, oData) {
-	                localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	            },
-	            "fnStateLoad": function (oSettings) {
-	                return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	            },
-	            columnDefs: [
-	                {
-	                    targets: [0, 1, 2],
-	                    className: 'mdl-data-table__cell--non-numeric'
-	                },
-	                { orderable: false, 'aTargets': ['nosort'] },
-	                // { "width": "100px", "targets": [1] }, to get 100px width in title column
-	            ],	            
-	            "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-	            initComplete: function () {
-	                $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	            }
-	        }).rows().remove().draw();
-			
-			
-			table.state.clear();		
-		 
-		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
-			$.ajax({url : "<%=request.getContextPath()%>/ajax/getDesigns",type:"POST",data:myParams,success : function(data){    				
-					if(data != null && data != '' && data.length > 0){    					
-		         		$.each(data,function(key,val){
-		         			var design_id = "'"+val.design_id+"'";
-		                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';    	                   	
-		                   	var rowArray = [];    	                 
-		                   	
-		                	 var contractName = '';
-	                        if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
-	                        
-		                   	rowArray.push($.trim(val.contract_id_fk)+ contractName);
-		                   	rowArray.push($.trim(val.drawing_title));
-		                   	rowArray.push($.trim(val.structure_type_fk));
-		                   	rowArray.push($.trim(val.drawing_type_fk));
-		                   	rowArray.push($.trim(val.contractor_drawing_no));
-		                   	rowArray.push($.trim(val.mrvc_drawing_no));
-		                   	rowArray.push($.trim(val.division_drawing_no));
-		                	rowArray.push($.trim(val.hq_drawing_no));
-		                   	rowArray.push($.trim(actions));   	                   	
-		                   	
-		                    table.row.add(rowArray).draw( true );
-		                    		                       
-						});
-		         		
-		         		$(".page-loader-2").hide();
-					}else{
-						$(".page-loader-2").hide();
-					}
-					
-				},error: function (jqXHR, exception) {
-					$(".page-loader-2").hide();
-		         	getErrorMessage(jqXHR, exception);
-		     }});
-	    }
 
 	  	//This function is used to get error message for all ajax calls
 	    function getErrorMessage(jqXHR, exception) {
@@ -764,7 +683,7 @@
      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInDesign",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -800,7 +719,7 @@
      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractListFilterInDesign",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -838,11 +757,13 @@
      		 	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHodListFilterInDesign",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	$("#hod").append('<option value="' + val.hod + '">' + $.trim(val.hod) +'</option>');
+                            	var designation  = '${sessionScope.USER_DESIGNATION}';
+                            	var selectedFlag = (designation == val.hod)?'selected':'';
+                            	$("#hod").append('<option value="' + val.hod + '" '+selectedFlag+'>' + $.trim(val.hod) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -872,7 +793,7 @@
      		  	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getDepartmentListFilterInDesign",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
@@ -906,7 +827,7 @@
      		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStructureListFilterInDesign",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
@@ -940,7 +861,7 @@
      		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_id_fk : department_id_fk, hod : hod,structure_type_fk : structure_type_fk,drawing_type_fk : drawing_type_fk};
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getDrawingTypeListFilterInDesign",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {

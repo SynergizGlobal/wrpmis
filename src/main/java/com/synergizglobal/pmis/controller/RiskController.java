@@ -389,9 +389,10 @@ public class RiskController {
 								risksList.add(risk);
 							}*/
 							
-							if(!StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
-									&& !StringUtils.isEmpty(risk.getOwner()) && !StringUtils.isEmpty(risk.getPriority_fk())  && !StringUtils.isEmpty(risk.getResponsible_person()) 
-									 && (risk.getProbability().equals("1") || risk.getProbability().equals("3") || risk.getProbability().equals("5")) && (risk.getImpact().equals("1") || risk.getImpact().equals("3") || risk.getImpact().equals("5"))) {
+							if(!StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
+									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
+									&& !StringUtils.isEmpty(risk.getPriority_fk())  && !StringUtils.isEmpty(risk.getResponsible_person()) 
+									&& (risk.getProbability().equals("1") || risk.getProbability().equals("3") || risk.getProbability().equals("5")) && (risk.getImpact().equals("1") || risk.getImpact().equals("3") || risk.getImpact().equals("5"))) {
 								risksList.add(risk);
 							} else {
 								risk_rows_error = risk_rows_error + (!StringUtils.isEmpty(risk_rows_error)?",":"") + rowNo;

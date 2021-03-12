@@ -217,8 +217,11 @@
 									<p>${risk.priority_fk}</p>	
 							    </div> 
                                 <div class="col s12 m4 input-field"> 
-								    <p class="searchable_label"> Mitigation Plan :</p>
-									<p>${risk.mitigation_plan}</p></div>
+								    <%-- <p class="searchable_label"> Mitigation Plan :</p>
+									<p>${risk.mitigation_plan}</p> --%>
+									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000">${risk.mitigation_plan}</textarea>
+									<label for="mitigation_plan">Mitigation Plan :</label>
+								</div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                        
@@ -409,14 +412,12 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-           
+            $('#mitigation_plan').characterCounter();
         });
         
         function closeTab(){
         	 window.top.close();
         }
-        
-        
         
         function addRiskRow() {        	
             var rowNo = $("#rowNo").val();

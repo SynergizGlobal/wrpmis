@@ -466,6 +466,12 @@ public class RiskDaoImpl implements RiskDao{
 		try{
 			con = dataSource.getConnection();
 			
+			String updateQry = "update risk_revision set mitigation_plan = ? where risk_revision_id = ?";	
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, obj.getMitigation_plan());
+			stmt.setString(2, obj.getRisk_revision_id());
+			stmt.executeUpdate();
+			
 			int	arraySize = 0;		
 			
 			/*if(!StringUtils.isEmpty(obj.getAssessment_dates()) && obj.getAssessment_dates().length > 0) {

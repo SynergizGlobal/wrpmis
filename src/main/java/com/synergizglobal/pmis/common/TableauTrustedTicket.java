@@ -23,7 +23,7 @@ public class TableauTrustedTicket {
 		String server = "infoviz.syntrackpro.com";
 		String clientIp = "www.syntrackpro.com";
         
-		/*String postURL = "http://10.203.10.157:8000/trusted";
+		/*String postURL = "http://"+UrlGenerator.getIpAddress()+":8000/trusted";
 		String username = "tableau admin";
 		String server = "10.203.10.157:8000";
 		String clientIp = "10.203.10.157";*/

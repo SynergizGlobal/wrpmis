@@ -351,10 +351,14 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					+ "left join user u on c.hod_user_id_fk = u.user_id "
 					+ "left join user us on c.dy_hod_user_id_fk = us.user_id "
 					+ "left join department dt on c.department_fk = dt.department "
-					+ "where c.hod_user_id_fk is not null ";
+					+ "where c.contract_id is not null ";
 			
-			int arrSize = 0;			
+			int arrSize = 0;
 			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				hodQry = hodQry + " and c.contract_id = ? ";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 				hodQry = hodQry + " and u.designation = ? ";
 				arrSize++;
@@ -381,6 +385,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 				pValues[i++] = obj.getHod_designation();
 			}
@@ -435,6 +442,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				arrSize = 0;			
 	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					qry = qry + " and c.contract_id = ? ";
+					arrSize++;
+				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 					qry = qry + " and u.designation = ? ";
 					arrSize++;
@@ -459,6 +470,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				pValues = new Object[arrSize];
 				i = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+					pValues[i++] = obj.getContract_id();
+				}
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 					pValues[i++] = obj.getHod_designation();
 				}
@@ -508,8 +522,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					contract.setRevised_amount(numberFormatter.format(revised_contract_cost));
 					contract.setCumulative_expenditure(numberFormatter.format(cumulative_expenditure));*/
 				}
-				
-				mapObjsList.put(hodObj.getHod_designation(), objsList);
+				String hod = hodObj.getHod_designation();
+				if(StringUtils.isEmpty(hod)) {
+					hod = "Not assigned to this contract";
+				}
+				mapObjsList.put(hod, objsList);
 			}	
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -538,6 +555,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			int arrSize = 0;			
 
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and c.contract_id = ? ";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 				qry = qry + " and u.designation = ? ";
 				arrSize++;
@@ -560,6 +581,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 				pValues[i++] = obj.getHod_designation();
 			}
@@ -605,6 +629,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			
 			int arrSize = 0;			
 
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and c.contract_id = ? ";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 				qry = qry + " and u.designation = ? ";
 				arrSize++;
@@ -627,6 +655,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
 				pValues[i++] = obj.getHod_designation();
 			}

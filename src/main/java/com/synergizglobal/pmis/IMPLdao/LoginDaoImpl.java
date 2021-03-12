@@ -44,7 +44,7 @@ public class LoginDaoImpl implements LoginDao{
 			con = dataSource.getConnection();
 			
 			String qry = "select user_id,user_name,password,designation,email_id,cast(mobile_number as CHAR) as mobile_number,cast(landline as CHAR) as landline,"
-					+ "cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image,user_role_code "
+					+ "cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image,user_role_code,user_type_fk "
 					+ "from user u "
 					+ "LEFT JOIN user_role ur ON user_role_name_fk = user_role_name "
 					+ "where password = BINARY ? and (user_id = BINARY ? OR mobile_number = ? OR email_id = ?)";
@@ -75,6 +75,7 @@ public class LoginDaoImpl implements LoginDao{
 				userDetails.setUser_role_code(rs.getString("user_role_code"));
 				userDetails.setRemarks(rs.getString("remarks"));
 				userDetails.setUser_image(rs.getString("user_image"));
+				userDetails.setUser_type_fk(rs.getString("user_type_fk"));
 				
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
 					saveUserLoginDetails(userDetails.getUser_id(),con);

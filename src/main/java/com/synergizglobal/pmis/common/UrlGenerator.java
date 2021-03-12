@@ -18,9 +18,25 @@ public class UrlGenerator {
 	    String port = requestURL.getPort() == -1 ? "" : ":" + requestURL.getPort();
 	    //return requestURL.getProtocol() + "://" + requestURL.getHost() + port;
 	    
-	    //return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+	    return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	    
 	    //return CommonConstants.PORTAL + request.getContextPath();
-	    return CommonConstants.CONTEXT_PATH;
+	    //return CommonConstants.CONTEXT_PATH;
+	}
+	
+	public static String getIpAddress(){
+		String ipAddress = "";
+		try {
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+			        .getRequestAttributes()).getRequest();
+		    URL requestURL = new URL(request.getRequestURL().toString());
+		    String port = requestURL.getPort() == -1 ? "" : ":" + requestURL.getPort();
+		    //return requestURL.getProtocol() + "://" + requestURL.getHost() + port;
+		    
+		    ipAddress = request.getServerName();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return ipAddress;
 	}
 }

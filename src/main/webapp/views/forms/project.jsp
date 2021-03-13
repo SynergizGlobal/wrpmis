@@ -96,7 +96,7 @@
 											<th>Project ID</th>
 											<th>Project Name</th>
 											<th>Plan Head Number</th>
-											<th>PB Item Number</th>
+											<!-- <th>PB Item Number</th> -->
 											<th class="no-sort">Remarks</th>
 											<th class="no-sort">Action</th>
 										</tr>
@@ -107,7 +107,7 @@
 												<td>&nbsp;${ obj.project_id }</td>
 												<td>&nbsp;${ obj.project_name }</td>
 												<td>&nbsp;${ obj.plan_head_number }</td>
-												<td>&nbsp;${ obj.pink_book_item_number }</td>
+												<%-- <td>&nbsp;${ obj.pink_book_item_number }</td> --%>
 												<td>&nbsp;${ obj.remarks }</td>
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getProject('${ obj.project_id }')"

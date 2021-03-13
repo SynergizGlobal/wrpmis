@@ -97,7 +97,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				model.addObject("dashboardProjectsList", projectsList);
 				
 				
-				List<Forms> forms = service.getFormsList(base);
+				List<Forms> forms = service.getFormsList(base,userDetails);
 				model.addObject("forms", forms);
 				
 				List<WebDocuments> webDocumentTypes = webDocumentsService.getWebDocumentTypes(null);

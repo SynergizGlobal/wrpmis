@@ -601,13 +601,13 @@
 							                                <p class="aligncenter">:</p>
 							                                <p class="alignright">${wObj.work_id}</p>
 									                    </div> 
-									                    <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">
+									                    <%-- <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">
 		                        							<div class="line">
 								                                <p class="alignleft">PB Item No</p>
 								                                <p class="aligncenter">:</p>
 								                                <p class="alignright">${wObj.pink_book_item_number}</p>
 										                    </div> 
-									                    </c:if>
+									                    </c:if> --%>
 									                    <div class="line">
 							                                <p class="alignleft">Railway</p>
 							                                <p class="aligncenter">:</p>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.ProjectDao;
 import com.synergizglobal.pmis.Iservice.ProjectService;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.Year;
 
 @Service
 public class ProjectListImpl implements ProjectService{
@@ -42,6 +43,12 @@ public class ProjectListImpl implements ProjectService{
 	@Override
 	public List<Project> getFileNames(String projectId) throws Exception {
 		return projectDao.getFileNames(projectId);
+	}
+
+
+	@Override
+	public List<Year> getYearList() throws Exception {
+		return projectDao.getYearList();
 	}
 
 }

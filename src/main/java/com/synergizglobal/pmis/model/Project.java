@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Project {
 	private String project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_description,project_status,attachment
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
-	completion_cost,work_short_name,benefits,galleryFileNames;
+	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id;
 	
 	private String id,file_name,project_id_fk,created_date,created_by;
 	
@@ -16,11 +16,45 @@ public class Project {
 	private List<MultipartFile> projectGalleryFiles;
 	private String[] projectGalleryFileNames;
 	
+	private String[] financial_years,pink_book_item_numbers;
+	
 	private List<Work> worksInfo;
 	
 	private List<Project> projectGallery;
 
+	private List<Project> projectPinkBooks;
 
+	public String getFinancial_year_fk() {
+		return financial_year_fk;
+	}
+
+	public void setFinancial_year_fk(String financial_year_fk) {
+		this.financial_year_fk = financial_year_fk;
+	}
+
+	public String getPb_item_no() {
+		return pb_item_no;
+	}
+
+	public void setPb_item_no(String pb_item_no) {
+		this.pb_item_no = pb_item_no;
+	}
+
+	public String[] getFinancial_years() {
+		return financial_years;
+	}
+
+	public void setFinancial_years(String[] financial_years) {
+		this.financial_years = financial_years;
+	}
+
+	public String[] getPink_book_item_numbers() {
+		return pink_book_item_numbers;
+	}
+
+	public void setPink_book_item_numbers(String[] pink_book_item_numbers) {
+		this.pink_book_item_numbers = pink_book_item_numbers;
+	}
 
 	public String[] getProjectGalleryFileNames() {
 		return projectGalleryFileNames;
@@ -244,6 +278,22 @@ public class Project {
 
 	public void setProjectGallery(List<Project> projectGallery) {
 		this.projectGallery = projectGallery;
+	}
+
+	public List<Project> getProjectPinkBooks() {
+		return projectPinkBooks;
+	}
+
+	public void setProjectPinkBooks(List<Project> projectPinkBooks) {
+		this.projectPinkBooks = projectPinkBooks;
+	}
+
+	public String getProject_pinkbook_id() {
+		return project_pinkbook_id;
+	}
+
+	public void setProject_pinkbook_id(String project_pinkbook_id) {
+		this.project_pinkbook_id = project_pinkbook_id;
 	}
 	
 }

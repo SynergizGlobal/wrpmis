@@ -36,6 +36,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.Year;
 
 @Controller
 public class ProjectController {
@@ -95,6 +96,9 @@ public class ProjectController {
 			List <Project> fileNames = projectService.getFileNames(projectId);
 			model.addObject("fileNames", fileNames);	
 			
+			List<Year> yearList = projectService.getYearList();
+			model.addObject("yearList", yearList);
+			
 		}catch (Exception e) {
 			logger.error("Project : " + e.getMessage());
 		}
@@ -142,6 +146,10 @@ public class ProjectController {
 		try{
 			model.setViewName(PageConstants.addUpdateProject);
 			model.addObject("action", "add");
+			
+			List<Year> yearList = projectService.getYearList();
+			model.addObject("yearList", yearList);
+			
 		}catch (Exception e) {
 				logger.error("Work : " + e.getMessage());
 			}
@@ -208,18 +216,16 @@ public class ProjectController {
 	            headingRow.createCell((short)0).setCellValue("Project ID");
 	            headingRow.createCell((short)1).setCellValue("Project Name");
 	         	headingRow.createCell((short)2).setCellValue("Plan Head Number");
-	            headingRow.createCell((short)3).setCellValue("PB Item Number");
-	            headingRow.createCell((short)4).setCellValue("Remarks");
-	            headingRow.createCell((short)5).setCellValue("Project Status");
+	            headingRow.createCell((short)3).setCellValue("Remarks");
+	            headingRow.createCell((short)4).setCellValue("Project Status");
 	            short rowNo = 1;
 	            for (Project obj : dataList) {
 	                XSSFRow row = projectSheet.createRow(rowNo);
 	                row.createCell((short)0).setCellValue(obj.getProject_id());
 	                row.createCell((short)1).setCellValue(obj.getProject_name());
 	                row.createCell((short)2).setCellValue(obj.getPlan_head_number());
-	                row.createCell((short)3).setCellValue(obj.getPink_book_item_number());
-	                row.createCell((short)4).setCellValue(obj.getRemarks());
-	                row.createCell((short)5).setCellValue(obj.getProject_status());
+	                row.createCell((short)3).setCellValue(obj.getRemarks());
+	                row.createCell((short)4).setCellValue(obj.getProject_status());
 	                rowNo++;
 	            }
 	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {

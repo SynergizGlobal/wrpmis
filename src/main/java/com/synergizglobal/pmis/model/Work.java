@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Work {
 	private String work_id,work_name,work_short_name,project_id_fk,sanctioned_year,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,
 	sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,remarks,project_name,railway_name,
-	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,pink_book_item_number,latest_revised_cost,
+	railway_id_fk,executed_by_id_fk,financial_year_id,financial_year,financial_year_fk,latest_revised_cost,
 	year_of_revision,revision_number,wys_renarks,attachment,work_attachment,railway,executed_by,projected_completion,
 	projected_completion_year,railwayAgency,executedBy,work_id_fk,dashboard_name,parent_dashboard_id_sr_fk,dashboard_id,subLink;
 
@@ -20,7 +20,7 @@ public class Work {
 		this.dashboard_id = dashboard_id;
 	}
 
-	private String[] financial_years,pink_book_item_numbers,latest_revised_costs,
+	private String[] financial_years,latest_revised_costs,
 	year_of_revisions,revision_numbers,remarkss;
 
 	private List<Work> workRevisions;
@@ -134,14 +134,6 @@ public class Work {
 		this.financial_years = financial_years;
 	}
 
-	public String[] getPink_book_item_numbers() {
-		return pink_book_item_numbers;
-	}
-
-	public void setPink_book_item_numbers(String[] pink_book_item_numbers) {
-		this.pink_book_item_numbers = pink_book_item_numbers;
-	}
-
 	public String[] getLatest_revised_costs() {
 		return latest_revised_costs;
 	}
@@ -172,14 +164,6 @@ public class Work {
 
 	public void setRemarkss(String[] remarkss) {
 		this.remarkss = remarkss;
-	}
-
-	public String getPink_book_item_number() {
-		return pink_book_item_number;
-	}
-
-	public void setPink_book_item_number(String pink_book_item_number) {
-		this.pink_book_item_number = pink_book_item_number;
 	}
 
 	public String getYear_of_revision() {

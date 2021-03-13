@@ -103,30 +103,46 @@
 							
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                 
-                                <c:if test="${action eq 'edit'}">				                
-                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDeatils.project_id }" readonly >   
-                               		 <label>Project ID :</label>
+                                
+                                <c:if test="${action eq 'edit'}">	
+                                	<div class="col s12 m4 input-field">			                
+	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDeatils.project_id }" readonly >   
+	                               		 <label>Project ID :</label>
+                               		 </div>
+                               		 <div class="col s12 m4 input-field">
+	                                    <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
+	                                    <label for="project_name">Project Name <span class="required">*</span></label>
+	                                    <span  id="project_nameError"> </span>
+	                                </div>
                                 </c:if>
-                                   
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
-                                    <label for="project_name">Project Name <span class="required">*</span></label>
-                                      <span  id="project_nameError"> </span>
-                                </div>
+                                <c:if test="${action ne 'edit'}">
+	                                <div class="col s12 m8 input-field">
+	                                    <input id=project_name type="text" class="validate" value="${projectDeatils.project_name }" name="project_name">
+	                                    <label for="project_name">Project Name <span class="required">*</span></label>
+	                                    <span  id="project_nameError"> </span>
+	                                </div>
+                                </c:if>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
                             <div class="row">
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <%-- <div class="col s12 m4 input-field">
                                     <input id="pink_book_item_number" type="text" class="validate" value="${projectDeatils.pink_book_item_number }" name="pink_book_item_number">
                                     <label for="pink_book_item_number">PB Item Number</label>
                                     <span  id="pink_book_item_numberError"> </span>
-                                </div>
+                                </div> --%>
+                                <div class="col s12 m4 input-field">
+									<!-- <p class="searchable_label">Project Status</p> -->
+									<select class="validate-dropdown" name="project_status" id="project_status">
+										<option value="">Select</option>
+										<option value="Open" <c:if test="${projectDeatils.project_status == 'Open'}">selected</c:if>>Open</option>
+										<option value="Closed" <c:if test="${projectDeatils.project_status == 'Closed'}">selected</c:if>>Closed</option>
+									</select> 
+									<label for="project_staus">Project Status</label>
+									<span id="project_statusError"></span>
+								</div>
                                 <div class="col s12 m4 input-field">
                                     <input id="plan_head_number" type="text" class="validate" value="${projectDeatils.plan_head_number }" name="plan_head_number">
                                     <label for="plan_head_number">Plan Head Number</label>
@@ -146,7 +162,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div> -->
 
-						<div class="row">
+						<%-- <div class="row">
 							<div class="col m2 hide-on-small-only"></div>
 							<div class="col s12 m4 input-field">
 								<!-- <p class="searchable_label">Project Status</p> -->
@@ -178,7 +194,7 @@
 							
 							</div>
 							<div class="col m2 hide-on-small-only"></div>
-						</div>
+						</div> --%>
 
 						<div class="row">
                               <div class="col m2 hide-on-small-only"></div>
@@ -240,6 +256,124 @@
 								</div>
 								<div class="col m2 hide-on-small-only"></div>
 							</div>
+							
+							
+						<div class="row">
+							<div class="col m2 hide-on-small-only"></div>
+							<div class="col m8 s12">
+								<div class="file-field input-field">
+									<div class="btn bg-m t-c">
+										<span>Attachment</span> <input type="file" id="projectFile"
+											name="projectFile">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text" id="project_attachment" multiple
+											name="attachment" value="${projectDeatils.attachment }">
+									</div>
+								</div>
+								<c:if test="${not empty projectDeatils.attachment }">
+									<div><a href="<%=CommonConstants.PROJECT_FILES %>${projectDeatils.attachment }"
+										class="filevalue" download>${projectDeatils.attachment }</a>
+										<span onclick="removeMedia(this,'project_attachment')" class="attachment-remove-btn">X</span>
+									</div>
+								</c:if>
+							
+							</div>
+							<div class="col m2 hide-on-small-only"></div>
+						</div>
+						
+						
+						<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="row fixed-width"
+										style="margin-bottom: 40px; margin-top: 20px">
+										<div class="table-inside">
+											<table id="riskReview" class="mdl-data-table update-table">
+												<thead>
+													<tr>
+														<th>Financial Year</th>
+														<th>PB Item No</th>
+														<th class="fw-60">Action</th>
+													</tr>
+												</thead>
+												<tbody id="pinkBookBody">
+													<c:choose>
+														<c:when	test="${not empty projectDeatils.projectPinkBooks && fn:length(projectDeatils.projectPinkBooks) gt 0 }">
+															<c:forEach var="pObj" items="${projectDeatils.projectPinkBooks }" varStatus="index">
+																<tr id="actionRow${index.count }">
+																	<td>
+																		<div class="input-field">
+																			<select  name="financial_years"  id="financial_years${index.count }"  class="validate-dropdown searchable">
+							                                   					 <option value="" >select</option>
+							                                         			  <c:forEach var="obj" items="${yearList}">
+							                    					  				 <option value="${obj.financial_year }"<c:if test="${pObj.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
+							                                          			  </c:forEach>
+							                               					  </select>
+																		</div>
+																	</td>
+																	<td>
+																		<input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="text" class="validate" value="${pObj.pb_item_no }" 
+	                                                        				placeholder="PB Item Number">
+																	</td>
+																	<td>
+																		<a onclick="removeActions('${index.count }');" style="font-size: 20px;"> 
+																			<i class="fa fa-close"></i></a>
+																	</td>
+																</tr>															
+															</c:forEach>
+														</c:when>
+														<c:otherwise>
+															<tr id="actionRow0">
+																<td>
+																	<div class="input-field">
+																		<select  name="financial_years" id="financial_years0" class="validate-dropdown searchable">
+						                                   					 <option value="" >select</option>
+						                                         			  <c:forEach var="obj" items="${yearList}">
+						                    					  				 <option value="${obj.financial_year }">${obj.financial_year}</option>
+						                                          			  </c:forEach>
+						                               					  </select>
+																	</div>
+																</td>
+																<td>
+																	<input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate" 
+	                                                        				placeholder="PB Item Number">
+																</td>
+																<td>
+																	<a onclick="removeActions('0');" style="font-size: 20px;"> <i class="fa fa-close"></i></a>
+																</td>
+															</tr>
+														</c:otherwise>
+													</c:choose>
+												</tbody>
+											</table>
+											<table class="mdl-data-table">
+												<tbody>
+													<tr>
+														<td colspan="6" style="text-align: right;"><a
+															type="button"
+															class="btn waves-effect waves-light bg-m t-c "
+															onclick="addPinkBookRow()"> <i
+																class="fa fa-plus"></i>
+														</a>
+													</tr>
+												</tbody>
+											</table>
+											<c:choose>
+												<c:when
+													test="${not empty (projectDeatils.projectPinkBooks) && fn:length(projectDeatils.projectPinkBooks) gt 0 }">
+													<input type="hidden" id="rowNo" name="rowNo"
+														value="${fn:length(projectDeatils.projectPinkBooks) }" />
+												</c:when>
+												<c:otherwise>
+													<input type="hidden" id="rowNo" name="rowNo" value="0" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
+								</div>
+							</div>
+							
 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
@@ -307,17 +441,60 @@
         
         function addProject(){
 	  		if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	    		
-    			document.getElementById("projectForm").submit();			
+	  			$(".page-loader").show();	
+	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$("#projectForm").submit();		
     	 	}
     	}
   
         function updateProject(){
 	  		if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	    		
-    			document.getElementById("projectForm").submit();			
+	  			$(".page-loader").show();	   
+	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+    			$("#projectForm").submit();			
     	 	}
     	}
+        
+        
+        function addPinkBookRow() {        	
+            var rowNo = $("#rowNo").val();
+            var rNo = Number(rowNo)+1;
+            var html = '<tr id="actionRow' + rNo + '">'
+            +'<td> <div class="input-field">'
+            +'<select name="financial_years" id="financial_years'+rNo+'"  class="validate-dropdown searchable" >'	   			
+	   		   +'<option value="" >select</option>'
+			     <c:forEach var="obj" items="${yearList}">
+	     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
+			     </c:forEach>
+	   		   +'</select></div></td>'
+			   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
+			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;"><i class="fa fa-close"></i></a></td></tr>';
+		
+			$('#pinkBookBody').append(html);
+            $("#rowNo").val(rNo);
+          	
+            
+            $('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
+        }
+        
+        function removeActions(rowNo){
+        	$("#actionRow"+rowNo).remove();
+        }
+	            
+        $('select').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
+        
+        $('input').change(function(){
+    	    if ($(this).val() != ""){
+    	        $(this).valid();
+    	    }
+    	});
    
         var validator =	$('#projectForm').validate({
 				 errorClass: "my-error-class",
@@ -328,9 +505,7 @@
 		  			 		required: true
 		  			 	  },"plan_head_number": {
 		  			 		required: false
-		  			 	  },"pink_book_item_number": {
-		  		 		    required: false
-		  			 	  }	,"remarks": {
+		  			 	  },"remarks": {
 		  			 		required: false
 		  			 	  }		
 		  		 	},
@@ -339,9 +514,7 @@
 		  				 	required: 'This field is required',
 		  			 	  },"plan_head_number": {
 		  			 		required: ' This field is required'
-		  			 	  },"pink_book_item_number": {
-		  		 			required: ' This field is required'
-		  		 	  	 },"remarks": {
+		  			 	  },"remarks": {
 		  		 			required: ' This field is required'
 		  		 	  	 }
 			   		},
@@ -349,21 +522,15 @@
 			   		 	if (element.attr("id") == "project_name" ){
 							 document.getElementById("project_nameError").innerHTML="";
 					 		 error.appendTo('#project_nameError');
-							 }
-			   		 	else if(element.attr("id") == "plan_head_number" ){
+						}else if(element.attr("id") == "plan_head_number" ){
 							   document.getElementById("plan_head_numberError").innerHTML="";
 						 	   error.appendTo('#plan_head_numberError');
-								 }
-			   		 	else if(element.attr("id") == "pink_book_item_number" ){
-								document.getElementById("pink_book_item_numberError").innerHTML="";
-							 	error.appendTo('#pink_book_item_numberError');
-									 }
-						 else if(element.attr("id") == "remarks" ){
+						}else if(element.attr("id") == "remarks" ){
 						 		 document.getElementById("remarksError").innerHTML="";
 				 				 error.appendTo('#remarksError');
 						 }else{
 			 					error.insertAfter(element);
-					       } 
+					     } 
 			   		},invalidHandler: function (form, validator) {
 	                     var errors = validator.numberOfInvalids();
 	                     if (errors) {

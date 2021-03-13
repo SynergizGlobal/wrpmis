@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.Idao;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.Year;
 
 public interface ProjectDao {
 
@@ -17,6 +18,8 @@ public interface ProjectDao {
 	public boolean deleteProject(String projectId, Project project)throws Exception;
 
 	public List<Project> getFileNames(String projectId) throws Exception;
+
+	public List<Year> getYearList() throws Exception;
 
 
 }

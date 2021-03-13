@@ -30,6 +30,9 @@ public class CommonConstants {
 	public final static String  USER_TYPE2 = "DyHOD";
 	
 	public final static String  USER_TYPE_HOD = "HOD";
+	public final static String  USER_TYPE_DYHOD = "DyHOD";
+	public final static String  USER_TYPE_MANAGEMENT = "Management";
+	public final static String  USER_TYPE_OTHERS = "Others";
 	
 	public final static String SAFETY_EQUIPMENT_FILES = "/pmis/SAFETY_EQUIPMENT_FILES/";
 	public final static String BUDGET_FILES = "/pmis/BUDGET_FILES/";

@@ -113,7 +113,7 @@
                                 <div class="col s12 m8">
 	                                 <div class="row">
 	                                 	<c:if test="${action eq 'add'}">
-	                                 	<div class="col s12 m4 input-field">
+	                                 	<div class="col s12 m6 input-field">
 		                                   <p class="searchable_label">Project <span class="required">*</span></p>
 		                                    <select class="searchable validate-dropdown"  name ="project_id_fk" id="project_id_fk"  >
 		                                   			<option value="">select</option>
@@ -125,26 +125,25 @@
 		                               </div> 
 		                               </c:if>
 		                               <c:if test="${action eq 'edit'}">
-		                               <div class="col s12 m4 input-field">
-		                               		<input type="text" class="form-control" value="${workDeatils.project_id_fk} - ${workDeatils.project_name}" readonly >  
-		                                    <label>Project <span class="required">*</span>:</label>
-		                                    
-		                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDeatils.project_id_fk}"/>
-		                               </div>
-		                               </c:if>
-		                                                      
-		                               <div class="col s12 m4 input-field">
-		                               		 <c:if test="${action eq 'edit'}">				                
+			                               <div class="col s12 m6 input-field">
+			                               		<input type="text" class="form-control" value="${workDeatils.project_id_fk} - ${workDeatils.project_name}" readonly >  
+			                                    <label>Project <span class="required">*</span>:</label>
+			                                    
+			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDeatils.project_id_fk}"/>
+			                               </div>
+			                               <div class="col s12 m6 input-field">
 		                                   		  <input id="work_id" type="text" class="form-control" name="work_id" value="${workDeatils.work_id }" readonly >  
 		                                     	  <label>Work ID :</label>
-		                                	 </c:if>
-		                               </div>
+		                               		</div>
+		                               </c:if>
+		                                                      
+		                               
 		                                 
-		                               <div class="col s12 m4 input-field">
+		                               <%-- <div class="col s12 m4 input-field">
 			                               <input type="text" class="validate" id="pink_book_item_number" name="pink_book_item_number" value="${workDeatils.pink_book_item_number }">
 		                                   <label for="pb_item_no">PB Item No</label>
 		                                   <span id="pb_item_noError"></span>
-		                               </div>
+		                               </div> --%>
 		                               
 	                                 </div>
                                 </div>
@@ -338,7 +337,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Financial Year </th>
-                                                <th>PB Item No </th>
+                                                <!-- <th>PB Item No </th> -->
                                                 <th>Latest Revised Cost </th>
                                                 <th>Year of Revision </th>
                                                 <th>Revision No </th>
@@ -360,10 +359,10 @@
 	                                          			  </c:forEach>
 	                               					  </select>
 	                                                </td>
-	                                                <td>
+	                                                <%-- <td>
 	                                                    <input id="pink_book_item_numbers${index.count }" name="pink_book_item_numbers" type="text" class="validate" value="${revObj.pink_book_item_number }" 
 	                                                        placeholder="PB Item Number">
-	                                                </td>
+	                                                </td> --%>
 	                                                <td>
 	                                                    <input id="latest_revised_costs${index.count }" name="latest_revised_costs" type="number" class="validate" value="${revObj.latest_revised_cost }"
 	                                                        placeholder="Latest Revised Cost">
@@ -397,10 +396,10 @@
 	                                          			  </c:forEach>
 	                               					  </select>
 	                                                </td>
-	                                                <td>
+	                                                <!-- <td>
 	                                                    <input id="pink_book_item_numbers0" name="pink_book_item_numbers" type="text" class="validate" 
 	                                                        placeholder="PB Item Number">
-	                                                </td>
+	                                                </td> -->
 	                                                <td>
 	                                                    <input id="latest_revised_costs0" name="latest_revised_costs" type="number" class="validate" 
 	                                                        placeholder="Latest Revised Cost">
@@ -570,7 +569,7 @@
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	    		
 	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			//$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=latest_revised_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -582,7 +581,7 @@
 	  		if(validator.form()){ // validation perform
 	  			$(".page-loader").show();	    		
 	  			$('form input[name=financial_years]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			//$('form input[name=pink_book_item_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=latest_revised_costs]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=year_of_revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revision_numbers]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -741,7 +740,7 @@
 		     	      +'<option value="${obj.financial_year }">${obj.financial_year}</option>'
 				     </c:forEach>
 		   		   +'</select></div></td>'
-				   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
+				   //+'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
 				   +'<td><input  type="number" class="validate" id="latest_revised_costs'+rNo+'" name="latest_revised_costs" placeholder="Latest Revised Cost" min="0.01" step="0.01"></td>'
 				   +'<td> <div>'
 				   +'<select id="year_of_revisions'+rNo+'" name="year_of_revisions" class="validate-dropdown searchable" >'

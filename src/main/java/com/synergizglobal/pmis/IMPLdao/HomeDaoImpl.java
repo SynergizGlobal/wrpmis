@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
+import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.Work;
 
 @Repository
@@ -144,7 +145,7 @@ public class HomeDaoImpl implements HomeDao {
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public List<Forms> getFormsList(String base) throws Exception {
+	public List<Forms> getFormsList(String base, User uObj) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -190,7 +191,20 @@ public class HomeDaoImpl implements HomeDao {
 				/*if(!StringUtils.isEmpty(formUrl) || (!StringUtils.isEmpty(subList) && subList.size() > 0 )) {
 					objsList.add(obj);
 				}*/
-				objsList.add(obj);
+				String form_name = resultSet.getString("form_name");
+				String user_type = uObj.getUser_type_fk();
+				String user_role_code = uObj.getUser_role_code();
+				if("Risk".equals(form_name)) {
+					if(CommonConstants.USER_TYPE_HOD.equals(user_type) 
+							|| CommonConstants.USER_TYPE_DYHOD.equals(user_type)
+							|| CommonConstants.USER_TYPE_MANAGEMENT.equals(user_type) 
+							|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(user_role_code)) {
+						objsList.add(obj);
+					}
+				}else {
+					objsList.add(obj);
+				}
+				
 				
 			}
 		}catch(Exception e){ 
@@ -307,7 +321,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Project> getProjectsList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks from `project`";
+			String qry = "select project_id,project_name,plan_head_number,remarks from `project`";
 			//objsList = jdbcTemplate.query( qry, BeanPropertyRowMapper.newInstance(Project.class));
 			//OR
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));
@@ -387,7 +401,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Project> objsList = new ArrayList<Project>();
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String projectQry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_status,attachment,benefits "
+			String projectQry = "select project_id,project_name,plan_head_number,remarks,project_status,attachment,benefits "
 					+ "from `project`";
 			
 			/*String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
@@ -396,7 +410,7 @@ public class HomeDaoImpl implements HomeDao {
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
 			
-			String workQry = "select wr.work_id,wr.work_short_name,wr.pink_book_item_number,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
+			String workQry = "select wr.work_id,wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
 					+ "wr.completion_cost as completion_cost,wr.projected_completion as projected_completion_year, wr.attachment as work_attachment,"
 					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
@@ -412,7 +426,7 @@ public class HomeDaoImpl implements HomeDao {
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
 			
-			String workQry = "select wr.work_id,wr.work_short_name,wr.pink_book_item_number,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
+			String workQry = "select wr.work_id,wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
 					+ "wr.completion_cost as completion_cost,"
 					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTR(YEAR(wr.projected_completion)+1,3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTR(YEAR(wr.projected_completion),3,2)) END) AS financial_year) as projected_completion_year," 
@@ -431,7 +445,7 @@ public class HomeDaoImpl implements HomeDao {
 			
 			
 			for (Project project : objsList) {
-				Project projectInfo = jdbcTemplate.queryForObject( projectDetailsQry, new Object[] {project.getProject_id(),project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
+				Project projectInfo = (Project)jdbcTemplate.queryForObject( projectDetailsQry, new Object[] {project.getProject_id(),project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
 				if(!StringUtils.isEmpty(projectInfo)) {
 					String sanctioned_estimated_cost = projectInfo.getSanctioned_estimated_cost();
 					if(!StringUtils.isEmpty(sanctioned_estimated_cost)) {

@@ -237,8 +237,7 @@ public class WorkController {
 	            headingRow.createCell((short)12).setCellValue("Year of Completion");
 	            headingRow.createCell((short)13).setCellValue("Projected Completion");
 	            headingRow.createCell((short)14).setCellValue("Completion Cost");
-	            headingRow.createCell((short)15).setCellValue("Pink Book Item Number");
-	            headingRow.createCell((short)16).setCellValue("Remarks");
+	            headingRow.createCell((short)15).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (Work obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
@@ -257,8 +256,7 @@ public class WorkController {
 	                row.createCell((short)12).setCellValue(obj.getYear_of_completion());
 	                row.createCell((short)13).setCellValue(obj.getProjected_completion());
 	                row.createCell((short)14).setCellValue(obj.getCompletion_cost());
-	                row.createCell((short)15).setCellValue(obj.getPink_book_item_number());
-	                row.createCell((short)16).setCellValue(obj.getRemarks());
+	                row.createCell((short)15).setCellValue(obj.getRemarks());
 	                rowNo++;
 	            }
 	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {

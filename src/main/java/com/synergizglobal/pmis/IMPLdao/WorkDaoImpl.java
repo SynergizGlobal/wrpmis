@@ -39,7 +39,7 @@ public class WorkDaoImpl implements WorkDao {
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`railway_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `railway`," 
 					+ "(SELECT GROUP_CONCAT(`work_railway`.`executed_by_id_fk` SEPARATOR ',') FROM `work_railway` WHERE (`work_railway`.`work_id_fk` = `w`.`work_id`)) AS `executed_by`,"
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,w.pink_book_item_number "
+					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion "
 					+ "FROM work w "  
 					+"LEFT JOIN project p ON w.project_id_fk = p.project_id ";
 		
@@ -63,7 +63,7 @@ public class WorkDaoImpl implements WorkDao {
 			connection = dataSource.getConnection();
 			String qry ="SELECT work_id,work_name,work_short_name,project_id_fk,p.project_name,sanctioned_year_fk,sanctioned_estimated_cost," 
 					+ "completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost" 
-					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion,w.pink_book_item_number "
+					+ ",w.remarks,w.attachment,DATE_FORMAT(w.projected_completion,'%d-%m-%Y') AS projected_completion "
 					+ "FROM work w " 
 					+ "LEFT JOIN project p ON w.project_id_fk = p.project_id " 
 				    + "where work_id = ?";
@@ -88,7 +88,6 @@ public class WorkDaoImpl implements WorkDao {
 				work.setRemarks(resultSet.getString("remarks"));
 				work.setAttachment(resultSet.getString("attachment"));
 				work.setProjected_completion(resultSet.getString("projected_completion"));
-				work.setPink_book_item_number(resultSet.getString("pink_book_item_number"));
 				work.setWorkRevisions(getWorkRevisions(work.getWork_id(),connection));	
 				work.setRailwayAgencyList(getRailwayAgencyList(work.getWork_id(),connection));
 				work.setExecutedByList(getExecutedByList(work.getWork_id(),connection));
@@ -173,7 +172,7 @@ public class WorkDaoImpl implements WorkDao {
 		List<Work> workRevisions = new ArrayList<Work>();
 		Work obj = null;
 		try {
-			String qry ="SELECT financial_year,pink_book_item_number,latest_revised_cost, year_of_revision,revision_number"
+			String qry ="SELECT financial_year,latest_revised_cost, year_of_revision,revision_number"
 					+ " from work_yearly_sanction where work_id_fk = ?";
 		
 			stmt = connection.prepareStatement(qry);
@@ -182,7 +181,6 @@ public class WorkDaoImpl implements WorkDao {
 			while(resultSet.next()) {
 				obj = new Work();
 				obj.setFinancial_year(resultSet.getString("financial_year"));
-				obj.setPink_book_item_number(resultSet.getString("pink_book_item_number"));
 				obj.setLatest_revised_cost(resultSet.getString("latest_revised_cost"));
 				obj.setYear_of_revision(resultSet.getString("year_of_revision"));
 				obj.setRevision_number(resultSet.getString("revision_number"));
@@ -210,7 +208,7 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry = "update work set work_name = ?,project_id_fk = ?,sanctioned_year_fk=?,sanctioned_estimated_cost = ?," + 
 						 "completeion_period_months = ?,sanctioned_completion_cost = ?,anticipated_cost = ?,year_of_completion = ?,"
-						 + "completion_cost = ?,remarks = ?,attachment = ?,projected_completion = ?,work_short_name = ?,pink_book_item_number = ? "+
+						 + "completion_cost = ?,remarks = ?,attachment = ?,projected_completion = ?,work_short_name = ? "+
 						 "where work_id =?";
 		
 			stmt = con.prepareStatement(qry); 
@@ -227,8 +225,7 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(11,work.getAttachment());
 			stmt.setString(12,work.getProjected_completion());
 			stmt.setString(13,work.getWork_short_name());
-			stmt.setString(14,work.getPink_book_item_number());
-			stmt.setString(15,work.getWork_id());
+			stmt.setString(14,work.getWork_id());
 			int count = stmt.executeUpdate();
 			if(count > 0){
 				flag = true; 
@@ -242,7 +239,7 @@ public class WorkDaoImpl implements WorkDao {
 			if(stmt != null){stmt.close();}
 			
 			if(!StringUtils.isEmpty(work.getRailway_id_fk())) {
-				String qry3 = "INSERT into  work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
+				String qry3 = "INSERT into work_railway (work_id_fk,railway_id_fk) VALUES (?,?)";
 				stmt = con.prepareStatement(qry3); 
 				if(work.getRailway_id_fk().contains(",")) {
 					String[] ids = work.getRailway_id_fk().split(",");					
@@ -261,7 +258,7 @@ public class WorkDaoImpl implements WorkDao {
 			}
 
 			if(!StringUtils.isEmpty(work.getExecuted_by_id_fk())) {
-				String qry3 = "INSERT into  work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
+				String qry3 = "INSERT into work_railway (work_id_fk,executed_by_id_fk) VALUES (?,?)";
 				stmt = con.prepareStatement(qry3); 
 				if(work.getExecuted_by_id_fk().contains(",")) {
 					String[] ids = work.getExecuted_by_id_fk().split(",");					
@@ -286,9 +283,9 @@ public class WorkDaoImpl implements WorkDao {
 			if(stmt != null){stmt.close();}	
 			
 			if(flag) {			
-				String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
+				String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
 						 +"year_of_revision,revision_number,work_id_fk) "
-						 +"VALUES (?,?,?,?,?,?)";
+						 +"VALUES (?,?,?,?,?)";
 				stmt = con.prepareStatement(qry4); 
 				
 				int arraySize = 0;
@@ -297,12 +294,6 @@ public class WorkDaoImpl implements WorkDao {
 					work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
 					if(arraySize < work.getFinancial_years().length) {
 						arraySize = work.getFinancial_years().length;
-					}
-				}
-				if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
-					work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
-					if(arraySize < work.getPink_book_item_numbers().length) {
-						arraySize = work.getPink_book_item_numbers().length;
 					}
 				}
 				if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
@@ -327,7 +318,6 @@ public class WorkDaoImpl implements WorkDao {
 				for (int i = 0; i < arraySize; i++) {
 					int p = 1;
 					stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
-					stmt.setString(p++,(work.getPink_book_item_numbers().length > 0)?work.getPink_book_item_numbers()[i]:null);
 					stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
 					stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
 					stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);
@@ -361,8 +351,8 @@ public class WorkDaoImpl implements WorkDao {
 			con.setAutoCommit(false);
 			String qry ="INSERT into work (work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost," + 
 						"completeion_period_months,sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,"
-						+ "remarks,attachment,projected_completion,work_short_name,pink_book_item_number)"+
-						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ "remarks,attachment,projected_completion,work_short_name)"+
+						" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(qry); 
 			stmt.setString(1,workId ); 
 			stmt.setString(2,work.getWork_name()); 
@@ -378,7 +368,6 @@ public class WorkDaoImpl implements WorkDao {
 			stmt.setString(12,work.getAttachment());
 			stmt.setString(13,work.getProjected_completion());
 			stmt.setString(14,work.getWork_short_name());
-			stmt.setString(15,work.getPink_book_item_number());
 			count = stmt.executeUpdate();
 			if(count > 0){
 				flag = true; 
@@ -424,9 +413,9 @@ public class WorkDaoImpl implements WorkDao {
 			}
 			
 			
-			String qry4 = "INSERT into  work_yearly_sanction (financial_year,pink_book_item_number,latest_revised_cost,"
+			String qry4 = "INSERT into  work_yearly_sanction (financial_year,latest_revised_cost,"
 						 +"year_of_revision,revision_number,work_id_fk) "
-						 +"VALUES (?,?,?,?,?,?)";
+						 +"VALUES (?,?,?,?,?)";
 			stmt = con.prepareStatement(qry4); 
 			if(flag) {		
 				int arraySize = 0;
@@ -434,12 +423,6 @@ public class WorkDaoImpl implements WorkDao {
 					work.setFinancial_years(CommonMethods.replaceEmptyByNullInSringArray(work.getFinancial_years()));
 					if(arraySize < work.getFinancial_years().length) {
 						arraySize = work.getFinancial_years().length;
-					}
-				}
-				if(!StringUtils.isEmpty(work.getPink_book_item_numbers()) && work.getPink_book_item_numbers().length > 0) {
-					work.setPink_book_item_numbers(CommonMethods.replaceEmptyByNullInSringArray(work.getPink_book_item_numbers()));
-					if(arraySize < work.getPink_book_item_numbers().length) {
-						arraySize = work.getPink_book_item_numbers().length;
 					}
 				}
 				if(!StringUtils.isEmpty(work.getLatest_revised_costs()) && work.getLatest_revised_costs().length > 0) {
@@ -464,7 +447,6 @@ public class WorkDaoImpl implements WorkDao {
 				for (int i = 0; i < arraySize; i++) {
 					int p = 1;
 					stmt.setString(p++,(work.getFinancial_years().length > 0)?work.getFinancial_years()[i]:null);
-					stmt.setString(p++,(work.getPink_book_item_numbers().length > 0)?work.getPink_book_item_numbers()[i]:null);
 					stmt.setString(p++,(work.getLatest_revised_costs().length > 0)?work.getLatest_revised_costs()[i]:null);
 					stmt.setString(p++,(work.getYear_of_revisions().length > 0)?work.getYear_of_revisions()[i]:null);						
 					stmt.setString(p++,(work.getRevision_numbers().length > 0)?work.getRevision_numbers()[i]:null);

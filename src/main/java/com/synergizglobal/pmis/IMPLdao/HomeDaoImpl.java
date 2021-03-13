@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Dashboard;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
@@ -41,7 +42,7 @@ public class HomeDaoImpl implements HomeDao {
 	 * @throws Exception will raise an exception when abnormal termination occur.
 	 */
 	@Override
-	public List<TableauDashboard> getDashboardsList(String dashboardType,String base) throws Exception {
+	public List<TableauDashboard> getDashboardsList(String dashboardType,String base, User uObj) throws Exception {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -52,11 +53,16 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view "
 					+ "FROM dashboard tum "
-					+ "WHERE parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? order by priority";
+					+ "WHERE parent_dashboard_id_sr_fk = tum.dashboard_id and tum.soft_delete_status_fk = ? and dashboard_type_fk = ? "
+					+ " and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 "
+					+ "order by priority";
 			
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, dashboardType);
+			statement.setString(3, uObj.getUser_type_fk());
+			statement.setString(4, uObj.getUser_role_name_fk());
+			statement.setString(5, uObj.getUser_id());
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				tableauSubList = null;
@@ -65,7 +71,7 @@ public class HomeDaoImpl implements HomeDao {
 				tableau.setTableauDashboardName(resultSet.getString("dashboard_name"));
 				tableau.setPriority(resultSet.getString("priority"));
 				tableau.setImagePath(resultSet.getString("icon_path"));
-				tableauSubList = getTableauSubList(tableau.getTableauDashboardId(),base,connection);
+				tableauSubList = getTableauSubList(tableau.getTableauDashboardId(),base,uObj,connection);
 				if(!tableauSubList.isEmpty() && tableauSubList.size() > 0){
 					tableau.setTableauSubList(tableauSubList);
 				}
@@ -89,16 +95,17 @@ public class HomeDaoImpl implements HomeDao {
 		}
 		return dashboardsList;
 	}
-	
+
 	/**
 	 * This method get the tableau sub list 
 	 * @param parentId it is string type variable that holds the parentId
 	 * @param base 
+	 * @param uObj 
 	 * @param connection is object for the Connection Interface
 	 * @return type of this method is  dashboardsList that is List type object 
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
-	private List<TableauDashboard> getTableauSubList(String parentId, String base, Connection connection) throws Exception {
+	private List<TableauDashboard> getTableauSubList(String parentId, String base, User uObj, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
@@ -108,18 +115,23 @@ public class HomeDaoImpl implements HomeDao {
 			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path  "
 					+ "FROM dashboard tum "
 					+ "WHERE parent_dashboard_id_sr_fk <> tum.dashboard_id and parent_dashboard_id_sr_fk = ? "
-					+ "and tum.soft_delete_status_fk = ?";
+					+ "and tum.soft_delete_status_fk = ? ";
 					
 			if(base.equals("mobile")) {
-				qry = qry + " and UPPER(mobile_view) = ?";
+				qry = qry + " and UPPER(mobile_view) = ? ";
 			}
+			qry = qry + "and (select count(*) from dashboard_access where dashboard_id_fk = tum.dashboard_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
 			qry = qry + " order by priority";
 			statement = connection.prepareStatement(qry);
-			statement.setString(1, parentId);
-			statement.setString(2, CommonConstants.ACTIVE);
+			int p = 1;
+			statement.setString(p++, parentId);
+			statement.setString(p++, CommonConstants.ACTIVE);
 			if(base.equals("mobile")) {
-				statement.setString(3, "YES");
-			}			
+				statement.setString(p++, "YES");
+			}	
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
 			
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {

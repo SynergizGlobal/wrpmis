@@ -89,11 +89,11 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				String base = "web";
 				
 				String dashboardType = "Module";
-				List<TableauDashboard> modulesList = service.getDashboardsList(dashboardType,base);
+				List<TableauDashboard> modulesList = service.getDashboardsList(dashboardType,base,userDetails);
 				model.addObject("dashboardModulesList", modulesList);
 				
 				dashboardType = "Project";
-				List<TableauDashboard> projectsList = service.getDashboardsList(dashboardType,base);
+				List<TableauDashboard> projectsList = service.getDashboardsList(dashboardType,base,userDetails);
 				model.addObject("dashboardProjectsList", projectsList);
 				
 				

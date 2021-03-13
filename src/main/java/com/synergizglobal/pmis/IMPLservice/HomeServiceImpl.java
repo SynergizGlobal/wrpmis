@@ -24,8 +24,8 @@ public class HomeServiceImpl implements HomeService {
 	 * @throws Exception will raise an exception when abnormal termination occur.
 	 */
 	@Override
-	public List<TableauDashboard> getDashboardsList(String dashboardType,String base) throws Exception {
-		return dao.getDashboardsList(dashboardType,base);
+	public List<TableauDashboard> getDashboardsList(String dashboardType,String base, User uObj) throws Exception {
+		return dao.getDashboardsList(dashboardType,base,uObj);
 	}
 	/**
 	 * This method get the forms list
@@ -34,8 +34,8 @@ public class HomeServiceImpl implements HomeService {
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
 	@Override
-	public List<Forms> getFormsList(String base, User userDetails) throws Exception {
-		return dao.getFormsList(base,userDetails);
+	public List<Forms> getFormsList(String base, User uObj) throws Exception {
+		return dao.getFormsList(base,uObj);
 	}
 	
 	@Override

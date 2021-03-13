@@ -3,12 +3,14 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -17,12 +19,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.DashboardDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Dashboard;
-import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.User;
 @Repository
 public class DashboardDaoImpl implements DashboardDao{
 
@@ -307,6 +307,15 @@ public class DashboardDaoImpl implements DashboardDao{
 			
 			dObj = (Dashboard)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDashboard_id()}, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 			
+			if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getDashboard_id())) {
+				List<Dashboard> objsList = null;
+				String qryUserPermission = "select access_type,access_value from dashboard_access where dashboard_id_fk = ? " ;
+				
+				objsList = jdbcTemplate.query(qryUserPermission, new Object[] {dObj.getDashboard_id()}, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));	
+				
+				dObj.setAccessPermissions(objsList);
+			}
+			
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
@@ -332,6 +341,57 @@ public class DashboardDaoImpl implements DashboardDao{
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
+					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
+					if(arraySize < obj.getAccess_types().length) {
+						arraySize = obj.getAccess_types().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
+					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
+					if(arraySize < obj.getAccess_values().length) {
+						arraySize = obj.getAccess_values().length;
+					}
+				}
+				
+				if(arraySize > 0) {				
+					
+					String[] types = obj.getAccess_types();
+					String[] values = obj.getAccess_values();
+					
+					String qryUserPermissions = "INSERT INTO dashboard_access (dashboard_id_fk,access_type,access_value) VALUES  (?,?,?)";		
+					
+					int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
+				            new BatchPreparedStatementSetter() {
+				                 
+				                @Override
+				                public void setValues(PreparedStatement ps, int i) throws SQLException {
+				                    ps.setString(1, dashboard_id);
+				                    ps.setString(2, types.length > 0?types[i]:null);
+				                    ps.setString(3, values.length > 0?values[i]:null);			                    
+				                }
+				                @Override  
+				                public int getBatchSize() {				                	
+				                	int arraySize = 0;
+				    				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
+				    					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
+				    					if(arraySize < obj.getAccess_types().length) {
+				    						arraySize = obj.getAccess_types().length;
+				    					}
+				    				}
+				    				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
+				    					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
+				    					if(arraySize < obj.getAccess_values().length) {
+				    						arraySize = obj.getAccess_values().length;
+				    					}
+				    				}
+				    				return arraySize; 
+				                }
+				            });
+					
+				}
 			}
 			
 		}catch(Exception e){ 
@@ -376,6 +436,62 @@ public class DashboardDaoImpl implements DashboardDao{
 			int count = namedParamJdbcTemplate.update(updateQry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				
+				String deleteQry ="delete from dashboard_access where dashboard_id_fk = :dashboard_id ";
+				paramSource = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
+					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
+					if(arraySize < obj.getAccess_types().length) {
+						arraySize = obj.getAccess_types().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
+					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
+					if(arraySize < obj.getAccess_values().length) {
+						arraySize = obj.getAccess_values().length;
+					}
+				}
+				
+				
+				if(arraySize > 0) {				
+					
+					String[] types = obj.getAccess_types();
+					String[] values = obj.getAccess_values();
+					
+					String qryUserPermissions = "INSERT INTO dashboard_access (dashboard_id_fk,access_type,access_value) VALUES  (?,?,?)";		
+					
+					int[] counts = jdbcTemplate.batchUpdate(qryUserPermissions,
+				            new BatchPreparedStatementSetter() {
+				                 
+				                @Override
+				                public void setValues(PreparedStatement ps, int i) throws SQLException {
+				                    ps.setString(1, obj.getDashboard_id());
+				                    ps.setString(2, types.length > 0?types[i]:null);
+				                    ps.setString(3, values.length > 0?values[i]:null);			                    
+				                }
+				                @Override  
+				                public int getBatchSize() {				                	
+				                	int arraySize = 0;
+				    				if(!StringUtils.isEmpty(obj.getAccess_types()) && obj.getAccess_types().length > 0 ) {
+				    					obj.setAccess_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_types()));
+				    					if(arraySize < obj.getAccess_types().length) {
+				    						arraySize = obj.getAccess_types().length;
+				    					}
+				    				}
+				    				if(!StringUtils.isEmpty(obj.getAccess_values()) && obj.getAccess_values().length > 0 ) {
+				    					obj.setAccess_values(CommonMethods.replaceEmptyByNullInSringArray(obj.getAccess_values()));
+				    					if(arraySize < obj.getAccess_values().length) {
+				    						arraySize = obj.getAccess_values().length;
+				    					}
+				    				}
+				    				return arraySize; 
+				                }
+				            });
+					
+				}
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -383,7 +499,44 @@ public class DashboardDaoImpl implements DashboardDao{
 		}
 		return flag;
 	}
-	
-	
+
+	@Override
+	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception {
+		List<Dashboard> objsList = null;
+		try {
+			String qry = "select user_role_name as access_value_id from user_role";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception {
+		List<Dashboard> objsList = null;
+		try {
+			String qry = "select user_type as access_value_id from user_type";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception {
+		List<Dashboard> objsList = null;
+		try {
+			String qry = "select user_id as access_value_id,user_name as access_value_name from user";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));			
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}	
 	
 }

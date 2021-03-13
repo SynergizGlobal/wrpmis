@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Dashboard;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class DashboardController {
@@ -138,11 +139,59 @@ public class DashboardController {
 			List<Dashboard> statusList = service.getStatusListForDashboardForm(obj);
 			model.addObject("statusList", statusList);
 			
+			List<Dashboard> user_roles = service.getUserRolesInDashboardAccess(obj);
+			model.addObject("user_roles", user_roles);
+			
+			List<Dashboard> user_types = service.getUserTypesInDashboardAccess(obj);
+			model.addObject("user_types", user_types);
+			
+			List<Dashboard> users = service.getUsersInDashboardAccess(obj);
+			model.addObject("users", users);
+			
 			
 		}catch (Exception e) {
 				logger.error("addDashboardForm : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getUserRolesInDashboardAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Dashboard> getUserRolesInDashboardAccess(@ModelAttribute Dashboard obj) {
+		List<Dashboard> objsList = null;
+		try {
+			objsList = service.getUserRolesInDashboardAccess(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUserRolesInDashboardAccess : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getUserTypesInDashboardAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Dashboard> getUserTypesInDashboardAccess(@ModelAttribute Dashboard obj) {
+		List<Dashboard> objsList = null;
+		try {
+			objsList = service.getUserTypesInDashboardAccess(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUserTypesInDashboardAccess : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getUsersInDashboardAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Dashboard> getUsersInDashboardAccess(@ModelAttribute Dashboard obj) {
+		List<Dashboard> objsList = null;
+		try {
+			objsList = service.getUsersInDashboardAccess(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUsersInDashboardAccess : " + e.getMessage());
+		}
+		return objsList;
 	}
 	
 	@RequestMapping(value = "/get-dashboard", method = {RequestMethod.GET,RequestMethod.POST})
@@ -169,6 +218,15 @@ public class DashboardController {
 			
 			List<Dashboard> statusList = service.getStatusListForDashboardForm(obj);
 			model.addObject("statusList", statusList);
+			
+			List<Dashboard> user_roles = service.getUserRolesInDashboardAccess(obj);
+			model.addObject("user_roles", user_roles);
+			
+			List<Dashboard> user_types = service.getUserTypesInDashboardAccess(obj);
+			model.addObject("user_types", user_types);
+			
+			List<Dashboard> users = service.getUsersInDashboardAccess(obj);
+			model.addObject("users", users);
 			
 			Dashboard dashboardDetails = service.getDashboardForm(obj);
 			model.addObject("dashboardDetails", dashboardDetails);

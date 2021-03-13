@@ -78,4 +78,19 @@ public class DashboardServiceImpl implements DashboardService{
 	public boolean updateDashboard(Dashboard obj) throws Exception {
 		return dao.updateDashboard(obj);
 	}
+
+	@Override
+	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception {
+		return dao.getUserRolesInDashboardAccess(obj);
+	}
+
+	@Override
+	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception {
+		return dao.getUserTypesInDashboardAccess(obj);
+	}
+
+	@Override
+	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception {
+		return dao.getUsersInDashboardAccess(obj);
+	}
 }

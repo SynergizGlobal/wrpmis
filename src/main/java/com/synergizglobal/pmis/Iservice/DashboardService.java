@@ -32,4 +32,10 @@ public interface DashboardService {
 
 	public boolean updateDashboard(Dashboard obj) throws Exception;
 
+	public List<Dashboard> getUserRolesInDashboardAccess(Dashboard obj) throws Exception;
+
+	public List<Dashboard> getUserTypesInDashboardAccess(Dashboard obj) throws Exception;
+
+	public List<Dashboard> getUsersInDashboardAccess(Dashboard obj) throws Exception;
+
 }

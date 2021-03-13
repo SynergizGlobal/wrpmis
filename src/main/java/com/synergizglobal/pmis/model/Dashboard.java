@@ -1,9 +1,55 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 public class Dashboard {
 
 	private String dashboard_id, dashboard_name, work_id_fk, contract_id_fk, module_name_fk, parent_dashboard_id_sr_fk, dashboard_url, mobile_view, dashboard_type_fk, priority, icon_path, published_by_user_id_fk,
-	published_on, modified_by_user_id_fk, modified_on, soft_delete_status_fk,folder,work_short_name,contract_short_name;
+	published_on, modified_by_user_id_fk, modified_on, soft_delete_status_fk,folder,work_short_name,contract_short_name,access_type,access_value,access_value_id,access_value_name;
+	
+	private String[] access_types,access_values;
+	
+	List<Dashboard> accessPermissions;
+
+	public String getAccess_type() {
+		return access_type;
+	}
+
+	public void setAccess_type(String access_type) {
+		this.access_type = access_type;
+	}
+
+	public String getAccess_value() {
+		return access_value;
+	}
+
+	public void setAccess_value(String access_value) {
+		this.access_value = access_value;
+	}
+
+	public String[] getAccess_types() {
+		return access_types;
+	}
+
+	public void setAccess_types(String[] access_types) {
+		this.access_types = access_types;
+	}
+
+	public String[] getAccess_values() {
+		return access_values;
+	}
+
+	public void setAccess_values(String[] access_values) {
+		this.access_values = access_values;
+	}
+
+	public List<Dashboard> getAccessPermissions() {
+		return accessPermissions;
+	}
+
+	public void setAccessPermissions(List<Dashboard> accessPermissions) {
+		this.accessPermissions = accessPermissions;
+	}
 
 	public String getWork_short_name() {
 		return work_short_name;
@@ -155,6 +201,22 @@ public class Dashboard {
 
 	public void setSoft_delete_status_fk(String soft_delete_status_fk) {
 		this.soft_delete_status_fk = soft_delete_status_fk;
+	}
+
+	public String getAccess_value_id() {
+		return access_value_id;
+	}
+
+	public void setAccess_value_id(String access_value_id) {
+		this.access_value_id = access_value_id;
+	}
+
+	public String getAccess_value_name() {
+		return access_value_name;
+	}
+
+	public void setAccess_value_name(String access_value_name) {
+		this.access_value_name = access_value_name;
 	}
 	
 }

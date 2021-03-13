@@ -24,15 +24,17 @@ public class UrlGenerator {
 	    //return CommonConstants.CONTEXT_PATH;
 	}
 	
-	public static String getIpAddress(){
+	public String getIpAddress(){
 		String ipAddress = "";
 		try {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 			        .getRequestAttributes()).getRequest();
+			
 		    URL requestURL = new URL(request.getRequestURL().toString());
 		    String port = requestURL.getPort() == -1 ? "" : ":" + requestURL.getPort();
 		    //return requestURL.getProtocol() + "://" + requestURL.getHost() + port;
 		    
+		    //ipAddress = requestURL.getHost();
 		    ipAddress = request.getServerName();
 		} catch (Exception e) {
 			// TODO: handle exception

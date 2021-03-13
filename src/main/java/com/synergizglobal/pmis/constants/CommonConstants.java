@@ -5,8 +5,11 @@ import java.io.File;
 import com.synergizglobal.pmis.common.UrlGenerator;
 
 public class CommonConstants {
-	public final static String BASE_URL = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
-	//public final static String BASE_URL = "http://"+UrlGenerator.getIpAddress()+":8000/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
+	
+	UrlGenerator ugObj = new UrlGenerator();
+	
+	public String BASE_URL = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
+	//public String BASE_URL = "http://"+ugObj.getIpAddress()+":8000/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
 	public final static String TABLEAU_PARAMS = "&:tabs=no&:toolbar=no";
 	
 	

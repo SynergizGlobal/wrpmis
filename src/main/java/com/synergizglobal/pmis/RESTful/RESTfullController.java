@@ -216,8 +216,10 @@ public class RESTfullController {
 					}else {
 						url = infoviz.getTableauUrl().split(":8000/");
 					}
-					String trustedTokenId =  TableauTrustedTicket.getTrustedTicket();
-					String baseUrl = CommonConstants.BASE_URL.replace("{0}", trustedTokenId);
+					TableauTrustedTicket tObj = new TableauTrustedTicket();
+					String trustedTokenId =  tObj.getTrustedTicket();
+					CommonConstants cObj = new CommonConstants();
+					String baseUrl = cObj.BASE_URL.replace("{0}", trustedTokenId);
 					String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 					infoviz.setTableauUrl(tableauUrl);
 					infoviz.setTableauTrustedToken(trustedTokenId);

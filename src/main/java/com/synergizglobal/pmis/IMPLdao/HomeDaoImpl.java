@@ -20,7 +20,6 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
-import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
@@ -391,7 +390,7 @@ public class HomeDaoImpl implements HomeDao {
 			String projectQry = "select project_id,project_name,plan_head_number,pink_book_item_number,remarks,project_status,attachment,benefits "
 					+ "from `project`";
 			
-			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
+			/*String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, " 
 					+ "max(wr.projected_completion) as projected_completion_year,"
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
@@ -404,6 +403,26 @@ public class HomeDaoImpl implements HomeDao {
 					+ "from work wr "
 					+ "left join work_railway wy ON wr.work_id = wy.work_id_fk " + 
 					" left join railway ON executed_by_id_fk = railway_id where wr.project_id_fk = ? and executed_by_id_fk <> '' group by work_id ORDER BY (CASE executed_by_id_fk WHEN 'MRVC' THEN 0 WHEN 'CR' THEN 1 WHEN 'WR' THEN 2 else 'Others' end),work_id;";
+			*/
+			
+			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
+					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "
+					+ "(SELECT (CASE WHEN MONTH(max(wr.projected_completion)) >= 4 THEN concat(YEAR(max(wr.projected_completion)), '-',SUBSTR(YEAR(max(wr.projected_completion))+1,3,2)) ELSE concat(YEAR(max(wr.projected_completion))-1,'-', SUBSTR(YEAR(max(wr.projected_completion)),3,2)) END) AS financial_year) as projected_completion_year," 
+					//+ "max(wr.projected_completion) as projected_completion_year,"
+					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join `work` w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
+					+ "from work wr where wr.project_id_fk = ? group by wr.project_id_fk";
+			
+			String workQry = "select wr.work_id,wr.work_short_name,wr.pink_book_item_number,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
+					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
+					+ "wr.completion_cost as completion_cost,"
+					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTR(YEAR(wr.projected_completion)+1,3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTR(YEAR(wr.projected_completion),3,2)) END) AS financial_year) as projected_completion_year," 
+					//+ "wr.projected_completion as projected_completion_year,"
+					+ " wr.attachment as work_attachment,"
+					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost " 
+					+ "from work wr "
+					+ "left join work_railway wy ON wr.work_id = wy.work_id_fk " + 
+					" left join railway ON executed_by_id_fk = railway_id where wr.project_id_fk = ? and executed_by_id_fk <> '' group by work_id ORDER BY (CASE executed_by_id_fk WHEN 'MRVC' THEN 0 WHEN 'CR' THEN 1 WHEN 'WR' THEN 2 else 'Others' end),work_id;";
+			
 			
 			String projectGalleryQry = "select id,file_name,project_id_fk,created_date,created_by from project_gallery where project_id_fk = ? ";
 			

@@ -12,21 +12,30 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.log4j.Logger;
 
 public class TableauTrustedTicket {
-	
-	public static String getTrustedTicket() throws Exception{
+	public static Logger logger = Logger.getLogger(TableauTrustedTicket.class);
+	public String getTrustedTicket() throws Exception{
+		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
-	    
-		String postURL = "https://infoviz.syntrackpro.com/trusted";
-		String username = "SynTrack";
-		String server = "infoviz.syntrackpro.com";
+		
+		String postURL = "https://infoviz.syntrackpro.com/trusted"; 
+		String username = "SynTrack"; String server = "infoviz.syntrackpro.com"; 
 		String clientIp = "www.syntrackpro.com";
         
-		/*String postURL = "http://"+UrlGenerator.getIpAddress()+":8000/trusted";
-		String username = "tableau admin";
-		String server = "10.203.10.157:8000";
-		String clientIp = "10.203.10.157";*/
+		
+		/*String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
+		String username = "tableau admin"; 
+		String server = ugObj.getIpAddress()+":8000";
+		String clientIp = ugObj.getIpAddress();*/
+		 
+		
+		/*String postURL = "http://203.153.40.44:8000/trusted";
+		String username = "tableau admin";		
+		String server = "203.153.40.44:8000"; 
+		String clientIp = "203.153.40.44";*/
+		 
         
         String target_site = "";//Optional
 		try {
@@ -64,10 +73,5 @@ public class TableauTrustedTicket {
 		}
 		return getResponseString;
 	}
-	
-	
-	
-	
-	
 	
 }

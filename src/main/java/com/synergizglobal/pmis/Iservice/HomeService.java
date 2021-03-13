@@ -10,9 +10,9 @@ import com.synergizglobal.pmis.model.Work;
 
 public interface HomeService {
 
-	public List<TableauDashboard> getDashboardsList(String dashboardType, String base) throws Exception ;
+	public List<TableauDashboard> getDashboardsList(String dashboardType, String base, User uObj) throws Exception ;
 	
-	public List<Forms> getFormsList(String base, User userDetails) throws Exception;
+	public List<Forms> getFormsList(String base, User uObj) throws Exception;
 
 	public List<Project> getProjectsList() throws Exception;
 

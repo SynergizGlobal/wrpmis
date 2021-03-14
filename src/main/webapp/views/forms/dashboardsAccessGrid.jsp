@@ -56,7 +56,7 @@
                         </div>
                     </span>
                     <div class="">
-                    <c:if test="${not empty success }">
+                    	<c:if test="${not empty success }">
 							<div class="center-align m-1 close-message">${success}</div>
 						</c:if>
 						<c:if test="${not empty error }">
@@ -76,7 +76,6 @@
                                 <p class="searchable_label">Select Module</p>
                                <select id="module_name_fk" class="searchable" name="module_name_fk" onchange="getDashboardsList();">
                                     <option value="" >Select Module</option>
-                                   
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
@@ -90,7 +89,6 @@
                                 <p class="searchable_label">Select Status</p>
                                 <select id="soft_delete_status_fk" class="searchable" name="soft_delete_status_fk" onchange="getDashboardsList();">
                                     <option value="" >Select Status</option>
-                                   
                                 </select>
                             </div>
                             <div class="col s12 m2">
@@ -118,21 +116,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="#"
-                                                    class="btn waves-effect waves-light bg-m t-c"><i
-                                                        class="fa fa-pencil"></i></a>
-                                                <a href="#" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-share"></i></a>
-                                            </td>
-                                        </tr> -->
                                     </tbody>
 
                                 </table>
@@ -186,35 +169,7 @@
     <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-            var table = $('#data-table-dashboard').DataTable({
-            	"bStateSave": true,
-         		fixedHeader: true,
-                 "fnStateSave": function (oSettings, oData) {
-                     localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                 },
-                 "fnStateLoad": function (oSettings) {
-                     return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                 },
-                 columnDefs: [
-                     {
-                         targets: [0, 1, 2],
-                         className: 'mdl-data-table__cell--non-numeric'
-                     },
-                     { orderable: false, 'aTargets': ['nosort'] }
-                 ],
-                 // "ScrollX": true,
-                 "scrollCollapse": true,
-                 //"sScrollY": 400,
-                 "sScrollX": "100%",
-                     "sScrollXInner": "100%",
-                     "bScrollCollapse": true,
-                 initComplete: function () {
-                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                 }
-             });
-         	table.state.clear(); 
-         	
+            $('.searchable').select2();         	
          	$('.close-message').delay(3000).fadeOut('slow');
          	getDashboardsList();
         });
@@ -438,8 +393,6 @@
         	$('#getForm').submit();
         }
         function goToDashboardLinks(dashboardName,parentId,dshboardId){
-        	
-        
         	 if ($.trim(dashboardName) != '') { 
            	  var parentId = $.trim(parentId) ;
            	  var name = $.trim(dashboardName).toLowerCase();

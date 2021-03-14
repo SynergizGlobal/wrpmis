@@ -108,7 +108,7 @@
                              <div class="col m6 s12"> 
 								<div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Work</p>
-	                                  <select id="sub_work" name="sub_work" onchange="getRiskList();" class="searchable" required="required">
+	                                  <select id="sub_work" name="sub_work" onchange="applyFilters();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
                                       </select>
 	                            </div>
@@ -122,7 +122,7 @@
 	                            
 	                            <div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Assessment Date</p>
-	                                 <select id="assessment_date" name="assessment_date" onchange="getRiskList();" class="searchable">
+	                                 <select id="assessment_date" name="assessment_date" onchange="applyFilters();" class="searchable">
 	                                            <option value="" >Select </option>	                                           
 	                                 </select>
 	                            </div>
@@ -194,7 +194,7 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
-    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post" target="_blank">
+    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
     	<input type="hidden" name="risk_revision_id" id="risk_revision_id" />
     </form>
@@ -208,31 +208,56 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
-    <script>
-      
-      $(document).ready(function () {
-    	  $(".modal").modal();
-          $('select:not(.searchable)').formSelect();
-          $('.searchable').select2();
-          $('.tabs').tabs();
-          getRiskList();
-      });
+    <script type="text/javascript">       
+        var filtersMap = new Object(); 
+        filtersMap["sub_work"] = '';
+        filtersMap["assessment_date"] = '';
+        $(document).ready(function () {
+	    	  $(".modal").modal();
+	          $('select:not(.searchable)').formSelect();
+	          $('.searchable').select2();
+	          $('.tabs').tabs();
+	          applyFilters();
+        });
         
         
         function clearFilters() {
             $('#sub_work').val('');
             $('#assessment_date').val('');
-            getRiskList();
             $('.searchable').select2();
+            applyFilters();            
         }
         
+        function applyFilters(){
+        	Object.keys(filtersMap).forEach(function (key) {
+   			 	var value = filtersMap[key];
+   			 	if(key == 'sub_work'){
+   			 		getSubWorksFilterList();
+   			 	}
+   			 	if(key == 'assessment_date'){
+   			 		getAssessmentDatesFilterList();
+			 	}
+   			});
+        	
+        	getRiskList();
+        	
+        	/* Object.getOwnPropertyNames(filtersMap).map(function (key) {
+	    		alert(key);
+	    	}) */
+    	
+        }
         
         function getRiskList(){
+        	
         	$(".page-loader-2").show();
+
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
-        	getSubWorksFilterList();
-        	getAssessmentDatesFilterList();
+        	
+        	Object.getOwnPropertyNames(filtersMap).map(function (key) {
+	    		//alert(filtersMap[key]);
+	    	});
+        	
         	table = $('#datatable-risk').DataTable();
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -263,7 +288,9 @@
     		
     		table.state.clear();		
     		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentList",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getRiskAssessmentList",
+    			type:"POST",data:myParams, cache: false,async:false,
+    			success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var risk_id_pk = "'"+val.risk_id_pk+"'";
@@ -303,12 +330,19 @@
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
+        	
+        	if($.trim(sub_work) != ''){
+        		Object.keys(filtersMap).forEach(function (key) {
+        			 if(key.match('sub_work')) delete filtersMap[key];
+        		});
+        		filtersMap["sub_work"] = sub_work;
+        	}
             if ($.trim(sub_work) == "") {
             	$("#sub_work option:not(:first)").remove();
             	var myParams = {sub_work : sub_work,assessment_date : assessment_date};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getSubWorksFilterListInRiskAssessmnt",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -327,44 +361,23 @@
             }
         }
         
-        function getAreasFilterList() {
-        	$(".page-loader").show();
-        	var sub_work = $("#sub_work").val();
-        	var area = $("#area").val();
-            if ($.trim(area) == "") {
-            	$("#area option:not(:first)").remove();
-        		var myParams = {sub_work : sub_work,area : area};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getAreasFilterListInRiskAssessment",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-    	                           $("#area").append('<option value="' + val.risk_area_fk + '">' + $.trim(val.risk_area_fk)   +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
         function getAssessmentDatesFilterList() {
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
-            if ($.trim(assessment_date) == "") {
+        	
+        	if($.trim(assessment_date) != ''){
+        		Object.keys(filtersMap).forEach(function (key) {
+        			 if(key.match('assessment_date')) delete filtersMap[key];
+        		});
+        		filtersMap["assessment_date"] = assessment_date;
+        	}
+            if ($.trim(assessment_date) == "") {            	
             	$("#assessment_date option:not(:first)").remove();
         		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
             	$.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getAssessmentDatesFilterListInRiskAssessment",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {

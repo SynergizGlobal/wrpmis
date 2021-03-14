@@ -110,7 +110,7 @@
 		                	<form action="<%=request.getContextPath() %>/add-dashboard" id="dashboardForm" name="dashboardForm" method="post" class="form-horizontal" role="form" >
 					  </c:if>
                         <div class="container container-no-margin">
-                        <input type="hidden" name ="dashboard_id" value="${dashboardDetails.dashboard_id }" />
+                        	<input type="hidden" name ="dashboard_id" value="${dashboardDetails.dashboard_id }" />
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">

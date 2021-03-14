@@ -18,13 +18,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.synergizglobal.pmis.Idao.DashboardDao;
+import com.synergizglobal.pmis.Idao.DashboardsAccessDao;
 import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.model.Dashboard;
-import com.synergizglobal.pmis.model.User;
 @Repository
-public class DashboardDaoImpl implements DashboardDao{
+public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 
 
 	@Autowired

@@ -359,10 +359,10 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <%-- <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a> --%>
-                                            <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
+                                        <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
                                             style="width:100%">Cancel</a>
+                                            <!-- <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a> -->
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -400,7 +400,7 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
- 	  <script>
+ 	<script type="text/javascript">
  	   $(document).on('focus', '.datepicker',function(){
            $(this).datepicker({
          	format:'dd-mm-yyyy',

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.synergizglobal.pmis.model.Dashboard;
 
-public interface DashboardService {
+public interface DashboardsAccessService {
 
 	public List<Dashboard> getDashboardsList(Dashboard obj) throws Exception;
 

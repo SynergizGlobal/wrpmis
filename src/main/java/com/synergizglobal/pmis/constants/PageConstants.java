@@ -97,6 +97,12 @@ public class PageConstants {
 	public static final String zonalRailwayGrid = "forms/zonalRailwayGrid";
 	public static final String addEditZonalRailway = "forms/addEditZonalRailway";
 
-	public static final String dashboardsGrid = "forms/dashboards"; 
-	public static final String addEditDashboardForm = "forms/addEditDashboardForm";
+	public static final String dashboardsAccessGrid = "forms/dashboardsAccessGrid"; 
+	public static final String addEditDashboardAccessForm = "forms/addEditDashboardAccessForm";
+	
+	public static final String formsAccessGrid = "forms/formsAccessGrid"; 
+	public static final String addEditFormAccessForm = "forms/addEditFormAccessForm";
+	
+	public static final String reportsAccessGrid = "forms/reportsAccessGrid"; 
+	public static final String addEditReportAccessForm = "forms/addEditReportAccessForm";
 }

@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.Idao.DashboardDao;
-import com.synergizglobal.pmis.Iservice.DashboardService;
+import com.synergizglobal.pmis.Idao.DashboardsAccessDao;
+import com.synergizglobal.pmis.Iservice.DashboardsAccessService;
 import com.synergizglobal.pmis.model.Dashboard;
 @Service
-public class DashboardServiceImpl implements DashboardService{
+public class DashboardsAccessServiceImpl implements DashboardsAccessService{
 
 	@Autowired
-	DashboardDao dao;
+	DashboardsAccessDao dao;
 
 	@Override
 	public List<Dashboard> getDashboardsList(Dashboard obj) throws Exception {

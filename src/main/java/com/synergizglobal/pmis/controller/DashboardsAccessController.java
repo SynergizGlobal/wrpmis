@@ -18,28 +18,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synergizglobal.pmis.Iservice.DashboardService;
+import com.synergizglobal.pmis.Iservice.DashboardsAccessService;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Dashboard;
-import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.User;
 
 @Controller
-public class DashboardController {
+public class DashboardsAccessController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 	
-	Logger logger = Logger.getLogger(DashboardController.class);
+	Logger logger = Logger.getLogger(DashboardsAccessController.class);
 	
 	@Autowired
-	DashboardService service;
+	DashboardsAccessService service;
 	
 	@RequestMapping(value="/dashboards",method={RequestMethod.GET})
 	public ModelAndView dashboards(HttpSession session){
-		ModelAndView model = new ModelAndView(PageConstants.dashboardsGrid);
+		ModelAndView model = new ModelAndView(PageConstants.dashboardsAccessGrid);
 		try {
 			
 		}catch (Exception e) {
@@ -118,7 +115,7 @@ public class DashboardController {
 	public ModelAndView addDashboardForm(@ModelAttribute Dashboard obj){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.addEditDashboardForm);
+			model.setViewName(PageConstants.addEditDashboardAccessForm);
 			model.addObject("action", "add");
 			
 			List<Dashboard> worksList = service.getWorkListForDashboardForm(obj);
@@ -198,7 +195,7 @@ public class DashboardController {
 	public ModelAndView getDashboardForm(@ModelAttribute Dashboard obj ){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName(PageConstants.addEditDashboardForm);
+			model.setViewName(PageConstants.addEditDashboardAccessForm);
 			model.addObject("action", "edit");
 			
 			List<Dashboard> worksList = service.getWorkListForDashboardForm(obj);
@@ -242,7 +239,8 @@ public class DashboardController {
 	public ModelAndView addDashboard(@ModelAttribute Dashboard obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
-			String user_Id = (String) session.getAttribute("USER_ID");String userName = (String) session.getAttribute("USER_NAME");
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
 			obj.setPublished_by_user_id_fk(user_Id);
 			model.setViewName("redirect:/dashboards");
 			boolean flag =  service.addDashboard(obj);

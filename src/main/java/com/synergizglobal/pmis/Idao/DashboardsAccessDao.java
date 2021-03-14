@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.synergizglobal.pmis.model.Dashboard;
 
-public interface DashboardDao {
+public interface DashboardsAccessDao {
 
 	public List<Dashboard> getDashboardsList(Dashboard obj) throws Exception;
 

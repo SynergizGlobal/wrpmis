@@ -268,12 +268,12 @@ public class RESTfullController {
 	 */
 	@RequestMapping(value = "/getReportFormsList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Response getReportsList(){
+	public Response getReportsList(@RequestBody User user){
 		Response response = new Response();
 		List<Forms> forms = null;
 		try{
 			String base = "mobile";
-			forms = homeService.getReportFormsList(base);
+			forms = homeService.getReportFormsList(base,user);
 			response.setSuccess(true);
 			response.setResult(forms);
 		}catch(Exception e){

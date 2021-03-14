@@ -177,9 +177,18 @@ public class HomeDaoImpl implements HomeDao {
 			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
 			}*/
+			
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			
 			qry = qry + " ORDER BY priority ASC";
 			statement = connection.prepareStatement(qry);
-			statement.setString(1, CommonConstants.ACTIVE);
+			int p = 1;
+			statement.setString(p++, CommonConstants.ACTIVE);
+			
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
+			
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
 				obj = new Forms();
@@ -191,7 +200,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setPriority(resultSet.getString("priority"));
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				String parentId = resultSet.getString("parent_form_id_sr_fk");
-				List<Forms> subList = getFormsSubList(base,parentId, connection);
+				List<Forms> subList = getFormsSubList(base,parentId,uObj, connection);
 				obj.setFormsSubMenu(subList);
 				
 				String formUrl = null;
@@ -203,20 +212,8 @@ public class HomeDaoImpl implements HomeDao {
 				/*if(!StringUtils.isEmpty(formUrl) || (!StringUtils.isEmpty(subList) && subList.size() > 0 )) {
 					objsList.add(obj);
 				}*/
-				String form_name = resultSet.getString("form_name");
-				String user_type = uObj.getUser_type_fk();
-				String user_role_code = uObj.getUser_role_code();
-				if("Risk".equals(form_name)) {
-					if(CommonConstants.USER_TYPE_HOD.equals(user_type) 
-							|| CommonConstants.USER_TYPE_DYHOD.equals(user_type)
-							|| CommonConstants.USER_TYPE_MANAGEMENT.equals(user_type) 
-							|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(user_role_code)) {
-						objsList.add(obj);
-					}
-				}else {
-					objsList.add(obj);
-				}
 				
+				objsList.add(obj);
 				
 			}
 		}catch(Exception e){ 
@@ -232,11 +229,12 @@ public class HomeDaoImpl implements HomeDao {
 	 * This method get the forms sub list
 	 * @param base it is string type variable that holds the base
 	 * @param parentId it is string type variable that holds the parentId
+	 * @param uObj 
 	 * @param connection is object for the Connection Interface
 	 * @return type of this method is objsList that is List type object 
 	 * @throws Exception will raise an exception when abnormal termination occur
 	 */
-	private List<Forms> getFormsSubList(String base, String parentId, Connection connection) throws Exception {
+	private List<Forms> getFormsSubList(String base, String parentId, User uObj, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<Forms> objsList = new ArrayList<Forms>();
@@ -252,12 +250,19 @@ public class HomeDaoImpl implements HomeDao {
 			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
 			}*/
+			
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			
 			qry = qry + " ORDER BY priority ASC";
-			
-			
 			statement = connection.prepareStatement(qry);
-			statement.setString(1, parentId);
-			statement.setString(2, CommonConstants.ACTIVE);
+			int p = 1;
+			statement.setString(p++, parentId);
+			statement.setString(p++, CommonConstants.ACTIVE);
+			
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
+			
 			
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
@@ -271,7 +276,7 @@ public class HomeDaoImpl implements HomeDao {
 				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
 				
 				String parentIdLevel2 = resultSet.getString("form_id");
-				List<Forms> subList = getFormsSubListLevel2(base,parentIdLevel2, connection);
+				List<Forms> subList = getFormsSubListLevel2(base,parentIdLevel2,uObj, connection);
 				obj.setFormsSubMenuLevel2(subList); 
 				
 				objsList.add(obj);
@@ -285,7 +290,7 @@ public class HomeDaoImpl implements HomeDao {
 		return objsList;
 	}
 	
-	private List<Forms> getFormsSubListLevel2(String base, String parentId, Connection connection) throws Exception {
+	private List<Forms> getFormsSubListLevel2(String base, String parentId, User uObj, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<Forms> objsList = new ArrayList<Forms>();
@@ -301,12 +306,149 @@ public class HomeDaoImpl implements HomeDao {
 			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
 				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
 			}
+			
+			qry = qry + "and (select count(*) from form_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			
 			qry = qry + " ORDER BY priority ASC";
-			
-			
 			statement = connection.prepareStatement(qry);
-			statement.setString(1, parentId);
-			statement.setString(2, CommonConstants.ACTIVE);
+			int p = 1;
+			statement.setString(p++, parentId);
+			statement.setString(p++, CommonConstants.ACTIVE);
+			
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
+			
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				obj = new Forms();
+				obj.setFormId(resultSet.getString("form_id"));
+				obj.setFormName(resultSet.getString("form_name"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
+				obj.setPriority(resultSet.getString("priority"));
+				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return objsList;
+	}
+	
+	/**
+	 * This method get the forms list
+	 * @param base it is string type variable that holds the base
+	 * * @return type of this method is objsList that is List type object 
+	 * @throws Exception will raise an exception when abnormal termination occur
+	 */
+	@Override
+	public List<Forms> getReportFormsList(String base, User uObj) throws Exception {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Forms> objsList = new ArrayList<Forms>();
+		Forms obj = null;
+		try {
+			connection = dataSource.getConnection();
+			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
+			
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+					+ "FROM report_form f "
+					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
+			
+			
+			/*if(!StringUtils.isEmpty(base) && base.equals("web")) {
+				qry = qry + " and web_form_url IS NOT NULL and web_form_url <> ''";
+			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
+				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
+			}*/
+			qry = qry + "and (select count(*) from report_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			
+			qry = qry + " ORDER BY priority ASC";
+			statement = connection.prepareStatement(qry);
+			int p = 1;
+			statement.setString(p++, CommonConstants.ACTIVE);
+			
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
+			
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				obj = new Forms();
+				obj.setFormId(resultSet.getString("form_id"));
+				obj.setFormName(resultSet.getString("form_name"));
+				obj.setWebFormUrl(resultSet.getString("web_form_url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
+				obj.setPriority(resultSet.getString("priority"));
+				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
+				String parentId = resultSet.getString("parent_form_id_sr_fk");
+				
+				List<Forms> subList = getReportFormsSubList(base,parentId,uObj, connection);
+				obj.setFormsSubMenu(subList);
+				
+				String formUrl = null;
+				if(!StringUtils.isEmpty(base) && base.equals("web")) {
+					formUrl = resultSet.getString("web_form_url");
+				}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
+					formUrl = resultSet.getString("mobile_form_url");
+				} 
+				if(!StringUtils.isEmpty(formUrl) || (!StringUtils.isEmpty(subList) && subList.size() > 0 )) {
+					objsList.add(obj);
+				}
+			}
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return objsList;
+	}
+	
+	/**
+	 * This method get the forms sub list
+	 * @param base it is string type variable that holds the base
+	 * @param parentId it is string type variable that holds the parentId
+	 * @param uObj 
+	 * @param connection is object for the Connection Interface
+	 * @return type of this method is objsList that is List type object 
+	 * @throws Exception will raise an exception when abnormal termination occur
+	 */
+	private List<Forms> getReportFormsSubList(String base, String parentId, User uObj, Connection connection) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Forms> objsList = new ArrayList<Forms>();
+		Forms obj = null;
+		try {
+			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
+					+ "FROM report_form f "
+					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
+			
+			
+			if(!StringUtils.isEmpty(base) && base.equals("web")) {
+				qry = qry + " and web_form_url IS NOT NULL and web_form_url <> ''";
+			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
+				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
+			}
+			
+			qry = qry + "and (select count(*) from report_access where form_id_fk = f.form_id and (access_value = ? or access_value = ? or access_value = ?) ) > 0 ";
+			
+			qry = qry + " ORDER BY priority ASC";
+			statement = connection.prepareStatement(qry);
+			int p = 1;
+			statement.setString(p++, parentId);
+			statement.setString(p++, CommonConstants.ACTIVE);
+			
+			statement.setString(p++, uObj.getUser_type_fk());
+			statement.setString(p++, uObj.getUser_role_name_fk());
+			statement.setString(p++, uObj.getUser_id());
 			
 			resultSet = statement.executeQuery();  
 			while(resultSet.next()) {
@@ -550,121 +692,7 @@ public class HomeDaoImpl implements HomeDao {
 		return railwayAgencyList;
 		
 	}
-	/**
-	 * This method get the forms list
-	 * @param base it is string type variable that holds the base
-	 * * @return type of this method is objsList that is List type object 
-	 * @throws Exception will raise an exception when abnormal termination occur
-	 */
-	@Override
-	public List<Forms> getReportFormsList(String base) throws Exception {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		List<Forms> objsList = new ArrayList<Forms>();
-		Forms obj = null;
-		try {
-			connection = dataSource.getConnection();
-			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
-			
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
-					+ "FROM report_form f "
-					+ "WHERE parent_form_id_sr_fk = f.form_id and f.soft_delete_status_fk = ? ";
-			
-			
-			/*if(!StringUtils.isEmpty(base) && base.equals("web")) {
-				qry = qry + " and web_form_url IS NOT NULL and web_form_url <> ''";
-			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
-				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
-			}*/
-			qry = qry + " ORDER BY priority ASC";
-			statement = connection.prepareStatement(qry);
-			statement.setString(1, CommonConstants.ACTIVE);
-			resultSet = statement.executeQuery();  
-			while(resultSet.next()) {
-				obj = new Forms();
-				obj.setFormId(resultSet.getString("form_id"));
-				obj.setFormName(resultSet.getString("form_name"));
-				obj.setWebFormUrl(resultSet.getString("web_form_url"));
-				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
-				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
-				obj.setPriority(resultSet.getString("priority"));
-				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
-				String parentId = resultSet.getString("parent_form_id_sr_fk");
-				
-				List<Forms> subList = getReportFormsSubList(base,parentId, connection);
-				obj.setFormsSubMenu(subList);
-				
-				String formUrl = null;
-				if(!StringUtils.isEmpty(base) && base.equals("web")) {
-					formUrl = resultSet.getString("web_form_url");
-				}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
-					formUrl = resultSet.getString("mobile_form_url");
-				} 
-				if(!StringUtils.isEmpty(formUrl) || (!StringUtils.isEmpty(subList) && subList.size() > 0 )) {
-					objsList.add(obj);
-				}
-			}
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
-		}
-		return objsList;
-	}
 	
-	/**
-	 * This method get the forms sub list
-	 * @param base it is string type variable that holds the base
-	 * @param parentId it is string type variable that holds the parentId
-	 * @param connection is object for the Connection Interface
-	 * @return type of this method is objsList that is List type object 
-	 * @throws Exception will raise an exception when abnormal termination occur
-	 */
-	private List<Forms> getReportFormsSubList(String base, String parentId, Connection connection) throws Exception {
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		List<Forms> objsList = new ArrayList<Forms>();
-		Forms obj = null;
-		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk "
-					+ "FROM report_form f "
-					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
-			
-			
-			if(!StringUtils.isEmpty(base) && base.equals("web")) {
-				qry = qry + " and web_form_url IS NOT NULL and web_form_url <> ''";
-			}else if(!StringUtils.isEmpty(base) && base.equals("mobile")) {
-				qry = qry + " and mobile_form_url IS NOT NULL and mobile_form_url <> ''";
-			}
-			qry = qry + " ORDER BY priority ASC";
-			
-			
-			statement = connection.prepareStatement(qry);
-			statement.setString(1, parentId);
-			statement.setString(2, CommonConstants.ACTIVE);
-			
-			resultSet = statement.executeQuery();  
-			while(resultSet.next()) {
-				obj = new Forms();
-				obj.setFormId(resultSet.getString("form_id"));
-				obj.setFormName(resultSet.getString("form_name"));
-				obj.setWebFormUrl(resultSet.getString("web_form_url"));
-				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
-				obj.setMobileFormUrl(resultSet.getString("mobile_form_url"));
-				obj.setPriority(resultSet.getString("priority"));
-				obj.setStatusId(resultSet.getString("soft_delete_status_fk"));
-				objsList.add(obj);
-			}
-		}catch(Exception e){ 
-			throw new Exception(e.getMessage());
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
-		}
-		return objsList;
-	}
 
 	@Override
 	public List<Work> getWorkDetails(Work obj) throws Exception {

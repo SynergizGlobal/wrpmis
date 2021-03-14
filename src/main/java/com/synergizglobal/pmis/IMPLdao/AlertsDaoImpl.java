@@ -1511,8 +1511,10 @@ public class AlertsDaoImpl implements AlertsDao{
 				pValues[i++] = obj.getHod();
 			}
 			
-			count = jdbcTemplate.queryForObject( qry,pValues, (Integer.class));
-			
+			Integer c = jdbcTemplate.queryForObject( qry,pValues, (Integer.class));
+			if(c != null && c > 0) {
+				count = c;
+			}
 			/*dyfacao1@mrvc.gov.in - 1st 2nd 3rd of BG & Insurance
 			facao2@mrvc.gov.in - 2nd 3rd of BG & Insurance
 			df@mrvc.gov.in - 3rd of BG & Insurance

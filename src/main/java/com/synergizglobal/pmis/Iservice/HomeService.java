@@ -22,7 +22,7 @@ public interface HomeService {
 
 	public List<Project> getProjectsInformation(Project obj) throws Exception;
 
-	public List<Forms> getReportFormsList(String base) throws Exception;
+	public List<Forms> getReportFormsList(String base, User uObj) throws Exception;
 
 	public List<Work> getWorkDetails(Work obj) throws Exception;
 

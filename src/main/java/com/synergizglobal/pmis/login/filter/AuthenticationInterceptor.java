@@ -94,11 +94,13 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				dashboardType = "Project";
 				List<TableauDashboard> projectsList = service.getDashboardsList(dashboardType,base,userDetails);
-				model.addObject("dashboardProjectsList", projectsList);
-				
+				model.addObject("dashboardProjectsList", projectsList);				
 				
 				List<Forms> forms = service.getFormsList(base,userDetails);
 				model.addObject("forms", forms);
+				
+				List<Forms> reportForms = service.getReportFormsList(base,userDetails);
+				model.addObject("reportForms", reportForms);
 				
 				List<WebDocuments> webDocumentTypes = webDocumentsService.getWebDocumentTypes(null);
 				model.addObject("webDocumentTypes", webDocumentTypes);
@@ -106,8 +108,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				List<WebLinks> webLinksList = webLinksService.getWebLinks(null);
 				model.addObject("webLinksList", webLinksList);
 				
-				List<Forms> reportForms = service.getReportFormsList(base);
-				model.addObject("reportForms", reportForms);
+				
 				
 				Alerts aObj = new Alerts();
 				aObj.setEmail_id(userDetails.getEmail_id());

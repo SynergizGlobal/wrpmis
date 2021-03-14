@@ -57,8 +57,8 @@ public class HomeServiceImpl implements HomeService {
 		return dao.getProjectsInformation(obj);
 	}
 	@Override
-	public List<Forms> getReportFormsList(String base) throws Exception {
-		return dao.getReportFormsList(base);
+	public List<Forms> getReportFormsList(String base, User uObj) throws Exception {
+		return dao.getReportFormsList(base,uObj);
 	}
 	@Override
 	public List<Work> getWorkDetails(Work obj) throws Exception {

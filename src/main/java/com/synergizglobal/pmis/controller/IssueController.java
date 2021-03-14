@@ -39,7 +39,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -47,14 +46,8 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
-import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.Issue;
-import com.synergizglobal.pmis.model.Project;
-import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Issue;
 
 @Controller
@@ -235,6 +228,15 @@ public class IssueController {
 			List<Issue> railwayList = issueService.getRailwayList();
 			model.addObject("railwayList", railwayList);
 			
+			List<Issue> reportedByList = issueService.getReportedByList();
+			model.addObject("reportedByList", reportedByList);
+			
+			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList();
+			model.addObject("responsiblePersonList", responsiblePersonList);
+			
+			List<Issue> escalatedToList = issueService.getEscalatedToList();
+			model.addObject("escalatedToList", escalatedToList);
+			
 		} catch (Exception e) {
 			logger.error("addIssueForm : " + e.getMessage());
 		}
@@ -336,6 +338,15 @@ public class IssueController {
 			
 			List<Issue> railwayList = issueService.getRailwayList();
 			model.addObject("railwayList", railwayList);
+			
+			List<Issue> reportedByList = issueService.getReportedByList();
+			model.addObject("reportedByList", reportedByList);
+			
+			List<Issue> responsiblePersonList = issueService.getResponsiblePersonList();
+			model.addObject("responsiblePersonList", responsiblePersonList);
+			
+			List<Issue> escalatedToList = issueService.getEscalatedToList();
+			model.addObject("escalatedToList", escalatedToList);
 			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);

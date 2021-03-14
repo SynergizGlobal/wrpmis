@@ -47,7 +47,7 @@ public class LoginDaoImpl implements LoginDao{
 					+ "cast(extension as CHAR) as extension,department_fk,reporting_to_id_srfk,pmis_key_fk,user_role_name_fk,remarks,user_image,user_role_code,user_type_fk "
 					+ "from user u "
 					+ "LEFT JOIN user_role ur ON user_role_name_fk = user_role_name "
-					+ "where password = BINARY ? and (user_id = BINARY ? OR mobile_number = ? OR email_id = ?)";
+					+ "where password = BINARY ? and (user_id = ? OR mobile_number = ? OR email_id = ?)";
 			
 			
 			stmt = con.prepareStatement(qry);

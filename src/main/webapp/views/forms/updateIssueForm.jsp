@@ -202,13 +202,27 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="validate" value="${issue.reported_by }">
-                                    <label for="reported_by">Reported by </label>
+                                    <%-- <input id="reported_by" name="reported_by" type="text" class="validate" value="${issue.reported_by }">
+                                    <label for="reported_by">Reported by </label> --%>
+                                    <p class="searchable_label">Reported by</p> 
+                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${reportedByList }">
+                                            <option value="${obj.reported_by_user_id }" <c:if test="${issue.reported_by eq obj.reported_by_user_id }">selected</c:if>>${obj.reported_by_designation}</option>
+                                        </c:forEach>
+                                    </select>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
-                                    <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label>
+                                    <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
+                                    <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
+                                    <p class="searchable_label">Person Responsible In MRVC (Assigned to)</p> 
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${responsiblePersonList }">
+                                            <option value="${obj.responsible_person_user_id }" <c:if test="${issue.responsible_person eq obj.responsible_person_user_id }">selected</c:if>>${obj.responsible_person_designation}</option>
+                                        </c:forEach>
+                                    </select>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -284,8 +298,15 @@
                             <div class="row" id="escalatedDiv" style="display: none;">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
-                                    <label for="escalated_to">Escalated To </label>
+                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
+                                    <label for="escalated_to">Escalated To </label> --%>
+                                    <p class="searchable_label">Escalated To</p> 
+                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${escalatedToList }">
+                                            <option value="${obj.escalated_to_user_id }" <c:if test="${issue.escalated_to eq obj.escalated_to_user_id}">selected</c:if>>${obj.escalated_to_designation}</option>
+                                        </c:forEach>
+                                    </select>
                                     <span id="escalated_toError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">

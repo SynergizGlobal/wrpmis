@@ -25,7 +25,9 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ActivitiesDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
-import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.common.EMailSender;
+import com.synergizglobal.pmis.common.Mail;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.StripChart;
 @Repository
@@ -550,7 +552,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 						ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
-						ps.setString(i++, "Raised");
+						ps.setString(i++, CommonConstants.ISSUE_STATUS_RAISED);
 						ps.setString(i++, !StringUtils.isEmpty(department_id)?department_id:null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())?obj.getStrip_chart_structure_id_fk():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getAttachment_url())?obj.getAttachment_url():null);
@@ -558,7 +560,61 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 					}
 				}, holder);
 
-				issueId = String.valueOf(holder.getKey().longValue());				
+				issueId = String.valueOf(holder.getKey().longValue());		
+				
+				
+				String emailsQry = "select w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
+						+ "u1.designation as reported_by_designation,,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
+						+ "from issue i "
+						+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
+						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
+						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+						+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
+						+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
+						+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+						+ "where issue_id = ? "; 
+				
+				
+				Object[] pValues = new Object[] {issueId};
+				
+				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+				if(!StringUtils.isEmpty(iObj)) {
+					String email_ids = "";
+					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
+						email_ids = email_ids + iObj.getReported_by_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+						email_ids = email_ids + iObj.getEscalated_to_email_id()+",";
+					}					
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id()) && !StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+						email_ids = email_ids + iObj.getContract_hod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						email_ids = email_ids + iObj.getContract_dyhod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(email_ids)) {
+						email_ids =  org.apache.commons.lang3.StringUtils.chop(email_ids);  
+					}
+					
+					String emailSubject = "PMIS Issue Alert - Issue "+CommonConstants.ISSUE_STATUS_RAISED;
+					
+					Mail mail = new Mail();
+					mail.setMailTo(email_ids);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("IssueAlert.vm");
+					
+					if(!StringUtils.isEmpty(email_ids)){		
+						EMailSender emailSender = new EMailSender();
+						emailSender.sendEmailWithIssueAlert(mail,iObj);
+					}
+				}
+				
 			}else{
 				issueId = null;
 			}

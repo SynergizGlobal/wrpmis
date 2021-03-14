@@ -113,5 +113,20 @@ public class IssueServiceImpl implements IssueService {
 	public List<Issue> getHODListFilterInIssue(Issue obj) throws Exception {
 		return issueDao.getHODListFilterInIssue(obj);
 	}
+
+	@Override
+	public List<Issue> getReportedByList() throws Exception {
+		return issueDao.getReportedByList();
+	}
+
+	@Override
+	public List<Issue> getResponsiblePersonList() throws Exception {
+		return issueDao.getResponsiblePersonList();
+	}
+
+	@Override
+	public List<Issue> getEscalatedToList() throws Exception {
+		return issueDao.getEscalatedToList();
+	}
 	
 }

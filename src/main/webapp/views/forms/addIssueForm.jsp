@@ -115,7 +115,7 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Issue Category <span class="required">*</span></p> 
+                                	<p class="searchable_label">Issue Category <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesCategoryList }">
@@ -203,13 +203,27 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="validate">
-                                    <label for="reported_by">Reported by </label>
+                                    <!-- <input id="reported_by" name="reported_by" type="text" class="validate">
+                                    <label for="reported_by">Reported by </label> -->
+                                    <p class="searchable_label">Reported by</p> 
+                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${reportedByList }">
+                                            <option value="${obj.reported_by_user_id }" >${obj.reported_by_designation}</option>
+                                        </c:forEach>
+                                    </select>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="responsible_person" name="responsible_person" type="text" class="validate">
-                                    <label for="responsible_person">Person Responsible In MRVC (Assigned to) </label>
+                                   <!--  <input id="responsible_person" name="responsible_person" type="text" class="validate">
+                                    <label for="responsible_person">Person Responsible In MRVC (Assigned to) </label> -->
+                                    <p class="searchable_label">Person Responsible In MRVC (Assigned to)</p> 
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${responsiblePersonList }">
+                                            <option value="${obj.responsible_person_user_id }" >${obj.responsible_person_designation}</option>
+                                        </c:forEach>
+                                    </select>
                                     <span id="responsible_personError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -279,8 +293,15 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="escalated_to" name="escalated_to" type="text" class="validate">
-                                    <label for="escalated_to">Escalated To </label>
+                                    <!-- <input id="escalated_to" name="escalated_to" type="text" class="validate">
+                                    <label for="escalated_to">Escalated To </label> -->
+                                    <p class="searchable_label">Escalated To</p> 
+                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${escalatedToList }">
+                                            <option value="${obj.escalated_to_user_id }" >${obj.escalated_to_designation}</option>
+                                        </c:forEach>
+                                    </select>
                                     <span id="escalated_toError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">

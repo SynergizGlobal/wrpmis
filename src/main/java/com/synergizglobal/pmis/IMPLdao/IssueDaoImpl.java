@@ -24,7 +24,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.IssueDao;
+import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.common.Mail;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
 
@@ -45,10 +48,14 @@ public class IssueDaoImpl implements IssueDao {
 		List<Issue> objsList = null;
 		try {
 			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,i.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name "
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,"
+					+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation "
 					+ "from issue i "
+					+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
+					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
-					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
+					+ "LEFT OUTER JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "LEFT OUTER JOIN department d ON i.department_fk  = d.department "
@@ -279,6 +286,58 @@ public class IssueDaoImpl implements IssueDao {
 					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
 					template.update(updateQry, paramSource1);
 				}
+				
+				String emailsQry = "select w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
+						+ "u1.designation as reported_by_designation,,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
+						+ "from issue i "
+						+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
+						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
+						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+						+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
+						+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
+						+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+						+ "where issue_id = ? "; 
+				
+				
+				Object[] pValues = new Object[] {issue_id};
+				
+				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+				if(!StringUtils.isEmpty(iObj)) {
+					String email_ids = "";
+					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
+						email_ids = email_ids + iObj.getReported_by_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+						email_ids = email_ids + iObj.getEscalated_to_email_id()+",";
+					}					
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id()) && !StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+						email_ids = email_ids + iObj.getContract_hod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						email_ids = email_ids + iObj.getContract_dyhod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(email_ids)) {
+						email_ids =  org.apache.commons.lang3.StringUtils.chop(email_ids);  
+					}
+					
+					String emailSubject = "PMIS Issue Alert - Issue "+obj.getStatus_fk();
+					
+					Mail mail = new Mail();
+					mail.setMailTo(email_ids);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("IssueAlert.vm");
+					
+					if(!StringUtils.isEmpty(email_ids)){		
+						EMailSender emailSender = new EMailSender();
+						emailSender.sendEmailWithIssueAlert(mail,iObj);
+					}
+				}
 			}
 			transactionManager.commit(status);
 		}catch(Exception e){ 
@@ -293,8 +352,12 @@ public class IssueDaoImpl implements IssueDao {
 		Issue iobj = null;
 		try {
 			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,i.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,other_organization,DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date "
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,other_organization,DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date, "
+					+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation "
 					+ "from issue i "
+					+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
+					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
@@ -369,6 +432,58 @@ public class IssueDaoImpl implements IssueDao {
 					String updateQry = "UPDATE issue set attachment= :attachment where issue_id= :issue_id ";
 					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
 					template.update(updateQry, paramSource1);
+				}
+				
+				String emailsQry = "select w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
+						+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
+						+ "from issue i "
+						+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
+						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
+						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+						+ "LEFT OUTER JOIN user u4 on c.hod_user_id_fk = u4.user_id "
+						+ "LEFT OUTER JOIN user u5 on c.dy_hod_user_id_fk = u5.user_id "
+						+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
+						+ "where issue_id = ? "; 
+				
+				
+				Object[] pValues = new Object[] {obj.getIssue_id()};
+				
+				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+				if(!StringUtils.isEmpty(iObj)) {
+					String email_ids = "";
+					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
+						email_ids = email_ids + iObj.getReported_by_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+						email_ids = email_ids + iObj.getEscalated_to_email_id()+",";
+					}					
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id()) && !StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+						email_ids = email_ids + iObj.getContract_hod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+						email_ids = email_ids + iObj.getContract_dyhod_email_id()+",";
+					}
+					if(!StringUtils.isEmpty(email_ids)) {
+						email_ids =  org.apache.commons.lang3.StringUtils.chop(email_ids);  
+					}
+					
+					String emailSubject = "PMIS Issue Alert - Issue "+obj.getStatus_fk();
+					
+					Mail mail = new Mail();
+					mail.setMailTo(email_ids);
+					mail.setMailSubject(emailSubject);
+					mail.setTemplateName("IssueAlert.vm");
+					
+					if(!StringUtils.isEmpty(email_ids)){		
+						EMailSender emailSender = new EMailSender();
+						emailSender.sendEmailWithIssueAlert(mail,iObj);
+					}
 				}
 			}
 			transactionManager.commit(status);
@@ -855,6 +970,57 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getHod();
 			}
 			
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getReportedByList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT user_id as reported_by_user_id,designation as reported_by_designation "
+					+ "from user "
+					+ "where user_type_fk = ? group by designation order by designation";
+			
+			Object[] pValues = new Object[] {CommonConstants.USER_TYPE_HOD};
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getResponsiblePersonList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT user_id as responsible_person_user_id,designation as responsible_person_designation "
+					+ "from user "
+					+ "where user_type_fk = ? group by designation order by designation";
+			
+			Object[] pValues = new Object[] {CommonConstants.USER_TYPE_DYHOD};
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getEscalatedToList() throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "SELECT user_id as escalated_to_user_id,designation as escalated_to_designation "
+					+ "from user "
+					+ "where user_type_fk = ? group by designation order by designation";
+			
+			Object[] pValues = new Object[] {CommonConstants.USER_TYPE_HOD};
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 

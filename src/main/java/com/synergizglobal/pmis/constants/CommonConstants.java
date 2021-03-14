@@ -34,6 +34,8 @@ public class CommonConstants {
 	public final static String  USER_TYPE_MANAGEMENT = "Management";
 	public final static String  USER_TYPE_OTHERS = "Others";
 	
+	public final static String  ISSUE_STATUS_RAISED = "Raised";
+	
 	public final static String SAFETY_EQUIPMENT_FILES = "/pmis/SAFETY_EQUIPMENT_FILES/";
 	public final static String BUDGET_FILES = "/pmis/BUDGET_FILES/";
 	public final static String FUND_FILES = "/pmis/FUND_FILES/";

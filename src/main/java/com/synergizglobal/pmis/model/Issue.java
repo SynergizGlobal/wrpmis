@@ -6,10 +6,100 @@ public class Issue {
 	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,user_name,
 	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,work_short_name,
 	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name,
-	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod;
+	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
+	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
+	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,contract_hod_email_id,contract_dyhod_email_id;
 
 	private MultipartFile issueFile;
 	
+	public String getReported_by_email_id() {
+		return reported_by_email_id;
+	}
+
+	public void setReported_by_email_id(String reported_by_email_id) {
+		this.reported_by_email_id = reported_by_email_id;
+	}
+
+	public String getResponsible_person_email_id() {
+		return responsible_person_email_id;
+	}
+
+	public void setResponsible_person_email_id(String responsible_person_email_id) {
+		this.responsible_person_email_id = responsible_person_email_id;
+	}
+
+	public String getEscalated_to_email_id() {
+		return escalated_to_email_id;
+	}
+
+	public void setEscalated_to_email_id(String escalated_to_email_id) {
+		this.escalated_to_email_id = escalated_to_email_id;
+	}
+
+	public String getContract_hod_email_id() {
+		return contract_hod_email_id;
+	}
+
+	public void setContract_hod_email_id(String contract_hod_email_id) {
+		this.contract_hod_email_id = contract_hod_email_id;
+	}
+
+	public String getContract_dyhod_email_id() {
+		return contract_dyhod_email_id;
+	}
+
+	public void setContract_dyhod_email_id(String contract_dyhod_email_id) {
+		this.contract_dyhod_email_id = contract_dyhod_email_id;
+	}
+
+	public String getReported_by_designation() {
+		return reported_by_designation;
+	}
+
+	public void setReported_by_designation(String reported_by_designation) {
+		this.reported_by_designation = reported_by_designation;
+	}
+
+	public String getResponsible_person_designation() {
+		return responsible_person_designation;
+	}
+
+	public void setResponsible_person_designation(String responsible_person_designation) {
+		this.responsible_person_designation = responsible_person_designation;
+	}
+
+	public String getEscalated_to_designation() {
+		return escalated_to_designation;
+	}
+
+	public void setEscalated_to_designation(String escalated_to_designation) {
+		this.escalated_to_designation = escalated_to_designation;
+	}
+
+	public String getReported_by_user_id() {
+		return reported_by_user_id;
+	}
+
+	public void setReported_by_user_id(String reported_by_user_id) {
+		this.reported_by_user_id = reported_by_user_id;
+	}
+
+	public String getResponsible_person_user_id() {
+		return responsible_person_user_id;
+	}
+
+	public void setResponsible_person_user_id(String responsible_person_user_id) {
+		this.responsible_person_user_id = responsible_person_user_id;
+	}
+
+	public String getEscalated_to_user_id() {
+		return escalated_to_user_id;
+	}
+
+	public void setEscalated_to_user_id(String escalated_to_user_id) {
+		this.escalated_to_user_id = escalated_to_user_id;
+	}
+
 	public String getHod_user_id_fk() {
 		return hod_user_id_fk;
 	}

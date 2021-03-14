@@ -45,5 +45,11 @@ public interface IssueService {
 	List<Issue> getContractsListForIssueForm(Issue obj) throws Exception;
 
 	List<Issue> getHODListFilterInIssue(Issue obj) throws Exception;
+
+	List<Issue> getReportedByList() throws Exception;
+
+	List<Issue> getResponsiblePersonList() throws Exception;
+
+	List<Issue> getEscalatedToList() throws Exception;
 	
 }

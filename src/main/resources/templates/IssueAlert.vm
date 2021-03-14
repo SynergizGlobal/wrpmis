@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>PMIS Issue Alert</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body style="margin: 0; padding: 0;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td style="padding: 10px 0 30px 0;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="700px"
+                    style="border: 1px solid #cccccc; border-collapse: collapse;">
+                    
+                    <tr>
+                        <td bgcolor="#f1f1f1" style="padding: 5px ;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td valign="middle">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        
+                                                        <tbody>
+                                                            <tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Work
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.work_name
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Contract
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.contract_name
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Category
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.category_fk
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Priority
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.priority_fk
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Short Description
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.title
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Location/Station/KM
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.location
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Reported By
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.reported_by_designation
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     responsible Person
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.responsible_person_designation
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Issue/Action Taken/Remarks
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.remarks
+                                                                </td>
+                                                            </tr>
+															<tr>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Escalated To
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    $alert.escalated_to_designation
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tr>
+                                                            <td
+                                                                style="padding: 25px 0 0 0; color: #22223B; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px;">
+															</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#E3F2FD" style="padding: 4px">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style=" font-family: Arial, sans-serif; font-size: 12px;" align="center">
+                                        &copy; 2020 @ mrvc.indianrailways.gov.in | Designed & Developed by <a
+                                            href="https://www.synergizglobal.com"><img src="https://syntrack-dev.s3.ap-south-1.amazonaws.com/SynergizGlobal/img/synergiz.png" alt="SynergizGlobal"
+                                                style=" width: 100px;  height: 25px; vertical-align: bottom;"></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

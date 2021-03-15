@@ -279,9 +279,14 @@
                                     <p class="searchable_label">Issue Status <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${issuesStatusList }">
-                                            <option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
-                                        </c:forEach>
+                                        <%-- <c:forEach var="obj" items="${issuesStatusList }">
+                                            <c:if test="${(obj.status eq 'Escalated') and ((issue.status_fk eq obj.status ) or (sessionScope.USER_ID eq issue.responsible_person ) or (sessionScope.USER_ID eq issue.dy_hod_user_id_fk) or (sessionScope.USER_ID eq issue.hod_user_id_fk))}">
+                                            	<option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
+                                            </c:if>
+                                            <c:if test="${(obj.status ne 'Escalated')}">
+                                            	<option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
+                                            </c:if>
+                                        </c:forEach> --%>
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
                                 </div>
@@ -455,17 +460,20 @@
             	$("#escalation_date").val('');
             	$("#escalatedDiv").hide();
             }
+            
+            getIssueStatusList();
         });
         
       //geting works list from database    
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
+            $("#contract_id_fk option:not(:first)").remove();
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksList",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -496,7 +504,7 @@
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContracts",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -504,9 +512,9 @@
                                 if ($.trim(val.contract_name) != '') { contract_name = ' - ' + $.trim(val.contract_name) }
                                 var contract_id_fk = "${issue.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '" selected>' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
                                 } else {
-                                	$("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" value="' + val.contract_id + '">' + $.trim(val.contract_id) + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }
@@ -517,6 +525,37 @@
             }else{
             	$(".page-loader").hide();
             }
+        }
+        
+        function getIssueStatusList() {
+        	$(".page-loader").show();
+            $("#status_fk option:not(:first)").remove();
+            var contract_id_fk = $("#contract_id_fk").val();
+            var responsible_person = $("#responsible_person").val();
+            
+            var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
+            var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod");
+            var myParams = {};
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getIssueStatusListForIssuesForm",
+                data: myParams, cache: false,async:false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                            var status_fk = "${issue.status_fk}";
+                            var logged_id_user_id = "${sessionScope.USER_ID}";
+                           // if ("${(obj.status eq 'Escalated') and ((issue.status_fk eq obj.status ) or (sessionScope.USER_ID eq issue.responsible_person ) or (sessionScope.USER_ID eq issue.dy_hod_user_id_fk) or (sessionScope.USER_ID eq issue.hod_user_id_fk))}">
+                            if (val.status == $.trim(status_fk)) {
+                                $("#status_fk").append('<option value="' + val.status+'" selected>' + $.trim(val.status) + '</option>');
+                            } else {
+                                $("#status_fk").append('<option value="' + val.status + '">' + $.trim(val.status) + '</option>');
+                            }
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
         }
         
         function getEscalatedDetails(issueStatus){

@@ -116,7 +116,7 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	public List<Issue> getHODListInIssuesReport(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,hod_user_id_fk,designation,user_name as hod_name "
+			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,hod_user_id_fk,u.designation,u.user_name as hod_name "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "
@@ -164,11 +164,18 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	public List<Issue> getPendingIssues(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,i.department_fk," 
+			
+			
+			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,i.title,i.description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,other_organization,i.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,"
 					+ "i.attachment,i.zonal_railway_fk,r.railway_name,c.contractor_id_fk,ctr.contractor_id,ctr.contractor_name,"
-					+ "d.department_name,hod_user_id_fk,designation,user_name as hod_name,DATEDIFF(NOW(), date) as pending_since,DATE_FORMAT(date,'%d-%m-%Y') AS date "
+					+ "d.department_name,hod_user_id_fk,u.designation,u.user_name as hod_name,DATEDIFF(NOW(), date) as pending_since,DATE_FORMAT(date,'%d-%m-%Y') AS date, "
+					+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "
 					+ "from issue i "
+					+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
+					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
+					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk= ctr.contractor_id "
 					+ "LEFT OUTER JOIN user u ON c.hod_user_id_fk= u.user_id "

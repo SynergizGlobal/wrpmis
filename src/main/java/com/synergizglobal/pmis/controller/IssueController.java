@@ -282,6 +282,19 @@ public class IssueController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getIssueStatusListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getIssueStatusListForIssuesForm() {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getIssuesStatusList();
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getIssueStatusListForIssuesForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value="/add-issue",method=RequestMethod.POST)
 	public ModelAndView addIssue(@ModelAttribute Issue obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();

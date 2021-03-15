@@ -394,7 +394,7 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
 				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by(),
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getReported_by_designation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getOther_organization(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
@@ -406,7 +406,7 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person(),
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getResponsible_person_designation(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				table.getContent().add(contentRow);

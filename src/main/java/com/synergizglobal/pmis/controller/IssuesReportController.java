@@ -154,7 +154,7 @@ public class IssuesReportController {
 	
 	@RequestMapping(value = "/generate-issues-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatePendingIssuesReport(@ModelAttribute Issue obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/risk-analysis-report");
+		ModelAndView model = new ModelAndView("redirect:/issues-report");
 		try{            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");

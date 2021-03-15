@@ -80,10 +80,10 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                  <p class="searchable_label"> Contract <span class="required">*</span></p> 
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getIssueStatusList();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
-                                      	    <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	    <option hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                         </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
@@ -218,7 +218,7 @@
                                    <!--  <input id="responsible_person" name="responsible_person" type="text" class="validate">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to) </label> -->
                                     <p class="searchable_label">Person Responsible In MRVC (Assigned to)</p> 
-                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person">
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="getIssueStatusList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${responsiblePersonList }">
                                             <option value="${obj.responsible_person_user_id }" >${obj.responsible_person_designation}</option>
@@ -432,6 +432,8 @@
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
   	        });
+            
+            getIssueStatusList();
         });
         
       //geting works list from database    
@@ -444,7 +446,7 @@
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -475,7 +477,7 @@
                 var myParams = { work_id_fk: work_id_fk };
                 $.ajax({
                 	url: "<%=request.getContextPath()%>/ajax/getContractsListForIssuesForm",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -483,9 +485,9 @@
                                 if ($.trim(val.contract_short_name) != '') { contract_name = ' - ' + $.trim(val.contract_short_name) }
                                 var contract_id_fk = "${safetyEquipmentDetails.contract_id_fk }";
                                 if ($.trim(contract_id_fk) != '' && val.contract_id_fk == $.trim(contract_id_fk)) {
-                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" selected>' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 } else {
-                                	$("#contract_id_fk").append('<option workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
+                                	$("#contract_id_fk").append('<option hod="'+val.hod_user_id_fk+'" dyhod="'+val.dy_hod_user_id_fk+'" workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_name) + '</option>');
                                 }
                             });
                         }
@@ -516,7 +518,7 @@
                  var myParams = { project_id_fk: projectId };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getWorkListForIssuesForm",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async:false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
@@ -536,6 +538,47 @@
                  $('.searchable').select2();
              }
         		
+         }
+         
+         function getIssueStatusList() {
+         	$(".page-loader").show();
+             $("#status_fk option:not(:first)").remove();
+             
+             var contract_id_fk = $("#contract_id_fk").val();
+             var responsible_person = $("#responsible_person").val();
+             var logged_id_user_id = "${sessionScope.USER_ID}";
+             
+             var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
+             var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod");
+             
+             var myParams = {};
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getIssueStatusListForIssuesForm",
+                 data: myParams, cache: false,async:false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                             
+                             if ((val.status == 'Escalated') && ((logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
+                             	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
+                             }
+                             if ((val.status == 'Closed') && ((logged_id_user_id == hod_user_id_fk))){
+                             	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
+                             } 
+                             if ((val.status != 'Escalated') && (val.status != 'Closed')){
+                             	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
+                             } 
+                             /* if (val.status == $.trim(status_fk)) {
+                                 $("#status_fk").append('<option value="' + val.status+'" selected>' + $.trim(val.status) + '</option>');
+                             } else {
+                                 $("#status_fk").append('<option value="' + val.status + '">' + $.trim(val.status) + '</option>');
+                             } */
+                         });
+                     }
+                     $('.searchable').select2();
+                     $(".page-loader").hide();
+                 }
+             });
          }
          
          

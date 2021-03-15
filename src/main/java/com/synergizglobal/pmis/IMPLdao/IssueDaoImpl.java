@@ -226,7 +226,8 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getContractsListForIssueForm(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk "
+			String qry ="select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
+					+ "hod_user_id_fk,dy_hod_user_id_fk "
 					+ "from contract "
 					+ "where contract_id is not null ";
 			

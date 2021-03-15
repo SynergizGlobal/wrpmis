@@ -79,7 +79,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                   <p class="searchable_label"> Contract <span class="required">*</span></p> 
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="getIssueStatusList();">
                                         <option value="">Select</option>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
@@ -217,7 +217,7 @@
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
                                     <p class="searchable_label">Person Responsible In MRVC (Assigned to)</p> 
-                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person">
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="getIssueStatusList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${responsiblePersonList }">
                                             <option value="${obj.responsible_person_user_id }" <c:if test="${issue.responsible_person eq obj.responsible_person_user_id }">selected</c:if>>${obj.responsible_person_designation}</option>
@@ -530,8 +530,12 @@
         function getIssueStatusList() {
         	$(".page-loader").show();
             $("#status_fk option:not(:first)").remove();
+            
             var contract_id_fk = $("#contract_id_fk").val();
             var responsible_person = $("#responsible_person").val();
+            
+            var status_fk = "${issue.status_fk}";
+            var logged_id_user_id = "${sessionScope.USER_ID}";
             
             var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
             var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod");
@@ -542,14 +546,26 @@
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                            var status_fk = "${issue.status_fk}";
-                            var logged_id_user_id = "${sessionScope.USER_ID}";
-                           // if ("${(obj.status eq 'Escalated') and ((issue.status_fk eq obj.status ) or (sessionScope.USER_ID eq issue.responsible_person ) or (sessionScope.USER_ID eq issue.dy_hod_user_id_fk) or (sessionScope.USER_ID eq issue.hod_user_id_fk))}">
+                            
+                            var selectedFlag = "";
                             if (val.status == $.trim(status_fk)) {
+                            	selectedFlag = 'selected';
+                            }
+                            
+                            if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                            }
+                            if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_id == hod_user_id_fk))){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                            } 
+                            if ((val.status != 'Escalated') && (val.status != 'Closed')){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                            } 
+                            /* if (val.status == $.trim(status_fk)) {
                                 $("#status_fk").append('<option value="' + val.status+'" selected>' + $.trim(val.status) + '</option>');
                             } else {
                                 $("#status_fk").append('<option value="' + val.status + '">' + $.trim(val.status) + '</option>');
-                            }
+                            } */
                         });
                     }
                     $('.searchable').select2();

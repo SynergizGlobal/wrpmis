@@ -275,7 +275,7 @@
 																	<td>
 																	<%-- <a onclick="removeActions('${index.count }');" class="btn waves-effect waves-light red t-c "> 
 																	<i class="fa fa-close"></i></a> --%>
-																	<a onclick="removeActions('${index.count }');" style="font-size: 20px;"> 
+																	<a onclick="removeActions('${index.count }');" style="font-size: 20px;" class="btn red"> 
 																	<i class="fa fa-close"></i></a>
 																	</td>
 																</tr>															
@@ -313,7 +313,7 @@
 																		class="btn waves-effect waves-light red t-c "> <i
 																		class="fa fa-close"></i></a> -->
 																		
-																		<a onclick="removeActions('0');" style="font-size: 20px;"> 
+																		<a onclick="removeActions('0');" style="font-size: 20px;" class="btn red"> 
 																	<i class="fa fa-close"></i></a>
 																</td>
 															</tr>
@@ -434,7 +434,7 @@
 			+'<button type="button" id="atr_date_icon' + rNo + '"><i class="fa fa-calendar"></i></button></div></td>'
 			+'<td><textarea id="action_takens' + rNo +'"  name="action_takens" '
 			+'class="materialize-textarea"  placeholder="Action Taken"style="height: 44px;"></textarea></td>'
-			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;"><i class="fa fa-close"></i></a></td></tr>';
+			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#riskRevisionBody').append(html);
             $("#rowNo").val(rNo);

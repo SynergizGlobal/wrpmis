@@ -19,7 +19,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">     
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/project.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
 	<style>
 		.my-error-class {
 			color: red;
@@ -43,6 +44,9 @@
 		}
 		.images-show img:last-of-type{
 			margin-right:0;
+		}
+		.select2-container--default .select2-selection--single{
+			background-color:transparent;
 		}
 		@media only screen and (max-width: 600px) {
 		  .images-show{
@@ -289,12 +293,12 @@
 									<div class="row fixed-width"
 										style="margin-bottom: 40px; margin-top: 20px">
 										<div class="table-inside">
-											<table id="riskReview" class="mdl-data-table update-table">
+											<table id="project-table" class="mdl-data-table update-table">
 												<thead>
 													<tr>
 														<th>Financial Year</th>
 														<th>PB Item No</th>
-														<th class="fw-60">Action</th>
+														<th style="width:8%">Action</th>
 													</tr>
 												</thead>
 												<tbody id="pinkBookBody">
@@ -340,7 +344,7 @@
 	                                                        				placeholder="PB Item Number">
 																</td>
 																<td>
-																	<a onclick="removeActions('0');" style="font-size: 20px;"> <i class="fa fa-close"></i></a>
+																	<a onclick="removeActions('0');" style="font-size: 20px;" class="btn red"> <i class="fa fa-close"></i></a>
 																</td>
 															</tr>
 														</c:otherwise>
@@ -470,7 +474,7 @@
 			     </c:forEach>
 	   		   +'</select></div></td>'
 			   +'<td><input  type="text" class="validate" id="pink_book_item_numbers'+rNo+'" name="pink_book_item_numbers" placeholder="PB Item Number"></td>'
-			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;"><i class="fa fa-close"></i></a></td></tr>';
+			+'<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;" class="btn red"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#pinkBookBody').append(html);
             $("#rowNo").val(rNo);

@@ -824,8 +824,8 @@
 	                                            <thead>
 	                                                <tr>
 	                                                    <th>Name </th>
-	                                                    <th>Attachment</th>
-	                                                    <th>Action</th>
+	                                                    <th style="text-align:center">Attachment</th>
+	                                                    <th style="width:8%">Action</th>
 	                                                </tr>
 	                                            </thead>
 	                                            <tbody id="contractDocumentTableBody" >

@@ -162,12 +162,11 @@
             $('#example').DataTable({
                 columnDefs: [
                     {
-                        targets: [0, 1, 2],
+                        targets: [0],
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
-                        // "width": "10px", "targets": [6]
                     },
-                    { "width": "20px", "targets": [5] },
+                    { "width": "20px", "targets": [4] },
                 ], "scrollCollapse": true,
                 fixedHeader: true,
                // "sScrollY": 400,

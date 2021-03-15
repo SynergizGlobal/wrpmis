@@ -89,11 +89,16 @@
 
         #dotgroup1 .dot-line {
             width: inherit;
+            min-width:30px;
             border: 2px solid #777;
             position: absolute;
             top: 14px;
             left: -17px;
             z-index: 0;
+        }
+        
+        #dotgroup1 .dot-container:first-of-type >.dot-line{
+        	left:4px;
         }
 
         #dotgroup1 .dot {

@@ -333,7 +333,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                            <!--  newly added code starts here  -->
-                             <div class="row" >
+                             <div class="row" style="margin-bottom:20px" >
                                 <div class="col m2 hide-on-small-only"></div>  
                                 <div class="col s12 m4 input-field center-align">
                                     <p class="priokind">Clearance to Consultant ?   

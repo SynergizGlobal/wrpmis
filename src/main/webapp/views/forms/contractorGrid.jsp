@@ -96,7 +96,7 @@
 											<th>Address</th>
 											<th>Primary Contact</th>
 											<th>Phone Number</th>
-											<th>Email</th>
+											<th> &nbsp; Email &nbsp;</th>
 											<th class="no-sort">Action</th>
 										</tr>
 									</thead>

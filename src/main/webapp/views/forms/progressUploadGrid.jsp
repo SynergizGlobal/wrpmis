@@ -142,7 +142,7 @@
 									<span id="structure_type_fkError" class="error-msg"></span>
 								</div>	
 								
-								<div class="col s12 m4 file-field input-field" style="padding-top: 18px;">
+								<div class="col s12 m4 file-field input-field" >
 								      <div class="btn bg-m t-c">
 								        <span>Upload File</span>
 								        <input type="file" name="uploadFile" id="uploadFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">

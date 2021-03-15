@@ -14,8 +14,7 @@
     </title>
     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-     
-     
+          
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
@@ -95,7 +94,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-5">
                                 <h6>
                                  	 <c:if test="${action eq 'edit'}">Update Document </c:if>
 									 <c:if test="${action eq 'add'}"> Add Document </c:if>
@@ -231,7 +230,7 @@
                                             <th>Submission Date</th>
                                             <th>Approval Date</th>
                                             <th>Remarks </th>
-                                            <th>Attachment</th>
+                                            <th style="text-align:center">Attachment</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>

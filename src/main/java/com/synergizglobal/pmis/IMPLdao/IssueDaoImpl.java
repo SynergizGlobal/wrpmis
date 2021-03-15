@@ -287,8 +287,8 @@ public class IssueDaoImpl implements IssueDao {
 					template.update(updateQry, paramSource1);
 				}
 				
-				String emailsQry = "select w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
-						+ "u1.designation as reported_by_designation,,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+				String emailsQry = "select w.work_short_name,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
+						+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
 						+ "from issue i "
@@ -434,7 +434,7 @@ public class IssueDaoImpl implements IssueDao {
 					template.update(updateQry, paramSource1);
 				}
 				
-				String emailsQry = "select w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
+				String emailsQry = "select w.work_short_name,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
 						+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "

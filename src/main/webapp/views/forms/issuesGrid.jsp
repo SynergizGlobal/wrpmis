@@ -295,6 +295,14 @@
             
         function getIssues(){
         	$(".page-loader-2").show();
+
+        	getHODListFilter();
+        	getWorksListFilter();
+        	getContractsListFilter();
+        	getDepartmentsListFilter();
+        	getCategoryListFilter();
+        	getStatusListFilter();
+        	
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
@@ -302,12 +310,7 @@
         	var status_fk = $("#status_fk").val();
         	var hod = $("#hod").val();
         	
-        	getWorksListFilter();
-        	getContractsListFilter();
-        	getDepartmentsListFilter();
-        	getCategoryListFilter();
-        	getStatusListFilter();
-        	getHODListFilter();
+        	
          	
          	table = $('#datatable-issues').DataTable();
     		 
@@ -408,7 +411,6 @@
         	    }
         	    console.log(msg);
          }
-      	
         function getWorksListFilter() {
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
@@ -423,7 +425,7 @@
          	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInIssue",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -444,6 +446,45 @@
             }
         }
         
+        
+        function getHODListFilter() {
+
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var department_fk = $("#department_fk").val();
+        	var category_fk = $("#category_fk").val();
+        	var status_fk = $("#status_fk").val();
+        	var hod = $("#hod").val();
+         	$(".page-loader").show();
+
+            if ($.trim(hod) == "") {
+                 $("#hod option:not(:first)").remove();
+         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getHODListFilterInIssue",
+                     data: myParams, cache: false,async: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                            	/*  var user_name = '';
+                             	if ($.trim(val.user_name) != '') { user_name = ' - ' + $.trim(val.user_name) }  */
+                             	var designation  = '${sessionScope.USER_DESIGNATION}';
+                            	var selectedFlag = (designation == val.designation)?'selected':'';
+                            	$("#hod").append('<option value="' + val.designation + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }
+        
         function getContractsListFilter() {
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
@@ -458,7 +499,7 @@
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInIssue",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -496,7 +537,7 @@
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInIssue",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -530,7 +571,7 @@
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInIssue",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
@@ -564,7 +605,7 @@
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInIssue",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
@@ -582,42 +623,7 @@
              	   $(".page-loader").hide();
              }
         }
-        
-        function getHODListFilter() {
-         	$(".page-loader").show();
-
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var department_fk = $("#department_fk").val();
-        	var category_fk = $("#category_fk").val();
-        	var status_fk = $("#status_fk").val();
-        	var hod = $("#hod").val();
-
-            if ($.trim(hod) == "") {
-                 $("#hod option:not(:first)").remove();
-         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
-                 $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getHODListFilterInIssue",
-                     data: myParams, cache: false,
-                     success: function (data) {
-                         if (data.length > 0) {
-                             $.each(data, function (i, val) {
-                            	 var user_name = '';
-                             	if ($.trim(val.user_name) != '') { user_name = ' - ' + $.trim(val.user_name) } 
-                           	 	$("#hod").append('<option value="' + val.designation + '">' + $.trim(val.designation) + user_name +'</option>');
-                             });
-                         }
-                         $('.searchable').select2();
-                         $(".page-loader").hide();
-                     },error: function (jqXHR, exception) {
-  	      	   		   $(".page-loader").hide();
-  	    	   	       getErrorMessage(jqXHR, exception);
-      	   	       }
-                 });
-             }else{
-             	   $(".page-loader").hide();
-             }
-        }
+      
         
         function getIssue(issue_id) {
     		$("#issue_id").val(issue_id);

@@ -328,18 +328,20 @@
     
     function getContractList(){
     	$(".page-loader-2").show();
+    	getDesignationFilterList();
+    	getDyHODDesignationFilterList();
+    	getContractorsFilterList();
+    	getWorkFilterList();
+    	getProjectFilterList();
+    	getStatusFilterList();
+    	
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
     	var project_id_fk = $("#project_id_fk").val();
     	var designation = $("#designation").val();
     	var dy_hod_designation = $("#dy_hod_designation").val();
     	var contract_status_fk = $("#contract_status_fk").val();
-    	getContractorsFilterList();
-    	getWorkFilterList();
-    	getProjectFilterList();
-    	getDesignationFilterList();
-    	getDyHODDesignationFilterList();
-    	getStatusFilterList();
+    	
 
      	table = $('#datatable-contract').DataTable();
 		 
@@ -423,11 +425,13 @@
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDyHODDesignationsFilterListInContract",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-	                           $("#dy_hod_designation").append('<option value="' + val.dy_hod_designation + '">' + $.trim(val.dy_hod_designation)  + '</option>');
+                        	var designation  = '${sessionScope.USER_DESIGNATION}';
+                        	var selectedFlag = (designation == val.dy_hod_designation)?'selected':'';
+                        	$("#dy_hod_designation").append('<option value="' + val.dy_hod_designation + '" '+selectedFlag+'>' + $.trim(val.dy_hod_designation) +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -455,11 +459,13 @@
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDesignationsFilterListInContract",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-	                           $("#designation").append('<option value="' + val.designation + '">' + $.trim(val.designation)  + '</option>');
+                        	var designation  = '${sessionScope.USER_DESIGNATION}';
+                        	var selectedFlag = (designation == val.designation)?'selected':'';
+                        	$("#designation").append('<option value="' + val.designation + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -487,7 +493,7 @@
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInContract",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
@@ -521,7 +527,7 @@
 	    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, department_fk : department_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsFilterListInContract",
-	                data: myParams, cache: false,
+	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {
@@ -553,7 +559,7 @@
 			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInContract",
-	                data: myParams, cache: false,
+	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {
@@ -585,7 +591,7 @@
 		 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
@@ -619,7 +625,7 @@
 			 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInContract",
-	                data: myParams, cache: false,
+	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {

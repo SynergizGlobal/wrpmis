@@ -105,4 +105,100 @@ public class PageConstants {
 	
 	public static final String reportsAccessGrid = "forms/reportsAccessGrid"; 
 	public static final String addEditReportAccessForm = "forms/addEditReportAccessForm";
+	
+	//******************************************************************************************
+	//REFERENCE FORMS
+	public static final String trainingType = "referenceForms/trainingType";
+	public static final String trainingStatus = "referenceForms/trainingStatus";
+	public static final String trainingCategory = "referenceForms/trainingCategory";
+	
+	public static final String structureType = "referenceForms/structureType";
+	
+	public static final String safetyStatus = "referenceForms/safetyStatus";
+	public static final String safetyRootCause = "referenceForms/safetyRootCause";
+	public static final String safetyCategory = "referenceForms/safetyCategory";
+	public static final String safetyImpact = "referenceForms/safetyImpact";
+	
+	public static final String riskPriority = "referenceForms/riskPriority";
+	public static final String riskClassification = "referenceForms/riskClassification";
+	public static final String riskArea = "referenceForms/riskArea";
+	public static final String riskSubArea = "referenceForms/riskSubArea";
+	
+	public static final String projectPriority = "referenceForms/projectPriority";
+	
+	public static final String pmisSubCategory = "referenceForms/pmisSubCategory";
+	public static final String pmisCategory = "referenceForms/pmisCategory";
+	
+	public static final String p6wbsCategory = "referenceForms/p6WbsCategory";
+	
+	public static final String manualFolders = "referenceForms/manualFolders";
+	
+	public static final String module = "referenceForms/module";
+	
+	public static final String unitType = "referenceForms/unitType";
+	
+	public static final String issueStatus = "referenceForms/issueStatus";
+	public static final String issuePriority = "referenceForms/issuePriority";
+	public static final String issueCategory = "referenceForms/issueCategory";
+	
+	public static final String generalStatus = "referenceForms/generalStatus";
+	
+	public static final String insuranceType = "referenceForms/insuranceType";
+	
+	public static final String drawingType = "referenceForms/drawingType";
+	
+	public static final String utilityType = "referenceForms/utilityType";
+	public static final String utilityStatus = "referenceForms/utilityStatus";
+	public static final String utilityRequirementStage = "referenceForms/utilityRequirementStage";
+	public static final String utilityExecutionAgency = "referenceForms/utilityExecutionAgency";
+	public static final String utilityAlignment = "referenceForms/utilityAlignment";
+	public static final String utilityCategory = "referenceForms/utilityCategory";
+	
+	public static final String userRole = "referenceForms/userRole";
+	public static final String userAccessType = "referenceForms/userAccessType";
+	
+	public static final String sourceOfFunds = "referenceForms/sourceOfFund";
+	public static final String softDeleteStatus = "referenceForms/softDeleteStatus";
+	
+	public static final String rrStatus = "referenceForms/rrStatus";
+	public static final String rrLandType = "referenceForms/rrLandType";
+	public static final String rrDocumentType = "referenceForms/rrDocumentType";
+	public static final String rrApprovalStatus = "referenceForms/rrApprovalStatus";
+	
+	public static final String revisionStatus = "referenceForms/revisionStatus";
+	
+	public static final String reportType = "referenceForms/reportType";
+	
+	public static final String binaryValues = "referenceForms/binaryValues";
+	
+	public static final String railway = "referenceForms/railway";
+	
+	public static final String notificationType = "referenceForms/notificationType";
+	
+	public static final String laStatus = "referenceForms/laStatus";
+	public static final String laCategory = "referenceForms/laCategory";
+	public static final String laSubCategory = "referenceForms/laSubCategory";
+	
+	public static final String documentType = "referenceForms/documentType";
+	public static final String documentRevisionStatus = "referenceForms/documentRevisionStatus";
+	
+	public static final String department = "referenceForms/department";
+	
+	public static final String deliverableType = "referenceForms/deliverableType";
+	public static final String deliverablesStatus = "referenceForms/deliverablesStatus";
+	
+	public static final String dataGatherings = "referenceForms/dataGatheringStatus";
+	
+	public static final String dashboardType = "referenceForms/dashboardType";
+	
+	public static final String contractType = "referenceForms/contractType";
+	
+	public static final String contractorSpecialization = "referenceForms/contractorSpecialization";
+	
+	public static final String bankGuaranteeType = "referenceForms/bankGuaranteeType";
+	
+	public static final String referenceFormsMainPage = "referenceForms/referenceFormsMainPage";
+	
 }
+
+

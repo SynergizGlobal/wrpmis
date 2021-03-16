@@ -1,0 +1,890 @@
+package com.synergizglobal.pmis.reference.model;
+
+import java.util.List;
+
+
+public class TrainingType {
+	
+	private String training_type,binary,dashboard_type,id, la_sub_category,bg_type_old,bg_type_fk, la_category_fk,la_category,contractor_specialization,user_role_name,bg_type,status,contract_type,department,deliverable_type, department_name, contract_id_code,document_type, user_role_code,user_access_type,soft_delete_status,source_of_funds, user_access_table,requirement_stage,unit_type,execution_agency,old_training_type,new_training_type,insurance_type,training_status,training_category,drawing_type,utility_type;
+
+	private String Table_name,column_name,constraint_name,referenced_table_name,referenced_column_name,count,tName,bg_type_new,binary_new,binary_old;
+	
+	private String department_new,department_old,department_name_new,department_name_old,department_code_old,department_code_new,contractor_specialization_old
+	,contractor_specialization_new,contract_type_old,contract_type_new,dashboard_type_old,dashboard_type_new,status_old,status_new,deliverable_type_old,
+	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,category,priority,status_of_new,status_of,manual_folders,module_name
+	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
+	,impact,root_cause,structure_type, user_role_code_new,user_access_table_new,user_access_type_val,short_description,short_description_new,area, item_no,
+	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category;
+
+
+	private List<TrainingType> bankGaurenteeList;
+	private List<TrainingType> bankGaurenteeList1;
+	private List<TrainingType> tablesList;
+	private List<TrainingType> countList;
+	private List<TrainingType> dList;
+	private List<TrainingType> dList1;
+
+	public String getSub_category() {
+		return sub_category;
+	}
+
+	public void setSub_category(String sub_category) {
+		this.sub_category = sub_category;
+	}
+
+	public String getLa_sub_category_new() {
+		return la_sub_category_new;
+	}
+
+	public void setLa_sub_category_new(String la_sub_category_new) {
+		this.la_sub_category_new = la_sub_category_new;
+	}
+
+	public String getLa_category_fk_new() {
+		return la_category_fk_new;
+	}
+
+	public void setLa_category_fk_new(String la_category_fk_new) {
+		this.la_category_fk_new = la_category_fk_new;
+	}
+
+	public String getLa_category_fk_old() {
+		return la_category_fk_old;
+	}
+
+	public void setLa_category_fk_old(String la_category_fk_old) {
+		this.la_category_fk_old = la_category_fk_old;
+	}
+
+	public String getLa_sub_category_old() {
+		return la_sub_category_old;
+	}
+
+	public void setLa_sub_category_old(String la_sub_category_old) {
+		this.la_sub_category_old = la_sub_category_old;
+	}
+
+	public String getRisk_area_fk() {
+		return risk_area_fk;
+	}
+
+	public void setRisk_area_fk(String risk_area_fk) {
+		this.risk_area_fk = risk_area_fk;
+	}
+
+	public String getRisk_area_fk_new() {
+		return risk_area_fk_new;
+	}
+
+	public void setRisk_area_fk_new(String risk_area_fk_new) {
+		this.risk_area_fk_new = risk_area_fk_new;
+	}
+
+	public String getSub_area() {
+		return sub_area;
+	}
+
+	public void setSub_area(String sub_area) {
+		this.sub_area = sub_area;
+	}
+
+	public String getSub_area_new() {
+		return sub_area_new;
+	}
+
+	public void setSub_area_new(String sub_area_new) {
+		this.sub_area_new = sub_area_new;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getItem_no() {
+		return item_no;
+	}
+
+	public void setItem_no(String item_no) {
+		this.item_no = item_no;
+	}
+
+	public String getItem_no_new() {
+		return item_no_new;
+	}
+
+	public void setItem_no_new(String item_no_new) {
+		this.item_no_new = item_no_new;
+	}
+
+	public String getShort_description() {
+		return short_description;
+	}
+
+	public void setShort_description(String short_description) {
+		this.short_description = short_description;
+	}
+
+	public String getShort_description_new() {
+		return short_description_new;
+	}
+
+	public void setShort_description_new(String short_description_new) {
+		this.short_description_new = short_description_new;
+	}
+
+	public String getUser_access_type_val() {
+		return user_access_type_val;
+	}
+
+	public void setUser_access_type_val(String user_access_type_val) {
+		this.user_access_type_val = user_access_type_val;
+	}
+
+	public String getUser_access_table_new() {
+		return user_access_table_new;
+	}
+
+	public void setUser_access_table_new(String user_access_table_new) {
+		this.user_access_table_new = user_access_table_new;
+	}
+
+	public String getUser_role_code_new() {
+		return user_role_code_new;
+	}
+
+	public void setUser_role_code_new(String user_role_code_new) {
+		this.user_role_code_new = user_role_code_new;
+	}
+
+	public String getStructure_type() {
+		return structure_type;
+	}
+
+	public void setStructure_type(String structure_type) {
+		this.structure_type = structure_type;
+	}
+
+	public String getRoot_cause() {
+		return root_cause;
+	}
+
+	public void setRoot_cause(String root_cause) {
+		this.root_cause = root_cause;
+	}
+
+	public String getImpact() {
+		return impact;
+	}
+
+	public void setImpact(String impact) {
+		this.impact = impact;
+	}
+
+	public String getLand_type() {
+		return land_type;
+	}
+
+	public void setLand_type(String land_type) {
+		this.land_type = land_type;
+	}
+
+	public String getApproval_status() {
+		return approval_status;
+	}
+
+	public void setApproval_status(String approval_status) {
+		this.approval_status = approval_status;
+	}
+
+	public String getRisk_priority() {
+		return risk_priority;
+	}
+
+	public void setRisk_priority(String risk_priority) {
+		this.risk_priority = risk_priority;
+	}
+
+	public String getRevision_status() {
+		return revision_status;
+	}
+
+	public void setRevision_status(String revision_status) {
+		this.revision_status = revision_status;
+	}
+
+	public String getReport_type() {
+		return report_type;
+	}
+
+	public void setReport_type(String report_type) {
+		this.report_type = report_type;
+	}
+
+	public String getRailway_id_val() {
+		return railway_id_val;
+	}
+
+	public void setRailway_id_val(String railway_id_val) {
+		this.railway_id_val = railway_id_val;
+	}
+
+	public String getProject_priority() {
+		return project_priority;
+	}
+
+	public String getRailway_id() {
+		return railway_id;
+	}
+
+	public void setRailway_id(String railway_id) {
+		this.railway_id = railway_id;
+	}
+
+	public String getRailway_name() {
+		return railway_name;
+	}
+
+	public void setRailway_name(String railway_name) {
+		this.railway_name = railway_name;
+	}
+
+	public String getRailway_name_new() {
+		return railway_name_new;
+	}
+
+	public void setRailway_name_new(String railway_name_new) {
+		this.railway_name_new = railway_name_new;
+	}
+
+	public void setProject_priority(String project_priority) {
+		this.project_priority = project_priority;
+	}
+
+	public String getP6_wbs_category() {
+		return p6_wbs_category;
+	}
+
+	public void setP6_wbs_category(String p6_wbs_category) {
+		this.p6_wbs_category = p6_wbs_category;
+	}
+
+	public String getModule_name() {
+		return module_name;
+	}
+
+	public void setModule_name(String module_name) {
+		this.module_name = module_name;
+	}
+
+	public String getManual_folders() {
+		return manual_folders;
+	}
+
+	public void setManual_folders(String manual_folders) {
+		this.manual_folders = manual_folders;
+	}
+
+	public String getStatus_of() {
+		return status_of;
+	}
+
+	public void setStatus_of(String status_of) {
+		this.status_of = status_of;
+	}
+
+	public String getStatus_of_new() {
+		return status_of_new;
+	}
+
+	public void setStatus_of_new(String status_of_new) {
+		this.status_of_new = status_of_new;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
+	public String getGeneral_status() {
+		return general_status;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setGeneral_status(String general_status) {
+		this.general_status = general_status;
+	}
+
+	public String getValue_old() {
+		return value_old;
+	}
+
+	public void setValue_old(String value_old) {
+		this.value_old = value_old;
+	}
+
+	public String getValue_new() {
+		return value_new;
+	}
+
+	public void setValue_new(String value_new) {
+		this.value_new = value_new;
+	}
+
+	public String getDocument_type_old() {
+		return document_type_old;
+	}
+
+	public void setDocument_type_old(String document_type_old) {
+		this.document_type_old = document_type_old;
+	}
+
+	public String getDocument_type_new() {
+		return document_type_new;
+	}
+
+	public void setDocument_type_new(String document_type_new) {
+		this.document_type_new = document_type_new;
+	}
+
+	public String getDeliverable_type_old() {
+		return deliverable_type_old;
+	}
+
+	public void setDeliverable_type_old(String deliverable_type_old) {
+		this.deliverable_type_old = deliverable_type_old;
+	}
+
+	public String getDeliverable_type_new() {
+		return deliverable_type_new;
+	}
+
+	public void setDeliverable_type_new(String deliverable_type_new) {
+		this.deliverable_type_new = deliverable_type_new;
+	}
+
+	public String getStatus_old() {
+		return status_old;
+	}
+
+	public void setStatus_old(String status_old) {
+		this.status_old = status_old;
+	}
+
+	public String getStatus_new() {
+		return status_new;
+	}
+
+	public void setStatus_new(String status_new) {
+		this.status_new = status_new;
+	}
+
+	public String getDashboard_type_old() {
+		return dashboard_type_old;
+	}
+
+	public void setDashboard_type_old(String dashboard_type_old) {
+		this.dashboard_type_old = dashboard_type_old;
+	}
+
+	public String getDashboard_type_new() {
+		return dashboard_type_new;
+	}
+
+	public void setDashboard_type_new(String dashboard_type_new) {
+		this.dashboard_type_new = dashboard_type_new;
+	}
+
+	public String getContract_type_old() {
+		return contract_type_old;
+	}
+
+	public void setContract_type_old(String contract_type_old) {
+		this.contract_type_old = contract_type_old;
+	}
+
+	public String getContract_type_new() {
+		return contract_type_new;
+	}
+
+	public void setContract_type_new(String contract_type_new) {
+		this.contract_type_new = contract_type_new;
+	}
+
+	public String getContractor_specialization_old() {
+		return contractor_specialization_old;
+	}
+
+	public void setContractor_specialization_old(String contractor_specialization_old) {
+		this.contractor_specialization_old = contractor_specialization_old;
+	}
+
+	public String getContractor_specialization_new() {
+		return contractor_specialization_new;
+	}
+
+	public void setContractor_specialization_new(String contractor_specialization_new) {
+		this.contractor_specialization_new = contractor_specialization_new;
+	}
+
+	public String getBinary_new() {
+		return binary_new;
+	}
+
+	public void setBinary_new(String binary_new) {
+		this.binary_new = binary_new;
+	}
+
+	public String getBinary_old() {
+		return binary_old;
+	}
+
+	public void setBinary_old(String binary_old) {
+		this.binary_old = binary_old;
+	}
+
+	public String getDepartment_new() {
+		return department_new;
+	}
+
+	public void setDepartment_new(String department_new) {
+		this.department_new = department_new;
+	}
+
+	public String getDepartment_old() {
+		return department_old;
+	}
+
+	public void setDepartment_old(String department_old) {
+		this.department_old = department_old;
+	}
+
+	public String getDepartment_name_new() {
+		return department_name_new;
+	}
+
+	public void setDepartment_name_new(String department_name_new) {
+		this.department_name_new = department_name_new;
+	}
+
+	public String getDepartment_name_old() {
+		return department_name_old;
+	}
+
+	public void setDepartment_name_old(String department_name_old) {
+		this.department_name_old = department_name_old;
+	}
+
+	public String getDepartment_code_old() {
+		return department_code_old;
+	}
+
+	public void setDepartment_code_old(String department_code_old) {
+		this.department_code_old = department_code_old;
+	}
+
+	public String getDepartment_code_new() {
+		return department_code_new;
+	}
+
+	public void setDepartment_code_new(String department_code_new) {
+		this.department_code_new = department_code_new;
+	}
+
+	public List<TrainingType> getdList() {
+		return dList;
+	}
+
+	public void setdList(List<TrainingType> dList) {
+		this.dList = dList;
+	}
+
+	public List<TrainingType> getdList1() {
+		return dList1;
+	}
+
+	public void setdList1(List<TrainingType> dList1) {
+		this.dList1 = dList1;
+	}
+
+	public String getBg_type_new() {
+		return bg_type_new;
+	}
+
+	public void setBg_type_new(String bg_type_new) {
+		this.bg_type_new = bg_type_new;
+	}
+
+	public List<TrainingType> getCountList() {
+		return countList;
+	}
+
+	public void setCountList(List<TrainingType> countList) {
+		this.countList = countList;
+	}
+
+	public String gettName() {
+		return tName;
+	}
+
+	public void settName(String tName) {
+		this.tName = tName;
+	}
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+	public List<TrainingType> getTablesList() {
+		return tablesList;
+	}
+
+	public void setTablesList(List<TrainingType> tablesList) {
+		this.tablesList = tablesList;
+	}
+
+	public List<TrainingType> getBankGaurenteeList1() {
+		return bankGaurenteeList1;
+	}
+
+	public void setBankGaurenteeList1(List<TrainingType> bankGaurenteeList1) {
+		this.bankGaurenteeList1 = bankGaurenteeList1;
+	}
+
+	public String getBg_type_fk() {
+		return bg_type_fk;
+	}
+
+	public void setBg_type_fk(String bg_type_fk) {
+		this.bg_type_fk = bg_type_fk;
+	}
+
+	public String getBg_type_old() {
+		return bg_type_old;
+	}
+
+	public void setBg_type_old(String bg_type_old) {
+		this.bg_type_old = bg_type_old;
+	}
+
+	public List<TrainingType> getBankGaurenteeList() {
+		return bankGaurenteeList;
+	}
+
+	public void setBankGaurenteeList(List<TrainingType> bankGaurenteeList) {
+		this.bankGaurenteeList = bankGaurenteeList;
+	}
+	
+	public String getTable_name() {
+		return Table_name;
+	}
+
+	public void setTable_name(String table_name) {
+		Table_name = table_name;
+	}
+
+	public String getColumn_name() {
+		return column_name;
+	}
+
+	public void setColumn_name(String column_name) {
+		this.column_name = column_name;
+	}
+
+	public String getConstraint_name() {
+		return constraint_name;
+	}
+
+	public void setConstraint_name(String constraint_name) {
+		this.constraint_name = constraint_name;
+	}
+
+	public String getReferenced_table_name() {
+		return referenced_table_name;
+	}
+
+	public void setReferenced_table_name(String referenced_table_name) {
+		this.referenced_table_name = referenced_table_name;
+	}
+
+	public String getReferenced_column_name() {
+		return referenced_column_name;
+	}
+
+	public void setReferenced_column_name(String referenced_column_name) {
+		this.referenced_column_name = referenced_column_name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getLa_sub_category() {
+		return la_sub_category;
+	}
+
+	public void setLa_sub_category(String la_sub_category) {
+		this.la_sub_category = la_sub_category;
+	}
+
+	public String getLa_category_fk() {
+		return la_category_fk;
+	}
+
+	public void setLa_category_fk(String la_category_fk) {
+		this.la_category_fk = la_category_fk;
+	}
+
+	public String getLa_category() {
+		return la_category;
+	}
+
+	public void setLa_category(String la_category) {
+		this.la_category = la_category;
+	}
+
+	public String getContractor_specialization() {
+		return contractor_specialization;
+	}
+
+	public void setContractor_specialization(String contractor_specialization) {
+		this.contractor_specialization = contractor_specialization;
+	}
+
+	public String getDashboard_type() {
+		return dashboard_type;
+	}
+
+	public void setDashboard_type(String dashboard_type) {
+		this.dashboard_type = dashboard_type;
+	}
+
+	public String getBg_type() {
+		return bg_type;
+	}
+
+	public void setBg_type(String bg_type) {
+		this.bg_type = bg_type;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getBinary() {
+		return binary;
+	}
+
+	public void setBinary(String binary) {
+		this.binary = binary;
+	}
+
+	public String getContract_type() {
+		return contract_type;
+	}
+
+	public void setContract_type(String contract_type) {
+		this.contract_type = contract_type;
+	}
+
+	public String getDeliverable_type() {
+		return deliverable_type;
+	}
+
+	public void setDeliverable_type(String deliverable_type) {
+		this.deliverable_type = deliverable_type;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public String getDepartment_name() {
+		return department_name;
+	}
+
+	public void setDepartment_name(String department_name) {
+		this.department_name = department_name;
+	}
+
+	public String getContract_id_code() {
+		return contract_id_code;
+	}
+
+	public void setContract_id_code(String contract_id_code) {
+		this.contract_id_code = contract_id_code;
+	}
+
+	public String getDocument_type() {
+		return document_type;
+	}
+
+	public void setDocument_type(String document_type) {
+		this.document_type = document_type;
+	}
+
+	public String getSoft_delete_status() {
+		return soft_delete_status;
+	}
+
+	public void setSoft_delete_status(String soft_delete_status) {
+		this.soft_delete_status = soft_delete_status;
+	}
+
+	public String getSource_of_funds() {
+		return source_of_funds;
+	}
+
+	public void setSource_of_funds(String source_of_funds) {
+		this.source_of_funds = source_of_funds;
+	}
+
+	public String getUser_access_type() {
+		return user_access_type;
+	}
+
+	public void setUser_access_type(String user_access_type) {
+		this.user_access_type = user_access_type;
+	}
+
+	public String getUser_access_table() {
+		return user_access_table;
+	}
+
+	public void setUser_access_table(String user_access_table) {
+		this.user_access_table = user_access_table;
+	}
+
+	public String getUser_role_name() {
+		return user_role_name;
+	}
+
+	public void setUser_role_name(String user_role_name) {
+		this.user_role_name = user_role_name;
+	}
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
+	}
+
+	public String getExecution_agency() {
+		return execution_agency;
+	}
+
+	public void setExecution_agency(String execution_agency) {
+		this.execution_agency = execution_agency;
+	}
+
+	public String getRequirement_stage() {
+		return requirement_stage;
+	}
+
+	public void setRequirement_stage(String requirement_stage) {
+		this.requirement_stage = requirement_stage;
+	}
+
+	public String getUtility_type() {
+		return utility_type;
+	}
+
+	public void setUtility_type(String utility_type) {
+		this.utility_type = utility_type;
+	}
+
+	public String getDrawing_type() {
+		return drawing_type;
+	}
+
+	public void setDrawing_type(String drawing_type) {
+		this.drawing_type = drawing_type;
+	}
+
+	public String getInsurance_type() {
+		return insurance_type;
+	}
+
+	public void setInsurance_type(String insurance_type) {
+		this.insurance_type = insurance_type;
+	}
+
+	public String getUnit_type() {
+		return unit_type;
+	}
+
+	public void setUnit_type(String unit_type) {
+		this.unit_type = unit_type;
+	}
+
+	public String getTraining_category() {
+		return training_category;
+	}
+
+	public void setTraining_category(String training_category) {
+		this.training_category = training_category;
+	}
+
+	public String getTraining_status() {
+		return training_status;
+	}
+
+	public void setTraining_status(String training_status) {
+		this.training_status = training_status;
+	}
+
+	public String getOld_training_type() {
+		return old_training_type;
+	}
+
+	public void setOld_training_type(String old_training_type) {
+		this.old_training_type = old_training_type;
+	}
+
+	public String getNew_training_type() {
+		return new_training_type;
+	}
+
+	public void setNew_training_type(String new_training_type) {
+		this.new_training_type = new_training_type;
+	}
+
+	public String getTraining_type() {
+		return training_type;
+	}
+
+	public void setTraining_type(String training_type) {
+		this.training_type = training_type;
+	}
+
+}

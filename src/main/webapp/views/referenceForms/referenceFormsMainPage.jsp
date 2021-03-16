@@ -10,8 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reference Forms</title>
-    <link rel="stylesheet" href="/pmisadmin/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmisadmin/resources/css/reference-form.css">
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/reference-form.css">
     <style>
         .hidden {
             display: none;
@@ -96,8 +96,8 @@
     </div>
 
 
-    <script src="/pmisadmin/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmisadmin/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script>
         // pages of individual groups as arrays
         var project_arr = ['rr_status.html', 'la_status.html'];

@@ -18,6 +18,7 @@ import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.WebDocumentsService;
 import com.synergizglobal.pmis.Iservice.WebLinksService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.TableauDashboard;
@@ -108,6 +109,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				List<WebLinks> webLinksList = webLinksService.getWebLinks(null);
 				model.addObject("webLinksList", webLinksList);
 				
+				 List<Admin> adminForms = service.getAdminList(null);
+					model.addObject("adminForms", adminForms);
 				
 				
 				Alerts aObj = new Alerts();

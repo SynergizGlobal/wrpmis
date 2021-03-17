@@ -493,9 +493,9 @@ public class IssueController {
 		        
 		        
 	            XSSFRow headingRow = sheet.createRow(0);
-	            String headerString = "Issue ID^Project ID^Work ID^Contract ID^Activity^Title^Description^Date^Location^Latitude^Longitude"
-	            		+ "^Reported By^Responsible Person^Department^Issue Category^Issue Status^Zonal Railway^Priority^Corrective Measure^Resolved Date^"
-	            		+ "Escalated to^Remarks";
+	            String headerString = "Issue ID^Project^Work^Contract^Activity^Title^Short Description^Date^Location/Station/KM^Latitude^Longitude"
+	            		+ "^Reported By^Responsible Person^Issue Category^Issue Status^Zonal Railway^Priority^Issue/Action Taken/Remarks^Resolved Date^"
+	            		+ "Escalated to^Escalation Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -516,15 +516,15 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getProject_id_fk());
+					cell.setCellValue(obj.getProject_id_fk() +"-"+obj.getProject_name());
 					
 	                cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getWork_id_fk());
+					cell.setCellValue(obj.getWork_id_fk()+"-"+obj.getWork_short_name());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getContract_id_fk());
+					cell.setCellValue(obj.getContract_id_fk()+"-"+obj.getContract_short_name());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -564,10 +564,6 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getDepartment_name());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getCategory_fk());
 					
 					cell = row.createCell(c++);
@@ -576,7 +572,7 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getZonal_railway_fk());
+					cell.setCellValue(obj.getRailway_name());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

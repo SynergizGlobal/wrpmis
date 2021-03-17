@@ -290,15 +290,15 @@
             <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img'>
           		<span class="material-icons-outlined">list_alt</span>Admin</a>
 		         <ul class="second-level-menu">
-		         <!--   <c:forEach var="obj" items="${webDocumentTypes}">
-		          		<c:set var="tempWebDocType" value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}"></c:set>
-	        				<c:set var="webDocType" value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}"></c:set>
+		        <c:forEach var="form" items="${adminForms }" varStatus="index">
+         			<%-- <c:if test="${empty form.formsSubMenu}"> --%>
 		              	<li>
-		              		<a href="<%=request.getContextPath()%>/web-documents/${webDocType}">
-				 				<span class="nav-label">${obj.type}</span>
+		              		<a href="<%=request.getContextPath()%>/${form.url }">
+				 				<span class="nav-label">${form.form_name }</span>
 				 			</a>
 				 		</li>
-			 	   </c:forEach> -->
+			 		<%-- </c:if> --%>
+             </c:forEach>
 			 	 </ul>
          	</li>
          </c:if> 
@@ -644,15 +644,15 @@
             <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
 	          <span class="material-icons-outlined">list_alt</span>Admin</a>
 	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
-		 		<!-- <c:forEach var="obj" items="${webDocumentTypes}">
-	          		<c:set var="tempWebDocType" value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}"></c:set>
-        				<c:set var="webDocType" value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}"></c:set>
-	              	<li>
-	              		<a href="<%=request.getContextPath()%>/web-documents/${webDocType}">
-			 				<span class="nav-label">${obj.type}</span>
-			 			</a>
-			 		</li>
-			 	</c:forEach> -->
+		 		  <c:forEach var="form" items="${adminForms }" varStatus="index">
+         			<%-- <c:if test="${empty form.formsSubMenu}"> --%>
+		              	<li>
+		              		<a href="<%=request.getContextPath()%>/${form.url }">
+				 				<span class="nav-label">${form.form_name }</span>
+				 			</a>
+				 		</li>
+			 		<%-- </c:if> --%>
+             </c:forEach>
 		 	  </ul>
           </li>
          </c:if>

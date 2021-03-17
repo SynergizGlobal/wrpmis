@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
@@ -29,6 +30,8 @@ public interface HomeService {
 	public List<Work> getDashBoardNames(Work work) throws Exception;
 
 	public List<Work> getSubLink(Work obj) throws Exception;
+
+	public List<Admin> getAdminList(Admin admin) throws Exception;
 
 	
 }

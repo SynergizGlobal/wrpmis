@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.User;
@@ -88,6 +89,7 @@ public class HomeController {
 	        model.addObject("projectsInfo", projectsInfo);
 	        List<Work> workDetails = homeService.getWorkDetails(work);
 	        model.addObject("workDetails", workDetails);
+	        Admin admin = new Admin();
 	       
 		}catch(Exception e){
 			logger.error("home() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());

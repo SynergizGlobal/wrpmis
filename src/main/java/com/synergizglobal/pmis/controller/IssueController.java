@@ -560,7 +560,7 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getResponsible_person());
+					cell.setCellValue(obj.getResponsible_person_designation());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -588,7 +588,7 @@ public class IssueController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getEscalated_to());
+					cell.setCellValue(obj.getEscalated_to_designation());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

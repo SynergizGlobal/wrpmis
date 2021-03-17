@@ -67,6 +67,11 @@
         	width:250px;
         	max-width:250px;
         }
+        .link-btn{
+        	color:blue;
+        	text-decoration:underline;
+        	cursor:pointer;
+        }
       
 		.error-msg label{color:red!important;}
     </style>
@@ -89,18 +94,15 @@
                     <div class="">
                     <c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
-							   ${success} <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Close Tab</a> 
-							</div>
-							<div class="center-align m-1 close-message">	
-							   ${updateSuccess}<a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Close Tab</a> 
-							</div>
+							   ${success} <a href="javascript:void(0);" onclick="closeTab();" class="link-btn">Close Tab</a> 
+							</div> 
+							<%-- <div class="center-align m-1 close-message">	
+							   ${updateSuccess}<a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s">Close Tab</a> 
+							</div> --%>
 						</c:if>
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">
-							   ${error}<a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Close Tab</a> 
+							   ${error}<a href="javascript:void(0);" onclick="closeTab();" class="link-btn">Close Tab</a> 
 							</div>
 						</c:if>
                         

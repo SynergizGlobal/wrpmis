@@ -130,7 +130,17 @@
         .mdl-data-table tbody td .datepicker-table .datepicker-row{
         	bottom-border:none;
         }
-        
+        .input-field textarea{
+        	border:none;
+        	border-bottom:1px solid #9e9e9e;
+        	border-radius:0;
+        	height: 45px;
+        }
+        .input-field>textarea+label {
+		    margin-left: 0;
+		    padding-left: 0;
+		    background-color: transparent;
+		}
 	    .error-msg label{color:red!important;}   
 		
     </style>
@@ -215,14 +225,15 @@
                                 <div class="col s12 m4 input-field">
 									<p class="searchable_label">Priority :</p>
 									<p>${risk.priority_fk}</p>	
-							    </div> 
-                                <div class="col s12 m4 input-field"> 
+							    </div>                                 
+                            </div>
+                            <div class="row">
+                            	<div class="col s12 m8 input-field offset-m2"> 
 								    <%-- <p class="searchable_label"> Mitigation Plan :</p>
 									<p>${risk.mitigation_plan}</p> --%>
 									<textarea id="mitigation_plan" name="mitigation_plan" class="materialize-textarea" data-length="1000">${risk.mitigation_plan}</textarea>
 									<label for="mitigation_plan">Mitigation Plan :</label>
 								</div>
-                                <div class="col m2 hide-on-small-only"></div>
                             </div>
                        
                        <!--  </div> -->

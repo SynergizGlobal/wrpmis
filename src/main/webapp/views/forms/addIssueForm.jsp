@@ -28,6 +28,13 @@
 		    -webkit-transform: translateY(-11px) scale(0.8);
 		    transform: translateY(-11px) scale(.8);		
 		}
+		.bg-s *, a.bg-s {
+		    color: #fff !important;
+		}
+		.input-field {
+		    margin-top: .35rem;
+		    margin-bottom: .35rem;
+		}
     </style>
 </head>
 <body>
@@ -140,7 +147,7 @@
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                             <!--    <div class="col s12 m4 input-field">
                                 	<p class="searchable_label">Department <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
@@ -149,8 +156,8 @@
                                         </c:forEach>
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
+                                </div> -->
+                                <div class="col s12 m8 input-field">
                                     <input id="title" name="title" type="text" class="validate">
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
@@ -203,16 +210,16 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <!-- <input id="reported_by" name="reported_by" type="text" class="validate">
-                                    <label for="reported_by">Reported by </label> -->
-                                    <p class="searchable_label">Reported by</p> 
+                                    <input id="reported_by" name="reported_by" type="text" class="validate">
+                                    <label for="reported_by">Reported by </label> 
+                                    <span id="reported_byError" class="error-msg" ></span>
+                                    <!-- <p class="searchable_label">Reported by</p> 
                                     <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${reportedByList }">
                                             <option value="${obj.reported_by_user_id }" >${obj.reported_by_designation}</option>
                                         </c:forEach>
-                                    </select>
-                                    <span id="reported_byError" class="error-msg" ></span>
+                                    </select> -->
                                 </div>
                                 <div class="col s12 m4 input-field">
                                    <!--  <input id="responsible_person" name="responsible_person" type="text" class="validate">
@@ -247,7 +254,7 @@
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
-                                  <p class="searchable_label">Department Name</p> 
+                                  <p class="searchable_label">Department Responsible</p> 
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
@@ -267,7 +274,6 @@
                             </div>
                             
                             <div class="row">
-                                <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label">Issue Status <span class="required">*</span></p> 
@@ -289,41 +295,41 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row" id="escalatedDiv" style="display: none;">
-                                <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <!-- <input id="escalated_to" name="escalated_to" type="text" class="validate">
-                                    <label for="escalated_to">Escalated To </label> -->
-                                    <p class="searchable_label">Escalated To</p> 
-                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${escalatedToList }">
-                                            <option value="${obj.escalated_to_user_id }" >${obj.escalated_to_designation}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="escalated_toError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker">
-                                    <label for="escalation_date"> Escalated Date</label>
-                                    <button type="button" id="escalation_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="escalation_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            
-                           <!--  <div class="row">
+                            <div id="escalatedDiv" style="display: none;">
+	                            <div class="row" >
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <!-- <input id="escalated_to" name="escalated_to" type="text" class="validate">
+	                                    <label for="escalated_to">Escalated To </label> -->
+	                                    <p class="searchable_label">Escalated To</p> 
+	                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
+	                                        <option value="">Select</option>
+	                                        <c:forEach var="obj" items="${escalatedToList }">
+	                                            <option value="${obj.escalated_to_user_id }" >${obj.escalated_to_designation}</option>
+	                                        </c:forEach>
+	                                    </select>
+	                                    <span id="escalated_toError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker">
+	                                    <label for="escalation_date"> Escalated Date</label>
+	                                    <button type="button" id="escalation_date_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="escalation_dateError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+	                            <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000"></textarea>
-                                    <label for="remarks">Remarks</label>
+                                    <label for="remarks">Escalation Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
-                            </div> -->
-
-                            <div class="row">
+                            </div> 
+                           </div>
+                           
+                            <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
                                     <div class="file-field input-field">
@@ -338,21 +344,18 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
+                             
+                           
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button type="button" onclick="addIssue();" class="btn waves-effect waves-light bg-m"
-                                            style="width: 100%;">Add
-                                        </button>
+                                        <a onclick="addIssue();" class="btn waves-effect waves-light bg-m" style="min-width:85px">Add </a>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/issues" class="btn waves-effect waves-light bg-s"
-                                            style="width: 100%;">Cancel
-                                        </a>
+                                        <a href="<%=request.getContextPath()%>/issues" class="btn waves-effect waves-light bg-s">Cancel  </a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

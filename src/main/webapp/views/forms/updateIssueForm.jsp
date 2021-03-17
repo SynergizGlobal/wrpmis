@@ -31,6 +31,22 @@
 		    transform: translateY(-11px) scale(.8);		
 		}
 		.error-msg label{color:red!important;}
+		.datepicker1~button {
+		    position: absolute;
+		    right: 15px;
+		    top: 15px;
+		    border: 0;
+		    opacity: 0.7;
+		    cursor: pointer;
+		    background-color: transparent;
+		}
+		.bg-s *, a.bg-s {
+		    color: #fff !important;
+		}
+		.input-field {
+		    margin-top: .35rem;
+		    margin-bottom: .35rem;
+		}
     </style>
 </head>
 <body>
@@ -53,7 +69,7 @@
                         <form action="<%=request.getContextPath() %>/update-issue" id="issueForm" name="issueForm" method="post" enctype="multipart/form-data">
                         	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                                <!-- <div class="col s12 m4 input-field">
                                  <p class="searchable_label"> Project <span class="required">*</span></p>    
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
@@ -63,13 +79,28 @@
                                         </c:forEach>
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
+                                </div> -->
+                                <div class="col s12 m4 input-field">                                
+                                <%--  <p class="searchable_label"> Project <span class="required">*</span></p>    
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
+                                        onchange="getWorksList(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${projectsList }">
+                                            <option value="${obj.project_id_fk }" <c:if test="${issue.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                        </c:forEach>
+                                    </select> --%>
+                                    <input id="project_id_fk" name="project_id_fk" type="text" class="" value="${issue.project_id_fk }" readonly>
+                                    <label for="project_id_fk"> Project <span class="required">*</span></label>
+                                    <span id="project_id_fkError" class="error-msg" ></span>
+                                </div> 
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label"> Work <span class="required">*</span></p> 
+                                	<!-- <p class="searchable_label"> Work <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
-                                    </select>
+                                    </select> -->
+                                    <input id="work_id_fk" name="work_id_fk" type="text" class="" value="${issue.work_id_fk }" readonly>
+                                    <label for="work_id_fk"> Work <span class="required">*</span></label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -78,10 +109,12 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                  <p class="searchable_label"> Contract <span class="required">*</span></p> 
+                                 <!--  <p class="searchable_label"> Contract <span class="required">*</span></p> 
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="getIssueStatusList();">
                                         <option value="">Select</option>
-                                    </select>
+                                    </select> -->                                    
+                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_id_fk }" readonly>
+                                    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>                                
                                 <div class="col s12 m4 input-field">
@@ -115,23 +148,27 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                               <p class="searchable_label">Issue Category <span class="required">*</span></p>                                 
+                               <!-- <p class="searchable_label">Issue Category <span class="required">*</span></p>                                 
                                     <select class="searchable validate-dropdown" id="category_fk" name="category_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesCategoryList }">
                                             <option value="${obj.category }" <c:if test="${issue.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
                                         </c:forEach>
-                                    </select>
+                                    </select> -->
+                                     <input id="category_fk" name="category_fk" type="text" class="" value="${issue.category_fk }" readonly>
+                                    <label for="category_fk"> Issue Category <span class="required">*</span></label>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
+                                <!-- <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesPriorityList }">
                                             <option value="${obj.priority }" <c:if test="${issue.priority_fk eq obj.priority}">selected</c:if>>${obj.priority}</option>
                                         </c:forEach>
-                                    </select>                                  
+                                    </select>  --> 
+                                    <input id="priority_fk" name="priority_fk" type="text" class="" value="${issue.priority_fk }" readonly>
+                                    <label for="priority_fk"> Issue Priority <span class="required">*</span></label>                                 
                                     <span id="priority_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -139,7 +176,7 @@
                             <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+                              <!--   <div class="col s12 m4 input-field">
                                 	<p class="searchable_label">Department <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="department_fk" name="department_fk">
                                         <option value="">Select</option>
@@ -148,9 +185,9 @@
                                         </c:forEach>
                                     </select>
                                     <span id="department_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="title" name="title" type="text" class="validate" value="${issue.title }">
+                                </div> -->
+                                <div class="col s12 m8 input-field">
+                                    <input id="title" name="title" type="text" class="" value="${issue.title }" readonly>
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
@@ -169,13 +206,13 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="date" name="date" type="text" class="validate datepicker" value="${issue.date }">
+                                    <input id="date" name="date" type="text" class="datepicker1" value="${issue.date }" readonly>
                                     <label for="date">Date of raising issue <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="location" name="location" type="text" class="validate" value="${issue.location }">
+                                    <input id="location" name="location" type="text" class="" value="${issue.location }" readonly>
                                     <label for="location">Location/Station/KM<span class="required">*</span></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>
@@ -202,15 +239,15 @@
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <%-- <input id="reported_by" name="reported_by" type="text" class="validate" value="${issue.reported_by }">
-                                    <label for="reported_by">Reported by </label> --%>
-                                    <p class="searchable_label">Reported by</p> 
+                                    <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
+                                    <label for="reported_by">Reported by </label>
+                                    <!-- <p class="searchable_label">Reported by</p> 
                                     <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${reportedByList }">
                                             <option value="${obj.reported_by_user_id }" <c:if test="${issue.reported_by eq obj.reported_by_user_id }">selected</c:if>>${obj.reported_by_designation}</option>
                                         </c:forEach>
-                                    </select>
+                                    </select> -->
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
@@ -246,7 +283,7 @@
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
-                                  <p class="searchable_label">Department Name </p> 
+                                  <p class="searchable_label"> Department Responsible  </p> 
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${departmentList }">          
@@ -300,39 +337,40 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row" id="escalatedDiv" style="display: none;">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
-                                    <label for="escalated_to">Escalated To </label> --%>
-                                    <p class="searchable_label">Escalated To</p> 
-                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${escalatedToList }">
-                                            <option value="${obj.escalated_to_user_id }" <c:if test="${issue.escalated_to eq obj.escalated_to_user_id}">selected</c:if>>${obj.escalated_to_designation}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="escalated_toError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
-                                    <label for="escalation_date"> Escalated Date</label>
-                                    <button type="button" id="escalation_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="escalation_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            
-                            <%-- <div class="row">
+                            <div id="escalatedDiv" style="display: none;">
+	                            <div class="row" >
+	                                <div class="col m2 hide-on-small-only"></div>
+	                                <div class="col s12 m4 input-field">
+	                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
+	                                    <label for="escalated_to">Escalated To </label> --%>
+	                                    <p class="searchable_label">Escalated To</p> 
+	                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
+	                                        <option value="">Select</option>
+	                                        <c:forEach var="obj" items="${escalatedToList }">
+	                                            <option value="${obj.escalated_to_user_id }" <c:if test="${issue.escalated_to eq obj.escalated_to_user_id}">selected</c:if>>${obj.escalated_to_designation}</option>
+	                                        </c:forEach>
+	                                    </select>
+	                                    <span id="escalated_toError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
+	                                    <label for="escalation_date"> Escalated Date</label>
+	                                    <button type="button" id="escalation_date_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="escalation_dateError" class="error-msg" ></span>
+	                                </div>
+	                                <div class="col m2 hide-on-small-only"></div>
+	                            </div>
+                            	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
-                                    <label for="remarks">Remarks</label>
+                                    <label for="remarks">Escalation Remarks</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
-                            </div> --%>
-
+                            </div> 
+                            </div>
+                         
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col m8 s12">
@@ -352,21 +390,19 @@
                                    	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>
+                            </div>                            
+                            
 
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button type="button" onclick="updateIssue();" class="btn waves-effect waves-light bg-m"
-                                            style="width: 100%;">Update
-                                        </button>
+                                        <a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m" >Update </a>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath() %>/issues" class="btn waves-effect waves-light bg-s "
-                                            style="width:100%">Cancel</a>
+                                        <a href="<%=request.getContextPath() %>/issues" class="btn waves-effect waves-light bg-s " >Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

@@ -47,6 +47,9 @@
 		    margin-top: .35rem;
 		    margin-bottom: .35rem;
 		}
+		.input-field>textarea+label:not(.label-icon).active{
+			margin-top: 8px;
+		}
     </style>
 </head>
 <body>
@@ -253,7 +256,7 @@
                                 <div class="col s12 m4 input-field">
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
-                                    <p class="searchable_label">Person Responsible In MRVC (Assigned to)</p> 
+                                    <p class="searchable_label" style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)</p> 
                                     <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="getIssueStatusList();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${responsiblePersonList }">

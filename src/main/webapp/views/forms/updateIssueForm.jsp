@@ -116,7 +116,7 @@
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="getIssueStatusList();">
                                         <option value="">Select</option>
                                     </select> -->                                    
-                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_id_fk }<c:if test="${not empty issue.contract_short_name}"> - </c:if> ${issue.contract_short_name }" readonly>
+                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_id_fk }" readonly>
                                     <label for="contract_id_fk"> Contract <span class="required">*</span></label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>                                
@@ -346,7 +346,7 @@
 	                                <div class="col s12 m4 input-field">
 	                                    <%-- <input id="escalated_to" name="escalated_to" type="text" class="validate" value="${issue.escalated_to }">
 	                                    <label for="escalated_to">Escalated To </label> --%>
-	                                    <p class="searchable_label">Escalated To</p> 
+	                                    <p class="searchable_label" style="margin-bottom:8px">Escalated To</p> 
 	                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
 	                                        <option value="">Select</option>
 	                                        <c:forEach var="obj" items="${escalatedToList }">

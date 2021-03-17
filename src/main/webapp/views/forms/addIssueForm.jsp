@@ -304,7 +304,7 @@
 	                                <div class="col s12 m4 input-field">
 	                                    <!-- <input id="escalated_to" name="escalated_to" type="text" class="validate">
 	                                    <label for="escalated_to">Escalated To </label> -->
-	                                    <p class="searchable_label">Escalated To</p> 
+	                                    <p class="searchable_label" style="margin-bottom:8px">Escalated To</p> 
 	                                    <select class="searchable validate-dropdown" id="escalated_to" name="escalated_to">
 	                                        <option value="">Select</option>
 	                                        <c:forEach var="obj" items="${escalatedToList }">

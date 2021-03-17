@@ -607,14 +607,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
+                                      <div class="row">
                                         <div class="col m12 s12 input-field">
                                             <textarea id="remarks" name="remarks" class="materialize-textarea"
                                                 data-length="500">${activitiesData.remarks}</textarea>
-                                            <label for="remarks" class="">Remarks</label>
+                                            <label for="remarks" class="">Issue/Action Taken/Remark </label>
                                         </div>
                                     </div>
+                                    </div>
+                                   
                                     <input type="hidden" id="activity_id" name="activity_id" value="${activitiesData.activity_id}" />
                                     
                                     <input type="hidden" id="strip_chart_component_id_name" name="strip_chart_component_id_name" />

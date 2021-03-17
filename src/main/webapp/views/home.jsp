@@ -38,7 +38,8 @@
 		}
      .card-title .right span{
      	padding: 5px 15px;
-	    background-image: linear-gradient(to right, #16D58A, #00BDE7);
+	   /*  background-image: linear-gradient(to right, #16D58A, #00BDE7); */
+	   background-color:#01BAEF;
 	    font-size: 2rem;
 	    color: #fff;
 	    border-radius: 5px;
@@ -148,6 +149,7 @@
 		    text-transform:capitalize;
 		    padding:0 10px;	
 		    background-color:#1565C0cc;
+		    background-color:#01BAEF;
        	}
        	.button span{
        		line-height:inherit;
@@ -222,7 +224,8 @@
         .modal-header {
             text-align: center;
             background-color: #1565C0cc;
-            background-image: linear-gradient(to right, #16D58A, #00BDE7);
+            /* background-image: linear-gradient(to right, #16D58A, #00BDE7); */
+            background-color:#01BAEF;
             color: #fff;
             margin: -24px -24px 20px !important;
             padding: 1rem;
@@ -254,7 +257,8 @@
 
         .map-btn-holder .btn {
             background-color: #1565C0cc;
-            background-image: linear-gradient(to right, #16D58A, #00BDE7);
+           /*  background-image: linear-gradient(to right, #16D58A, #00BDE7); */
+            background-color:#01BAEF;
             border-radius: 20px;
             font-size: 2.25rem;
             line-height: 2.5rem;
@@ -268,14 +272,13 @@
             height: 100%;
             margin-top: 15%;
         }
-
-        .button .btn:hover,
+      /*   .button .btn:hover,
         .button .btn:focus,
         .card.main-clr.active .button .btn {
             background-color: #1565C088;
             background-image: linear-gradient(to right, #16D58A, #00BDE7);
-        }
-
+            
+        } */
         .container.no-mar .col {
             padding: 0 .37rem;
         }
@@ -289,11 +292,12 @@
         .card.main-clr .card-content .card-title {
             margin: -23px -23px 10px -23px;
             background-color: #1565C0cc;
-            background-image: linear-gradient(to right, #16D58A, #00BDE7);
+            /* background-image: linear-gradient(to right, #16D58A, #00BDE7); */
+            background-color:#01BAEF;
             color: #fff;
             border-radius: 4px 4px 0 0;
             padding: 3px;
-            font-size:18px;
+            font-size:1.2rem;
             box-shadow: 2px 3px 7px 2px #999999;
             text-transform: inherit;
         }
@@ -343,7 +347,7 @@
         .title-btn{
         	position: absolute;		    
 		    right: -94px;
-    		top: -70px;
+    		top: -65px;
 		    margin-bottom: 0;
         }
               
@@ -364,7 +368,8 @@
 			  pointer-events: none;
 			  visibility: hidden;
 			  background-color: #1565C0cc;
-			  background-image: linear-gradient(to right, #16D58A, #00BDE7);
+			 /*  background-image: linear-gradient(to right, #16D58A, #00BDE7); */
+			 background-color:#01BAEF;
 			  text-align:justify;
 			  box-shadow:0 0 5px 2px #aaa;
 			  white-space: pre-wrap;

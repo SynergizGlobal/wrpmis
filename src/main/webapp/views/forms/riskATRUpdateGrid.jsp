@@ -148,7 +148,7 @@
                                             <th>Sub Area</th>
                                             <th>Priority</th>
                                             <th>Mitigation Plan</th>
-                                            <th>Action</th>
+                                            <th class="nosort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -272,9 +272,10 @@
                 },
                 columnDefs: [
                     {
-                        targets: [0, 1, 2],
+                        targets: [0],
                         className: 'mdl-data-table__cell--non-numeric'
                     },
+                    { "width": "20px", "targets": [6] },
                     { orderable: false, 'aTargets': ['nosort'] }
                 ],
                 // "ScrollX": true,

@@ -89,15 +89,18 @@
                     <div class="">
                     <c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
-							   ${success}
+							   ${success} <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Close Tab</a> 
 							</div>
 							<div class="center-align m-1 close-message">	
-							   ${updateSuccess}
+							   ${updateSuccess}<a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Close Tab</a> 
 							</div>
 						</c:if>
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">
-							   ${error}
+							   ${error}<a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Close Tab</a> 
 							</div>
 						</c:if>
                         
@@ -194,7 +197,7 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
-    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post">
+    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" target="_blank" method="post">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
     	<input type="hidden" name="risk_revision_id" id="risk_revision_id" />
     </form>
@@ -296,7 +299,7 @@
              		$.each(data,function(key,val){
              			var risk_id_pk = "'"+val.risk_id_pk+"'";
              			var risk_revision_id = "'"+val.risk_revision_id+"'";
-                        var actions = '<a href="javascript:void(0);"  onclick="getRisk('+ risk_id_pk +','+risk_revision_id +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
+                        var actions = '<a href="javascript:void(0);" onclick="getRisk('+ risk_id_pk +','+risk_revision_id +');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>';
     					var rowArray = [];    	                 
     
                     	var workName = '';
@@ -423,7 +426,11 @@
         	    }
         	    console.log(msg);
          }
-
+        
+        function closeTab(){
+        	 window.top.close();
+        }
+        
     </script>
 
 </body>

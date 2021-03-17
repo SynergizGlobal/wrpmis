@@ -359,10 +359,10 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a>
-                                            <!-- <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</a> -->
+                                       <%--  <a href="<%=request.getContextPath()%>/risk-atr-update" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a> --%>
+                                            <a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a> 
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

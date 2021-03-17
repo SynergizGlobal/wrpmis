@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Dashboard;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
@@ -736,6 +737,22 @@ public class HomeDaoImpl implements HomeDao {
 			int i = 0;
 			pValues[i++] = obj.getParent_dashboard_id_sr_fk();
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Work>(Work.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Admin> getAdminList(Admin admin) throws Exception {
+		List<Admin> objsList = null;
+		try {
+			String qry ="select admin_form_id, form_name, url, priority, soft_delete_status_fk from admin_form where soft_delete_status_fk = ? order by priority ASC ";
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.ACTIVE;
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Admin>(Admin.class));	
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

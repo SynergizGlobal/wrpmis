@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
@@ -20,4 +21,5 @@ public interface HomeDao {
 	public List<Work> getWorkDetails(Work obj) throws Exception;
 	public List<Work> getDashBoardNames(Work work) throws Exception;
 	public List<Work> getSubLink(Work obj) throws Exception;
+	public List<Admin> getAdminList(Admin admin) throws Exception;
 }

@@ -59,11 +59,22 @@
                             <h6>Admin Forms</h6>
                         </div>
                     </span>
+                    <div class="row clearfix">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<c:if test="${not empty success }">
+								<div class="center-align m-1 close-message">${success}</div>
+							</c:if>
+							<c:if test="${not empty error }">
+								<div class="center-align m-1 close-message">${error}</div>
+							</c:if>
+						</div>
+					</div>
+                    
                     <div class="">
                         <div class="row plr-1">
                             <div class="col s12 m4 offset-m4">
                                 <div class="m-1 c-align">
-                                    <a href="admin_forms_form.html" class="btn waves-effect waves-light bg-s t-c">
+                                    <a href="<%=request.getContextPath() %>/add-admin-form" class="btn waves-effect waves-light bg-s t-c">
                                         <strong><i class="fa fa-plus-circle"></i> Add Admin Form</strong></a>
                                 </div>
                             </div>
@@ -82,18 +93,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                      <c:forEach var="obj" items="${adminList }">
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="last-column"> <a href="report_form.html"
-                                                    class="btn waves-effect waves-light bg-m t-c"><i
-                                                        class="fa fa-pencil"></i></a>
-                                                <a href="#" class="btn waves-effect waves-light bg-m t-c"><i
-                                                        class="fa fa-share"></i></a>
+                                        	<td>&nbsp;${ obj.admin_form_id }</td>
+											<td>&nbsp;${ obj.form_name }</td>
+											<td>&nbsp;${ obj.priority }</td>
+											<td>&nbsp;${ obj.soft_delete_status_fk }</td>
+                                            <td class="last-column"> <a class="btn waves-effect waves-light bg-m t-c" onclick="getAdmin('${ obj.admin_form_id }')">
+                                            <i class="fa fa-pencil"></i></a>
+                                                <a  class="btn waves-effect waves-light bg-m t-c" onclick="gotoLink('${ obj.url }')"><i class="fa fa-share"></i></a>
                                             </td>
                                         </tr>
+                                      </c:forEach>
                                     </tbody>
 
                                 </table>
@@ -124,6 +135,9 @@
     <!-- footer  -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
+ 	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="admin_form_id" id="admin_form_id" />
+    </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
@@ -151,10 +165,18 @@
             });
         });
 
-        function clearFilters() {
-            $('#module_fk').val("");
-            $('#status_fk').val("");
-            $('.searchable').select2();
+        function getAdmin(admin_form_id){
+	    	$("#admin_form_id").val(admin_form_id);
+	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-admin');
+	    	$('#getForm').submit();
+	    }
+        
+        function gotoLink(path){
+       	 if ($.trim(path) != '') { 
+       		  console.log(path)
+       		  window.location.href = "<%=request.getContextPath()%>/"+path
+     		      
+      		 }
         }
     </script>
 </body>

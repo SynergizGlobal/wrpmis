@@ -106,6 +106,9 @@ public class PageConstants {
 	public static final String reportsAccessGrid = "forms/reportsAccessGrid"; 
 	public static final String addEditReportAccessForm = "forms/addEditReportAccessForm";
 	
+	public static final String adminGrid = "forms/adminGrid"; 
+	public static final String addEditAdminForm = "forms/addEditAdminForm";
+	
 	//******************************************************************************************
 	//REFERENCE FORMS
 	public static final String trainingType = "referenceForms/trainingType";

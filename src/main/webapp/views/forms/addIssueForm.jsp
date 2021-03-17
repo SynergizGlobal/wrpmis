@@ -621,8 +621,6 @@
     				 		required: true
     				 	  },"contract_id_fk": {
     				 		required: true
-    				 	  },"department_fk": {
-    				 		required: true
     				 	  },"category_fk": {
     				 		required: true
     				 	  },"priority_fk": {
@@ -666,8 +664,6 @@
 	   			 	  	 },"work_id_fk": {
     			 			required: 'Required'
     			 	  	 },"contract_id_fk": {
-    			 			required: 'Required'
-    			 	  	 },"department_fk": {
     			 			required: 'Required'
     			 	  	 },"category_fk": {
     			 			required: 'Required'
@@ -715,9 +711,6 @@
     			 	    }else if (element.attr("id") == "contract_id_fk" ){
     			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#contract_id_fkError');
-    			 	    }else if (element.attr("id") == "department_fk" ){
-    			 		     document.getElementById("department_fkError").innerHTML="";
-    			 			 error.appendTo('#department_fkError');
     			 	    }else if (element.attr("id") == "category_fk" ){
     			 		     document.getElementById("category_fkError").innerHTML="";
     			 			 error.appendTo('#category_fkError');

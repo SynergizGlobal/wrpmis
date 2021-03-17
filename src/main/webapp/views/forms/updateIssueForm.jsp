@@ -89,7 +89,7 @@
                                             <option value="${obj.project_id_fk }" <c:if test="${issue.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select> --%>
-                                    <input id="project_id_fk" name="project_id_fk" type="text" class="" value="${issue.project_id_fk }" readonly>
+                                    <input id="project_id_fk" name="project_id_fk" type="text" class="" value="${issue.project_id_fk }<c:if test="${not empty issue.project_name}"> - </c:if> ${issue.project_name }" readonly>
                                     <label for="project_id_fk"> Project <span class="required">*</span></label>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div> 
@@ -99,7 +99,7 @@
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
                                     </select> -->
-                                    <input id="work_id_fk" name="work_id_fk" type="text" class="" value="${issue.work_id_fk }" readonly>
+                                    <input id="work_id_fk" name="work_id_fk" type="text" class="" value="${issue.work_id_fk }<c:if test="${not empty issue.work_short_name}"> - </c:if> ${issue.work_short_name }" readonly>
                                     <label for="work_id_fk"> Work <span class="required">*</span></label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
@@ -113,7 +113,7 @@
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="getIssueStatusList();">
                                         <option value="">Select</option>
                                     </select> -->                                    
-                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_id_fk }" readonly>
+                                    <input id="contract_id_fk" name="contract_id_fk" type="text" class="" value="${issue.contract_id_fk }<c:if test="${not empty issue.contract_short_name}"> - </c:if> ${issue.contract_short_name }" readonly>
                                     <label for="contract_id_fk"> Contract <span class="required">*</span></label>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>                                
@@ -643,8 +643,6 @@
     				 		required: true
     				 	  },"activity": {
     				 		required: false
-    				 	  },"department_fk": {
-    				 		required: true
     				 	  },"category_fk": {
     				 		required: true
     				 	  },"priority_fk": {
@@ -690,8 +688,6 @@
     			 	  	 },"contract_id_fk": {
     			 			required: 'Required'
     			 	  	 },"activity": {
-    			 			required: 'Required'
-    			 	  	 },"department_fk": {
     			 			required: 'Required'
     			 	  	 },"category_fk": {
     			 			required: 'Required'
@@ -742,9 +738,6 @@
     			 	    }else if (element.attr("id") == "activity" ){
     			 		     document.getElementById("activityError").innerHTML="";
     			 			 error.appendTo('#activityError');
-    			 	    }else if (element.attr("id") == "department_fk" ){
-    			 		     document.getElementById("department_fkError").innerHTML="";
-    			 			 error.appendTo('#department_fkError');
     			 	    }else if (element.attr("id") == "category_fk" ){
     			 		     document.getElementById("category_fkError").innerHTML="";
     			 			 error.appendTo('#category_fkError');

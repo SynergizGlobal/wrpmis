@@ -47,19 +47,18 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,i.department_fk," 
+			String qry = "select issue_id,contract_id_fk,d.department_name,activity,c.contract_short_name,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,"
-					+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "
 					+ "from issue i "
-					+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
-					+ "LEFT OUTER JOIN department d ON i.department_fk  = d.department "
+					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
 					+ "where issue_id is not null " ;
 			int arrSize = 0;
@@ -84,7 +83,7 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			
@@ -262,10 +261,10 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
-					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk," 
+					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person," 
 					+"priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,attachment,zonal_railway_fk,other_organization,escalation_date) "
 					+ "VALUES "
-					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:department_fk,:" 
+					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:" 
 					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment,:zonal_railway_fk,:other_organization,:escalation_date)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -290,11 +289,10 @@ public class IssueDaoImpl implements IssueDao {
 				}
 				
 				String emailsQry = "select w.work_short_name,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
-						+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+						+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+						+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
 						+ "from issue i "
-						+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
 						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
@@ -309,9 +307,6 @@ public class IssueDaoImpl implements IssueDao {
 				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 				if(!StringUtils.isEmpty(iObj)) {
 					String email_ids = "";
-					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
-						email_ids = email_ids + iObj.getReported_by_email_id()+",";
-					}
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
 					}
@@ -353,15 +348,15 @@ public class IssueDaoImpl implements IssueDao {
 	public Issue getIssue(Issue obj) throws Exception {
 		Issue iobj = null;
 		try {
-			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,i.department_fk," 
+			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,other_organization,DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date, "
-					+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "
 					+ "from issue i "
-					+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk COLLATE utf8mb4_unicode_ci = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
@@ -416,7 +411,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE issue SET "
-					+ "contract_id_fk=:contract_id_fk,title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,department_fk=:department_fk,"  
+					+ "title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,"  
 					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,remarks=:remarks,attachment=:attachment,zonal_railway_fk=:zonal_railway_fk,other_organization=:other_organization,escalation_date=:escalation_date "
 					+ "where issue_id = :issue_id" ;		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -438,11 +433,10 @@ public class IssueDaoImpl implements IssueDao {
 				}
 				
 				String emailsQry = "select w.work_short_name,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,"
-						+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+						+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+						+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
 						+ "from issue i "
-						+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
 						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
@@ -457,9 +451,6 @@ public class IssueDaoImpl implements IssueDao {
 				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 				if(!StringUtils.isEmpty(iObj)) {
 					String email_ids = "";
-					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
-						email_ids = email_ids + iObj.getReported_by_email_id()+",";
-					}
 					if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
 						email_ids = email_ids + iObj.getResponsible_person_email_id()+",";
 					}
@@ -511,6 +502,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
@@ -533,7 +525,7 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -576,12 +568,12 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getDepartmentsListFilter(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT i.department_fk,department,department_name from issue i "
-					+ "LEFT OUTER JOIN department d ON i.department_fk COLLATE utf8mb4_unicode_ci = d.department "
+			String qry = "SELECT c.department_fk,department,department_name from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-					+ "where i.department_fk is not null and i.department_fk <> '' ";
+					+ "where c.department_fk is not null and c.department_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -601,14 +593,14 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
 				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY i.department_fk";
+			qry = qry + " GROUP BY c.department_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -645,6 +637,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			String qry = "SELECT category_fk from issue i "
 			+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+			+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 			+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 			+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 			+ " where category_fk is not null and category_fk <> '' ";
@@ -668,7 +661,7 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -713,6 +706,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			String qry = "SELECT status_fk from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where status_fk is not null and status_fk <> '' ";
@@ -736,7 +730,7 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -782,6 +776,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT work_id as work_id_fk,w.work_short_name "
 					+ "from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where work_id_fk is not null and work_id_fk <> '' ";
@@ -805,7 +800,7 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -850,6 +845,7 @@ public class IssueDaoImpl implements IssueDao {
 		try {
 			String qry = "SELECT responsible_person,u.user_name from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on i.responsible_person = u.designation "
 					+ "where responsible_person is not null and responsible_person <> '' ";
@@ -873,7 +869,7 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
@@ -919,6 +915,7 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "SELECT hod_user_id_fk,u.designation "
 					+ "from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
 					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
 					+ "where hod_user_id_fk is not null and hod_user_id_fk <> '' ";
@@ -942,7 +939,7 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and i.department_fk = ?";
+				qry = qry + " and c.department_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {

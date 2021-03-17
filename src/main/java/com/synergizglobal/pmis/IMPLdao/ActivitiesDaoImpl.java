@@ -539,7 +539,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 			String department_id = getDepartment(obj.getContract_id_fk());
 			String issueId = null;
 			if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-				String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk,location,attachment)VALUES(?,?,?,?,?,?,?,CURDATE(),?,?,?)";				
+				String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk,location,attachment,corrective_measure)VALUES(?,?,?,?,?,?,?,CURDATE(),?,?,?,?)";				
 				KeyHolder holder = new GeneratedKeyHolder();
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					@Override
@@ -556,6 +556,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 						ps.setString(i++, !StringUtils.isEmpty(department_id)?department_id:null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())?obj.getStrip_chart_structure_id_fk():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getAttachment_url())?obj.getAttachment_url():null);
+						ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
 						return ps;
 					}
 				}, holder);

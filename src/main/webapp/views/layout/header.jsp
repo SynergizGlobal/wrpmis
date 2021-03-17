@@ -286,6 +286,22 @@
 	          </c:forEach>
 		 	 </ul>
           </li> 
+          <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }"> 
+            <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img'>
+          		<span class="material-icons-outlined">list_alt</span>Admin</a>
+		         <ul class="second-level-menu">
+		         <!--   <c:forEach var="obj" items="${webDocumentTypes}">
+		          		<c:set var="tempWebDocType" value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}"></c:set>
+	        				<c:set var="webDocType" value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}"></c:set>
+		              	<li>
+		              		<a href="<%=request.getContextPath()%>/web-documents/${webDocType}">
+				 				<span class="nav-label">${obj.type}</span>
+				 			</a>
+				 		</li>
+			 	   </c:forEach> -->
+			 	 </ul>
+         	</li>
+         </c:if> 
           
           <%-- <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img notification' id="notification">
                   <span class="material-icons-outlined">notifications</span>
@@ -624,6 +640,22 @@
 		          </c:forEach>
 		 	</ul>
           </li> 
+           <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }"> 
+            <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
+	          <span class="material-icons-outlined">list_alt</span>Admin</a>
+	          <ul class="dropdown-data collapsible-body second-lvl collapsible">
+		 		<!-- <c:forEach var="obj" items="${webDocumentTypes}">
+	          		<c:set var="tempWebDocType" value="${ fn:toLowerCase(obj.type.replaceAll(' - ', '_'))}"></c:set>
+        				<c:set var="webDocType" value="${ fn:toLowerCase(tempWebDocType.replaceAll(' ', '-'))}"></c:set>
+	              	<li>
+	              		<a href="<%=request.getContextPath()%>/web-documents/${webDocType}">
+			 				<span class="nav-label">${obj.type}</span>
+			 			</a>
+			 		</li>
+			 	</c:forEach> -->
+		 	  </ul>
+          </li>
+         </c:if>
     <li>
    		<!-- a class='dropdown-trigger' data-target='dropdown1'-->
    		<a href="<%=request.getContextPath() %>/home" data-target="notification-demo" class="sidenav-trigger">

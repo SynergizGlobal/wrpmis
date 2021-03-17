@@ -55,7 +55,7 @@ public class SourceOfFundsController {
 	public ModelAndView addSourceOfFund(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
-			model.setViewName("redirect:/source-of-funds");
+			model.setViewName("redirect:/source-of-fund");
 			boolean flag =  service.addSourceOfFund(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Source Of Fund Added Succesfully.");

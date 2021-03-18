@@ -138,13 +138,6 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			/***************************** Contract Period alerts*******************************************************/
-			/*String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " 
-					+ "where contract_status = 'In Progress' and (contract_revised_date is not null OR doc is not null) "
-					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 30 " 
-					+ "and DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 15)";*/
 			
 			String cpQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Period' as alert_type," 
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
@@ -162,15 +155,6 @@ public class AlertsDaoImpl implements AlertsDao{
 			if(!StringUtils.isEmpty(cpQryAlert1List) && cpQryAlert1List.size() > 0) {
 				list.addAll(cpQryAlert1List);
 			}
-			
-			/*String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value,hod_email,dy_hod_email"
-					+ " from contract_view "
-					+ "where contract_status = 'In Progress' and (contract_revised_date is not null OR doc is not null) "
-					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 15 " 
-					+ "and DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) > 7)";*/
-			
 			String cpQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Period' as alert_type," 
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
 					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value," 
@@ -188,12 +172,6 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cpQryAlert2List);
 			}
 			
-			/*String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type,"
-					+ "(case when contract_revised_date is not null then CONCAT('Contract revised date : ',DATE_FORMAT(contract_revised_date,'%d-%b-%Y') ) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',DATE_FORMAT(doc,'%d-%b-%Y') ) else '' end ) as alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " 
-					+ "where contract_status = 'In Progress' and (contract_revised_date is not null OR doc is not null) "
-					+ "and (DATEDIFF((CASE WHEN contract_revised_date is not null THEN contract_revised_date WHEN doc is not null THEN doc ELSE '' END) ,NOW()) <= 7) ";*/
 			
 			String cpQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Period' as alert_type," 
 					+ "(case when (cr.action = 'Yes' and cr.revised_doc is not null) then (CONCAT('Contract revised date : ',DATE_FORMAT(cr.revised_doc,'%d-%b-%Y') )) " 
@@ -212,15 +190,6 @@ public class AlertsDaoImpl implements AlertsDao{
 			}
 			
 			/***************************** Contract Value alerts*******************************************************/
-			/*String cvQryAlert1 = "select contract_id,'1st Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',cumulative_expenditure,"
-					+ "(CASE WHEN revised_cost is not null THEN ', Revised Cost : ' WHEN estimated_cost is not null THEN ', Estimated Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END)," + 
-					"(CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"
-					+ ") AS alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' " + 
-					"and ((cumulative_expenditure is not null "
-					+ "and (( cumulative_expenditure* 100) / (CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 95 "
-					+ "and (( cumulative_expenditure* 100) / (CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 120))";*/
 			
 			String cvQryAlert1 = "select c.contract_id,'1st Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
 					+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
@@ -242,15 +211,6 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cvQryAlert1List);
 			}
 			
-			/*String cvQryAlert2 = "select contract_id,'2nd Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',cumulative_expenditure,"
-					+ "(CASE WHEN revised_cost is not null THEN ', Revised Cost : ' WHEN estimated_cost is not null THEN ', Estimated Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END)," + 
-					"(CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"
-					+ " ) AS alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' " + 
-					"and ((cumulative_expenditure is not null "
-					+ "and (( cumulative_expenditure* 100) / (CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 120 "
-					+ "and (( cumulative_expenditure* 100) / (CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) < 145))";*/
 			
 			String cvQryAlert2 = "select c.contract_id,'2nd Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
 					+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  
@@ -273,14 +233,6 @@ public class AlertsDaoImpl implements AlertsDao{
 				list.addAll(cvQryAlert2List);
 			}
 			
-			/*String cvQryAlert3 = "select contract_id,'3rd Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',cumulative_expenditure,"
-					+ "(CASE WHEN revised_cost is not null THEN ', Revised Cost : ' WHEN estimated_cost is not null THEN ', Estimated Cost : ' WHEN awarded_cost is not null THEN ', Awarded Cost : ' ELSE '' END)," + 
-					"(CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)"
-					+ " ) AS alert_value,hod_email,dy_hod_email"
-					+ " from contract_view " + 
-					"where contract_status = 'In Progress' " + 
-					"and ((cumulative_expenditure is not null "
-					+ "and (( cumulative_expenditure* 100) / (CASE WHEN revised_cost is not null THEN revised_cost WHEN estimated_cost is not null THEN estimated_cost WHEN awarded_cost is not null THEN awarded_cost ELSE 0 END)) >= 145))";*/
 			
 			String cvQryAlert3 = "select c.contract_id,'3rd Alert' as alert_level,'Contract Value' as alert_type,CONCAT('Cumulative expenditure : ',"  
 					+ "(select CAST(SUM(x.gross_work_done) as CHAR) from expenditure x where x.contract_id_fk = c.contract_id),"  

@@ -583,11 +583,6 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 		Map<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>> mapObjsList = new LinkedHashMap<ActivitiesProgressReport, Map<String,List<ActivitiesProgressReport>>>();
 		NumberFormat numberFormatter = new DecimalFormat("#0.0000");
 		try {
-			/*String qry = "select strip_chart_id_fk,contract_id_fk,work_id,project_id,project_name "
-					+ "from scope_progress sp " 
-					+ "left outer join strip_chart_general scg on strip_chart_id_fk = strip_chart_id  " 
-					+ "left outer join contract_view cv on scg.contract_id_fk = cv.contract_id "
-					+ "where progress_date = ? ";*/
 			
 			String contractsQry = "select activity_id_fk,contract_id_fk,work_id,project_id,project_name "
 					+ "from activity_progress ap " 

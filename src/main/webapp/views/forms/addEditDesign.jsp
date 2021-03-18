@@ -171,17 +171,14 @@
                             </c:if>
  							<c:if test="${action eq 'edit'}">	
 	                             <div class="row">
-	                                <div class="col m2 hide-on-small-only"></div>
-	                               
-	                                <div class="col s12 m4 input-field">
-										<p class="searchable_label">Project <span class="required">*</span></p>
+	                                <div class="col s12 m4 input-field offset-m2">
 	                                    <input type="text" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}- ${designDetails.project_name}" readonly />
+								    	<label for="project_id_fk">Project <span class="required">*</span></label>
 								    </div> 
 	                                <div class="col s12 m4 input-field"> 
-									    <p class="searchable_label"> Work <span class="required">*</span></p>
 	                                    <input type="text" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
+	                                	<label for="work_id_fk">Work <span class="required">*</span></label>
 	                                </div>
-	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
                             </c:if>
                             <div class="row">

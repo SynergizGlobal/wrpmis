@@ -150,6 +150,9 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		.input-field>textarea+label:not(.label-icon).active{
+			margin-top: 8px;
+		}
     </style>
 </head>
 

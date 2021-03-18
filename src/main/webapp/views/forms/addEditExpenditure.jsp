@@ -40,7 +40,9 @@
 		    -webkit-transform: translateY(-11px) scale(0.8);
 		    transform: translateY(-11px) scale(0.8);
 		}
-				
+		.m-b-2{
+			margin-bottom:2rem;
+		}		
     </style>
 </head>
 
@@ -54,7 +56,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
                                  <c:if test="${action eq 'edit'}">Update Expenditure</c:if>
 								 <c:if test="${action eq 'add'}"> Add Expenditure</c:if>
@@ -121,23 +123,23 @@
 	                       	 	<div class="row">
 		                       	 	  <div class="col m2 hide-on-small-only"></div>
 		                       		  <div class="col s12 m4 input-field">
-											 <p class="searchable_label">Project <span class="required">*</span></p>
-		                                    <input type="text" value="${expenditureDetails.project_id_fk} - ${expenditureDetails.project_name}" readonly />
+		                                    <input type="text" value="${expenditureDetails.project_id_fk} - ${expenditureDetails.project_name}" readonly id="project-text"/>
+		                                    <label for="project-text">Project <span class="required">*</span></label>
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
-										    <p class="searchable_label">Work <span class="required">*</span></p>
-		                                    <input type="text" value="${expenditureDetails.work_id_fk} - ${expenditureDetails.work_name}" readonly />
+		                                    <input type="text" value="${expenditureDetails.work_id_fk} - ${expenditureDetails.work_name}" readonly id="work-text"/>
+		                                    <label for="work-text">Work <span class="required">*</span></label>		                                    
 		                              </div>
 	                             </div> 
 	                             <div class="row">
 		                       	 	  <div class="col m2 hide-on-small-only"></div>
 		                       		  <div class="col s12 m4 input-field">
-											 <p class="searchable_label">Contract <span class="required">*</span></p>       
-	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly />
+	                              			<input type="text" value="${expenditureDetails.contract_id_fk} - ${expenditureDetails.contract_name}" readonly id="Contract-text"/>
+	                              			<label for="Contract-text">Contract <span class="required">*</span></label>	                              			
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
-										    <p class="searchable_label">Contractor name  <span class="required">*</span></p>
-		                                    <input type="text" id="contractor_name" name="contractor_name" value="${expenditureDetails.contractor_name}" readonly />
+		                                    <input type="text" id="contractor_name" name="contractor_name" value="${expenditureDetails.contractor_name}" readonly id="Contractor-text"/>
+		                                    <label for="Contractor-text">Contractor name <span class="required">*</span></label>		                                    
 		                              </div>
 		                              <div class="col m2 hide-on-small-only"></div>
 	                             </div>	                            

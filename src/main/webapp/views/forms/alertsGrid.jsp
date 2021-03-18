@@ -46,7 +46,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5>PMIS Contract Alerts</h5>
+                            <h6>PMIS Contract Alerts</h6>
                         </div>
                     </span>
                     <div class="">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col s12 m2">
                                     <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                        style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
+                                        style="margin-top: 12px;width: 100%;" onclick="clearFilters()">Clear
                                         Filters</button>
                                 </div>
                             </form>

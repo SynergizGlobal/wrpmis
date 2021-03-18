@@ -119,7 +119,7 @@
 									<div class="col s12 m4 input-field">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
-											style="margin-top: 8px; width: 100%;"
+											style="margin-top: 3px; width: 100%;"
 											onclick="clearFilter();">Clear Filters</button>
 									</div>
 								</div>

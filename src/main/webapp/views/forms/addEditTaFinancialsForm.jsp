@@ -50,6 +50,8 @@
 
         .fixed-width {
             width: 100%;
+            margin-left:auto !important;
+            margin-right:auto !important;
         }
 
         .fixed-width .table-inside {
@@ -82,6 +84,9 @@
 			position: relative;
     		font-size: 0.85rem;
 		}
+		.m-b-2{
+			margin-bottom:2rem;
+		}
 		
     </style>
 </head>
@@ -98,7 +103,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m m-b-5">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
                                  <c:if test="${action eq 'edit'}">Update TA Financial</c:if>
 								 <c:if test="${action eq 'add'}">Add TA Financial</c:if>

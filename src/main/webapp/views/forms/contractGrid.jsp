@@ -169,7 +169,7 @@
 							</div>
 							<div class="col s12 m1">
 								<button class="btn bg-m waves-effect waves-light t-c"
-									style="margin-top: 20px; width: 100%" onclick="clearFilter();">Clear
+									style="margin-top: 12px; width: 100%" onclick="clearFilter();">Clear
 									Filters</button>
 							</div>
 						</div>

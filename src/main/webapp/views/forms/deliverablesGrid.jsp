@@ -127,7 +127,7 @@
 							<div class="col s12 m2">
 								<button
 									class="btn bg-m waves-effect waves-light t-c clear-filters"
-									style="margin-top: 20px; width: 100%;" onclick="clearFilters()">Clear
+									style="margin-top: 12px; width: 100%;" onclick="clearFilters()">Clear
 									Filters</button>
 							</div>
 							<div class="col m1 hide-on-small-only"></div>

@@ -408,7 +408,7 @@ public class UserController {
 	            headingRow.createCell((short)9).setCellValue("Landline Number");
 	            headingRow.createCell((short)10).setCellValue("Extension");
 	            headingRow.createCell((short)11).setCellValue("Reporting to Id SRFK");
-	            headingRow.createCell((short)12).setCellValue("PMIS Key");
+	            headingRow.createCell((short)12).setCellValue("User Type");
 	            headingRow.createCell((short)13).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (User obj : dataList) {
@@ -416,7 +416,7 @@ public class UserController {
 	                row.createCell((short)0).setCellValue(obj.getUser_id());
 	                row.createCell((short)1).setCellValue(obj.getUser_name());
 	                row.createCell((short)2).setCellValue(obj.getDepartment_name());
-	                row.createCell((short)3).setCellValue(obj.getReporting_to_name());
+	                row.createCell((short)3).setCellValue(obj.getReporting_to_designation());
 	                row.createCell((short)4).setCellValue(obj.getUser_role_name_fk());
 	                row.createCell((short)5).setCellValue(obj.getDesignation());
 	                row.createCell((short)6).setCellValue(obj.getEmail_id());
@@ -425,7 +425,7 @@ public class UserController {
 	                row.createCell((short)9).setCellValue(obj.getLandline());
 	                row.createCell((short)10).setCellValue(obj.getExtension());
 	                row.createCell((short)11).setCellValue(obj.getReporting_to_id_srfk());
-	                row.createCell((short)12).setCellValue(obj.getPmis_key_fk());
+	                row.createCell((short)12).setCellValue(obj.getUser_type_fk());
 	                row.createCell((short)13).setCellValue(obj.getRemarks());
 	                
 	                rowNo++;

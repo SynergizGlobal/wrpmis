@@ -114,7 +114,7 @@ public class PMISProgressController {
 		return ContractFileterData;
 	}
 	
-	@RequestMapping(value = "/update=pmis-progrss-form", method = {RequestMethod.POST})
+	@RequestMapping(value = "/update-pmis-progrss-form", method = {RequestMethod.POST})
 	public ModelAndView updateProgressForm(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String userId = null;

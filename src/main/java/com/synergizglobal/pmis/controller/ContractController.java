@@ -42,10 +42,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.SafetyService;
-import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.Iservice.WorkService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
@@ -77,7 +77,7 @@ public class ContractController {
 	@Autowired
 	HomeService homeService;
 	@Autowired
-	StripChartService stripChartService;
+	ActivitiesService activitiesService;
 	
 	@Value("${common.error.message}")
 	public String commonError;

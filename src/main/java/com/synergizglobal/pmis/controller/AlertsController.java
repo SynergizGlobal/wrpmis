@@ -60,6 +60,10 @@ public class AlertsController {
 	    	flag = service.sendAlertsToRajivRavi();
 			logger.error("generateAlertsByCronJob >> Sending mails : "+ flag); 
 			
+			//Calling stored procedures
+			flag = service.callingStoredProcedures();
+			logger.error("generateAlertsByCronJob >> Run Procedures : "+ flag);
+			
 		 } catch (Exception e) {
 			 e.printStackTrace();
 			logger.error("generateAlertsByCronJob() : "+e.getMessage());
@@ -80,6 +84,19 @@ public class AlertsController {
 			 e.printStackTrace();
 			logger.error("sendNotificationAlertMailsToAllByCronJob() : "+e.getMessage());
 		 }
+	}
+	
+	@RequestMapping(value="/run-procedures",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView runProcedures(){		
+		 ModelAndView model = new ModelAndView("redirect:/get-alerts");	    
+	     try {
+	    	boolean flag = service.callingStoredProcedures();
+	    	System.out.println("flag : "+flag);
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			logger.error("rubProcedures() : "+e.getMessage());
+		 }
+	     return model;
 	}
 	
 	@RequestMapping(value="/generate-and-send-alerts-to-all",method={RequestMethod.GET,RequestMethod.POST})

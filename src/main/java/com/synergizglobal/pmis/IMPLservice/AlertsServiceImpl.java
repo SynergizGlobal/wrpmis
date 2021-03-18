@@ -80,4 +80,9 @@ public class AlertsServiceImpl implements AlertsService{
 		return dao.getAlertsCount(obj);
 	}
 
+	@Override
+	public boolean callingStoredProcedures() throws Exception {
+		return dao.callingStoredProcedures();
+	}
+
 }

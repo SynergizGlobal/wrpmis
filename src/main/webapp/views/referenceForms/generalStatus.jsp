@@ -84,7 +84,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> General Status</h5>
+                            <h6> General Status</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -297,13 +297,13 @@
                     {
                         targets: [0],
                         className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
-                        className: "last-column", targets: [1],
+                        targets: 'nosort', orderable: false,
+                        className: "last-column", targets: [5],
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [5] },
                 ],
                 "scrollCollapse": true,
-                paging: false,
+               // paging: false,
                 fixedHeader: true,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",

@@ -105,7 +105,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Safety Root Cause</h5>
+                            <h6> Safety Root Cause</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -166,7 +166,7 @@
 										 	<c:forEach var="oSbj"  items="${safetyRootCauseDetails.dList}" varStatus="indexx"> 
 												<c:choose>  
 												    <c:when test="${oSbj.root_cause eq obj.root_cause }"> 
-												      	<a onclick="deleteRow('${ oSbj.root_cause }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												      	<a onclick="deleteRow('${ oSbj.root_cause }');" id="${indexx.count}" class="btn waves-effect waves-light bg-m t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -313,13 +313,6 @@
             $('.modal').modal({ dismissible: false });
 
           /*   // adding table data into table start
-            var arr = ['Cutting of Signalling cable', 'Defective Equipment', 'Electrocution', 'Falling Objects', 'Faulty Installation', 'Fire', 'Inadequate PPE', 'Lack of Training', 'Manual Handling', 'Others', 'Sabotage', 'Tripping / Falling', 'Violation of Protocol', 'Working without Competency Certificate', 'Working without Safety fencing'];
-            var table_text = '';
-            $.each(arr, function (i, val) {
-                table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light bg-m t-c modal-trigger">' +
-                    '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-m t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
-            });
-            $('#safety_root_cause_table tbody').append(table_text);
             // adding table data into table ends */
 
             var table = $('#safety_root_cause_table').DataTable({
@@ -330,7 +323,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [2] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

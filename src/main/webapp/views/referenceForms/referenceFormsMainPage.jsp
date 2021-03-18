@@ -46,16 +46,14 @@
             <div class="module-holder" id="module-holder">
               <c:forEach var="obj" items="${referenceForms}" varStatus="index">
                <div class="module">
-            <ul class="collapsible default">
-                <li>
-                    <div class="collapsible-header" onclick="showIframes('${obj.form_url }'); getReferencePagesList('${obj.module_fk }','${index.count }');">
-                    <input type="hidden" name="form_url" id="form_url${index.count }" value="${obj.form_url }"/>
-                        <div class="collapsible-header-icon">Default</div>
-                        ${obj.module_fk }  
-                    </div>
-                </li>
-            </ul>
-        </div>  
+		            <div class="collapsible default">
+	                    <div class="collapsible-header" onclick="showIframes('${obj.form_url }'); getReferencePagesList('${obj.module_fk }','${index.count }');">
+	                    <input type="hidden" name="form_url" id="form_url${index.count }" value="${obj.form_url }"/>
+	                        <div class="collapsible-header-icon">Default</div>
+	                        ${obj.module_fk }  
+	                    </div>
+		            </div>
+        		</div>  
                                           	
       		   </c:forEach>
                 <!-- <div class="module">

@@ -85,7 +85,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Structure Type</h5>
+                            <h6> Structure Type</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -296,7 +296,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [8] },
                 ],
                 "scrollCollapse": true,
                 paging: false,

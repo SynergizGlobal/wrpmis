@@ -69,14 +69,13 @@
   <%-- <jsp:include page="../layout/header.jsp"></jsp:include> --%> 
     <!-- header ends  -->
 
-
     <div class="row">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Bank Guarantee Type</h5>
+                            <h6> Bank Guarantee Type </h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -294,7 +293,7 @@
                      className: 'mdl-data-table__cell--non-numeric',
                      targets: 'no-sort', orderable: false,
                  },
-                 { "width": "20px", "targets": [1] },
+                 { "width": "20px", "targets": [2] },
              ],
              "scrollCollapse": true,
              fixedHeader: true,

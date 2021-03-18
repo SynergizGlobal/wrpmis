@@ -59,9 +59,9 @@
             word-break: break-all;
             white-space: inherit !important;
         }
-		.mdl-data-table thead tr, .mdl-data-table tfoot tr {
+		/* .mdl-data-table thead tr, .mdl-data-table tfoot tr {
 		    background-color: #999999 !important;
-		}
+		} */
 		.select2-container.select2-container--default.select2-container--open{
 			z-index:1034;
 		}
@@ -121,7 +121,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Risk Sub Area</h5>
+                            <h6> Risk Sub Area</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -381,7 +381,7 @@
                        /*  className: 'mdl-data-table__cell--non-numeric', */
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "20px", "targets": [3] },
+                    { "width": "20px", "targets": [4] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

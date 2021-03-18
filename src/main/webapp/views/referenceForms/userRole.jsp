@@ -104,7 +104,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> User Role</h5>
+                            <h6> User Role</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -333,7 +333,7 @@
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "20px", "targets": [2] },
+                    { "width": "20px", "targets": [3] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

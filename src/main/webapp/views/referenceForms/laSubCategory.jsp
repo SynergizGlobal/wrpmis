@@ -89,7 +89,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Land Acquisition Sub Category</h5>
+                            <h6> Land Acquisition Sub Category</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -326,48 +326,7 @@
             $('.modal').modal({ dismissible: false });
             $('#remarks').characterCounter();
             // adding table data into table start
-          /*   var newArr = [
-                ["28", "Amrutlal Bhikabhai Harsora", "Private"],
-                ["29", "Allana Cold Storage Divisional Allana Oil Mil", "Private"],
-                ["30", "Kalwa Cold Storage No. 4 Allana House, Kalwa,", "Private"],
-                ["31", "MIDC", "Government"],
-                ["32", "CIDCO", "Government"],
-                ["33", "Mafatlal", "Private"],
-                ["34", "State Government", "Government"],
-                ["35", "Farm", "Private"],
-                ["36", "Railway", "Railway"],
-                ["37", "Agricultural Land", "Private"],
-                ["38", "Khajan", "Government"],
-                ["39", "Akari Pad", "Government"],
-                ["40", "Private Forest", "Forest"],
-                ["41", "Non Agricultural land", "Private"],
-                ["42", "Milk Commisioner", "Government"],
-                ["43", "Kandal Forest Area", "Government"],
-                ["44", "Khadi", "Government"],
-                ["45", "Nala", "Government"],
-                ["46", "State Government", "Forest"],
-                ["47", "River", "Government"],
-                ["48", "Reserve Forest", "Forest"],
-                ["49", "Revenue", "Government"],
-                ["50", "MSRDC", "Government"],
-                ["51", "Panchayat", "Government"],
-                ["52", "NMMC", "Government"],
-                ["53", "Forest", "Forest"],
-                ["54", "Non Agricultural land", "Government"]
-            ]
-            function makeTableHTML(myArray) {
-                var result = "";
-                for (var i = 0; i < myArray.length; i++) {
-                    result += "<tr>";
-                    for (var j = 0; j < myArray[i].length; j++) {
-                        result += "<td>" + myArray[i][j] + "</td>";
-                    }
-                    result += '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
-                        '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
-                }
-                return result;
-            }
-            $('#la_subcategory_table tbody').append(makeTableHTML(newArr));
+          /*   
             // adding table data into table ends */
 
             var table = $('#la_subcategory_table').DataTable({
@@ -377,7 +336,7 @@
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "10px", "targets": [3] },
+                    { "width": "10px", "targets": [4] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

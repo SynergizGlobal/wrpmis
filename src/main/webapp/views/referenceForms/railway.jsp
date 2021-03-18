@@ -84,7 +84,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Railway</h5>
+                            <h6> Railway</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -312,11 +312,11 @@
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [6] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
-                paging: false,
+               // paging: false,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,

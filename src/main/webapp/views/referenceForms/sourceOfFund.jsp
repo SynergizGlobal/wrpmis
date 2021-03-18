@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/finance.css">
+    <link rel="stylesheet" href="/pmis/resources/css/budget.css">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
@@ -42,11 +42,11 @@
             padding: 1rem;
         }
 
-
+/* 
         .mdl-data-table thead tr,
         .mdl-data-table tfoot tr {
             background-color: #F99934 !important;
-        }
+        } */
         input[type=number]:not(.browser-default):focus:not([readonly]),
 		input[type=text]:not(.browser-default):focus:not([readonly]),
 		input[type=search]:not(.browser-default):focus:not([readonly]),
@@ -96,7 +96,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Source of Fund</h5>
+                            <h6> Source of Fund</h6>
                         </div>
                     </span>
                      <c:if test="${not empty success }">
@@ -319,10 +319,10 @@
                         targets: 'no-sort', orderable: false,
                        /*  className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [2] },
                 ],
                 "scrollCollapse": true,
-                paging: false,
+               // paging: false,
                 fixedHeader: true,
                 "sScrollX": "100%",
                 "sScrollXInner": "100%",

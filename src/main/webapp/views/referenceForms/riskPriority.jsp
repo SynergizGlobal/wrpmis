@@ -51,9 +51,9 @@
             white-space: inherit;
         }
 
-       .mdl-data-table thead tr, .mdl-data-table tfoot tr {
+       /* .mdl-data-table thead tr, .mdl-data-table tfoot tr {
 		    background-color: #999999 !important;
-		}
+		} */
 		input[type=number]:not(.browser-default):focus:not([readonly]),
 		input[type=text]:not(.browser-default):focus:not([readonly]),
 		input[type=search]:not(.browser-default):focus:not([readonly]),
@@ -102,7 +102,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Risk Priority</h5>
+                            <h6> Risk Priority</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -326,7 +326,7 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     },
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [2] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,

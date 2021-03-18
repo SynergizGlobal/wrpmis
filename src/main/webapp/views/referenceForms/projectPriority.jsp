@@ -105,7 +105,7 @@
                 <div class="card-content">
                     <span class="card-title headbg">
                         <div class="center-align bg-m p-2 m-b-5">
-                            <h5> Project Priority</h5>
+                            <h6> Project Priority</h6>
                         </div>
                     </span>
                     <c:if test="${not empty success }">
@@ -314,13 +314,6 @@
             $('.modal').modal({ dismissible: false });
 
            /*  // adding table data into table start
-            var arr = ['P1', 'P2', 'P3', 'P4', 'Project-1'];
-            var table_text = '';
-            $.each(arr, function (i, val) {
-                table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#errorModal" class="btn waves-effect waves-light modal-trigger bg-m t-c">' +
-                    '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
-            });
-            $('#project_priority_table tbody').append(table_text);
             // adding table data into table ends */
 
             var table = $('#project_priority_table').DataTable({
@@ -331,12 +324,12 @@
                         targets: 'no-sort', orderable: false,
                         /* className: "last-column", targets: [1], */
                     }, 
-                    { "width": "20px", "targets": [1] },
+                    { "width": "20px", "targets": [4] },
                 ],
                 "scrollCollapse": true,
                 fixedHeader: true,
                 "sScrollX": "100%",
-                paging: false,
+               // paging: false,
                 "sScrollXInner": "100%",
                 "bScrollCollapse": true,
                 initComplete: function () {

@@ -407,9 +407,8 @@ public class UserController {
 	            headingRow.createCell((short)8).setCellValue("Personal Contact Number");
 	            headingRow.createCell((short)9).setCellValue("Landline Number");
 	            headingRow.createCell((short)10).setCellValue("Extension");
-	            headingRow.createCell((short)11).setCellValue("Reporting to Id SRFK");
-	            headingRow.createCell((short)12).setCellValue("User Type");
-	            headingRow.createCell((short)13).setCellValue("Remarks");
+	            headingRow.createCell((short)11).setCellValue("User Type");
+	            headingRow.createCell((short)12).setCellValue("Remarks");
 	            short rowNo = 1;
 	            for (User obj : dataList) {
 	                XSSFRow row = sheet.createRow(rowNo);
@@ -424,9 +423,8 @@ public class UserController {
 	                row.createCell((short)8).setCellValue(obj.getPersonal_contact_number());
 	                row.createCell((short)9).setCellValue(obj.getLandline());
 	                row.createCell((short)10).setCellValue(obj.getExtension());
-	                row.createCell((short)11).setCellValue(obj.getReporting_to_id_srfk());
-	                row.createCell((short)12).setCellValue(obj.getUser_type_fk());
-	                row.createCell((short)13).setCellValue(obj.getRemarks());
+	                row.createCell((short)11).setCellValue(obj.getUser_type_fk());
+	                row.createCell((short)12).setCellValue(obj.getRemarks());
 	                
 	                rowNo++;
 	            }

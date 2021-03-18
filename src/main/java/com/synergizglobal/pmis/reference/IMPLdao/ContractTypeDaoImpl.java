@@ -67,39 +67,42 @@ public class ContractTypeDaoImpl implements ContractTypeDao{
 			
 			List<TrainingType> tablesList = getTablesList(obj);
 			obj.setTablesList(tablesList);
-			
-			List<TrainingType> list = getDataDetails( obj);
-			obj.setdList(list);
-			String qry1 = "";
-			int i = 1;
-			for (TrainingType bObj : obj.getdList()) {
-				
-				qry1 = qry1 +"select "+bObj.getColumn_name()+" as `contract_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
-				if( list.size() >  i) {
-					qry1 = qry1 + " UNION ";
-					i++;
-				}
-			}
-			objsList1 = jdbcTemplate.query( qry1, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
-			obj.setdList(objsList1);
-			obj.setCountList(objsList1);
-			if(objsList1.size() > 0) {
-				Object[] pValues  = new Object[objsList1.size()];
-				  String qry2 = "select `contract_type` from contract_type where `contract_type` NOT IN (?";
-
-					int j =0, p=1;
-					for (TrainingType aObj : obj.getdList()) {
-						pValues[j++] = aObj.getContract_type();
-						if( objsList1.size() >  p) {
-							qry2 = qry2 + ",?";
-							p++;
-						}
+			if(tablesList.size() > 0) {
+				List<TrainingType> list = getDataDetails( obj);
+				obj.setdList(list);
+				String qry1 = "";
+				int i = 1;
+				for (TrainingType bObj : obj.getdList()) {
+					
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `contract_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					if( list.size() >  i) {
+						qry1 = qry1 + " UNION ";
+						i++;
 					}
-					qry2 = qry2 + ")";
-					objsList1 = jdbcTemplate.query( qry2,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
-					obj.setdList(objsList1);
+				}
+				objsList1 = jdbcTemplate.query( qry1, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
+				obj.setdList(objsList1);
+				obj.setCountList(objsList1);
+				if(objsList1.size() > 0) {
+					Object[] pValues  = new Object[objsList1.size()];
+					  String qry2 = "select `contract_type` from contract_type where `contract_type` NOT IN (?";
+	
+						int j =0, p=1;
+						for (TrainingType aObj : obj.getdList()) {
+							pValues[j++] = aObj.getContract_type();
+							if( objsList1.size() >  p) {
+								qry2 = qry2 + ",?";
+								p++;
+							}
+						}
+						qry2 = qry2 + ")";
+						objsList1 = jdbcTemplate.query( qry2,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
+						obj.setdList(objsList1);
+				}else {
+					 obj.setdList(objsList);
+				}
 			}else {
-				 obj.setdList(objsList);
+				obj.setdList(objsList);
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();

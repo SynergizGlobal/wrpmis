@@ -48,37 +48,43 @@ public class BackgroundTypeDaoImpl implements BackgroundTypeDao{
 			
 			List<TrainingType> tablesList = getTablesList(obj);
 			obj.setTablesList(tablesList);
-			
-			List<TrainingType> list = getDataDetails( obj);
-			obj.setBankGaurenteeList(list);
-			String qry1 = "";
-			int i = 1;
-			for (TrainingType bObj : obj.getBankGaurenteeList()) {
-				
-				qry1 = qry1 +"select "+bObj.getColumn_name()+" as bg_type_fk,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
-				if( list.size() >  i) {
-					qry1 = qry1 + " UNION ";
-					i++;
+			if(tablesList.size() > 0) {
+				List<TrainingType> list = getDataDetails( obj);
+				obj.setBankGaurenteeList(list);
+				String qry1 = "";
+				int i = 1;
+				for (TrainingType bObj : obj.getBankGaurenteeList()) {
+					
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as bg_type_fk,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					if( list.size() >  i) {
+						qry1 = qry1 + " UNION ";
+						i++;
+					}
 				}
-			}
-			objsList1 = jdbcTemplate.query( qry1, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
-			obj.setBankGaurenteeList(objsList1);
-			obj.setCountList(objsList1);
-			
-			String qry2 = "select bg_type from bg_type where bg_type NOT IN (?";
-
-			Object[] pValues = new Object[objsList1.size()];
-			int j =0, p=1;
-			for (TrainingType aObj : obj.getBankGaurenteeList()) {
-				pValues[j++] = aObj.getBg_type_fk();
-				if( objsList1.size() >  p) {
-					qry2 = qry2 + ",?";
-					p++;
+				objsList1 = jdbcTemplate.query( qry1, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
+				obj.setBankGaurenteeList(objsList1);
+				obj.setCountList(objsList1);
+				if(objsList1.size() > 0) {
+					String qry2 = "select bg_type from bg_type where bg_type NOT IN (?";
+		
+					Object[] pValues = new Object[objsList1.size()];
+					int j =0, p=1;
+					for (TrainingType aObj : obj.getBankGaurenteeList()) {
+						pValues[j++] = aObj.getBg_type_fk();
+						if( objsList1.size() >  p) {
+							qry2 = qry2 + ",?";
+							p++;
+						}
+					}
+					qry2 = qry2 + ")";
+					objsList1 = jdbcTemplate.query( qry2,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
+					obj.setBankGaurenteeList(objsList1);
+				}else {
+					 obj.setdList(objsList);
 				}
+			}else {
+				obj.setdList(objsList);
 			}
-			qry2 = qry2 + ")";
-			objsList1 = jdbcTemplate.query( qry2,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
-			obj.setBankGaurenteeList(objsList1);
 		}catch(Exception e){ 
 		throw new Exception(e.getMessage());
 		}

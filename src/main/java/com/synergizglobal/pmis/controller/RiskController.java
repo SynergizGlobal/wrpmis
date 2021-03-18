@@ -123,7 +123,7 @@ public class RiskController {
 					// Creates a worksheet object representing the first sheet
 					int sheetsCount = workbook.getNumberOfSheets();
 					if(sheetsCount > 0) {
-						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(2);
+						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(1);
 						//System.out.println(uploadFilesSheet.getSheetName());
 						//header row
 						XSSFRow headerRow = risksDrawingsSheet.getRow(2);
@@ -234,7 +234,7 @@ public class RiskController {
 				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
 				int sheetsCount = workbook.getNumberOfSheets();
 				if(sheetsCount > 0) {
-					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(2);
+					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(1);
 					//System.out.println(uploadFilesSheet.getSheetName());
 					//header row
 					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							

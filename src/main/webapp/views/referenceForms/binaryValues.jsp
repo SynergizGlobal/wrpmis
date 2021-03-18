@@ -400,6 +400,7 @@
  	            closeOnCancel: false
  	        }, function (isConfirm) {
  	            if (isConfirm) {
+ 	            	$(".page-loader").show();
  	               // swal("Deleted!", "Record has been deleted", "success");
  	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-binary-values');
  	    	    	$('#getForm').submit();

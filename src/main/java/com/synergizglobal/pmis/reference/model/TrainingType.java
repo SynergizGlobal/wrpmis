@@ -14,7 +14,7 @@ public class TrainingType {
 	deliverable_type_new,document_type_old,document_type_new,value_old,value_new,general_status,category,priority,status_of_new,status_of,manual_folders,module_name
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
 	,impact,root_cause,structure_type, user_role_code_new,user_access_table_new,user_access_type_val,short_description,short_description_new,area, item_no,
-	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category;
+	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category,zonal_railway_funds;
 
 
 	private List<TrainingType> bankGaurenteeList;
@@ -23,6 +23,14 @@ public class TrainingType {
 	private List<TrainingType> countList;
 	private List<TrainingType> dList;
 	private List<TrainingType> dList1;
+
+	public String getZonal_railway_funds() {
+		return zonal_railway_funds;
+	}
+
+	public void setZonal_railway_funds(String zonal_railway_funds) {
+		this.zonal_railway_funds = zonal_railway_funds;
+	}
 
 	public String getSub_category() {
 		return sub_category;

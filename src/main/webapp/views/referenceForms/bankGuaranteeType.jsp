@@ -395,6 +395,7 @@
 	            closeOnCancel: false
 	        }, function (isConfirm) {
 	            if (isConfirm) {
+	            	$(".page-loader").show();
 	               // swal("Deleted!", "Record has been deleted", "success");
 	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-bank-guarantee-type');
 	    	    	$('#getForm').submit();

@@ -394,6 +394,7 @@
      		        }, function (isConfirm) {
      		            if (isConfirm) {
      		               // swal("Deleted!", "Record has been deleted", "success");
+     		                $(".page-loader").show();
      		            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-report-type');
      		    	    	$('#getForm').submit();
      		           }else {

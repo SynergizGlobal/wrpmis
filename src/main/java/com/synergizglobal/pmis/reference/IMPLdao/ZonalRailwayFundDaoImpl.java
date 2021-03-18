@@ -11,11 +11,12 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.synergizglobal.pmis.reference.Idao.UserRoleDao;
+import com.synergizglobal.pmis.reference.Idao.ZonalRailwayFundDao;
 import com.synergizglobal.pmis.reference.model.TrainingType;
+
 @Repository
-public class UserRoleDaoImpl implements UserRoleDao{
-	
+public class ZonalRailwayFundDaoImpl implements ZonalRailwayFundDao{
+
 	@Autowired
 	DataSource dataSource;
 	
@@ -23,44 +24,12 @@ public class UserRoleDaoImpl implements UserRoleDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<TrainingType> getUserRolesList() throws Exception {
-		List<TrainingType> objsList = null;
-		try {
-			String qry ="select user_role_name, user_role_code from user_role ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public boolean addUserRole(TrainingType obj) throws Exception {
-		boolean flag = false;
-		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO user_role"
-					+ "( user_role_name, user_role_code) VALUES (:user_role_name, :user_role_code)";
-			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
-				flag = true;
-			}
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e.getMessage());
-		}
-		return flag;
-	}
-
-	@Override
-	public TrainingType getUserRoleDetails(TrainingType obj) throws Exception {
+	public TrainingType getZonalRailwayDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select user_role_name, user_role_code from user_role ";
+			String qry ="select `zonal_railway_funds` from zonal_railway_funds ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -74,7 +43,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `user_role_name`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `zonal_railway_funds`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -85,11 +54,11 @@ public class UserRoleDaoImpl implements UserRoleDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select user_role_name, user_role_code from user_role where `user_role_name` NOT IN (?";
+					  String qry2 = "select `zonal_railway_funds` from zonal_railway_funds where `zonal_railway_funds` NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
-							pValues[j++] = aObj.getUser_role_name();
+							pValues[j++] = aObj.getZonal_railway_funds();
 							if( objsList1.size() >  p) {
 								qry2 = qry2 + ",?";
 								p++;
@@ -98,6 +67,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 						qry2 = qry2 + ")";
 						objsList1 = jdbcTemplate.query( qry2,pValues, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));
 						obj.setdList(objsList1);
+						
 				}else {
 					 obj.setdList(objsList);
 				}
@@ -115,7 +85,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 		List<TrainingType> tablesList = null;
 		try {
 			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'user_role' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'zonal_railway_funds' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -130,7 +100,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 		List<TrainingType> list = null;
 		try {
 			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'user_role' and TABLE_SCHEMA = 'pmis' ";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'zonal_railway_funds' and TABLE_SCHEMA = 'pmis'";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -139,11 +109,29 @@ public class UserRoleDaoImpl implements UserRoleDao{
 		}
 		return list;
 	}
-
-
+	
+	@Override
+	public boolean addZonalRailwayFund(TrainingType obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "INSERT INTO zonal_railway_funds"
+					+ "( zonal_railway_funds) VALUES (:zonal_railway_funds)";
+			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
 
 	@Override
-	public boolean updateUserRole(TrainingType obj) throws Exception {
+	public boolean updateZonalRailwayFund(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
@@ -156,7 +144,7 @@ public class UserRoleDaoImpl implements UserRoleDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE user_role SET `user_role_name`= :value_new,user_role_code= :user_role_code_new WHERE `user_role_name`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE zonal_railway_funds SET `zonal_railway_funds`= :value_new WHERE `zonal_railway_funds`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -181,13 +169,13 @@ public class UserRoleDaoImpl implements UserRoleDao{
 	}
 
 	@Override
-	public boolean deleteUserRole(TrainingType obj) throws Exception {
+	public boolean deleteZonalRailwayFund(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from user_role WHERE `user_role_name`= :user_role_name; ";
+			String deleteQry ="DELETE from zonal_railway_funds WHERE `zonal_railway_funds`= :zonal_railway_funds; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -199,4 +187,3 @@ public class UserRoleDaoImpl implements UserRoleDao{
 		return flag;
 	}
 }
-

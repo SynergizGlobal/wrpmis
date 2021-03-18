@@ -115,7 +115,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 		List<TrainingType> tablesList = null;
 		try {
 			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'user_access_type' group by TABLE_NAME";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'user_access_type' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -130,7 +130,7 @@ public class UserAccessTypeDaoImpl implements UserAccessTypeDao{
 		List<TrainingType> list = null;
 		try {
 			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'user_access_type' and COLUMN_NAME <> 'user_role_fk' ";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'user_access_type' and TABLE_SCHEMA = 'pmis' ";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 

@@ -202,6 +202,8 @@ public class PageConstants {
 	
 	public static final String referenceFormsMainPage = "referenceForms/referenceFormsMainPage";
 	
+	public static final String zonalRailwayFunds = "referenceForms/zonalRailwayFunds";
+	
 }
 
 

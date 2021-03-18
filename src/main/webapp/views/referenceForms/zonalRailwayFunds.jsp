@@ -85,11 +85,51 @@
                                     <thead>
                                         <tr>
                                             <th>Zonal Railway Funds</th>
+                                             <c:forEach var="tObj" items="${zonalRailwayDetails.tablesList}" >
+                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
+										<c:forEach var="obj" items="${zonalRailwayDetails.dList1}" varStatus="indexs">
+											<tr><td>
+												<input type="hidden" id="zonal_railway_fundsId${indexs.count}" value="${obj.zonal_railway_funds }" />
+												${obj.zonal_railway_funds }</td>
+											<c:forEach var="tObj" items="${zonalRailwayDetails.tablesList}" varStatus="index">
+												<td><c:forEach var="cObj" items="${zonalRailwayDetails.countList}" >
+												<c:choose> 
+													    <c:when test="${tObj.tName eq cObj.tName }"> 
+													    
+													    		<c:choose>  
+																    <c:when test="${cObj.zonal_railway_funds eq obj.zonal_railway_funds }"> 
+																      	 ( ${cObj.count } )   
+																    </c:when>  
+																    <c:otherwise>  
+																    </c:otherwise>   
+															</c:choose>
+														</c:when>
+														<c:otherwise> 
+													   </c:otherwise>
+												</c:choose>
+												</c:forEach></td>
+                                            </c:forEach>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+										 	<c:forEach var="oSbj"  items="${zonalRailwayDetails.dList}" varStatus="indexx"> 
+												 
+												<c:choose>  
+												    <c:when test="${oSbj.zonal_railway_funds eq obj.zonal_railway_funds }"> 
+												      	<a onclick="deleteRow('${ oSbj.zonal_railway_funds }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
+												      	</a>
+												    </c:when>  
+												    <c:otherwise>  
+												    </c:otherwise>   
+												</c:choose>  
+												
+ 											 </c:forEach>
+ 											</td></tr>												  
+ 										  </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -104,8 +144,8 @@
 
 
     <!-- Modal Structure -->
-    <div id="onlyUpdateModal" class="modal">
-        <form action="#">
+    <div id="#addUpdateModal" class="modal">
+       	<form action="<%=request.getContextPath() %>/add-zonal-railway-funds" id="zonalRailwayFundsForm" name="zonalRailwayFundsForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h4 class="modal-header">Add Zonal Railway Funds <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h4>
@@ -114,22 +154,21 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="zonal_railway_type_text" type="text" class="validate">
+                                <input id="zonal_railway_type_text" name="zonal_railway_funds" type="text" class="validate">
                                 <label for="zonal_railway_type_text">Zonal Railway Funds</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button style="width: 100%;" onclick="addNewRow()"
-                                        class="btn waves-effect waves-light bg-m">Add /
-                                        Edit</button>
+                                    <button style="width: 100%;" onclick="addZonalRailwayFunds()"
+                                        class="btn waves-effect waves-light bg-m">Add </button>
                                 </div>
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <button class="btn waves-effect waves-light bg-s modal-action modal-close"
-                                        style="width:100%">Cancel</button>
+                                    <a href="<%=request.getContextPath()%>/zonal-railway-funds"
+									class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -141,16 +180,46 @@
 
         </form>
     </div>
+	 <div id="onlyUpdateModal" class="modal">
+		 <form action="<%=request.getContextPath() %>/update-zonal-railway-funds" id=updateZonalRailwayFundsForm name="updateZonalRailwayFundsForm" method="post" class="form-horizontal" role="form">
+            <div class="modal-content">
+                <h5 class="modal-header bg-m">Update Zonal Railway Funds <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h5>
+                <div class="row">
+                    <div class="col m2 hide-on-small"></div>
+                    <div class="col m8 s12">
+                       <div class="row no-mar">
+                         <div class="input-field col s12 m12">
+                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Zonal Railway Funds</label>
+                                <span id="value_newError" class="error-msg" ></span>
+                         </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                    <button style="width: 100%;" onclick="updateZonalRailwayFunds()"
+                                        class="btn waves-effect waves-light bg-m">Update</button>
+                                </div>
+                            </div>
+                             <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                  <!--   <button
+                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+                                        style="width:100%">Cancel</button> -->
+                                        <a href="<%=request.getContextPath()%>/zonal-railway-funds"
+									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col m2 hide-on-small"></div>
+                </div>
 
-    <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
-            <div class="row center-align" style="margin-bottom: 0;">
-                <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
             </div>
 
-        </div>
+        </form>
     </div>
 
 <div class="page-loader" style="display: none;">
@@ -170,18 +239,22 @@
     
     <!-- footer  -->
 
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="zonal_railway_funds" id="zonal_railway_funds" />
+    </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 
     <script>
         $(document).ready(function () {
             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
-
+/* 
             // adding table data into table start
             var arr = ['MMRDA', 'MRVC\'s Surlus Fund', 'MUTP'];
             var table_text = '';
@@ -189,7 +262,7 @@
                 table_text = table_text + ' <tr><td>' + val + '</td>' + '<td class="last-column"> <a href="#" class="btn waves-effect waves-light bg-m t-c" onclick="updateRow(' + (i + 1) + ')">' +
                     '<i class="fa fa-pencil"></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>';
             });
-            $('#zonal_railway_type_table tbody').append(table_text);
+            $('#zonal_railway_type_table tbody').append(table_text); */
             // adding table data into table ends
 
             var table = $('#zonal_railway_type_table').DataTable({
@@ -212,23 +285,99 @@
                 }
             });
         });
-        function addNewRow() {
-            var rowArray = [];
-            rowArray.push($('#zonal_railway_type_text').val());
-            rowArray.push($.trim('<a href="#" class="btn waves-effect waves-light bg-m t-c "> <i class="fa fa-pencil"></i> </a><a href="#" class="btn waves-effect waves-light bg-s t-c "> <i class="fa fa-trash"></i> </a>'));
-            console.log($.fn.DataTable());
-            var table = $.fn.dataTable();
-            table.row.add(rowArray).draw();
+
+        function addZonalRailwayFunds(){
+           	 if(validator.form()){ 
+       			$(".page-loader").show();
+       			$("#addUpdateModal").modal();
+       			document.getElementById("zonalRailwayFundsForm").submit();	
+           	}
         }
+        function updateZonalRailwayFunds(){
+        	 if(validator1.form()){ 
+     			$(".page-loader").show();
+     			$("#onlyUpdateModal").modal();
+     			document.getElementById("updateZonalRailwayFundsForm").submit();	
+         }
+     }
+        var validator =	$('#zonalRailwayFundsForm').validate({
+       	 rules: {
+       		 "zonal_railway_funds": {
+			 		  required: true
+			 	  }
+       	},messages: {
+	 		   "zonal_railway_funds": {
+		 		  required: 'Required'
+		 	  }
+        },errorPlacement:function(error, element){
+        	 if(element.attr("id") == "training_type_text" ){
+			     document.getElementById("training_typeError").innerHTML="";
+		 	     error.appendTo('#training_typeError');
+			 }
+        }
+      });
+      var validator1 = $('#updateZonalRailwayFundsForm').validate({
+          	 rules: {
+          		 	"value_new": {
+      			 		  required: true
+          			 }
+      			},messages: {
+      		 		 "value_new": {
+      			 		  required: 'Required'
+      			 	 }
+      	        },errorPlacement:function(error, element){
+      	        	 if(element.attr("id") == "value_new" ){
+      				     document.getElementById("value_newError").innerHTML="";
+      			 	     error.appendTo('#value_newError');
+      			   }
+      	        }
+          });
+        
+        $('input').change(function(){
+      	           if ($(this).val() != ""){
+      	               $(this).valid();
+      	           }
+      	   });
+
+
         function updateRow(no) {
-            var currentVal = $('#zonal_railway_type_table tbody tr:nth-of-type(' + no + ')').find('td:nth-of-type(1)').text();
+            var zonal_railway_funds = $('#zonal_railway_fundsId'+no).val();
+            $('#value_old').val($.trim(zonal_railway_funds))
             $('#onlyUpdateModal').modal('open');
-            $('#zonal_railway_type_text').val(currentVal).focus();
+            $('#onlyUpdateModal #value_new').val($.trim(zonal_railway_funds)).focus();
         }
+        
+        function deleteRow(val){
+        	$("#zonal_railway_funds").val(val);
+        	showCancelMessage();
+      	    }
+        	
+        
+        function showCancelMessage() {
+          	swal({
+      	            title: "Are you sure?",
+      	            text: "You will be able to change the status of record!",
+      	            type: "warning",
+      	            showCancelButton: true, 
+      	            confirmButtonColor: "#DD6B55",
+      	            confirmButtonText: "Yes, delete it!",
+      	            cancelButtonText: "No, cancel it!",
+      	            closeOnConfirm: false,
+      	            closeOnCancel: false
+      	        }, function (isConfirm) {
+      	            if (isConfirm) {
+      	               // swal("Deleted!", "Record has been deleted", "success");
+      	                $(".page-loader").show();
+      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-zonal-railway-funds');
+      	    	    	$('#getForm').submit();
+      	           }else {
+      	                swal("Cancelled", "Record is safe :)", "error");
+      	            }
+      	        });
+      	    }
+      </script>
 
-    </script>
+      </body>
 
-  </body>
 
-  </html>
- 
+   </html>

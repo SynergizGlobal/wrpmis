@@ -56,17 +56,5 @@ public class ActivitiesProgressReportServiceImpl implements ActivitiesProgressRe
 			throws Exception {
 		return dao.getActivitiesReportData(obj);
 	}
-	
-	/*****************************************************************************************************/
-
-	@Override
-	public List<ActivitiesProgressReport> getStripChartDPRReportData(ActivitiesProgressReport obj) throws Exception {
-		return dao.getStripChartDPRReportData(obj);
-	}
-
-	@Override
-	public ActivitiesProgressReport getStripChartDPRReportDetails(ActivitiesProgressReport obj) throws Exception {
-		return dao.getStripChartDPRReportDetails(obj);
-	}
 
 }

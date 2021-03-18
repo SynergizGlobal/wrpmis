@@ -647,10 +647,11 @@ public class UserDaoImpl implements UserDao{
 		List<User> objsList = null;
 		try {
 			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
-					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name "
+					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name,usr.designation as reporting_to_designation,u.user_type_fk  "
 					+ "from user u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
 					+ "LEFT OUTER JOIN user usr ON u.reporting_to_id_srfk = usr.user_id "
+					+ "LEFT OUTER JOIN user_type ut ON u.user_type_fk = ut.user_type "
 					+ "where u.user_id is not null and u.user_id <> ?" ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {

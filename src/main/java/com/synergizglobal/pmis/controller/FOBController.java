@@ -34,10 +34,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.Iservice.FOBService;
 import com.synergizglobal.pmis.Iservice.HomeService;
-import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants2;
@@ -60,7 +60,7 @@ public class FOBController {
 	FOBService fobService;
 	
 	@Autowired
-	StripChartService stripChartService;
+	ActivitiesService activitiesService;
 	
 	@Autowired
 	HomeService homeService;

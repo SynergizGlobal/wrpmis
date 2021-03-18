@@ -23,9 +23,5 @@ public interface ActivitiesProgressReportDao {
 
 	Map<ActivitiesProgressReport, Map<String, List<ActivitiesProgressReport>>> getActivitiesReportData(ActivitiesProgressReport obj) throws Exception;
 	
-	/****************************************************************************************/
-
-	List<ActivitiesProgressReport> getStripChartDPRReportData(ActivitiesProgressReport obj) throws Exception;
-
-	ActivitiesProgressReport getStripChartDPRReportDetails(ActivitiesProgressReport obj) throws Exception;
+	
 }

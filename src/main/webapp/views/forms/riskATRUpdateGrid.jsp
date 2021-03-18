@@ -94,16 +94,15 @@
                     <div class="">
                     <c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
-							   ${success} <a href="javascript:void(0);" onclick="closeTab();" class="link-btn">Close Tab</a> 
+							   ${success} 
 							</div> 
-							<%-- <div class="center-align m-1 close-message">	
-							   ${updateSuccess}<a href="javascript:void(0);" onclick="closeTab();" class="btn waves-effect waves-light bg-s">Close Tab</a> 
-							</div> --%>
+							 <br>
 						</c:if>
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">
-							   ${error}<a href="javascript:void(0);" onclick="closeTab();" class="link-btn">Close Tab</a> 
+							   ${error} 
 							</div>
+							<br>
 						</c:if>
                         
 
@@ -113,7 +112,7 @@
                              <div class="col m6 s12"> 
 								<div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Work</p>
-	                                  <select id="sub_work" name="sub_work" onchange="applyFilters();" class="searchable" required="required">
+	                                  <select id="sub_work" name="sub_work" onchange="addInQueSubWork(this.value);getRiskList();" class="searchable" required="required">
                                       	<option value="" >Select</option>	                                           
                                       </select>
 	                            </div>
@@ -127,7 +126,7 @@
 	                            
 	                            <div class="col s12 m4 input-field">
 	                                <p class="searchable_label">Assessment Date</p>
-	                                 <select id="assessment_date" name="assessment_date" onchange="applyFilters();" class="searchable">
+	                                 <select id="assessment_date" name="assessment_date" onchange="addInQueAssessmentDate(this.value);getRiskList();" class="searchable">
 	                                            <option value="" >Select </option>	                                           
 	                                 </select>
 	                            </div>
@@ -199,7 +198,7 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
-    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" target="_blank" method="post">
+    <form action="<%=request.getContextPath()%>/get-risk-assessment" name="getForm" id="getForm" method="post">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
     	<input type="hidden" name="risk_revision_id" id="risk_revision_id" />
     </form>
@@ -214,15 +213,33 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script type="text/javascript">       
-        var filtersMap = new Object(); 
-        filtersMap["sub_work"] = '';
-        filtersMap["assessment_date"] = '';
+        var filtersMap = new Object();
         $(document).ready(function () {
 	    	  $(".modal").modal();
 	          $('select:not(.searchable)').formSelect();
 	          $('.searchable').select2();
 	          $('.tabs').tabs();
-	          applyFilters();
+	          
+	          $('.close-message').delay(5000).fadeOut('slow');
+	          
+	          var filters = window.localStorage.getItem("riskFilters");
+	          
+	          if($.trim(filters) != '' && $.trim(filters) != null){
+	        	  var temp = filters.split('^'); 
+	        	  for(var i=0;i< temp.length;i++){
+		        	  if($.trim(temp[i]) != '' ){
+		        		  var temp2 = temp[i].split('=');
+			        	  if($.trim(temp2[0]) == 'sub_work' ){
+			        		  getSubWorksFilterList(temp2[1]);
+			        	  }else if($.trim(temp2[0]) == 'assessment_date'){
+			        		  getAssessmentDatesFilterList(temp2[1]);
+			        	  }
+		        	  }
+		          }
+	          }
+	          
+	          getRiskList();
+	          
         });
         
         
@@ -230,26 +247,26 @@
             $('#sub_work').val('');
             $('#assessment_date').val('');
             $('.searchable').select2();
-            applyFilters();            
+            window.localStorage.clear();
+            getRiskList();            
         }
         
-        function applyFilters(){
+        function addInQueSubWork(sub_work){
         	Object.keys(filtersMap).forEach(function (key) {
-   			 	var value = filtersMap[key];
-   			 	if(key == 'sub_work'){
-   			 		getSubWorksFilterList();
-   			 	}
-   			 	if(key == 'assessment_date'){
-   			 		getAssessmentDatesFilterList();
-			 	}
-   			});
-        	
-        	getRiskList();
-        	
-        	/* Object.getOwnPropertyNames(filtersMap).map(function (key) {
-	    		alert(key);
-	    	}) */
-    	
+	   			if(key.match('sub_work')) delete filtersMap[key];
+	   		});
+        	if($.trim(sub_work) != ''){
+       	    	filtersMap["sub_work"] = sub_work;
+        	}
+        }
+        
+        function addInQueAssessmentDate(assessment_date){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('assessment_date')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(assessment_date) != ''){
+            	filtersMap["assessment_date"] = assessment_date;
+	      	}
         }
         
         function getRiskList(){
@@ -259,9 +276,15 @@
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
         	
-        	Object.getOwnPropertyNames(filtersMap).map(function (key) {
+        	getAssessmentDatesFilterList('');
+        	getSubWorksFilterList('');
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
 	    		//alert(filtersMap[key]);
-	    	});
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("riskFilters", filters);
+   			});
         	
         	table = $('#datatable-risk').DataTable();
     		table.destroy();
@@ -332,17 +355,10 @@
        }
         
         
-        function getSubWorksFilterList() {
+        function getSubWorksFilterList(work) {
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
-        	
-        	if($.trim(sub_work) != ''){
-        		Object.keys(filtersMap).forEach(function (key) {
-        			 if(key.match('sub_work')) delete filtersMap[key];
-        		});
-        		filtersMap["sub_work"] = sub_work;
-        	}
             if ($.trim(sub_work) == "") {
             	$("#sub_work option:not(:first)").remove();
             	var myParams = {sub_work : sub_work,assessment_date : assessment_date};
@@ -352,7 +368,9 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	$("#sub_work").append('<option value="' + val.sub_work + '">' + $.trim(val.sub_work) +'</option>');
+                            	var selectedFalg = '';
+                            	if(work == val.sub_work){selectedFalg = 'selected'};
+                            	$("#sub_work").append('<option value="' + val.sub_work + '" '+selectedFalg+'>' + $.trim(val.sub_work) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -367,17 +385,12 @@
             }
         }
         
-        function getAssessmentDatesFilterList() {
+        function getAssessmentDatesFilterList(date) {
         	$(".page-loader").show();
         	var sub_work = $("#sub_work").val();
         	var assessment_date = $("#assessment_date").val();
         	
-        	if($.trim(assessment_date) != ''){
-        		Object.keys(filtersMap).forEach(function (key) {
-        			 if(key.match('assessment_date')) delete filtersMap[key];
-        		});
-        		filtersMap["assessment_date"] = assessment_date;
-        	}
+        	
             if ($.trim(assessment_date) == "") {            	
             	$("#assessment_date option:not(:first)").remove();
         		var myParams = {sub_work : sub_work,assessment_date : assessment_date};
@@ -387,7 +400,9 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#assessment_date").append('<option value="' + val.assessment_date + '">' + $.trim(val.assessment_date)   +'</option>');
+                            	var selectedFalg = '';
+                            	if(date == val.assessment_date){selectedFalg = 'selected'}
+    	                        $("#assessment_date").append('<option value="' + val.assessment_date + '" '+selectedFalg+'>' + $.trim(val.assessment_date)   +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -428,10 +443,6 @@
         	    }
         	    console.log(msg);
          }
-        
-        function closeTab(){
-        	 window.top.close();
-        }
         
     </script>
 

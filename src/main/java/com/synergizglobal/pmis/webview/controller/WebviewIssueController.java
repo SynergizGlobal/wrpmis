@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Iservice.IssueService;
-import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.MobilePageConstants2;
 import com.synergizglobal.pmis.controller.IssueController;
@@ -44,7 +44,7 @@ public class WebviewIssueController {
 	IssueService issueService;
 	
 	@Autowired
-	StripChartService stripChartService;
+	ActivitiesService activitiesService;
 	
 	@Autowired
 	HomeService homeService;

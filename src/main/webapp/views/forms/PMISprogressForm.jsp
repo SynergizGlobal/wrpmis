@@ -164,7 +164,7 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="<%=request.getContextPath() %>/update=pmis-progrss-form" id="progressForm" name="progressForm" method="post" >
+                    <form action="<%=request.getContextPath() %>/update-pmis-progrss-form" id="progressForm" name="progressForm" method="post" >
                         <div class="row" style="margin-bottom: 0;">
                             <div class="col m1 hide-on-small-only"></div>
                             <div class="col m10 s12">

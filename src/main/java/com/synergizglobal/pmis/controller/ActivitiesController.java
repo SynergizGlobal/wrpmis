@@ -25,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.IssueService;
-import com.synergizglobal.pmis.Iservice.StripChartService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;

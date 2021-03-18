@@ -93,6 +93,21 @@
 		.support-link >a:hover{
 		    color: #26a69a !important;
 		}
+		
+		.page-loader ,.page-loader-2,.page-loader-3{
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+		.preloader-wrapper{
+		    top: 45%!important;
+		    left:47%!important;
+		}
+
     </style>
 </head>
 
@@ -164,6 +179,10 @@
         
     		<div class="row mar-top">
      			<div id="support" class="col"></div>
+     			
+     			<!-- <h3 style="color: #fff;">System IP Address : <span id="systemIPA">Loading...</span></h3>
+                <h3 style="color: #fff;">Public IP Address : <span id="publicIPA">Loading...</span></h3> -->
+                
 		        <form class="col s12 m3 " action="<%=request.getContextPath()%>/login" id="loginForm" name="loginForm" method="post" >
 		        	<div class="row homepage">
 			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
@@ -177,7 +196,6 @@
 			              <label for="password">Password</label>
 			             <!--  <i class="fa fa-eye toggle-password" style="color:#fff;">.</i> -->
 			              <span class="material-icons toggle-password">visibility_off</span>
-			              
 			            </div>
 			            <div class="msg">
 			             	<p id="message" class="error">${message}</p>
@@ -185,6 +203,8 @@
 			                   	<p id="logoutMsg" class="success">${success}</p>
 			               	</c:if>
 			            </div>
+			            <input type="hidden" id="system_ipa" name="system_ipa">
+			            <input type="hidden" id="public_ipa" name="public_ipa">
 			            <div class="input-field col offset-s1 s10 text-center">
 			            	<button type="submit" class="btn bgb" style="width:100%">Submit</button>
 			               <!--  <input type="submit" class="btn-outline waves-effect waves-light" value="Go">
@@ -195,6 +215,40 @@
 		         </form>
 	      	</div>
     	</div>
+    	
+    	<!-- Page Loader -->
+	<div class="page-loader">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="page-loader-2">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
       <!-- footer starts here -->
 
       <footer class="page-footer">
@@ -204,22 +258,38 @@
                 <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
         			<img src="/pmis/resources/images/help_icon_white.svg">        
         		</a>
-        </p>
-          <!-- Dropdown Structure -->
-	  <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-	    <li><a href="/pmis/PMIS User Manual Ver-1.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
-	    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
-	    <li class="divider" tabindex="-1"></li>
-	    <li class="support-link"> Contact us :  <br> <a href="mailto:support_pmis@mrvc.gov.in">support_pmis@mrvc.gov.in</a></li>
-	  </ul>
+        	</p>
+	          <!-- Dropdown Structure -->
+			  <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
+			    <li><a href="/pmis/PMIS User Manual Ver-1.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
+			    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
+			    <li class="divider" tabindex="-1"></li>
+			    <li class="support-link"> Contact us :  <br> <a href="mailto:support_pmis@mrvc.gov.in">support_pmis@mrvc.gov.in</a></li>
+			  </ul>
         </div>
-    </footer>
+      </footer>
           <!-- footer ends here -->
-<script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
-<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-<script type="text/javascript">
+	<script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
+	<script type="text/javascript">
 			$(document).ready(function() {	
+				
+				
+				$.getJSON("https://jsonip.com?callback=?", function (data) {
+					$(".page-loader").hide();
+			        //$("#systemIPA").html(data.ip);
+			        $("#system_ipa").val(data.ip);
+			    });
+		    	
+		    	$.getJSON("https://api.ipify.org?format=json",  function(data) { 
+		    		$(".page-loader-2").hide();
+					//$("#publicIPA").html(data.ip); 
+		    		$("#public_ipa").val(data.ip); 
+			    }); 	
+		    	
+				
+				
 		    	 if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0) {
 			       $('#user_id').on('change focus active click', function (e) {
 			            setTimeout(function () {

@@ -78,7 +78,9 @@ public class LoginDaoImpl implements LoginDao{
 				userDetails.setUser_type_fk(rs.getString("user_type_fk"));
 				
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
-					saveUserLoginDetails(userDetails.getUser_id(),con);
+					userDetails.setSystem_ipa(user.getSystem_ipa());
+					userDetails.setPublic_ipa(user.getPublic_ipa());
+					saveUserLoginDetails(userDetails,con);
 				}else {
 					throw new NoKeyException(noKeyAssigned);
 				}
@@ -93,17 +95,20 @@ public class LoginDaoImpl implements LoginDao{
 	}
 	
 	
-	public boolean saveUserLoginDetails(String user_id, Connection con) throws SQLException {
+	public boolean saveUserLoginDetails(User uObj, Connection con) throws SQLException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		boolean flag = false;
 		try {			
 			
-			String insertQry = "INSERT INTO user_login (user_id_fk,login_event_date,login_event_type_fk)"  
-					+ " VALUES (?,CURRENT_TIMESTAMP,?)";
+			String insertQry = "INSERT INTO user_login (user_id_fk,login_event_date,login_event_type_fk,system_ipa,public_ipa)"  
+					+ " VALUES (?,CURRENT_TIMESTAMP,?,?,?)";
 			stmt = con.prepareStatement(insertQry);
-			stmt.setString(1,user_id );
-			stmt.setString(2,CommonConstants2.LOGIN_EVENT_TYPE_LOGIN );
+			int p = 1;
+			stmt.setString(p++,uObj.getUser_id());
+			stmt.setString(p++,CommonConstants2.LOGIN_EVENT_TYPE_LOGIN );
+			stmt.setString(p++,uObj.getSystem_ipa());
+			stmt.setString(p++,uObj.getPublic_ipa());
 			
 			int c = stmt.executeUpdate();
 			if (c > 0) {

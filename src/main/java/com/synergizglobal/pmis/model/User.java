@@ -23,6 +23,7 @@ public class User  {
 	
 	private String[] user_access_types,user_access_values;
 
+	private String system_ipa,public_ipa;
 
 	public String getLogin_event_date() {
 		return login_event_date;
@@ -548,6 +549,26 @@ public class User  {
 
 	public void setLast30DaysLogins(String last30DaysLogins) {
 		this.last30DaysLogins = last30DaysLogins;
+	}
+
+
+	public String getSystem_ipa() {
+		return system_ipa;
+	}
+
+
+	public void setSystem_ipa(String system_ipa) {
+		this.system_ipa = system_ipa;
+	}
+
+
+	public String getPublic_ipa() {
+		return public_ipa;
+	}
+
+
+	public void setPublic_ipa(String public_ipa) {
+		this.public_ipa = public_ipa;
 	}
 	
 	

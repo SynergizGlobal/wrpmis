@@ -87,6 +87,9 @@
         .select2-container--default .select2-selection--single {
             background-color: transparent;
         }
+        .m-b-2{
+			margin-bottom:2rem;
+		}
     </style>
 </head>
 
@@ -103,7 +106,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
 									<c:if test="${action eq 'edit'}">Update Form</c:if>
 		 							<c:if test="${action eq 'add'}"> Add Form</c:if>
@@ -239,7 +242,7 @@
 			                                                            <span id="access_value${index.count }Error" class="error-msg"></span>
 			                                                        </td>
 																	<td>
-																		<a onclick="removeActions('${index.count }');" style="font-size: 20px;"> 
+																		<a onclick="removeActions('${index.count }');" class="btn red waves-effect waves-light"> 
 																		<i class="fa fa-close"></i></a>
 																	</td>
 																</tr>															
@@ -263,7 +266,7 @@
 		                                                            <span id="access_value0Error" class="error-msg"></span>
 		                                                        </td>
 																<td>
-																	<a onclick="removeActions('0');" style="font-size: 20px;"><i class="fa fa-close"></i></a>
+																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
 																</td>
 															</tr>
 														</c:otherwise>
@@ -442,7 +445,7 @@
              + '</select>' 
              + '<span id="access_value' + rNo + 'Error" class="error-msg"></span>' 
              + '</td>'
- 			+ '<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;"><i class="fa fa-close"></i></a></td></tr>';
+ 			+ '<td><a onclick="removeActions(' + rNo + ');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
  		
  			$('#detailsBody').append(html);
              $("#rowNo").val(rNo);

@@ -78,6 +78,9 @@
         .select2-container--default .select2-selection--single {
 		    background-color: transparent;
 		}
+		.m-b-2{
+			margin-bottom:2rem;
+		}
     </style>
 </head>
 
@@ -94,11 +97,11 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
-                                <h5>
+                            <div class="center-align p-2 bg-m m-b-2">
+                                <h6>
                                  <c:if test="${action eq 'edit'}">Update Dashboard</c:if>
 								 <c:if test="${action eq 'add'}"> Add Dashboard</c:if>
-                                </h5>
+                                </h6>
                             </div>
                         </span>
                     </div>
@@ -229,8 +232,8 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <input id="icon_path" name="icon_path" type="text" class="validate" value="${dashboardDetails.icon_path }">
-                                    <label for="dashboard_icon">Icon </label>
-                                    <span id="dashboard_iconError" class="error-msg"></span>
+                                    <label for="icon_path">Icon </label>
+                                    <span id="icon_pathError" class="error-msg"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <p class="searchable_label"> Status </p>
@@ -303,7 +306,7 @@
 			                                                            <span id="access_value${index.count }Error" class="error-msg"></span>
 			                                                        </td>
 																	<td>
-																		<a onclick="removeActions('${index.count }');" style="font-size: 20px;"> 
+																		<a onclick="removeActions('${index.count }');" class="btn red waves-effect waves-light"> 
 																		<i class="fa fa-close"></i></a>
 																	</td>
 																</tr>															
@@ -327,7 +330,7 @@
 		                                                            <span id="access_value0Error" class="error-msg"></span>
 		                                                        </td>
 																<td>
-																	<a onclick="removeActions('0');" style="font-size: 20px;"><i class="fa fa-close"></i></a>
+																	<a onclick="removeActions('0');" class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a>
 																</td>
 															</tr>
 														</c:otherwise>
@@ -548,7 +551,7 @@
             + '</select>' 
             + '<span id="access_value' + rNo + 'Error" class="error-msg"></span>' 
             + '</td>'
-			+ '<td><a onclick="removeActions(' + rNo + ');" style="font-size: 20px;"><i class="fa fa-close"></i></a></td></tr>';
+			+ '<td><a onclick="removeActions(' + rNo + ');"  class="btn red waves-effect waves-light"><i class="fa fa-close"></i></a></td></tr>';
 		
 			$('#detailsBody').append(html);
             $("#rowNo").val(rNo);

@@ -104,7 +104,10 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
-		        
+		      
+		.m-b-2{
+			margin-bottom:2rem;
+		}  
     </style>
 </head>
 <body>
@@ -118,7 +121,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
                                 	<c:if test="${action eq 'edit'}">Update User (${usrObj.user_id })</c:if>
 									<c:if test="${action eq 'add'}"> Add User</c:if>

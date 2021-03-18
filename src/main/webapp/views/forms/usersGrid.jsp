@@ -24,7 +24,9 @@
       	  .input-field .searchable_label{
         	font-size:0.85rem;
         } 
-      
+      .m-b-2{
+			margin-bottom:2rem;
+		}
     </style>
 </head>
 <body>
@@ -37,7 +39,7 @@
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title headbg">
-						<div class="center-align bg-m p-2 m-b-5">
+						<div class="center-align bg-m p-2 m-b-2">
 							<h6>Users</h6>
 						</div>
 					</span>
@@ -127,7 +129,7 @@
 									<div class="col s12 m3">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
-											style="margin-top: 20px; width: 100%"
+											style="margin-top: 10px; width: 100%"
 											onclick="clearFilter();">Clear Filters</button>
 									</div>
 								</div>

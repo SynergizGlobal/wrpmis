@@ -39,6 +39,9 @@
 		input[type=number] {
 		  -moz-appearance: textfield;
 		}
+		.m-b-2{
+			margin-bottom:2rem;
+		}
     </style>
 </head>
 <body>
@@ -51,7 +54,7 @@
                 <div class="card-content">
                     <div class="center-align">
                         <span class="card-title headbg">
-                            <div class="center-align p-2 bg-m">
+                            <div class="center-align p-2 bg-m m-b-2">
                                 <h6>Update Safety Incident</h6>
                             </div>
                         </span>
@@ -63,7 +66,6 @@
                                 <!-- row 4 -->
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                 <p class="searchable_label"> Project <span class="required">*</span></p>
                                    <%--  <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
@@ -71,18 +73,19 @@
                                             <option value="${obj.project_id }" <c:if test="${safety.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select> --%>
-                                    <input type="text"  value ="${safety.project_id_fk } - ${safety.project_name}" readonly/>
+                                    <input type="text"  value ="${safety.project_id_fk } - ${safety.project_name}" readonly id="project-text"/>
+                                    <label for="project-text">Project <span class="required">*</span></label>
                                     <input type="hidden" name="project_id_fk" id="project_id_fk" value ="${safety.project_id_fk }" />
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p class="searchable_label"> Work <span class="required">*</span></p>
                                   <!--   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
                                         <option value="" selected>Select</option>
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span> -->
-                                    <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly/>
+                                    <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly id="work-text"/>
+                                    <label for="work-text">Work <span class="required">*</span></label>
                                     <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -93,16 +96,16 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                     <!-- <input type="text" id="user_id"> -->
-                                    <label for="user_id" style="margin-top:10px">Safety ID : <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+                                    <label for="user_id" >Safety ID : <input id="safety_id" name="safety_id" type="text" value="${safety.safety_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                     <br><br>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                 <p class="searchable_label"> Contract <span class="required">*</span></p>
                                     <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span> -->
-                                    <input type="text"  value ="${safety.contract_id_fk } - ${safety.contract_short_name}" readonly/>
+                                    <input type="text"  value ="${safety.contract_id_fk } - ${safety.contract_short_name}" readonly id="contract-text"/>
+                                    <label for="contract-text">Contract <span class="required">*</span></label>
                                     <input type="hidden" name="contract_id_fk" id="contract_id_fk" value ="${safety.contract_id_fk }" />
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

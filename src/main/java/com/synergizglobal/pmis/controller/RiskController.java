@@ -410,7 +410,7 @@ public class RiskController {
 							msg = msg + arr[1] + " Risk added successfully. ";
 						}
 						
-						msg = msg + "<span style='color:green;'> "+msg+"</span>";
+						msg =  "<span style='color:green;'> "+msg+"</span>";
 					}
 					if(!StringUtils.isEmpty(risk_rows_error)) {
 						risk_rows_error = "<br><span style='color:red;'> Row no(s) " + risk_rows_error + " are not inserted (Reason : Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty. And Probability and impact should have values 1 or 3 or 5 ).</span> ";

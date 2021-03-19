@@ -106,13 +106,13 @@
                         <div class="row">
                            <div class="col s12 m4 input-field">
                             <p class="searchable_label">Work </p>
-                               <select id="work_id_fk" name="work_id_fk" onchange="getIssues();" class="searchable">
+                               <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getIssues();" class="searchable">
                                    <option value="">Select</option>                                      
                                </select>
                           </div>
                            <div class="col s12 m4 input-field">
                              <p class="searchable_label">Contract</p>
-                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getIssues();" class="searchable">
+                                 <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getIssues();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${contracts }">
 		                               	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
@@ -122,7 +122,7 @@
                            
                           <div class="col s12 m4 input-field">
                             <p class="searchable_label">HOD </p>
-                               <select id="hod" name="hod" onchange="getIssues();" class="searchable">
+                               <select id="hod" name="hod" onchange="addInQueHOD(this.value);getIssues();" class="searchable">
                                    <option value="">Select</option>                                      
                                </select>
                           </div>
@@ -133,7 +133,7 @@
 	                        <div class="row">
 	                        	<div class="col s12 m3 input-field">
 	                                <p class="searchable_label">Department</p>
-	                                <select id="department_fk" name="department_fk" onchange="getIssues();" class="searchable">
+	                                <select id="department_fk" name="department_fk" onchange="addInQueDepartment(this.value);getIssues();" class="searchable">
 	                                     <option value="" >Select</option>
 	                                     <%-- <c:forEach var="obj" items="${departments }">
 			                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
@@ -142,7 +142,7 @@
                             	</div>
 	                            <div class="col s12 m3 input-field">
 	                             <p class="searchable_label">Category</p>
-	                                 <select id="category_fk" name="category_fk" onchange="getIssues();" class="searchable">
+	                                 <select id="category_fk" name="category_fk" onchange="addInQueCategory(this.value);getIssues();" class="searchable">
 	                                     <option value="" >Select</option>
 	                                     <%-- <c:forEach var="obj" items="${categorys }">
 			                               	<option value="${obj.category_fk }" <c:if test="${param.category_fk eq obj.category_fk }">selected</c:if>>${obj.category_fk }</option>
@@ -151,7 +151,7 @@
 	                            </div>
 	                            <div class="col s12 m3 input-field">
 									 <p class="searchable_label">Status</p>                           
-	                                 <select id="status_fk" name="status_fk" onchange="getIssues();" class="searchable">
+	                                 <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getIssues();" class="searchable">
 	                                     <option value="" >Select</option>
 	                                     <%-- <c:forEach var="obj" items="${statuses }">
 			                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
@@ -217,11 +217,25 @@
 	    </div>
 	  </div>
 	</div> 
+	
+	<div class="page-loader-2" style="display: none;">
+	  <div class="preloader-wrapper big active">
+	    <div class="spinner-layer spinner-blue-only">
+	      <div class="circle-clipper left">
+	        <div class="circle"></div>
+	      </div><div class="gap-patch">
+	        <div class="circle"></div>
+	      </div><div class="circle-clipper right">
+	        <div class="circle"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div> 
 
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 	
-	<form action="<%=request.getContextPath()%>/get-issue" id="getForm" name="getForm" method="post" target="_blank">
+	<form action="<%=request.getContextPath()%>/get-issue" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="issue_id" id="issue_id"/>
     </form>
   
@@ -244,39 +258,38 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 
 	<script>
+	
+		var filtersMap = new Object();
+	
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
-        	$('.searchable').select2();
-           	var table = $('#datatable-issues').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] }
-                ],
-                // "ScrollX": true,
-                //"scrollCollapse": true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-        	table.state.clear(); 
-    		
+        	$('.searchable').select2();    		
         	
         	$('.close-message').delay(3000).fadeOut('slow');
+        	
+        	var filters = window.localStorage.getItem("issueFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^'); 
+        	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'hod' ){
+		        		  getHODListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+		        		  getWorksListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        		  getContractsListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+		        		  getDepartmentsListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'category_fk'){
+		        		  getCategoryListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'status_fk'){
+		        		  getStatusListFilter(temp2[1]);
+		        	  }
+	        	  }
+	          }
+            }
         	
         	getIssues();
         });
@@ -290,18 +303,75 @@
         	$("#status_fk").val("");  
         	$("#hod").val("");  
         	$(".searchable").select2();
+        	
+        	window.localStorage.clear();
+        	
         	getIssues();
+        }
+        
+        function addInQueHOD(hod){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('hod')) delete filtersMap[key];
+	   		});
+        	if($.trim(hod) != ''){
+       	    	filtersMap["hod"] = hod;
+        	}
+        }
+        
+        function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
+        
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+        
+        function addInQueDepartment(department_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('department_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(department_fk) != ''){
+            	filtersMap["department_fk"] = department_fk;
+	      	}
+        }
+        
+        function addInQueCategory(category_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('category_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(category_fk) != ''){
+       	    	filtersMap["category_fk"] = category_fk;
+        	}
+        }
+        
+        function addInQueStatus(status_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('status_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(status_fk) != ''){
+            	filtersMap["status_fk"] = status_fk;
+	      	}
         }
             
         function getIssues(){
         	$(".page-loader-2").show();
 
-        	getHODListFilter();
-        	getWorksListFilter();
-        	getContractsListFilter();
-        	getDepartmentsListFilter();
-        	getCategoryListFilter();
-        	getStatusListFilter();
+        	getHODListFilter('');
+        	getWorksListFilter('');
+        	getContractsListFilter('');
+        	getDepartmentsListFilter('');
+        	getCategoryListFilter('');
+        	getStatusListFilter('');
         	
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -310,7 +380,12 @@
         	var status_fk = $("#status_fk").val();
         	var hod = $("#hod").val();
         	
-        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("issueFilters", filters);
+   			});
          	
          	table = $('#datatable-issues').DataTable();
     		 
@@ -348,7 +423,10 @@
     		table.state.clear();		
     	 
     	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
+    				type:"POST",
+    				data:myParams, cache: false,async:false,
+    				success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var issue_id = "'"+val.issue_id+"'";
@@ -380,9 +458,11 @@
     	                    		                       
     					});
     	         		
-    	         		$(".page-loader-2").hide();
+    	         		//$(".page-loader-2").hide();
+    	         		$('.page-loader-2').delay(2000).fadeOut('slow');
     				}else{
-    					$(".page-loader-2").hide();
+    					//$(".page-loader-2").hide();
+    					$('.page-loader-2').delay(2000).fadeOut('slow');
     				}
     				
     			},error: function (jqXHR, exception) {
@@ -411,7 +491,7 @@
         	    }
         	    console.log(msg);
          }
-        function getWorksListFilter() {
+        function getWorksListFilter(work) {
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -430,8 +510,9 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var work_short_name = '';
-                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
- 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }                             	
+                            	var selectedFlag = (work == val.work_id_fk)?'selected':'';
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -447,7 +528,7 @@
         }
         
         
-        function getHODListFilter() {
+        function getHODListFilter(hod_designation) {
 
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -465,11 +546,12 @@
                      data: myParams, cache: false,async: false,
                      success: function (data) {
                          if (data.length > 0) {
-                             $.each(data, function (i, val) {
-                            	/*  var user_name = '';
-                             	if ($.trim(val.user_name) != '') { user_name = ' - ' + $.trim(val.user_name) }  */
-                             	var designation  = '${sessionScope.USER_DESIGNATION}';
-                            	var selectedFlag = (designation == val.designation)?'selected':'';
+                             $.each(data, function (i, val) {                             	
+                             	var selectedFlag = (hod_designation == val.designation)?'selected':'';
+                             	if($.trim(selectedFlag) != ''){
+                             		var designation  = '${sessionScope.USER_DESIGNATION}';
+                                	selectedFlag = (designation == val.designation)?'selected':'';
+                             	}
                             	$("#hod").append('<option value="' + val.designation + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                              });
                          }
@@ -485,7 +567,7 @@
              }
         }
         
-        function getContractsListFilter() {
+        function getContractsListFilter(contract) {
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -505,7 +587,8 @@
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
                             	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
- 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
+                            	var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -522,7 +605,7 @@
       	
        
         
-        function getDepartmentsListFilter() {
+        function getDepartmentsListFilter(department) {
          	$(".page-loader").show();
 
         	var work_id_fk = $("#work_id_fk").val();
@@ -541,7 +624,8 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	$("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_name) +'</option>');
+                            	var selectedFlag = (department == val.department_fk)?'selected':'';
+                            	$("#department_fk").append('<option value="' + val.department_fk + '" '+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -556,7 +640,7 @@
             }
         }
         
-        function getCategoryListFilter() {
+        function getCategoryListFilter(category) {
          	$(".page-loader").show();
 
         	var work_id_fk = $("#work_id_fk").val();
@@ -575,7 +659,8 @@
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
-                           	 	$("#category_fk").append('<option value="' + val.category_fk + '">' + $.trim(val.category_fk) +'</option>');
+                            	 var selectedFlag = (category == val.category_fk)?'selected':'';
+                           	 	 $("#category_fk").append('<option value="' + val.category_fk + '" '+selectedFlag+'>' + $.trim(val.category_fk) +'</option>');
                              });
                          }
                          $('.searchable').select2();
@@ -590,7 +675,7 @@
              }
         }
         
-        function getStatusListFilter() {
+        function getStatusListFilter(status) {
          	$(".page-loader").show();
 
         	var work_id_fk = $("#work_id_fk").val();
@@ -599,7 +684,6 @@
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
         	var hod = $("#hod").val();
-
             if ($.trim(status_fk) == "") {
                  $("#status_fk option:not(:first)").remove();
          	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
@@ -609,7 +693,8 @@
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
-                           	 	$("#status_fk").append('<option value="' + val.status_fk + '">' + $.trim(val.status_fk) +'</option>');
+                            	 var selectedFlag = (status == val.status_fk)?'selected':'';
+                           	 	 $("#status_fk").append('<option value="' + val.status_fk + '" '+selectedFlag+'>' + $.trim(val.status_fk) +'</option>');
                              });
                          }
                          $('.searchable').select2();

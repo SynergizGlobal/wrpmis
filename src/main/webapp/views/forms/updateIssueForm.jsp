@@ -244,12 +244,12 @@
 							<div class="row" style="margin-bottom:5px">
 							  <div class="col s12 m4 input-field offset-m2">
 					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
+					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
 					                 <option value="">Select</option>						                 
 					             </select>                                    
 					             <span id="status_fkError" class="error-msg" ></span>
 					          </div>
-					          <div class="col s12 m4 input-field">
+					          <div class="col s12 m4 input-field" id="assignDateDiv">
 					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
                                     <label for="assigned_date""> Assigned Date</label>
                                     <button type="button" id="assigned_date_icon"><i
@@ -277,7 +277,7 @@
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
                                     <p class="searchable_label" style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)</p> 
-                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="getIssueStatusList();">
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="getIssueStatusList(); showRemarks();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${responsiblePersonList }">
                                             <option value="${obj.responsible_person_user_id }" <c:if test="${issue.responsible_person eq obj.responsible_person_user_id }">selected</c:if>>${obj.responsible_person_designation}</option>
@@ -322,7 +322,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" id="remarksDiv">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000">${issue.corrective_measure }</textarea>
@@ -359,7 +359,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
-                                    <label for="remarks">Escalation Remarks</label>
+                                    <label for="remarks">Status After Escalation</label>
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div> 
@@ -618,6 +618,28 @@
         		$("#escalatedDiv").show();
         	}else{
         		$("#escalatedDiv").hide();
+        	}
+        	if($.trim(issueStatus) == 'Raised'){
+        		$("#assignDateDiv").hide();
+        	}else{
+        		$("#assignDateDiv").show();
+        	}
+        	if($.trim(issueStatus) == 'Escalated'){ 
+        		$("#corrective_measure").attr('readonly', true);
+        	}else{
+        		$("#corrective_measure").attr('readonly', false);
+        	}
+        }
+
+        function showRemarks(){
+        	var status_val = $("#status_fk").val();
+         	var responsible_person_val = $("#responsible_person").val();
+        	if((status_val == 'Raised') && responsible_person_val != ""){
+        		$("#remarksDiv").show();
+        	}else if(status_val != 'Raised' && status_val != ""){
+        		$("#remarksDiv").show();
+        	}else{
+        		$("#remarksDiv").hide();
         	}
         }
         

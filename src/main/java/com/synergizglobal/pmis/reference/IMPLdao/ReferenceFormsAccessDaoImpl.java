@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.synergizglobal.pmis.reference.Iservice.ReferenceFormsAccessDao;
+import com.synergizglobal.pmis.reference.Idao.ReferenceFormsAccessDao;
 import com.synergizglobal.pmis.reference.model.ReferenceForms;
 
 @Repository

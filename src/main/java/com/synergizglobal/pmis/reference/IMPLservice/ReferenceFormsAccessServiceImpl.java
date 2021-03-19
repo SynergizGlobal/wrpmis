@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.synergizglobal.pmis.reference.Iservice.ReferenceFormsAccessDao;
+import com.synergizglobal.pmis.reference.Idao.ReferenceFormsAccessDao;
 import com.synergizglobal.pmis.reference.Iservice.ReferenceFormsAccessService;
 import com.synergizglobal.pmis.reference.model.ReferenceForms;
 

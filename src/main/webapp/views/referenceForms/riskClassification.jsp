@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/risk.css">
+    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
@@ -31,7 +32,9 @@
         .row.no-mar {
             margin-bottom: 0;
         }
-
+		.mdl-data-table td.last-column {
+		    text-align: left ;
+		}
         .modal-header {
             text-align: center;
             background-color: #999999;
@@ -131,17 +134,60 @@
                                             <th>Classification</th>
                                             <th>Minimum</th>
                                             <th>Maximum</th>
+                                            <c:forEach var="tObj" items="${riskClassificationDetails.tablesList}" >
+                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${riskClassificationList}">
-											<tr><td>${obj.risk_classification_id }</td>
-											<td>${obj.classification }</td>
-											<td>${obj.minimum }</td>
-											<td>${obj.maximum }</td>
-											<td class="last-column"><a href="#errorModal" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
-									    </c:forEach>
+									   <c:forEach var="obj" items="${riskClassificationDetails.dList1}" varStatus="indexs">
+											<tr><td>
+											<input type="hidden" id="risk_classification_id${indexs.count}" value="${obj.risk_classification_id }" />
+											${obj.risk_classification_id }</td>
+											<td>
+											<input type="hidden" id="classificationId${indexs.count}" value="${obj.classification }" />
+											${obj.classification }</td>
+											<td>
+											<input type="hidden" id="minimumId${indexs.count}" value="${obj.minimum }" />
+											${obj.minimum }</td>
+											<td>
+											<input type="hidden" id="maximumId${indexs.count}" value="${obj.maximum }" />
+											${obj.maximum }</td>
+											<c:forEach var="tObj" items="${riskClassificationDetails.tablesList}" varStatus="index">
+											 
+												<td><c:forEach var="cObj" items="${riskClassificationDetails.countList}" >
+												<c:choose> 
+													    <c:when test="${tObj.tName eq cObj.tName }"> 
+													    
+													    		<c:choose>  
+																    <c:when test="${cObj.classification eq obj.classification }"> 
+																      	 ( ${cObj.count } )   
+																    </c:when>  
+																    <c:otherwise>  
+																    </c:otherwise>   
+															</c:choose>
+														</c:when>
+														<c:otherwise> 
+													   </c:otherwise>
+												</c:choose>
+												</c:forEach></td>
+                                            </c:forEach>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+										 	<c:forEach var="oSbj"  items="${riskClassificationDetails.dList}" varStatus="indexx"> 
+												 
+												<c:choose>  
+												    <c:when test="${oSbj.classification eq obj.classification }"> 
+												      	<a onclick="deleteRow('${ oSbj.risk_classification_id }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												      	</a>
+												    </c:when>  
+												    <c:otherwise>  
+												    </c:otherwise>   
+												</c:choose>  
+												
+ 											 </c:forEach>
+ 											</td></tr>										  
+ 										  </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -221,6 +267,60 @@
         </form>
     </div>
 
+ <div id="onlyUpdateModal" class="modal">
+		 <form action="<%=request.getContextPath() %>/update-risk-classification" id="updateRiskClassificationForm" name="updateRiskClassificationForm" method="post" class="form-horizontal" role="form">
+            <div class="modal-content">
+                <h5 class="modal-header">Update Risk Classification <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h5>
+                <div class="row">
+                    <div class="col m2 hide-on-small"></div>
+                    <div class="col m8 s12">
+                        <div class="row no-mar">
+                            <div class="input-field col s12 m6">
+                                <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Risk Classification</label>
+                                <span id="value_newError" class="error-msg" ></span>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="risk_minimum_new" type="number" name="risk_minimum_new" min="1" class="validate" step="1">
+                                <label for="risk_minimum_new">Risk Minimum</label>
+                                <span id="risk_minimum_newError" class="error-msg" ></span>
+                           </div>
+                        </div>
+                        <div class="row">
+                          
+                            <div class="input-field col s12 m6">
+                                <input id="risk_maximum_new" type="number" name="risk_maximum_new" min="1" class="validate" step="1">
+                                <label for="risk_maximum_new">Risk Maximum</label>
+                                 <span id="risk_maximum_newError" class="error-msg" ></span>
+                            </div>
+                        </div>
+                        <div class="row no-mar">
+                            <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                    <button style="width: 100%;" onclick="updateClassification()" class="btn waves-effect waves-light bg-m ">Update</button>
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                  <!--   <button
+                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+                                        style="width:100%">Cancel</button> -->
+                                        <a href="<%=request.getContextPath()%>/risk-classification"
+									  class="btn waves-effect waves-light bg-s modal-action modal-close black-text" style="width: 100%">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col m2 hide-on-small"></div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+    
     <div id="errorModal" class="modal">
         <div class="modal-content">
             <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
@@ -233,14 +333,17 @@
     </div>
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
-
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="risk_classification_id" id="risk_classification_id" />
+    </form>
+    
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-
+	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.searchable').select2();
@@ -275,6 +378,15 @@
           }
       }
       
+      function updateClassification(){
+      	 if(validator1.form()){ 
+  			$(".page-loader").show();
+  			$("#onlyUpdateModal").modal();
+  			document.getElementById("riskClassificationForm").submit();	
+       }
+   }
+      
+      
       var validator =	$('#riskClassificationForm').validate({
       	 rules: {
       		 "classification": {
@@ -307,14 +419,87 @@
       	
       });
       
-      $('input').change(function(){
-  	           if ($(this).val() != ""){
-  	               $(this).valid();
-  	           }
-  	   });
+      var validator1 = $('#updateRiskClassificationForm').validate({
+       	 rules: {
+       		 	"value_new": {
+   			 		  required: true
+       			 },"risk_minimum_new": {
+ 			 		  required: true
+          		 },"risk_maximum_new": {
+      			 		  required: true
+          		 }
+   			},messages: {
+   		 		 "value_new": {
+   			 		  required: 'Required'
+   			 	 },"risk_minimum_new": {
+ 			 		  required: 'Required'
+ 			 	  },"risk_maximum_new": {
+ 			 		  required: 'Required'
+ 			 	  }
+   	        },errorPlacement:function(error, element){
+   	        	 if(element.attr("id") == "value_new" ){
+   				     document.getElementById("value_newError").innerHTML="";
+   			 	     error.appendTo('#value_newError');
+   			   }else if(element.attr("id") == "risk_minimum_new" ){
+  				     document.getElementById("risk_minimum_newError").innerHTML="";
+  			 	     error.appendTo('#risk_minimum_newError');
+  			   }else if(element.attr("id") == "risk_maximum_new" ){
+  				     document.getElementById("risk_maximum_newError").innerHTML="";
+  			 	     error.appendTo('#risk_maximum_newError');
+  			   }
+   	        }
+       });
+     
+     $('input').change(function(){
+   	           if ($(this).val() != ""){
+   	               $(this).valid();
+   	           }
+   	   });
 
-    </script>
 
-</body>
+     function updateRow(no) {
+         var classification = $('#classificationId'+no).val();
+         var minimum = $('#minimumId'+no).val();
+         var maximum = $('#maximumId'+no).val();
+         $('#value_old').val($.trim(classification))
+        
+         $('#onlyUpdateModal').modal('open');
+         $('#onlyUpdateModal #value_new').val($.trim(classification)).focus();
+         $('#onlyUpdateModal #risk_minimum_new').val($.trim(minimum)).focus();
+         $('#onlyUpdateModal #risk_maximum_new').val($.trim(maximum)).focus();
+     }
+     
+     function deleteRow(val){
+     	$("#risk_classification_id").val(val);
+     	showCancelMessage();
+   	    }
+     	
+     
+     function showCancelMessage() {
+       	swal({
+   	            title: "Are you sure?",
+   	            text: "You will be able to change the status of record!",
+   	            type: "warning",
+   	            showCancelButton: true, 
+   	            confirmButtonColor: "#DD6B55",
+   	            confirmButtonText: "Yes, delete it!",
+   	            cancelButtonText: "No, cancel it!",
+   	            closeOnConfirm: false,
+   	            closeOnCancel: false
+   	        }, function (isConfirm) {
+   	            if (isConfirm) {
+   	               // swal("Deleted!", "Record has been deleted", "success");
+   	                $(".page-loader").show();
+   	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-risk-classification');
+   	    	    	$('#getForm').submit();
+   	           }else {
+   	                swal("Cancelled", "Record is safe :)", "error");
+   	            }
+   	        });
+   	    }
+   </script>
+
+   </body>
+
 
 </html>

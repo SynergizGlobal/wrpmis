@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.reference.Iservice.RiskClassificationService;
 import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 import com.synergizglobal.pmis.constants.PageConstants;
 
 @Controller
@@ -35,11 +36,14 @@ public class RiskClassificationController {
 	RiskClassificationService service;
 	
 	@RequestMapping(value="/risk-classification",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView riskClassification(HttpSession session){
+	public ModelAndView riskClassification(HttpSession session,@ModelAttribute TrainingType obj){
 		ModelAndView model = new ModelAndView(PageConstants.riskClassification);
 		try {
 			List<Risk> riskClassificationList = service.getRiskClassificationsList();
 			model.addObject("riskClassificationList", riskClassificationList);
+			
+			TrainingType riskClassificationDetails = service.getRiskClassificationDetails(obj);
+			model.addObject("riskClassificationDetails",riskClassificationDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("riskClassification : " + e.getMessage());
@@ -68,6 +72,48 @@ public class RiskClassificationController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/update-risk-classification", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateRiskClassification(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/risk-classification");
+			boolean flag =  service.updateRiskClassification(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Risk Classification Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Risk Classification is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Risk Classification is failed. Try again.");
+			logger.error("updateRiskClassification : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-risk-classification", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView deleteRiskClassification(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/risk-classification");
+			boolean flag =  service.deleteRiskClassification(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Risk Classification Deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			logger.error("deleteRiskClassification : " + e.getMessage());
+		}
+		return model;
+	}
+	
 }
+
+
 
 

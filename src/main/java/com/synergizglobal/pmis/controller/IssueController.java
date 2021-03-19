@@ -49,6 +49,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class IssueController {
@@ -187,9 +188,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getIssuesList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getIssuesList(@ModelAttribute Issue obj) {
+	public List<Issue> getIssuesList(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> issues = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			issues = issueService.getIssuesList(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -361,6 +366,11 @@ public class IssueController {
 			List<Issue> escalatedToList = issueService.getEscalatedToList();
 			model.addObject("escalatedToList", escalatedToList);
 			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);
 		} catch (Exception e) {
@@ -399,6 +409,11 @@ public class IssueController {
 			
 			List<Issue> railwayList = issueService.getRailwayList();
 			model.addObject("railwayList", railwayList);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			
 			obj.setIssue_id(issue_id);
 			Issue issue = issueService.getIssue(obj);

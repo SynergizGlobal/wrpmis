@@ -87,6 +87,18 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 			}
 			
+			if(!StringUtils.isEmpty(obj) 
+					&& (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))) {
+				
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
+			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -107,6 +119,17 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
+			}
+			
+			if(!StringUtils.isEmpty(obj) 
+					&& (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))) {
+				
+			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
@@ -346,7 +369,7 @@ public class IssueDaoImpl implements IssueDao {
 
 	@Override
 	public Issue getIssue(Issue obj) throws Exception {
-		Issue iobj = null;
+		Issue iObj = null;
 		try {
 			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
 					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,other_organization,DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date, "
@@ -396,11 +419,24 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			iobj = (Issue)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+			iObj = (Issue)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+			
+			if(!StringUtils.isEmpty(iObj)) {
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+					if(obj.getUser_id().equals(iObj.getResponsible_person()) || obj.getUser_id().equals(iObj.getEscalated_to()) 
+							|| obj.getUser_id().equals(iObj.getHod_user_id_fk()) || obj.getUser_id().equals(iObj.getDy_hod_user_id_fk()) 
+							|| obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN) ){
+						iObj.setReadonlyForm(false);
+					}else {
+						iObj.setReadonlyForm(true);
+					}
+					
+				}
+			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
-		return iobj;
+		return iObj;
 	}
 
 	@Override

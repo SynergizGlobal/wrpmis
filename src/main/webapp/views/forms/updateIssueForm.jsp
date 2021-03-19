@@ -398,7 +398,12 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m" >Update </a>
+                                    	<c:if test="${issue.readonlyForm eq false }">
+                                        	<a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m" >Update </a>
+                                        </c:if>
+                                        <c:if test="${issue.readonlyForm eq true }">
+                                        	<a style="color:red;">Not Authorized to Edit</a>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
@@ -499,6 +504,12 @@
             }
             
             getIssueStatusList();
+            
+            if('${issue.readonlyForm}' == 'true'){
+	            $("#issueForm :input").attr("disabled", true);
+	            $("#issueForm :textarea").attr("disabled", true);	            
+	            $("#issueForm select").prop("disabled", true);	            
+            }
         });
         
       //geting works list from database    

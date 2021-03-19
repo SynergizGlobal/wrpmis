@@ -8,8 +8,9 @@ public class Issue {
 	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name,
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
-	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,contract_hod_email_id,contract_dyhod_email_id,dy_hod_user_id_fk;
+	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,contract_hod_email_id,contract_dyhod_email_id,dy_hod_user_id_fk,user_type,user_role_code,user_id;
 
+	private boolean readonlyForm;
 	private MultipartFile issueFile;
 	
 	public String getReported_by_email_id() {
@@ -508,6 +509,38 @@ public class Issue {
 
 	public void setDy_hod_user_id_fk(String dy_hod_user_id_fk) {
 		this.dy_hod_user_id_fk = dy_hod_user_id_fk;
+	}
+
+	public String getUser_type() {
+		return user_type;
+	}
+
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_role_code() {
+		return user_role_code;
+	}
+
+	public void setUser_role_code(String user_role_code) {
+		this.user_role_code = user_role_code;
+	}
+
+	public boolean isReadonlyForm() {
+		return readonlyForm;
+	}
+
+	public void setReadonlyForm(boolean readonlyForm) {
+		this.readonlyForm = readonlyForm;
 	}
 	
 }

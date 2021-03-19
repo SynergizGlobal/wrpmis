@@ -304,7 +304,8 @@
         	$("#hod").val("");  
         	$(".searchable").select2();
         	
-        	window.localStorage.clear();
+        	//window.localStorage.clear();
+        	window.localStorage.setItem("issueFilters",'');
         	
         	getIssues();
         }

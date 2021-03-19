@@ -247,7 +247,8 @@
             $('#sub_work').val('');
             $('#assessment_date').val('');
             $('.searchable').select2();
-            window.localStorage.clear();
+            //window.localStorage.clear();
+            window.localStorage.setItem("riskFilters",'');
             getRiskList();            
         }
         

@@ -657,34 +657,31 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
-	    $(document).on('focus', '.datepicker',function(){
+	   /*  $(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	   	    	onSelect: function () {
 	   	    	   $('.confirmation-btns .datepicker-done').click();
 	   	    	}
 	        })
-	    });
+	    }); */
         $(document).ready(function () {
             $('.searchable').select2();
             $('#btn').prop('disabled',true);
            // $('#progress_date').datepicker();
-            $('#progress_date_icon').click(function () {
-                event.stopPropagation();
-                $('#progress_date').click();
-            });
-            $('#progress_date_icon').click(function () {
-                event.stopPropagation();
-                $('#progress_date').click();
-            });
-
+                    
             $('#progress_date').datepicker({
                 maxDate: new Date(),
+              //  max: new Date(),
                 format: 'dd-mm-yyyy',
                 //perform click event on done button
                 onSelect: function () {
                     $('.confirmation-btns .datepicker-done').click();
                 }
+            });
+            $('#progress_date_icon').click(function () {
+                event.stopPropagation();
+                $('#progress_date').click();
             });
 
             $('#remarks').characterCounter();

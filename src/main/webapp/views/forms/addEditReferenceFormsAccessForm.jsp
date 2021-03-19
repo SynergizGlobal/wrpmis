@@ -1,10 +1,15 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %><!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add / Edit Reference Form</title>
+    <title>
+    	 <c:if test="${action eq 'edit'}">Update Reference Form</c:if>
+		 <c:if test="${action eq 'add'}"> Add Reference Form</c:if>
+    </title>
     <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -39,32 +44,44 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
-                                <h6>Add / Edit Reference Form</h6>
+                                <h6>
+											 <c:if test="${action eq 'edit'}">Update Reference Form</c:if>
+											 <c:if test="${action eq 'add'}"> Add Reference Form</c:if>
+								</h6>
                             </div>
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                       <c:if test="${action eq 'edit'}">				                
+			                	<form action="<%=request.getContextPath() %>/update-reference-form" id="referenceForm" name="referenceForm" method="post" class="form-horizontal" role="form" >
+                         </c:if>
+			              <c:if test="${action eq 'add'}">				                
+			                	<form action="<%=request.getContextPath() %>/add-referenceForm" id="referenceForm" name="referenceForm" method="post" class="form-horizontal" role="form" >
+						  </c:if>
                         <div class="container container-no-margin">
+                        <input type="hidden"  name="reference_forms_id" value="${refrenceFormDetails.reference_forms_id }" />
                             <div class="row">
                                 <div class="col s12 m4 input-field offset-m2">
-                                    <input id="form_name" name="form" type="text" class="validate">
-                                    <label for="form_name">Name</label>
-                                    <span id="form_nameError" class="error-msg"></span>
+                                    <input id="name" name="name" type="text" class="validate" value="${refrenceFormDetails.name }">
+                                    <label for="name">Name</label>
+                                    <span id="nameError" class="error-msg"></span>
                                 </div>
                                 <div class="col s12 m4 input-field ">
-                                    <input id="url" name="url" type="text" class="validate">
+                                    <input id="form_url" name=form_url type="text" class="validate" value="${refrenceFormDetails.form_url }">
                                     <label for="url">Url </label>
-                                    <span id="urlError" class="error-msg"></span>
+                                    <span id="form_urlError" class="error-msg"></span>
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom: 20px;">
                                 <div class="col s12 m4 input-field offset-m2">
                                     <p class="searchable_label">Module </p>
-                                    <select class="searchable" id="module" name="module">
+                                    <select class="searchable validate-dropdown" id="module_fk" name="module_fk">
                                         <option value="">Select</option>
+                                         <c:forEach var="obj" items="${modules}">
+                						    <option value="${obj.module_name }" <c:if test="${refrenceFormDetails.module_fk eq obj.module_name }">selected</c:if>>${obj.module_name}</option>
+                                    	 </c:forEach>
                                     </select>
-                                    <span id="moduleError" class="error-msg"></span>
+                                    <span id="module_fkError" class="error-msg"></span>
                                 </div>
                             </div>
 
@@ -72,15 +89,20 @@
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
+                                    
                                     <div class="center-align m-1">
-                                        <button style="width: 100%;" class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+	                                         <c:if test="${action eq 'edit'}">
+	                                           <button type="button" onclick="updateReferenceForm();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+	                                         </c:if>
+											 <c:if test="${action eq 'add'}"> 
+						                       <button type="button" onclick="addReferenceForm();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Add</button>
+											 </c:if>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
-                                    <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s"
-                                            style="width:100%">Cancel</button>
+                                     <div class="center-align m-1">
+                                        <a href="<%=request.getContextPath()%>/reference-form" class="btn waves-effect waves-light bg-s"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -110,19 +132,93 @@
 	</div> 
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
-
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
     <script>
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
         });
-       
+        
+        function updateReferenceForm(){
+     	   if(validator.form()){ // validation perform
+     	  		   $(".page-loader").show();	  
+         		   document.getElementById("referenceForm").submit();			
+    	 	 }
+        }
+        function addReferenceForm(){
+     	   if(validator.form()){ // validation perform
+ 		  		   $(".page-loader").show();	  
+ 	    		   document.getElementById("referenceForm").submit();			
+    	 	 }
+        }
+        
+        var validator =	$('#referenceForm').validate({
+			 ignore: ":hidden:not(.validate-dropdown)",
+	  		    rules: {
+	  		 		 "name": {
+	  			 		required: true
+	  			 	  },
+	  			 	 "form_url": {
+		  			 	required: true
+		  			 },
+	  			 	 "module_fk": {
+			  			 required: true
+			  		 }	
+	  		 	},
+	  		    messages: {
+	  		 		  "name": {
+	  			 		required: 'Required'
+	  			 	  },
+	  			 	"form_url": {
+	  			 		required: 'Required'
+	  			 	  },
+	  			 	"module_fk": {
+	  			 		required: 'Required'
+	  			 	  }
+		   		},
+		   		errorPlacement:function(error, element){
+		   		 	  if(element.attr("id") == "name" ){
+					     document.getElementById("nameError").innerHTML="";
+				 	     error.appendTo('#nameError');
+					 }else if(element.attr("id") == "form_url" ){
+					     document.getElementById("form_urlError").innerHTML="";
+				 	     error.appendTo('#form_urlError');
+					 }else if(element.attr("id") == "module_fk" ){
+					     document.getElementById("module_fkError").innerHTML="";
+				 	     error.appendTo('#module_fkError');
+					 }else{
+	 					 error.insertAfter(element);
+			        } 
+		   		},invalidHandler: function (form, validator) {
+                   var errors = validator.numberOfInvalids();
+                   if (errors) {
+                       var position = validator.errorList[0].element;
+                       jQuery('html, body').animate({
+                           scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                       }, 1000);
+                   }
+               },submitHandler:function(form){
+			    	form.submit();
+			    }
+			});   
+      
+	       $('select').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
+	
+	       $('input').change(function(){
+	           if ($(this).val() != ""){
+	               $(this).valid();
+	           }
+	       });
     </script>
 
 </body>

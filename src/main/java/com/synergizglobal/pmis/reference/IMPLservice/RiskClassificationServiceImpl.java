@@ -9,6 +9,7 @@ import com.synergizglobal.pmis.reference.Idao.DrawingTypeDao;
 import com.synergizglobal.pmis.reference.Idao.RiskClassificationDao;
 import com.synergizglobal.pmis.reference.Iservice.RiskClassificationService;
 import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 
 @Service
 public class RiskClassificationServiceImpl implements RiskClassificationService{
@@ -24,5 +25,20 @@ public class RiskClassificationServiceImpl implements RiskClassificationService{
 	@Override
 	public boolean addRiskClassification(Risk obj) throws Exception {
 		return dao.addRiskClassification(obj);
+	}
+
+	@Override
+	public TrainingType getRiskClassificationDetails(TrainingType obj) throws Exception {
+		return dao.getRiskClassificationDetails(obj);
+	}
+
+	@Override
+	public boolean updateRiskClassification(TrainingType obj) throws Exception {
+		return dao.updateRiskClassification(obj);
+	}
+
+	@Override
+	public boolean deleteRiskClassification(TrainingType obj) throws Exception {
+		return dao.deleteRiskClassification(obj);
 	}
 }

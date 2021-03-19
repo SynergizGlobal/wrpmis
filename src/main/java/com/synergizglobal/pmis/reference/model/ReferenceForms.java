@@ -2,7 +2,15 @@ package com.synergizglobal.pmis.reference.model;
 
 public class ReferenceForms {
 	
-	private String reference_forms_id, name, form_url, module_fk;
+	private String reference_forms_id, name, form_url, module_fk,module_name;
+
+	public String getModule_name() {
+		return module_name;
+	}
+
+	public void setModule_name(String module_name) {
+		this.module_name = module_name;
+	}
 
 	public String getReference_forms_id() {
 		return reference_forms_id;

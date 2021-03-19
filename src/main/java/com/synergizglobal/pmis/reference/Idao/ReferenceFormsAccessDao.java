@@ -1,4 +1,4 @@
-package com.synergizglobal.pmis.reference.Iservice;
+package com.synergizglobal.pmis.reference.Idao;
 
 import java.util.List;
 

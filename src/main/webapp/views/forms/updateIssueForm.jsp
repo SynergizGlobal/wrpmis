@@ -125,7 +125,7 @@
                                 </div>                                
                                 <div class="col s12 m4 input-field">
                                     <!-- <textarea id="textarea1" class="materialize-textarea" data-length="1000"></textarea> -->
-                                    <label for="">Issue ID : <input id="issue_id" name="issue_id" type="text" value="${issue.issue_id }"  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
+                                    <label for="">Issue ID : <input id="issue_id" name="issue_id" type="text" value="${issue.issue_id }" readonly  style="background-color: none;border: none; border-bottom: 0px solid #4CAF50;webkit-box-shadow: 0 0px 0 0 #4CAF50;box-shadow: 0 0px 0 0 #4CAF50;height: 20px;width:60%;"></label>
                                 </div>
                             </div>
 
@@ -240,6 +240,23 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+							<div class="row" style="margin-bottom:5px">
+							  <div class="col s12 m4 input-field offset-m2">
+					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
+					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
+					                 <option value="">Select</option>						                 
+					             </select>                                    
+					             <span id="status_fkError" class="error-msg" ></span>
+					          </div>
+					          <div class="col s12 m4 input-field">
+					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
+                                    <label for="assigned_date""> Assigned Date</label>
+                                    <button type="button" id="assigned_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="assigned_dateError" class="error-msg" ></span>
+					         </div>
+							</div>
 
                             <div class="row">
                                 <!-- row 2 -->
@@ -312,37 +329,8 @@
                                     <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
-                            </div>
-
-                            
-                            <div class="row">
-                                <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
-                                        <option value="">Select</option>
-                                        <%-- <c:forEach var="obj" items="${issuesStatusList }">
-                                            <c:if test="${(obj.status eq 'Escalated') and ((issue.status_fk eq obj.status ) or (sessionScope.USER_ID eq issue.responsible_person ) or (sessionScope.USER_ID eq issue.dy_hod_user_id_fk) or (sessionScope.USER_ID eq issue.hod_user_id_fk))}">
-                                            	<option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
-                                            </c:if>
-                                            <c:if test="${(obj.status ne 'Escalated')}">
-                                            	<option value="${obj.status }" <c:if test="${issue.status_fk eq obj.status}">selected</c:if>>${obj.status}</option>
-                                            </c:if>
-                                        </c:forEach> --%>
-                                    </select>                                    
-                                    <span id="status_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
-                                    <label for="resolved_date"> Resolved Date</label>
-                                    <button type="button" id="resolved_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="resolved_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            
+                            </div>                          
+                                                   
                             <div id="escalatedDiv" style="display: none;">
 	                            <div class="row" >
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -376,10 +364,18 @@
                                 </div>
                             </div> 
                             </div>
-                         
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
+                            
+                                 <div class="row">
+                                <!-- row 2 -->
+                                <div class="col m2 hide-on-small-only"></div>                              
+                                <div class="col s12 m4 input-field" style="margin-top:15px">
+                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
+                                    <label for="resolved_date"> Resolved Date</label>
+                                    <button type="button" id="resolved_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="resolved_dateError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
                                     <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
@@ -396,8 +392,7 @@
                                    	</c:if>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
-                            </div>                            
-                            
+                            </div>
 
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>

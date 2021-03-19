@@ -211,6 +211,26 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+                            <div class="row" style="margin-bottom:5px">							 
+					            <div class="col s12 m4 input-field offset-m2">
+                                    <p class="searchable_label">Issue Status <span class="required">*</span></p> 
+                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${issuesStatusList }">
+                                            <option value="${obj.status }" >${obj.status}</option>
+                                        </c:forEach>
+                                    </select>                                    
+                                    <span id="status_fkError" class="error-msg" ></span>
+                                </div>
+					          <div class="col s12 m4 input-field">
+					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
+                                    <label for="assigned_date""> Assigned Date</label>
+                                    <button type="button" id="assigned_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="assigned_dateError" class="error-msg" ></span>
+					         </div>
+							</div>
 
                             <div class="row">
                                 <!-- row 2 -->
@@ -278,29 +298,7 @@
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value);">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${issuesStatusList }">
-                                            <option value="${obj.status }" >${obj.status}</option>
-                                        </c:forEach>
-                                    </select>                                    
-                                    <span id="status_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker">
-                                    <label for="resolved_date"> Resolved Date</label>
-                                    <button type="button" id="resolved_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="resolved_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            
+                                                        
                             <div id="escalatedDiv" style="display: none;">
 	                            <div class="row" >
 	                                <div class="col m2 hide-on-small-only"></div>
@@ -335,10 +333,17 @@
                             </div> 
                            </div>
                            
-                            <div class="row no-mar">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col m8 s12">
-                                    <div class="file-field input-field">
+                             <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>                              
+                                <div class="col s12 m4 input-field" style="margin-top:15px">
+                                    <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker">
+                                    <label for="resolved_date"> Resolved Date</label>
+                                    <button type="button" id="resolved_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="resolved_dateError" class="error-msg" ></span>
+                                </div>
+                                 <div class="col s12 m4 input-field">
+                                  <div class="file-field input-field">
                                         <div class="btn bg-m">
                                             <span>Attachment</span>
                                             <input type="file" id="issueFile" name="issueFile">
@@ -347,11 +352,10 @@
                                             <input class="file-path validate" type="text">
                                         </div>                                       
                                     </div>
-                                </div>
+                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-                             
-                           
+                                                 
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">

@@ -127,6 +127,8 @@ public class RiskController {
 						//System.out.println(uploadFilesSheet.getSheetName());
 						//header row
 						XSSFRow headerRow = risksDrawingsSheet.getRow(2);
+						
+						DataFormatter formatter = new DataFormatter();
 						//checking given file format
 						if(headerRow != null){
 							List<String> fileFormat = FileFormatModel.getRiskFileFormat();	
@@ -135,7 +137,7 @@ public class RiskController {
 								for (int i = 0; i < fileFormat.size();i++) {
 				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									String columnName = formatter.formatCellValue(headerRow.getCell(i));
 									columnName = columnName.replaceAll("[\r\n]", "");
 									String tempName = fileFormat.get(i).replaceAll("[\r\n]", "");
 									//System.out.println(columnName + " = " + tempName);									
@@ -185,7 +187,11 @@ public class RiskController {
 						}*/
 						
 						risk.setUploaded_by_user_id_fk(userId);
-						risk.setStatus("Success");
+						if(msg.contains("File is not uploaded")) {
+							risk.setStatus("Fail");
+						}else {
+							risk.setStatus("Success");
+						}
 						risk.setRemarks(msg);
 						boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 					}
@@ -400,7 +406,7 @@ public class RiskController {
 						}						
 						
 					}
-					if(!risksList.isEmpty()){
+					if(!risksList.isEmpty() && StringUtils.isEmpty(risk_rows_error)){
 						int[] arr  = riskService.uploadRiskAssessments(risksList);
 						
 						if(arr[0] > 0) {
@@ -413,7 +419,7 @@ public class RiskController {
 						msg =  "<span style='color:green;'> "+msg+"</span>";
 					}
 					if(!StringUtils.isEmpty(risk_rows_error)) {
-						risk_rows_error = "<br><span style='color:red;'> Row no(s) " + risk_rows_error + " are not inserted (Reason : Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty. And Probability and impact should have values 1 or 3 or 5 ).</span> ";
+						risk_rows_error = "<br><span style='color:red;'>File is not uploaded. Row no(s) " + risk_rows_error + " are not inserted (Reason : Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty. And Probability and impact should have values 1 or 3 or 5 ).</span> ";
 					}
 					
 					msg = msg + risk_rows_error;

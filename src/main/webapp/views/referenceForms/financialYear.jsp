@@ -120,19 +120,19 @@
                                     <thead>
                                         <tr>
                                             <th>Financial Year</th>
-                                             <c:forEach var="tObj" items="${financialYearDetails.tablesList}" >
+                                            <%--  <c:forEach var="tObj" items="${financialYearDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
-                                            </c:forEach>
+                                            </c:forEach> --%>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 										<c:forEach var="obj" items="${financialYearDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="financialYear${indexs.count}" value="" />
+												<input type="hidden" id="financialYearId${indexs.count}" value="${obj.financial_year }" />
 												${obj.financial_year }</td>
 											<c:forEach var="tObj" items="${financialYearDetails.tablesList}" varStatus="index">
-												<td><c:forEach var="cObj" items="${financialYearDetails.countList}" >
+												<%-- <td><c:forEach var="cObj" items="${financialYearDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -147,7 +147,7 @@
 														<c:otherwise> 
 													   </c:otherwise>
 												</c:choose>
-												</c:forEach></td>
+												</c:forEach></td> --%>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
 										 	<c:forEach var="oSbj"  items="${financialYearDetails.dList}" varStatus="indexx"> 
@@ -192,7 +192,7 @@
 
     <!-- Add Modal Training -->
     <div id="addUpdateModal" class="modal">
-		<form action="<%=request.getContextPath() %>/add-alert-level" id="financialYearForm" name="financialYearForm" method="post" class="form-horizontal" role="form">
+		<form action="<%=request.getContextPath() %>/add-financial-year" id="financialYearForm" name="financialYearForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header">Add Financial Year <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -214,7 +214,7 @@
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <a href="<%=request.getContextPath()%>/alert-level"
+                                    <a href="<%=request.getContextPath()%>/financial-year"
 									class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
         </form>
     </div>
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-alert-level" id=updateFinancialYearForm name="updateFinancialYearForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-financial-year" id=updateFinancialYearForm name="updateFinancialYearForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Financial Year <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -255,7 +255,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/alert-level"
+                                        <a href="<%=request.getContextPath()%>/financial-year"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -377,7 +377,7 @@
 
 
         function updateRow(no) {
-            var financial_year = $('#financial_yearId'+no).val();
+            var financial_year = $('#financialYearId'+no).val();
             $('#value_old').val($.trim(financial_year))
             $('#onlyUpdateModal').modal('open');
             $('#onlyUpdateModal #value_new').val($.trim(financial_year)).focus();
@@ -404,7 +404,7 @@
       	            if (isConfirm) {
       	               // swal("Deleted!", "Record has been deleted", "success");
       	                $(".page-loader").show();
-      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-alert-level');
+      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-financial-year');
       	    	    	$('#getForm').submit();
       	           }else {
       	                swal("Cancelled", "Record is safe :)", "error");

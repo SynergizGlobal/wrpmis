@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.reference.Iservice.NotificationTypeService;
 import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 import com.synergizglobal.pmis.constants.PageConstants;
 
 @Controller
@@ -34,11 +35,14 @@ public class NotificationTypeController {
 	NotificationTypeService service;
 	
 	@RequestMapping(value="/notification-type",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView notificationType(HttpSession session){
+	public ModelAndView notificationType(HttpSession session,@ModelAttribute TrainingType obj){
 		ModelAndView model = new ModelAndView(PageConstants.notificationType);
 		try {
 			List<Risk> notificationTypeList = service.getNotificationTypeList();
 			model.addObject("notificationTypeList", notificationTypeList);
+			
+			TrainingType notificationTypeDetails = service.getNotificationTypeDetails(obj);
+			model.addObject("notificationTypeDetails",notificationTypeDetails);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("notificationType : " + e.getMessage());
@@ -55,19 +59,59 @@ public class NotificationTypeController {
 			model.setViewName("redirect:/notification-type");
 			boolean flag =  service.addNotificationType(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "NotificationType Added Succesfully.");
+				attributes.addFlashAttribute("success", "Notification Type Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding NotificationType is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding Notification Type is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding NotificationType is failed. Try again.");
+			attributes.addFlashAttribute("error","Adding Notification Type is failed. Try again.");
 			logger.error("addNotificationType : " + e.getMessage());
+		}
+		return model;
+	}
+	@RequestMapping(value = "/update-notification-type", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateNotificationType(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/notification-type");
+			boolean flag =  service.updateNotificationType(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Notification Type Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Notification Type is failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Notification Type is failed. Try again.");
+			logger.error("updateNotificationType : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete-notification-type", method = {RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView deleteNotificationType(@ModelAttribute TrainingType obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/notification-type");
+			boolean flag =  service.deleteNotificationType(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Notification Type Deleted Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
+			logger.error("deleteNotificationType : " + e.getMessage());
 		}
 		return model;
 	}
 	
 }
+
 
 
 

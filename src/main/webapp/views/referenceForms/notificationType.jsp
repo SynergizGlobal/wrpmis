@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/la.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <style>
         .input-field .searchable_label {
@@ -30,7 +31,9 @@
         .row.no-mar {
             margin-bottom: 0;
         }
-
+		.mdl-data-table td.last-column {
+		    text-align: left ;
+		}
         .modal-header {
             text-align: center;
             background-color: #2E58AD;
@@ -112,15 +115,54 @@
                                         <tr>
                                             <th>Notification Type</th>
                                             <th>Notification Type Icon</th>
+                                             <c:forEach var="tObj" items="${notificationTypeDetails.tablesList}" >
+                                            	 <th>${tObj.tName } <br>(count)</th>
+                                            </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${notificationTypeList}">
-											<tr><td>${obj.notification_type }</td>
-											<td>${obj.notification_type_icon }</td>
-											<td class="last-column"><a href="#errorModal" class="btn waves-effect waves-light bg-m t-c modal-trigger "> <i class="fa fa-pencil" ></i></a><a href="#errorModal" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i></a></td></tr>
-									    </c:forEach>
+										<c:forEach var="obj" items="${notificationTypeDetails.dList1}" varStatus="indexs">
+											<tr><td>
+												<input type="hidden" id="notification_typeId${indexs.count}" value="${obj.notification_type }" />
+												${obj.notification_type }</td>
+												<td>
+												<input type="hidden" id="notification_type_iconId${indexs.count}" value="${obj.notification_type_icon }" />
+												${obj.notification_type_icon }</td>
+											<c:forEach var="tObj" items="${notificationTypeDetails.tablesList}" varStatus="index">
+												<td><c:forEach var="cObj" items="${notificationTypeDetails.countList}" >
+												<c:choose> 
+													    <c:when test="${tObj.tName eq cObj.tName }"> 
+													    
+													    		<c:choose>  
+																    <c:when test="${cObj.notification_type eq obj.notification_type }"> 
+																      	 ( ${cObj.count } )   
+																    </c:when>  
+																    <c:otherwise>  
+																    </c:otherwise>   
+															</c:choose>
+														</c:when>
+														<c:otherwise> 
+													   </c:otherwise>
+												</c:choose>
+												</c:forEach></td>
+                                            </c:forEach>
+											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
+										 	<c:forEach var="oSbj"  items="${notificationTypeDetails.dList}" varStatus="indexx"> 
+												 
+												<c:choose>  
+												    <c:when test="${oSbj.notification_type eq obj.notification_type }"> 
+												      	<a onclick="deleteRow('${ oSbj.notification_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
+												      	</a>
+												    </c:when>  
+												    <c:otherwise>  
+												    </c:otherwise>   
+												</c:choose>  
+												
+ 											 </c:forEach>
+ 											</td></tr>												  
+ 										  </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -191,27 +233,65 @@
 
         </form>
     </div>
-    <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <h5 class="modal-header">Error <span class="right modal-action modal-close"><span
-                        class="material-icons">close</span></span></h5>
-            <div class="row center-align" style="margin-bottom: 0;">
-                <p style="color:red">Reference data cannot be edited or deleted when in use by other Data sets</p>
+      <!-- Modal Structure -->
+    <div id="onlyUpdateModal" class="modal">
+		 <form action="<%=request.getContextPath() %>/update-notification-type" id="updateNotificationTypeForm" name="updateNotificationTypeForm" method="post" class="form-horizontal" role="form">
+            <div class="modal-content">
+                <h5 class="modal-header">Update Notification Type <span class="right modal-action modal-close"><span
+                            class="material-icons">close</span></span></h5>
+                <div class="row">
+                    <div class="col m2 hide-on-small"></div>
+                    <div class="col m8 s12">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                               <input id="value_new" type="text" name="value_new" class="validate">
+                                <input id="value_old" type="hidden" name="value_old"  >
+                                <label for="value_new">Notification Type</label>
+                                <span id="value_newError" class="error-msg" ></span>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="notification_type_icon_new" type="text" name="notification_type_icon_new" class="validate">
+                                <label for="notification_type_icon_new">Notification Type Icon</label>
+                                <span id="notification_type_icon_newError" class="error-msg" ></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                    <button style="width: 100%;" onclick="updateNotificationType()" class="btn waves-effect waves-light bg-m">Update </button>
+                                </div>
+                            </div>
+                              <div class="col s12 m6">
+                                <div class="center-align m-1">
+                                  <!--   <button
+                                        class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
+                                        style="width:100%">Cancel</button> -->
+                                        <a href="<%=request.getContextPath()%>/notification-type"
+									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col m2 hide-on-small"></div>
+                </div>
+
             </div>
 
-        </div>
+        </form>
     </div>
     <!-- footer  -->
 <%--     <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
-
+	<form name="getForm" id="getForm" method="post">
+    	<input type="hidden" name="notification_type" id="notification_types" />
+    </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-
+    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.searchable').select2();
@@ -244,6 +324,14 @@
     			document.getElementById("notificationTypeForm").submit();	
          }
      }
+      
+      function updateNotificationType(){
+     	 if(validato1r.form()){ 
+ 			$(".page-loader").show();
+ 			$("#onlyUpdateModal").modal();
+ 			document.getElementById("updateNotificationTypeForm").submit();	
+      }
+  }
         var validator = $('#notificationTypeForm').validate({
          	 rules: {
          		 "notification_type": {
@@ -267,16 +355,75 @@
      				 }
      	        }
          });
+        var validator1 = $('#updateNotificationTypeForm').validate({
+        	 rules: {
+        		 "value_new": {
+    			 		  required: true
+        		 },"notification_type_icon_new": {
+    			 		  required: true
+        		 }
+    			},messages: {
+    		 		   "value_new": {
+    			 		  required: 'Required'
+    			 	  },"notification_type_icon_new": {
+    			 		  required: 'Required'
+    			 	  }
+    	        },errorPlacement:function(error, element){
+    	        	 if(element.attr("id") == "value_new" ){
+    				     document.getElementById("value_newError").innerHTML="";
+    			 	     error.appendTo('#value_newError');
+    				 }else  if(element.attr("id") == "notification_type_icon_new" ){
+    				     document.getElementById("notification_type_icon_newError").innerHTML="";
+    			 	     error.appendTo('#notification_type_icon_newError');
+    				 }
+    	        }
+        });
          
-         $('input').change(function(){
+        $('input').change(function(){
      	           if ($(this).val() != ""){
      	               $(this).valid();
      	           }
      	   });
+         function updateRow(no) {
+             var notification_type = $('#notification_typeId'+no).val();
+             var notification_type_icon = $('#notification_type_iconId'+no).val();
+             $('#value_old').val($.trim(notification_type))
+             $('#onlyUpdateModal').modal('open');
+             $('#onlyUpdateModal #value_new').val($.trim(notification_type)).focus();
+             $('#onlyUpdateModal #notification_type_icon_new').val($.trim(notification_type_icon)).focus();
+         }
+         
+         function deleteRow(val){
+         	$("#notification_types").val(val);
+         	showCancelMessage();
+       	    }
+         	
+         
+         function showCancelMessage() {
+           	swal({
+       	            title: "Are you sure?",
+       	            text: "You will be able to change the status of record!",
+       	            type: "warning",
+       	            showCancelButton: true, 
+       	            confirmButtonColor: "#DD6B55",
+       	            confirmButtonText: "Yes, delete it!",
+       	            cancelButtonText: "No, cancel it!",
+       	            closeOnConfirm: false,
+       	            closeOnCancel: false
+       	        }, function (isConfirm) {
+       	            if (isConfirm) {
+       	               // swal("Deleted!", "Record has been deleted", "success");
+       	                $(".page-loader").show();
+       	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-notification-type');
+       	    	    	$('#getForm').submit();
+       	           }else {
+       	                swal("Cancelled", "Record is safe :)", "error");
+       	            }
+       	        });
+       	    }
+       </script>
+
+       </body>
 
 
-         </script>
-
-   </body>
-
-   </html>
+    </html>

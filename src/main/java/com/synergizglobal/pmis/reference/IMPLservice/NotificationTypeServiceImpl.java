@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.reference.Idao.NotificationTypeDao;
 import com.synergizglobal.pmis.reference.Iservice.NotificationTypeService;
 import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.model.TrainingType;
 @Service
 public class NotificationTypeServiceImpl implements NotificationTypeService{
 	@Autowired
@@ -21,5 +22,20 @@ public class NotificationTypeServiceImpl implements NotificationTypeService{
 	@Override
 	public boolean addNotificationType(Risk obj) throws Exception {
 		return dao.addNotificationType(obj);
+	}
+
+	@Override
+	public TrainingType getNotificationTypeDetails(TrainingType obj) throws Exception {
+		return dao.getNotificationTypeDetails(obj);
+	}
+
+	@Override
+	public boolean updateNotificationType(TrainingType obj) throws Exception {
+		return dao.updateNotificationType(obj);
+	}
+
+	@Override
+	public boolean deleteNotificationType(TrainingType obj) throws Exception {
+		return dao.deleteNotificationType(obj);
 	}
 }

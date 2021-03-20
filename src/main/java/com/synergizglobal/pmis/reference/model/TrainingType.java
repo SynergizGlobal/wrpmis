@@ -16,7 +16,7 @@ public class TrainingType {
 	,impact,root_cause,structure_type, user_role_code_new,user_access_table_new,user_access_type_val,short_description,short_description_new,area, item_no,
 	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category,
 	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
-	login_event_type,yesorno,type;
+	login_event_type,yesorno,type,notification_type, notification_type_icon,notification_type_icon_new,type_fk_new,notification_type_new, type_fk,web_documents_category,financial_year;
 
 
 	private List<TrainingType> bankGaurenteeList;
@@ -25,6 +25,70 @@ public class TrainingType {
 	private List<TrainingType> countList;
 	private List<TrainingType> dList;
 	private List<TrainingType> dList1;
+
+	public String getType_fk_new() {
+		return type_fk_new;
+	}
+
+	public void setType_fk_new(String type_fk_new) {
+		this.type_fk_new = type_fk_new;
+	}
+
+	public String getFinancial_year() {
+		return financial_year;
+	}
+
+	public void setFinancial_year(String financial_year) {
+		this.financial_year = financial_year;
+	}
+
+	public String getWeb_documents_category() {
+		return web_documents_category;
+	}
+
+	public void setWeb_documents_category(String web_documents_category) {
+		this.web_documents_category = web_documents_category;
+	}
+
+	public String getType_fk() {
+		return type_fk;
+	}
+
+	public void setType_fk(String type_fk) {
+		this.type_fk = type_fk;
+	}
+
+	public String getNotification_type_new() {
+		return notification_type_new;
+	}
+
+	public void setNotification_type_new(String notification_type_new) {
+		this.notification_type_new = notification_type_new;
+	}
+
+	public String getNotification_type() {
+		return notification_type;
+	}
+
+	public void setNotification_type(String notification_type) {
+		this.notification_type = notification_type;
+	}
+
+	public String getNotification_type_icon() {
+		return notification_type_icon;
+	}
+
+	public void setNotification_type_icon(String notification_type_icon) {
+		this.notification_type_icon = notification_type_icon;
+	}
+
+	public String getNotification_type_icon_new() {
+		return notification_type_icon_new;
+	}
+
+	public void setNotification_type_icon_new(String notification_type_icon_new) {
+		this.notification_type_icon_new = notification_type_icon_new;
+	}
 
 	public String getType() {
 		return type;

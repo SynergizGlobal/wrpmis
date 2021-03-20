@@ -77,7 +77,7 @@
                         <div class="row">
                             <div class="col m4 hide-on-small"></div>
                             <div class="col m4 s12 center-align">
-                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal">
+                                <a class="waves-effect waves-light btn bg-m modal-trigger t-c" href="#addUpdateModal" >
                                     <i class="fa fa-plus-circle"></i> &nbsp; Add Zonal Railway Funds</a>
                             </div>
                             <div class="col m4 hide-on-small"></div>
@@ -147,7 +147,7 @@
 
 
     <!-- Modal Structure -->
-    <div id="#addUpdateModal" class="modal">
+    <div id="addUpdateModal" class="modal">
        	<form action="<%=request.getContextPath() %>/add-zonal-railway-funds" id="zonalRailwayFundsForm" name="zonalRailwayFundsForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h4 class="modal-header">Add Zonal Railway Funds <span class="right modal-action modal-close"><span
@@ -378,6 +378,7 @@
       	            }
       	        });
       	    }
+       
       </script>
 
       </body>

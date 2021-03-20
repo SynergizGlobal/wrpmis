@@ -210,6 +210,8 @@ public class PageConstants {
 	
 	public static final String alertLevel = "referenceForms/alertLevel";
 	
+	public static final String alertType = "referenceForms/alertType";
+	
 	public static final String asBuiltStatus = "referenceForms/asBuiltStatus";
 	
 	public static final String userType = "referenceForms/userType";
@@ -219,6 +221,10 @@ public class PageConstants {
 	public static final String yesOrNoStatus = "referenceForms/yesOrNoStatus";
 	
 	public static final String webDocumentsType = "referenceForms/webDocumentsType";
+	
+	public static final String webDocumentsCategory = "referenceForms/webDocumentsCategory";
+	
+	public static final String financialYear = "referenceForms/financialYear";
 	
 }
 

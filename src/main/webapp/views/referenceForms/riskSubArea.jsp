@@ -1,4 +1,4 @@
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -65,7 +65,7 @@
 		.select2-container.select2-container--default.select2-container--open{
 			z-index:1034;
 		}
-		input[type=number]:not(.browser-default):focus:not([readonly]),
+		/* input[type=number]:not(.browser-default):focus:not([readonly]),
 		input[type=text]:not(.browser-default):focus:not([readonly]),
 		input[type=search]:not(.browser-default):focus:not([readonly]),
 		textarea.materialize-textarea:focus:not([readonly])   {
@@ -78,7 +78,7 @@
 		.input-field input[type=number]:not(.browser-default):focus:not([readonly])+label ,
 		.input-field textarea.materialize-textarea:focus:not([readonly])+label       {
 		    color: #999999  !important;
-		}
+		} */
         @media only screen and (max-width: 600px) {
 
             .dataTables_filter input[type="search"],
@@ -160,14 +160,12 @@
                                     <tbody>
 										<c:forEach var="obj" items="${riskAreaDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												
 												${obj.risk_area_fk }
 											</td>
 											<input type="hidden" id="risk_area_fk${indexs.count}" value="${obj.risk_area_fk }" name="risk_area_fk" /> 
 											<input type="hidden" id="sub_area${indexs.count}" value="${obj.sub_area }" />
 											<input type="hidden" id="item_no${indexs.count}" value="${obj.item_no }" />
 											<td>
-												
 												${obj.sub_area }</td>
 											<td>
 												
@@ -194,7 +192,7 @@
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.sub_area eq obj.sub_area }"> 
-												      	<a onclick="deleteRow('${ oSbj.sub_area }');"  class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												      	<a onclick="deleteRow('${indexs.count}');"  class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -359,7 +357,7 @@
     <!-- footer  -->
 <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="sub_area" id="sub_area1" />
+    	<input type="hidden" name="sub_area" id="sub_areas" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -497,8 +495,10 @@
       	    	$('.searchable').select2();
       	  }
       	  
-      	  function deleteRow(id){
-      	  	$("#sub_area1").val(id);
+      	  function deleteRow(count){
+      		  var id = $("#sub_area"+count).val();
+      		  console.log(id);
+      	  	$("#sub_areas").val(id);
       	  	showCancelMessage(); 
       	 }
       	  	

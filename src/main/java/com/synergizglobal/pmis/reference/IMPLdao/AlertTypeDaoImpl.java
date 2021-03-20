@@ -11,12 +11,11 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.synergizglobal.pmis.reference.Idao.NotificationTypeDao;
-import com.synergizglobal.pmis.reference.model.Risk;
+import com.synergizglobal.pmis.reference.Idao.AlertTypeDao;
 import com.synergizglobal.pmis.reference.model.TrainingType;
-@Repository
-public class NotificationTypeDaoImpl implements NotificationTypeDao{
 
+@Repository
+public class AlertTypeDaoImpl implements AlertTypeDao{
 	@Autowired
 	DataSource dataSource;
 	
@@ -24,44 +23,12 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 	JdbcTemplate jdbcTemplate ;
 
 	@Override
-	public List<Risk> getNotificationTypeList() throws Exception {
-		List<Risk> objsList = null;
-		try {
-			String qry ="select notification_type, notification_type_icon from notification_type ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Risk>(Risk.class));	
-		}catch(Exception e){ 
-		throw new Exception(e.getMessage());
-		}
-		return objsList;
-	}
-
-	@Override
-	public boolean addNotificationType(Risk obj) throws Exception {
-		boolean flag = false;
-		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO notification_type"
-					+ "( notification_type, notification_type_icon) VALUES (:notification_type, :notification_type_icon)";
-			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
-				flag = true;
-			}
-		}catch(Exception e){ 
-			e.printStackTrace();
-			throw new Exception(e.getMessage());
-		}
-		return flag;
-	}
-
-	@Override
-	public TrainingType getNotificationTypeDetails(TrainingType obj) throws Exception {
+	public TrainingType getAlertTypeDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objsList = null;
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select notification_type, notification_type_icon from notification_type ";
+			String qry ="select `alert_type` from alert_type ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);
@@ -75,7 +42,7 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `notification_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as `alert_type`,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;
@@ -86,11 +53,11 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 				obj.setCountList(objsList1);
 				if(objsList1.size() > 0) {
 					Object[] pValues  = new Object[objsList1.size()];
-					  String qry2 = "select notification_type, notification_type_icon from notification_type where `notification_type` NOT IN (?";
+					  String qry2 = "select `alert_type` from alert_type where `alert_type` NOT IN (?";
 	
 						int j =0, p=1;
 						for (TrainingType aObj : obj.getdList()) {
-							pValues[j++] = aObj.getNotification_type();
+							pValues[j++] = aObj.getAlert_type();
 							if( objsList1.size() >  p) {
 								qry2 = qry2 + ",?";
 								p++;
@@ -117,7 +84,7 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 		List<TrainingType> tablesList = null;
 		try {
 			String qry = "SELECT TABLE_NAME as tName,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'notification_type' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'alert_type' and TABLE_SCHEMA = 'pmis' group by TABLE_NAME";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -132,7 +99,7 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 		List<TrainingType> list = null;
 		try {
 			String qry = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME " + 
-					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'notification_type' and TABLE_SCHEMA = 'pmis'";
+					"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'alert_type' and TABLE_SCHEMA = 'pmis'";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -142,8 +109,30 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 		return list;
 	}
 
+
+
 	@Override
-	public boolean updateNotificationType(TrainingType obj) throws Exception {
+	public boolean addAlertType(TrainingType obj) throws Exception {
+		boolean flag = false;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			String insertQry = "INSERT INTO alert_type"
+					+ "( alert_type) VALUES (:alert_type)";
+			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
+			if(count > 0) {
+				flag = true;
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean updateAlertType(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
@@ -156,7 +145,7 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			namedParamJdbcTemplate.update(disableQry, paramSource);	
 			
-			String  updatereferenceTableQry = "UPDATE notification_type SET `notification_type`= :value_new, notification_type_icon = :notification_type_icon_new  WHERE `notification_type`= :value_old " ;
+			String  updatereferenceTableQry = "UPDATE alert_type SET `alert_type`= :value_new WHERE `alert_type`= :value_old " ;
 			paramSource = new BeanPropertySqlParameterSource(obj);		 
 			count = namedParamJdbcTemplate.update(updatereferenceTableQry, paramSource);	
 			
@@ -181,13 +170,13 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 	}
 
 	@Override
-	public boolean deleteNotificationType(TrainingType obj) throws Exception {
+	public boolean deleteAlertType(TrainingType obj) throws Exception {
 		boolean flag = false;
 		int count = 0;
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-			String deleteQry ="DELETE from notification_type WHERE `notification_type`= :notification_type; ";
+			String deleteQry ="DELETE from alert_type WHERE `alert_type`= :alert_type; ";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			 count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			if(count > 0) {
@@ -199,7 +188,3 @@ public class NotificationTypeDaoImpl implements NotificationTypeDao{
 		return flag;
 	}
 }
-
-
-
-

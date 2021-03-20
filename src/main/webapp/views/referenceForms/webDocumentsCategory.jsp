@@ -77,6 +77,13 @@
 		}	
 		.preloader-wrapper{top: 45%!important;left:47%!important;}
 		.error-msg label{color:red!important;}
+		.select2-container.select2-container--default select2-container--open,
+		.select2-container{
+			z-index:1093 !important;
+		}
+		.select2-container--default .select2-selection--single{
+			background-color:transparent;
+		}
     </style>
 </head>
 
@@ -122,27 +129,31 @@
                                             <th>ID</th>
                                             <th>type_fk</th>
                                             <th>Category</th>
-                                             <c:forEach var="tObj" items="${WebDocumentsCategoryDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${webDocumentsCategoryDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${WebDocumentsCategoryDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${webDocumentsCategoryDetails.dList1}" varStatus="indexs">
 											<tr>
-											<td></td>
-											<td></td>
 											<td>
-												<input type="hidden" id="weDocumentsType${indexs.count}" value="" />
-												${obj.web_documents_category }</td>
-											<c:forEach var="tObj" items="${WebDocumentsCategoryDetails.tablesList}" varStatus="index">
-												<td><c:forEach var="cObj" items="${WebDocumentsCategoryDetails.countList}" >
+												<input type="hidden" id="id${indexs.count}" value="${obj.id }" />
+												${obj.id }</td>
+											<td>
+												<input type="hidden" id="type_fkId${indexs.count}" value="${obj.type_fk }" />
+												${obj.type_fk }</td>
+											<td>
+												<input type="hidden" id="categoryId${indexs.count}" value="${obj.category }" />
+												${obj.category }</td>
+											<c:forEach var="tObj" items="${webDocumentsCategoryDetails.tablesList}" varStatus="index">
+												<td><c:forEach var="cObj" items="${webDocumentsCategoryDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.web_documents_category eq obj.web_documents_category }"> 
+																    <c:when test="${cObj.category eq obj.id }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -155,12 +166,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${WebDocumentsCategoryDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${webDocumentsCategoryDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.web_documents_category eq obj.web_documents_category }"> 
-												      	<a onclick="deleteRow('${ oSbj.web_documents_category }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
-												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
+												    <c:when test="${oSbj.id eq obj.id }"> 
+												      	<a onclick="deleteRow('${ oSbj.id }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	</a>
 												    </c:when>  
 												    <c:otherwise>  
@@ -197,7 +207,7 @@
 
     <!-- Add Modal Training -->
     <div id="addUpdateModal" class="modal">
-		<form action="<%=request.getContextPath() %>/add-web-documents-type" id="weDocumentsTypeForm" name="weDocumentsTypeForm" method="post" class="form-horizontal" role="form">
+		<form action="<%=request.getContextPath() %>/add-web-documents-category" id="webDocumentsCategoryForm" name="webDocumentsCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header">Add Web Documents Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -205,10 +215,20 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                         <div class="row">
+                        	 <div class="col s12 m6 input-field">
+                                 <p class="searchable_label">Risk Area</p>
+                                 <select class="searchable validate-dropdown" name="type_fk" id="type_fk">
+                                     <option value="">Select</option>
+                                      <c:forEach var="obj" items="${documentType }">
+		                                      <option value="${obj.type_fk }">${obj.type_fk }</option>
+		                              </c:forEach>
+                                 </select>
+                                 <span id="type_fkError" class="error-msg" ></span>
+                            </div>
                             <div class="input-field col s12 m12">
-                                <input id="web_documents_category_text" name="web_documents_category" type="text" class="validate">
-                                <label for="web_documents_category_text">Web Documents Category</label>
-                                <span id="web_documents_categoryError" class="error-msg" ></span>
+                                <input id="category_text" name="category" type="text" class="validate">
+                                <label for="category_text">Web Documents Category</label>
+                                <span id="categoryError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -219,7 +239,7 @@
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <a href="<%=request.getContextPath()%>/web-documents-type"
+                                    <a href="<%=request.getContextPath()%>/web-documents-category"
 									class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -233,7 +253,7 @@
         </form>
     </div>
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-web-documents-type" id=updateWebDocumentsCategoryForm name="updateWebDocumentsCategoryForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-web-documents-category" id=updateWebDocumentsCategoryForm name="updateWebDocumentsCategoryForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update Web Documents Category <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -241,6 +261,16 @@
                     <div class="col m2 hide-on-small"></div>
                     <div class="col m8 s12">
                        <div class="row no-mar">
+                         <div class="col s12 m6 input-field">
+                                 <p class="searchable_label">Risk Area</p>
+                                 <select class="searchable validate-dropdown" name="type_fk_new" id="type_fk_new">
+                                     <option value="">Select</option>
+                                      <c:forEach var="obj" items="${documentType }">
+		                                      <option value="${obj.type_fk }">${obj.type_fk }</option>
+		                              </c:forEach>
+                                 </select>
+                                 <span id="risk_area_fkError" class="error-msg" ></span>
+                         </div> 
                          <div class="input-field col s12 m12">
                                 <input id="value_new" type="text" name="value_new" class="validate">
                                 <input id="value_old" type="hidden" name="value_old"  >
@@ -260,7 +290,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/web-documents-type"
+                                        <a href="<%=request.getContextPath()%>/web-documents-category"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -287,7 +317,7 @@
     <!-- footer  -->
 <%--   <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="web_documents_category" id="web_documents_category" />
+    	<input type="hidden" name="id" id="id" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -299,8 +329,12 @@
 	
     <script>
         $(document).ready(function () {
-            $('.searchable').select2();
+        	 $('select:not(.searchable)').formSelect();
+             $('.searchable').select2();
             $('.modal').modal({ dismissible: false });
+            /* $('.modal .searchable').select2({
+            	 dropdownParent: $('.Modal');
+            }) */
             // adding table data into table start
           
             // adding table data into table ends
@@ -311,9 +345,9 @@
                         targets: [0],
                         className: 'mdl-data-table__cell--non-numeric',
                         targets: 'no-sort', orderable: false,
-                      /*   className: "last-column", targets: [1], */
+                        className: "last-column", targets: [4], 
                     },
-                    { "width": "20px", "targets": [3] },
+                    { "width": "20px", "targets": [4] },
                 ],
                 "scrollCollapse": true,
                 //paging: false,
@@ -331,7 +365,7 @@
            	 if(validator.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			document.getElementById("weDocumentsTypeForm").submit();	
+       			document.getElementById("webDocumentsCategoryForm").submit();	
            	}
         }
         function updateWebDocumentsCategory(){
@@ -341,35 +375,53 @@
      			document.getElementById("updateWebDocumentsCategoryForm").submit();	
          }
      }
-        var validator =	$('#weDocumentsTypeForm').validate({
-       	 rules: {
-       		 "web_documents_category": {
+        var validator =	$('#webDocumentsCategoryForm').validate({
+         ignore: ":hidden:not(.validate-dropdown)",
+       	 rules: { 
+       		 "category": {
+			 		  required: true
+			 	  }
+        	,"type_fk": {
 			 		  required: true
 			 	  }
        	},messages: {
-	 		   "web_documents_category": {
+	 		   "category": {
+		 		  required: 'Required'
+		 	  },
+		 	  "type_fk": {
 		 		  required: 'Required'
 		 	  }
         },errorPlacement:function(error, element){
-        	 if(element.attr("id") == "web_documents_category_text" ){
-			     document.getElementById("web_documents_categoryError").innerHTML="";
-		 	     error.appendTo('#web_documents_categoryError');
+        	 if(element.attr("id") == "category_text" ){
+			     document.getElementById("categoryError").innerHTML="";
+		 	     error.appendTo('#categoryError');
+			 }else if(element.attr("id") == "type_fk" ){
+			     document.getElementById("type_fkError").innerHTML="";
+		 	     error.appendTo('#type_fkError');
 			 }
         }
       });
       var validator1 = $('#updateWebDocumentsCategoryForm').validate({
+    	     ignore: ":hidden:not(.validate-dropdown)",
           	 rules: {
           		 	"value_new": {
+      			 		  required: true
+          			 },"type_fk_new": {
       			 		  required: true
           			 }
       			},messages: {
       		 		 "value_new": {
+      			 		  required: 'Required'
+      			 	 },"type_fk_new": {
       			 		  required: 'Required'
       			 	 }
       	        },errorPlacement:function(error, element){
       	        	 if(element.attr("id") == "value_new" ){
       				     document.getElementById("value_newError").innerHTML="";
       			 	     error.appendTo('#value_newError');
+      			   }else if(element.attr("id") == "type_fk_new" ){
+      				     document.getElementById("type_fk_newError").innerHTML="";
+      			 	     error.appendTo('#type_fk_newError');
       			   }
       	        }
           });
@@ -382,14 +434,18 @@
 
 
         function updateRow(no) {
-            var web_documents_category = $('#web_documents_categoryId'+no).val();
-            $('#value_old').val($.trim(web_documents_category))
+            var type_fk = $('#type_fkId'+no).val();
+            var category = $('#categoryId'+no).val();
+            $('#value_old').val($.trim(category))
             $('#onlyUpdateModal').modal('open');
-            $('#onlyUpdateModal #value_new').val($.trim(web_documents_category)).focus();
+            $('#onlyUpdateModal #type_fk_new').val($.trim(type_fk)).focus();
+            $('#onlyUpdateModal #value_new').val($.trim(category)).focus();
+            $('select[name^="type_fk_new"] option[value="'+ type_fk_new +'"]').attr("selected","selected");
+  	    	$('.searchable').select2();
         }
         
         function deleteRow(val){
-        	$("#web_documents_category").val(val);
+        	$("#id").val(val);
         	showCancelMessage();
       	    }
         	
@@ -409,7 +465,7 @@
       	            if (isConfirm) {
       	               // swal("Deleted!", "Record has been deleted", "success");
       	                $(".page-loader").show();
-      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-web-documents-type');
+      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-web-documents-category');
       	    	    	$('#getForm').submit();
       	           }else {
       	                swal("Cancelled", "Record is safe :)", "error");

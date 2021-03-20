@@ -204,9 +204,22 @@ public class PageConstants {
 	
 	public static final String zonalRailwayFunds = "referenceForms/zonalRailwayFunds";
 	
-public static final String referenceFormsAccessGrid = "forms/referenceFormsAccessGrid";
+	public static final String referenceFormsAccessGrid = "forms/referenceFormsAccessGrid";
 	
 	public static final String addEditReferenceFormsAccessForm = "forms/addEditReferenceFormsAccessForm";
+	
+	public static final String alertLevel = "referenceForms/alertLevel";
+	
+	public static final String asBuiltStatus = "referenceForms/asBuiltStatus";
+	
+	public static final String userType = "referenceForms/userType";
+	
+	public static final String userLoginEventType = "referenceForms/userLoginEventType";
+	
+	public static final String yesOrNoStatus = "referenceForms/yesOrNoStatus";
+	
+	public static final String webDocumentsType = "referenceForms/webDocumentsType";
+	
 }
 
 

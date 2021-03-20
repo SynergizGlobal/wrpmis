@@ -116,28 +116,28 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="web_documents_type_table" class="mdl-data-table">
+                                <table id="type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>Web Documents Type</th>
-                                             <c:forEach var="tObj" items="${WebDocumentsTypeDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${webDocumentsTypeDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${WebDocumentsTypeDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${webDocumentsTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="weDocumentsType${indexs.count}" value="" />
-												${obj.web_documents_type }</td>
-											<c:forEach var="tObj" items="${WebDocumentsTypeDetails.tablesList}" varStatus="index">
-												<td><c:forEach var="cObj" items="${WebDocumentsTypeDetails.countList}" >
+												<input type="hidden" id="typeId${indexs.count}" value="${obj.type }" />
+												${obj.type }</td>
+											<c:forEach var="tObj" items="${webDocumentsTypeDetails.tablesList}" varStatus="index">
+												<td><c:forEach var="cObj" items="${webDocumentsTypeDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.web_documents_type eq obj.web_documents_type }"> 
+																    <c:when test="${cObj.type eq obj.type }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -150,11 +150,11 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${WebDocumentsTypeDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${webDocumentsTypeDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.web_documents_type eq obj.web_documents_type }"> 
-												      	<a onclick="deleteRow('${ oSbj.web_documents_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.type eq obj.type }"> 
+												      	<a onclick="deleteRow('${ oSbj.type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -201,9 +201,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="web_documents_type_text" name="web_documents_type" type="text" class="validate">
-                                <label for="web_documents_type_text">Web Documents Type</label>
-                                <span id="web_documents_typeError" class="error-msg" ></span>
+                                <input id="type_text" name="type" type="text" class="validate">
+                                <label for="type_text">Web Documents Type</label>
+                                <span id="typeError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -282,7 +282,7 @@
     <!-- footer  -->
 <%--   <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="web_documents_type" id="web_documents_type" />
+    	<input type="hidden" name="type" id="type" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -300,7 +300,7 @@
           
             // adding table data into table ends
 
-            var table = $('#web_documents_type_table').DataTable({
+            var table = $('#type_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -338,17 +338,17 @@
      }
         var validator =	$('#weDocumentsTypeForm').validate({
        	 rules: {
-       		 "web_documents_type": {
+       		 "type": {
 			 		  required: true
 			 	  }
        	},messages: {
-	 		   "web_documents_type": {
+	 		   "type": {
 		 		  required: 'Required'
 		 	  }
         },errorPlacement:function(error, element){
-        	 if(element.attr("id") == "web_documents_type_text" ){
-			     document.getElementById("web_documents_typeError").innerHTML="";
-		 	     error.appendTo('#web_documents_typeError');
+        	 if(element.attr("id") == "type_text" ){
+			     document.getElementById("typeError").innerHTML="";
+		 	     error.appendTo('#typeError');
 			 }
         }
       });
@@ -377,14 +377,14 @@
 
 
         function updateRow(no) {
-            var web_documents_type = $('#web_documents_typeId'+no).val();
-            $('#value_old').val($.trim(web_documents_type))
+            var type = $('#typeId'+no).val();
+            $('#value_old').val($.trim(type))
             $('#onlyUpdateModal').modal('open');
-            $('#onlyUpdateModal #value_new').val($.trim(web_documents_type)).focus();
+            $('#onlyUpdateModal #value_new').val($.trim(type)).focus();
         }
         
         function deleteRow(val){
-        	$("#web_documents_type").val(val);
+        	$("#type").val(val);
         	showCancelMessage();
       	    }
         	

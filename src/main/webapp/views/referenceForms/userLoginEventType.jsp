@@ -116,7 +116,7 @@
                         </div>
                         <div class="row no-mar">
                             <div class="col m12 s12">
-                                <table id="user_login_event_type_table" class="mdl-data-table">
+                                <table id="login_event_type_table" class="mdl-data-table">
                                     <thead>
                                         <tr>
                                             <th>User Login Event Type</th>
@@ -129,15 +129,15 @@
                                     <tbody>
 										<c:forEach var="obj" items="${userLoginEventTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="alertLevel${indexs.count}" value="" />
-												${obj.user_login_event_type }</td>
+												<input type="hidden" id="login_event_typeId${indexs.count}" value="${obj.login_event_type }" />
+												${obj.login_event_type }</td>
 											<c:forEach var="tObj" items="${userLoginEventTypeDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${userLoginEventTypeDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.user_login_event_type eq obj.user_login_event_type }"> 
+																    <c:when test="${cObj.login_event_type eq obj.login_event_type }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -153,8 +153,8 @@
 										 	<c:forEach var="oSbj"  items="${userLoginEventTypeDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.user_login_event_type eq obj.user_login_event_type }"> 
-												      	<a onclick="deleteRow('${ oSbj.user_login_event_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.login_event_type eq obj.login_event_type }"> 
+												      	<a onclick="deleteRow('${ oSbj.login_event_type }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -192,7 +192,7 @@
 
     <!-- Add Modal Training -->
     <div id="addUpdateModal" class="modal">
-		<form action="<%=request.getContextPath() %>/add-as-built-status" id="alertLevelForm" name="alertLevelForm" method="post" class="form-horizontal" role="form">
+		<form action="<%=request.getContextPath() %>/add-user-login-event-type" id="userLoginEventTypeForm" name="userLoginEventTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header">Add User Login Event Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -201,9 +201,9 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="user_login_event_type_text" name="user_login_event_type" type="text" class="validate">
-                                <label for="user_login_event_type_text">User Login Event Type</label>
-                                <span id="user_login_event_typeError" class="error-msg" ></span>
+                                <input id="login_event_type_text" name="login_event_type" type="text" class="validate">
+                                <label for="login_event_type_text">User Login Event Type</label>
+                                <span id="login_event_typeError" class="error-msg" ></span>
                             </div>
                         </div>
                         <div class="row">
@@ -214,7 +214,7 @@
                             </div>
                             <div class="col s12 m6">
                                 <div class="center-align m-1">
-                                    <a href="<%=request.getContextPath()%>/as-built-status"
+                                    <a href="<%=request.getContextPath()%>/user-login-event-type"
 									class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
         </form>
     </div>
      <div id="onlyUpdateModal" class="modal">
-		 <form action="<%=request.getContextPath() %>/update-as-built-status" id=updateUserLoginEventTypeForm name="updateUserLoginEventTypeForm" method="post" class="form-horizontal" role="form">
+		 <form action="<%=request.getContextPath() %>/update-user-login-event-type" id=updateUserLoginEventTypeForm name="updateUserLoginEventTypeForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header bg-m">Update User Login Event Type <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -255,7 +255,7 @@
                                   <!--   <button
                                         class="btn waves-effect waves-light bg-s modal-action modal-close black-text"
                                         style="width:100%">Cancel</button> -->
-                                        <a href="<%=request.getContextPath()%>/as-built-status"
+                                        <a href="<%=request.getContextPath()%>/user-login-event-type"
 									     class="btn waves-effect waves-light bg-s modal-action modal-close" style="width: 100%">Cancel</a>
                                 </div>
                             </div>
@@ -282,7 +282,7 @@
     <!-- footer  -->
 <%--   <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="user_login_event_type" id="user_login_event_type" />
+    	<input type="hidden" name="login_event_type" id="login_event_type" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -300,7 +300,7 @@
           
             // adding table data into table ends
 
-            var table = $('#user_login_event_type_table').DataTable({
+            var table = $('#login_event_type_table').DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -326,7 +326,7 @@
            	 if(validator.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			document.getElementById("alertLevelForm").submit();	
+       			document.getElementById("userLoginEventTypeForm").submit();	
            	}
         }
         function updateUserLoginEventType(){
@@ -336,19 +336,19 @@
      			document.getElementById("updateUserLoginEventTypeForm").submit();	
          }
      }
-        var validator =	$('#alertLevelForm').validate({
+        var validator =	$('#userLoginEventTypeForm').validate({
        	 rules: {
-       		 "user_login_event_type": {
+       		 "login_event_type": {
 			 		  required: true
 			 	  }
        	},messages: {
-	 		   "user_login_event_type": {
+	 		   "login_event_type": {
 		 		  required: 'Required'
 		 	  }
         },errorPlacement:function(error, element){
-        	 if(element.attr("id") == "user_login_event_type_text" ){
-			     document.getElementById("user_login_event_typeError").innerHTML="";
-		 	     error.appendTo('#user_login_event_typeError');
+        	 if(element.attr("id") == "login_event_type_text" ){
+			     document.getElementById("login_event_typeError").innerHTML="";
+		 	     error.appendTo('#login_event_typeError');
 			 }
         }
       });
@@ -377,14 +377,14 @@
 
 
         function updateRow(no) {
-            var user_login_event_type = $('#user_login_event_typeId'+no).val();
-            $('#value_old').val($.trim(user_login_event_type))
+            var login_event_type = $('#login_event_typeId'+no).val();
+            $('#value_old').val($.trim(login_event_type))
             $('#onlyUpdateModal').modal('open');
-            $('#onlyUpdateModal #value_new').val($.trim(user_login_event_type)).focus();
+            $('#onlyUpdateModal #value_new').val($.trim(login_event_type)).focus();
         }
         
         function deleteRow(val){
-        	$("#user_login_event_type").val(val);
+        	$("#login_event_type").val(val);
         	showCancelMessage();
       	    }
         	
@@ -404,7 +404,7 @@
       	            if (isConfirm) {
       	               // swal("Deleted!", "Record has been deleted", "success");
       	                $(".page-loader").show();
-      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-as-built-status');
+      	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-user-login-event-type');
       	    	    	$('#getForm').submit();
       	           }else {
       	                swal("Cancelled", "Record is safe :)", "error");

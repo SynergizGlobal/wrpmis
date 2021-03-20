@@ -120,19 +120,19 @@
                                     <thead>
                                         <tr>
                                             <th>As Built Status</th>
-                                             <c:forEach var="tObj" items="${alertLevelDetails.tablesList}" >
+                                             <c:forEach var="tObj" items="${asBuiltStatusDetails.tablesList}" >
                                             	 <th>${tObj.tName } <br>(count)</th>
                                             </c:forEach>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="obj" items="${alertLevelDetails.dList1}" varStatus="indexs">
+										<c:forEach var="obj" items="${asBuiltStatusDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="alertLevel${indexs.count}" value="" />
+												<input type="hidden" id="as_built_statusId${indexs.count}" value="${obj.as_built_status }" />
 												${obj.as_built_status }</td>
-											<c:forEach var="tObj" items="${alertLevelDetails.tablesList}" varStatus="index">
-												<td><c:forEach var="cObj" items="${alertLevelDetails.countList}" >
+											<c:forEach var="tObj" items="${asBuiltStatusDetails.tablesList}" varStatus="index">
+												<td><c:forEach var="cObj" items="${asBuiltStatusDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
@@ -150,7 +150,7 @@
 												</c:forEach></td>
                                             </c:forEach>
 											<td class="last-column "><a onclick="updateRow(${indexs.count})" class="btn waves-effect waves-light bg-m t-c modal-trigger " href="#"> <i class="fa fa-pencil" ></i></a>
-										 	<c:forEach var="oSbj"  items="${alertLevelDetails.dList}" varStatus="indexx"> 
+										 	<c:forEach var="oSbj"  items="${asBuiltStatusDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
 												    <c:when test="${oSbj.as_built_status eq obj.as_built_status }"> 
@@ -192,7 +192,7 @@
 
     <!-- Add Modal Training -->
     <div id="addUpdateModal" class="modal">
-		<form action="<%=request.getContextPath() %>/add-as-built-status" id="alertLevelForm" name="alertLevelForm" method="post" class="form-horizontal" role="form">
+		<form action="<%=request.getContextPath() %>/add-as-built-status" id="asBuiltStatusForm" name="asBuiltStatusForm" method="post" class="form-horizontal" role="form">
             <div class="modal-content">
                 <h5 class="modal-header">Add As Built Status <span class="right modal-action modal-close"><span
                             class="material-icons">close</span></span></h5>
@@ -326,7 +326,7 @@
            	 if(validator.form()){ 
        			$(".page-loader").show();
        			$("#addUpdateModal").modal();
-       			document.getElementById("alertLevelForm").submit();	
+       			document.getElementById("asBuiltStatusForm").submit();	
            	}
         }
         function updateAsBuiltStatus(){
@@ -336,7 +336,7 @@
      			document.getElementById("updateAsBuiltStatusForm").submit();	
          }
      }
-        var validator =	$('#alertLevelForm').validate({
+        var validator =	$('#asBuiltStatusForm').validate({
        	 rules: {
        		 "as_built_status": {
 			 		  required: true

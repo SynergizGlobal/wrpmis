@@ -129,7 +129,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${alertLevelDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="alertLevel${indexs.count}" value="" />
+												<input type="hidden" id="alert_levelId${indexs.count}" value="${obj.alert_level }" />
 												${obj.alert_level }</td>
 											<c:forEach var="tObj" items="${alertLevelDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${alertLevelDetails.countList}" >

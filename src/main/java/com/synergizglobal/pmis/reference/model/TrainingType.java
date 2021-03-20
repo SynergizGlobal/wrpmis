@@ -15,7 +15,8 @@ public class TrainingType {
 	,p6_wbs_category,project_priority,railway_id, railway_name,railway_name_new,railway_id_val,report_type,revision_status,risk_priority,approval_status,land_type
 	,impact,root_cause,structure_type, user_role_code_new,user_access_table_new,user_access_type_val,short_description,short_description_new,area, item_no,
 	item_no_new,risk_area_fk,risk_area_fk_new,sub_area,sub_area_new,la_sub_category_new,la_category_fk_new,la_category_fk_old,la_sub_category_old,sub_category,
-	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum;
+	zonal_railway_funds,risk_minimum_new,risk_maximum_new,risk_classification_id, classification, minimum, maximum,alert_level,alert_type,as_built_status,user_type,
+	login_event_type,yesorno,type;
 
 
 	private List<TrainingType> bankGaurenteeList;
@@ -24,6 +25,62 @@ public class TrainingType {
 	private List<TrainingType> countList;
 	private List<TrainingType> dList;
 	private List<TrainingType> dList1;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getLogin_event_type() {
+		return login_event_type;
+	}
+
+	public String getYesorno() {
+		return yesorno;
+	}
+
+	public void setYesorno(String yesorno) {
+		this.yesorno = yesorno;
+	}
+
+	public void setLogin_event_type(String login_event_type) {
+		this.login_event_type = login_event_type;
+	}
+
+	public String getUser_type() {
+		return user_type;
+	}
+
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
+	}
+
+	public String getAs_built_status() {
+		return as_built_status;
+	}
+
+	public void setAs_built_status(String as_built_status) {
+		this.as_built_status = as_built_status;
+	}
+
+	public String getAlert_type() {
+		return alert_type;
+	}
+
+	public void setAlert_type(String alert_type) {
+		this.alert_type = alert_type;
+	}
+
+	public String getAlert_level() {
+		return alert_level;
+	}
+
+	public void setAlert_level(String alert_level) {
+		this.alert_level = alert_level;
+	}
 
 	public String getRisk_classification_id() {
 		return risk_classification_id;

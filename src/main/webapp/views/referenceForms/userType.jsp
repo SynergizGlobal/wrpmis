@@ -129,7 +129,7 @@
                                     <tbody>
 										<c:forEach var="obj" items="${userTypeDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="userType${indexs.count}" value="" />
+												<input type="hidden" id="user_typeId${indexs.count}" value="${obj.user_type }" />
 												${obj.user_type }</td>
 											<c:forEach var="tObj" items="${userTypeDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${userTypeDetails.countList}" >

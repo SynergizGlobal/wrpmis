@@ -18,7 +18,7 @@
         }
 
         .module-holder {
-            margin-top: 4rem;
+            margin-top: .5rem;
         }
 
         iframe {
@@ -41,18 +41,19 @@
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
-    <div class="row">
+    <div class="row no-mar" style="margin-bottom:0">
         <div class="col s12">
             <div class="module-holder" id="module-holder">
               <c:forEach var="obj" items="${referenceForms}" varStatus="index">
-               <div class="module">
-		            <div class="collapsible default">
-	                    <div class="collapsible-header" onclick="showIframes('${obj.form_url }'); getReferencePagesList('${obj.module_fk }','${index.count }');">
+              	 <%-- <c:set var = "classVal" value = "${fn:toLowerCase(obj.module_fk)}" /> --%>
+               <div class="module default">
+		           <!--  <div class="collapsible "> -->
+	                    <div class="" onclick="showIframes('${obj.form_url }'); getReferencePagesList('${obj.module_fk }','${index.count }');">
 	                    <input type="hidden" name="form_url" id="form_url${index.count }" value="${obj.form_url }"/>
-	                        <div class="collapsible-header-icon">Default</div>
+	                        <!-- <div class="collapsible-header-icon">Default</div> -->
 	                        ${obj.module_fk }  
 	                    </div>
-		            </div>
+		            <!-- </div> -->
         		</div>  
                                           	
       		   </c:forEach>

@@ -100,7 +100,7 @@
 	           	  <!-- 1st level Dropdown ends -->
 	          </li>
 	          
-	          <li class="blue darken-2 dropdown"><a href="#" class='head-img'>
+	          <li class="blue darken-1 dropdown"><a href="#" class='head-img'>
 		          <span class="material-icons-outlined">dashboard</span> Works</a>
 	          	  <ul class="second-level-menu">
 	                  <c:forEach var="category" items="${dashboardProjectsList }" varStatus="index">
@@ -141,7 +141,7 @@
           </c:if>
           
           <c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
-	          <li class="blue darken-1 dropdown">
+	          <li class="blue dropdown">
 	          	<a href="#" class='head-img'>
 	               <span class="material-icons-outlined">post_add</span>
 	          		Update Forms</a>
@@ -211,7 +211,7 @@
           </c:if>
           
          
-          <li class="blue darken-1 dropdown">
+          <li class="blue lighten-1 dropdown">
           	<a href="#" class='head-img'>
                <span class="material-icons-outlined">assignment</span>
           		Reports</a>
@@ -257,7 +257,7 @@
           <%-- <li class="blue"><a href="<%=request.getContextPath()%>/manuals" class='head-img'>
 	          <span class="material-icons-outlined">assignment</span> Manuals</a>
           </li> --%>
-           <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img'>
+           <li class="blue darken-2"><a href="javascript:void(0);" class='head-img'>
 	          <span class="material-icons-outlined">description</span> Documents</a>
 	          <ul class="second-level-menu">
 		          <c:forEach var="obj" items="${webDocumentTypes}">
@@ -274,7 +274,7 @@
          <%--<li class="blue"><a href="<%=request.getContextPath()%>/web-links" class='head-img'>
 	          <span class="material-icons-outlined">link</span> Quick Links</a>
           </li>--%>
-           <li class="blue lighten-2"><a href="javascript:void(0);" class='head-img'>
+           <li class="blue darken-1"><a href="javascript:void(0);" class='head-img'>
 	          <span class="material-icons-outlined">link</span>Quick Links</a>
 	          <ul class="second-level-menu">	
 	          <c:forEach var="lObj" items="${webLinksList }">
@@ -287,7 +287,7 @@
 		 	 </ul>
           </li> 
           <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }"> 
-            <li class="blue lighten-1"><a href="javascript:void(0);" class='head-img'>
+            <li class="blue"><a href="javascript:void(0);" class='head-img'>
           		<span class="material-icons-outlined">list_alt</span>Admin</a>
 		         <ul class="second-level-menu">
 		        <c:forEach var="form" items="${adminForms }" varStatus="index">

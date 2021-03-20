@@ -364,9 +364,20 @@
 							<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4">
-                                   <div class="center-align m-1">
+                                
+                                    <!-- <div class="center-align m-1">
 										<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
-								</div>
+									</div> -->
+									
+									<div class="center-align m-1">
+                                    	<c:if test="${risk.readonlyForm eq false }">
+                                        	<button type="button" onclick="updateRisk();" style="width: 100%;" class="btn waves-effect waves-light bg-m">Update</button>
+                                        </c:if>
+                                        <c:if test="${risk.readonlyForm eq true }">
+                                        	<a style="color:red;">Not Authorized to Edit</a>
+                                        </c:if>
+                                    </div>
+                                    
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
@@ -423,7 +434,14 @@
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('#mitigation_plan').characterCounter();
+            $('#mitigation_plan').characterCounter();            
+            
+            if('${risk.readonlyForm}' == 'true'){
+	            $("#riskForm :input").attr("disabled", true);
+	            $("#riskForm :textarea").attr("disabled", true);	            
+	            $("#riskForm select").prop("disabled", true);	            
+            }
+            
         });
         
         function closeTab(){

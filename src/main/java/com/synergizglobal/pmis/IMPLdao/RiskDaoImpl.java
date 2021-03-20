@@ -3,8 +3,6 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -14,7 +12,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -30,9 +27,9 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Risk;
-import com.synergizglobal.pmis.model.RiskReport;
 @Repository
 public class RiskDaoImpl implements RiskDao{
 
@@ -229,8 +226,9 @@ public class RiskDaoImpl implements RiskDao{
 		List<Risk> objsList =null;		
 		try {
 			String qry = "SELECT risk_id_pk,risk_id,sub_work,w.work_id,work_id_fk,w.work_name,w.work_short_name,project_id_fk,"
-					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no, "+
-					"risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date "+
+					+ "ra.area,ra.item_no as area_item_no,p.project_name,risk_id,sub_area,sub_area_fk,rsa.item_no as sub_area_item_no, "
+					+ "risk_revision_id,risk_id_pk_fk,mitigation_plan,priority_fk,probability,impact,DATE_FORMAT(date,'%d-%m-%Y') AS date,"
+					+ "rr.owner,rr.responsible_person "+
 					"from risk r  "+
 					"left join work w on r.work_id_fk = w.work_id " + 
 					"left join risk_sub_area rsa on r.sub_area_fk = sub_area " + 
@@ -251,6 +249,12 @@ public class RiskDaoImpl implements RiskDao{
 				arrSize++;
 			}	
 			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (rr.owner = ? or rr.responsible_person = ?)";
+				arrSize++;
+				arrSize++;
+			} 
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 
@@ -260,6 +264,10 @@ public class RiskDaoImpl implements RiskDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				pValues[i++] = obj.getSub_work();
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_designation();
+				pValues[i++] = obj.getUser_designation();
+			} 
 			
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));	
 			
@@ -292,6 +300,12 @@ public class RiskDaoImpl implements RiskDao{
 				qry = qry + " and date = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (rr.owner = ? or rr.responsible_person = ?)";
+				arrSize++;
+				arrSize++;
+			} 
+			
 			qry = qry + " group by sub_work";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -304,6 +318,11 @@ public class RiskDaoImpl implements RiskDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
 				pValues[i++] = obj.getAssessment_date();
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_designation();
+				pValues[i++] = obj.getUser_designation();
+			} 
+			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
@@ -326,12 +345,22 @@ public class RiskDaoImpl implements RiskDao{
 				qry = qry + " and sub_work = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (rr.owner = ? or rr.responsible_person = ?)";
+				arrSize++;
+				arrSize++;
+			} 
+			
 			qry = qry + " group by risk_area_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_work())) {
 				pValues[i++] = obj.getSub_work();
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_designation();
+				pValues[i++] = obj.getUser_designation();
+			} 
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
 		}catch(Exception e){ 
@@ -365,6 +394,12 @@ public class RiskDaoImpl implements RiskDao{
 				arrSize++;
 			}	
 			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (rr.owner = ? or rr.responsible_person = ?)";
+				arrSize++;
+				arrSize++;
+			} 
+			
 			qry = qry + " group by date";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -377,6 +412,10 @@ public class RiskDaoImpl implements RiskDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getAssessment_date())) {
 				pValues[i++] = obj.getAssessment_date();
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_designation();
+				pValues[i++] = obj.getUser_designation();
+			} 
 			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Risk>(Risk.class));
 
@@ -449,6 +488,18 @@ public class RiskDaoImpl implements RiskDao{
 				List<Risk> objsList = jdbcTemplate.query(qryDetails, new Object[] {sObj.getRisk_revision_id()}, new BeanPropertyRowMapper<Risk>(Risk.class));	
 				sObj.setRiskActions(objsList); 
 			}
+			
+			if(!StringUtils.isEmpty(sObj)) {
+				if(!StringUtils.isEmpty(obj)) {
+					if(obj.getUser_designation().equals(sObj.getOwner()) || obj.getUser_designation().equals(sObj.getResponsible_person()) || obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN) ){
+						sObj.setReadonlyForm(false);
+					}else {
+						sObj.setReadonlyForm(true);
+					}
+					
+				}
+			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());

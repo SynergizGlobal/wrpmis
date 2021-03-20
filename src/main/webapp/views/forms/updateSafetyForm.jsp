@@ -138,7 +138,7 @@
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${departmentList }">
                                         	<c:if test="${obj.department_fk eq 'Elec' or obj.department_fk eq 'Engg' or obj.department_fk eq 'S&T'}">
-                                            	<option value="${obj.department_fk }" <c:if test="${safety.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_fk}</option>
+                                            	<option value="${obj.department_fk }" <c:if test="${safety.department_fk eq obj.department_fk}">selected</c:if>>${obj.department_name}</option>
                                         	</c:if>
                                         </c:forEach>
                                     </select>

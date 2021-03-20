@@ -10,7 +10,7 @@ public class Issue {
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,contract_hod_email_id,contract_dyhod_email_id,dy_hod_user_id_fk,user_type,user_role_code,user_id;
 
-	private boolean readonlyForm;
+	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
 	
 	public String getReported_by_email_id() {

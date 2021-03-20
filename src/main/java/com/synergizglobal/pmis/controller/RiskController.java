@@ -1,35 +1,17 @@
 package com.synergizglobal.pmis.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.NumberUtils;
 import org.apache.log4j.Logger;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -54,7 +36,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.Risk;
-import com.synergizglobal.pmis.model.RiskReport;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class RiskController {
@@ -112,6 +94,12 @@ public class RiskController {
 		try {
 			userId = (String) session.getAttribute("USER_ID");
 			userName = (String) session.getAttribute("USER_NAME");
+			
+			User uObj = (User) session.getAttribute("user");
+			risk.setUser_type(uObj.getUser_type_fk());
+			risk.setUser_role_code(uObj.getUser_role_code());
+			risk.setUser_id(uObj.getUser_id()); 
+			risk.setUser_designation(uObj.getDesignation());
 			
 			//model.setViewName("redirect:/risk");
 			model.setViewName("redirect:/risk-assessment");
@@ -187,7 +175,7 @@ public class RiskController {
 						}*/
 						
 						risk.setUploaded_by_user_id_fk(userId);
-						if(msg.contains("File is not uploaded")) {
+						if(msg.contains("Your assessment is incomplete!")) {
 							risk.setStatus("Fail");
 						}else {
 							risk.setStatus("Success");
@@ -198,9 +186,9 @@ public class RiskController {
 					workbook.close();
 				}
 			} else {
-				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				attributes.addFlashAttribute("error", "Your assessment is incomplete!");
 				
-				msg = "No file exists";
+				msg = "Your assessment is incomplete!";
 				risk.setUploaded_by_user_id_fk(userId);
 				risk.setStatus("Fail");
 				risk.setRemarks(msg);
@@ -209,17 +197,17 @@ public class RiskController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			attributes.addFlashAttribute("error", "Your assessment is incomplete");
 			logger.fatal("updateDataDate() : "+e.getMessage());
 			
-			msg = "Something went wrong. Please try after some time";
+			msg = "Your assessment is incomplete!";
 			risk.setUploaded_by_user_id_fk(userId);
 			risk.setStatus("Fail");
 			risk.setRemarks(msg);
 			try {
 				boolean flag = riskService.saveRiskAssessmentUploadFile(risk);
 			} catch (Exception e1) {
-				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				attributes.addFlashAttribute("error", "Your assessment is incomplete!");
 				logger.fatal("saveRiskAssessmentUploadFile() : "+e.getMessage());
 			}
 		}
@@ -250,8 +238,10 @@ public class RiskController {
 					String sub_work = null,item_no = null,risk_id = null,owner = null,risk_area_fk = null,risk_sub_area_fk = null,
 							date = null,probability = null,impact = null,mitigation_plan = null,priority = null,
 							responsible_person = null;
-					String risk_base_text = "";
+					
+					String logged_in_user_designation = obj.getUser_designation();
 
+					String risk_owner_error = "";
 					String risk_rows_error = "";
 					int rowNo = 0;
 					for(int j = 3; j <= risksDrawingsSheet.getLastRowNum();j++){						
@@ -373,33 +363,19 @@ public class RiskController {
 							}								
 							if(!StringUtils.isEmpty(responsible_person) && !responsible_person.equals("0.0")) { risk.setResponsible_person(responsible_person);}									
 							
-							/*//val = getCellDataType2(workbook,row.getCell(16));
-							tempVal = formatter.formatCellValue(row.getCell(16)).trim();
-							count = org.apache.commons.lang3.StringUtils.countMatches(tempVal, "$");
-							if(count != 2) {
-								if(!StringUtils.isEmpty(tempVal)) {
-									risk_base_text = getCellDataType2(workbook,row.getCell(16));
-									risk_id = risk_base_text + "-Risk-"+(i-1);
-								}else {
-									risk_id = risk_base_text + "-Risk-"+(i-1);
-								}
-							}
-							if(!StringUtils.isEmpty(risk_id)) { risk.setRisk_id(risk_id);}*/
-							
-							
 							risk.setDate(DateParser.parse(risk.getDate()));
-							
-							/*boolean flag = risk.checkNullOrEmpty();
-							
-							if(!flag) {
-								risksList.add(risk);
-							}*/
-							
+														
 							if(!StringUtils.isEmpty(risk.getSub_work()) && !StringUtils.isEmpty(risk.getOwner()) 
 									&& !StringUtils.isEmpty(risk.getDate()) && !StringUtils.isEmpty(risk.getProbability()) && !StringUtils.isEmpty(risk.getImpact()) 
 									&& !StringUtils.isEmpty(risk.getPriority_fk())  && !StringUtils.isEmpty(risk.getResponsible_person()) 
 									&& (risk.getProbability().equals("1") || risk.getProbability().equals("3") || risk.getProbability().equals("5")) && (risk.getImpact().equals("1") || risk.getImpact().equals("3") || risk.getImpact().equals("5"))) {
-								risksList.add(risk);
+								
+								if(risk.getOwner().equals(logged_in_user_designation)) {
+									risksList.add(risk);
+								}else {
+									risk_owner_error = risk_owner_error + (!StringUtils.isEmpty(risk_owner_error)?",":"") + rowNo;
+								}
+								
 							} else {
 								risk_rows_error = risk_rows_error + (!StringUtils.isEmpty(risk_rows_error)?",":"") + rowNo;
 							}
@@ -418,11 +394,16 @@ public class RiskController {
 						
 						msg =  "<span style='color:green;'> "+msg+"</span>";
 					}
-					if(!StringUtils.isEmpty(risk_rows_error)) {
-						risk_rows_error = "<br><span style='color:red;'>File is not uploaded. Row no(s) " + risk_rows_error + " are not inserted (Reason : Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty. And Probability and impact should have values 1 or 3 or 5 ).</span> ";
+					
+					if(!StringUtils.isEmpty(risk_owner_error)) {
+						risk_owner_error = "<br><span style='color:red;'>Not authorized to upload! Owner of these Row no(s) " + risk_owner_error + " are not matched with Logged In user designation .</span> ";
 					}
 					
-					msg = msg + risk_rows_error;
+					if(!StringUtils.isEmpty(risk_rows_error)) {
+						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " are not inserted (Reason : Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty. And Probability and impact should have values 1 or 3 or 5 ).</span> ";
+					}
+					
+					msg = msg + risk_owner_error + risk_rows_error;
 				}
 				workbook.close();
 			}
@@ -496,13 +477,19 @@ public class RiskController {
 
 	
 	@RequestMapping(value = "/get-risk-assessment", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getRiskAssessment(@ModelAttribute Risk obj){
+	public ModelAndView getRiskAssessment(@ModelAttribute Risk obj,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.riskAssessmentForm);
 			
 			/*List<Risk> assessmentDates = riskService.getRiskAssessmentDates(obj);
 			model.addObject("assessmentDates", assessmentDates);*/
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id()); 
+			obj.setUser_designation(uObj.getDesignation());
 			
 			Risk risk = riskService.getRiskAssessment(obj);
 			model.addObject("risk", risk);
@@ -536,9 +523,16 @@ public class RiskController {
 	
 	@RequestMapping(value = "/ajax/getRiskAssessmentList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Risk> getRiskAssessmentList(@ModelAttribute Risk obj) {
+	public List<Risk> getRiskAssessmentList(@ModelAttribute Risk obj,HttpSession session) {
 		List<Risk> riskList = null;
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id()); 
+			obj.setUser_designation(uObj.getDesignation()); 
+			
 			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			riskList = riskService.getRiskAssessmentList(obj);
 		}catch (Exception e) {
@@ -550,9 +544,15 @@ public class RiskController {
 	
 	@RequestMapping(value = "/ajax/getSubWorksFilterListInRiskAssessmnt", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Risk> getSubWorksFilterListInRiskAssessmnt(@ModelAttribute Risk obj) {
+	public List<Risk> getSubWorksFilterListInRiskAssessmnt(@ModelAttribute Risk obj,HttpSession session) {
 		List<Risk> worksList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id()); 
+			obj.setUser_designation(uObj.getDesignation());
+			
 			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			worksList = riskService.getSubWorksFilterListInRiskAssessmnt(obj);
 		}catch (Exception e) {
@@ -564,9 +564,15 @@ public class RiskController {
 	
 	@RequestMapping(value = "/ajax/getAreasFilterListInRiskAssessment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Risk> getAreasFilterListInRiskAssessment(@ModelAttribute Risk obj) {
+	public List<Risk> getAreasFilterListInRiskAssessment(@ModelAttribute Risk obj,HttpSession session) {
 		List<Risk> areaList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id()); 
+			obj.setUser_designation(uObj.getDesignation());
+			
 			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			areaList = riskService.getAreasFilterListInRiskAssessment(obj);
 		}catch (Exception e) {
@@ -578,9 +584,15 @@ public class RiskController {
 	
 	@RequestMapping(value = "/ajax/getAssessmentDatesFilterListInRiskAssessment", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(@ModelAttribute Risk obj) {
+	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(@ModelAttribute Risk obj,HttpSession session) {
 		List<Risk> assesmentDates = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id()); 
+			obj.setUser_designation(uObj.getDesignation());
+			
 			obj.setAssessment_date(DateParser.parse(obj.getAssessment_date()));
 			assesmentDates = riskService.getAssessmentDatesFilterListInRiskAssessment(obj);
 		}catch (Exception e) {

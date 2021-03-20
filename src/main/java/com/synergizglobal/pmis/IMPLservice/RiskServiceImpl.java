@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.RiskDao;
 import com.synergizglobal.pmis.Iservice.RiskService;
 import com.synergizglobal.pmis.model.Risk;
-import com.synergizglobal.pmis.model.RiskReport;
 
 @Service
 public class RiskServiceImpl implements RiskService{

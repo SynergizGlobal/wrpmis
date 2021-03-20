@@ -87,11 +87,8 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) 
-					&& (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
-					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))) {
-				
-			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
 				arrSize++;
 				arrSize++;
@@ -121,11 +118,8 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) 
-					&& (CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
-					|| CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))) {
-				
-			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -536,7 +530,8 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getContractsListFilter(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from issue i "
+			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name "
+					+ "from issue i "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -568,6 +563,16 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			} 
+			
 			qry = qry + " GROUP BY contract_id_fk";
 			
 			Object[] pValues = new Object[arrSize];
@@ -591,7 +596,13 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
 				pValues[i++] = obj.getHod();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			} 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -604,7 +615,8 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getDepartmentsListFilter(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT c.department_fk,department,department_name from issue i "
+			String qry = "SELECT c.department_fk,department,department_name "
+					+ "from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -636,6 +648,16 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			} 
+			
 			qry = qry + " GROUP BY c.department_fk";
 			
 			Object[] pValues = new Object[arrSize];
@@ -659,6 +681,13 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
 				pValues[i++] = obj.getHod();
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			} 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -671,12 +700,13 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getCategoryListFilter(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT category_fk from issue i "
-			+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
-			+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
-			+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-			+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
-			+ " where category_fk is not null and category_fk <> '' ";
+			String qry = "SELECT category_fk "
+					+ "from issue i "
+					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "LEFT JOIN user u on c.hod_user_id_fk = u.user_id "
+					+ " where category_fk is not null and category_fk <> '' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -704,6 +734,14 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			} 
 			qry = qry + " GROUP BY category_fk ";
 			
 			Object[] pValues = new Object[arrSize];
@@ -727,7 +765,13 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
 				pValues[i++] = obj.getHod();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			} 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -740,7 +784,8 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getStatusListFilter(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT status_fk from issue i "
+			String qry = "SELECT status_fk "
+					+ "from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -773,6 +818,14 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			} 
 			qry = qry + " GROUP BY status_fk ";
 			
 			Object[] pValues = new Object[arrSize];
@@ -796,7 +849,13 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
 				pValues[i++] = obj.getHod();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			} 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -843,6 +902,14 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			} 
 			qry = qry + " GROUP BY work_id_fk ";
 			
 			Object[] pValues = new Object[arrSize];
@@ -866,7 +933,13 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
 				pValues[i++] = obj.getHod();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			} 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -879,7 +952,8 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getResponsiblePersonsListFilter(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT responsible_person,u.user_name from issue i "
+			String qry = "SELECT responsible_person,u.user_name "
+					+ "from issue i "
 					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk COLLATE utf8mb4_unicode_ci = d.department "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -912,6 +986,14 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and responsible_person = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			} 
 			qry = qry + " GROUP BY responsible_person ";
 			
 			Object[] pValues = new Object[arrSize];
@@ -935,7 +1017,13 @@ public class IssueDaoImpl implements IssueDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getResponsible_person())) {
 				pValues[i++] = obj.getResponsible_person();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			} 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 
@@ -982,6 +1070,15 @@ public class IssueDaoImpl implements IssueDao {
 				qry = qry + " and u.designation = ?";
 				arrSize++;
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			} 
 			qry = qry + " group by u.designation";
 			
 			Object[] pValues = new Object[arrSize];
@@ -1006,6 +1103,13 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getHod();
 			}
 			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type()) 
+					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+			} 
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 		}catch(Exception e){ 

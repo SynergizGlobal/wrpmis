@@ -129,15 +129,15 @@
                                     <tbody>
 										<c:forEach var="obj" items="${yesOrNoStatusDetails.dList1}" varStatus="indexs">
 											<tr><td>
-												<input type="hidden" id="yesOrNoStatus${indexs.count}" value="" />
-												${obj.yes_or_no_status }</td>
+												<input type="hidden" id="yesOrNoStatusId${indexs.count}" value="${obj.yesorno }" />
+												${obj.yesorno }</td>
 											<c:forEach var="tObj" items="${yesOrNoStatusDetails.tablesList}" varStatus="index">
 												<td><c:forEach var="cObj" items="${yesOrNoStatusDetails.countList}" >
 												<c:choose> 
 													    <c:when test="${tObj.tName eq cObj.tName }"> 
 													    
 													    		<c:choose>  
-																    <c:when test="${cObj.yes_or_no_status eq obj.yes_or_no_status }"> 
+																    <c:when test="${cObj.yesorno eq obj.yesorno }"> 
 																      	 ( ${cObj.count } )   
 																    </c:when>  
 																    <c:otherwise>  
@@ -153,8 +153,8 @@
 										 	<c:forEach var="oSbj"  items="${yesOrNoStatusDetails.dList}" varStatus="indexx"> 
 												 
 												<c:choose>  
-												    <c:when test="${oSbj.yes_or_no_status eq obj.yes_or_no_status }"> 
-												      	<a onclick="deleteRow('${ oSbj.yes_or_no_status }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
+												    <c:when test="${oSbj.yesorno eq obj.yesorno }"> 
+												      	<a onclick="deleteRow('${ oSbj.yesorno }');" id="${indexx.count}" class="btn waves-effect waves-light bg-s t-c modal-trigger"><i class="fa fa-trash"></i>
 												      	  <%-- <input name="bg_type" value="${oSbj.bg_type}"/> --%>
 												      	</a>
 												    </c:when>  
@@ -201,7 +201,7 @@
                     <div class="col m8 s12">
                         <div class="row">
                             <div class="input-field col s12 m12">
-                                <input id="yes_or_no_status_text" name="yes_or_no_status" type="text" class="validate">
+                                <input id="yes_or_no_status_text" name="yesorno" type="text" class="validate">
                                 <label for="yes_or_no_status_text">Yes or No</label>
                                 <span id="yes_or_no_statusError" class="error-msg" ></span>
                             </div>
@@ -282,7 +282,7 @@
     <!-- footer  -->
 <%--   <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 	<form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="yes_or_no_status" id="yes_or_no_status" />
+    	<input type="hidden" name="yesorno" id="yesorno" />
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -338,11 +338,11 @@
      }
         var validator =	$('#yesOrNoStatusForm').validate({
        	 rules: {
-       		 "yes_or_no_status": {
+       		 "yesorno": {
 			 		  required: true
 			 	  }
        	},messages: {
-	 		   "yes_or_no_status": {
+	 		   "yesorno": {
 		 		  required: 'Required'
 		 	  }
         },errorPlacement:function(error, element){
@@ -377,14 +377,14 @@
 
 
         function updateRow(no) {
-            var yes_or_no_status = $('#yes_or_no_statusId'+no).val();
-            $('#value_old').val($.trim(yes_or_no_status))
+            var yesorno = $('#yesOrNoStatusId'+no).val();
+            $('#value_old').val($.trim(yesorno))
             $('#onlyUpdateModal').modal('open');
-            $('#onlyUpdateModal #value_new').val($.trim(yes_or_no_status)).focus();
+            $('#onlyUpdateModal #value_new').val($.trim(yesorno)).focus();
         }
         
         function deleteRow(val){
-        	$("#yes_or_no_status").val(val);
+        	$("#yesorno").val(val);
         	showCancelMessage();
       	    }
         	

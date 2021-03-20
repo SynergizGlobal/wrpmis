@@ -584,9 +584,12 @@
             
             var status_fk = "${issue.status_fk}";
             var logged_id_user_id = "${sessionScope.USER_ID}";
+            var logged_id_user_role_code = "${sessionScope.USER_ROLE_CODE}";
+            var user_role_it_admin = '<%=CommonConstants.ROLE_CODE_IT_ADMIN%>';
             
             var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
             var dy_hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("dyhod");
+            
             var myParams = {};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getIssueStatusListForIssuesForm",
@@ -609,6 +612,12 @@
                             if ((val.status != 'Escalated') && (val.status != 'Closed')){
                             	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                             } 
+                            
+                            if ((val.status == 'Closed' || val.status == 'Escalated') && ((logged_id_user_role_code == user_role_it_admin))){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                            }
+                            
+                            
                             /* if (val.status == $.trim(status_fk)) {
                                 $("#status_fk").append('<option value="' + val.status+'" selected>' + $.trim(val.status) + '</option>');
                             } else {

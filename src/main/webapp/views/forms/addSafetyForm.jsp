@@ -404,8 +404,10 @@
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="center-align m-1">
-                                        <button type="reset" class="btn waves-effect waves-light bg-s black-text"
-                                            style="width:100%">Cancel</button>
+                                        <!-- <button type="reset" class="btn waves-effect waves-light bg-s black-text"
+                                            style="width:100%">Cancel</button> -->
+                                        <a href="<%=request.getContextPath() %>/safety" class="btn waves-effect waves-light bg-s black-text"
+                                            style="width:100%">Cancel</a>
                                     </div>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>

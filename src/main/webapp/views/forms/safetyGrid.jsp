@@ -104,13 +104,13 @@
                         		<div class="row">
                         			  <div class="col m4 s12 input-field">
 		                            	<p class="searchable_label">Work</p>
-		                                 <select id="work_id_fk" name="work_id_fk" onchange="getSafetyList();" class="searchable">
+		                                 <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getSafetyList();" class="searchable">
 		                                     <option value="" >Select</option>		                                     
 		                                 </select>  
                             		 </div>
 		                            <div class="col s12 m4 input-field">
 		                            	<p class="searchable_label">Contract</p>
-		                                 <select id="contract_id_fk" name="contract_id_fk" onchange="getSafetyList();" class="searchable">
+		                                 <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getSafetyList();" class="searchable">
 		                                     <option value="" >Select</option>
 		                                     <%-- <c:forEach var="obj" items="${contracts }">
 				                               	<option value="${obj.contract_id }" <c:if test="${param.contract_id_fk eq obj.contract_id }">selected</c:if>>${obj.contract_id }<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
@@ -119,7 +119,7 @@
 		                            </div>
 		                            <div class="col s12 m4 input-field">
 		                            <p class="searchable_label">HOD</p>
-		                                <select id="hod_user_id_fk" name="hod_user_id_fk" onchange="getSafetyList();" class="searchable">
+		                                <select id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getSafetyList();" class="searchable">
 		                                     <option value="" >Select</option>
 		                                 </select>
 		                            </div>
@@ -129,7 +129,7 @@
                           <div class="col m7 s12">
                             <div class="col s12 m3 input-field">
                             <p class="searchable_label">Department</p>
-                                <select id="department_fk" name="department_fk" onchange="getSafetyList();" class="searchable">
+                                <select id="department_fk" name="department_fk" onchange="addInQueDepartment(this.value);getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${departments }">
 		                               	<option value="${obj.department }" <c:if test="${param.department_fk eq obj.department }">selected</c:if>>${obj.department_fk }<c:if test="${not empty obj.department_name}"> - </c:if> ${obj.department_name }</option>
@@ -138,7 +138,7 @@
                             </div>
                             <div class="col s12 m3 input-field">
                             <p class="searchable_label">Category</p>
-                                 <select id="category_fk" name="category_fk" onchange="getSafetyList();" class="searchable">
+                                 <select id="category_fk" name="category_fk" onchange="addInQueCategory(this.value);getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${categorys }">
 		                               	<option value="${obj.category_fk }" <c:if test="${param.category_fk eq obj.category_fk }">selected</c:if>>${obj.category_fk }</option>
@@ -147,7 +147,7 @@
                             </div>
                             <div class="col s12 m3 input-field">
                             <p class="searchable_label">Status</p>
-                                 <select id="status_fk" name="status_fk" onchange="getSafetyList();" class="searchable">
+                                 <select id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getSafetyList();" class="searchable">
                                      <option value="" >Select</option>
                                      <%-- <c:forEach var="obj" items="${statuses }">
 		                               	<option value="${obj.status_fk }" <c:if test="${param.status_fk eq obj.status_fk }">selected</c:if>>${obj.status_fk }</option>
@@ -211,7 +211,7 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 	
-	<form action="<%=request.getContextPath()%>/get-safety" id="getForm" name="getForm" method="post" target="_blank">
+	<form action="<%=request.getContextPath()%>/get-safety" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="safety_id" id="safety_id"/>
     </form>
   
@@ -234,39 +234,38 @@
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	<script>
+		var filtersMap = new Object();
+	
         $(document).ready(function () {
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-           	var table = $('#datatable-safety').DataTable({
-        		"bStateSave": true,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['nosort'] }
-                ],
-                // "ScrollX": true,
-                //"scrollCollapse": true,
-                //"sScrollY": 400,
-                "sScrollX": "100%",
-                "sScrollXInner": "100%",
-                "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            });
-        	table.state.clear(); 
-    		
+           
         	
-        	$('.close-message').delay(3000).fadeOut('slow');
+			$('.close-message').delay(10000).fadeOut('slow');
+        	
+        	var filters = window.localStorage.getItem("safetyFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^'); 
+        	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'work_id_fk'){
+		        		  getWorksListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        		  getContractsListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+		        		  getDepartmentsListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'category_fk'){
+		        		  getCategoryListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'status_fk'){
+		        		  getStatusListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'hod_user_id_fk' ){
+		        		  getHODListFilter(temp2[1]);
+		        	  } 
+	        	  }
+	          }
+            }
         	
         	getSafetyList();
         });
@@ -279,11 +278,78 @@
         	$("#category_fk").val("");
         	$("#status_fk").val("");
         	$("#hod_user_id_fk").val("");
+        	
+        	//window.localStorage.clear();
+        	window.localStorage.setItem("safetyFilters",'');
+        	
         	getSafetyList();
+        }
+        
+        
+        function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
+        
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+        
+        function addInQueDepartment(department_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('department_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(department_fk) != ''){
+            	filtersMap["department_fk"] = department_fk;
+	      	}
+        }
+        
+        function addInQueCategory(category_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('category_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(category_fk) != ''){
+       	    	filtersMap["category_fk"] = category_fk;
+        	}
+        }
+        
+        function addInQueStatus(status_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('status_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(status_fk) != ''){
+            	filtersMap["status_fk"] = status_fk;
+	      	}
+        }
+        
+        function addInQueHOD(hod){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('hod_user_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(hod) != ''){
+       	    	filtersMap["hod_user_id_fk"] = hod;
+        	}
         }
             
         function getSafetyList(){
         	$(".page-loader-2").show();
+        	
+        	getWorksListFilter('');
+        	getContractsListFilter('');
+        	getDepartmentsListFilter('');
+        	getCategoryListFilter('');
+        	getStatusListFilter('');
+        	getHODListInSafetyFilter('');
+        	
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
@@ -291,12 +357,12 @@
         	var status_fk = $("#status_fk").val();
         	var hod_user_id_fk = $("#hod_user_id_fk").val();
         	
-        	getWorksListFilter();
-        	getContractsListFilter();
-        	getDepartmentsListFilter();
-        	getCategoryListFilter();
-        	getStatusListFilter();
-        	getHODListInSafetyFilter();
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("safetyFilters", filters);
+   			});
         	
          	table = $('#datatable-safety').DataTable();
     		 
@@ -334,7 +400,10 @@
     		table.state.clear();		
     	 
     		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getSafetyList",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getSafetyList",
+    			type:"POST",
+    			data:myParams, cache: false,async:false,
+    			success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var safety_id = "'"+val.safety_id+"'";
@@ -397,7 +466,7 @@
         	    console.log(msg);
          }
       	
-        function getWorksListFilter() {
+        function getWorksListFilter(work) {
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
@@ -412,13 +481,14 @@
          		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInSafety",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var work_short_name = '';
                             	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
- 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                            	var selectedFlag = (work == val.work_id_fk)?'selected':'';
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -433,7 +503,7 @@
             }
         }
         
-        function getContractsListFilter() {
+        function getContractsListFilter(contract) {
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
@@ -448,13 +518,14 @@
          		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInSafety",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
                             	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
- 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
+                            	var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -471,7 +542,7 @@
       	
        
         
-        function getDepartmentsListFilter() {
+        function getDepartmentsListFilter(department) {
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
@@ -486,11 +557,12 @@
          		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInSafety",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	$("#department_fk").append('<option value="' + val.department_fk + '">' + $.trim(val.department_name) +'</option>');
+                            	var selectedFlag = (department == val.department_fk)?'selected':'';
+                            	$("#department_fk").append('<option value="' + val.department_fk + '" '+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -505,7 +577,7 @@
             }
         }
         
-        function getCategoryListFilter() {
+        function getCategoryListFilter(category) {
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
@@ -520,11 +592,12 @@
          		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInSafety",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async:false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
-                           	 	$("#category_fk").append('<option value="' + val.category_fk + '">' + $.trim(val.category_fk) +'</option>');
+                            	 var selectedFlag = (category == val.category_fk)?'selected':'';
+                           	 	 $("#category_fk").append('<option value="' + val.category_fk + '" '+selectedFlag+'>' + $.trim(val.category_fk) +'</option>');
                              });
                          }
                          $('.searchable').select2();
@@ -539,7 +612,7 @@
              }
         }
         
-        function getStatusListFilter() {
+        function getStatusListFilter(status) {
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
@@ -554,11 +627,12 @@
          		 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInSafety",
-                     data: myParams, cache: false,
+                     data: myParams, cache: false,async:false,
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
-                           	 	$("#status_fk").append('<option value="' + val.status_fk + '">' + $.trim(val.status_fk) +'</option>');
+                            	 var selectedFlag = (status == val.status_fk)?'selected':'';
+                           	 	 $("#status_fk").append('<option value="' + val.status_fk + '" '+selectedFlag+'>' + $.trim(val.status_fk) +'</option>');
                              });
                          }
                          $('.searchable').select2();
@@ -573,7 +647,7 @@
              }
         }
         
-        function getHODListInSafetyFilter(){
+        function getHODListInSafetyFilter(hod_user_id){
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
@@ -587,11 +661,16 @@
 	           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
 	            $.ajax({
 	                   url: "<%=request.getContextPath()%>/ajax/getHODListFilterInSafety",
-	                   data: myParams, cache: false,
+	                   data: myParams, cache: false,async:false,
 	                   success: function (data) {
 	                       if (data.length > 0) {
 	                           $.each(data, function (i, val) {
-	                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '">' + $.trim(val.designation) +'</option>');
+	                        	    var selectedFlag = (hod_user_id == val.hod_user_id_fk)?'selected':'';
+	                             	if($.trim(selectedFlag) != ''){
+	                             		var user_id  = '${sessionScope.USER_ID}';
+	                                	selectedFlag = (user_id == val.hod_user_id_fk)?'selected':'';
+	                             	}
+	                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
 	                           });
 	                       }
 	                       $('.searchable').select2();

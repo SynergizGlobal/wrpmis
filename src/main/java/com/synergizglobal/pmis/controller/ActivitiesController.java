@@ -27,11 +27,11 @@ import com.synergizglobal.pmis.Iservice.ActivitiesService;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.StripChart;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class ActivitiesController {
@@ -254,6 +254,7 @@ public class ActivitiesController {
 		String user_Id = null;String userName = null;
 		try {			
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			User uObj = (User) session.getAttribute("user");
 			
 			obj.setProgress_date(DateParser.parse(obj.getProgress_date())); 
 			
@@ -266,6 +267,10 @@ public class ActivitiesController {
 			}
 			
 			obj.setCreated_by_user_id_fk(user_Id);
+			
+			if(!StringUtils.isEmpty(uObj)) {
+				obj.setReported_by(uObj.getDesignation());
+			}
 			
 			boolean flag = activitiesService.updateActivities(obj);
 			if(flag) {

@@ -269,7 +269,7 @@
         	$('select:not(.searchable)').formSelect();
         	$('.searchable').select2();    		
         	
-        	$('.close-message').delay(3000).fadeOut('slow');
+        	$('.close-message').delay(10000).fadeOut('slow');
         	
         	var filters = window.localStorage.getItem("issueFilters");
 	          
@@ -738,10 +738,10 @@
           	 $("#exportIssuesForm").submit();
        	}
         function closeWindow(){
-       		/* window.close();
+       		/*window.close();
        		window.top.close();*/
-	       	 /* window.opener = self;
-	         window.close(); */
+	       	/*window.opener = self;
+	        window.close(); */
         	var win = window.open("about:blank", "_self");
         	win.close();
         }

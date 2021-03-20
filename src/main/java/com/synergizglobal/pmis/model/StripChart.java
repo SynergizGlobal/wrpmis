@@ -9,7 +9,7 @@ public class StripChart {
 	strip_chart_line_id_fk,strip_chart_component_fk,strip_chart_section_id_fk,strip_chart_component_name,order,latitude,longitude,activity_description,milestone_name,
 	strip_chart_line, strip_chart_section_id,strip_chart_section_name, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,id,total_scope,
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
-	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date,milestone_fk;
+	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date,milestone_fk,reported_by;
 
 
 	private MultipartFile stripChartFile,uploadFile;
@@ -600,6 +600,14 @@ public class StripChart {
 
 	public void setData_date(String data_date) {
 		this.data_date = data_date;
+	}
+
+	public String getReported_by() {
+		return reported_by;
+	}
+
+	public void setReported_by(String reported_by) {
+		this.reported_by = reported_by;
 	}
 	
 }

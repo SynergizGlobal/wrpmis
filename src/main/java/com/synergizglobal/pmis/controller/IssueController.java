@@ -98,9 +98,13 @@ public class IssueController {
 	}
 	@RequestMapping(value = "/ajax/getWorksListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getWorksListFilterInIssue(@ModelAttribute Issue obj) {
+	public List<Issue> getWorksListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = issueService.getWorksListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,9 +114,13 @@ public class IssueController {
 	}
 	@RequestMapping(value = "/ajax/getContractsListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getContractsListFilterInIssue(@ModelAttribute Issue obj) {
+	public List<Issue> getContractsListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = issueService.getContractsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,9 +131,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getDepartmentsListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getDepartmentsListFilterInIssue(@ModelAttribute Issue obj) {
+	public List<Issue> getDepartmentsListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = issueService.getDepartmentsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,9 +148,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getCategoryListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getCategoryListFilterInIssue(@ModelAttribute Issue obj) {
+	public List<Issue> getCategoryListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = issueService.getCategoryListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,9 +165,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getResponsiblePersonsListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getResponsiblePersonsListFilterInIssue(@ModelAttribute Issue obj) {
+	public List<Issue> getResponsiblePersonsListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = issueService.getResponsiblePersonsListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -162,9 +182,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getStatusListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getStatusListFilterInIssue(@ModelAttribute Issue obj) {
+	public List<Issue> getStatusListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = issueService.getStatusListFilter(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,9 +199,13 @@ public class IssueController {
 	
 	@RequestMapping(value = "/ajax/getHODListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Issue> getHODListFilterInIssue(@ModelAttribute Issue obj) {
+	public List<Issue> getHODListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {
 		List<Issue> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
 			objList = issueService.getHODListFilterInIssue(obj);
 		} catch (Exception e) {
 			e.printStackTrace();

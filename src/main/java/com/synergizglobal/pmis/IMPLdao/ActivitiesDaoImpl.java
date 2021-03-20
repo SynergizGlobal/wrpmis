@@ -549,7 +549,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 						ps.setString(i++, !StringUtils.isEmpty(obj.getContract_id_fk())?obj.getContract_id_fk():null);
 						ps.setString(i++, !StringUtils.isEmpty(activity_name)?activity_name:null);
 						ps.setString(i++, obj.getIssue_description());
-						ps.setString(i++, !StringUtils.isEmpty(obj.getCreated_by_user_id_fk())?obj.getCreated_by_user_id_fk():null);
+						ps.setString(i++, !StringUtils.isEmpty(obj.getReported_by())?obj.getReported_by():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
 						ps.setString(i++, CommonConstants.ISSUE_STATUS_RAISED);
@@ -565,11 +565,10 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 				
 				
 				String emailsQry = "select w.work_short_name,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
-						+ "u1.designation as reported_by_designation,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-						+ "u1.email_id as reported_by_email_id,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+						+ "i.reported_by,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+						+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
 						+ "from issue i "
-						+ "LEFT OUTER JOIN user u1 on i.reported_by = u1.user_id "
 						+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 						+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
 						+ "LEFT OUTER JOIN contract c ON i.contract_id_fk COLLATE utf8mb4_unicode_ci = c.contract_id "

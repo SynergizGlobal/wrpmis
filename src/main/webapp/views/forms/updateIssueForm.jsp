@@ -53,6 +53,11 @@
 		.m-b-2{
 			margin-bottom:2rem;
 		}
+		.mt-brdr{
+			margin-top: 20px;
+		    border-top: 1px solid #777;
+		    border-bottom: 1px solid #777;
+		}
     </style>
 </head>
 <body>
@@ -377,7 +382,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <div class="file-field input-field">
-                                        <div class="btn bg-m">
+                                        <div class="btn bg-m t-c">
                                             <span>Attachment</span>
                                             <input type="file" id="issueFile" name="issueFile">
                                         </div>
@@ -396,7 +401,7 @@
 
                             <div class="row no-mar">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
                                     	<c:if test="${issue.readonlyForm eq false }">
                                         	<a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m" >Update </a>
@@ -406,7 +411,7 @@
                                         </c:if>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m4 mt-brdr">
                                     <div class="center-align m-1">
                                         <a href="<%=request.getContextPath() %>/issues" class="btn waves-effect waves-light bg-s " >Cancel</a>
                                     </div>

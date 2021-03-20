@@ -68,11 +68,15 @@
 						</c:if>
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
-                                <!-- <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div> -->
+                                <div class="m-1 l-align">
+                                    <a class="btn waves-effect waves-light bg-s t-c" onclick="closeWindow()">
+                                        <strong><i class="fa fa-close"></i> Close Window </strong>
+                                    </a>
+                                    <!-- <a style="color:blue; display:block; cursor:pointer;" onclick="closeWindow()">
+                                        <strong> Close Window <i class="fa fa-close"></i></strong>
+                                    </a> -->
+                                    <!-- <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p> -->
+                                </div> 
                             </div>
 
                             <div class="col s12 m4">
@@ -733,6 +737,14 @@
           	$("#exportStatus_fk").val(status_fk);
           	 $("#exportIssuesForm").submit();
        	}
+        function closeWindow(){
+       		/* window.close();
+       		window.top.close();*/
+	       	 /* window.opener = self;
+	         window.close(); */
+        	var win = window.open("about:blank", "_self");
+        	win.close();
+        }
     </script>
 </body>
 </html>

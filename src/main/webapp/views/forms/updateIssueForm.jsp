@@ -245,11 +245,11 @@
 							  <div class="col s12 m4 input-field offset-m2">
 					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
 					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
-					                 <option value="">Select</option>						                 
+					                 <option value="select">Select</option>						                 
 					             </select>                                    
 					             <span id="status_fkError" class="error-msg" ></span>
 					          </div>
-					          <div class="col s12 m4 input-field" id="assignDateDiv">
+					          <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
 					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
                                     <label for="assigned_date""> Assigned Date</label>
                                     <button type="button" id="assigned_date_icon"><i
@@ -273,7 +273,7 @@
                                     </select> -->
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 input-field">
+                                <div class="col s12 m4 input-field" id="responsibleDiv" style="display:none">
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
                                     <p class="searchable_label" style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)</p> 
@@ -288,7 +288,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" style="display:none" id="responsibleOrgDiv">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
                                    <p class="searchable_label"> Responsible Organization</p>
@@ -322,7 +322,7 @@
                                 </div>
                             </div>
 
-                            <div class="row" id="remarksDiv">
+                            <div class="row" id="remarksDiv" style="display: none;" >
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000">${issue.corrective_measure }</textarea>
@@ -368,7 +368,7 @@
                                  <div class="row">
                                 <!-- row 2 -->
                                 <div class="col m2 hide-on-small-only"></div>                              
-                                <div class="col s12 m4 input-field" style="margin-top:15px">
+                                <div class="col s12 m4 input-field" style="margin-top:15px; display:none;" id="resolvedDiv">
                                     <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
                                     <label for="resolved_date"> Resolved Date</label>
                                     <button type="button" id="resolved_date_icon"><i
@@ -510,6 +510,7 @@
 	            $("#issueForm :textarea").attr("disabled", true);	            
 	            $("#issueForm select").prop("disabled", true);	            
             }
+            getEscalatedDetails($('#status_fk').val());
         });
         
       //geting works list from database    
@@ -602,7 +603,9 @@
                             if (val.status == $.trim(status_fk)) {
                             	selectedFlag = 'selected';
                             }
-                            
+                            if ((val.status == 'Assigned') && ((logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
+                            	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
+                         	}
                             if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                             	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                             }
@@ -613,9 +616,9 @@
                             	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                             } 
                             
-                            if ((val.status == 'Closed' || val.status == 'Escalated') && ((logged_id_user_role_code == user_role_it_admin))){
+                           /*  if ((val.status == 'Closed' || val.status == 'Escalated') && ((logged_id_user_role_code == user_role_it_admin))){
                             	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
-                            }
+                            } */
                             
                             
                             /* if (val.status == $.trim(status_fk)) {
@@ -636,32 +639,42 @@
         	$("#escalation_date").val('');
         	if($.trim(issueStatus) == 'Escalated'){
         		$("#escalatedDiv").show();
-        	}else{
-        		$("#escalatedDiv").hide();
-        	}
-        	if($.trim(issueStatus) == 'Raised'){
-        		$("#assignDateDiv").hide();
-        	}else{
-        		$("#assignDateDiv").show();
-        	}
-        	if($.trim(issueStatus) == 'Escalated'){ 
         		$("#corrective_measure").attr('readonly', true);
         	}else{
+        		$("#escalatedDiv").hide();
         		$("#corrective_measure").attr('readonly', false);
+        	}
+        	if($.trim(issueStatus) == 'Closed'){
+        		$("#resolvedDiv").show();
+        	}else{
+        		$("#resolvedDiv").hide();
+        	}
+        	if($.trim(issueStatus) == 'Raised' || $.trim(issueStatus) == 'select' ){
+        		$("#assignDateDiv").hide();
+        		//$(".raisedDiv").hide();
+        		$('#responsibleDiv').hide();
+        		$('#responsibleOrgDiv').hide();
+        		$('#remarksDiv').hide();
+        	}else{
+        		$("#assignDateDiv").show();
+        		//$(".raisedDiv").show();
+        		$('#responsibleDiv').show();
+        		$('#responsibleOrgDiv').show();
+        		$('#remarksDiv').show();
         	}
         }
 
-        function showRemarks(){
+         function showRemarks(){
         	var status_val = $("#status_fk").val();
          	var responsible_person_val = $("#responsible_person").val();
-        	if((status_val == 'Raised') && responsible_person_val != ""){
+        	/* if((status_val == 'Raised') && responsible_person_val != ""){
         		$("#remarksDiv").show();
         	}else if(status_val != 'Raised' && status_val != ""){
         		$("#remarksDiv").show();
         	}else{
         		$("#remarksDiv").hide();
-        	}
-        }
+        	} */
+        } 
         
         function updateIssue(){
     		if(validator.form()){ // validation perform

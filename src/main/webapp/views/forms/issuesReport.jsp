@@ -110,8 +110,8 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
-                            <div class="col m8 s12">
+                            <div class="col m3 hide-on-small-only"></div>
+                            <div class="col m7 s12">
                             	<form action="<%=request.getContextPath() %>/generate-issues-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
 	                                    <div class="col s12 m3 input-field">
@@ -135,14 +135,22 @@
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
+	                                    
+	                                </div>    
+	                                <div class="row">
+	                                	
+	                                    <div class="col s12 m3 input-field offset-m2">
+	                                        <button class="btn bg-m waves-effect waves-light t-c" type="button"
+	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
+	                                            onclick="clearFilter()">Clear Filter</button>
+	                                    </div>
 	                                    <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
+	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
 	                                            onclick="generateReport()">Generate
 	                                            Report</button>
 	                                    </div>
-	                                </div>
-                                
+	                                </div>                            
                                 </form>
                             </div>
 
@@ -325,7 +333,12 @@
 			    }
 			}); 
         
-
+	function clearFilter(){
+		$('#work_id_fk').val('');
+		$('#contract_id_fk').val('');
+		$('#hod_user_id_fk').val('');
+		$('.searchable').select2();
+	}
     </script>
 
 </body>

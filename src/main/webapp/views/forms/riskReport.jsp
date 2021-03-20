@@ -110,7 +110,7 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m2 hide-on-small-only"></div>
+                            <div class="col m4 hide-on-small-only"></div>
                             <div class="col m8 s12">
                             	<form action="<%=request.getContextPath() %>/generate-risk-analysis-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
@@ -121,14 +121,14 @@
 	                                        </select>
 	                                        <span id="report_work_idError" class="error-msg" ></span>
 	                                    </div> -->
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Sub Work</p>
 	                                        <select class="searchable validate-dropdown" id="sub_work" name="sub_work" onchange="getAssessmentDateListInRiskReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="sub_workError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m4 input-field">
+	                                    <div class="col s12 m3 input-field">
 	                                        <p class="searchable_label">Assessment Date</p>
 	                                        <select class="searchable validate-dropdown" id="report_assessment_date" name="assessment_date">
 	                                            <option value="">Select </option>
@@ -136,11 +136,17 @@
 	                                        <span id="report_assessment_dateError" class="error-msg" ></span>
 	                                    </div>
 	
-	                                    <div class="col s12 m4 input-field">
+	                                </div>
+	                                <div class="row">	                                	
+	                                    <div class="col s12 m3 input-field center-align">
+	                                        <button class="btn bg-m waves-effect waves-light t-c" type="button"
+	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
+	                                            onclick="clearFilter()">Clear Filter</button>
+	                                    </div>
+	                                    <div class="col s12 m3 input-field center-align">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()">Generate
-	                                            Report</button>
+	                                            style="margin-top: 6px;min-width:160px%; font-weight: 600;"
+	                                            onclick="generateReport()">Generate Report</button>
 	                                    </div>
 	                                </div>
                                 
@@ -335,6 +341,11 @@
     	    }
     	});
 
+        function clearFilter(){
+    		$('#sub_work').val('');
+    		$('#report_assessment_date').val('');
+    		$('.searchable').select2();
+    	}
     </script>
 
 </body>

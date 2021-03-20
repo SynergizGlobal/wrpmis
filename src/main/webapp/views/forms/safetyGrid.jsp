@@ -261,7 +261,7 @@
 		        	  }else if($.trim(temp2[0]) == 'status_fk'){
 		        		  getStatusListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'hod_user_id_fk' ){
-		        		  getHODListFilter(temp2[1]);
+		        		  getHODListInSafetyFilter(temp2[1]);
 		        	  } 
 	        	  }
 	          }

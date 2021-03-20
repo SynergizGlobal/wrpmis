@@ -21,7 +21,8 @@ public class TableauTrustedTicket {
 		String getResponseString = "";
 		
 		String postURL = "https://infoviz.syntrackpro.com/trusted"; 
-		String username = "SynTrack"; String server = "infoviz.syntrackpro.com"; 
+		String username = "SynTrack"; 
+		String server = "infoviz.syntrackpro.com"; 
 		String clientIp = "www.syntrackpro.com";
         
 		

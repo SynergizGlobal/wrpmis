@@ -506,8 +506,15 @@ public class IssueController {
 		ModelAndView view = new ModelAndView(PageConstants.issuesGrid);
 		List<Issue> dataList = new ArrayList<Issue>();
 		String userId = null;String userName = null;
+		String user_role_code = null;String user_type = null;
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			
+			user_role_code = (String) session.getAttribute("USER_ROLE_CODE");user_type = (String) session.getAttribute("USER_TYPE");
+			issue.setUser_id(userId);
+			issue.setUser_role_code(user_role_code);
+			issue.setUser_type(user_type);
+			
 			view.setViewName("redirect:/issues");
 			dataList = issueService.getIssuesList(issue);  
 			if(dataList != null && dataList.size() > 0){
@@ -537,7 +544,7 @@ public class IssueController {
 		        
 	            XSSFRow headingRow = sheet.createRow(0);
 	            String headerString = "Issue ID^Project^Work^Contract^Activity^Title^Short Description^Date^Location/Station/KM^Latitude^Longitude"
-	            		+ "^Reported By^Responsible Person^Issue Category^Issue Status^Zonal Railway^Priority^Issue/Action Taken/Remarks^Resolved Date^"
+	            		+ "^Reported By^Responsible Person^Assigned Date^Issue Category^Issue Status^Zonal Railway^Priority^Issue/Action Taken/Remarks^Resolved Date^"
 	            		+ "Escalated to^Escalation Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
@@ -604,6 +611,10 @@ public class IssueController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getResponsible_person_designation());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getAssigned_date());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

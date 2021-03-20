@@ -8,11 +8,19 @@ public class Issue {
 	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name,
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
-	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,contract_hod_email_id,contract_dyhod_email_id,dy_hod_user_id_fk,user_type,user_role_code,user_id;
+	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,dy_hod_user_id_fk,user_type,user_role_code,user_id;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
 	
+	public String getAssigned_date() {
+		return assigned_date;
+	}
+
+	public void setAssigned_date(String assigned_date) {
+		this.assigned_date = assigned_date;
+	}
+
 	public String getReported_by_email_id() {
 		return reported_by_email_id;
 	}

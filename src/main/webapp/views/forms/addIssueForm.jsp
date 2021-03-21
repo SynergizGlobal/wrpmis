@@ -579,7 +579,6 @@
                  success: function (data) {
                      if (data.length > 0) {
                          $.each(data, function (i, val) {
-                        	 alert(logged_id_user_id +" == "+responsible_person)
                         	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                              	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
                           	}else 

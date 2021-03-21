@@ -608,18 +608,18 @@
                             if (val.status == $.trim(status_fk)) {
                             	selectedFlag = 'selected';
                             }
-                            if ((val.status == 'Assigned') && ((logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
-                            	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
+                            if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                         	}else 
+                            if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                            }else  
+                            if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                            }else 
+                            if ((val.status == 'Raised')){
+                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                          	}
-                            if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
-                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
-                            }
-                            if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_id == hod_user_id_fk))){
-                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
-                            } 
-                            if ((val.status != 'Escalated') && (val.status != 'Closed')){
-                            	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
-                            } 
                             
                            /*  if ((val.status == 'Closed' || val.status == 'Escalated') && ((logged_id_user_role_code == user_role_it_admin))){
                             	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');

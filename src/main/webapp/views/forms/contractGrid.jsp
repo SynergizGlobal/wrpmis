@@ -105,7 +105,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Project</p>
 									<select id="project_id_fk" name="project_id_fk"
-										onchange="getContractList();" class="searchable">
+										onchange="addInQueProject(this.value);getContractList();" class="searchable">
 										<option value="">Select</option>
 										<%--   <c:forEach var="obj" items="${worksList }">
                                                     <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
@@ -115,7 +115,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Work</p>
 									<select id="work_id_fk" name="work_id_fk"
-										onchange="getContractList();" class="searchable">
+										onchange="addInQueWork(this.value);getContractList();" class="searchable">
 										<option value="">Select</option>
 										<%--   <c:forEach var="obj" items="${worksList }">
                                                     <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
@@ -136,7 +136,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">HOD</p>
 									<select id="designation" name="designation"
-										onchange="getContractList();" class="searchable">
+										onchange="addInQueHOD(this.value);getContractList();" class="searchable">
 										<option value="">Select</option>
 
 									</select>
@@ -144,7 +144,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Dy HOD</p>
 									<select id="dy_hod_designation" name="dy_hod_designation"
-										onchange="getContractList();" class="searchable">
+										onchange="addInQueDYHodDesignation(this.value);getContractList();" class="searchable">
 										<option value="">Select</option>
 
 									</select>
@@ -152,7 +152,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Contractor</p>
 									<select id="contractor_id_fk" name="contractor_id_fk"
-										onchange="getContractList();" class="searchable">
+										onchange="addInQueContractor(this.value);getContractList();" class="searchable">
 										<option value="">Select</option>
 										<%--  <c:forEach var="obj" items="${contractorsList }">
                                                     <option value="${obj.contractor_id_fk }" >${obj.contractor_id_fk}<c:if test="${not empty obj.contractor_name}"> - </c:if> ${obj.contractor_name }</option>
@@ -162,7 +162,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Status</p>
 									<select id="contract_status_fk" name="contract_status_fk"
-										onchange="getContractList();" class="searchable">
+										onchange="addInQueStatus(this.value);getContractList();" class="searchable">
 										<option value="">Select</option>
 									</select>
 								</div>
@@ -277,9 +277,37 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
+    
+    var filtersMap = new Object();
+    
     $(document).ready(function () {
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
+           
+           var filters = window.localStorage.getItem("contractFilters");
+	          
+           if($.trim(filters) != '' && $.trim(filters) != null){
+       	  var temp = filters.split('^'); 
+       	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+		        		  getProjectFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+		        		  getWorkFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'designation'){
+		        		  getDesignationFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'dy_hod_designation'){
+		        		  getDyHODDesignationFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contractor_id_fk'){
+		        		  getContractorsFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_status_fk'){
+		        		  getStatusFilterList(temp2[1]);
+		        	  }
+	        	  }
+	          }
+           }
+           
        	var table = $('#datatable-contract').DataTable({
     		"bStateSave": true,
     		fixedHeader: true,
@@ -323,17 +351,68 @@
     	$("#dy_hod_designation").val("");
     	$("#contract_status_fk").val("");
     	$('.searchable').select2();
+    	
+    	window.localStorage.setItem("contractFilters",'');
     	getContractList();
     }
     
+    function addInQueProject(project_id_fk){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('project_id_fk')) delete filtersMap[key];
+   		});
+    	if($.trim(project_id_fk) != ''){
+   	    	filtersMap["project_id_fk"] = project_id_fk;
+    	}
+    }
+    
+    function addInQueWork(work_id_fk){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('work_id_fk')) delete filtersMap[key];
+   		});
+    	if($.trim(work_id_fk) != ''){
+   	    	filtersMap["work_id_fk"] = work_id_fk;
+    	}
+    }
+    function addInQueHOD(designation){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('designation')) delete filtersMap[key];
+   		});
+    	if($.trim(designation) != ''){
+   	    	filtersMap["designation"] = designation;
+    	}
+    }
+    function addInQueDYHodDesignation(dy_hod_designation){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('dy_hod_designation')) delete filtersMap[key];
+   		});
+    	if($.trim(dy_hod_designation) != ''){
+   	    	filtersMap["dy_hod_designation"] = dy_hod_designation;
+    	}
+    }
+    function addInQueContractor(contractor_id_fk){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('contractor_id_fk')) delete filtersMap[key];
+   		});
+    	if($.trim(contractor_id_fk) != ''){
+   	    	filtersMap["contractor_id_fk"] = contractor_id_fk;
+    	}
+    }
+    function addInQueStatus(contract_status_fk){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('contract_status_fk')) delete filtersMap[key];
+   		});
+    	if($.trim(contract_status_fk) != ''){
+   	    	filtersMap["contract_status_fk"] = contract_status_fk;
+    	}
+    }
     function getContractList(){
     	$(".page-loader-2").show();
-    	getDesignationFilterList();
-    	getDyHODDesignationFilterList();
-    	getContractorsFilterList();
-    	getWorkFilterList();
-    	getProjectFilterList();
-    	getStatusFilterList();
+    	getDesignationFilterList('');
+    	getDyHODDesignationFilterList('');
+    	getContractorsFilterList('');
+    	getWorkFilterList('');
+    	getProjectFilterList('');
+    	getStatusFilterList('');
     	
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
@@ -341,7 +420,13 @@
     	var designation = $("#designation").val();
     	var dy_hod_designation = $("#dy_hod_designation").val();
     	var contract_status_fk = $("#contract_status_fk").val();
-    	
+
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("contractFilters", filters);
+			});
 
      	table = $('#datatable-contract').DataTable();
 		 
@@ -378,7 +463,10 @@
 		table.state.clear();		
 	 
 	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContracts",type:"POST",data:myParams,success : function(data){    				
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getContracts",
+				type:"POST",
+				data:myParams, cache: false,async:false,
+				success : function(data){
 				if(data != null && data != '' && data.length > 0){    					
 	         		$.each(data,function(key,val){
 	         			var contract_id = "'"+val.contract_id+"'";
@@ -412,7 +500,7 @@
 	     }});
     } 
 
-    function getDyHODDesignationFilterList(){
+    function getDyHODDesignationFilterList(dy_designation){
     	$(".page-loader").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var contract_status_fk = $("#contract_status_fk").val();
@@ -425,12 +513,15 @@
     	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDyHODDesignationsFilterListInContract",
-                data: myParams, cache: false,async: false,
+                data: myParams, cache: false,async: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                        	var designation  = '${sessionScope.USER_DESIGNATION}';
-                        	var selectedFlag = (designation == val.dy_hod_designation)?'selected':'';
+                        	var selectedFlag = (dy_designation == val.dy_hod_designation)?'selected':'';
+                        	if($.trim(selectedFlag) != ''){
+                        		var designation  = '${sessionScope.USER_DESIGNATION}';
+                            	var selectedFlag = (designation == val.dy_hod_designation)?'selected':'';
+                         	}
                         	$("#dy_hod_designation").append('<option value="' + val.dy_hod_designation + '" '+selectedFlag+'>' + $.trim(val.dy_hod_designation) +'</option>');
                         });
                     }
@@ -446,7 +537,7 @@
         }
      }
 
-    function getDesignationFilterList(){
+    function getDesignationFilterList(hod_designation){
     	$(".page-loader").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var contract_status_fk = $("#contract_status_fk").val();
@@ -463,8 +554,11 @@
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                        	var designation  = '${sessionScope.USER_DESIGNATION}';
-                        	var selectedFlag = (designation == val.designation)?'selected':'';
+                        	var selectedFlag = (hod_designation == val.designation)?'selected':'';
+                        	if($.trim(selectedFlag) != ''){
+                        		var designation  = '${sessionScope.USER_DESIGNATION}';
+                        		var selectedFlag = (designation == val.designation)?'selected':'';
+                         	}
                         	$("#designation").append('<option value="' + val.designation + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
                         });
                     }
@@ -480,7 +574,7 @@
         }
      }
    
-    function getContractorsFilterList(){
+    function getContractorsFilterList(contractor){
     	$(".page-loader").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
     	var contract_status_fk = $("#contract_status_fk").val();
@@ -499,7 +593,8 @@
                         $.each(data, function (i, val) {
 	                           var contractor_name = '';
 	                           if ($.trim(val.contractor_name) != '') { contractor_name = ' - ' + $.trim(val.contractor_name) }
-	                           $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '">' + $.trim(val.contractor_id_fk)  + contractor_name +'</option>');
+	                           var selectedFlag = (contractor == val.contractor_id_fk)?'selected':'';
+	                           $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '"'+selectedFlag+'>' + $.trim(val.contractor_id_fk)  + contractor_name +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -546,7 +641,7 @@
 	        }
 	 }
 	 
-	 function getStatusFilterList(){
+	 function getStatusFilterList(status){
 		 	$(".page-loader").show();
 		 	var contractor_id_fk = $("#contractor_id_fk").val();
 	    	var contract_status_fk = $("#contract_status_fk").val();
@@ -563,7 +658,8 @@
 	                success: function (data) {
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {
-	                        	 $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '">' + $.trim(val.contract_status_fk)+'</option>');
+	                        	 var selectedFlag = (status == val.contract_status_fk)?'selected':'';
+	                        	 $("#contract_status_fk").append('<option value="' + val.contract_status_fk + '"'+selectedFlag+'>' + $.trim(val.contract_status_fk)+'</option>');
 	                        });
 	                    }
 	                    $('.searchable').select2();
@@ -578,7 +674,7 @@
 	        }
 	    }
 	 
-	 function getWorkFilterList(){
+	 function getWorkFilterList(work){
 	 	$(".page-loader").show();
 	 	var contractor_id_fk = $("#contractor_id_fk").val();
     	var contract_status_fk = $("#contract_status_fk").val();
@@ -597,7 +693,8 @@
                         $.each(data, function (i, val) {
                         	 var workShortName = '';
                              if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -612,7 +709,7 @@
         }
     }
 	 
-	 function getProjectFilterList(){
+	 function getProjectFilterList(project){
 		 	$(".page-loader").show();
 		 	var contractor_id_fk = $("#contractor_id_fk").val();
 	    	var contract_status_fk = $("#contract_status_fk").val();
@@ -631,7 +728,8 @@
 	                        $.each(data, function (i, val) {
 	                        	 var workShortName = '';
 	                             if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-		                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)   + projectName +'</option>');
+	                             var selectedFlag = (project == val.project_id_fk)?'selected':'';
+		                         $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>' + $.trim(val.project_id_fk)   + projectName +'</option>');
 	                        });
 	                    }
 	                    $('.searchable').select2();

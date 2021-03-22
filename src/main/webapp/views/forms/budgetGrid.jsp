@@ -99,7 +99,7 @@
 									<div class="col s12 m4 input-field">
 										<p class="searchable_label">Project</p>
 										<select class="searchable" name="project_id_fk"
-											id="project_id_fk" onchange="getBudgetList();">
+											id="project_id_fk" onchange="addInQueProject(this.value);getBudgetList();">
 											<option value="" selected>Select</option>
 
 										</select>
@@ -107,7 +107,7 @@
 									<div class="col s12 m4 input-field">
 										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
-											onchange="getBudgetList();" class="searchable">
+											onchange="addInQueWork(this.value);getBudgetList();" class="searchable">
 											<option value="">Select</option>
 
 										</select>
@@ -226,9 +226,29 @@
          <input type="hidden" name="financial_year_fk" id="exportFinancial_year_fk" />
 	</form>
     <script>
+    
+    var filtersMap = new Object();
+    
     $(document).ready(function () {
  	   $('select:not(.searchable)').formSelect();
         $('.searchable').select2();
+        
+        var filters = window.localStorage.getItem("budgetFilters");
+        
+        if($.trim(filters) != '' && $.trim(filters) != null){
+      	  var temp = filters.split('^'); 
+      	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+		        		  getProjectsFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+		        		  getWorksFilterList(temp2[1]);
+		        	  }
+	        	  }
+	          }
+          }
+        
     	var table = $('#datatable-budget').DataTable({
  		"bStateSave": true,
  		fixedHeader: true,
@@ -268,17 +288,46 @@
     	$("#work_id_fk").val("");
     	$("#financial_year_fk").val("");
     	$('.searchable').select2();
+    	window.localStorage.setItem("budgetFilters",'');
     	getBudgetList();
+    }
+    
+    function addInQueProject(project_id_fk){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('project_id_fk')) delete filtersMap[key];
+   		});
+    	if($.trim(project_id_fk) != ''){
+   	    	filtersMap["project_id_fk"] = project_id_fk;
+    	}
+    }
+    
+    function addInQueWork(work_id_fk){
+      	Object.keys(filtersMap).forEach(function (key) {
+	   		if(key.match('work_id_fk')) delete filtersMap[key];
+   	   	});
+      	if($.trim(work_id_fk) != ''){
+        	filtersMap["work_id_fk"] = work_id_fk;
+      	}
     }
     
     function getBudgetList(){
     	$(".page-loader-2").show();
+    	
+    	getWorksFilterList('');
+     	getProjectsFilterList('');
+     	getFinancialYearsFilterList('');
+     	
     	var project_id_fk = $("#project_id_fk").val();
     	var work_id_fk = $("#work_id_fk").val();
     	var financial_year_fk = $("#financial_year_fk").val();
-    	getWorksFilterList();
-     	getProjectsFilterList();
-     	getFinancialYearsFilterList();
+
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("budgetFilters", filters);
+			});
+    	
     	table = $('#datatable-budget').DataTable();
 		 
 		table.destroy();
@@ -311,7 +360,10 @@
 		
 		table.state.clear();		
 	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, financial_year_fk : financial_year_fk};
-	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-budget",type:"POST",data:myParams,success : function(data){    				
+	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-budget",
+			type:"POST",
+			data:myParams, cache: false,async:false,
+			success : function(data){      				
 			if(data != null && data != '' && data.length > 0){    					
          		$.each(data,function(key,val){
          			var budget_id = "'"+val.budget_id+"'";
@@ -347,7 +399,7 @@
      }});
    }
     
-    function getWorksFilterList() {
+    function getWorksFilterList(work) {
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
         var financial_year_fk = $("#financial_year_fk").val();
@@ -357,13 +409,14 @@
         	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInBudget",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                         	 var workShortName = '';
                              if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -378,7 +431,7 @@
         }
     }
     
-    function getProjectsFilterList() {
+    function getProjectsFilterList(project) {
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
         var work_id_fk = $("#work_id_fk").val();
@@ -388,13 +441,14 @@
         	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInBudget",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                         	var projectName = '';
                             if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)   + projectName +'</option>');
+                            var selectedFlag = (project == val.project_id_fk)?'selected':'';
+	                        $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>' + $.trim(val.project_id_fk)   + projectName +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -409,7 +463,7 @@
         }
     }
     
-    function getFinancialYearsFilterList() {
+    function getFinancialYearsFilterList(year) {
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
         var work_id_fk = $("#work_id_fk").val();

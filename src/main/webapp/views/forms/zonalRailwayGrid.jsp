@@ -112,7 +112,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Project</p>
 									<select class="searchable" id="project_id_fk"
-										name="project_id_fk" onchange="getZonalRailwayList();">
+										name="project_id_fk" onchange="addInQueProject(this.value);getZonalRailwayList();">
 										<option value="">Select</option>
 
 									</select>
@@ -120,7 +120,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Work</p>
 									<select class="searchable" id="work_id_fk" name="work_id_fk"
-										onchange="getZonalRailwayList();">
+										onchange="addInQueWork(this.value);getZonalRailwayList();">
 										<option value="">Select</option>
 
 									</select>
@@ -129,7 +129,7 @@
 									<p class="searchable_label">Execution Agency</p>
 									<select class="searchable" id="execution_agency_railway_fk"
 										name="execution_agency_railway_fk"
-										onchange="getZonalRailwayList();">
+										onchange="addInQueAgency(this.value);getZonalRailwayList();">
 										<option value="">Select</option>
 
 									</select>
@@ -137,7 +137,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Source of Fund</p>
 									<select class="searchable" id="source_of_funds"
-										name="source_of_funds" onchange="getZonalRailwayList();">
+										name="source_of_funds" onchange="addInQueSOF(this.value);getZonalRailwayList();">
 										<option value="">Select</option>
 
 									</select>
@@ -145,7 +145,7 @@
 								<div class="col s12 m2 input-field">
 									<p class="searchable_label">Status</p>
 									<select class="searchable" id="status_fk" name="status_fk"
-										onchange="getZonalRailwayList();">
+										onchange="addInQueStatus(this.value);getZonalRailwayList();">
 										<option value="">Select</option>
 
 									</select>
@@ -267,10 +267,34 @@
 	
     <script>
     
+    	var filtersMap = new Object();
+    
         $(document).ready(function () {
         	 $('select:not(.searchable)').formSelect();
              $('.searchable').select2();
-     	       	var table = $('#zonal_railway_table').DataTable({
+             
+             var filters = window.localStorage.getItem("zonalFilters");
+	          
+             if($.trim(filters) != '' && $.trim(filters) != null){
+         	  var temp = filters.split('^'); 
+         	  for(var i=0;i< temp.length;i++){
+ 	        	  if($.trim(temp[i]) != '' ){
+ 	        		  var temp2 = temp[i].split('=');
+ 		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+ 		        		 getProjectsFilterList(temp2[1]);
+ 		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+ 		        		 getWorksFilterList(temp2[1]);
+ 		        	  }else if($.trim(temp2[0]) == 'execution_agency_railway_fk'){
+ 		        		 getExecutionAgencyRailwayFilterList(temp2[1]);
+ 		        	  }else if($.trim(temp2[0]) == 'source_of_funds'){
+ 		        		 getSourceOfFundsFilterList(temp2[1]);
+ 		        	  }else if($.trim(temp2[0]) == 'status_fk'){
+ 		        		 getStatusFilterList(temp2[1]);
+ 		        	  }
+ 	        	  }
+ 	          }
+             }
+     	     var table = $('#zonal_railway_table').DataTable({
      	    		"bStateSave": true,
      	    		fixedHeader: true,
      	            "fnStateSave": function (oSettings, oData) {
@@ -304,21 +328,77 @@
             $('#execution_agency_railway_fk').val('');
             $('#source_of_funds').val('');
             $('#status_fk').val('');
+            window.localStorage.setItem("zonalFilters",'');
             getZonalRailwayList();
             $('.searchable').select2();
         }
         
+        function addInQueProject(project_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('project_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(project_id_fk) != ''){
+       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	}
+        }
+        
+        function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
+        
+        function addInQueAgency(execution_agency_railway_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('execution_agency_railway_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(execution_agency_railway_fk) != ''){
+       	    	filtersMap["execution_agency_railway_fk"] = execution_agency_railway_fk;
+        	}
+        }
+        
+        function addInQueSOF(source_of_funds){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('source_of_funds')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(source_of_funds) != ''){
+            	filtersMap["source_of_funds"] = source_of_funds;
+	      	}
+        }
+        
+        function addInQueStatus(status_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('status_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(status_fk) != ''){
+       	    	filtersMap["status_fk"] = status_fk;
+        	}
+        }
+        
         function getZonalRailwayList(){
+        	
+        	getWorksFilterList('');
+         	getProjectsFilterList('');
+         	getExecutionAgencyRailwayFilterList('');
+         	getSourceOfFundsFilterList('');
+         	getStatusFilterList('');
+         	
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var execution_agency_railway_fk = $("#execution_agency_railway_fk").val();
         	var source_of_funds = $("#source_of_funds").val();
         	var status_fk = $("#status_fk").val();
-        	getWorksFilterList();
-         	getProjectsFilterList();
-         	getExecutionAgencyRailwayFilterList();
-         	getSourceOfFundsFilterList();
-         	getStatusFilterList();
+
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("zonalFilters", filters);
+   			});
+        	
          	table = $('#zonal_railway_table').DataTable();
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
@@ -350,7 +430,10 @@
     		table.state.clear();		
     	 
     	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-zonal-railway",type:"POST",data:myParams,success : function(data){    				
+    		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-zonal-railway",
+	    			type:"POST",
+					data:myParams, cache: false,async:false,
+					success : function(data){ 
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
     	         			var contract_id = "'"+val.contract_id+"'";
@@ -384,7 +467,7 @@
     	     }});
         }
         
-        function getWorksFilterList() {
+        function getWorksFilterList(work) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -396,13 +479,14 @@
         	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInZonalRailway",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	 var workShortName = '';
                                  if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                                 var selectedFlag = (work == val.work_id_fk)?'selected':'';
+    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -417,7 +501,7 @@
             }
         }
         
-        function getProjectsFilterList() {
+        function getProjectsFilterList(project) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -429,13 +513,14 @@
         	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInZonalRailway",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var projectName = '';
                                 if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-    	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)   + projectName +'</option>');
+                                var selectedFlag = (project == val.project_id_fk)?'selected':'';
+    	                        $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>' + $.trim(val.project_id_fk)   + projectName +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -450,7 +535,7 @@
             }
         }
         
-        function getExecutionAgencyRailwayFilterList() {
+        function getExecutionAgencyRailwayFilterList(agency) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -462,13 +547,14 @@
         	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getExecutionAgencyRailwayFilterListInZonalRailway",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var railway_name = '';
                                 if ($.trim(val.railway_name) != '') { railway_name = ' - ' + $.trim(val.railway_name) }
-    	                           $("#execution_agency_railway_fk").append('<option value="' + val.execution_agency_railway_fk + '">' + $.trim(val.execution_agency_railway_fk) + railway_name + '</option>');
+                                var selectedFlag = (agency == val.execution_agency_railway_fk)?'selected':'';
+    	                        $("#execution_agency_railway_fk").append('<option value="' + val.execution_agency_railway_fk + '"'+selectedFlag+'>' + $.trim(val.execution_agency_railway_fk) + railway_name + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -483,7 +569,7 @@
             }
         }
         
-        function getSourceOfFundsFilterList() {
+        function getSourceOfFundsFilterList(sof) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -495,11 +581,12 @@
         	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getSourceOfFundsFilterListInZonalRailway",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#source_of_funds").append('<option value="' + val.source_of_funds + '">' + $.trim(val.source_of_funds)  +'</option>');
+                            	var selectedFlag = (sof == val.source_of_funds)?'selected':'';
+    	                        $("#source_of_funds").append('<option value="' + val.source_of_funds + '"'+selectedFlag+'>' + $.trim(val.source_of_funds)  +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -514,7 +601,7 @@
             }
         }
         
-        function getStatusFilterList() {
+        function getStatusFilterList(status) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -526,11 +613,12 @@
         	 	var myParams = {project_id_fk : project_id_fk,work_id_fk : work_id_fk,execution_agency_railway_fk : execution_agency_railway_fk,source_of_funds : source_of_funds,status_fk : status_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInZonalRailway",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#status_fk").append('<option value="' + val.status_fk + '">' + $.trim(val.status_fk)  +'</option>');
+                            	   var selectedFlag = (status == val.status_fk)?'selected':'';
+    	                           $("#status_fk").append('<option value="' + val.status_fk + '"'+selectedFlag+'>' + $.trim(val.status_fk)  +'</option>');
                             });
                         }
                         $('.searchable').select2();

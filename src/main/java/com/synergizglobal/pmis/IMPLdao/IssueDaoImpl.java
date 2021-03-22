@@ -280,10 +280,10 @@ public class IssueDaoImpl implements IssueDao {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person," 
-					+"priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,attachment,zonal_railway_fk,other_organization,escalation_date) "
+					+"priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,attachment,zonal_railway_fk,other_organization,escalation_date) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:" 
-					+ "priority_fk,:category_fk,:status_fk,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment,:zonal_railway_fk,:other_organization,:escalation_date)";		 
+					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment,:zonal_railway_fk,:other_organization,:escalation_date)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			int count = template.update(qry, paramSource, keyHolder);			
@@ -367,7 +367,8 @@ public class IssueDaoImpl implements IssueDao {
 		Issue iObj = null;
 		try {
 			String qry = "select issue_id,contract_id_fk,activity,title,description,DATE_FORMAT(date,'%d-%m-%Y') AS date,location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk," 
-					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,other_organization,DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date, "
+					+ "priority_fk,category_fk,status_fk,corrective_measure,DATE_FORMAT(resolved_date,'%d-%m-%Y') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.attachment,i.zonal_railway_fk,r.railway_name,other_organization,"
+					+ "DATE_FORMAT(escalation_date,'%d-%m-%Y') AS escalation_date,DATE_FORMAT(assigned_date,'%d-%m-%Y') AS assigned_date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk "
 					+ "from issue i "
@@ -443,7 +444,9 @@ public class IssueDaoImpl implements IssueDao {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "UPDATE issue SET "
 					+ "title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,"  
-					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,remarks=:remarks,attachment=:attachment,zonal_railway_fk=:zonal_railway_fk,other_organization=:other_organization,escalation_date=:escalation_date "
+					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,"
+					+ "remarks=:remarks,attachment=:attachment,zonal_railway_fk=:zonal_railway_fk,other_organization=:other_organization,"
+					+ "escalation_date=:escalation_date,assigned_date=:assigned_date "
 					+ "where issue_id = :issue_id" ;		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			

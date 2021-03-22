@@ -339,6 +339,7 @@ public class IssueController {
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));			
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
+			obj.setAssigned_date(DateParser.parse(obj.getAssigned_date()));
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
 				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());
 			}
@@ -464,6 +465,7 @@ public class IssueController {
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
+			obj.setAssigned_date(DateParser.parse(obj.getAssigned_date()));
 			
 			if(!StringUtils.isEmpty(obj.getZonal_railway_fk()) && obj.getZonal_railway_fk().equals("MRVC")) {
 				obj.setOther_organization(obj.getZonal_railway_fk() + " - " + obj.getOther_organization());

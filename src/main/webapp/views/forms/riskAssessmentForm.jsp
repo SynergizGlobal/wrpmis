@@ -438,7 +438,7 @@
             
             if('${risk.readonlyForm}' == 'true'){
 	            $("#riskForm :input").attr("disabled", true);
-	            $("#riskForm :textarea").attr("disabled", true);	            
+	            //$("#riskForm :textarea").attr("disabled", true);	            
 	            $("#riskForm select").prop("disabled", true);	            
             }
             

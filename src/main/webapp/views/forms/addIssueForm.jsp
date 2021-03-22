@@ -414,7 +414,22 @@
             $('#corrective_measure').characterCounter();
             $('#remarks').characterCounter();
             
-            $('#date_icon').click(function () {
+            $(".datepicker").each(function(){
+           		var id = $(this).attr('id');
+				$('#'+id).datepicker({
+		        	format:'dd-mm-yyyy',
+		   	    	onSelect: function () {
+		   	    	   $('.confirmation-btns .datepicker-done').click();
+		   	    	}
+		        });
+				
+		        $('#'+id+'_icon').click(function () {
+	                event.stopPropagation();
+	                $('#'+id).click();
+	            });
+           	});
+            
+            /* $('#date_icon').click(function () {
                 event.stopPropagation();
                 $('#date').click();
             });
@@ -451,6 +466,19 @@
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
   	        });
+            
+            $('#assigned_date_icon').click(function () {
+                event.stopPropagation();
+                $('#assigned_date').click();
+            });
+            
+            $('#assigned_date').datepicker({ 
+  	    	    format:'dd-mm-yyyy',
+  	    	    //perform click event on done button
+  	    	    onSelect: function () {
+  	    	       $('.confirmation-btns .datepicker-done').click();
+  	    	    }
+  	        }); */
             
             getIssueStatusList();
         });
@@ -689,7 +717,12 @@
     				 	  },"description": {
     			 		    required: false
     			 	   	  },"date": {
-    				 		required: true
+    				 		required: true,
+       				 	 	dateBeforeToday1:"#date"
+    				 	  },"assigned_date":{
+    				 		 required: false,
+        				 	 dateBeforeToday2:"#assigned_date",
+        				 	 dateBefore1:"#date"
     				 	  },"location": {
     				 		required: true
     				 	  },"latitude": {
@@ -704,11 +737,16 @@
     			 		    required: true,
     			 	   	  },"resolved_date": {
     				 		required: false,
-       				 		dateBefore1:"#date",
+       				 	 	dateBeforeToday4:"#resolved_date",
+       				 	 	dateBefore3:"#escalation_date",
     				 		statusCheck1: true
     				 	  },"escalated_to": {
     			 		    required: false
-    			 	   	  },"zonal_railway_fk": {
+    			 	   	  },"escalation_date": {
+    			 	   		required: false,
+       				 	 	dateBeforeToday3:"#escalation_date",
+       				 	 	dateBefore2:"#assigned_date"
+	   			 	   	  },"zonal_railway_fk": {
     				 		required: false
     				 	  },"remarks":{
     				 		 required: false
@@ -734,7 +772,9 @@
     			 			required: 'Required'
     			 	  	 },"date": {
     			 			required: 'Required'
-    			 	  	 },"location": {
+    			 	  	 },"assigned_date":{
+     			 	  		required: 'Required'
+  				 	  	  },"location": {
      				 		required: 'Required'
 	   				 	  },"latitude": {
 	   				 		required: 'Required'
@@ -749,6 +789,8 @@
 	   			 	   	  },"resolved_date": {
 	   				 		required: 'Required'
 	   				 	  },"escalated_to": {
+	   			 		    required: 'Required'
+	   			 	   	  },"escalation_date": {
 	   			 		    required: 'Required'
 	   			 	   	  },"zonal_railway_fk": {
 	   				 		required: 'Required'
@@ -786,7 +828,10 @@
     			 	    }else if (element.attr("id") == "date" ){
     			 		     document.getElementById("dateError").innerHTML="";
     			 			 error.appendTo('#dateError');
-    			 	    }else if (element.attr("id") == "location" ){
+    			 	    }else if (element.attr("id") == "assigned_date" ){
+	   			 		     document.getElementById("assigned_dateError").innerHTML="";
+				 			 error.appendTo('#assigned_dateError');
+				 	    }else if (element.attr("id") == "location" ){
   			 	    	     document.getElementById("locationError").innerHTML="";
   			 			     error.appendTo('#locationError');
 	  			 	    }else if (element.attr("id") == "latitude" ){
@@ -810,6 +855,9 @@
 	  			 	    }else if (element.attr("name") == "escalated_to" ){
 	  			 		     document.getElementById("escalated_toError").innerHTML="";
 	  			 			 error.appendTo('#escalated_toError');
+	  			 	    }else if (element.attr("id") == "escalation_date" ){
+	  			 		     document.getElementById("escalation_dateError").innerHTML="";
+	  			 			 error.appendTo('#escalation_dateError');
 	  			 	    }else if (element.attr("id") == "zonal_railway_fk" ){
 	  			 		     document.getElementById("zonal_railway_fkError").innerHTML="";
 	  			 			 error.appendTo('#zonal_railway_fkError');
@@ -860,7 +908,108 @@
 	            	return true;
 	            }
 	            
-	        }, "Resolved Date must be after Date of raising issue");
+	        }, "Assigned Date must be after Date of raising issue");
+    	    
+	    	$.validator.addMethod("dateBefore2", function(value, element) {
+	            var fromDateString = $('#assigned_date').val(); //
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "Escalated Date date must be after Assigned Date");
+	    	
+	    	$.validator.addMethod("dateBefore3", function(value, element) {
+	    		var fromDateString = $('#assigned_date').val(); 
+	    		/* var fromDateString = $('#escalation_date').val(); //
+	            var status = $('#status_fk').val();
+	            if($.trim(status) != '' && $.trim(status) == 'Escalated'){
+	            	fromDateString = $('#escalation_date').val();
+	            }else{
+	            	fromDateString = $('#assigned_date').val();
+	            } */
+	            var fromDateParts = fromDateString.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDateParts = value.split("-");
+	            // month is 0-based, that's why we need dataParts[1] - 1
+	            var toDate = new Date(+toDateParts[2], toDateParts[1] - 1, +toDateParts[0]);
+	         
+	            if($.trim(fromDateString) != '' && $.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else if($.trim(fromDateString) == '' && $.trim(value) != ''){
+	            	return false;
+	            }else{
+	            	return true;
+	            }
+	        }, "Resolved Date must be after Assigned Date");
+	    	
+	    	
+	    	
+	    	$.validator.addMethod("dateBeforeToday1", function(value, element) {
+	    		var fromDateParts = value.split("-");
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDate = new Date();
+	            if($.trim(value) != ''){
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else{
+	            	return true;
+	            }
+	            
+	        }, "Date of raising issue must be On or Before Today");
+    	    
+	    	$.validator.addMethod("dateBeforeToday2", function(value, element) {
+	    		var fromDateParts = value.split("-");
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDate = new Date();
+	            if($.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else{
+	            	return true;
+	            }
+	        }, "Assigned Date date must be On or Before Today");
+	    	
+	    	$.validator.addMethod("dateBeforeToday3", function(value, element) {
+	    		var fromDateParts = value.split("-");
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDate = new Date();
+	            if($.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else{
+	            	return true;
+	            }
+	        }, "Escalated Date must be On or Before Today");
+	    	
+	    	$.validator.addMethod("dateBeforeToday4", function(value, element) {
+	    		var fromDateParts = value.split("-");
+	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
+	
+	            var toDate = new Date();
+	            if($.trim(value) != ''){
+	            	//return Date.parse(fromDate) <= Date.parse(toDate);
+	            	return Date.parse(fromDate) <= Date.parse(toDate);
+	            }else{
+	            	return true;
+	            }
+	        }, "Resolved Date must be On or Before Today");
     	    
     	    $.validator.addMethod("statusCheck1", function(value, element) {
     	    	var status = $("#status_fk").val();

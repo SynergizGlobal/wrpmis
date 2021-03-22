@@ -209,7 +209,7 @@
 											<!-- <p class="mt-1 center-align">In case of any Changes or Modification in information after uploading the Excel file by clicking  "submit"  . User can modify the desired information in only in " Input 4 to input 8" and upload the form again as per step 1 to Step-5.</p> 
  											<p class="mt-1 center-align">Do not make any change in Input-1 to Input -4 , else it  shall be treated as New assessment</p> -->
 											<p class="mt-1 center-align">To update ATR on the
-												Mitigation Plan of prioritized risk, go to <a href="<%=request.getContextPath()%>/risk-atr-update" target="_blank">Update Forms > Risk >
+												Mitigation Plan of prioritized risks, go to <a href="<%=request.getContextPath()%>/risk-atr-update" target="_blank">Update Forms > Risk >
 												Update ATR </a></p>
 										</div>
 									</div>

@@ -94,7 +94,7 @@
 							<div class="col s12 m1 input-field">
 								<p class="searchable_label">Project</p>
 								<select name="project_id_fk" id="project_id_fk"
-									onchange="getDocumentList();"
+									onchange="addInQueWork(this.value);getDocumentList();"
 									class="searchable validate-dropdown">
 									<option value="">Select</option>
 								</select>
@@ -102,7 +102,7 @@
 							<div class="col s12 m1 input-field">
 								<p class="searchable_label">Work</p>
 								<select name="work_id_fk" id="work_id_fk"
-									onchange="getDocumentList();"
+									onchange="addInQueWork(this.value);getDocumentList();"
 									class="searchable validate-dropdown">
 									<option value="">Select</option>
 								</select>
@@ -110,7 +110,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Contract</p>
 								<select id="contract_id_fk" name="contract_id_fk"
-									class="searchable" onchange="getDocumentList();">
+									class="searchable" onchange="addInQueContract(this.value);getDocumentList();">
 									<option value="">Select</option>
 
 								</select>
@@ -118,7 +118,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Priority</p>
 								<select id="project_priority_fk" name="project_priority_fk"
-									class="searchable" onchange="getDocumentList();">
+									class="searchable" onchange="addInQuePriority(this.value);getDocumentList();">
 									<option value="">Select</option>
 
 								</select>
@@ -126,7 +126,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Document Type</p>
 								<select id="document_type_fk" name="document_type_fk"
-									class="searchable" onchange="getDocumentList();">
+									class="searchable" onchange="addInQueDocumentType(this.value);getDocumentList();">
 									<option value="">Select</option>
 
 								</select>
@@ -135,7 +135,7 @@
 								<p class="searchable_label">Responsible For Approval</p>
 								<select id="responsible_for_approval"
 									name="responsible_for_approval" class="searchable"
-									onchange="getDocumentList();">
+									onchange="addInQueApproval(this.value);getDocumentList();">
 									<option value="">Select</option>
 
 								</select>
@@ -246,9 +246,38 @@
 	</form>
 	
      <script>
+     
+     var filtersMap = new Object();
+     
      $(document).ready(function () {
 	     $('select:not(.searchable)').formSelect();
 	     $('.searchable').select2();
+	     
+
+     	var filters = window.localStorage.getItem("documentsFilters");
+	          
+         if($.trim(filters) != '' && $.trim(filters) != null){
+     	  var temp = filters.split('^'); 
+     	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+		        		  getProjectsFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+		        		  getWorksFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        		  getContractsFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'project_priority_fk'){
+		        		  getProjectPriorityFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'document_type_fk'){
+		        		  getDocumentTypesFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'responsible_for_approval'){
+		        		  getResponsibleForApprovalFilterList(temp2[1]);
+		        	  }
+	        	  }
+	          }
+         }
+         
 	 	var table = $('#datatable-document').DataTable({
 			"bStateSave": true,
 			fixedHeader: true,
@@ -290,23 +319,89 @@
         	$("#document_type_fk").val("");
         	$("#responsible_for_approval").val("");
         	$('.searchable').select2();
+        	window.localStorage.setItem("documentsFilters",'');
         	getDocumentList();
+        }
+        
+        function addInQueProject(project_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('project_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(project_id_fk) != ''){
+       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	}
+        }
+        
+        function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
+        
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+        
+        function addInQuePriority(project_priority_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('project_priority_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(project_priority_fk) != ''){
+            	filtersMap["project_priority_fk"] = project_priority_fk;
+	      	}
+        }
+        
+        function addInQueDocumentType(document_type_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('document_type_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(document_type_fk) != ''){
+       	    	filtersMap["document_type_fk"] = document_type_fk;
+        	}
+        }
+        
+        function addInQueApproval(responsible_for_approval){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('responsible_for_approval')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(responsible_for_approval) != ''){
+            	filtersMap["responsible_for_approval"] = responsible_for_approval;
+	      	}
         }
         
         function getDocumentList(){
         	$(".page-loader-2").show();
+        	
+        	getProjectsFilterList('');
+        	getWorksFilterList('');
+        	getContractsFilterList('');
+         	getProjectPriorityFilterList('');
+         	getDocumentTypesFilterList('');
+         	getResponsibleForApprovalFilterList('');
+         	
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var project_priority_fk = $("#project_priority_fk").val();
         	var document_type_fk = $("#document_type_fk").val();
         	var responsible_for_approval = $("#responsible_for_approval").val();
-        	getProjectsFilterList();
-        	getWorksFilterList();
-        	getContractsFilterList();
-         	getProjectPriorityFilterList();
-         	getDocumentTypesFilterList();
-         	getResponsibleForApprovalFilterList();
+        	
+
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("documentsFilters", filters);
+   			});
+        	
         	table = $('#datatable-document').DataTable();
     		 
     		table.destroy();
@@ -339,7 +434,10 @@
     		
     		table.state.clear();		
     	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
-    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-documents-list",type:"POST",data:myParams,success : function(data){    				
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-documents-list",
+    	 		type:"POST",
+				data:myParams, cache: false,async:false,
+				success : function(data){    				
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var document_no = "'"+val.document_no+"'";
@@ -375,7 +473,7 @@
          }});
        }
         
-        function getContractsFilterList() {
+        function getContractsFilterList(contract) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -388,13 +486,14 @@
         	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInDocuments",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	 var contractShortName = '';
                                  if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
-    	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk)   + contractShortName +'</option>');
+                                 var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
+    	                         $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '"'+selectedFlag+'>' + $.trim(val.contract_id_fk)   + contractShortName +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -409,7 +508,7 @@
             }
         }
         
-        function getDocumentTypesFilterList() {
+        function getDocumentTypesFilterList(type) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -422,11 +521,12 @@
         	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDocumentTypesFilterListInDocuments",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#document_type_fk").append('<option value="' + val.document_type_fk + '">' + $.trim(val.document_type_fk)  + '</option>');
+                            	   var selectedFlag = (type == val.document_type_fk)?'selected':'';
+    	                           $("#document_type_fk").append('<option value="' + val.document_type_fk + '"'+selectedFlag+'>' + $.trim(val.document_type_fk)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -441,7 +541,7 @@
             }
         }
         
-        function getProjectPriorityFilterList() {
+        function getProjectPriorityFilterList(priority) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -454,11 +554,12 @@
         	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getProjectPriorityFilterListInDocuments",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#project_priority_fk").append('<option value="' + val.project_priority_fk + '">' + $.trim(val.project_priority_fk)  + '</option>');
+                            	   var selectedFlag = (priority == val.project_priority_fk)?'selected':'';
+    	                           $("#project_priority_fk").append('<option value="' + val.project_priority_fk + '"'+selectedFlag+'>' + $.trim(val.project_priority_fk)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -473,7 +574,7 @@
             }
         }
         
-        function getResponsibleForApprovalFilterList() {
+        function getResponsibleForApprovalFilterList(approval) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -486,11 +587,12 @@
         	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getResponsibleForApprovalFilterListInDocuments",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#responsible_for_approval").append('<option value="' + val.responsible_for_approval + '">' + $.trim(val.responsible_for_approval)  + '</option>');
+                            		var selectedFlag = (approval == val.responsible_for_approval)?'selected':'';
+    	                            $("#responsible_for_approval").append('<option value="' + val.responsible_for_approval + '"'+selectedFlag+'>' + $.trim(val.responsible_for_approval)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -505,7 +607,7 @@
             }
         }
         
-        function getProjectsFilterList() {
+        function getProjectsFilterList(project) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -518,13 +620,14 @@
         	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInDocuments",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var projectName = '';
                             	 if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-    	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' +$.trim(val.project_id_fk)+ projectName   +'</option>');
+                            	 var selectedFlag = (project == val.project_id_fk)?'selected':'';
+    	                         $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>' +$.trim(val.project_id_fk)+ projectName   +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -539,7 +642,7 @@
             }
        }
         
-        function getWorksFilterList() {
+        function getWorksFilterList(work) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -552,13 +655,14 @@
         	 	var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, project_priority_fk : project_priority_fk, document_type_fk : document_type_fk, responsible_for_approval : responsible_for_approval};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInDocuments",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async:false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var workShortName = '';
                             	 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' +$.trim(val.work_id_fk)+ workShortName   +'</option>');
+                            	 var selectedFlag = (work == val.work_id_fk)?'selected':'';
+    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' +$.trim(val.work_id_fk)+ workShortName   +'</option>');
                             });
                         }
                         $('.searchable').select2();

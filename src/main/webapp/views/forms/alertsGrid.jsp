@@ -75,31 +75,31 @@
                             <form action="">
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">HOD</p>
-                                    <select id="hod" name="hod" class="searchable" onchange="getAlerts();">
+                                    <select id="hod" name="hod" class="searchable" onchange="addInQueHOD(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Work</p>
-                                    <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getAlerts();">
+                                    <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="addInQueWork(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Contract</p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="getAlerts();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable" onchange="addInQueContract(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Contractor</p>
-                                    <select id="contractor_id_fk" name="contractor_id_fk" class="searchable" onchange="getAlerts();">
+                                    <select id="contractor_id_fk" name="contractor_id_fk" class="searchable" onchange="addInQueContractor(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">Alert Type</p>
-                                    <select id="alert_type_fk" name="alert_type_fk" class="searchable" onchange="getAlerts();">
+                                    <select id="alert_type_fk" name="alert_type_fk" class="searchable" onchange="addInQueType(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -236,7 +236,7 @@
 	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 	
     <script>
-    
+    	var filtersMap = new Object();
 	    var email_id = '${email_id}';
 	    var user_role_name = '${user_role_name}';
     
@@ -255,6 +255,28 @@
             $('.modal').modal();
             $('.materialize-textarea').characterCounter();
             
+            var filters = window.localStorage.getItem("alertsFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^'); 
+        	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'hod' ){
+		        		  getHODFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+		        		  getWorkFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        		  getContractsFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contractor_id_fk'){
+		        		  getContractorsFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'alert_type_fk'){
+		        		  getAlertTypesFilterList(temp2[1]);
+		        	  }
+	        	  }
+	          }
+            }
+            
             getAlerts();
 	            
 		});
@@ -267,27 +289,78 @@
             $('#contractor_id_fk').val("");
             $('#alert_type_fk').val("");
             $('.searchable').select2();
-            
+            window.localStorage.setItem("alertsFilters",'');
             getAlerts();
+        }
+        function addInQueHOD(hod){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('hod')) delete filtersMap[key];
+	   		});
+        	if($.trim(hod) != ''){
+       	    	filtersMap["hod"] = hod;
+        	}
+        }
+        
+        function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
+        
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
+        }
+        
+        function addInQueContractor(contractor_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('contractor_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(contractor_id_fk) != ''){
+            	filtersMap["contractor_id_fk"] = contractor_id_fk;
+	      	}
+        }
+        
+        function addInQueType(alert_type_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('alert_type_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(alert_type_fk) != ''){
+       	    	filtersMap["alert_type_fk"] = alert_type_fk;
+        	}
         }
         
 		function getAlerts(){
 			$(".page-loader-2").show();
 			
 			var alert_id_from_tableau = '${alert_id}';
-			
+
+        	getContractsFilterList('');
+			getHODFilterList('');
+			getContractorsFilterList('');
+			getWorkFilterList('');
+			getAlertTypesFilterList('');
+
 			var hod = $("#hod").val();
    	    	var work_id_fk = $("#work_id_fk").val();
    	    	var contractor_id_fk = $("#contractor_id_fk").val();
    	    	var contract_id_fk = $("#contract_id_fk").val();
    	    	var alert_type_fk = $("#alert_type_fk").val();
-        	
-        	getContractsFilterList();
-			getHODFilterList();
-			getContractorsFilterList();
-			getWorkFilterList();
-			getAlertTypesFilterList();
 
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("alertsFilters", filters);
+   			});
+         	
          	table = $('#notifications-table').DataTable();
     		 
     		table.destroy();
@@ -324,7 +397,7 @@
     	 
     		var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getAlerts",
-    			data:myParams,
+    			data:myParams,cache: false,async:false,
     			type:'POST',
     			dataType: 'json',
     			success : function(data){    				
@@ -371,7 +444,7 @@
     	     }});
 		}
         
-	   	function getContractsFilterList(){
+	   	function getContractsFilterList(contract){
    	    	$(".page-loader").show();
    	    	var hod = $("#hod").val();
    	    	var work_id_fk = $("#work_id_fk").val();
@@ -384,11 +457,12 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
    	                url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInAlerts",
-   	                data: myParams,type:"POST", cache: false,
+   	                data: myParams,type:"POST", cache: false,async: false,
    	                success: function (data) {   	                	
    	                    if (data.length > 0) {
    	                        $.each(data, function (i, val) {
-   		                        $("#contract_id_fk").append('<option value="' + val.contract_id + '">' + $.trim(val.contract_id) +" - "+ $.trim(val.contract_short_name) +'</option>');
+   	                        	var selectedFlag = (contract == val.contract_id)?'selected':'';
+   		                        $("#contract_id_fk").append('<option value="' + val.contract_id + '"'+selectedFlag+'>' + $.trim(val.contract_id) +" - "+ $.trim(val.contract_short_name) +'</option>');
    	                        });
    	                    }
    	                    $('.searchable').select2();
@@ -403,7 +477,7 @@
    	        }
 	   	}
         
-        function getHODFilterList(){
+        function getHODFilterList(hod_designation){
         	$(".page-loader").show();
         	var hod = $("#hod").val();
    	    	var work_id_fk = $("#work_id_fk").val();
@@ -416,11 +490,12 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHODFilterListInAlerts",
-                    data: myParams,type:"POST", cache: false,
+                    data: myParams,type:"POST", cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#hod").append('<option value="' + val.hod + '">' + $.trim(val.hod)  + '</option>');
+                            	   var selectedFlag = (hod_designation == val.hod)?'selected':'';
+    	                           $("#hod").append('<option value="' + val.hod + '"'+selectedFlag+'>' + $.trim(val.hod)  + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -435,7 +510,7 @@
             }
          }
        
-        function getContractorsFilterList(){
+        function getContractorsFilterList(contractor){
         	$(".page-loader").show();
         	var hod = $("#hod").val();
    	    	var work_id_fk = $("#work_id_fk").val();
@@ -448,11 +523,12 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInAlerts",
-                    data: myParams,type:"POST", cache: false,
+                    data: myParams,type:"POST", cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-    	                           $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '">' + $.trim(val.contractor_id_fk) +" - "+ $.trim(val.contractor_name) +'</option>');
+                            	   var selectedFlag = (contractor == val.contractor_id_fk)?'selected':'';
+    	                           $("#contractor_id_fk").append('<option value="' + val.contractor_id_fk + '"'+selectedFlag+'>' + $.trim(val.contractor_id_fk) +" - "+ $.trim(val.contractor_name) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -467,7 +543,7 @@
             }
          }
     	 
-    	 function getWorkFilterList(){
+    	 function getWorkFilterList(work){
     	 	$(".page-loader").show();
     	 	var hod = $("#hod").val();
    	    	var work_id_fk = $("#work_id_fk").val();
@@ -480,11 +556,12 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInAlerts",
-                    data: myParams,type:"POST", cache: false,
+                    data: myParams,type:"POST", cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) +" - "+ $.trim(val.work_short_name) +'</option>');
+                            	 var selectedFlag = (work == val.work_id_fk)?'selected':'';
+                            	 $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) +" - "+ $.trim(val.work_short_name) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -499,7 +576,7 @@
             }
         }
     	 
-    	function getAlertTypesFilterList(){
+    	function getAlertTypesFilterList(type){
      	 	$(".page-loader").show();
      	 	var hod = $("#hod").val();
    	    	var work_id_fk = $("#work_id_fk").val();
@@ -512,11 +589,12 @@
    	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getAlertTypesFilterListInAlerts",
-                    data: myParams,type:"POST", cache: false,
+                    data: myParams,type:"POST", cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 $("#alert_type_fk").append('<option value="' + val.alert_type_fk + '">' + $.trim(val.alert_type_fk) +'</option>');
+                            	 var selectedFlag = (type == val.alert_type_fk)?'selected':'';
+                            	 $("#alert_type_fk").append('<option value="' + val.alert_type_fk + '"'+selectedFlag+'>' + $.trim(val.alert_type_fk) +'</option>');
                             });
                         }
                         $('.searchable').select2();

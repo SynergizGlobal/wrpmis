@@ -106,7 +106,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Work</p>
 								<select id="work_id_fk" name="work_id_fk"
-									onchange="getExpenditureList();" class="searchable">
+									onchange="addInQueWork(this.value);getExpenditureList();" class="searchable">
 									<option value="">Select</option>
 									<%--  <c:forEach var="obj" items="${worksList}">
                  						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
@@ -116,7 +116,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Contract</p>
 								<select id="contract_id_fk" name="contract_id_fk"
-									onchange="getExpenditureList();" class="searchable">
+									onchange="addInQueContract(this.value);getExpenditureList();" class="searchable">
 									<option value="">Select</option>
 									<%--  <c:forEach var="obj" items="${contractsList}">
                  						  <option value="${obj.contract_id_fk }" <c:if test="${param.contract_id_fk eq obj.contract_id_fk }">selected</c:if>>${obj.contract_id_fk }<c:if test="${not empty obj.contract_name}"> - </c:if>${obj.contract_name}</option>
@@ -126,7 +126,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Ledger Account</p>
 								<select id="ledger_account" name="ledger_account"
-									onchange="getExpenditureList();" class="searchable">
+									onchange="addInQueLedger(this.value);getExpenditureList();" class="searchable">
 									<option value="">Select</option>
 									<%--   <c:forEach var="obj" items="${ledgerAccountsList}">
                  						  <option value="${obj.ledger_account }" <c:if test="${param.ledger_account eq obj.ledger_account }"></c:if>>${obj.ledger_account }</option>
@@ -136,7 +136,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Contractor Name</p>
 								<select id="contractor_name" name="contractor_name"
-									onchange="getExpenditureList();" class="searchable">
+									onchange="addInQueContractor(this.value);getExpenditureList();" class="searchable">
 									<option value="">Select</option>
 									<%--  <c:forEach var="obj" items="${contractorNamesList}">
                  						  <option value="${obj.contractor_name }" <c:if test="${param.contractor_name eq obj.contractor_name }">selected</c:if>>${obj.contractor_name }</option>
@@ -146,7 +146,7 @@
 							<div class="col s12 m2 input-field">
 								<p class="searchable_label">Voucher Type</p>
 								<select id="voucher_type" name="voucher_type"
-									onchange="getExpenditureList();" class="searchable">
+									onchange="addInQueVoucher(this.value);getExpenditureList();" class="searchable">
 									<option value="">Select</option>
 									<%-- <c:forEach var="obj" items="${voucherTypesList}">
                  						  <option value="${obj.voucher_type }" <c:if test="${param.voucher_type eq obj.voucher_type }">selected</c:if>>${obj.voucher_type }</option>
@@ -302,6 +302,7 @@
 	</form>
     
     <script>
+    var filtersMap = new Object();
     
     function  openUploadExpendituresModal() {
 		$("#expenditureFile").val('');
@@ -317,6 +318,29 @@
    	    $('.modal').modal();
  	    $('select:not(.searchable)').formSelect();
         $('.searchable').select2();
+        
+        var filters = window.localStorage.getItem("expenditureFilters");
+        
+        if($.trim(filters) != '' && $.trim(filters) != null){
+    	  var temp = filters.split('^'); 
+    	  for(var i=0;i< temp.length;i++){
+        	  if($.trim(temp[i]) != '' ){
+        		  var temp2 = temp[i].split('=');
+	        	  if($.trim(temp2[0]) == 'ledger_account' ){
+	        		  getLedgerAccountsFilterList(temp2[1]);
+	        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+	        		  getWorksFilterList(temp2[1]);
+	        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+	        		  getContractsFilterList(temp2[1]);
+	        	  }else if($.trim(temp2[0]) == 'contractor_name'){
+	        		  getContractorNamesFilterList(temp2[1]);
+	        	  }else if($.trim(temp2[0]) == 'voucher_type'){
+	        		  getVoucherTypesFilterList(temp2[1]);
+	        	  }
+        	  }
+          }
+        }
+        
      	var table = $('#datatable-expenditure').DataTable({
   		"bStateSave": true,
   		fixedHeader: true,
@@ -359,22 +383,77 @@
     	$("#contractor_name").val("");
     	$("#voucher_type").val("");
     	$('.searchable').select2();
+    	window.localStorage.setItem("expenditureFilters",'');
     	getExpenditureList();
+    }
+    
+    function addInQueLedger(ledger_account){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('ledger_account')) delete filtersMap[key];
+   		});
+    	if($.trim(ledger_account) != ''){
+   	    	filtersMap["ledger_account"] = ledger_account;
+    	}
+    }
+    
+    function addInQueWork(work_id_fk){
+      	Object.keys(filtersMap).forEach(function (key) {
+	   		if(key.match('work_id_fk')) delete filtersMap[key];
+   	   	});
+      	if($.trim(work_id_fk) != ''){
+        	filtersMap["work_id_fk"] = work_id_fk;
+      	}
+    }
+    
+    function addInQueContract(contract_id_fk){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('contract_id_fk')) delete filtersMap[key];
+   		});
+    	if($.trim(contract_id_fk) != ''){
+   	    	filtersMap["contract_id_fk"] = contract_id_fk;
+    	}
+    }
+    
+    function addInQueContractor(contractor_name){
+      	Object.keys(filtersMap).forEach(function (key) {
+	   		if(key.match('contractor_name')) delete filtersMap[key];
+   	   	});
+      	if($.trim(contractor_name) != ''){
+        	filtersMap["contractor_name"] = contractor_name;
+      	}
+    }
+    
+    function addInQueVoucher(voucher_type){
+    	Object.keys(filtersMap).forEach(function (key) {
+   			if(key.match('voucher_type')) delete filtersMap[key];
+   		});
+    	if($.trim(voucher_type) != ''){
+   	    	filtersMap["voucher_type"] = voucher_type;
+    	}
     }
     
     function getExpenditureList(){
     	$(".page-loader-2").show();
+    	
+    	getWorksFilterList('');
+    	getContractsFilterList(''); 
+    	getLedgerAccountsFilterList('');
+    	getContractorNamesFilterList(''); 
+    	getVoucherTypesFilterList('');
+    	
     	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
     	var voucher_type = $("#voucher_type").val();
-    	getWorksFilterList();
-    	getContractsFilterList(); 
-    	getLedgerAccountsFilterList();
-    	getContractorNamesFilterList(); 
-    	getVoucherTypesFilterList();
     	
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("expenditureFilters", filters);
+			});
+     	
     	table = $('#datatable-expenditure').DataTable();
 		 
 		table.destroy();
@@ -407,7 +486,10 @@
 		
 		table.state.clear();		
 	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
-	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-expenditure",type:"POST",data:myParams,success : function(data){    				
+	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-expenditure",
+	 		type:"POST",
+			data:myParams, cache: false,async:false,
+			success : function(data){  
 			if(data != null && data != '' && data.length > 0){    					
          		$.each(data,function(key,val){
          			var expenditure_id = "'"+val.expenditure_id+"'";
@@ -443,7 +525,7 @@
       }});
     }
     
-    function getWorksFilterList() {
+    function getWorksFilterList(work) {
     	$(".page-loader").show();
     	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
@@ -455,13 +537,14 @@
     	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInExpenditure",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                         	 var workShortName = '';
                              if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
+	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -476,7 +559,7 @@
         }
     }
     
-    function getContractsFilterList() {
+    function getContractsFilterList(contract) {
     	$(".page-loader").show();
     	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
@@ -488,13 +571,14 @@
     	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInExpenditure",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
                         	 var contractShortName = '';
                              if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
-	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk)   + contractShortName +'</option>');
+                             var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
+	                         $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + $.trim(val.contract_id_fk)   + contractShortName +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -509,7 +593,7 @@
         }
     }
     
-    function getLedgerAccountsFilterList() {
+    function getLedgerAccountsFilterList(ledger) {
     	$(".page-loader").show();
     	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
@@ -521,11 +605,12 @@
     	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getLedgerAccountsFilterListInExpenditure",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-	                           $("#ledger_account").append('<option value="' + val.ledger_account + '">' + $.trim(val.ledger_account) +'</option>');
+                        	 var selectedFlag = (ledger == val.ledger_account)?'selected':'';
+	                         $("#ledger_account").append('<option value="' + val.ledger_account + '" '+selectedFlag+'>' + $.trim(val.ledger_account) +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -540,7 +625,7 @@
         }
     }
     
-    function getContractorNamesFilterList() {
+    function getContractorNamesFilterList(contractorName) {
     	$(".page-loader").show();
     	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
@@ -552,11 +637,12 @@
     	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getContractorNamesFilterListInExpenditure",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-	                           $("#contractor_name").append('<option value="' + val.contractor_name + '">' + $.trim(val.contractor_name) +'</option>');
+                        	var selectedFlag = (contractorName == val.contractor_name)?'selected':'';
+	                        $("#contractor_name").append('<option value="' + val.contractor_name + '"'+selectedFlag+'>' + $.trim(val.contractor_name) +'</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -571,7 +657,7 @@
         }
     }
     
-    function getVoucherTypesFilterList() {
+    function getVoucherTypesFilterList(type) {
     	$(".page-loader").show();
     	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
@@ -583,12 +669,12 @@
     	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getVoucherTypesFilterListInExpenditure",
-                data: myParams, cache: false,
+                data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (i, val) {
-                        	
-	                           $("#voucher_type").append('<option value="' + val.voucher_type + '">' + $.trim(val.voucher_type) +'</option>');
+                        	   var selectedFlag = (type == val.voucher_type)?'selected':'';
+	                           $("#voucher_type").append('<option value="' + val.voucher_type + '"'+selectedFlag+'>' + $.trim(val.voucher_type) +'</option>');
                         });
                     }
                     $('.searchable').select2();

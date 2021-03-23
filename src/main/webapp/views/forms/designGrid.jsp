@@ -112,7 +112,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
-											onchange="getDesignList();" class="searchable">
+											onchange="addInQueWork(this.value);getDesignList();" class="searchable">
 											<option value="">Select</option>
 											<%--  <c:forEach var="obj" items="${contractList}">
 	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
@@ -122,7 +122,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Contract</p>
 										<select id="contract_id_fk" name="contract_id_fk"
-											onchange="getDesignList();" class="searchable">
+											onchange="addInQueContract(this.value);getDesignList();" class="searchable">
 											<option value="">Select</option>
 											<c:forEach var="obj" items="${contractList}">
 												<option value="${obj.contract_id }"
@@ -133,7 +133,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Department</p>
 										<select id="department_id_fk" name="department_id_fk"
-											onchange="getDesignList();" class="searchable">
+											onchange="addInQueDepartment(this.value);getDesignList();" class="searchable">
 											<option value="">Select</option>
 											<c:forEach var="obj" items="${departmentList}">
 												<option value="${obj.department_id_fk }"
@@ -144,7 +144,7 @@
 									</div>
 									<div class="col s12 m1 input-field">
 										<p class="searchable_label">HOD</p>
-										<select id="hod" name="hod" onchange="getDesignList();"
+										<select id="hod" name="hod" onchange="addInQueHOD(this.value);getDesignList();"
 											class="searchable">
 											<option value="">Select</option>
 											<c:forEach var="obj" items="${hodList}">
@@ -156,7 +156,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Structure</p>
 										<select id="structure_type_fk" name="structure_type_fk"
-											onchange="getDesignList();" class="searchable">
+											onchange="addInQueStructure(this.value);getDesignList();" class="searchable">
 											<option value="">Select</option>
 											<c:forEach var="obj" items="${structureTypeList}">
 												<option value="${obj.structure_type_fk }"
@@ -167,7 +167,7 @@
 									<div class="col s12 m2 input-field">
 										<p class="searchable_label">Drawing Type</p>
 										<select id="drawing_type_fk" name="drawing_type_fk"
-											onchange="getDesignList();" class="searchable">
+											onchange="addInQueDrawing(this.value);getDesignList();" class="searchable">
 											<option value="">Select</option>
 											<c:forEach var="obj" items="${drawingTypeList}">
 												<option value="${obj.drawing_type_fk }"
@@ -382,6 +382,10 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script>
+	
+		
+		var filtersMap = new Object();
+		
 		function openUploadDesignsModal() {
 			$("#designFile").val('');
 			$("#upload_template").modal('open');
@@ -396,6 +400,31 @@
 			$('.modal').modal();
 			$('select:not(.searchable)').formSelect();
 			$('.searchable').select2();
+			
+			var filters = window.localStorage.getItem("designFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^'); 
+        	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'structure_type_fk' ){
+		        		  getStructureListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+		        		  getWorksListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        		  getContractListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'drawing_type_fk'){
+		        		  getDrawingTypeListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'department_id_fk'){
+		        		  getDepartmentListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'hod'){
+		        		  getHodListFilter(temp2[1]);
+		        	  }
+	        	  }
+	          }
+            }
+            
 			$('.close-message').delay(3000).fadeOut('slow');
 
 		     $('#design-table').DataTable({
@@ -429,10 +458,65 @@
 			$("#structure_type_fk").val('');
 			$("#drawing_type_fk").val('');
 			$('.searchable').select2();
+			window.localStorage.setItem("designFilters",'');
 			getDesignList();
 			getDesignUploadsList();
 		}
         
+		  function addInQueHOD(hod){
+	        	Object.keys(filtersMap).forEach(function (key) {
+		   			if(key.match('hod')) delete filtersMap[key];
+		   		});
+	        	if($.trim(hod) != ''){
+	       	    	filtersMap["hod"] = hod;
+	        	}
+	        }
+		  
+		    function addInQueDrawing(drawing_type_fk){
+	        	Object.keys(filtersMap).forEach(function (key) {
+		   			if(key.match('drawing_type_fk')) delete filtersMap[key];
+		   		});
+	        	if($.trim(drawing_type_fk) != ''){
+	       	    	filtersMap["drawing_type_fk"] = drawing_type_fk;
+	        	}
+	        }
+	        
+	        function addInQueWork(work_id_fk){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('work_id_fk')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(work_id_fk) != ''){
+	            	filtersMap["work_id_fk"] = work_id_fk;
+		      	}
+	        }
+	        
+	        function addInQueContract(contract_id_fk){
+	        	Object.keys(filtersMap).forEach(function (key) {
+		   			if(key.match('contract_id_fk')) delete filtersMap[key];
+		   		});
+	        	if($.trim(contract_id_fk) != ''){
+	       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+	        	}
+	        }
+	        
+	        function addInQueDepartment(department_id_fk){
+		      	Object.keys(filtersMap).forEach(function (key) {
+			   		if(key.match('department_id_fk')) delete filtersMap[key];
+		   	   	});
+		      	if($.trim(department_id_fk) != ''){
+	            	filtersMap["department_id_fk"] = department_id_fk;
+		      	}
+	        }
+	        
+	        function addInQueStructure(structure_type_fk){
+	        	Object.keys(filtersMap).forEach(function (key) {
+		   			if(key.match('structure_type_fk')) delete filtersMap[key];
+		   		});
+	        	if($.trim(structure_type_fk) != ''){
+	       	    	filtersMap["structure_type_fk"] = structure_type_fk;
+	        	}
+	        }
+	        
         function getDesignUploadsList(){
         	$(".page-loader-2").show();
         	
@@ -504,14 +588,13 @@
         
 		function getDesignList() {
 			$(".page-loader-2").show();
-			
 
-			getWorksListFilter();
-			getHodListFilter();
-			getDepartmentListFilter();
-			getContractListFilter();
-			getStructureListFilter();
-			getDrawingTypeListFilter();
+			getWorksListFilter('');
+			getHodListFilter('');
+			getDepartmentListFilter('');
+			getContractListFilter('');
+			getStructureListFilter('');
+			getDrawingTypeListFilter('');
 			
 			var work_id_fk = $("#work_id_fk").val();
 			var contract_id_fk = $("#contract_id_fk").val();
@@ -519,7 +602,14 @@
 			var hod = $("#hod").val();
 			var structure_type_fk = $("#structure_type_fk").val();
 			var drawing_type_fk = $("#drawing_type_fk").val();
-
+			
+			var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("designFilters", filters);
+   			});
+        	
 			table = $('#datatable-design').DataTable();
 
 			table.destroy();
@@ -668,7 +758,7 @@
 	    	    console.log(msg);
 	     }
 	  	
-	    function getWorksListFilter() {
+	    function getWorksListFilter(work) {
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
@@ -689,7 +779,8 @@
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
                             	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
- 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + work_short_name +'</option>');
+                            	var selectedFlag = (work == val.work_id_fk)?'selected':'';
+ 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -704,7 +795,7 @@
             }
         }
 	  	
-	    function getContractListFilter() {
+	    function getContractListFilter(contract) {
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
@@ -724,8 +815,9 @@
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
-                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) } 
- 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
+                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                            	var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
+ 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '"'+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -742,7 +834,7 @@
       	
        
         
-        function getHodListFilter() {
+        function getHodListFilter(hod) {
         	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
@@ -761,8 +853,10 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	var designation  = '${sessionScope.USER_DESIGNATION}';
-                            	var selectedFlag = (designation == val.hod)?'selected':'';
+                            	if($.trim(selectedFlag) != ''){
+                            		var designation  = '${sessionScope.USER_DESIGNATION}';
+                                	var selectedFlag = (designation == val.hod)?'selected':'';
+                             	}
                             	$("#hod").append('<option value="' + val.hod + '" '+selectedFlag+'>' + $.trim(val.hod) +'</option>');
                             });
                         }
@@ -778,7 +872,7 @@
             }
         }
         
-        function getDepartmentListFilter() {
+        function getDepartmentListFilter(department) {
         	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
@@ -797,7 +891,8 @@
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
-                           	 	$("#department_id_fk").append('<option value="' + val.department_id_fk + '">' + $.trim(val.department_name) +'</option>');
+                            	var selectedFlag = (department == val.department_id_fk)?'selected':'';
+                           	 	$("#department_id_fk").append('<option value="' + val.department_id_fk + '"'+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
                              });
                          }
                          $('.searchable').select2();
@@ -812,7 +907,7 @@
              }
         }
         
-        function getStructureListFilter() {
+        function getStructureListFilter(structure) {
         	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
@@ -831,7 +926,8 @@
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
-                           	 	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '">' + $.trim(val.structure_type_fk) +'</option>');
+                            	var selectedFlag = (structure == val.structure_type_fk)?'selected':'';
+                           	 	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '"'+selectedFlag+'>' + $.trim(val.structure_type_fk) +'</option>');
                              });
                          }
                          $('.searchable').select2();
@@ -846,7 +942,7 @@
              }
         }
         
-        function getDrawingTypeListFilter() {
+        function getDrawingTypeListFilter(type) {
         	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_id_fk = $("#department_id_fk").val();
@@ -865,7 +961,8 @@
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
-                           	 	$("#drawing_type_fk").append('<option value="' + val.drawing_type_fk + '">' + $.trim(val.drawing_type_fk) +'</option>');
+                            	var selectedFlag = (type == val.drawing_type_fk)?'selected':'';
+                           	 	$("#drawing_type_fk").append('<option value="' + val.drawing_type_fk + '"'+selectedFlag+'>' + $.trim(val.drawing_type_fk) +'</option>');
                              });
                          }
                          $('.searchable').select2();

@@ -87,14 +87,14 @@
 									<div class="col s12 m4 input-field">
 										<p class="searchable_label">Work</p>
 										<select class="searchable" name="work_id_fk" id="work_id_fk"
-											onchange="getTAFinancialList();">
+											onchange="addInQueWork(this.value);getTAFinancialList();">
 											<option value="" disabled selected>Select</option>
 										</select>
 									</div>
 									<div class="col s12 m4 input-field">
 										<p class="searchable_label">Contract</p>
 										<select class="searchable" name="contract_id_fk"
-											id="contract_id_fk" onchange="getTAFinancialList();">
+											id="contract_id_fk" onchange="addInQueContract(this.value);getTAFinancialList();">
 											<option value="" disabled selected>Select</option>
 
 										</select>
@@ -195,9 +195,27 @@
     	<input type="hidden" name="ID" id="ID" />
     </form>
     <script>
+    
+    	var filtersMap = new Object();
+    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
+            var filters = window.localStorage.getItem("taFinancialsFilters");
+	          
+            if($.trim(filters) != '' && $.trim(filters) != null){
+        	  var temp = filters.split('^'); 
+        	  for(var i=0;i< temp.length;i++){
+	        	  if($.trim(temp[i]) != '' ){
+	        		  var temp2 = temp[i].split('=');
+		        	  if($.trim(temp2[0]) == 'work_id_fk' ){
+		        		  getWorksFilterList(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        		  getContractsFilterList(temp2[1]);
+		        	  }
+	        	  }
+	          }
+            }
             $('#tafinancials').DataTable({
                 columnDefs: [
                     {
@@ -222,15 +240,43 @@
         	$("#work_id_fk").val("");
         	$("#contract_id_fk").val("");
         	$('.searchable').select2();
+        	window.localStorage.setItem("taFinancialsFilters",'');
         	getTAFinancialList();
+        }
+        
+        function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
+        
+        function addInQueContract(contract_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('contract_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(contract_id_fk) != ''){
+       	    	filtersMap["contract_id_fk"] = contract_id_fk;
+        	}
         }
         
         function getTAFinancialList(){
         	$(".page-loader-2").show();
+        	
+        	getWorksFilterList('');
+         	getContractsFilterList('');
+         	
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
-        	getWorksFilterList();
-         	getContractsFilterList();
+        	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("taFinancialsFilters", filters);
+   			});
         	table = $('#tafinancials').DataTable();
     		 
     		table.destroy();
@@ -263,7 +309,10 @@
     		
     		table.state.clear();		
     	 	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk};
-    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-ta-financials",type:"POST",data:myParams,success : function(data){    				
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-ta-financials",
+    	 		type:"POST",
+				data:myParams, cache: false,async:false,
+				success : function(data){    
     			if(data != null && data != '' && data.length > 0){    					
              		$.each(data,function(key,val){
              			var ID = "'"+val.financial_id+"'" ;
@@ -298,7 +347,7 @@
          }});
        }
         
-        function getWorksFilterList() {
+        function getWorksFilterList(work) {
         	$(".page-loader").show();
             var contract_id_fk = $("#contract_id_fk").val();
             var work_id_fk = $("#work_id_fk").val();
@@ -307,13 +356,14 @@
             	var myParams = {contract_id_fk : contract_id_fk,work_id_fk: work_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInTAFinancials",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	 var workShortName = '';
                                  if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                                 var selectedFlag = (work == val.work_id_fk)?'selected':'';
+    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -328,7 +378,7 @@
             }
         }
         
-        function getContractsFilterList() {
+        function getContractsFilterList(contract) {
         	$(".page-loader").show();
             var contract_id_fk = $("#contract_id_fk").val();
             var work_id_fk = $("#work_id_fk").val();
@@ -337,13 +387,14 @@
             	var myParams = {contract_id_fk : contract_id_fk,work_id_fk: work_id_fk };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInTAFinancials",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	 var contractShortName = '';
                                  if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
-    	                           $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk)   + contractShortName +'</option>');
+                                 var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
+    	                         $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '" '+selectedFlag+'>' + $.trim(val.contract_id_fk)   + contractShortName +'</option>');
                             });
                         }
                         $('.searchable').select2();

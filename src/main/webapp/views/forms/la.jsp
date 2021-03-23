@@ -118,35 +118,35 @@
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Project</p>
-                                <select id="project_id_fk" class="searchable" name="project_id_fk" onchange="getLandAcquisitionList();">
+                                <select id="project_id_fk" class="searchable" name="project_id_fk" onchange="addInQueProject(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Project</option>
                                    
                                 </select>
                             </div>
                              <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Work</p>
-                                <select id="work_id_fk" class="searchable" name="work_id_fk" onchange="getLandAcquisitionList();">
+                                <select id="work_id_fk" class="searchable" name="work_id_fk" onchange="addInQueWork(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Work</option>
                                    
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Village</p>
-                                <select id="village" class="searchable" name="village" onchange="getLandAcquisitionList();">
+                                <select id="village" class="searchable" name="village" onchange="getLandAcquisitionList();"> <!-- addinQueVillage(this.value); -->
                                     <option value="" >Select Village</option>
                                    
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Type of Land</p>
-                                <select id="type_of_land" class="searchable" name="type_of_land" onchange="getLandAcquisitionList();">
+                                <select id="type_of_land" class="searchable" name="type_of_land" onchange="addInQueType(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Type of Land</option>
                                    
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Sub Category</p>
-                                <select id="sub_category_of_land" class="searchable" name="sub_category_of_land" onchange="getLandAcquisitionList();">
+                                <select id="sub_category_of_land" class="searchable" name="sub_category_of_land" onchange="addInQueSubCategory(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Sub Category</option>
                                    
                                 </select>
@@ -239,10 +239,36 @@
     	<input type="hidden" name="la_id" id="la_id" />
     </form>
     <script>
+    
+    	var filtersMap = new Object();
+    
         $(document).ready(function () {
         	  $('select:not(.searchable)').formSelect();
               $('.searchable').select2();
               $('.close-message').delay(3000).fadeOut('slow')
+              
+              var filters = window.localStorage.getItem("laFilters");
+	          
+              if($.trim(filters) != '' && $.trim(filters) != null){
+          	  var temp = filters.split('^'); 
+          	  for(var i=0;i< temp.length;i++){
+  	        	  if($.trim(temp[i]) != '' ){
+  	        		  var temp2 = temp[i].split('=');
+  		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
+  		        		getProjectsFilterList(temp2[1]);
+  		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
+  		        		getWorksFilterList(temp2[1]);
+  		        	  }else if($.trim(temp2[0]) == 'village'){
+  		        		getvillagesFilterList(temp2[1]);
+  		        	  }else if($.trim(temp2[0]) == 'type_of_land'){
+  		        		getTypesOfLandsFilterList(temp2[1]);
+  		        	  }else if($.trim(temp2[0]) == 'sub_category_of_land'){
+  		        		getSubCatogoryFilterList(temp2[1]);
+  		        	  }
+  	        	  }
+  	          }
+              }
+              
       	      getLandAcquisitionList();
         });
 
@@ -253,24 +279,74 @@
             $('#type_of_land').val("");
             $('#sub_category_of_land').val("");
             $('.searchable').select2();
+            window.localStorage.setItem("laFilters",'');
             getLandAcquisitionList();
+        }
+        function addInQueProject(project_id_fk){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('project_id_fk')) delete filtersMap[key];
+	   		});
+        	if($.trim(project_id_fk) != ''){
+       	    	filtersMap["project_id_fk"] = project_id_fk;
+        	}
+        }
+        
+        function addInQueWork(work_id_fk){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('work_id_fk')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(work_id_fk) != ''){
+            	filtersMap["work_id_fk"] = work_id_fk;
+	      	}
+        }
+        
+        function addInQuevillage(village){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('village')) delete filtersMap[key];
+	   		});
+        	if($.trim(village) != ''){
+       	    	filtersMap["village"] = village;
+        	}
+        }
+        
+        function addInQueType(type_of_land){
+	      	Object.keys(filtersMap).forEach(function (key) {
+		   		if(key.match('type_of_land')) delete filtersMap[key];
+	   	   	});
+	      	if($.trim(type_of_land) != ''){
+            	filtersMap["type_of_land"] = type_of_land;
+	      	}
+        }
+        
+        function addInQueSubCategory(sub_category_of_land){
+        	Object.keys(filtersMap).forEach(function (key) {
+	   			if(key.match('sub_category_of_land')) delete filtersMap[key];
+	   		});
+        	if($.trim(sub_category_of_land) != ''){
+       	    	filtersMap["sub_category_of_land"] = sub_category_of_land;
+        	}
         }
         
         function getLandAcquisitionList(){
         	$(".page-loader-2").show();
-        	
+
+        	getProjectsFilterList('');
+        	getWorksFilterList('');
+         	getvillagesFilterList('');
+         	getTypesOfLandsFilterList('');
+         	getSubCatogoryFilterList('');
+         	
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
-        	
-        	getProjectsFilterList();
-        	getWorksFilterList();
-         	getvillagesFilterList();
-         	getTypesOfLandsFilterList();
-         	getSubCatogoryFilterList();
-         	
+        	var filters = '';
+        	Object.keys(filtersMap).forEach(function (key) {
+	    		//alert(filtersMap[key]);
+        		filters = filters + key +"="+filtersMap[key] + "^";
+        		window.localStorage.setItem("laFilters", filters);
+   			});
         	table = $('#land-acquisition-datatable').DataTable();
 			 
 			table.destroy();
@@ -460,7 +536,7 @@
          }});
        }
         
-        function getProjectsFilterList() {
+        function getProjectsFilterList(project) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -472,13 +548,14 @@
         	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInLandAcquisition",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	 var projectName = '';
                                  if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-    	                           $("#project_id_fk").append('<option value="' + val.project_id_fk + '">' + $.trim(val.project_id_fk)   + projectName +'</option>');
+                                 var selectedFlag = (project == val.project_id_fk)?'selected':'';
+    	                         $("#project_id_fk").append('<option value="' + val.project_id_fk + '"'+selectedFlag+'>' + $.trim(val.project_id_fk)   + projectName +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -493,7 +570,7 @@
             }
         }
         
-        function getWorksFilterList() {
+        function getWorksFilterList(work) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -505,13 +582,14 @@
         	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInLandAcquisition",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                             	 var workShortName = '';
                                  if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
+                                 var selectedFlag = (work == val.work_id_fk)?'selected':'';
+    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -526,7 +604,7 @@
             }
         }
         
-        function getvillagesFilterList() {
+        function getvillagesFilterList(villageName) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -538,12 +616,12 @@
         	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getVillagesFilterListInLandAcquisition",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 var workShortName = '';
-    	                           $("#village").append('<option value="' + val.village + '">' + $.trim(val.village) +'</option>');
+                            	var selectedFlag = (villageName == val.village)?'selected':'';
+                            	$("#village").append('<option value="' + val.village + '"'+selectedFlag+'>' + $.trim(val.village) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -558,7 +636,7 @@
             }
         }
         
-        function getTypesOfLandsFilterList() {
+        function getTypesOfLandsFilterList(type) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -570,12 +648,12 @@
         	 	var myParams = {project_id_fk : project_id_fk,village : village, work_id_fk : work_id_fk, type_of_land : type_of_land,sub_category_of_land :sub_category_of_land};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getTypesOfLandsFilterListInLandAcquisition",
-                    data: myParams, cache: false,
+                    data: myParams, cache: false,async: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 var workShortName = '';
-    	                           $("#type_of_land").append('<option value="' + val.type_of_land + '">' + $.trim(val.type_of_land) +'</option>');
+                            	   var selectedFlag = (type == val.type_of_land)?'selected':'';
+    	                           $("#type_of_land").append('<option value="' + val.type_of_land + '"'+selectedFlag+'>' + $.trim(val.type_of_land) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -590,7 +668,7 @@
             }
         }
         
-        function getSubCatogoryFilterList() {
+        function getSubCatogoryFilterList(subCategory) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -606,8 +684,8 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	 var workShortName = '';
-    	                           $("#sub_category_of_land").append('<option value="' + val.sub_category_of_land + '">' + $.trim(val.sub_category_of_land) +'</option>');
+                            		var selectedFlag = (subCategory == val.sub_category_of_land)?'selected':'';
+    	                            $("#sub_category_of_land").append('<option value="' + val.sub_category_of_land + '"'+selectedFlag+'>' + $.trim(val.sub_category_of_land) +'</option>');
                             });
                         }
                         $('.searchable').select2();

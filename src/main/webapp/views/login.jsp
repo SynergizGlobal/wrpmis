@@ -206,7 +206,7 @@
 			            <input type="hidden" id="system_ipa" name="system_ipa">
 			            <input type="hidden" id="public_ipa" name="public_ipa">
 			            <div class="input-field col offset-s1 s10 text-center">
-			            	<button type="submit" class="btn bgb" style="width:100%">Submit</button>
+			            	<button type="button" onclick="login();" class="btn bgb" style="width:100%">Submit</button>
 			               <!--  <input type="submit" class="btn-outline waves-effect waves-light" value="Go">
 			                <p class="for-text"><a href="javscript:void(0);" >Forgot Password ?</a></p> -->
 			            </div>
@@ -303,62 +303,21 @@
 			        }).change();
 			    }
 			});
+			
+			function login() {
+				window.localStorage.clear();
+				var flag = $('#loginForm').valid();
+				if(flag){
+					$('#loginForm').submit();
+				}
+			}
 		    
 			//form validations and footer related code 
 		    $(document).ready(function() {		    	
 		    	$('#logoutMsg').delay(3000).fadeOut('slow');
 		    	
 				 $("#year").html(new Date().getFullYear());
-				 $('#loginForm').validate({
-				    rules: {
-				     		"user_id":{
-				     			required:true
-		                	},"password":{
-		                		required:true
-		                	}
-				     	},
-				    messages: {
-				   			  "user_id":{
-				   			  	required:'Please Provide Login Id & Password'
-				   			  },"password":{
-		                		required:'Please Provide Login Id & Password'
-			                  }
-				   	},errorPlacement:function(error, element){
-				   		   $("#logoutMsg").html("");
-					       if(element.attr("id") == "user_id" ){
-							 document.getElementById("message").innerHTML="";
-							 error.appendTo('#message');
-					        }else if (element.attr("id") == "password" ){
-							 document.getElementById("message").innerHTML="";
-							 error.appendTo('#message');
-				             }else{error.insertAfter(element);} 
-					       
-				    },invalidHandler: function (form, validator) {
-	                     var errors = validator.numberOfInvalids();
-	                     if (errors) {
-	                         var position = validator.errorList[0].element;
-	                         jQuery('html, body').animate({
-	                             scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-	                         }, 1000);
-	                     }
-	                 },submitHandler:function(form){
-				    	 
-				    	//const public_key="ssdkF$HUy2A#D%kd";
-				    	//$('#user_id').val(CryptoJS.AES.encrypt($('#user_id').val(),public_key)); 
-				    	//$('#password').val(CryptoJS.AES.encrypt($('#password').val(),public_key));
-				    	 
-				    	//another method
-				    	
-				    	//var encdata = $("form").serializeArray();
-				    	
-				    	//$.each(encdata, function(i, field){
-				    		//if(jQuery('input[name="'+field.name+'"]').val()!="")
-				    		//jQuery('input[name="'+field.name+'"]').val(CryptoJS.AES.encrypt(jQuery('input[name="'+field.name+'"]').val(),public_key));
-				    	    //});
-				    	
-			             form.submit();
-				    }
-				});
+				 
 			        
 		        $('input').change(function(){
 		    	    if ($(this).val() != ""){
@@ -372,6 +331,59 @@
 		       	 aboveOrigin:true,
 		        });
 			 });
+			
+			
+		    $('#loginForm').validate({
+			    rules: {
+			     		"user_id":{
+			     			required:true
+	                	},"password":{
+	                		required:true
+	                	}
+			     	},
+			    messages: {
+			   			  "user_id":{
+			   			  	required:'Please provide Login Id & Password'
+			   			  },"password":{
+	                		required:'Please provide Login Id & Password'
+		                  }
+			   	},errorPlacement:function(error, element){
+			   		   $("#logoutMsg").html("");
+				       if(element.attr("id") == "user_id" ){
+						 document.getElementById("message").innerHTML="";
+						 error.appendTo('#message');
+				        }else if (element.attr("id") == "password" ){
+						 document.getElementById("message").innerHTML="";
+						 error.appendTo('#message');
+			             }else{error.insertAfter(element);} 
+				       
+			    },invalidHandler: function (form, validator) {
+                     var errors = validator.numberOfInvalids();
+                     if (errors) {
+                         var position = validator.errorList[0].element;
+                         jQuery('html, body').animate({
+                             scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                         }, 1000);
+                     }
+                 },submitHandler:function(form){
+			    	 
+			    	//const public_key="ssdkF$HUy2A#D%kd";
+			    	//$('#user_id').val(CryptoJS.AES.encrypt($('#user_id').val(),public_key)); 
+			    	//$('#password').val(CryptoJS.AES.encrypt($('#password').val(),public_key));
+			    	 
+			    	//another method
+			    	
+			    	//var encdata = $("form").serializeArray();
+			    	
+			    	//$.each(encdata, function(i, field){
+			    		//if(jQuery('input[name="'+field.name+'"]').val()!="")
+			    		//jQuery('input[name="'+field.name+'"]').val(CryptoJS.AES.encrypt(jQuery('input[name="'+field.name+'"]').val(),public_key));
+			    	    //});
+			    	
+		             form.submit();
+			    }
+			});
+		    
 		    //material components initialization
 		    $(document).ready(function(){
 		        $('.sidenav').sidenav();

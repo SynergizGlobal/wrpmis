@@ -110,8 +110,7 @@
 								</c:if>
 		
 								<c:if test="${not empty updateSuccess }">
-									<div class="center-align m-1 close-message">
-										${updateSuccess}</div>
+									<div class="center-align m-1 close-message">${updateSuccess}</div>
 								</c:if>
 		
 								<c:if test="${not empty error }">

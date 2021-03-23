@@ -400,7 +400,7 @@ public class RiskController {
 					}
 					
 					if(!StringUtils.isEmpty(risk_rows_error)) {
-						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " are not inserted (Reason : Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty. And Probability and impact should have values 1 or 3 or 5 ).</span> ";
+						risk_rows_error = "<br><span style='color:red;'>Your assessment is incomplete! Row no(s) " + risk_rows_error + " are not inserted (Reason : Work, Owner, Date of Assessment,Probability,Impact,Priority of Open Risks,Action By Should not empty).</span> ";
 					}
 					
 					msg = msg + risk_owner_error + risk_rows_error;

@@ -220,7 +220,7 @@
 	          $('.searchable').select2();
 	          $('.tabs').tabs();
 	          
-	          $('.close-message').delay(5000).fadeOut('slow');
+	          //$('.close-message').delay(5000).fadeOut('slow');
 	          
 	          var filters = window.localStorage.getItem("riskFilters");
 	          

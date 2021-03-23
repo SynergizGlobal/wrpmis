@@ -186,7 +186,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id_fk = ?";
+				qry = qry + " and d.project_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -232,7 +232,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and project_id_fk = ?";
+				qry = qry + " and d.project_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

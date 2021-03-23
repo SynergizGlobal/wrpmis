@@ -132,14 +132,14 @@
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Village</p>
-                                <select id="village" class="searchable" name="village" onchange="getLandAcquisitionList();"> <!-- addinQueVillage(this.value); -->
+                                <select id="village" class="searchable" name="village" onchange="addinQueVillage(this.value);getLandAcquisitionList();"> 
                                     <option value="" >Select Village</option>
                                    
                                 </select>
                             </div>
                             <div class="col s12 m2 input-field">
                                 <p class="searchable_label">Select Type of Land</p>
-                                <select id="type_of_land" class="searchable" name="type_of_land" onchange="addInQueType(this.value);getLandAcquisitionList();">
+                                <select id="type_of_land" class="searchable" name="type_of_land" onchange="addinQueType(this.value);getLandAcquisitionList();">
                                     <option value="" >Select Type of Land</option>
                                    
                                 </select>
@@ -300,7 +300,7 @@
 	      	}
         }
         
-        function addInQuevillage(village){
+        function addinQueVillage(village){
         	Object.keys(filtersMap).forEach(function (key) {
 	   			if(key.match('village')) delete filtersMap[key];
 	   		});
@@ -309,7 +309,7 @@
         	}
         }
         
-        function addInQueType(type_of_land){
+        function addinQueType(type_of_land){
 	      	Object.keys(filtersMap).forEach(function (key) {
 		   		if(key.match('type_of_land')) delete filtersMap[key];
 	   	   	});
@@ -604,7 +604,7 @@
             }
         }
         
-        function getvillagesFilterList(villageName) {
+        function getvillagesFilterList(village_name) {
         	$(".page-loader").show();
         	var project_id_fk = $("#project_id_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
@@ -620,7 +620,7 @@
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
-                            	var selectedFlag = (villageName == val.village)?'selected':'';
+                            	var selectedFlag = (village_name == val.village)?'selected':'';
                             	$("#village").append('<option value="' + val.village + '"'+selectedFlag+'>' + $.trim(val.village) +'</option>');
                             });
                         }

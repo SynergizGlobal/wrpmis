@@ -42,7 +42,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and dg.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -82,12 +82,25 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 	public List<DataGathering> getDataGatherigsStatusList(DataGathering obj) throws Exception {
 		List<DataGathering> objsList = null;
 		try {
-			String qry = "SELECT status_fk from data_gathering where status_fk is not null and status_fk <> '' ";
+			String qry = "SELECT status_fk "
+					+ "from data_gathering dg " + 
+					"LEFT JOIN contract c on dg.contract_id_fk = c.contract_id  " + 
+					"LEFT JOIN work w on c.work_id_fk = w.work_id   " + 
+					"LEFT JOIN project p on p.project_id = w.project_id_fk  "
+					+"where status_fk is not null and status_fk <> '' ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
-				qry = qry + " and project_priority_fk = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";
 				arrSize++;
-			}		
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and dg.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				qry = qry + " and status_fk = ?";
 				arrSize++;
@@ -95,8 +108,14 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 			qry = qry + " GROUP BY status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_priority_fk())) {
-				pValues[i++] = obj.getProject_priority_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
@@ -124,7 +143,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and dg.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -277,7 +296,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 		try {
 			String qry = "SELECT work_id as work_id_fk,work_name,work_short_name from data_gathering dg "
 					+ "LEFT JOIN contract c on dg.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN work w on c.work_id_fk = w.work_id  "
+					+ "LEFT JOIN work w on dg.work_id_fk = w.work_id  "
 					+ "LEFT JOIN project p on p.project_id = w.project_id_fk "
 					+ "where work_id is not null and work_id <> '' ";
 			int arrSize = 0;
@@ -286,7 +305,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and dg.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -335,7 +354,7 @@ public class DataGatheringsDaoImpl implements DataGatheringsDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and dg.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

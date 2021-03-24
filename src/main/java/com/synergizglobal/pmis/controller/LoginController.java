@@ -99,6 +99,8 @@ public class LoginController {
 					session.setAttribute("USER_TYPE", userDetails.getUser_type_fk());
 					session.setAttribute("USER_DESIGNATION", userDetails.getDesignation());
 					
+					session.setAttribute("USER_LOGIN_DETAILS_ID", userDetails.getUser_login_details_id());
+					
 					if(!StringUtils.isEmpty(userDetails.getPasswordExpiredTime()) && Integer.parseInt(userDetails.getPasswordExpiredTime()) <= 0){
 						model.setViewName("redirect:/reset-password");
 						attributes.addFlashAttribute("message", passwordExpired);
@@ -232,8 +234,14 @@ public class LoginController {
 		ModelAndView model = new ModelAndView();		
 		try {
 			model.setViewName(PageConstants.login);
-			String userId = (String) session.getAttribute("USER_ID");
-			boolean flag = loginService.saveLogoutAction(userId);
+			String userId = (String)session.getAttribute("USER_ID");
+			
+			User userDetails = (User)session.getAttribute("user");
+			
+			boolean flag1 = loginService.addUserLogoutDateTime(userDetails);
+			
+			boolean flag2 = loginService.saveLogoutAction(userId);
+			
 			session.invalidate();
 			model.addObject("success",logOutMessage);
 		} catch (Exception e) {

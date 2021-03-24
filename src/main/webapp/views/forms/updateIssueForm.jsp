@@ -246,27 +246,8 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-							<div class="row" style="margin-bottom:5px">
-							  <div class="col s12 m4 input-field offset-m2">
-					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
-					                 <option value="select">Select</option>						                 
-					             </select>                                    
-					             <span id="status_fkError" class="error-msg" ></span>
-					          </div>
-					          <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
-					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" value="${issue.assigned_date }" >
-                                    <label for="assigned_date""> Assigned Date</label>
-                                    <button type="button" id="assigned_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="assigned_dateError" class="error-msg" ></span>
-					         </div>
-							</div>
-
                             <div class="row">
-                                <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
+							  <div class="col s12 m4 input-field offset-m2">
                                     <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
                                     <label for="reported_by">Reported by </label>
                                     <!-- <p class="searchable_label">Reported by</p> 
@@ -278,6 +259,48 @@
                                     </select> -->
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
+							</div>
+                            
+							<div class="row" style="margin-bottom:5px">
+							  <div class="col s12 m4 input-field offset-m2">
+					             <p class="searchable_label">Issue Status <span class="required">*</span></p> 
+					             <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
+					                 <option value="">Select</option>						                 
+					             </select>                                    
+					             <span id="status_fkError" class="error-msg" ></span>
+					          </div>
+					          <%-- <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
+					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" value="${issue.assigned_date }" >
+                                    <label for="assigned_date""> Assigned Date</label>
+                                    <button type="button" id="assigned_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="assigned_dateError" class="error-msg" ></span>
+					         </div> --%>
+							</div>
+
+                            <div class="row">
+                                <!-- row 2 -->
+                                <div class="col m2 hide-on-small-only"></div>
+                                <%-- <div class="col s12 m4 input-field">
+                                    <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
+                                    <label for="reported_by">Reported by </label>
+                                    <!-- <p class="searchable_label">Reported by</p> 
+                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${reportedByList }">
+                                            <option value="${obj.reported_by_user_id }" <c:if test="${issue.reported_by eq obj.reported_by_user_id }">selected</c:if>>${obj.reported_by_designation}</option>
+                                        </c:forEach>
+                                    </select> -->
+                                    <span id="reported_byError" class="error-msg" ></span>
+                                </div> --%>
+                                
+                                <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
+						             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" value="${issue.assigned_date }" >
+	                                    <label for="assigned_date""> Assigned Date<span class="required">*</span></label>
+	                                    <button type="button" id="assigned_date_icon"><i
+	                                            class="fa fa-calendar"></i></button>
+	                                    <span id="assigned_dateError" class="error-msg" ></span>
+						         </div>
                                 <div class="col s12 m4 input-field" id="responsibleDiv" style="display:none">
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
@@ -353,7 +376,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker" value="${issue.escalation_date}">
-	                                    <label for="escalation_date"> Escalated Date</label>
+	                                    <label for="escalation_date"> Escalated Date<span class="required">*</span></label>
 	                                    <button type="button" id="escalation_date_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="escalation_dateError" class="error-msg" ></span>
@@ -362,7 +385,7 @@
 	                            </div>
                             	<div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
+                                <div class="col s12 m8 input-field" id="escalatedRemarksDiv" style="display: none;">
                                     <textarea id="remarks" name="remarks" class="materialize-textarea" data-length="1000">${issue.remarks }</textarea>
                                     <label for="remarks">Status After Escalation</label>
                                     <span id="remarksError" class="error-msg" ></span>
@@ -375,7 +398,7 @@
                                 <div class="col m2 hide-on-small-only"></div>                              
                                 <div class="col s12 m4 input-field" style="margin-top:15px; display:none;" id="resolvedDiv">
                                     <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker" value="${issue.resolved_date }">
-                                    <label for="resolved_date"> Resolved Date</label>
+                                    <label for="resolved_date"> Resolved Date<span class="required">*</span></label>
                                     <button type="button" id="resolved_date_icon"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="resolved_dateError" class="error-msg" ></span>
@@ -517,6 +540,10 @@
             	$("#escalated_to").val('');
             	$("#escalation_date").val('');
             	$("#escalatedDiv").hide();
+            }
+            
+            if($.trim(status_fk) == 'Escalated'){
+            	$("#escalatedRemarksDiv").show();
             }
             
             getIssueStatusList();
@@ -761,7 +788,7 @@
     				 		required: true,
        				 	 	dateBeforeToday1:"#date"
     				 	  },"assigned_date":{
-    				 		 required: false,
+    				 		 required: true,
         				 	 dateBeforeToday2:"#assigned_date",
         				 	 dateBefore1:"#date"
     				 	  },"location": {
@@ -777,14 +804,14 @@
     				 	  },"corrective_measure": {
     			 		    required: true,
     			 	   	  },"resolved_date": {
-    				 		required: false,
+    				 		required: true,
        				 	 	dateBeforeToday4:"#resolved_date",
        				 	 	dateBefore3:"#escalation_date",
     				 		statusCheck1: true
     				 	  },"escalated_to": {
     			 		    required: false
     			 	   	  },"escalation_date": {
-    			 	   		required: false,
+    			 	   		required: true,
        				 	 	dateBeforeToday3:"#escalation_date",
        				 	 	dateBefore2:"#assigned_date"
 	   			 	   	  },"zonal_railway_fk": {

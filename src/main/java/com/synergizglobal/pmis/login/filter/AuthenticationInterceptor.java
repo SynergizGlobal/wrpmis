@@ -119,6 +119,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				Map<String,List<Alerts>> alerts = alertsService.getAlertsForHeaderNotifications(aObj);
 				model.addObject("alerts", alerts);
 				
+				
+				boolean flag = service.addUserLastActiveDateTime(userDetails);
+				
 			}
 			
 			

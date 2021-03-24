@@ -14,6 +14,8 @@ public interface LoginDao {
 
 	public boolean saveLogoutAction(String userId) throws Exception;
 
+	public boolean addUserLogoutDateTime(User uObj) throws Exception;
+
 }
 
 

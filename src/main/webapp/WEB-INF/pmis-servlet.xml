@@ -24,7 +24,7 @@
 			<mvc:exclude-mapping path="/views/**" />
 			<mvc:exclude-mapping path="/mobileapp/**" />
 			<mvc:exclude-mapping path="/mobileappwebview/**" />
-			<mvc:exclude-mapping path="/getTableauUrl" />
+			<!-- <mvc:exclude-mapping path="/getTableauUrl" /> -->
 			<mvc:exclude-mapping path="/ajax/**" />
 			<mvc:exclude-mapping path="/changeLoginBackground" />
 			<mvc:exclude-mapping path="/generate-risk-analysis-report" />

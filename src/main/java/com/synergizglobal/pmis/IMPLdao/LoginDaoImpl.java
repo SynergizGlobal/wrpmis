@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.sql.DataSource;
 
@@ -80,12 +81,16 @@ public class LoginDaoImpl implements LoginDao{
 				if(!StringUtils.isEmpty(rs.getString("pmis_key_fk"))) {
 					userDetails.setSystem_ipa(user.getSystem_ipa());
 					userDetails.setPublic_ipa(user.getPublic_ipa());
+					
+					String user_login_details_id = addUserLoginDetails(userDetails,con);
+					userDetails.setUser_login_details_id(user_login_details_id);
+					
 					saveUserLoginDetails(userDetails,con);
 				}else {
 					throw new NoKeyException(noKeyAssigned);
 				}
 			}
-		}catch(SQLException e){ 
+		}catch(Exception e){ 
 			throw new SQLException(e.getMessage());
 		}
 		finally {
@@ -94,8 +99,38 @@ public class LoginDaoImpl implements LoginDao{
 		return userDetails;
 	}
 	
+	public String addUserLoginDetails(User uObj, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String user_login_details_id = null;
+		try {			
+			String insertQry = "INSERT INTO user_login_details (user_id_fk,login_date_time,last_active_date_time,system_ipa,public_ipa)"  
+					+ " VALUES (?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)";
+			stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			int p = 1;
+			stmt.setString(p++,uObj.getUser_id());
+			stmt.setString(p++,uObj.getSystem_ipa());
+			stmt.setString(p++,uObj.getPublic_ipa());
+			
+			int c = stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+			if (c > 0) {
+				if(rs.next()) {
+					user_login_details_id = String.valueOf(rs.getLong(1));
+				}		
+			}
+			
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return user_login_details_id;
+	}
 	
-	public boolean saveUserLoginDetails(User uObj, Connection con) throws SQLException {
+	
+	public boolean saveUserLoginDetails(User uObj, Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		boolean flag = false;
@@ -185,6 +220,36 @@ public class LoginDaoImpl implements LoginDao{
 			stmt = con.prepareStatement(insertQry);
 			stmt.setString(1,userId );
 			stmt.setString(2,CommonConstants2.LOGIN_EVENT_TYPE_LOGOUT );
+			
+			int c = stmt.executeUpdate();
+			if (c > 0) {
+				flag = true;				
+			}
+			
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean addUserLogoutDateTime(User uObj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		try {			
+			con = dataSource.getConnection();
+			String insertQry = "UPDATE user_login_details SET logout_date_time = CURRENT_TIMESTAMP,logout_type_fk = ?"  
+					+ " WHERE user_id_fk = ? and user_login_id = ?";
+			stmt = con.prepareStatement(insertQry);
+			int p = 1;
+			stmt.setString(p++,CommonConstants2.LOGOUT_TYPE_LOGOUT);
+			stmt.setString(p++,uObj.getUser_id());
+			stmt.setString(p++,uObj.getUser_login_details_id());
 			
 			int c = stmt.executeUpdate();
 			if (c > 0) {

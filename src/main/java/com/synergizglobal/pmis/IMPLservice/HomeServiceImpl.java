@@ -77,4 +77,8 @@ public class HomeServiceImpl implements HomeService {
 	public List<Admin> getAdminList(Admin admin) throws Exception {
 		return dao.getAdminList(admin);
 	}
+	@Override
+	public boolean addUserLastActiveDateTime(User uObj) throws Exception {
+		return dao.addUserLastActiveDateTime(uObj);
+	}
 }

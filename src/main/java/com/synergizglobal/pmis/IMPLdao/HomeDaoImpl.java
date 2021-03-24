@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Admin;
-import com.synergizglobal.pmis.model.Dashboard;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
@@ -757,6 +757,35 @@ public class HomeDaoImpl implements HomeDao {
 		throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public boolean addUserLastActiveDateTime(User uObj) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		try {			
+			con = dataSource.getConnection();
+			String insertQry = "UPDATE user_login_details SET last_active_date_time = CURRENT_TIMESTAMP"  
+					+ " WHERE user_id_fk = ? and user_login_id = ?";
+			stmt = con.prepareStatement(insertQry);
+			int p = 1;
+			stmt.setString(p++,uObj.getUser_id());
+			stmt.setString(p++,uObj.getUser_login_details_id());
+			
+			int c = stmt.executeUpdate();
+			if (c > 0) {
+				flag = true;				
+			}
+			
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return flag;
 	}
 	
 }

@@ -411,7 +411,7 @@ public class DocxTableCreation {
 					remarks = remarks + corrective_measure;
 				}
 				if(!StringUtils.isEmpty(escalation_remarks)) {
-					remarks = remarks + "\nStatus after Escalation: " + pObj.getRemarks();
+					remarks = remarks + "\n---------------------------\n" + pObj.getRemarks();
 				}
 				addTableCell(factory, wordMLPackage, contentRow, remarks,
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);

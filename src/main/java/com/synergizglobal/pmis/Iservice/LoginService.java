@@ -13,5 +13,7 @@ public interface LoginService {
 	public String changePassword(User user) throws Exception;
 
 	public boolean saveLogoutAction(String userId) throws Exception;
+
+	public boolean addUserLogoutDateTime(User uObj) throws Exception;
 	
 }

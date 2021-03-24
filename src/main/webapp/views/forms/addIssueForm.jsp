@@ -218,32 +218,10 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
-                            <div class="row" style="margin-bottom:5px">							 
+                            <div class="row">							 
 					            <div class="col s12 m4 input-field offset-m2">
-                                    <p class="searchable_label">Issue Status <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
-                                        <option value="select">Select</option>
-                                        <c:forEach var="obj" items="${issuesStatusList }">
-                                            <option value="${obj.status }" >${obj.status}</option>
-                                        </c:forEach>
-                                    </select>                                    
-                                    <span id="status_fkError" class="error-msg" ></span>
-                                </div>
-					          <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
-					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
-                                    <label for="assigned_date"> Assigned Date</label>
-                                    <button type="button" id="assigned_date_icon"><i
-                                            class="fa fa-calendar"></i></button>
-                                    <span id="assigned_dateError" class="error-msg" ></span>
-					         </div>
-							</div>
-
-                            <div class="row">
-                                <!-- row 2 -->
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
                                     <input id="reported_by" name="reported_by" type="text" class="validate">
-                                    <label for="reported_by">Reported by </label> 
+                                    <label for="reported_by">Reported by <span class="required">*</span></label> 
                                     <span id="reported_byError" class="error-msg" ></span>
                                     <!-- <p class="searchable_label">Reported by</p> 
                                     <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
@@ -253,6 +231,52 @@
                                         </c:forEach>
                                     </select> -->
                                 </div>
+							</div>
+                            
+                            <div class="row" style="margin-bottom:5px">							 
+					            <div class="col s12 m4 input-field offset-m2">
+                                    <p class="searchable_label">Issue Status <span class="required">*</span></p> 
+                                    <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${issuesStatusList }">
+                                            <option value="${obj.status }" >${obj.status}</option>
+                                        </c:forEach>
+                                    </select>                                    
+                                    <span id="status_fkError" class="error-msg" ></span>
+                                </div>
+					          <!-- <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
+					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
+                                    <label for="assigned_date"> Assigned Date</label>
+                                    <button type="button" id="assigned_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="assigned_dateError" class="error-msg" ></span>
+					         </div> -->
+							</div>
+							
+							
+
+                            <div class="row">
+                                <!-- row 2 -->
+                                <div class="col m2 hide-on-small-only"></div>
+                                <!-- <div class="col s12 m4 input-field">
+                                    <input id="reported_by" name="reported_by" type="text" class="validate">
+                                    <label for="reported_by">Reported by <span class="required">*</span></label> 
+                                    <span id="reported_byError" class="error-msg" ></span>
+                                    <p class="searchable_label">Reported by</p> 
+                                    <select class="searchable validate-dropdown" id="reported_by" name="reported_by">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${reportedByList }">
+                                            <option value="${obj.reported_by_user_id }" >${obj.reported_by_designation}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div> -->
+                                <div class="col s12 m4 input-field" id="assignDateDiv" style="display:none">
+					             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" >
+                                    <label for="assigned_date"> Assigned Date<span class="required">*</span></label>
+                                    <button type="button" id="assigned_date_icon"><i
+                                            class="fa fa-calendar"></i></button>
+                                    <span id="assigned_dateError" class="error-msg" ></span>
+					         	</div>
                                 <div class="col s12 m4 input-field " id="responsibleDiv" style="display:none">
                                    <!--  <input id="responsible_person" name="responsible_person" type="text" class="validate">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to) </label> -->
@@ -322,7 +346,7 @@
 	                                </div>
 	                                <div class="col s12 m4 input-field">
 	                                    <input id="escalation_date" name="escalation_date" type="text" class="validate datepicker">
-	                                    <label for="escalation_date"> Escalated Date</label>
+	                                    <label for="escalation_date"> Escalated Date<span class="required">*</span></label>
 	                                    <button type="button" id="escalation_date_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="escalation_dateError" class="error-msg" ></span>
@@ -343,7 +367,7 @@
                                 <div class="col m2 hide-on-small-only"></div>                              
                                 <div class="col s12 m4 input-field" style="margin-top:15px;display:none;" id="resolvedDiv">
                                     <input id="resolved_date" name="resolved_date" type="text" class="validate datepicker">
-                                    <label for="resolved_date"> Resolved Date</label>
+                                    <label for="resolved_date"> Resolved Date<span class="required">*</span></label>
                                     <button type="button" id="resolved_date_icon"><i
                                             class="fa fa-calendar"></i></button>
                                     <span id="resolved_dateError" class="error-msg" ></span>
@@ -617,18 +641,9 @@
                              	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
                             }else 
                             if ((val.status == 'Raised')){
-                             	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
+                             	$("#status_fk").append('<option value="' + val.status+'" selected>' + $.trim(val.status) + '</option>');
                           	}
-                             
-                            /*  if ((val.status == 'Closed' || val.status == 'Escalated') && ((logged_id_user_role_code == user_role_it_admin))){
-                             	$("#status_fk").append('<option value="' + val.status+'">' + $.trim(val.status) + '</option>');
-                             }
-                              */
-                             /* if (val.status == $.trim(status_fk)) {
-                                 $("#status_fk").append('<option value="' + val.status+'" selected>' + $.trim(val.status) + '</option>');
-                             } else {
-                                 $("#status_fk").append('<option value="' + val.status + '">' + $.trim(val.status) + '</option>');
-                             } */
+                           
                          });
                      }
                      $('.searchable').select2();
@@ -720,7 +735,7 @@
     				 		required: true,
        				 	 	dateBeforeToday1:"#date"
     				 	  },"assigned_date":{
-    				 		 required: false,
+    				 		 required: true,
         				 	 dateBeforeToday2:"#assigned_date",
         				 	 dateBefore1:"#date"
     				 	  },"location": {
@@ -730,20 +745,20 @@
     				 	  },"longitude": {
     				 		required: false
     				 	  },"reported_by": {
-    				 		required: false
+    				 		required: true
     				 	  },"responsible_person":{
     				 		 required: false
     				 	  },"corrective_measure": {
     			 		    required: true,
     			 	   	  },"resolved_date": {
-    				 		required: false,
+    				 		required: true,
        				 	 	dateBeforeToday4:"#resolved_date",
        				 	 	dateBefore3:"#escalation_date",
     				 		statusCheck1: true
     				 	  },"escalated_to": {
     			 		    required: false
     			 	   	  },"escalation_date": {
-    			 	   		required: false,
+    			 	   		required: true,
        				 	 	dateBeforeToday3:"#escalation_date",
        				 	 	dateBefore2:"#assigned_date"
 	   			 	   	  },"zonal_railway_fk": {

@@ -33,5 +33,7 @@ public interface HomeService {
 
 	public List<Admin> getAdminList(Admin admin) throws Exception;
 
+	public boolean addUserLastActiveDateTime(User uObj) throws Exception;
+
 	
 }

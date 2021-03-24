@@ -46,5 +46,10 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.saveLogoutAction(userId);
 	}
 
+	@Override
+	public boolean addUserLogoutDateTime(User uObj) throws Exception {
+		return loginDao.addUserLogoutDateTime(uObj);
+	}
+
 	
 }

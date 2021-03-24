@@ -24,6 +24,8 @@ public class User  {
 	private String[] user_access_types,user_access_values;
 
 	private String system_ipa,public_ipa;
+	
+	private String user_login_details_id;
 
 	public String getLogin_event_date() {
 		return login_event_date;
@@ -569,6 +571,16 @@ public class User  {
 
 	public void setPublic_ipa(String public_ipa) {
 		this.public_ipa = public_ipa;
+	}
+
+
+	public String getUser_login_details_id() {
+		return user_login_details_id;
+	}
+
+
+	public void setUser_login_details_id(String user_login_details_id) {
+		this.user_login_details_id = user_login_details_id;
 	}
 	
 	

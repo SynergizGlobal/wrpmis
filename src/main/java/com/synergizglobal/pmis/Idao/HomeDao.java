@@ -22,4 +22,5 @@ public interface HomeDao {
 	public List<Work> getDashBoardNames(Work work) throws Exception;
 	public List<Work> getSubLink(Work obj) throws Exception;
 	public List<Admin> getAdminList(Admin admin) throws Exception;
+	public boolean addUserLastActiveDateTime(User uObj) throws Exception;
 }

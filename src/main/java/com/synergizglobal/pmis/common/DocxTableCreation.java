@@ -401,8 +401,19 @@ public class DocxTableCreation {
 				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
-				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+				
+				String corrective_measure = pObj.getCorrective_measure();
+				
+				String escalation_remarks = pObj.getRemarks();
+				String remarks = "";
+				if(!StringUtils.isEmpty(corrective_measure)) {
+					remarks = remarks + corrective_measure;
+				}
+				if(!StringUtils.isEmpty(escalation_remarks)) {
+					remarks = remarks + "\nStatus after Escalation: " + pObj.getRemarks();
+				}
+				addTableCell(factory, wordMLPackage, contentRow, remarks,
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/

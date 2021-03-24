@@ -296,7 +296,7 @@
                             <div class="row" style="display:none" id="responsibleOrgDiv">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                   <p class="searchable_label"> Responsible Organization</p>
+                                   <p class="searchable_label"> Responsible Organization (Pending with)</p>
                                     <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${railwayList }">
@@ -306,12 +306,12 @@
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
-                                    <label for="other_organization">Organization Name </label>
+                                    <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}" style="max-height:33.5px">
+                                    <label for="other_organization">Organization Name (Pending with)</label>
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
-                                  <p class="searchable_label"> Department Responsible  </p> 
+                                  <p class="searchable_label"> Department Responsible (Pending with)</p> 
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${departmentList }">          

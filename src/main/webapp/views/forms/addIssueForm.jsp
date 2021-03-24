@@ -281,12 +281,12 @@
                                     <span id="zonal_railway_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <input id="other_organization" name="other_organization" type="text" class="validate">
-                                    <label for="other_organization">Organization Name </label>
+                                    <input id="other_organization" name="other_organization" type="text" class="validate" style="max-height:33.5px">
+                                    <label for="other_organization">Organization Name (Pending with)</label>
                                     <span id="other_organizationError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
-                                  <p class="searchable_label">Department Responsible</p> 
+                                  <p class="searchable_label">Department Responsible (Pending with)</p> 
                                     <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
                                         <option value="" selected>Select</option>
                                         <c:forEach var="obj" items="${departmentList }">

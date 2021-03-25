@@ -377,10 +377,12 @@ public class DocxTableCreation {
 			table.getContent().add(titleRow);
 			
 			int sNo = 1;
+			int rNo = 0;
 			for (Issue pObj : pendingIssues) {
+				rNo++;
 				boolean hasBgColor = false;
-				String backgroundColor = null;
-				Tr contentRow = factory.createTr();	
+				String backgroundColor = null;					
+				Tr contentRow = factory.createTr();					
 				
 				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
@@ -401,19 +403,8 @@ public class DocxTableCreation {
 				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
 				addTableCell(factory, wordMLPackage, contentRow, pObj.getDate(),
-						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
-				
-				String corrective_measure = pObj.getCorrective_measure();
-				
-				String escalation_remarks = pObj.getRemarks();
-				String remarks = "";
-				if(!StringUtils.isEmpty(corrective_measure)) {
-					remarks = remarks + corrective_measure;
-				}
-				if(!StringUtils.isEmpty(escalation_remarks)) {
-					remarks = remarks + "\n---------------------------\n" + pObj.getRemarks();
-				}
-				addTableCell(factory, wordMLPackage, contentRow, remarks,
+						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+				addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				/*addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
@@ -421,6 +412,49 @@ public class DocxTableCreation {
 						contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 				
 				table.getContent().add(contentRow);
+				
+				if(!StringUtils.isEmpty(pObj.getRemarks())) {
+					Tr contentRow2 = factory.createTr();					
+					
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+					/*addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	*/		
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);		
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+					/*addTableCell(factory, wordMLPackage, contentRow, pObj.getPending_since(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					addTableCell(factory, wordMLPackage, contentRow2, pObj.getRemarks(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					/*addTableCell(factory, wordMLPackage, contentRow2, pObj.getStatus_fk(),
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);*/
+					addTableCell(factory, wordMLPackage, contentRow2, "",
+							contentRpr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+					
+					table.getContent().add(contentRow2);
+					mergeCellsVertically(table, 0, (rNo), (rNo+1));
+					mergeCellsVertically(table, 1, (rNo), (rNo+1));
+					mergeCellsVertically(table, 2, (rNo), (rNo+1));
+					mergeCellsVertically(table, 3, (rNo), (rNo+1));
+					mergeCellsVertically(table, 4, (rNo), (rNo+1));
+					mergeCellsVertically(table, 5, (rNo), (rNo+1));
+					mergeCellsVertically(table, 6, (rNo), (rNo+1));
+					mergeCellsVertically(table, 7, (rNo), (rNo+1));
+					//mergeCellsVertically(table, 8, (rNo), (rNo+1));
+					mergeCellsVertically(table, 9, (rNo), (rNo+1));
+				}
 			}			
 			/****************************************************************************************/			
 			

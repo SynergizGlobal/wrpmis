@@ -201,8 +201,11 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String form_id = getformId(con);
 			obj.setForm_id(form_id);
+			if(StringUtils.isEmpty(obj.getParent_form_id_sr_fk())) {
+				obj.setParent_form_id_sr_fk(form_id);
+			}
 			String insertQry = "INSERT INTO report_form"
-					+ "( form_id,form_name,, module_name_fk,parent_form_id_sr_fk, web_form_url,mobile_form_url, "
+					+ "( form_id,form_name,module_name_fk,parent_form_id_sr_fk, web_form_url,mobile_form_url, "
 					+ "soft_delete_status_fk)"
 					+ "VALUES"
 					+ "(:form_id,:form_name,:module_name_fk,:parent_form_id_sr_fk,:web_form_url,:mobile_form_url,"
@@ -296,6 +299,9 @@ public class ReportsAccessDaoImpl implements ReportsAccessDao{
 	public boolean updateReport(Report obj) throws Exception {
 		boolean flag = false;
 		try {
+			if(StringUtils.isEmpty(obj.getParent_form_id_sr_fk())) {
+				obj.setParent_form_id_sr_fk(obj.getForm_id());
+			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE report_form set "
 					+ "form_name= :form_name,"

@@ -341,38 +341,11 @@
           }
         }
         
-     	var table = $('#datatable-expenditure').DataTable({
-  		"bStateSave": true,
-  		fixedHeader: true,
-          "fnStateSave": function (oSettings, oData) {
-              localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-          },
-          "fnStateLoad": function (oSettings) {
-              return JSON.parse(localStorage.getItem('MRVCDataTables'));
-          },
-          columnDefs: [
-              {
-                  targets: [0, 1, 2],
-                  className: 'mdl-data-table__cell--non-numeric'
-              },
-              { orderable: false, 'aTargets': ['nosort'] }
-          ],
-          // "ScrollX": true,
-          "scrollCollapse": true,
-          //"sScrollY": 400,
-          "sScrollX": "100%",
-              "sScrollXInner": "100%",
-              "bScrollCollapse": true,
-          initComplete: function () {
-              $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-          }
-      });
-  	table.state.clear(); 
  		
   	
-  	$('.close-message').delay(3000).fadeOut('slow');
+  		$('.close-message').delay(3000).fadeOut('slow');
   	
-  	getExpenditureList();
+  		getExpenditureList();
   });
   
 
@@ -433,8 +406,8 @@
     }
     
     function getExpenditureList(){
-    	$(".page-loader-2").show();
     	
+    	$(".page-loader-2").show();
     	getWorksFilterList('');
     	getContractsFilterList(''); 
     	getLedgerAccountsFilterList('');
@@ -488,14 +461,14 @@
 	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
 	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-expenditure",
 	 		type:"POST",
-			data:myParams, cache: false,async:false,
+			data:myParams, cache: false,async:true,
 			success : function(data){  
 			if(data != null && data != '' && data.length > 0){    					
          		$.each(data,function(key,val){
          			var expenditure_id = "'"+val.expenditure_id+"'";
                     var actions = '<a href="javascript:void(0);"  onclick="getExpenditure('+expenditure_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-/*                     			  +'<a onclick="deleteExpenditure('+expenditure_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
- */                   	var rowArray = [];    	                 
+                    			  //+'<a onclick="deleteExpenditure('+expenditure_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
+                  	var rowArray = [];    	                 
                    	
                 	var workName = '';
                     if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }

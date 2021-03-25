@@ -138,7 +138,7 @@
 	                              			<label for="Contract-text">Contract <span class="required">*</span></label>	                              			
 									  </div> 
 									  <div class="col s12 m4 input-field"> 
-		                                    <input type="text" id="contractor_name" name="contractor_name" value="${expenditureDetails.contractor_name}" readonly id="Contractor-text"/>
+		                                    <input type="text" value="${expenditureDetails.contractor_name}" readonly id="Contractor-text"/>
 		                                    <label for="Contractor-text">Contractor name <span class="required">*</span></label>		                                    
 		                              </div>
 		                              <div class="col m2 hide-on-small-only"></div>

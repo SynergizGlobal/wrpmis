@@ -45,7 +45,8 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "cast(`interest on_mob_adv` as CHAR) as interest_on_mob_adv,cast(amount_withheld as CHAR) as amount_withheld,e.remarks from  expenditure e "
 					+ "LEFT JOIN contract c on e.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "LEFT JOIN contractor cr on e.contractor_name = cr.contractor_name where expenditure_id is not null ";
+					//+ "LEFT JOIN contractor cr on e.contractor_name = cr.contractor_name "
+					+ "where expenditure_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -119,8 +120,9 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					"cast(amount_withheld as CHAR) as amount_withheld,e.remarks from expenditure e " + 
 					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id  " + 
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
-					"LEFT JOIN project p on w.project_id_fk = p.project_id " + 
-					"LEFT JOIN contractor cr on e.contractor_name = cr.contractor_name where expenditure_id is not null and expenditure_id = ?";
+					"LEFT JOIN project p on w.project_id_fk = p.project_id "
+					//+"LEFT JOIN contractor cr on e.contractor_name = cr.contractor_name "
+					+ "where expenditure_id is not null and expenditure_id = ?";
 			stmt = connection.prepareStatement(qry);
 			stmt.setString(1, obj.getExpenditure_id());
 			resultSet = stmt.executeQuery();
@@ -217,7 +219,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			con = dataSource.getConnection();		
 			String updateQry = "UPDATE expenditure set "
 					+ "ledger_account= ?, date= ?, "
-					+ "contractor_name= ?, voucher_type= ?, voucher_no= ?,narration= ?, "
+					+ "voucher_type= ?, voucher_no= ?,narration= ?, "
 					+ "net_paid= ?, gross_work_done= ?, sd_payable = ?, contractor_income_tax= ?, "
 					+ "cgst_tds= ?, sgst_tds= ?,igst_tds= ?, vat_wct = ?, mob_advance= ?, "
 					+ "`interest on_mob_adv`= ? , amount_withheld= ?, remarks = ? "
@@ -226,7 +228,6 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			stmt = con.prepareStatement(updateQry); 
 			stmt.setString(p++,obj.getLedger_account());
 			stmt.setString(p++,obj.getDate());
-			stmt.setString(p++,obj.getContractor_name());
 			stmt.setString(p++,obj.getVoucher_type());
 			stmt.setString(p++,obj.getVoucher_no());
 			stmt.setString(p++,obj.getNarration());
@@ -443,7 +444,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			String qry = "SELECT contractor_name from expenditure e " + 
 					"LEFT JOIN contract c on c.contract_id = e.contract_id_fk " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
-					"where ledger_account is not null and ledger_account <> '' ";
+					"where contractor_name is not null and contractor_name <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";

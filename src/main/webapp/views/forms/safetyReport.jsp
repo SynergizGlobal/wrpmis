@@ -114,33 +114,48 @@
                             <div class="col m8 s12">
                             	<form action="<%=request.getContextPath() %>/generate-safety-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row">
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
 	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getContractsListInSafetyReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m3 input-field">
+	                                    <div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
 	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="getHODListInSafetyReport(this.value);">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
-										<div class="col s12 m3 input-field">
+										<div class="col s12 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk">
 	                                            <option value="">Select </option>
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s12 m3 input-field">
+	                                    <!-- <div class="col s12 m3 input-field">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
 	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
 	                                            onclick="generateReport()">Generate
 	                                            Report</button>
+	                                    </div> -->
+	                                </div>
+	                                
+	                                <div class="row">	     
+	                                	<div class="col m3 hide-on-small-only"></div>                           	
+	                                    <div class="col s12 m3 input-field center-align">
+	                                        <button class="btn bg-m waves-effect waves-light t-c" type="button"
+	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
+	                                            onclick="clearFilter()">Clear Filter</button>
 	                                    </div>
+	                                    <div class="col s12 m3 input-field center-align">
+	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
+	                                            style="margin-top: 6px;min-width:160px%; font-weight: 600;"
+	                                            onclick="generateReport()">Generate Report</button>
+	                                    </div>
+	                                    <div class="col m3 hide-on-small-only"></div> 
 	                                </div>
                                 
                                 </form>
@@ -207,6 +222,18 @@
         	getContractsListInSafetyReport("");
         	getHODListInSafetyReport("");
         });
+        
+        function clearFilter(){
+    		$('#work_id_fk').val('');
+    		$('#contract_id_fk').val('');
+    		$('#hod_user_id_fk').val('');
+    		$('.searchable').select2();
+    		
+    		getWorksListInSafetyReport();
+        	getContractsListInSafetyReport("");
+        	getHODListInSafetyReport("");
+        	
+    	}
         
         function getWorksListInSafetyReport() {
         	$(".page-loader").show();

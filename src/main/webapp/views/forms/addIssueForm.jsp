@@ -236,6 +236,7 @@
                             <div class="row" style="margin-bottom:5px">							 
 					            <div class="col s12 m4 input-field offset-m2">
                                     <p class="searchable_label">Issue Status <span class="required">*</span></p> 
+                                    <!-- <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();"> -->
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesStatusList }">
@@ -320,7 +321,8 @@
                                 </div>
                             </div>
 
-                            <div class="row" id="remarksDiv"  style="display: none;" >
+                            <!-- <div class="row" id="remarksDiv"  style="display: none;" > -->
+                            <div class="row" id="remarksDiv">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
@@ -678,13 +680,13 @@
         		//$(".raisedDiv").hide();
         		$('#responsibleDiv').hide();
         		$('#responsibleOrgDiv').hide();
-        		$('#remarksDiv').hide();
+        		//$('#remarksDiv').hide();
         	}else{
         		$("#assignDateDiv").show();
         		//$(".raisedDiv").show();
         		$('#responsibleDiv').show();
         		$('#responsibleOrgDiv').show();
-        		$('#remarksDiv').show();
+        		//$('#remarksDiv').show();
         	}
         }
        
@@ -692,11 +694,11 @@
         	var status_val = $("#status_fk").val();
          	var responsible_person_val = $("#responsible_person").val();
         	if((status_val == 'Raised') && responsible_person_val != ""){
-        		$("#remarksDiv").show();
+        		//$("#remarksDiv").show();
         	}else if(status_val != 'Raised' && status_val != ""){
-        		$("#remarksDiv").show();
+        		//$("#remarksDiv").show();
         	}else{
-        		$("#remarksDiv").hide();
+        		//$("#remarksDiv").hide();
         	}
         }
         

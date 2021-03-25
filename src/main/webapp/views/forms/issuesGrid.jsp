@@ -431,7 +431,7 @@
     	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
     				type:"POST",
-    				data:myParams, cache: false,async:false,
+    				data:myParams, cache: false,async:true,
     				success : function(data){    				
     				if(data != null && data != '' && data.length > 0){    					
     	         		$.each(data,function(key,val){
@@ -464,11 +464,11 @@
     	                    		                       
     					});
     	         		
-    	         		//$(".page-loader-2").hide();
-    	         		$('.page-loader-2').delay(2000).fadeOut('slow');
+    	         		$(".page-loader-2").hide();
+    	         		//$('.page-loader-2').delay(2000).fadeOut('slow');
     				}else{
-    					//$(".page-loader-2").hide();
-    					$('.page-loader-2').delay(2000).fadeOut('slow');
+    					$(".page-loader-2").hide();
+    					//$('.page-loader-2').delay(2000).fadeOut('slow');
     				}
     				
     			},error: function (jqXHR, exception) {

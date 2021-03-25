@@ -147,7 +147,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input list="folder_list"  id="folder" type="text" value="${dashboardDetails.folder }" >
-                                    <input type="hidden" name="folder" id="folder_id" value="${dashboardDetails.folder }"/>
+                                    <input type="hidden" name="folder" id="folder_id" value="${dashboardDetails.parent_dashboard_id_sr_fk }"/>
                                     <label for="folder">Folder</label>
                                     <datalist id="folder_list">
                                      	  <c:forEach var="obj" items="${foldersList }">

@@ -428,9 +428,12 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 	public boolean updateDashboard(Dashboard obj) throws Exception {
 		boolean flag = false;
 		try {
+			if(StringUtils.isEmpty(obj.getFolder())) {
+				obj.setFolder(obj.getDashboard_id());
+			}
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE dashboard set "
-					+ "dashboard_name= :dashboard_name, work_id_fk= :work_id_fk, contract_id_fk= :contract_id_fk,"
+					+ "dashboard_name= :dashboard_name,parent_dashboard_id_sr_fk= :folder, work_id_fk= :work_id_fk, contract_id_fk= :contract_id_fk,"
 					+ "module_name_fk= :module_name_fk, dashboard_url= :dashboard_url, mobile_view= :mobile_view,dashboard_type_fk= :dashboard_type_fk, priority= :priority, "
 					+ "icon_path= :icon_path, modified_by_user_id_fk = :modified_by_user_id_fk, modified_on= CURDATE(),soft_delete_status_fk= :soft_delete_status_fk "
 					+ "where dashboard_id= :dashboard_id";

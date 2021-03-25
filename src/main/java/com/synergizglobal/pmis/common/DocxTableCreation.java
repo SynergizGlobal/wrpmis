@@ -452,8 +452,13 @@ public class DocxTableCreation {
 					mergeCellsVertically(table, 5, (rNo), (rNo+1));
 					mergeCellsVertically(table, 6, (rNo), (rNo+1));
 					mergeCellsVertically(table, 7, (rNo), (rNo+1));
-					//mergeCellsVertically(table, 8, (rNo), (rNo+1));
+					if(StringUtils.isEmpty(pObj.getCorrective_measure())) {
+						mergeCellsVertically(table, 8, (rNo), (rNo+1));
+					}
+					
 					mergeCellsVertically(table, 9, (rNo), (rNo+1));
+					
+					rNo++;
 				}
 			}			
 			/****************************************************************************************/			

@@ -58,6 +58,7 @@
 		    border-top: 1px solid #777;
 		    border-bottom: 1px solid #777;
 		}
+		
     </style>
 </head>
 <body>
@@ -198,7 +199,9 @@
                                     <span id="department_fkError" class="error-msg" ></span>
                                 </div> -->
                                 <div class="col s12 m8 input-field">
-                                    <input id="title" name="title" type="text" class="" value="${issue.title }" readonly>
+                                    <!-- <input id="title" name="title" type="text" class="" value="${issue.title }" readonly> -->
+                                    <textarea id="title" name="title" class="materialize-textarea" data-length="1000" readonly>${issue.title }</textarea>
+                                    
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
@@ -1148,7 +1151,11 @@
             	}else{
             		$('#other_organization').attr('name', 'other_organization');
             		$('#other_organization').val(name);
-            	}        		
+            	}     
+            	/* $('textarea.materialize-textarea').on('input propertychange',function(){
+              		 if($(this).height() > 44) {			 $(this).css('overflow-y','auto');	 $(this).css('box-sizing','content-box'); }
+              	});
+ */
         	});
         	function removeMedia(link,id){
         	   	  $('#'+id).val('');

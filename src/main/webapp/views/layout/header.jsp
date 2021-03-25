@@ -15,7 +15,7 @@
         top: 45%!important;
         left:47%!important;
     }
-  	textarea.materialize-textarea {
+  /* 	textarea.materialize-textarea {
 	    line-height: normal;
 	    overflow-y: hidden;
 	    padding: .8rem 0 .8rem 0;
@@ -24,6 +24,25 @@
 	    -webkit-box-sizing: border-box;
 	    box-sizing: border-box;
 	    max-height:100px;
+   } */
+   nav .menu-active,nav .menu-active.blue{
+   		background-color: #f56661 !important;
+   		box-shadow: 0 0 5px #bababa inset;
+   }
+   input:not([type]),
+   input[type=text]:not(.browser-default), 
+   input[type=password]:not(.browser-default), 
+   input[type=email]:not(.browser-default), 
+   input[type=url]:not(.browser-default), 
+   input[type=time]:not(.browser-default), 
+   input[type=date]:not(.browser-default), 
+   input[type=datetime]:not(.browser-default),
+   input[type=datetime-local]:not(.browser-default),
+   input[type=tel]:not(.browser-default), 
+   input[type=number]:not(.browser-default), 
+   input[type=search]:not(.browser-default), 
+   textarea.materialize-textarea{
+   		margin-bottom:0 ;
    }
    </style>
    
@@ -851,6 +870,14 @@
 		}
     	$("#notificationCount").html(count);
     	$("#notificationCountMobile").html(count);
+    	
+    	//var link=window.location.href;
+    	//var divisions=link.split('/');
+    	//var formName=divisions[divisions.length-1];
+    	/*  $('nav ul li a').click(function(){
+   		    $('li a').removeClass("menu-active");
+   		    $(this).closest('ul').parent().find('a').addClass("menu-active");
+    	 }); */
 	});
 	//getting project list from database
 	function getProjectsListForSearch(){
@@ -929,7 +956,7 @@
 	
 	
 	
-	// this one is just to wait for the page to load
+	//this one is just to wait for the page to load
 	document.addEventListener('DOMContentLoaded', () => {
 	    var theme = document.getElementById('theme');
 	    var themeToggle = document.getElementById('theme-change');
@@ -967,7 +994,6 @@
 	        document.cookie = "theme=light";
 	    }
 	});
-	
 	
 	
   </script>

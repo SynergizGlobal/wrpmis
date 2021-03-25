@@ -360,7 +360,7 @@
 	<!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-	 <form action="<%=request.getContextPath()%>/get-design" id="getForm" name="getForm" method="post" target="_blank">
+	 <form action="<%=request.getContextPath()%>/get-design" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="design_id" id="design_id"/>
     </form>
     

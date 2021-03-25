@@ -270,7 +270,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 	public List<Dashboard> getFolderssListForDashboardForm(Dashboard obj) throws Exception {
 		List<Dashboard> objsList = null;
 		try {
-			String qry = "SELECT d1.dashboard_name as folder FROM dashboard d " + 
+			String qry = "SELECT d1.dashboard_id,d1.dashboard_name as folder FROM dashboard d " + 
 					" left join dashboard d1 on  d.parent_dashboard_id_sr_fk = d1.dashboard_id where d.dashboard_url <> ''";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Dashboard>(Dashboard.class));
 		} catch (Exception e) {
@@ -330,11 +330,14 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String dashboard_id = getdashboardId(con);
 			obj.setDashboard_id(dashboard_id);
+			if(StringUtils.isEmpty(obj.getFolder())) {
+				obj.setFolder(dashboard_id);
+			}
 			String insertQry = "INSERT INTO dashboard"
-					+ "( dashboard_id,dashboard_name, work_id_fk, contract_id_fk, module_name_fk, dashboard_url, "
+					+ "( dashboard_id,dashboard_name,parent_dashboard_id_sr_fk, work_id_fk, contract_id_fk, module_name_fk, dashboard_url, "
 					+ "mobile_view, dashboard_type_fk, priority, icon_path, published_by_user_id_fk, published_on,soft_delete_status_fk)"
 					+ "VALUES"
-					+ "(:dashboard_id,:dashboard_name,:work_id_fk,:contract_id_fk,:module_name_fk,:dashboard_url,"
+					+ "(:dashboard_id,:dashboard_name,:folder,:work_id_fk,:contract_id_fk,:module_name_fk,:dashboard_url,"
 					+ ":mobile_view,:dashboard_type_fk,:priority,:icon_path,:published_by_user_id_fk,CURDATE(),:soft_delete_status_fk)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			

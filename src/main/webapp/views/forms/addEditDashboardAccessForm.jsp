@@ -146,11 +146,12 @@
                                     <span id="dashboard_typeError" class="error-msg"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input list="folder_list" name="folder" id="folder" type="text"value="${dashboardDetails.folder }">
+                                    <input list="folder_list"  id="folder" type="text" value="${dashboardDetails.folder }" >
+                                    <input type="hidden" name="folder" id="folder_id" value="${dashboardDetails.folder }"/>
                                     <label for="folder">Folder</label>
                                     <datalist id="folder_list">
                                      	  <c:forEach var="obj" items="${foldersList }">
-                                      	    <option value= "${ obj.folder}" >${obj.folder}</option>
+                                      	    <option data-value="${obj.dashboard_id}" value="${obj.folder}" ></option>
                                           </c:forEach>
                                     </datalist>
                                 </div>
@@ -420,6 +421,15 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script>
+  
+    
+    $('#folder').on('input', function() {
+        const value = $(this).val();
+        const data_value = $('#folder_list [value="' + value + '"]').data('value');
+        //document.getElementById("folder").value = data_value;
+        var v = $('#folder_id').val(data_value)
+      });
+    
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

@@ -28,6 +28,7 @@
    nav .menu-active,nav .menu-active.blue{
    		background-color: #f56661 !important;
    		box-shadow: 0 0 5px #bababa inset;
+   		transition: all 1s ease-in;
    }
    input:not([type]),
    input[type=text]:not(.browser-default), 
@@ -995,6 +996,31 @@
 	    }
 	});
 	
+	$(function(){
+		  var current_page_URL = location.href; 
+		  $( ".top-level-menu a" ).each(function() {
+		     if ($(this).attr("href") !== "#") {
+		       var target_URL = $(this).prop("href");
+		       if (target_URL == current_page_URL) {
+		          $('a').parents('li, ul').removeClass('menu-active');
+					var classItem=$(this).closest('ul').parentsUntil($( "ul.top-level-menu" ));
+					$(classItem[classItem.length-1]).addClass('menu-active');					
+					var formName=current_page_URL.split('/');	
+					if(formName[formName.length-1]=='home'){
+						$('.top-level-menu a[href="/pmis/home"]').parent().addClass('menu-active');
+					}
+		          return false;
+		       }
+		     }
+		  });
+		  
+		  var formName=current_page_URL.split('/');	
+		  var gridOrForm=formName[formName.length-1].split('-')[1];
+		  if (gridOrForm != '' || gridOrForm!= undefined){
+			  var classItem=$('.top-level-menu a[href="/pmis/'+gridOrForm+'"]').closest('ul').parentsUntil($( "ul.top-level-menu" ));
+			  $(classItem[classItem.length-1]).addClass('menu-active')	
+		  }
+		});
 	
   </script>
   

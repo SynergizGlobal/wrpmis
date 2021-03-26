@@ -388,23 +388,23 @@
                       
                        <ul class="notifications_group" style="margin-top: 5px;" id="notificationList">
                        <!-- list of Notifications starts -->
-                       
-                       <li class="head-item">Issue Alerts</li>
-                       <c:forEach var="obj" items="${issueAlerts }">
-                          <li class="item issue-alert_bg">
-                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
-                              	 <span class="icon">
-                              	 	<i class='fa fa-exclamation-triangle'></i>
-                              	 	<span class="icon-text">Issue</span>
-                              	 </span>                                   
-                                 <div>Work : ${obj.work_short_name }</div>
-                                 <div>Contract : ${obj.contract_short_name }</div>
-                                 <div>Contractor : ${obj.contractor_name }</div>
-                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
-                              </a>
-                          </li>
-                      </c:forEach>
-                      
+                      <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
+	                       <li class="head-item">Issue Alerts</li>
+	                       <c:forEach var="obj" items="${issueAlerts }">
+	                          <li class="item issue-alert_bg">
+	                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
+	                              	 <span class="icon">
+	                              	 	<i class='fa fa-exclamation-triangle'></i>
+	                              	 	<span class="icon-text">Issue</span>
+	                              	 </span>                                   
+	                                 <div>Work : ${obj.work_short_name }</div>
+	                                 <div>Contract : ${obj.contract_short_name }</div>
+	                                 <div>Contractor : ${obj.contractor_name }</div>
+	                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+	                              </a>
+	                          </li>
+	                      </c:forEach>
+                       </c:if>
                        <c:forEach var="obj" items="${alerts }">
                           <li class="head-item">${obj.key}</li>
                           <c:if test="${obj.key eq '3rd Alert'}">
@@ -737,23 +737,23 @@
                       </div>
                       <ul class="notifications_group" style="margin-top: 5px;" id="notificationListMobile">
                        <!-- Mobile notification body starts here -->
-                       
-                       <li class="head-item">Issue Alerts</li>
-                       <c:forEach var="obj" items="${issueAlerts }">
-                          <li class="item" style="background-color: #90b6c0;">
-                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
-                              	 <span class="icon">
-                              	 	<i class='fa fa-exclamation-triangle'></i>
-                              	 	<span class="icon-text">Issue</span>
-                              	 </span>                                   
-                                 <div>Work : ${obj.work_short_name }</div>
-                                 <div>Contract : ${obj.contract_short_name }</div>
-                                 <div>Contractor : ${obj.contractor_name }</div>
-                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
-                              </a>
-                          </li>
-                      </c:forEach>
-                      
+                       <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
+	                       <li class="head-item">Issue Alerts</li>
+	                       <c:forEach var="obj" items="${issueAlerts }">
+	                          <li class="item" style="background-color: #90b6c0;">
+	                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
+	                              	 <span class="icon">
+	                              	 	<i class='fa fa-exclamation-triangle'></i>
+	                              	 	<span class="icon-text">Issue</span>
+	                              	 </span>                                   
+	                                 <div>Work : ${obj.work_short_name }</div>
+	                                 <div>Contract : ${obj.contract_short_name }</div>
+	                                 <div>Contractor : ${obj.contractor_name }</div>
+	                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+	                              </a>
+	                          </li>
+	                       </c:forEach>
+                       </c:if>
                       
                       	<c:forEach var="obj" items="${alerts }">
                           <li class="head-item">${obj.key}</li>
@@ -915,7 +915,7 @@
         </c:forEach>
         
        
-        if("${not empty issueAlerts && fn:length(issueAlerts) gt 0}" != null){
+        if("${not empty issueAlerts && fn:length(issueAlerts) gt 0}"){
         	count = Number(count) + Number("${fn:length(issueAlerts)}")
         }
         

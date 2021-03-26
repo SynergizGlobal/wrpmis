@@ -35,5 +35,7 @@ public interface HomeService {
 
 	public boolean addUserLastActiveDateTime(User uObj) throws Exception;
 
+	public boolean userLoginTimeout() throws Exception;
+
 	
 }

@@ -12,15 +12,28 @@ import com.synergizglobal.pmis.model.Work;
 
 public interface HomeDao {	
 	public List<TableauDashboard> getDashboardsList(String dashboardType, String base, User uObj) throws Exception;
+	
 	public List<Forms> getFormsList(String base, User userDetails) throws Exception;
+	
 	public List<Project> getProjectsList() throws Exception;
+	
 	public List<Work> getWorksList(Work obj) throws Exception;
+	
 	public List<String> getGeneralStatusList() throws Exception;
+	
 	public List<Project> getProjectsInformation(Project obj) throws Exception;
+	
 	public List<Forms> getReportFormsList(String base, User uObj) throws Exception;
+	
 	public List<Work> getWorkDetails(Work obj) throws Exception;
+	
 	public List<Work> getDashBoardNames(Work work) throws Exception;
+	
 	public List<Work> getSubLink(Work obj) throws Exception;
+	
 	public List<Admin> getAdminList(Admin admin) throws Exception;
+	
 	public boolean addUserLastActiveDateTime(User uObj) throws Exception;
+	
+	public boolean userLoginTimeout() throws Exception;
 }

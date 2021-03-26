@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Project;
@@ -774,6 +775,33 @@ public class HomeDaoImpl implements HomeDao {
 			stmt.setString(p++,uObj.getUser_id());
 			stmt.setString(p++,uObj.getUser_login_details_id());
 			
+			int c = stmt.executeUpdate();
+			if (c > 0) {
+				flag = true;				
+			}
+			
+		}catch(SQLException e){ 
+			throw new SQLException(e.getMessage());
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean userLoginTimeout() throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		try {			
+			con = dataSource.getConnection();
+			String insertQry = "UPDATE user_login_details SET logout_date_time = CURRENT_TIMESTAMP,logout_type_fk = ? "
+					+ "WHERE logout_date_time is null and last_active_date_time < (NOW() - INTERVAL 30 MINUTE)";
+			stmt = con.prepareStatement(insertQry);
+			int p = 1;
+			stmt.setString(p++,CommonConstants2.LOGOUT_TYPE_TIMEOUT);			
 			int c = stmt.executeUpdate();
 			if (c > 0) {
 				flag = true;				

@@ -81,4 +81,8 @@ public class HomeServiceImpl implements HomeService {
 	public boolean addUserLastActiveDateTime(User uObj) throws Exception {
 		return dao.addUserLastActiveDateTime(uObj);
 	}
+	@Override
+	public boolean userLoginTimeout() throws Exception {
+		return dao.userLoginTimeout();
+	}
 }

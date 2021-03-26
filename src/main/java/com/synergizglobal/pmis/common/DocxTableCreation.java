@@ -578,6 +578,9 @@ public class DocxTableCreation {
 		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
+		RPr titleContentRpr = getRPr(factory, "Calibri", "000000", "16",
+				STHint.EAST_ASIA, false, false, false, false);
+		
 		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
@@ -605,11 +608,11 @@ public class DocxTableCreation {
 					Tr titleTableRow = factory.createTr();		
 					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Title", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -621,11 +624,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Description", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -637,11 +640,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Date", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -653,11 +656,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -669,11 +672,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -786,6 +789,9 @@ public class DocxTableCreation {
 		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
+		RPr titleContentRpr = getRPr(factory, "Calibri", "000000", "16",
+				STHint.EAST_ASIA, false, false, false, false);
+		
 		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
@@ -818,14 +824,14 @@ public class DocxTableCreation {
 		Tr titleTableRow = factory.createTr();		
 		addTableCell(factory, wordMLPackage, titleTableRow, "Name of Employee", titleRpr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, employeeName, titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, employeeName, titleContentRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 	  	
 	  	addTableCell(factory, wordMLPackage, titleTableRow, "Designation", titleRpr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, trainee_designation, titleContentRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
@@ -837,13 +843,13 @@ public class DocxTableCreation {
 		titleTableRow = factory.createTr();	
 		addTableCell(factory, wordMLPackage, titleTableRow, "Department", titleRpr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, department, titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, department, titleContentRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "Reporting To", titleRpr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, reportingTo, titleContentRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
@@ -856,14 +862,14 @@ public class DocxTableCreation {
 		titleTableRow = factory.createTr();	
 		addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", titleRpr,
 				JcEnumeration.LEFT, true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, nominated, titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, nominated, titleContentRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
 		
 		addTableCell(factory, wordMLPackage, titleTableRow, "Attended", titleRpr,
 				JcEnumeration.LEFT,  true, "ecf2ff");
-		addTableCell(factory, wordMLPackage, titleTableRow, attended, titleRpr,
+		addTableCell(factory, wordMLPackage, titleTableRow, attended, titleContentRpr,
 				JcEnumeration.LEFT, false, null);
 		addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 				JcEnumeration.LEFT, false, null);
@@ -956,6 +962,9 @@ public class DocxTableCreation {
 		RPr contentRpr = getRPr(factory, "Calibri", "000000", "14",
 				STHint.EAST_ASIA, false, false, false, false);
 		
+		RPr titleContentRpr = getRPr(factory, "Calibri", "000000", "16",
+				STHint.EAST_ASIA, false, false, false, false);
+		
 		RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20",
 				STHint.EAST_ASIA, true, false, false, false);	
 		
@@ -983,11 +992,11 @@ public class DocxTableCreation {
 					Tr titleTableRow = factory.createTr();		
 					addTableCell(factory, wordMLPackage, titleTableRow, "Training ID", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_id(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Title", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTitle(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -999,11 +1008,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Session NO", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getSession_no(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Description", boldRPr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getDescription(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -1015,11 +1024,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Training Type", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_type_fk(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Date", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getDate(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -1031,11 +1040,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Category", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_category_fk(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Start Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getStart_time(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -1047,11 +1056,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Training Centre", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, tObj.getTraining_center(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "End Time", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getEnd_time(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);
@@ -1063,11 +1072,11 @@ public class DocxTableCreation {
 					
 					addTableCell(factory, wordMLPackage, titleTableRow, "Nominated", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getNominated(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getNominated(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "Attended", titleRpr,
 							JcEnumeration.LEFT, false, null);
-					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getAttended(), titleRpr,
+					addTableCell(factory, wordMLPackage, titleTableRow, sObj.getAttended(), titleContentRpr,
 							JcEnumeration.LEFT, false, null);
 					addTableCell(factory, wordMLPackage, titleTableRow, "", titleRpr,
 							JcEnumeration.LEFT, false, null);

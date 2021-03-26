@@ -232,7 +232,7 @@
 	          </li>          
           </c:if>
           
-         
+      <c:if test="${not empty reportForms}">   
           <li class="blue lighten-1 dropdown">
           	<a href="#" class='head-img'>
                <span class="material-icons-outlined">assignment</span>
@@ -271,7 +271,7 @@
               </ul>
               
           </li>
-          
+          </c:if>
           <%-- <li class="blue"><a href="<%=request.getContextPath()%>/dpr" class='head-img'>
 	          <span class="material-icons-outlined">assignment</span> Reports</a>
           </li> --%>
@@ -598,7 +598,7 @@
     
     <%-- <li><a href="<%=request.getContextPath()%>/dpr" class='head-img'><span class="material-icons-outlined">assignment</span> Reports</a></li> --%>
     
-    
+   <c:if test="${not empty reportForms}"> 
     <li class="sub-menu"><a href="#" class='head-img collapsible-header'><span class="material-icons-outlined">assignment</span> Reports</a>
     	<ul class="dropdown-data collapsible-body second-lvl collapsible">          	  
           	  <c:forEach var="form" items="${reportForms }" varStatus="index">
@@ -630,7 +630,7 @@
 	              
          </ul>
     </li>
-    
+   </c:if>
     
     <%-- <li><a href="<%=request.getContextPath()%>/manuals" class='head-img'><span class="material-icons-outlined">assignment</span> Manuals</a></li> --%>
      <li class="sub-menu"><a href="#" class='head-img collapsible-header'>

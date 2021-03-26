@@ -96,7 +96,8 @@
         	vertical-align:inherit;
         }
         #revTable .select2-container{
-	        max-width:80px;
+	        max-width:150px;
+	        width: 150px !important;
 	        text-align:left;
 	        margin-top:10px;
         }        
@@ -109,6 +110,7 @@
 		.input-field>.datepicker ~ label:not(.label-icon).active {
 		    transform: translateY(-11px) scale(.8);
 		}
+		
     </style>
 </head>
 <body>
@@ -634,7 +636,7 @@
                                                 <th>MRVC Reviewed </th>
                                                 <th>Divisional Approval </th>
                                                 <th>HQ approval </th>
-                                                <th> Revision Status</th>
+                                                <th>Revision Status</th>
                                                 <th class="no-sort">Remarks</th>
                                                 <th class="no-sort">Action</th>
                                             </tr>

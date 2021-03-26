@@ -105,7 +105,7 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6>Updte Training</h6>
+								<h6>Update Training</h6>
 							</div>
 						</span>
 						<div class="row no-mar" style="margin-bottom: 0;">

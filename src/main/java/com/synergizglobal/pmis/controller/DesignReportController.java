@@ -188,7 +188,7 @@ public class DesignReportController {
 			        
 			        cell = mainHeadingRow.createCell(2);
 			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue(keyName + " Wise: Drawings pending with Aprroving authrity");
+					cell.setCellValue(keyName + " Wise: Drawings pending with Approving Authority");
 			        for (int i = 3; i < 9; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(indexWhiteStyle);
@@ -198,7 +198,7 @@ public class DesignReportController {
 			        rowNo++;
 					/********************************************************/
 		            /**********************************************************************/
-					String headerString = keyName+"^Total Scope^Drawing Approved^Submitted by Consultans^Under review by MRVC^Under review by Division^Under review by HQ";
+					String headerString = keyName+"^Total Scope^Drawing Approved^Submitted by Consultants^Under review by MRVC^Under review by Division^Under review by HQ";
 			        
 			        String[] headerStringArr = headerString.split("\\^");
 			        

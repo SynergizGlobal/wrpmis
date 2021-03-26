@@ -282,7 +282,7 @@
                                      <i class="material-icons prefix center-align">₹</i>	
                                     <input id="cumilative_expenditure" name="cumulative_expenditure_upto_last_finacial_year" type="number" min="0.01" step="0.01" value="${zonalRailwayDetails.cumulative_expenditure_upto_last_finacial_year }"
                                         class="validate">
-                                    <label for="cumilative_expenditure">Cumilative Expenditure </label>
+                                    <label for="cumilative_expenditure">Cumulative Expenditure </label>
                                     <span id="cumulative_expenditure_upto_last_finacial_yearError" class="error-msg"></span>
                                 </div>
                                 <div class="col s12 m4 input-field">

@@ -177,9 +177,11 @@
 	                  <c:forEach var="form" items="${forms }" varStatus="index">
 	           			<c:if test="${empty form.formsSubMenu}">
 			              	<li>
+			              	<c:if test="${not empty form.webFormUrl}">
 			              		<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 					 				<span class="nav-label">${form.formName }</span>
 					 			</a>
+					 		</c:if>
 					 		</li>
 				 		</c:if>
 				 		<c:if test="${not empty form.formsSubMenu}">
@@ -564,9 +566,11 @@
           	  <c:forEach var="form" items="${forms }" varStatus="index">
          			<c:if test="${empty form.formsSubMenu}">
 		              	<li>
+		              	  <c:if test="${not empty form.webFormUrl}">
 		              		<a href="<%=request.getContextPath()%>/${form.webFormUrl }">
 				 				<span class="nav-label">${form.formName }</span>
 				 			</a>
+				 		  </c:if>
 				 		</li>
 			 		</c:if>
 			 		<c:if test="${not empty form.formsSubMenu}">

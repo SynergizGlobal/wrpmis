@@ -558,7 +558,7 @@
                                             <h6 class="center-align" style="color:#2E58AD;font-weight:600">Issue Details   </h6>
                                             <!-- <div class="col s12 m6 input-field" style="margin-top: 40px;"> -->
                                             <div class="col s12 m6 input-field" style="margin-top: 18px;">
-                                            	<p>Issue Category</p>
+                                            	<p>Issue Category <span class="required">*</span></p>
                                                 <select class="browser-default searchable" id="issue_category_id" name="issue_category_id">
                                                     <option value="" selected>Select</option>
                                                 </select>
@@ -567,7 +567,7 @@
                                             </div>
                                             <div class="col s12 m6 input-field" style="padding-top: 4px;">
 
-                                                <p class="prio">Priority</p>
+                                                <p class="prio">Priority <span class="required">*</span></p>
                                                 <p class="radiogroup">
                                                     <label>
                                                         <input class="with-gap" name="issue_priority_id" type="radio"
@@ -594,7 +594,7 @@
                                             <div class="col s12 m12 input-field">
                                                 <textarea id="issue_description" name="issue_description" class="materialize-textarea"
                                                     data-length="500"></textarea>
-                                                <label for="issue_description">Issue Description</label>
+                                                <label for="issue_description">Issue Description <span class="required">*</span></label>
                                                 <span id="issue_descriptionError" class="error-msg" ></span>
                                             </div>
                                         </div>
@@ -614,7 +614,8 @@
                                         <div class="col m12 s12 input-field">
                                             <textarea id="remarks" name="remarks" class="materialize-textarea"
                                                 data-length="500">${activitiesData.remarks}</textarea>
-                                            <label for="remarks" class="">Issue/Action Taken/Remark </label>
+                                            <label for="remarks" class="">Issue/Action Taken/Remark <span class="required">*</span> </label>
+                                             <span id="remarksError" class="error-msg" ></span>
                                         </div>
                                     </div>
                                     </div>
@@ -1363,7 +1364,7 @@
     			 	   	  },"issue_description": {
     				 		required: true
     				 	  },"remarks":{
-    				 		 required: false
+    				 		 required: true
     				 	  }
     				 				
     			 	},
@@ -1394,7 +1395,7 @@
     			 	  	 },"issue_description": {
     			 			required: 'Enter description'
     			 	  	 },"remarks":{
-    			 	  		required: 'Enter BOQ completed'
+    			 	  		required: 'Required'
     				 	  }
     			 				      
     		    },

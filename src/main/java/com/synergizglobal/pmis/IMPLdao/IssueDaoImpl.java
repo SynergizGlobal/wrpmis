@@ -378,6 +378,15 @@ public class IssueDaoImpl implements IssueDao {
 						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 							mailTo = mailTo + iObj.getContract_hod_email_id();
 						}
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+						}
+						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+							mailCC = mailCC + iObj.getEscalated_to_email_id();
+						}
+						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+							mailCC = mailCC + iObj.getResponsible_person_email_id();
+						}
 					}
 					
 					if(!StringUtils.isEmpty(mailTo)) {
@@ -584,6 +593,15 @@ public class IssueDaoImpl implements IssueDao {
 					}else if("Closed".equals(iObj.getStatus_fk())) {
 						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 							mailTo = mailTo + iObj.getContract_hod_email_id();
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+						}
+						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+							mailCC = mailCC + iObj.getEscalated_to_email_id();
+						}
+						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+							mailCC = mailCC + iObj.getResponsible_person_email_id();
 						}
 					}
 					

@@ -540,7 +540,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 			String department_id = getDepartment(obj.getContract_id_fk());
 			String issueId = null;
 			if(!StringUtils.isEmpty(obj.getIs_there_issue()) && obj.getIs_there_issue().equalsIgnoreCase("yes")){
-				String issuesQry = "INSERT INTO issue(contract_id_fk,title,description,reported_by,priority_fk,category_fk,status_fk,date,department_fk,location,attachment,corrective_measure)VALUES(?,?,?,?,?,?,?,CURDATE(),?,?,?,?)";				
+				String issuesQry = "INSERT INTO issue(contract_id_fk,title,reported_by,priority_fk,category_fk,status_fk,date,location,attachment,corrective_measure)VALUES(?,?,?,?,?,?,CURDATE(),?,?,?)";				
 				KeyHolder holder = new GeneratedKeyHolder();
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					@Override
@@ -548,13 +548,11 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 						PreparedStatement ps = connection.prepareStatement(issuesQry, Statement.RETURN_GENERATED_KEYS);
 						int i = 1;
 						ps.setString(i++, !StringUtils.isEmpty(obj.getContract_id_fk())?obj.getContract_id_fk():null);
-						ps.setString(i++, !StringUtils.isEmpty(activity_name)?activity_name:null);
 						ps.setString(i++, obj.getIssue_description());
 						ps.setString(i++, !StringUtils.isEmpty(obj.getReported_by())?obj.getReported_by():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_priority_id())?obj.getIssue_priority_id():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getIssue_category_id())?obj.getIssue_category_id():null);
 						ps.setString(i++, CommonConstants.ISSUE_STATUS_RAISED);
-						ps.setString(i++, !StringUtils.isEmpty(department_id)?department_id:null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getStrip_chart_structure_id_fk())?obj.getStrip_chart_structure_id_fk():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getAttachment_url())?obj.getAttachment_url():null);
 						ps.setString(i++, !StringUtils.isEmpty(obj.getRemarks())?obj.getRemarks():null);
@@ -635,6 +633,15 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 					}else if("Closed".equals(iObj.getStatus_fk())) {
 						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
 							mailTo = mailTo + iObj.getContract_hod_email_id();
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+						}
+						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+							mailCC = mailCC + iObj.getEscalated_to_email_id();
+						}
+						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+							mailCC = mailCC + iObj.getResponsible_person_email_id();
 						}
 					}
 					

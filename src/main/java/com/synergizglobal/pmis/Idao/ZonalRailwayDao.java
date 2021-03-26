@@ -40,4 +40,10 @@ public interface ZonalRailwayDao {
 
 	public List<ZonalRailway> String(String id) throws Exception;
 
+
+	public List<ZonalRailway> getZonalsList(ZonalRailway obj, int startIndex, int offset,String searchParameter) throws Exception;
+
+	public int getTotalRecords(ZonalRailway obj, java.lang.String searchParameter) throws Exception;
+
+
 }

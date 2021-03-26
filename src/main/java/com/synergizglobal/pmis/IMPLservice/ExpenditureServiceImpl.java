@@ -18,8 +18,8 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	
 
 	@Override
-	public List<Expenditure> expendituresList(Expenditure obj) throws Exception {
-		return dao.expendituresList(obj);
+	public List<Expenditure> getExpendituresList(Expenditure obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return dao.getExpendituresList( obj, startIndex, offset, searchParameter);
 	}
 
 	@Override
@@ -90,6 +90,11 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	@Override
 	public int uploadExpenditures(List<Expenditure> expendituresList) throws Exception {
 		return dao.uploadExpenditures(expendituresList);
+	}
+
+	@Override
+	public int getTotalRecords(Expenditure obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
 	}
 	
 	

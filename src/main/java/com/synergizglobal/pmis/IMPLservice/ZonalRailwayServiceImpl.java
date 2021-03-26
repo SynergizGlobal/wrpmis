@@ -100,4 +100,15 @@ public class ZonalRailwayServiceImpl implements ZonalRailwayService{
 		return dao.String(id);
 	}
 
+	@Override
+	public int getTotalRecords(ZonalRailway obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<ZonalRailway> getZonalsList(ZonalRailway obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return dao.getZonalsList(obj,startIndex,offset,searchParameter);
+	}
+
 }

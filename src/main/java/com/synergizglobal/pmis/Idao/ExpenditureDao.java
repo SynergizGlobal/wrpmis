@@ -6,7 +6,7 @@ import com.synergizglobal.pmis.model.Expenditure;
 
 public interface ExpenditureDao {
 
-	public List<Expenditure> expendituresList(Expenditure obj)throws Exception;
+	public List<Expenditure> getExpendituresList(Expenditure obj, int startIndex, int offset, String searchParameter)throws Exception;
 
 	public List<Expenditure> getVoucherList()throws Exception;
 
@@ -35,5 +35,7 @@ public interface ExpenditureDao {
 	public List<Expenditure> getContractsListForExpenditureForm(Expenditure obj) throws Exception;
 
 	public int uploadExpenditures(List<Expenditure> expendituresList) throws Exception;
+
+	public int getTotalRecords(Expenditure obj, String searchParameter) throws Exception;
 
 }

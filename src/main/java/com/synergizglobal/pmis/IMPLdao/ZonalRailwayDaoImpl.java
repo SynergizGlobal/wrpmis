@@ -43,7 +43,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 
 
 	@Override
-	public List<ZonalRailway> getZonalRailwayList(ZonalRailway obj) throws Exception {
+	public List<ZonalRailway> getZonalsList(ZonalRailway obj, int startIndex, int offset,String searchParameter) throws Exception {
 		List<ZonalRailway> objsList = null;
 		try {
 			String qry ="select contract_id, work_id_fk,w.work_short_name,u.designation,sub_work,r.railway_name, execution_agency_railway_fk, source_of_funds_fk as source_of_funds, sanction_cost, latest_revised_cost, cast(cumulative_expenditure_upto_last_finacial_year as CHAR) as cumulative_expenditure_upto_last_finacial_year, DATE_FORMAT(actual_start,'%d-%m-%Y') AS actual_start,"
@@ -73,6 +73,24 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				arrSize++;
 			}
 
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (sub_work like ? or execution_agency_railway_fk like ? or source_of_funds like ?"
+						+ " or status_fk like ? or as_on_date like ? or expected_finish like ? or actual_finish like ? or cumulative_expenditure_upto_last_finacial_year like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " ORDER BY contract_id ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}	
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -90,12 +108,109 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+	
+
+	@Override
+	public int getTotalRecords(ZonalRailway obj, java.lang.String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="select count(*) as total_records from zonal_railway_contracts z " + 
+					"left join work w on z.work_id_fk = w.work_id "+
+					"left join railway r on z.execution_agency_railway_fk = r.railway_id "
+					+"left join user u on z.responsible_person_user_fk = u.user_id  where contract_id is not null  ";
+				
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and project_id_fk = ?";  
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getExecution_agency_railway_fk())) {
+				qry = qry + " and z.execution_agency_railway_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
+				qry = qry + " and source_of_funds_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				qry = qry + " and status_fk = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (sub_work like ? or execution_agency_railway_fk like ? or source_of_funds like ?"
+						+ " or status_fk like ? or as_on_date like ? or expected_finish like ? or actual_finish like ? or cumulative_expenditure_upto_last_finacial_year like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getExecution_agency_railway_fk())) {
+				pValues[i++] = obj.getExecution_agency_railway_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSource_of_funds())) {
+				pValues[i++] = obj.getSource_of_funds();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
+				pValues[i++] = obj.getStatus_fk();
+			}
+			
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
 	}
 	
 	@Override
@@ -969,5 +1084,12 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		}
 		return progressList;
 	}
+
+	@Override
+	public List<ZonalRailway> getZonalRailwayList(ZonalRailway obj) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

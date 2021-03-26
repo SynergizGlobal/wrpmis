@@ -36,7 +36,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 
 
 	@Override
-	public List<Expenditure> expendituresList(Expenditure obj) throws Exception {
+	public List<Expenditure> getExpendituresList(Expenditure obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<Expenditure> objsList = null;
 		try {
 			String qry  ="SELECT expenditure_id,c.work_id_fk,c.contract_short_name,w.work_short_name,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,DATE_FORMAT(date,'%d-%m-%Y') AS date,voucher_type,voucher_no, "
@@ -68,9 +68,26 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				qry = qry + " and voucher_type = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or e.contract_id_fk like ?"
+						+ " or c.contract_short_name like ? or ledger_account like ? or e.contractor_name like ? or date like ? or voucher_type like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " ORDER BY expenditure_id ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}	
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -87,6 +104,21 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				pValues[i++] = obj.getVoucher_type();
 			}
 			
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
 		  objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -94,6 +126,85 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		return objsList;
 	}
 
+
+	@Override
+	public int getTotalRecords(Expenditure obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="select count(*) as total_records from  expenditure e  " + 
+					"LEFT JOIN contract c on e.contract_id_fk = c.contract_id  " + 
+					"LEFT JOIN work w on c.work_id_fk = w.work_id  where expenditure_id is not null ";
+				
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id_fk = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				qry = qry + " and ledger_account = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				qry = qry + " and e.contractor_name = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				qry = qry + " and voucher_type = ?";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or e.contract_id_fk like ?"
+						+ " or c.contract_short_name like ? or ledger_account like ? or e.contractor_name like ? or date like ? or voucher_type like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLedger_account())) {
+				pValues[i++] = obj.getLedger_account();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_name())) {
+				pValues[i++] = obj.getContractor_name();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+				pValues[i++] = obj.getVoucher_type();
+			}
+			
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			} 
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+	
 	@Override
 	public List<Expenditure> getVoucherList() throws Exception {
 		List<Expenditure> objsList = null;
@@ -652,6 +763,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		}
 		return insertCount;
 	}
+
 }
 	
 	

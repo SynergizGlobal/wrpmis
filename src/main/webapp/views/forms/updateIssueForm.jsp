@@ -172,15 +172,15 @@
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                <!-- <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
+                                <p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                    <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${issuesPriorityList }">
                                             <option value="${obj.priority }" <c:if test="${issue.priority_fk eq obj.priority}">selected</c:if>>${obj.priority}</option>
                                         </c:forEach>
-                                    </select>  --> 
-                                    <input id="priority_fk" name="priority_fk" type="text" class="" value="${issue.priority_fk }" readonly>
-                                    <label for="priority_fk"> Issue Priority <span class="required">*</span></label>                                 
+                                    </select>  
+                                    <%-- <input id="priority_fk" name="priority_fk" type="text" class="" value="${issue.priority_fk }" readonly>
+                                    <label for="priority_fk"> Issue Priority <span class="required">*</span></label>   --%>                               
                                     <span id="priority_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
@@ -250,6 +250,50 @@
                             </div>
                             
                             <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000">${issue.corrective_measure }</textarea>
+                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
+                                    <span id="corrective_measureError" class="error-msg" ></span>
+                                </div>
+                            </div>    
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                   <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${railwayList }">
+                                            <option name="${obj.railway_name}" value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="zonal_railway_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
+                                    <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}">
+                                    <label for="other_organization">Organization Name (Pending with)<span class="required">*</span></label>
+                                    <span id="other_organizationError" class="error-msg" ></span>
+                                </div>
+                                 <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
+                                  <p class="searchable_label"> Department Responsible (Pending with)<span class="required">*</span></p> 
+                                    <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
+                                        <option value="" selected>Select</option>
+                                         <c:forEach var="obj" items="${departmentList }">          
+                                         	<c:set var = "string0" value = "${issue.other_organization}" />                               	
+      										<c:set var = "string1" value = "${issue.zonal_railway_fk} ${obj.department_name}" />
+      										<c:set var = "string2" value = "${issue.zonal_railway_fk} - ${obj.department_name}" />
+      										<c:set var = "string3" value = "${issue.zonal_railway_fk} -${obj.department_name}" />
+      										<c:set var = "string4" value = "${issue.zonal_railway_fk}- ${obj.department_name}" />
+      										<c:set var = "string4" value = "${issue.zonal_railway_fk}-${obj.department_name}" />
+                                            <option value="${obj.department_name }" <c:if test="${(string0 eq string1) or (string0 eq string2) or (string0 eq string3) or (string0 eq string4) }">selected</c:if>>${obj.department_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="other_organizationsError" class="error-msg" ></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
 							  <div class="col s12 m4 input-field offset-m2">
                                     <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
                                     <label for="reported_by">Reported by </label>
@@ -304,7 +348,7 @@
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="assigned_dateError" class="error-msg" ></span>
 						         </div>
-                                <div class="col s12 m4 input-field" id="responsibleDiv" style="display:none">
+                                <div class="col s12 m4 input-field">
                                     <%-- <input id="responsible_person" name="responsible_person" type="text" class="validate" value="${issue.responsible_person }">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to)</label> --%>
                                     <p class="searchable_label" style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)</p> 
@@ -318,49 +362,7 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
-
-                            <div class="row" style="display:none" id="responsibleOrgDiv">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                   <p class="searchable_label"> Responsible Organization (Pending with)</p>
-                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${railwayList }">
-                                            <option name="${obj.railway_name}" value="${obj.railway_id }" <c:if test="${obj.railway_id eq issue.zonal_railway_fk }">selected</c:if>>${obj.railway_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="zonal_railway_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <input id="other_organization" name="other_organization"  type="text" class="validate" value="${issue.other_organization}" style="max-height:33.5px">
-                                    <label for="other_organization">Organization Name (Pending with)</label>
-                                    <span id="other_organizationError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
-                                  <p class="searchable_label"> Department Responsible (Pending with)</p> 
-                                    <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
-                                        <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${departmentList }">          
-                                         	<c:set var = "string0" value = "${issue.other_organization}" />                               	
-      										<c:set var = "string1" value = "${issue.zonal_railway_fk} ${obj.department_name}" />
-      										<c:set var = "string2" value = "${issue.zonal_railway_fk} - ${obj.department_name}" />
-      										<c:set var = "string3" value = "${issue.zonal_railway_fk} -${obj.department_name}" />
-      										<c:set var = "string4" value = "${issue.zonal_railway_fk}- ${obj.department_name}" />
-      										<c:set var = "string4" value = "${issue.zonal_railway_fk}-${obj.department_name}" />
-                                            <option value="${obj.department_name }" <c:if test="${(string0 eq string1) or (string0 eq string2) or (string0 eq string3) or (string0 eq string4) }">selected</c:if>>${obj.department_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row" id="remarksDiv" style="display: none;" >
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m8 input-field">
-                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000">${issue.corrective_measure }</textarea>
-                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
-                                    <span id="corrective_measureError" class="error-msg" ></span>
-                                </div>
-                            </div>                          
+                                                  
                                                    
                             <div id="escalatedDiv" style="display: none;">
 	                            <div class="row" >
@@ -417,10 +419,10 @@
                                         </div>
                                     </div>
                                     
-                                    <c:if test="${not empty issue.attachment }">
+                                    <%-- <c:if test="${not empty issue.attachment }">
                                        	<a href="<%=CommonConstants2.ISSUE_FILES %>${issue.attachment }" class="filevalue" download>${issue.attachment }</a>
 										<span onclick="removeMedia(this,'issueFileWrapper')" class="attachment-remove-btn">X</span>											
-                                   	</c:if>
+                                   	</c:if> --%>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -486,6 +488,8 @@
 	        });
 	       
 	    });
+		
+		var issueStatusFk = '';
 	
         $(document).ready(function () {
        	  	$('select:not(.searchable)').formSelect();
@@ -536,8 +540,8 @@
             	getContractsList(work_id_fk);
             }
 	        
-	        var status_fk = "${issue.status_fk}";
-            if ($.trim(status_fk) == 'Escalated') {
+	        issueStatusFk = "${issue.status_fk}";
+            if ($.trim(issueStatusFk) == 'Escalated') {
             	$("#escalatedDiv").show();
             }else{
             	$("#escalated_to").val('');
@@ -545,7 +549,7 @@
             	$("#escalatedDiv").hide();
             }
             
-            if($.trim(status_fk) == 'Escalated'){
+            if($.trim(issueStatusFk) == 'Escalated'){
             	$("#escalatedRemarksDiv").show();
             }
             
@@ -556,7 +560,60 @@
 	            $("#issueForm :textarea").attr("disabled", true);	            
 	            $("#issueForm select").prop("disabled", true);	            
             }
-            getEscalatedDetails($('#status_fk').val());
+            
+            //getEscalatedDetails(status_fk);
+            
+            if($.trim(issueStatusFk) == 'Escalated'){
+        		$("#escalatedDiv").show();
+        		$("#resolvedDiv").hide();
+        		
+        		$("#corrective_measure").attr('readonly', true);
+        		$("#zonal_railway_fk").attr('disabled', true);
+        		$("#other_organization").attr('readonly', true);
+        		$("#other_organizations").attr('disabled', true);
+        		
+        		$("#assigned_date").attr('disabled', true);
+        		$("#responsible_person").attr('disabled', true);
+        		
+        	}else if($.trim(issueStatusFk) == 'Closed'){
+        		$("#resolvedDiv").show();
+        		$("#escalatedDiv").hide();
+        		
+        		$("#corrective_measure").attr('readonly', true);
+        		$("#zonal_railway_fk").attr('disabled', true);
+        		$("#other_organization").attr('readonly', true);
+        		$("#other_organizations").attr('disabled', true);
+        		
+        		$("#assigned_date").attr('disabled', true);
+        		$("#responsible_person").attr('disabled', true);
+        		
+        	}else if($.trim(issueStatusFk) == 'Raised'){
+        		$("#assignDateDiv").hide();
+        		$("#resolvedDiv").hide();
+        		$("#escalatedDiv").hide();
+        		
+        		$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false); 
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);
+        		
+        	}else{
+        		$("#assignDateDiv").show();
+        		$("#escalatedDiv").hide();
+            	$("#resolvedDiv").hide();
+            	
+            	$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false);
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);
+        	}
+            
         });
         
       //geting works list from database    
@@ -714,44 +771,63 @@
         function getEscalatedDetails(issueStatus){
         	if($.trim(issueStatus) == 'Escalated'){
         		$("#escalatedDiv").show();
-        		$("#corrective_measure").attr('readonly', true);
-        	}else{
-        		$("#escalatedDiv").hide();
-        		$("#corrective_measure").attr('readonly', false);
-        		
-        		$("#escalated_to").val('');
-            	$("#escalation_date").val('');
-        	}
-        	if($.trim(issueStatus) == 'Closed'){
-        		$("#resolvedDiv").show();
-        	}else{
         		$("#resolvedDiv").hide();
-        	}
-        	if($.trim(issueStatus) == 'Raised' || $.trim(issueStatus) == 'select' ){
+        		
+        		$("#corrective_measure").attr('readonly', false);        		
+        		$("#zonal_railway_fk").attr('disabled', true);
+        		$("#other_organization").attr('readonly', true);
+        		$("#other_organizations").attr('disabled', true);
+        		
+        		$("#assigned_date").attr('disabled', true);
+        		$("#responsible_person").attr('disabled', true);
+        		
+        	}else if($.trim(issueStatus) == 'Closed'){
+        		$("#resolvedDiv").show();
+        		$("#escalatedDiv").hide();
+        		
+        		$("#corrective_measure").attr('readonly', true);
+        		$("#zonal_railway_fk").attr('disabled', true);
+        		$("#other_organization").attr('readonly', true);
+        		$("#other_organizations").attr('disabled', true);
+        		
+        		$("#assigned_date").attr('disabled', true);
+        		$("#responsible_person").attr('disabled', true);
+        		
+        	}else if($.trim(issueStatus) == 'Raised'){
         		$("#assignDateDiv").hide();
-        		//$(".raisedDiv").hide();
-        		$('#responsibleDiv').hide();
-        		$('#responsibleOrgDiv').hide();
-        		$('#remarksDiv').hide();
+        		$("#resolvedDiv").hide();
+        		$("#escalatedDiv").hide();
+        		
+        		$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false); 
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);
+        		
         	}else{
         		$("#assignDateDiv").show();
-        		//$(".raisedDiv").show();
-        		$('#responsibleDiv').show();
-        		$('#responsibleOrgDiv').show();
-        		$('#remarksDiv').show();
+        		$("#escalatedDiv").hide();
+            	$("#resolvedDiv").hide();
+            	
+            	$("#corrective_measure").attr('readonly', false);
+        		$("#zonal_railway_fk").attr('disabled', false);
+        		$("#other_organization").attr('readonly', false);
+        		$("#other_organizations").attr('disabled', false);
+        		
+        		$("#assigned_date").attr('disabled', false);
+        		$("#responsible_person").attr('disabled', false);
         	}
+        	
+        	if(issueStatusFk == 'Escalated'){
+        		$("#corrective_measure").attr('readonly', true);  
+    		}
         }
 
          function showRemarks(){
         	var status_val = $("#status_fk").val();
          	var responsible_person_val = $("#responsible_person").val();
-        	/* if((status_val == 'Raised') && responsible_person_val != ""){
-        		$("#remarksDiv").show();
-        	}else if(status_val != 'Raised' && status_val != ""){
-        		$("#remarksDiv").show();
-        	}else{
-        		$("#remarksDiv").hide();
-        	} */
         } 
         
         function updateIssue(){
@@ -818,9 +894,11 @@
        				 	 	dateBeforeToday3:"#escalation_date",
        				 	 	dateBefore2:"#assigned_date"
 	   			 	   	  },"zonal_railway_fk": {
-    				 		required: false
+    				 		required: true
     				 	  },"remarks":{
     				 		 required: false
+    				 	  },"other_organization":{
+    				 		 required: true
     				 	  }
     				 				
     			 	},
@@ -869,6 +947,8 @@
 	   				 		required: 'Required'
 	   				 	  },"remarks":{
     			 	  		required: 'Required'
+    				 	  },"other_organization":{
+    				 		 required: 'Required'
     				 	  }
     			 				      
     		    },
@@ -940,7 +1020,13 @@
 	  			 	    }else if (element.attr("id") == "remarks" ){
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');
-    			 	    }
+    			 	    }else if (element.attr("id") == "other_organization" ){
+	   			 		     document.getElementById("other_organizationError").innerHTML="";
+				 			 error.appendTo('#other_organizationError');
+				 	    }else if (element.attr("id") == "other_organizations" ){
+	   			 		     document.getElementById("other_organizationsError").innerHTML="";
+				 			 error.appendTo('#other_organizationsError');
+				 	    }
     			 },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
                      if (errors) {
@@ -1123,7 +1209,7 @@
                 	$('#department_holder').hide();                	
                 	$('#other_organization').attr('name', 'other_organization');
                 	$('#other_organization_holder').show();      
-                	$('#other_organization').val(name).focus();                	
+                	$('#other_organization').val('').focus();                	
                 } else if(val == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 
                 	$('#department_holder').show();

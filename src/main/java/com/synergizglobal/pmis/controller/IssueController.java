@@ -334,7 +334,13 @@ public class IssueController {
 		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/issues");
-			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			user_Id = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+			
+			User user = (User)session.getAttribute("user");
+			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
+				obj.setReported_by_email_id(user.getEmail_id());
+			}
 			
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));			
@@ -345,9 +351,9 @@ public class IssueController {
 			}
 			boolean flag = issueService.addIssue(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Issue added successfully");
+				attributes.addFlashAttribute("success", "Issue "+obj.getStatus_fk()+" successfully");
 			}else {
-				attributes.addFlashAttribute("error", "Adding issue is failed. Try again.");
+				attributes.addFlashAttribute("error", "Adding issue failed. Try again.");
 			}
 		} catch (Exception e) {
 			attributes.addFlashAttribute("error", commonError);
@@ -460,8 +466,13 @@ public class IssueController {
 		String user_Id = null;String userName = null;
 		try {
 			model.setViewName("redirect:/issues");
-			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			user_Id = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
 			
+			User user = (User)session.getAttribute("user");
+			if(!StringUtils.isEmpty(user) && !StringUtils.isEmpty(user.getEmail_id())) {
+				obj.setReported_by_email_id(user.getEmail_id());
+			}
 			obj.setDate(DateParser.parse(obj.getDate()));			
 			obj.setResolved_date(DateParser.parse(obj.getResolved_date()));
 			obj.setEscalation_date(DateParser.parse(obj.getEscalation_date()));
@@ -473,9 +484,9 @@ public class IssueController {
 			
 			boolean flag = issueService.updateIssue(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "Issue updated successfully");
+				attributes.addFlashAttribute("success", "Issue "+obj.getStatus_fk()+" successfully");
 			}else {
-				attributes.addFlashAttribute("error", "Updating issue is failed. Try again.");
+				attributes.addFlashAttribute("error", "Updating issue failed. Try again.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

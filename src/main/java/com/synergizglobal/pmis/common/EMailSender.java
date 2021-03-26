@@ -227,6 +227,22 @@ public class EMailSender {
 				 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
 			  }	 
 			  message.setRecipients(Message.RecipientType.TO, addressTo);
+			  
+			  /*********************************************************************/
+			  
+			  ArrayList<String> ccArray = new ArrayList<String>();
+			  StringTokenizer stringTokenizerCc = new StringTokenizer(mail.getMailCc(), ",");
+			 
+			  while (stringTokenizerCc.hasMoreTokens()) {
+				  ccArray.add(stringTokenizerCc.nextToken());
+			  }
+			  int sizeCc = ccArray.size();
+			  InternetAddress[] addressCc = new InternetAddress[sizeCc];
+			  for (int i = 0; i < sizeCc; i++) {
+				 addressCc[i] = new InternetAddress(ccArray.get(i).toString());
+			  }	 
+			  message.setRecipients(Message.RecipientType.CC, addressCc);
+			  
 				 
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());

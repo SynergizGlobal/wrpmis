@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Issue {
@@ -12,6 +14,8 @@ public class Issue {
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
+	
+	private List<MultipartFile> issueFiles;
 	
 	public String getAssigned_date() {
 		return assigned_date;
@@ -549,6 +553,14 @@ public class Issue {
 
 	public void setReadonlyForm(boolean readonlyForm) {
 		this.readonlyForm = readonlyForm;
+	}
+
+	public List<MultipartFile> getIssueFiles() {
+		return issueFiles;
+	}
+
+	public void setIssueFiles(List<MultipartFile> issueFiles) {
+		this.issueFiles = issueFiles;
 	}
 	
 }

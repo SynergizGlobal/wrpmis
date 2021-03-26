@@ -28,6 +28,7 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.StripChart;
 @Repository
@@ -564,7 +565,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 				issueId = String.valueOf(holder.getKey().longValue());		
 				
 				
-				String emailsQry = "select w.work_short_name,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
+				String emailsQry = "select w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
 						+ "i.reported_by,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 						+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 						+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
@@ -582,7 +583,9 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 				
 				Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 				if(!StringUtils.isEmpty(iObj)) {
-					String email_ids = "";
+					String mailTo = "";
+					String mailCC = "";
+					/*String email_ids = "";
 					if(!StringUtils.isEmpty(iObj.getReported_by_email_id())) {
 						email_ids = email_ids + iObj.getReported_by_email_id()+",";
 					}
@@ -600,16 +603,58 @@ public class ActivitiesDaoImpl implements ActivitiesDao{
 					}
 					if(!StringUtils.isEmpty(email_ids)) {
 						email_ids =  org.apache.commons.lang3.StringUtils.chop(email_ids);  
+					}*/
+					
+					if("Raised".equals(iObj.getStatus_fk())) {
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+							mailTo = mailTo + iObj.getContract_dyhod_email_id();
+						}
+						if(!StringUtils.isEmpty(obj.getReported_by_email_id())) {
+							mailCC = mailCC + obj.getReported_by_email_id()+",";
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
+						}
+					}else if("Assigned".equals(iObj.getStatus_fk())) {
+						if(!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
+							mailTo = mailTo + iObj.getResponsible_person_email_id();
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+						}
+					}else if("Escalated".equals(iObj.getStatus_fk())) {
+						if(!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
+							mailTo = mailTo + iObj.getEscalated_to_email_id();
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+							mailCC = mailCC + iObj.getContract_hod_email_id()+",";
+						}
+						if(!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
+							mailCC = mailCC + iObj.getContract_dyhod_email_id()+",";
+						}
+					}else if("Closed".equals(iObj.getStatus_fk())) {
+						if(!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
+							mailTo = mailTo + iObj.getContract_hod_email_id();
+						}
+					}
+					
+					if(!StringUtils.isEmpty(mailTo)) {
+						mailTo =  org.apache.commons.lang3.StringUtils.chop(mailTo);  
+					}
+					
+					if(!StringUtils.isEmpty(mailCC)) {
+						mailCC =  org.apache.commons.lang3.StringUtils.chop(mailCC);  
 					}
 					
 					String emailSubject = "PMIS Issue Alert - Issue "+CommonConstants.ISSUE_STATUS_RAISED;
 					
 					Mail mail = new Mail();
-					mail.setMailTo(email_ids);
+					mail.setMailTo(mailTo);
+					mail.setMailCc(mailCC);
 					mail.setMailSubject(emailSubject);
 					mail.setTemplateName("IssueAlert.vm");
 					
-					if(!StringUtils.isEmpty(email_ids)){		
+					if(!StringUtils.isEmpty(mailTo)){		
 						EMailSender emailSender = new EMailSender();
 						emailSender.sendEmailWithIssueAlert(mail,iObj);
 					}

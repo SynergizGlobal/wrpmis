@@ -14,6 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.LoginService;
 import com.synergizglobal.pmis.Iservice.WebDocumentsService;
 import com.synergizglobal.pmis.Iservice.WebLinksService;
@@ -21,6 +22,7 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Forms;
+import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.WebDocuments;
@@ -69,6 +71,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 	
 	@Autowired
 	AlertsService alertsService;
+	
+	@Autowired
+	IssueService issueService;
 	
 	@Override
     public void postHandle(HttpServletRequest request,
@@ -119,6 +124,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				Map<String,List<Alerts>> alerts = alertsService.getAlertsForHeaderNotifications(aObj);
 				model.addObject("alerts", alerts);
 				
+				List<Issue> issueAlerts = issueService.getIssueAlerts(userDetails);
+				model.addObject("issueAlerts", issueAlerts);
 				
 				boolean flag = service.addUserLastActiveDateTime(userDetails);
 				

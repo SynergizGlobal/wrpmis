@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.IssueDao;
 import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.User;
 
 @Service
 public class IssueServiceImpl implements IssueService {
@@ -127,6 +128,11 @@ public class IssueServiceImpl implements IssueService {
 	@Override
 	public List<Issue> getEscalatedToList() throws Exception {
 		return issueDao.getEscalatedToList();
+	}
+
+	@Override
+	public List<Issue> getIssueAlerts(User uObj) throws Exception {
+		return issueDao.getIssueAlerts(uObj);
 	}
 	
 }

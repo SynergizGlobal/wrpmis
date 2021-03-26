@@ -99,7 +99,7 @@
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                  <p class="searchable_label"> Contract <span class="required">*</span></p> 
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getIssueStatusList();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
                                       	    <option hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
@@ -218,6 +218,44 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
                             
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m8 input-field">
+                                    <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
+                                    <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
+                                    <span id="corrective_measureError" class="error-msg" ></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col m2 hide-on-small-only"></div>
+                                <div class="col s12 m4 input-field">
+                                    <p class="searchable_label"> Responsible Organization (Pending with)<span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${railwayList }">
+                                            <option name="${obj.railway_name}" value="${obj.railway_id }" >${obj.railway_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="zonal_railway_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
+                                    <input id="other_organization" name="other_organization" type="text" class="validate">
+                                    <label for="other_organization">Organization Name (Pending with)<span class="required">*</span></label>
+                                    <span id="other_organizationError" class="error-msg" ></span>
+                                </div>
+                                 <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
+                                  <p class="searchable_label">Department Responsible (Pending with)<span class="required">*</span></p> 
+                                    <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
+                                        <option value="" selected>Select</option>
+                                        <c:forEach var="obj" items="${departmentList }">
+                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="other_organizationsError" class="error-msg" ></span>
+                                </div>
+                            </div>
+                            
                             <div class="row">							 
 					            <div class="col s12 m4 input-field offset-m2">
                                     <input id="reported_by" name="reported_by" type="text" class="validate">
@@ -238,9 +276,11 @@
                                     <p class="searchable_label">Issue Status <span class="required">*</span></p> 
                                     <!-- <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();"> -->
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="getEscalatedDetails(this.value); showRemarks();">
-                                        <option value="">Select</option>
+                                        <!-- <option value="">Select</option> -->
                                         <c:forEach var="obj" items="${issuesStatusList }">
-                                            <option value="${obj.status }" >${obj.status}</option>
+                                        	<c:if test="${obj.status eq 'Raised' }">
+                                            <option value="${obj.status }" seleted>${obj.status}</option>
+                                            </c:if>
                                         </c:forEach>
                                     </select>                                    
                                     <span id="status_fkError" class="error-msg" ></span>
@@ -282,7 +322,7 @@
                                    <!--  <input id="responsible_person" name="responsible_person" type="text" class="validate">
                                     <label for="responsible_person">Person Responsible In MRVC (Assigned to) </label> -->
                                     <p class="searchable_label"  style="margin-bottom:8px">Person Responsible In MRVC (Assigned to)</p> 
-                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="getIssueStatusList(); showRemarks();">
+                                    <select class="searchable validate-dropdown" id="responsible_person" name="responsible_person" onchange="showRemarks();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${responsiblePersonList }">
                                             <option value="${obj.responsible_person_user_id }" >${obj.responsible_person_designation}</option>
@@ -293,43 +333,17 @@
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
 
-                            <div class="row" style="display:none" id="responsibleOrgDiv">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> Responsible Organization (Pending with)</p>
-                                    <select class="searchable validate-dropdown" id="zonal_railway_fk" name="zonal_railway_fk">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${railwayList }">
-                                            <option name="${obj.railway_name}" value="${obj.railway_id }" >${obj.railway_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="zonal_railway_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field" id="other_organization_holder" style="display:none;">
-                                    <input id="other_organization" name="other_organization" type="text" class="validate" style="max-height:33.5px">
-                                    <label for="other_organization">Organization Name (Pending with)</label>
-                                    <span id="other_organizationError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s12 m4 input-field" id="department_holder" style="display:none;">
-                                  <p class="searchable_label">Department Responsible (Pending with)</p> 
-                                    <select class="searchable validate-dropdown" id="other_organizations" name="other_organization">
-                                        <option value="" selected>Select</option>
-                                        <c:forEach var="obj" items="${departmentList }">
-                                            <option value="${obj.department_fk }" >${obj.department_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
+                            
 
                             <!-- <div class="row" id="remarksDiv"  style="display: none;" > -->
-                            <div class="row" id="remarksDiv">
+                            <!-- <div class="row" id="remarksDiv">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="materialize-textarea" data-length="1000"></textarea>
                                     <label for="corrective_measure">Issue/Action Taken/Remarks<span class="required">*</span></label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
-                            </div>
+                            </div> -->
                                                         
                             <div id="escalatedDiv" style="display: none;">
 	                            <div class="row" >
@@ -505,8 +519,6 @@
   	    	       $('.confirmation-btns .datepicker-done').click();
   	    	    }
   	        }); */
-            
-            getIssueStatusList();
         });
         
       //geting works list from database    
@@ -679,13 +691,13 @@
         		$("#assignDateDiv").hide();
         		//$(".raisedDiv").hide();
         		$('#responsibleDiv').hide();
-        		$('#responsibleOrgDiv').hide();
+        		//$('#responsibleOrgDiv').hide();
         		//$('#remarksDiv').hide();
         	}else{
         		$("#assignDateDiv").show();
         		//$(".raisedDiv").show();
         		$('#responsibleDiv').show();
-        		$('#responsibleOrgDiv').show();
+        		//$('#responsibleOrgDiv').show();
         		//$('#remarksDiv').show();
         	}
         }
@@ -764,9 +776,11 @@
        				 	 	dateBeforeToday3:"#escalation_date",
        				 	 	dateBefore2:"#assigned_date"
 	   			 	   	  },"zonal_railway_fk": {
-    				 		required: false
+    				 		required: true
     				 	  },"remarks":{
     				 		 required: false
+    				 	  },"other_organization":{
+    				 		 required: true
     				 	  }
     				 				
     			 	},
@@ -813,6 +827,8 @@
 	   				 		required: 'Required'
 	   				 	  },"remarks":{
     			 	  		required: 'Required'
+    				 	  },"other_organization":{
+    				 		 required: 'Required'
     				 	  }
     			 				      
     		    },
@@ -881,7 +897,13 @@
 	  			 	    }else if (element.attr("id") == "remarks" ){
     			 		     document.getElementById("remarksError").innerHTML="";
     			 			 error.appendTo('#remarksError');
-    			 	    }
+    			 	    }else if (element.attr("id") == "other_organization" ){
+	   			 		     document.getElementById("other_organizationError").innerHTML="";
+				 			 error.appendTo('#other_organizationError');
+				 	    }else if (element.attr("id") == "other_organizations" ){
+	   			 		     document.getElementById("other_organizationsError").innerHTML="";
+				 			 error.appendTo('#other_organizationsError');
+				 	    }
     			 },invalidHandler: function (form, validator) {
                      var errors = validator.numberOfInvalids();
                      if (errors) {
@@ -1066,7 +1088,7 @@
                 	$('#department_holder').hide();                	
                 	$('#other_organization').attr('name', 'other_organization');
                 	$('#other_organization_holder').show();      
-                	$('#other_organization').val(name).focus();                	
+                	$('#other_organization').val('').focus();                	
                 } else if(val == 'MRVC'){          
                 	$('#other_organizations').attr('name', 'other_organization'); 
                 	$('#department_holder').show();

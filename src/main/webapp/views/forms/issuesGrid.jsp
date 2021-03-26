@@ -69,9 +69,9 @@
                         <div class="row plr-1 center-align">
                             <div class="col s12 m4">
                                 <div class="m-1 l-align">
-                                    <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" onclick="closeTab();">
+                                    <!-- <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" onclick="closeTab();">
                                         <strong><i class="fa fa-close"></i> Close Window </strong>
-                                    </a>
+                                    </a> -->
                                     <!-- <a style="color:blue; display:block; cursor:pointer;" onclick="closeWindow()">
                                         <strong> Close Window <i class="fa fa-close"></i></strong>
                                     </a> -->

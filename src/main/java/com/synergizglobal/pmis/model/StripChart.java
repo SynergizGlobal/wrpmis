@@ -16,7 +16,7 @@ public class StripChart {
 	
 	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids;
 	
-	
+	private String reported_by_email_id;
 	
 	public String getActivity_id_fk() {
 		return activity_id_fk;
@@ -608,6 +608,14 @@ public class StripChart {
 
 	public void setReported_by(String reported_by) {
 		this.reported_by = reported_by;
+	}
+
+	public String getReported_by_email_id() {
+		return reported_by_email_id;
+	}
+
+	public void setReported_by_email_id(String reported_by_email_id) {
+		this.reported_by_email_id = reported_by_email_id;
 	}
 	
 }

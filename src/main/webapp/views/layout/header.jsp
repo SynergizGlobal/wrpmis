@@ -45,6 +45,15 @@
    textarea.materialize-textarea{
    		margin-bottom:0 ;
    }
+   
+   .issue-alert_bg{
+   		background-color: #90b6c0;
+   }
+   
+   .notifications_group .item.issue-alert_bg:hover {
+	    background-color: #9ebb9f ;
+	}
+
    </style>
    
    <link id="theme" rel="stylesheet" type="text/css" href="" />
@@ -379,6 +388,23 @@
                       
                        <ul class="notifications_group" style="margin-top: 5px;" id="notificationList">
                        <!-- list of Notifications starts -->
+                       
+                       <li class="head-item">Issue Alerts</li>
+                       <c:forEach var="obj" items="${issueAlerts }">
+                          <li class="item issue-alert_bg">
+                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
+                              	 <span class="icon">
+                              	 	<i class='fa fa-exclamation-triangle'></i>
+                              	 	<span class="icon-text">Issue</span>
+                              	 </span>                                   
+                                 <div>Work : ${obj.work_short_name }</div>
+                                 <div>Contract : ${obj.contract_short_name }</div>
+                                 <div>Contractor : ${obj.contractor_name }</div>
+                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+                              </a>
+                          </li>
+                      </c:forEach>
+                      
                        <c:forEach var="obj" items="${alerts }">
                           <li class="head-item">${obj.key}</li>
                           <c:if test="${obj.key eq '3rd Alert'}">
@@ -406,7 +432,7 @@
 	                          </c:if>
                           	  
                           	  <li class="item ${bgClass }">
-	                              <a href="#">
+	                              <a href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
 	                              	<span class="icon">
 	                              	 	<!-- <i class="material-icons">access_time</i> -->
 	                              	 	${bgIcon }
@@ -711,6 +737,24 @@
                       </div>
                       <ul class="notifications_group" style="margin-top: 5px;" id="notificationListMobile">
                        <!-- Mobile notification body starts here -->
+                       
+                       <li class="head-item">Issue Alerts</li>
+                       <c:forEach var="obj" items="${issueAlerts }">
+                          <li class="item" style="background-color: #90b6c0;">
+                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
+                              	 <span class="icon">
+                              	 	<i class='fa fa-exclamation-triangle'></i>
+                              	 	<span class="icon-text">Issue</span>
+                              	 </span>                                   
+                                 <div>Work : ${obj.work_short_name }</div>
+                                 <div>Contract : ${obj.contract_short_name }</div>
+                                 <div>Contractor : ${obj.contractor_name }</div>
+                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+                              </a>
+                          </li>
+                      </c:forEach>
+                      
+                      
                       	<c:forEach var="obj" items="${alerts }">
                           <li class="head-item">${obj.key}</li>
                           <c:if test="${obj.key eq '3rd Alert'}">
@@ -738,7 +782,7 @@
 	                          </c:if>
                           	  
                           	  <li class="item ${bgClass }">
-	                              <a href="#">
+	                              <a href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
 	                              	<span class="icon">
 	                              	 	<!-- <i class="material-icons">access_time</i> -->
 	                              	 	${bgIcon }
@@ -869,6 +913,13 @@
         		count = Number(count) + Number("${fn:length(aObj.value)}")
         	}
         </c:forEach>
+        
+       
+        if("${not empty issueAlerts && fn:length(issueAlerts) gt 0}" != null){
+        	count = Number(count) + Number("${fn:length(issueAlerts)}")
+        }
+        
+        
         
 		if(count > 99){
 			count = "99+"

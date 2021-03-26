@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.Iservice;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.User;
 
 public interface IssueService {
 
@@ -51,5 +52,7 @@ public interface IssueService {
 	List<Issue> getResponsiblePersonList() throws Exception;
 
 	List<Issue> getEscalatedToList() throws Exception;
+
+	List<Issue> getIssueAlerts(User uObj) throws Exception;
 	
 }

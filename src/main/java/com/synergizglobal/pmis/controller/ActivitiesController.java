@@ -253,8 +253,12 @@ public class ActivitiesController {
 		ModelAndView model = new ModelAndView("redirect:/activity-progress");
 		String user_Id = null;String userName = null;
 		try {			
-			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
+			user_Id = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
 			User uObj = (User) session.getAttribute("user");
+			if(!StringUtils.isEmpty(uObj) && !StringUtils.isEmpty(uObj.getEmail_id())) {
+				obj.setReported_by_email_id(uObj.getEmail_id());
+			}
 			
 			obj.setProgress_date(DateParser.parse(obj.getProgress_date())); 
 			

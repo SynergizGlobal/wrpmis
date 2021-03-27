@@ -106,7 +106,7 @@ public class ProjectController {
 
 	}
 	
-	@RequestMapping(value = "/update-Project", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/update-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView updateProject(@ModelAttribute Project project,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String user_Id = null;String userName = null;
@@ -139,7 +139,7 @@ public class ProjectController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/add-Project-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-project-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addProjectForm(){
 		ModelAndView model = new ModelAndView();
 		
@@ -156,7 +156,7 @@ public class ProjectController {
 			return model;
 	 }
 	
-	@RequestMapping(value = "/add-Project", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/add-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addProject(@ModelAttribute  Project project,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		String user_Id = null;String userName = null;
@@ -187,7 +187,7 @@ public class ProjectController {
 	
 	}
 	
-	@RequestMapping(value = "/delete-Project", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/delete-project", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView deleteProjectRow(@ModelAttribute Project project){
 		ModelAndView model = new ModelAndView();
 		String projectId = null;

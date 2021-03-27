@@ -98,11 +98,11 @@
                     <!-- form start-->
                     <div class="container container-no-margin">
                         <c:if test="${action eq 'edit'}">				                
-			                	<form action="update-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="update-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                                       </c:if>
 			              
 			                <c:if test="${action eq 'add'}">				                
-			                	<form action="add-Project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+			                	<form action="add-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 							</c:if> 
 							
                             <div class="row">

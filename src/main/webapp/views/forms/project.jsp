@@ -60,7 +60,7 @@
 
 							<div class="col s12 m4">
 								<div class="m-1 c-align">
-									<a href="add-Project-form"
+									<a href="add-project-form"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add Project</strong></a>
 								</div>
@@ -112,10 +112,10 @@
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getProject('${ obj.project_id }')"
 													class="btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a> <a
+														class="fa fa-pencil"></i> </a><%--  <a
 													onclick="deleteProject('${ obj.project_id }');"
 													class="btn waves-effect waves-light bg-s t-c "><i
-														class="fa fa-trash"></i></a></td>
+														class="fa fa-trash"></i></a> --%></td>
 											</tr>
 										</c:forEach>
 
@@ -203,7 +203,7 @@
 	        }, function (isConfirm) {
 	            if (isConfirm) {
 	               // swal("Deleted!", "Record has been deleted", "success");
-	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-Project');
+	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-project');
 	    	    	$('#getForm').submit();
 	           }else {
 	                swal("Cancelled", "Record is safe :)", "error");

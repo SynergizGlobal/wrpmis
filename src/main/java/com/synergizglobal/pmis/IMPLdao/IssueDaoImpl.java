@@ -1338,7 +1338,7 @@ public class IssueDaoImpl implements IssueDao {
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk COLLATE utf8mb4_unicode_ci = p.project_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "LEFT OUTER JOIN railway r ON i.zonal_railway_fk COLLATE utf8mb4_unicode_ci = r.railway_id "
-					+ "where status_fk <> ? " ;
+					+ "where status_fk <> ? and date_sub(now(),interval 30 day) >= date " ;
 			int arrSize = 1;
 			//if(!StringUtils.isEmpty(uObj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(uObj.getUser_role_code())) {
 				qry = qry + " and (i.responsible_person = ? or i.escalated_to = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ?)";

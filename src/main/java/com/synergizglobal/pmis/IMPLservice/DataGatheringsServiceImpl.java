@@ -90,5 +90,16 @@ public class DataGatheringsServiceImpl implements DataGatheringsService {
 	public List<DataGathering> getContractsListForDataGatheringForm(DataGathering obj) throws Exception {
 		return dao.getContractsListForDataGatheringForm(obj);
 	}
+
+	@Override
+	public int getTotalRecords(DataGathering obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<DataGathering> getDataGatheringList(DataGathering obj, int startIndex, int offset,
+			String searchParameter) throws Exception {
+		return dao.getDataGatheringList(obj,startIndex,offset,searchParameter);
+	}
 	
 }

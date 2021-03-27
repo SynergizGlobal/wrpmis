@@ -55,4 +55,8 @@ public interface ContractDao {
 
 	public List<Contract> getDepartmentsList(Contract obj) throws Exception;
 
+	public int getTotalRecords(Contract obj, String searchParameter) throws Exception;
+
+	public List<Contract> getContractsList(Contract obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 }

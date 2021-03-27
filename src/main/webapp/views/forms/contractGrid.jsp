@@ -405,7 +405,153 @@
    	    	filtersMap["contract_status_fk"] = contract_status_fk;
     	}
     }
-    function getContractList(){
+    
+    function getContractList() {
+		$(".page-loader-2").show();
+
+		getDesignationFilterList('');
+    	getDyHODDesignationFilterList('');
+    	getContractorsFilterList('');
+    	getWorkFilterList('');
+    	getProjectFilterList('');
+    	getStatusFilterList('');
+    	
+    	var contractor_id_fk = $("#contractor_id_fk").val();
+    	var work_id_fk = $("#work_id_fk").val();
+    	var project_id_fk = $("#project_id_fk").val();
+    	var designation = $("#designation").val();
+    	var dy_hod_designation = $("#dy_hod_designation").val();
+    	var contract_status_fk = $("#contract_status_fk").val();
+
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("contractFilters", filters);
+			});
+
+     	table = $('#datatable-contract').DataTable();
+		table.destroy();
+
+		$.fn.dataTable.moment('DD-MMM-YYYY');
+
+		var myParams = "contractor_id_fk=" + contractor_id_fk + "&work_id_fk="
+				+ work_id_fk + "&project_id_fk=" + project_id_fk
+				+ "&dy_hod_designation=" + dy_hod_designation+ "&contract_status_fk=" + contract_status_fk;
+
+		/***************************************************************************************************/
+
+		$("#datatable-contract")
+				.DataTable(
+						{
+							"bProcessing" : true,
+							"bServerSide" : true,
+							"sort" : "position",
+							//bStateSave variable you can use to save state on client cookies: set value "true" 
+							"bStateSave" : false,
+							//Default: Page display length
+							"iDisplayLength" : 10,
+							"iData" : {
+								"start" : 52
+							},
+							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+							"iDisplayStart" : 0,
+							"fnDrawCallback" : function() {
+								//Get page numer on client. Please note: number start from 0 So
+								//for the first page you will see 0 second page 1 third page 2...
+								//Un-comment below alert to see page number
+								//alert("Current page number: "+this.fnPagingInfo().iPage);
+							},
+							//"sDom": 'l<"toolbar">frtip',
+							"initComplete" : function() {
+								$('.dataTables_filter input[type="search"]')
+										.attr('placeholder', 'Search')
+										.css({
+											'width' : '350px ',
+											'display' : 'inline-block'
+										});
+
+								var input = $('.dataTables_filter input')
+										.unbind(), self = this.api(), $searchButton = $(
+										'<i class="fa fa-search" title="Go">')
+								//.text('Go')
+								.click(function() {
+									self.search(input.val()).draw();
+								}), $clearButton = $(
+										'<i class="fa fa-close" title="Reset">')
+								//.text('X')
+								.click(function() {
+									input.val('');
+									$searchButton.click();
+								})
+								$('.dataTables_filter').append(
+										'<div class="right-btns"></div>');
+								$('.dataTables_filter div').append(
+										$searchButton, $clearButton);
+
+								/* var input = $('.dataTables_filter input').unbind(),
+								self = this.api(),
+								$searchButton = $('<i class="fa fa-search">')
+								           //.text('Go')
+								           .click(function() {			   	                    	 
+								              self.search(input.val()).draw();
+								           })			   	        
+								  $('.dataTables_filter label').append($searchButton); */
+							},
+							columnDefs : [ {
+								"targets" : 'no-sort',
+								"orderable" : false,
+							} ],
+							"sScrollX" : "100%",
+							"sScrollXInner" : "100%",
+							"bScrollCollapse" : true,
+							"language" : {
+								"info" : "_START_ - _END_ of _TOTAL_",
+								paginate : {
+									next : '<i class="fa fa-angle-right"></i>', 
+									previous : '<i class="fa fa-angle-left"></i>'  
+								}
+							},
+							"bDestroy" : true,
+							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-contracts?"+myParams,
+		        "aoColumns": [
+		            { "mData": function(data,type,row){
+		            	var work_short_name = '';
+                        if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+                     	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+        			} },   				            
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.contract_id) == ''){ return '-'; }else{ return data.contract_id; }
+		            } },
+		         	{ "mData": function(data,type,row){
+		            	if($.trim(data.contract_short_name) == ''){ return '-'; }else{ return data.contract_short_name; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
+		            } },
+		         	{ "mData": function(data,type,row){
+		            	if($.trim(data.department_name) == ''){ return '-'; }else{ return data.department_name; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.designation) == ''){ return '-'; }else{ return data.designation; }
+		            } },
+		            { "mData": function(data,type,row){
+		            	if($.trim(data.dy_hod_designation) == ''){ return '-'; }else{ return data.dy_hod_designation; }
+		            } },
+		         	{ "mData": function(data,type,row){
+		         		var contract_id = "'"+data.contract_id+"'";
+	                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+contract_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+		            	return actions;
+		            } }
+		            
+		        ]
+		    });
+	    
+	  $(".page-loader-2").hide();  		     
+  	
+ }
+    
+    function getContractList1(){
     	$(".page-loader-2").show();
     	getDesignationFilterList('');
     	getDyHODDesignationFilterList('');

@@ -29,4 +29,8 @@ public interface FOBService {
 
 	List<FOB> getContractsListForFOBForm(FOB obj) throws Exception;
 
+	List<FOB> getFOBsList(FOB obj, int startIndex, int offset, String searchParameter) throws Exception;
+
+	int getTotalRecords(FOB obj, String searchParameter) throws Exception;
+
 }

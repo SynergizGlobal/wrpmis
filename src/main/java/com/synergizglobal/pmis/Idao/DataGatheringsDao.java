@@ -36,4 +36,9 @@ public interface DataGatheringsDao {
 
 	public List<DataGathering> getContractsListForDataGatheringForm(DataGathering obj) throws Exception;
 
+	public int getTotalRecords(DataGathering obj, String searchParameter) throws Exception;
+
+	public List<DataGathering> getDataGatheringList(DataGathering obj, int startIndex, int offset,
+			String searchParameter) throws Exception;
+
 }

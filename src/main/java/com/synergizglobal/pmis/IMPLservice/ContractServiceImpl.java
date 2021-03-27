@@ -113,6 +113,14 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getDepartmentsList(Contract obj) throws Exception {
 		return contractDao.getDepartmentsList(obj);
 	}
+	@Override
+	public int getTotalRecords(Contract obj, String searchParameter) throws Exception {
+		return contractDao.getTotalRecords(obj,searchParameter);
+	}
+	@Override
+	public List<Contract> getContractsList(Contract obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return contractDao.getContractsList(obj,startIndex,offset,searchParameter);
+	}
 	
 
 }

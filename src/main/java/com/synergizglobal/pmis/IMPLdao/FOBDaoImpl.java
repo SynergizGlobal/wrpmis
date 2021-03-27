@@ -431,7 +431,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or f.contract_id_fk like ?"
-						+ " or c.contract_short_name like ? or fob_id like ? or ,fob_name like ? or work_status_fk like ?)";
+						+ " or c.contract_short_name like ? or fob_id like ? or fob_name like ? or work_status_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -455,6 +455,7 @@ public class FOBDaoImpl implements FOBDao {
 				pValues[i++] = obj.getWork_status_fk();
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -494,7 +495,7 @@ public class FOBDaoImpl implements FOBDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or f.contract_id_fk like ?"
-						+ " or c.contract_short_name like ? or fob_id like ? or ,fob_name like ? or work_status_fk like ?)";
+						+ " or c.contract_short_name like ? or fob_id like ? or fob_name like ? or work_status_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -519,9 +520,11 @@ public class FOBDaoImpl implements FOBDao {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
 			}
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);	
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return totalRecords;

@@ -30,7 +30,16 @@
     	 	width:300px !important;
     	 	max-width:300px;
     	 }
-       
+        .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         } 
     </style>
 </head>
 
@@ -251,37 +260,28 @@
 	        	  }
 	          }
          }
-         
-	 	var table = $('#datatable-deliverables').DataTable({
-			"bStateSave": true,
-			fixedHeader: true,
-	      "fnStateSave": function (oSettings, oData) {
-	          localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	      },
-	      "fnStateLoad": function (oSettings) {
-	          return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	      },
-	      columnDefs: [
-	          {
-	              targets: [0, 1, 2],
-	              className: 'mdl-data-table__cell--non-numeric'
-	          },
-	          { orderable: false, 'aTargets': ['nosort'] }
-	      ],
-	      // "ScrollX": true,
-	      "scrollCollapse": true,
-	      //"sScrollY": 400,
-	      "sScrollX": "100%",
-	          "sScrollXInner": "100%",
-	          "bScrollCollapse": true,
-	      initComplete: function () {
-	          $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-	      }
-	  });
-		table.state.clear(); 
-		
+         $('.close-message').delay(3000).fadeOut('slow');
+         $('#datatable-deliverables').DataTable({
+             columnDefs: [
+                 {
+                     targets: [0, 1, 2],
+                     className: 'mdl-data-table__cell--non-numeric',
+                     targets: 'no-sort', orderable: false,
+                 },
+                 { "width": "20px", "targets": [6] },
+             ], "scrollCollapse": true,
+             fixedHeader: true,
+             //"sScrollY": 400,
+             "sScrollX": "100%",
+             "sScrollXInner": "100%",
+             "bScrollCollapse": true,
+             initComplete: function () {
+                 $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
+             }
+         });
+	 	
 	
-		$('.close-message').delay(3000).fadeOut('slow');
+		
 		getDeliverablesList();
         });
         
@@ -332,7 +332,151 @@
      }
      
      
-     function getDeliverablesList(){
+     function getDeliverablesList() {
+  		$(".page-loader-2").show();
+
+  		getProjectFilterList('');
+    	getWorkFilterList('');
+    	getContarctFilterList('');
+       	getStatusFilterList('');
+       	
+      	var status_fk = $("#status_fk").val();
+      	var project_id_fk = $("#project_id_fk").val();
+      	var work_id_fk = $("#work_id_fk").val();
+      	var contract_id_fk = $("#contract_id_fk").val();
+
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		//alert(filtersMap[key]);
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("deliverablesFilters", filters);
+			});
+     	
+      	table = $('#datatable-deliverables').DataTable();
+  		 
+  		table.destroy();
+
+  		$.fn.dataTable.moment('DD-MMM-YYYY');
+
+  		var myParams = "status_fk=" + status_fk + "&project_id_fk="
+  				+ project_id_fk + "&work_id_fk=" + work_id_fk
+  				+ "&contract_id_fk=" + contract_id_fk;
+
+  		/***************************************************************************************************/
+
+  		$("#datatable-deliverables")
+  				.DataTable(
+  						{
+  							"bProcessing" : true,
+  							"bServerSide" : true,
+  							"sort" : "position",
+  							//bStateSave variable you can use to save state on client cookies: set value "true" 
+  							"bStateSave" : false,
+  							//Default: Page display length
+  							"iDisplayLength" : 10,
+  							"iData" : {
+  								"start" : 52
+  							},
+  							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+  							"iDisplayStart" : 0,
+  							"fnDrawCallback" : function() {
+  								//Get page numer on client. Please note: number start from 0 So
+  								//for the first page you will see 0 second page 1 third page 2...
+  								//Un-comment below alert to see page number
+  								//alert("Current page number: "+this.fnPagingInfo().iPage);
+  							},
+  							//"sDom": 'l<"toolbar">frtip',
+  							"initComplete" : function() {
+  								$('.dataTables_filter input[type="search"]')
+  										.attr('placeholder', 'Search')
+  										.css({
+  											'width' : '350px ',
+  											'display' : 'inline-block'
+  										});
+
+  								var input = $('.dataTables_filter input')
+  										.unbind(), self = this.api(), $searchButton = $(
+  										'<i class="fa fa-search" title="Go">')
+  								//.text('Go')
+  								.click(function() {
+  									self.search(input.val()).draw();
+  								}), $clearButton = $(
+  										'<i class="fa fa-close" title="Reset">')
+  								//.text('X')
+  								.click(function() {
+  									input.val('');
+  									$searchButton.click();
+  								})
+  								$('.dataTables_filter').append(
+  										'<div class="right-btns"></div>');
+  								$('.dataTables_filter div').append(
+  										$searchButton, $clearButton);
+
+  								/* var input = $('.dataTables_filter input').unbind(),
+  								self = this.api(),
+  								$searchButton = $('<i class="fa fa-search">')
+  								           //.text('Go')
+  								           .click(function() {			   	                    	 
+  								              self.search(input.val()).draw();
+  								           })			   	        
+  								  $('.dataTables_filter label').append($searchButton); */
+  							},
+  							columnDefs : [ {
+  								"targets" : 'no-sort',
+  								"orderable" : false,
+  							} ],
+  							"sScrollX" : "100%",
+  							"sScrollXInner" : "100%",
+  							"bScrollCollapse" : true,
+  							"language" : {
+  								"info" : "_START_ - _END_ of _TOTAL_",
+  								paginate : {
+  									next : '<i class="fa fa-angle-right"></i>', 
+  									previous : '<i class="fa fa-angle-left"></i>'  
+  								}
+  							},
+  							"bDestroy" : true,
+  							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-deliverables-list?"+myParams,
+  		        "aoColumns": [
+  		        	 { "mData": function(data,type,row){
+  		            	var project_name = '';
+                         if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
+                       	if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
+          			} },   				            
+  		            { "mData": function(data,type,row){
+  		            	var work_short_name = '';
+                         if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
+                         if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+  		            } },
+  		         	{ "mData": function(data,type,row){
+  		         		var contract_short_name = '';
+                         if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
+                         if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
+  		            } },
+  		            { "mData": function(data,type,row){
+  		            	if($.trim(data.deliverable_type_fk) == ''){ return '-'; }else{ return data.deliverable_type_fk; }
+  		            } },
+  		            { "mData": function(data,type,row){
+ 		            	if($.trim(data.deliverable_description) == ''){ return '-'; }else{ return data.deliverable_description; }
+ 		            } },
+ 		            { "mData": function(data,type,row){
+ 		            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
+ 		            } },
+
+  		         	{ "mData": function(data,type,row){
+  		         		var id = "'"+data.id+"'";
+  	                    var actions = '<a href="javascript:void(0);"  onclick="getDataGathering('+id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+  		            	return actions;
+  		            } }
+  		            
+  		        ]
+  		    });
+  	    
+  	  $(".page-loader-2").hide();  		     
+    	
+   }
+      
+     function getDeliverablesList1(){
       	$(".page-loader-2").show();
       	
      	getProjectFilterList('');

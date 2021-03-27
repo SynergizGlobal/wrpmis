@@ -21,4 +21,8 @@ public interface ContractorService {
 	public boolean deleteContractorRow(Contractor obj)throws Exception;
 
 	public List<Contractor> getPanNumberList(Contractor obj) throws Exception;
+
+	public int getTotalRecords(Contractor obj, String searchParameter) throws Exception;
+
+	public List<Contractor> getContractorsList(Contractor obj, int startIndex, int offset, String searchParameter) throws Exception;
 }

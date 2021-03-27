@@ -2214,7 +2214,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
-						+ " or c.contract_short_name like ? or cr.contractor_name like ? or ,c.department_fk like ? or c.hod_user_id_fk like ? or c.dy_hod_user_id_fk like ?)";
+						+ " or c.contract_short_name like ? or cr.contractor_name like ? or c.department_fk like ? or c.hod_user_id_fk like ? or c.dy_hod_user_id_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -2269,6 +2269,7 @@ public class ContractDaoImpl implements ContractDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;

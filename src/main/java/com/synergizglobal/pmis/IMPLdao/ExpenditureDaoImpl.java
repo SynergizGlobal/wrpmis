@@ -79,7 +79,6 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				arrSize++;
 				arrSize++;
 				arrSize++;
-				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				qry = qry + " ORDER BY expenditure_id ASC limit ?,?";
@@ -113,7 +112,6 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
 			}
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				pValues[i++] = startIndex;
@@ -121,6 +119,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 		  objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
@@ -167,7 +166,6 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				arrSize++;
 				arrSize++;
 				arrSize++;
-				arrSize++;
 			}	
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -188,7 +186,6 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

@@ -17,7 +17,19 @@
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
    	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
    	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
+   <style>
    
+   		 .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
+   </style>
 </head>
 
 <body>
@@ -101,7 +113,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="obj" items="${contractorsList }">
+										<%-- <c:forEach var="obj" items="${contractorsList }">
 											<tr>
 												<!-- <td>${obj.contractor_id }</td> 
                                              <td>${obj.remarks }</td> -->
@@ -115,11 +127,11 @@
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getContractor('${ obj.contractor_id }')"
 													class="btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a> <%-- <a onclick="deleteContractor('${ obj.contractor_id }');" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a> --%>
+														class="fa fa-pencil"></i> </a> <a onclick="deleteContractor('${ obj.contractor_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+                                                        class="fa fa-trash"></i></a>
 												</td>
 											</tr>
-										</c:forEach>
+										</c:forEach> --%>
 
 									</tbody>
 								</table>
@@ -169,27 +181,160 @@
 	</form>
     <script>
         $(document).ready(function () {
-            $('#contractorTable').DataTable({
+        	var table = $('#contractorTable').DataTable({
+        		"bStateSave": true,
+        		fixedHeader: true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('MRVCDataTables'));
+                },
                 columnDefs: [
                     {
                         targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric',
-                        targets: 'no-sort', orderable: false,
+                        className: 'mdl-data-table__cell--non-numeric'
                     },
-                    { "width": "10px", "targets": [5] },
-                ], "scrollCollapse": true,
-                fixedHeader: true,
-                // "sScrollY": 400,
+                    { orderable: false, 'aTargets': ['nosort'] }
+                ],
+                // "ScrollX": true,
+                "scrollCollapse": true,
+                //"sScrollY": 400,
                 "sScrollX": "100%",
-                 "sScrollXInner": "100%",
-                "bScrollCollapse": true,
+                    "sScrollXInner": "100%",
+                    "bScrollCollapse": true,
                 initComplete: function () {
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+        	table.state.clear(); 
+    		
+        	
+        	$('.close-message').delay(3000).fadeOut('slow');
+            getContractorsList();
         });
         
-        function getContractor(contractor_id){
+        function getContractorsList() {
+    		$(".page-loader-2").show();
+
+         	table = $('#contractorTable').DataTable();
+    		table.destroy();
+
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+
+    		var myParams = "";
+
+    		/***************************************************************************************************/
+
+    		$("#contractorTable")
+    				.DataTable(
+    						{
+    							"bProcessing" : true,
+    							"bServerSide" : true,
+    							"sort" : "position",
+    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+    							"bStateSave" : false,
+    							//Default: Page display length
+    							"iDisplayLength" : 10,
+    							"iData" : {
+    								"start" : 52
+    							},
+    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+    							"iDisplayStart" : 0,
+    							"fnDrawCallback" : function() {
+    								//Get page numer on client. Please note: number start from 0 So
+    								//for the first page you will see 0 second page 1 third page 2...
+    								//Un-comment below alert to see page number
+    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+    							},
+    							//"sDom": 'l<"toolbar">frtip',
+    							"initComplete" : function() {
+    								$('.dataTables_filter input[type="search"]')
+    										.attr('placeholder', 'Search')
+    										.css({
+    											'width' : '350px ',
+    											'display' : 'inline-block'
+    										});
+
+    								var input = $('.dataTables_filter input')
+    										.unbind(), self = this.api(), $searchButton = $(
+    										'<i class="fa fa-search" title="Go">')
+    								//.text('Go')
+    								.click(function() {
+    									self.search(input.val()).draw();
+    								}), $clearButton = $(
+    										'<i class="fa fa-close" title="Reset">')
+    								//.text('X')
+    								.click(function() {
+    									input.val('');
+    									$searchButton.click();
+    								})
+    								$('.dataTables_filter').append(
+    										'<div class="right-btns"></div>');
+    								$('.dataTables_filter div').append(
+    										$searchButton, $clearButton);
+
+    								/* var input = $('.dataTables_filter input').unbind(),
+    								self = this.api(),
+    								$searchButton = $('<i class="fa fa-search">')
+    								           //.text('Go')
+    								           .click(function() {			   	                    	 
+    								              self.search(input.val()).draw();
+    								           })			   	        
+    								  $('.dataTables_filter label').append($searchButton); */
+    							},
+    							columnDefs : [ {
+    								"targets" : 'no-sort',
+    								"orderable" : false,
+    							} ],
+    							"sScrollX" : "100%",
+    							"sScrollXInner" : "100%",
+    							"bScrollCollapse" : true,
+    							"language" : {
+    								"info" : "_START_ - _END_ of _TOTAL_",
+    								paginate : {
+    									next : '<i class="fa fa-angle-right"></i>', 
+    									previous : '<i class="fa fa-angle-left"></i>'  
+    								}
+    							},
+    							"bDestroy" : true,
+    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-contractor?"+myParams,
+    		        "aoColumns": [
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.pan_number) == ''){ return '-'; }else{ return data.pan_number; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.contractor_specilization_fk) == ''){ return '-'; }else{ return data.contractor_specilization_fk; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.address) == ''){ return '-'; }else{ return data.address; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.primary_contact_name) == ''){ return '-'; }else{ return data.primary_contact_name; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.phone_number) == ''){ return '-'; }else{ return data.phone_number; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.email_id) == ''){ return '-'; }else{ return data.email_id; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		         		var contractor_id = "'"+data.contractor_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getContractor('+contractor_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+    		            	return actions;
+    		            } }
+    		            
+    		        ]
+    		    });
+    	    
+    	  $(".page-loader-2").hide();  		     
+      	
+      }
+        
+      function getContractor(contractor_id){
 	    	$("#contractor_id").val(contractor_id);
 	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-contractor');
 	    	$('#getForm').submit();

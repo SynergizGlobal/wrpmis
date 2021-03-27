@@ -74,9 +74,8 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (sub_work like ? or execution_agency_railway_fk like ? or source_of_funds like ?"
+				qry = qry + " and (sub_work like ? or execution_agency_railway_fk like ? or source_of_funds_fk like ?"
 						+ " or status_fk like ? or as_on_date like ? or expected_finish like ? or actual_finish like ? or cumulative_expenditure_upto_last_finacial_year like ?)";
-				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -117,7 +116,6 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
-				pValues[i++] = "%"+searchParameter+"%";
 			}
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				pValues[i++] = startIndex;
@@ -126,6 +124,7 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ZonalRailway>(ZonalRailway.class));
 
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
@@ -164,9 +163,8 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (sub_work like ? or execution_agency_railway_fk like ? or source_of_funds like ?"
+				qry = qry + " and (sub_work like ? or execution_agency_railway_fk like ? or source_of_funds_fk like ?"
 						+ " or status_fk like ? or as_on_date like ? or expected_finish like ? or actual_finish like ? or cumulative_expenditure_upto_last_finacial_year like ?)";
-				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -196,7 +194,6 @@ public class ZonalRailwayDaoImpl implements ZonalRailwayDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
-				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

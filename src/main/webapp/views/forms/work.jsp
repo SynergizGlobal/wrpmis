@@ -16,7 +16,18 @@
     <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
     <link rel="stylesheet" href="/pmis/resources/css/work.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-  
+    <style>
+        .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
+     </style>
 </head>
 <body>
     <!-- header  starts-->
@@ -102,7 +113,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="obj" items="${workList }">
+										<%-- <c:forEach var="obj" items="${workList }">
 											<tr>
 
 												<td>${ obj.project_id_fk}- ${obj.project_name }</td>
@@ -115,12 +126,12 @@
 												<td class="last-column"><a href="javascript:void(0);"
 													onclick="getWork('${ obj.work_id }');"
 													class="btn waves-effect waves-light bg-m t-c "><i
-														class="fa fa-pencil"></i> </a> <%--  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
-                                                        class="fa fa-trash"></i></a> --%>
+														class="fa fa-pencil"></i> </a>  <a  onclick="deleteWork('${ obj.work_id }');" class="btn waves-effect waves-light bg-s t-c "><i
+                                                        class="fa fa-trash"></i></a>
 												</td>
 
 											</tr>
-										</c:forEach>
+										</c:forEach> --%>
 									</tbody>
 								</table>
 
@@ -151,10 +162,14 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+   <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
     <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
+    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     
@@ -195,7 +210,130 @@
                     $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
                 }
             });
+            getWorksList();
         });
+        
+    	function getWorksList() {
+    		$(".page-loader-2").show();
+
+         	table = $('#datatable-works').DataTable();
+    		table.destroy();
+
+    		$.fn.dataTable.moment('DD-MMM-YYYY');
+
+    		var myParams = "";
+
+    		/***************************************************************************************************/
+
+    		$("#datatable-works")
+    				.DataTable(
+    						{
+    							"bProcessing" : true,
+    							"bServerSide" : true,
+    							"sort" : "position",
+    							//bStateSave variable you can use to save state on client cookies: set value "true" 
+    							"bStateSave" : false,
+    							//Default: Page display length
+    							"iDisplayLength" : 10,
+    							"iData" : {
+    								"start" : 52
+    							},
+    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
+    							"iDisplayStart" : 0,
+    							"fnDrawCallback" : function() {
+    								//Get page numer on client. Please note: number start from 0 So
+    								//for the first page you will see 0 second page 1 third page 2...
+    								//Un-comment below alert to see page number
+    								//alert("Current page number: "+this.fnPagingInfo().iPage);
+    							},
+    							//"sDom": 'l<"toolbar">frtip',
+    							"initComplete" : function() {
+    								$('.dataTables_filter input[type="search"]')
+    										.attr('placeholder', 'Search')
+    										.css({
+    											'width' : '350px ',
+    											'display' : 'inline-block'
+    										});
+
+    								var input = $('.dataTables_filter input')
+    										.unbind(), self = this.api(), $searchButton = $(
+    										'<i class="fa fa-search" title="Go">')
+    								//.text('Go')
+    								.click(function() {
+    									self.search(input.val()).draw();
+    								}), $clearButton = $(
+    										'<i class="fa fa-close" title="Reset">')
+    								//.text('X')
+    								.click(function() {
+    									input.val('');
+    									$searchButton.click();
+    								})
+    								$('.dataTables_filter').append(
+    										'<div class="right-btns"></div>');
+    								$('.dataTables_filter div').append(
+    										$searchButton, $clearButton);
+
+    								/* var input = $('.dataTables_filter input').unbind(),
+    								self = this.api(),
+    								$searchButton = $('<i class="fa fa-search">')
+    								           //.text('Go')
+    								           .click(function() {			   	                    	 
+    								              self.search(input.val()).draw();
+    								           })			   	        
+    								  $('.dataTables_filter label').append($searchButton); */
+    							},
+    							columnDefs : [ {
+    								"targets" : 'no-sort',
+    								"orderable" : false,
+    							} ],
+    							"sScrollX" : "100%",
+    							"sScrollXInner" : "100%",
+    							"bScrollCollapse" : true,
+    							"language" : {
+    								"info" : "_START_ - _END_ of _TOTAL_",
+    								paginate : {
+    									next : '<i class="fa fa-angle-right"></i>', 
+    									previous : '<i class="fa fa-angle-left"></i>'  
+    								}
+    							},
+    							"bDestroy" : true,
+    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-works?"+myParams,
+    		        "aoColumns": [
+    		            { "mData": function(data,type,row){
+    		            	var project_name= "";
+    		            	if($.trim(data.project_name) != ''){project_name = '-'+ $.trim(data.project_name)}
+    		            	if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk + project_name; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.work_id) == ''){ return '-'; }else{ return data.work_id; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		            	if($.trim(data.work_short_name) == ''){ return '-'; }else{ return data.work_short_name; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.sanctioned_year_fk) == ''){ return '-'; }else{ return data.sanctioned_year_fk; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.railway) == ''){ return '-'; }else{ return data.railway; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.executed_by) == ''){ return '-'; }else{ return data.executed_by; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
+    		            } },
+    		         	{ "mData": function(data,type,row){
+    		         		var work_id = "'"+data.work_id+"'";
+    	                    var actions = '<a href="javascript:void(0);"  onclick="getWork('+work_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
+    		            	return actions;
+    		            } }
+    		            
+    		        ]
+    		    });
+    	    
+    	  $(".page-loader-2").hide();  		     
+      	
+     }
         function getWork(work_id){
 	    	$("#work_id").val(work_id);
 	    	//$("#executed_by_id_fk").val(executed_by_id_fk);

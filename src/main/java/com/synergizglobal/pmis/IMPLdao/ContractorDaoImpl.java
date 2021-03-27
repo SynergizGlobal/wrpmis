@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.Idao.ContractorDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Contractor;
 
 @Repository
@@ -199,6 +200,87 @@ public class ContractorDaoImpl implements ContractorDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return panNo;
+	}
+
+	@Override
+	public int getTotalRecords(Contractor obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="select count(*) as total_records from contractor ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk ?"
+						+ " or address like ? or primary_contact_name like ? or phone_number like ? or email_id like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	@Override
+	public List<Contractor> getContractorsList(Contractor obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		List<Contractor> objsList = null;
+		try {
+			String qry ="SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks FROM contractor";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk ?"
+						+ " or address like ? or primary_contact_name like ? or phone_number like ? or email_id like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " ORDER BY contractor_id ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contractor>(Contractor.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 

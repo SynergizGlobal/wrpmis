@@ -51,6 +51,19 @@ public class ProjectListImpl implements ProjectService{
 		return projectDao.getYearList();
 	}
 
+
+	@Override
+	public int getTotalRecords(Project obj, String searchParameter) throws Exception {
+		return projectDao.getTotalRecords(obj,searchParameter);
+	}
+
+
+	@Override
+	public List<Project> getProjectsList(Project obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return projectDao.getProjectsList(obj,startIndex,offset,searchParameter);
+	}
+
 }
 
 

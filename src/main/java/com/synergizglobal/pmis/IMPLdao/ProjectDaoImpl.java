@@ -448,6 +448,78 @@ public class ProjectDaoImpl implements ProjectDao {
 		}
 		return objsList;
 	}
+
+
+	@Override
+	public int getTotalRecords(Project obj, String searchParameter) throws Exception {
+		int totalRecords = 0;
+		try {
+			String qry ="select count(*) as total_records from project where project_id is not null";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (project_id like ? or project_name like ? or plan_head_number like ?"
+						+ " or remarks like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}
+		return totalRecords;
+	}
+
+
+	@Override
+	public List<Project> getProjectsList(Project obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		List<Project> objsList = null;
+		try {
+			String qry ="SELECT project_id, project_name, plan_head_number, remarks, project_status, attachment FROM project where project_id is not null ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				qry = qry + " and (project_id like ? or project_name like ? or plan_head_number like ?"
+						+ " or remarks like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				qry = qry + " ORDER BY project_id ASC limit ?,?";
+				arrSize++;
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+				pValues[i++] = "%"+searchParameter+"%";
+			}
+			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
+				pValues[i++] = startIndex;
+				pValues[i++] = offset;
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Project>(Project.class));
+				
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return objsList;
+	}
 	
 }
 	

@@ -52,5 +52,16 @@ public class ContractorServiceImpl implements ContractorService {
 
 	}
 
+	@Override
+	public int getTotalRecords(Contractor obj, String searchParameter) throws Exception {
+		return contractorDao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Contractor> getContractorsList(Contractor obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return contractorDao.getContractorsList(obj,startIndex,offset,searchParameter);
+	}
+
 
 }

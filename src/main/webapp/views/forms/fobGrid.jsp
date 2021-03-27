@@ -22,7 +22,16 @@
      		max-width:400px;
      		width:400px;
      	}
-
+		 .dataTables_filter label::after{
+         	content:'';
+         }
+         .right-btns .fa{
+         	position:relative;
+         	top:-35px;
+         }
+         .right-btns .fa+.fa{
+         	right:-10px;
+         }
     </style>
 </head>
 <body>

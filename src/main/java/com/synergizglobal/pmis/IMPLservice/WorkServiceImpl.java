@@ -55,4 +55,14 @@ public class WorkServiceImpl implements WorkService {
 
 	}
 
+	@Override
+	public int getTotalRecords(Work obj, String searchParameter) throws Exception {
+		return workDao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Work> getWorksList(Work obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return workDao.getWorksList(obj,startIndex,offset,searchParameter);
+	}
+
 }

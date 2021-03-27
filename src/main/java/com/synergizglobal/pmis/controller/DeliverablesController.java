@@ -2,6 +2,7 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,11 +33,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.synergizglobal.pmis.Iservice.DeliverablesService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.DataGathering;
+import com.synergizglobal.pmis.model.DeliverablesPaginationObject;
 import com.synergizglobal.pmis.model.Deliverables;
 import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.Deliverables;
@@ -82,18 +87,105 @@ public class DeliverablesController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/get-deliverables-list", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Deliverables> getDeliverabless(@ModelAttribute Deliverables obj) {
-		List<Deliverables> dataGatheringsList = null;
+	@RequestMapping(value = "/ajax/get-deliverables-list", method = { RequestMethod.POST, RequestMethod.GET })
+	public void getActivitiesList(@ModelAttribute Deliverables obj, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws IOException {
+		PrintWriter pw = null;
+		//JSONObject json = new JSONObject();
+		String json2 = null;
+		String userId = null;
+		String userName = null;
 		try {
-			dataGatheringsList = deliverablesService.getDeliverablesList(obj);
-		}catch (Exception e) {
+			userId = (String) session.getAttribute("USER_ID");
+			userName = (String) session.getAttribute("USER_NAME");
+
+			pw = response.getWriter();
+			//Fetch the page number from client
+			Integer pageNumber = 0;
+			Integer pageDisplayLength = 0;
+			if (null != request.getParameter("iDisplayStart")) {
+				pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+				pageNumber = (Integer.valueOf(request.getParameter("iDisplayStart")) / pageDisplayLength) + 1;
+			}
+			//Fetch search parameter
+			String searchParameter = request.getParameter("sSearch");
+
+			//Fetch Page display length
+			pageDisplayLength = Integer.valueOf(request.getParameter("iDisplayLength"));
+
+			List<Deliverables> deliverablesList = new ArrayList<Deliverables>();
+
+			//Here is server side pagination logic. Based on the page number you could make call 
+			//to the data base create new list and send back to the client. For demo I am shuffling 
+			//the same list to show data randomly
+			int startIndex = 0;
+			int offset = pageDisplayLength;
+
+			if (pageNumber == 1) {
+				startIndex = 0;
+				offset = pageDisplayLength;
+				deliverablesList = createPaginationData(startIndex, offset, obj, searchParameter);
+			} else {
+				startIndex = (pageNumber * offset) - offset;
+				offset = pageDisplayLength;
+				deliverablesList = createPaginationData(startIndex, offset, obj, searchParameter);
+			}
+
+			//Search functionality: Returns filtered list based on search parameter
+			//deliverablesList = getListBasedOnSearchParameter(searchParameter,deliverablesList);
+
+			int totalRecords = getTotalRecords(obj, searchParameter);
+
+			DeliverablesPaginationObject personJsonObject = new DeliverablesPaginationObject();
+			//Set Total display record
+			personJsonObject.setiTotalDisplayRecords(totalRecords);
+			//Set Total record
+			personJsonObject.setiTotalRecords(totalRecords);
+			personJsonObject.setAaData(deliverablesList);
+
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			json2 = gson.toJson(personJsonObject);
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getDeliverablesList : " + e.getMessage());
+			logger.error(
+					"getActivitiesList : User Id - " + userId + " - User Name - " + userName + " - " + e.getMessage());
 		}
-		return dataGatheringsList;
+
+		pw.println(json2);
 	}
+
+	/**
+	 * @param searchParameter 
+	 * @param activity 
+	 * @return
+	 */
+	public int getTotalRecords(Deliverables obj, String searchParameter) {
+		int totalRecords = 0;
+		try {
+			totalRecords = deliverablesService.getTotalRecords(obj, searchParameter);
+		} catch (Exception e) {
+			logger.error("getTotalRecords : " + e.getMessage());
+		}
+		return totalRecords;
+	}
+
+	/**
+	 * @param pageDisplayLength
+	 * @param offset 
+	 * @param activity 
+	 * @param clientId 
+	 * @return
+	 */
+	public List<Deliverables> createPaginationData(int startIndex, int offset,Deliverables obj, String searchParameter) {
+		List<Deliverables> objList = null;
+		try {
+			objList = deliverablesService.getDeliverablesList(obj, startIndex, offset, searchParameter);
+		} catch (Exception e) {
+			logger.error("createPaginationData : " + e.getMessage());
+		}
+		return objList;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/getStatusFilterListInDeliverables", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

@@ -37,4 +37,8 @@ public interface DeliverablesDao {
 
 	public List<Deliverables> getContractsListForDeliverablesForm(Deliverables obj) throws Exception;
 
+	public int getTotalRecords(Deliverables obj, String searchParameter) throws Exception;
+
+	public List<Deliverables> getDeliverablesList(Deliverables obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 }

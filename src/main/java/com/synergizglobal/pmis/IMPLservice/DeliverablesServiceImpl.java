@@ -91,4 +91,15 @@ public class DeliverablesServiceImpl implements DeliverablesService{
 		return dao.getContractsListForDeliverablesForm(obj);
 	}
 
+	@Override
+	public int getTotalRecords(Deliverables obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Deliverables> getDeliverablesList(Deliverables obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return dao.getDeliverablesList(obj,startIndex,offset,searchParameter);
+	}
+
 }

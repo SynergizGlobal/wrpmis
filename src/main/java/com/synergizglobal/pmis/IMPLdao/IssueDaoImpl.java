@@ -1,10 +1,7 @@
 package com.synergizglobal.pmis.IMPLdao;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -32,6 +29,7 @@ import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.User;
 
 @Repository
@@ -422,6 +420,15 @@ public class IssueDaoImpl implements IssueDao {
 					}
 					
 				}
+				
+				if(!StringUtils.isEmpty(obj.getMessage_id())) {
+					NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
+					String msgUpdateqry = "UPDATE messages SET read_time=CURRENT_TIMESTAMP where message_id = :message_id" ;	
+					
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+					template.update(msgUpdateqry, paramSource);	
+				}
+				
 			}
 		}catch(Exception e){ 
 			throw new Exception(e.getMessage());
@@ -524,10 +531,12 @@ public class IssueDaoImpl implements IssueDao {
 		
 		try {
 		
-			String emailsQry = "select w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
+			String emailsQry = "select i.issue_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
-					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id "
+					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,"
+					+ "u2.user_id as responsible_person_user_id,u3.user_id as escalated_to_user_id,"
+					+ "u4.user_id as contract_hod_user_id,u5.user_id as contract_dyhod_user_id "
 					+ "from issue i "
 					+ "LEFT OUTER JOIN user u2 on i.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN user u3 on i.escalated_to = u3.user_id "
@@ -542,6 +551,48 @@ public class IssueDaoImpl implements IssueDao {
 			
 			Issue iObj = (Issue)jdbcTemplate.queryForObject(emailsQry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
 			if(!StringUtils.isEmpty(iObj)) {
+				
+				/*********************************************************************************************/
+				NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);	
+				
+				String issueMessageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+						+ "VALUES"
+						+ "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
+				
+				String message = "A new issue against "+iObj.getContract_id_fk()+" has been "+iObj.getStatus_fk()+" to you.";
+				String user_id = "";
+				if("Raised".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getContract_dyhod_user_id())) {
+						user_id = iObj.getContract_dyhod_user_id();
+					}
+				}else if("Assigned".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getResponsible_person_user_id())) {
+						user_id = iObj.getResponsible_person_user_id();
+					}
+				}else if("Escalated".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getEscalated_to_user_id())) {
+						user_id = iObj.getEscalated_to_user_id();
+					}
+				} /*else if("Closed".equals(iObj.getStatus_fk())) {
+					if(!StringUtils.isEmpty(iObj.getContract_hod_user_id())) {
+						user_id = iObj.getContract_hod_user_id();
+					}
+					}*/
+				
+				if(!StringUtils.isEmpty(user_id)) {				
+					String redirect_url = "/get-issue/"+iObj.getIssue_id();
+					String message_type = "Issue";
+					
+					Messages msgObj = new Messages();
+					msgObj.setUser_id_fk(user_id);
+					msgObj.setMessage(message);
+					msgObj.setRedirect_url(redirect_url);
+					msgObj.setMessage_type(message_type);
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);	
+					template.update(issueMessageQry, paramSource);				
+				}
+				
+				/*********************************************************************************************/
 				String mailTo = "";
 				String mailCC = "";
 				

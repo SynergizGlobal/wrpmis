@@ -53,6 +53,24 @@
    .notifications_group .item.issue-alert_bg:hover {
 	    background-color: #9ebb9f ;
 	}
+   
+   .unread-message{
+   		background-color: #90b6c0;
+   }
+   .read-message{
+   		background-color: #a5a5a5;
+   }
+   
+   .notifications_group .item.unread-message:hover {
+	    background-color: #9ebb9f ;
+	}
+	
+	.notifications_group .item.read-message:hover {
+	    background-color: #9ebb9f ;
+	}
+   
+	
+	
 	#messagesCountMobile{
 		background-color: red;
 	    color: #fff;
@@ -472,71 +490,34 @@
                   </span>
                 </a>
                 <div class="notification_body dropdown-content" id='messages1'>
-                  <!-- Notification dropdown body starts -->
                       <div>
-                          <input type="text"  name="srch-term" id="messages-srch-term" class="browser-default searching empty"placeholder="&#xF002; Search Alerts...">
+                          <input type="text"  name="srch-term" id="messages-srch-term" class="browser-default searching empty"placeholder="&#xF002; Search Messages...">
                       </div>
                        <ul class="notifications_group" style="margin-top: 5px;" id="messagesList">
                        <!-- list of Notifications starts -->
-                      <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
-	                       <li class="head-item">Issue Alerts</li>
-	                       <c:forEach var="obj" items="${issueAlerts }">
-	                          <li class="item issue-alert_bg">
-	                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
-	                              	 <span class="icon">
-	                              	 	<i class='fa fa-exclamation-triangle'></i>
-	                              	 	<span class="icon-text">Issue</span>
+                      	<c:if test="${not empty messages and fn:length(messages) gt 0}">
+	                       <li class="head-item">Messages</li>
+	                       <c:forEach var="obj" items="${messages }">
+	                       	  <c:if test="${not empty obj.read_time}">
+	                          	<c:set var="message_color_bg" value="read-message"></c:set>
+	                          </c:if>
+	                          <c:if test="${empty obj.read_time}">
+	                          	<c:set var="message_color_bg" value="unread-message"></c:set>
+	                          </c:if>
+	                          
+	                          <li class="item ${message_color_bg}">
+	                              <a href="<%=request.getContextPath()%>${obj.redirect_url}?message_id=${obj.message_id }">
+	                              	 <span class="icon">	                              	 	
+	                              	 	<i class='fa fa-exclamation-triangle'></i>	                              	 	
+	                              	 	<span class="icon-text">${obj.message_type }</span>
 	                              	 </span>                                   
-	                                 <div>Work : ${obj.work_short_name }</div>
-	                                 <div>Contract : ${obj.contract_short_name }</div>
-	                                 <div>Contractor : ${obj.contractor_name }</div>
-	                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+	                                 <div>${obj.message }</div>
+	                                 <span style="color:#fff;"><i class='fa fa-clock-o'></i> ${obj.created_date }</span>
 	                              </a>
 	                          </li>
 	                      </c:forEach>
-                       </c:if>
-                       <c:forEach var="obj" items="${alerts }">
-                          <li class="head-item">${obj.key}</li>
-                          <c:if test="${obj.key eq '3rd Alert'}">
-                          	<c:set var="bgClass" value="type-3"></c:set>
-                          </c:if>
-                          <c:if test="${obj.key eq '2nd Alert'}">
-                          	<c:set var="bgClass" value="type-2"></c:set>
-                          </c:if>
-                          <c:if test="${obj.key eq '1st Alert'}">
-                          	<c:set var="bgClass" value="type-1"></c:set>
-                          </c:if>
-                          <c:forEach var="aObj" items="${obj.value}">
-                          	  
-                          	  <c:if test="${aObj.alert_type_fk eq 'Bank Guarantee'}">
-	                          	<c:set var="bgIcon" value="<i class='material-icons'>account_balance</i>"></c:set>
-	                          </c:if>
-	                          <c:if test="${aObj.alert_type_fk eq 'Insurance'}">
-	                          	<c:set var="bgIcon" value="<i class='material-icons'>security</i>"></c:set>
-	                          </c:if>
-	                          <c:if test="${aObj.alert_type_fk eq 'Contract Period'}">
-	                          	<c:set var="bgIcon" value="<i class='material-icons'>access_time</i>"></c:set>
-	                          </c:if>
-	                          <c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
-	                          	<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
-	                          </c:if>
-                          	  
-                          	  <li class="item ${bgClass }">
-	                              <a href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
-	                              	<span class="icon">
-	                              	 	<!-- <i class="material-icons">access_time</i> -->
-	                              	 	${bgIcon }
-	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
-	                              	 </span>                                   
-	                                 <div>Work : ${aObj.work_short_name }</div>
-	                                 <div>Contract : ${aObj.contract_short_name }</div>
-	                                 <div>Contractor : ${aObj.contractor_name }</div>
-	                                 <div>Reason : ${aObj.alert_value }</div>
-	                              </a>
-	                          </li>
-	                         
-                          </c:forEach>
-                      </c:forEach>
+                       	</c:if>
+                       
                       </ul>
                       
                       <!-- Notification dropdown body ends -->
@@ -953,70 +934,30 @@
                       <div class="top-fix">
                        <!-- mobile notification sidenav will close after clicking back-->
                        <a class="sidenav-close white-text" href="#!"><i class="fa fa-arrow-left"></i> Back</a>
-                          <input type="text"  name="srch-term" id="messages-srch-term-mobile" class="browser-default searching empty"placeholder="&#xF002; Search Alerts...">
+                          <input type="text"  name="srch-term" id="messages-srch-term-mobile" class="browser-default searching empty"placeholder="&#xF002; Search Messages...">
                       </div>
                       <ul class="notifications_group" style="margin-top: 5px;" id="messagesListMobile">
-                       <!-- Mobile notification body starts here -->
-                       <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
-	                       <li class="head-item">Issue Alerts</li>
-	                       <c:forEach var="obj" items="${issueAlerts }">
-	                          <li class="item" style="background-color: #90b6c0;">
-	                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
+                       <c:if test="${not empty messages and fn:length(messages) gt 0}">
+	                       <li class="head-item">Messages</li>
+	                       <c:forEach var="obj" items="${messages }">
+	                          <c:if test="${not empty obj.read_time}">
+	                          	<c:set var="message_color_bg" value="read-message"></c:set>
+	                          </c:if>
+	                          <c:if test="${empty obj.read_time}">
+	                          	<c:set var="message_color_bg" value="unread-message"></c:set>
+	                          </c:if>
+	                          
+	                          <li class="item ${message_color_bg}">
+	                              <a href="<%=request.getContextPath()%>${obj.redirect_url}?message_id=${obj.message_id }">
 	                              	 <span class="icon">
 	                              	 	<i class='fa fa-exclamation-triangle'></i>
-	                              	 	<span class="icon-text">Issue</span>
+	                              	 	<span class="icon-text">${obj.message_type }</span>
 	                              	 </span>                                   
-	                                 <div>Work : ${obj.work_short_name }</div>
-	                                 <div>Contract : ${obj.contract_short_name }</div>
-	                                 <div>Contractor : ${obj.contractor_name }</div>
-	                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+	                                 <div>${obj.message }</div>
 	                              </a>
 	                          </li>
-	                       </c:forEach>
-                       </c:if>
-                      
-                      	<c:forEach var="obj" items="${alerts }">
-                          <li class="head-item">${obj.key}</li>
-                          <c:if test="${obj.key eq '3rd Alert'}">
-                          	<c:set var="bgClass" value="type-3"></c:set>
-                          </c:if>
-                          <c:if test="${obj.key eq '2nd Alert'}">
-                          	<c:set var="bgClass" value="type-2"></c:set>
-                          </c:if>
-                          <c:if test="${obj.key eq '1st Alert'}">
-                          	<c:set var="bgClass" value="type-1"></c:set>
-                          </c:if>
-                          <c:forEach var="aObj" items="${obj.value}">
-                          	  
-                          	  <c:if test="${aObj.alert_type_fk eq 'Bank Guarantee'}">
-	                          	<c:set var="bgIcon" value="<i class='material-icons'>account_balance</i>"></c:set>
-	                          </c:if>
-	                          <c:if test="${aObj.alert_type_fk eq 'Insurance'}">
-	                          	<c:set var="bgIcon" value="<i class='material-icons'>security</i>"></c:set>
-	                          </c:if>
-	                          <c:if test="${aObj.alert_type_fk eq 'Contract Period'}">
-	                          	<c:set var="bgIcon" value="<i class='material-icons'>access_time</i>"></c:set>
-	                          </c:if>
-	                          <c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
-	                          	<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
-	                          </c:if>
-                          	  
-                          	  <li class="item ${bgClass }">
-	                              <a href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
-	                              	<span class="icon">
-	                              	 	<!-- <i class="material-icons">access_time</i> -->
-	                              	 	${bgIcon }
-	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
-	                              	 </span>                                   
-	                                 <div>Work : ${aObj.work_short_name }</div>
-	                                 <div>Contract : ${aObj.contract_short_name }</div>
-	                                 <div>Contractor : ${aObj.contractor_name }</div>
-	                                 <div>Reason : ${aObj.alert_value }</div>
-	                              </a>
-	                          </li>
-	                        
-                          </c:forEach>
-                      </c:forEach>
+	                      </c:forEach>
+                       	</c:if>
                          <!-- Mobile notification body ends here -->
                       </ul>
                 </div>
@@ -1091,6 +1032,8 @@
                 input.removeClass('empty');
             }
         });
+		
+		/******************************************************************************/
         var count = 0;
         <c:forEach var="aObj" items="${alerts }">
         	if("${aObj.value}" != null){
@@ -1102,16 +1045,29 @@
         if("${not empty issueAlerts && fn:length(issueAlerts) gt 0}"){
         	count = Number(count) + Number("${fn:length(issueAlerts)}")
         }
-        
-        
-        
 		if(count > 99){
 			count = "99+"
 		}
     	$("#notificationCount").html(count);
     	$("#notificationCountMobile").html(count);
-    	$("#messagesCount").html(count);
-    	$("#messagesCountMobile").html(count);
+    	
+    	
+    	/******************************************************************************/
+    	var msgCount = 0;
+    	if("${not empty messages && fn:length(messages) gt 0}"){
+    		<c:forEach var="mObj" items="${messages }">
+	        	if("${mObj.read_time}" == null || "${mObj.read_time}" == ''){
+	        		msgCount = Number(msgCount) + 1;
+	        	}
+	        </c:forEach>
+        }
+		if(msgCount > 99){
+			msgCount = "99+"
+		}
+		
+    	$("#messagesCount").html(msgCount);
+    	$("#messagesCountMobile").html(msgCount);
+    	/******************************************************************************/
     	
     	//var link=window.location.href;
     	//var divisions=link.split('/');

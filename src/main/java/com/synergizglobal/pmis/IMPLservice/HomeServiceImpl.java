@@ -9,6 +9,7 @@ import com.synergizglobal.pmis.Idao.HomeDao;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Forms;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
@@ -84,5 +85,9 @@ public class HomeServiceImpl implements HomeService {
 	@Override
 	public boolean userLoginTimeout() throws Exception {
 		return dao.userLoginTimeout();
+	}
+	@Override
+	public List<Messages> getMessages(User uObj) throws Exception {
+		return dao.getMessages(uObj);
 	}
 }

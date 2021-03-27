@@ -23,6 +23,7 @@ import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Alerts;
 import com.synergizglobal.pmis.model.Forms;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.WebDocuments;
@@ -126,6 +127,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
 				
 				List<Issue> issueAlerts = issueService.getIssueAlerts(userDetails);
 				model.addObject("issueAlerts", issueAlerts);
+				
+				List<Messages> messages = service.getMessages(userDetails);
+				model.addObject("messages", messages);
 				
 				boolean flag = service.addUserLastActiveDateTime(userDetails);
 				

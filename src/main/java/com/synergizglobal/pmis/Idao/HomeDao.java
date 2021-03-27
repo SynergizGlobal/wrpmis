@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Forms;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
@@ -36,4 +37,6 @@ public interface HomeDao {
 	public boolean addUserLastActiveDateTime(User uObj) throws Exception;
 	
 	public boolean userLoginTimeout() throws Exception;
+
+	public List<Messages> getMessages(User uObj) throws Exception;
 }

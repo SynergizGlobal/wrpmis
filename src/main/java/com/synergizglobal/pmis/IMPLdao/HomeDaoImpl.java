@@ -24,6 +24,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Admin;
 import com.synergizglobal.pmis.model.Forms;
+import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Project;
 import com.synergizglobal.pmis.model.TableauDashboard;
 import com.synergizglobal.pmis.model.User;
@@ -814,6 +815,20 @@ public class HomeDaoImpl implements HomeDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<Messages> getMessages(User uObj) throws Exception {
+		List<Messages> objsList = null;
+		try {
+			String qry ="select message_id,message,user_id_fk,redirect_url,DATE_FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,read_time,message_type "
+					+ "from messages where user_id_fk = ? "
+					+ "order by created_date DESC";
+			objsList = jdbcTemplate.query( qry,new Object[] {uObj.getUser_id()}, new BeanPropertyRowMapper<Messages>(Messages.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}
 	
 }

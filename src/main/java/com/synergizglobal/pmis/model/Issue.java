@@ -11,7 +11,9 @@ public class Issue {
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
-	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name;
+	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id;
+	
+	private String contract_hod_user_id,contract_dyhod_user_id;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -21,6 +23,26 @@ public class Issue {
 	
 	private List<Issue> issueFilesList;
 	
+	
+	
+
+	public String getContract_hod_user_id() {
+		return contract_hod_user_id;
+	}
+
+	public void setContract_hod_user_id(String contract_hod_user_id) {
+		this.contract_hod_user_id = contract_hod_user_id;
+	}
+
+	public String getContract_dyhod_user_id() {
+		return contract_dyhod_user_id;
+	}
+
+	public void setContract_dyhod_user_id(String contract_dyhod_user_id) {
+		this.contract_dyhod_user_id = contract_dyhod_user_id;
+	}
+
+
 	public String getAssigned_date() {
 		return assigned_date;
 	}
@@ -589,6 +611,14 @@ public class Issue {
 
 	public void setIssueFilesList(List<Issue> issueFilesList) {
 		this.issueFilesList = issueFilesList;
+	}
+
+	public String getMessage_id() {
+		return message_id;
+	}
+
+	public void setMessage_id(String message_id) {
+		this.message_id = message_id;
 	}
 	
 }

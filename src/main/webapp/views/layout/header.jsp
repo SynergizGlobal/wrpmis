@@ -53,6 +53,17 @@
    .notifications_group .item.issue-alert_bg:hover {
 	    background-color: #9ebb9f ;
 	}
+	#messagesCountMobile{
+		background-color: red;
+	    color: #fff;
+	    font-size: 0.85rem;
+	    border-radius: 3px;
+	    -webkit-box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+	    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+	}
+	#messages-demo{
+		background-color: #f56661 !important;
+	}
 
    </style>
    
@@ -452,7 +463,85 @@
                       <!-- Notification dropdown body ends -->
                 </div>
           </li>
-                    
+          
+          <li class="blue ">
+          <!-- Notification code starts -->
+          		<a class='notification dropdown-trigger' data-target='messages1'>
+                  <span class="material-icons-outlined">chat_bubble_outlined</span>                 
+                  <span class="badge red" id="messagesCount">95
+                  </span>
+                </a>
+                <div class="notification_body dropdown-content" id='messages1'>
+                  <!-- Notification dropdown body starts -->
+                      <div>
+                          <input type="text"  name="srch-term" id="messages-srch-term" class="browser-default searching empty"placeholder="&#xF002; Search Alerts...">
+                      </div>
+                       <ul class="notifications_group" style="margin-top: 5px;" id="messagesList">
+                       <!-- list of Notifications starts -->
+                      <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
+	                       <li class="head-item">Issue Alerts</li>
+	                       <c:forEach var="obj" items="${issueAlerts }">
+	                          <li class="item issue-alert_bg">
+	                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
+	                              	 <span class="icon">
+	                              	 	<i class='fa fa-exclamation-triangle'></i>
+	                              	 	<span class="icon-text">Issue</span>
+	                              	 </span>                                   
+	                                 <div>Work : ${obj.work_short_name }</div>
+	                                 <div>Contract : ${obj.contract_short_name }</div>
+	                                 <div>Contractor : ${obj.contractor_name }</div>
+	                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+	                              </a>
+	                          </li>
+	                      </c:forEach>
+                       </c:if>
+                       <c:forEach var="obj" items="${alerts }">
+                          <li class="head-item">${obj.key}</li>
+                          <c:if test="${obj.key eq '3rd Alert'}">
+                          	<c:set var="bgClass" value="type-3"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '2nd Alert'}">
+                          	<c:set var="bgClass" value="type-2"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '1st Alert'}">
+                          	<c:set var="bgClass" value="type-1"></c:set>
+                          </c:if>
+                          <c:forEach var="aObj" items="${obj.value}">
+                          	  
+                          	  <c:if test="${aObj.alert_type_fk eq 'Bank Guarantee'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>account_balance</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Insurance'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>security</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Period'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>access_time</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
+	                          	<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
+	                          </c:if>
+                          	  
+                          	  <li class="item ${bgClass }">
+	                              <a href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
+	                              	<span class="icon">
+	                              	 	<!-- <i class="material-icons">access_time</i> -->
+	                              	 	${bgIcon }
+	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
+	                              	 </span>                                   
+	                                 <div>Work : ${aObj.work_short_name }</div>
+	                                 <div>Contract : ${aObj.contract_short_name }</div>
+	                                 <div>Contractor : ${aObj.contractor_name }</div>
+	                                 <div>Reason : ${aObj.alert_value }</div>
+	                              </a>
+	                          </li>
+	                         
+                          </c:forEach>
+                      </c:forEach>
+                      </ul>
+                      
+                      <!-- Notification dropdown body ends -->
+                </div>
+          </li>          
                     
           <li class="blueblue lighten-1 dropdown"><a href="#" class='head-img'>
           <img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image}" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"/> 
@@ -715,6 +804,15 @@
          </a>
               
     </li>   
+    <li>
+   		<!-- a class='dropdown-trigger' data-target='dropdown1'-->
+   		<a href="<%=request.getContextPath() %>/home" data-target="messages-demo" class="sidenav-trigger">
+           <span class="material-icons-outlined">chat_bubble</span> Messages
+           <span class="badge" id="messagesCountMobile">95</span> 
+           <!--span class="badge red" id="notificationCount"></span-->
+         </a>
+              
+    </li>  
     <li class="sub-menu"><a href="#" class='head-img collapsible-header'>
     	<img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }" class="profile-img" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';"> 
 		<!--     <span class="material-icons">person</span>  -->
@@ -850,6 +948,79 @@
                       </ul>
                 </div>
    <!-- Mobile notification ends here -->
+      <!-- Mobile messages starts here -->
+     <div class="sidenav" id='messages-demo'>
+                      <div class="top-fix">
+                       <!-- mobile notification sidenav will close after clicking back-->
+                       <a class="sidenav-close white-text" href="#!"><i class="fa fa-arrow-left"></i> Back</a>
+                          <input type="text"  name="srch-term" id="messages-srch-term-mobile" class="browser-default searching empty"placeholder="&#xF002; Search Alerts...">
+                      </div>
+                      <ul class="notifications_group" style="margin-top: 5px;" id="messagesListMobile">
+                       <!-- Mobile notification body starts here -->
+                       <c:if test="${not empty issueAlerts and fn:length(issueAlerts) gt 0}">
+	                       <li class="head-item">Issue Alerts</li>
+	                       <c:forEach var="obj" items="${issueAlerts }">
+	                          <li class="item" style="background-color: #90b6c0;">
+	                              <a href="<%=request.getContextPath()%>/get-issue/${obj.issue_id }">
+	                              	 <span class="icon">
+	                              	 	<i class='fa fa-exclamation-triangle'></i>
+	                              	 	<span class="icon-text">Issue</span>
+	                              	 </span>                                   
+	                                 <div>Work : ${obj.work_short_name }</div>
+	                                 <div>Contract : ${obj.contract_short_name }</div>
+	                                 <div>Contractor : ${obj.contractor_name }</div>
+	                                 <div>Issue <b>${obj.status_fk }</b>: ${obj.title }</div>
+	                              </a>
+	                          </li>
+	                       </c:forEach>
+                       </c:if>
+                      
+                      	<c:forEach var="obj" items="${alerts }">
+                          <li class="head-item">${obj.key}</li>
+                          <c:if test="${obj.key eq '3rd Alert'}">
+                          	<c:set var="bgClass" value="type-3"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '2nd Alert'}">
+                          	<c:set var="bgClass" value="type-2"></c:set>
+                          </c:if>
+                          <c:if test="${obj.key eq '1st Alert'}">
+                          	<c:set var="bgClass" value="type-1"></c:set>
+                          </c:if>
+                          <c:forEach var="aObj" items="${obj.value}">
+                          	  
+                          	  <c:if test="${aObj.alert_type_fk eq 'Bank Guarantee'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>account_balance</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Insurance'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>security</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Period'}">
+	                          	<c:set var="bgIcon" value="<i class='material-icons'>access_time</i>"></c:set>
+	                          </c:if>
+	                          <c:if test="${aObj.alert_type_fk eq 'Contract Value'}">
+	                          	<c:set var="bgIcon" value="<i class='fa fa-money'></i>"></c:set>
+	                          </c:if>
+                          	  
+                          	  <li class="item ${bgClass }">
+	                              <a href="<%=request.getContextPath()%>/get-contract/${aObj.contract_id }">
+	                              	<span class="icon">
+	                              	 	<!-- <i class="material-icons">access_time</i> -->
+	                              	 	${bgIcon }
+	                              	 	<span class="icon-text">${aObj.alert_type_fk }</span>
+	                              	 </span>                                   
+	                                 <div>Work : ${aObj.work_short_name }</div>
+	                                 <div>Contract : ${aObj.contract_short_name }</div>
+	                                 <div>Contractor : ${aObj.contractor_name }</div>
+	                                 <div>Reason : ${aObj.alert_value }</div>
+	                              </a>
+	                          </li>
+	                        
+                          </c:forEach>
+                      </c:forEach>
+                         <!-- Mobile notification body ends here -->
+                      </ul>
+                </div>
+    <!-- Mobile messages ends here --> 
   <form action="<%=request.getContextPath()%>/set-global-variables" id="setGlobalVariablesForm" name="setGlobalVariablesForm" method="post">
   	<input type="hidden" id="globalProjectId" name="globalProjectId"/>
   	<input type="hidden" id="globalWorkId" name="globalWorkId"/>
@@ -874,11 +1045,24 @@
 		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		    });
 		});
-		
-		
+				
 		$("#srch-term-mobile").on("keyup", function() {
 		    var value = $(this).val().toLowerCase();
 		    $("#notificationListMobile li.item").filter(function() {
+		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		    });
+		});
+		
+		$("#messages-srch-term").on("keyup", function() {
+		    var value = $(this).val().toLowerCase();
+		    $("#messagesList li.item").filter(function() {
+		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		    });
+		});
+				
+		$("#messages-srch-term-mobile").on("keyup", function() {
+		    var value = $(this).val().toLowerCase();
+		    $("#messagesListMobile li.item").filter(function() {
 		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		    });
 		});
@@ -926,6 +1110,8 @@
 		}
     	$("#notificationCount").html(count);
     	$("#notificationCountMobile").html(count);
+    	$("#messagesCount").html(count);
+    	$("#messagesCountMobile").html(count);
     	
     	//var link=window.location.href;
     	//var divisions=link.split('/');

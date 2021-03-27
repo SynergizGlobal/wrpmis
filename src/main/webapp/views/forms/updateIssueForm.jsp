@@ -180,7 +180,7 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="date" name="date" type="text" class="datepicker1" value="${issue.date }" readonly>
+                                    <input id="date" name="date" type="text" class="datepicker" value="${issue.date }" readonly>
                                     <label for="date">Date of raising issue <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
@@ -422,14 +422,25 @@
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script> -->
 	<script>
 	
-		$(document).on('focus', '.datepicker',function(){
+	/* 	$(document).on('focus', '.datepicker',function(){
 			$(this).datepicker({
 	        	format:'dd-mm-yyyy',
 	        	autoClose:true,
 	        	setDefaultDate:false
 	        });	       
 	    });
-	
+	 */
+	    let date_pickers = document.querySelectorAll('.datepicker');
+	    $.each(date_pickers, function(){
+	    	var dt = this.value.split(/[^0-9]/);
+	    	this.value = ""; 
+	    	var options = {format: 'dd-mm-yyyy'};
+	    	if(dt.length > 1){
+	    		options.setDefaultDate = true,
+	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+	    	}
+	    	M.Datepicker.init(this, options);
+	    });
 		var issueStatusFk = "";
         $(document).ready(function () {
        	  	$('select:not(.searchable)').formSelect();

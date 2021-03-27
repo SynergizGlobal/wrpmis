@@ -344,17 +344,26 @@
                                     <div class="file-field input-field">
                                         <div class="btn bg-m t-c">
                                             <span>Attachment</span>
-                                            <input type="file" id="issueFile" name="issueFile">
+                                            <input type="file" id="issueFiles" name="issueFiles" multiple>
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" name="attachment" value="${issue.attachment }" id="issueFileWrapper">
+                                            <input class="file-path validate" type="text" id="attachments" name="attachments" value="${issue.attachments }">
                                         </div>
                                     </div>
                                     
-                                    <c:if test="${not empty issue.attachment }">
+                                    <c:forEach var="obj" items="${issue.issueFilesList }" varStatus="index">
+										<div style="clear:both"><a href="<%=CommonConstants2.ISSUE_FILES%>${obj.issue_id }/${obj.file_name } "
+											class="filevalue" download>${obj.file_name }</a>
+											<span onclick="removeFile(this,'issueFiles${index.count }','attachments')" class="attachment-remove-btn">X</span>
+										
+											<input type="hidden" id="issueFiles${index.count }" name="issueFileNames" value="${obj.file_name }">
+									     </div>
+									</c:forEach>
+                                    
+                                    <%-- <c:if test="${not empty issue.attachment }">
                                        	<a href="<%=CommonConstants2.ISSUE_FILES %>${issue.attachment }" class="filevalue" download>${issue.attachment }</a>
 										<span onclick="removeMedia(this,'issueFileWrapper')" class="attachment-remove-btn">X</span>											
-                                   	</c:if>
+                                   	</c:if> --%>
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
@@ -699,6 +708,8 @@
         		$("#escalatedDiv").show();
         		$("#resolvedDiv").hide();
         		
+        		$("#assignDateDiv").show();
+        		
         		$("#corrective_measure").attr('readonly', false);        		
         		$("#zonal_railway_fk").attr('disabled', true);
         		$("#other_organization").attr('readonly', true);
@@ -710,6 +721,8 @@
         	}else if($.trim(issueStatus) == 'Closed'){
         		$("#resolvedDiv").show();
         		$("#escalatedDiv").hide();
+        		
+        		$("#assignDateDiv").show();
         		
         		$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
@@ -1167,17 +1180,25 @@
             	}else{
             		$('#other_organization').attr('name', 'other_organization');
             		$('#other_organization').val(name);
-            	}     
-            	/* $('textarea.materialize-textarea').on('input propertychange',function(){
-              		 if($(this).height() > 44) {			 $(this).css('overflow-y','auto');	 $(this).css('box-sizing','content-box'); }
-              	});
- */
+            	}  
         	});
         	function removeMedia(link,id){
         	   	  $('#'+id).val('');
         	   	  $(link).prev().text('');
         	   	  $(link).css('display','none');
         	}  
+        	
+            
+            function removeFile(link,id,issueFileNames){         	
+	          	 var text=$('#'+id).val('');
+	          	 var text1=$('#'+issueFileNames).val();
+	          	 text1= text1.replace($(link).prev().text(),'') ;
+	          	 text1 = text1.replace(/,\s*$/, "");
+	          	 $('#'+issueFileNames).val(text1)
+	          	 $(link).prev().text(''); 
+	          	 $(link).css('display','none');
+	          	 $('#'+id).remove()
+             } 
             
     </script>
 </body>

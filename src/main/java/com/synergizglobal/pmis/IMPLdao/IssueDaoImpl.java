@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.IssueDao;
+import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
@@ -281,10 +283,10 @@ public class IssueDaoImpl implements IssueDao {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);			 
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,title,description,date,location,latitude,longitude,reported_by,responsible_person," 
-					+"priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,attachment,zonal_railway_fk,other_organization,escalation_date) "
+					+"priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,zonal_railway_fk,other_organization,escalation_date) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:title,:description,:date,:location,:latitude,:longitude,:reported_by,:responsible_person,:" 
-					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,:attachment,:zonal_railway_fk,:other_organization,:escalation_date)";		 
+					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,:zonal_railway_fk,:other_organization,:escalation_date)";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);	
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			int count = template.update(qry, paramSource, keyHolder);			
@@ -293,7 +295,7 @@ public class IssueDaoImpl implements IssueDao {
 				obj.setIssue_id(issue_id);
 				flag = true;
 				
-				MultipartFile file = obj.getIssueFile();
+				/*MultipartFile file = obj.getIssueFile();
 				if (null != file && !file.isEmpty() && file.getSize() > 0){
 					String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
 					String fileName = file.getOriginalFilename();
@@ -305,7 +307,29 @@ public class IssueDaoImpl implements IssueDao {
 					String updateQry = "UPDATE issue set attachment= :attachment where issue_id= :issue_id ";
 					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
 					template.update(updateQry, paramSource1);
-				}
+				}*/
+				
+				if(!StringUtils.isEmpty(obj.getIssueFiles()) && obj.getIssueFiles().size() > 0) {
+					
+					String fileQry = "INSERT INTO issue_files (file_name,issue_id_fk)VALUES(:file_name,:issue_id)";
+					
+					List<MultipartFile> galleryFiles = obj.getIssueFiles();
+					for (MultipartFile multipartFile : galleryFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + issue_id +File.separator ;
+							String fileName = multipartFile.getOriginalFilename();
+							/*DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+							String fileName_new = "Issue-"+issue_id +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];*/
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							
+							Issue fileObj = new Issue();
+							fileObj.setFile_name(fileName);
+							fileObj.setIssue_id(issue_id);
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							template.update(fileQry, paramSource);
+						}
+					}
+				}	
 
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
@@ -373,9 +397,21 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getStatus_fk();
 			}
 			
-			iObj = (Issue)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));	
+			iObj = (Issue)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 			
-			if(!StringUtils.isEmpty(iObj)) {
+			if(!StringUtils.isEmpty(iObj)) {				
+				String filesQry ="select file_name,issue_id_fk as issue_id from issue_files where issue_id_fk = ? ";					
+				List<Issue> objsList = jdbcTemplate.query( filesQry,new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));					
+				if(!StringUtils.isEmpty(objsList)) {
+					iObj.setIssueFilesList(objsList);
+				}
+				
+				String fileNamesQry ="select group_concat(file_name) as attachments from issue_files where issue_id_fk = ? ";					
+				Issue fileNames = jdbcTemplate.queryForObject( fileNamesQry,new Object[] {obj.getIssue_id()}, new BeanPropertyRowMapper<Issue>(Issue.class));					
+				if(!StringUtils.isEmpty(fileNames)) {
+					iObj.setAttachments(fileNames.getAttachments());
+				}
+				
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) {
 					if(obj.getUser_id().equals(iObj.getResponsible_person()) || obj.getUser_id().equals(iObj.getEscalated_to()) 
 							|| obj.getUser_id().equals(iObj.getHod_user_id_fk()) || obj.getUser_id().equals(iObj.getDy_hod_user_id_fk()) 
@@ -403,14 +439,14 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "UPDATE issue SET "
 					+ "title=:title,description=:description,date=:date,location=:location,latitude=:latitude,longitude=:longitude,reported_by=:reported_by,responsible_person=:responsible_person,"  
 					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,"
-					+ "remarks=:remarks,attachment=:attachment,zonal_railway_fk=:zonal_railway_fk,other_organization=:other_organization,"
+					+ "remarks=:remarks,zonal_railway_fk=:zonal_railway_fk,other_organization=:other_organization,"
 					+ "escalation_date=:escalation_date,assigned_date=:assigned_date "
 					+ "where issue_id = :issue_id" ;		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
-				MultipartFile file = obj.getIssueFile();
+				/*MultipartFile file = obj.getIssueFile();
 				if (null != file && !file.isEmpty() && file.getSize() > 0){
 					String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH ;
 					String fileName = file.getOriginalFilename();
@@ -422,7 +458,52 @@ public class IssueDaoImpl implements IssueDao {
 					String updateQry = "UPDATE issue set attachment= :attachment where issue_id= :issue_id ";
 					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
 					template.update(updateQry, paramSource1);
+				}*/
+				
+				String deleteFilesQry = "delete from issue_files where issue_id_fk = :issue_id";
+				
+				Issue fileObj = new Issue();
+				fileObj.setIssue_id(obj.getIssue_id());
+				paramSource = new BeanPropertySqlParameterSource(obj);	
+				template.update(deleteFilesQry, paramSource);
+				
+				String fileQry = "INSERT INTO issue_files (file_name,issue_id_fk)VALUES(:file_name,:issue_id)";
+				
+				if(!StringUtils.isEmpty(obj.getIssueFiles()) && obj.getIssueFiles().size() > 0) {
+					List<MultipartFile> galleryFiles = obj.getIssueFiles();
+					for (MultipartFile multipartFile : galleryFiles) {
+						if (null != multipartFile && !multipartFile.isEmpty()){
+							String saveDirectory = CommonConstants2.ISSUE_FILE_SAVING_PATH + obj.getIssue_id() +File.separator ;
+							String fileName = multipartFile.getOriginalFilename();
+							/*DateFormat df = new SimpleDateFormat("ddMMYY-HHmm"); 
+							String fileName_new = "Issue-"+obj.getIssue_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];*/
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+							
+							fileObj = new Issue();
+							fileObj.setFile_name(fileName);
+							fileObj.setIssue_id(obj.getIssue_id());
+							paramSource = new BeanPropertySqlParameterSource(fileObj);	
+							template.update(fileQry, paramSource);
+						}
+					}
+				}	
+				
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getIssueFileNames()) && obj.getIssueFileNames().length > 0 ) {
+					obj.setIssueFileNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getIssueFileNames()));
+					if(arraySize < obj.getIssueFileNames().length) {
+						arraySize = obj.getIssueFileNames().length;
+					}
 				}
+				
+				for (int i = 0; i < arraySize; i++) {
+					fileObj = new Issue();
+					fileObj.setFile_name(obj.getIssueFileNames()[i]);
+					fileObj.setIssue_id(obj.getIssue_id());
+					paramSource = new BeanPropertySqlParameterSource(fileObj);	
+					template.update(fileQry, paramSource);
+				}
+				
 				
 				String issue_id = obj.getIssue_id();
 				String issue_status = obj.getStatus_fk();

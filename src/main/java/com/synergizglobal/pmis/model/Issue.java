@@ -7,15 +7,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class Issue {
 	private String issue_id,contract_id_fk,activity,title,description,date,location,latitude,longitude,reported_by,responsible_person,department_fk,user_name,
 	priority_fk,category_fk,status_fk,corrective_measure,resolved_date,escalated_to,remarks,priority,category,status,contract_id,contract_name,work_id_fk,work_name,work_short_name,
-	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachment,railway_id,railway_name,zonal_railway_fk,contract_short_name,
+	project_id_fk,project_name,activity_name,strip_chart_component_fk,department,department_name,attachments,railway_id,railway_name,zonal_railway_fk,contract_short_name,
 	other_organization,escalation_date,contractor_id_fk,contractor_id,contractor_name,hod_user_id_fk,designation,hod_name,pending_since,hod,
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
-	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,dy_hod_user_id_fk,user_type,user_role_code,user_id;
+	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,
+	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
 	
 	private List<MultipartFile> issueFiles;
+	private String[] issueFileNames;
+	
+	private List<Issue> issueFilesList;
 	
 	public String getAssigned_date() {
 		return assigned_date;
@@ -435,14 +439,6 @@ public class Issue {
 		this.activity = activity;
 	}
 
-	public String getAttachment() {
-		return attachment;
-	}
-
-	public void setAttachment(String attachment) {
-		this.attachment = attachment;
-	}
-
 	public String getRailway_id() {
 		return railway_id;
 	}
@@ -561,6 +557,38 @@ public class Issue {
 
 	public void setIssueFiles(List<MultipartFile> issueFiles) {
 		this.issueFiles = issueFiles;
+	}
+
+	public String[] getIssueFileNames() {
+		return issueFileNames;
+	}
+
+	public void setIssueFileNames(String[] issueFileNames) {
+		this.issueFileNames = issueFileNames;
+	}
+
+	public String getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(String attachments) {
+		this.attachments = attachments;
+	}
+
+	public String getFile_name() {
+		return file_name;
+	}
+
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
+
+	public List<Issue> getIssueFilesList() {
+		return issueFilesList;
+	}
+
+	public void setIssueFilesList(List<Issue> issueFilesList) {
+		this.issueFilesList = issueFilesList;
 	}
 	
 }

@@ -392,7 +392,7 @@
                                   <div class="file-field input-field">
                                         <div class="btn bg-m t-c">
                                             <span>Attachment</span>
-                                            <input type="file" id="issueFile" name="issueFile">
+                                            <input type="file" id="issueFiles" name="issueFiles" multiple>
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">

@@ -180,7 +180,7 @@
                             <div class="row ">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="date" name="date" type="text" class="datepicker" value="${issue.date }" readonly>
+                                    <input id="date" name="date" type="text" class="datepicker1" value="${issue.date }" readonly>
                                     <label for="date">Date of raising issue <span class="required">*</span></label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>

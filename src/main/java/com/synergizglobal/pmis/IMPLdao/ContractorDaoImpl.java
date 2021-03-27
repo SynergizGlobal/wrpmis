@@ -206,10 +206,10 @@ public class ContractorDaoImpl implements ContractorDao {
 	public int getTotalRecords(Contractor obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
 		try {
-			String qry ="select count(*) as total_records from contractor ";
+			String qry ="select count(*) as total_records from contractor Where contractor_id is not null";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk ?"
+				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk like ?"
 						+ " or address like ? or primary_contact_name like ? or phone_number like ? or email_id like ? )";
 				arrSize++;
 				arrSize++;
@@ -242,10 +242,11 @@ public class ContractorDaoImpl implements ContractorDao {
 			throws Exception {
 		List<Contractor> objsList = null;
 		try {
-			String qry ="SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks FROM contractor";
+			String qry ="SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks FROM contractor"
+					+ " Where contractor_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk ?"
+				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk like ?"
 						+ " or address like ? or primary_contact_name like ? or phone_number like ? or email_id like ? )";
 				arrSize++;
 				arrSize++;
@@ -278,6 +279,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contractor>(Contractor.class));
 				
 		}catch(Exception e){ 
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return objsList;
